@@ -5,10 +5,10 @@ import java.util.concurrent.Semaphore;
 import agent.StringUtil;
 
 public abstract class Role {
+	
+	//Is this state change necessary if the role has no thread  ?
 
 	public Semaphore stateChange = new Semaphore(1, true);
-    Semaphore pause = new Semaphore(0, true);
-    boolean isPaused = false;
 
     protected Role() {
     }
