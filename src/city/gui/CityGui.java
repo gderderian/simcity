@@ -30,8 +30,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     
     private JPanel infoPanel;
     
-    private final int WINDOWX = 1400;
-    private final int WINDOWY = 840;
+    private final int WINDOWX = 1300;
+    private final int WINDOWY = 700;
     private final int WINDOW_X_COORD = 50;
     private final int WINDOW_Y_COORD = 50;
     /**
