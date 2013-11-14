@@ -19,7 +19,7 @@ import city.gui.Gui;
 public class Restaurant2Panel extends JPanel implements MouseListener{
 	
 	
-	private final int WINDOWX = 1000;
+	private final int WINDOWX = 900;
     private final int WINDOWY = 700;
     private final int TABLEDIM = 50;
     private final int TABLE1Y = WINDOWY/10;
