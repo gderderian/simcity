@@ -99,7 +99,6 @@ public class BusAgent extends Vehicle {
 		
 		return false;
 	}
->>>>>>> ee9d61ec80fab66107df9c4a1850630078fe2ced
 
 	//Actions
 	private void TellPassengersWeAreAtStop() {
