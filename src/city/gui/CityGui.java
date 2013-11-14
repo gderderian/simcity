@@ -1,10 +1,12 @@
 package city.gui;
 
+import hollytesting.interfaces.Restaurant2Waiter;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import city.gui.restaurant2.Restaurant2Panel;
+import city.gui.restaurant2.Restaurant2AnimationPanel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,7 +20,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     //private CityPanel cityPanel = new CityPanel(this);
   
 	JPanel cityView = new JPanel();
-	Restaurant2Panel restaurant2 = new Restaurant2Panel();
+	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
     
     private JPanel infoPanel;
         
@@ -90,6 +92,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			restaurant2.setVisible(false);
 			animationPanel.setVisible(true);
 		}
+		
+	}
+
+	public void enableComeBack(Restaurant2Waiter agent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setEnabled(Restaurant2Waiter agent) {
+		// TODO Auto-generated method stub
 		
 	}
 	
