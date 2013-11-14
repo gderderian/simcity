@@ -2,7 +2,9 @@ package city;
 
 import java.util.concurrent.Semaphore;
 
-public abstract class Vehicle {
+import agent.Agent;
+
+public abstract class Vehicle extends Agent {
 
 	int capacity;
 	
