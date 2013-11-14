@@ -9,8 +9,11 @@ public abstract class Role {
 	//Is this state change necessary if the role has no thread  ?
 
 	public Semaphore stateChange = new Semaphore(1, true);
+	public boolean isActive;
+	
 
     protected Role() {
+    	isActive = false;
     }
 
     /**
@@ -66,6 +69,14 @@ public abstract class Role {
             sb.append(StringUtil.stackTraceString(e));
         }
         System.out.print(sb.toString());
+    }
+    
+    /**
+     * This function sets the role to active or not for use with the PersonAgent's scheduler
+     */
+    
+    protected void setActive(boolean active){
+    	isActive = active;
     }
 
 }
