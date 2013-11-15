@@ -8,3 +8,7 @@
 bin/
 
 hollytesting/test/
+
+.DS_Store
+.classpath
+.project

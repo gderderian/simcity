@@ -6,7 +6,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import city.Restaurant4.gui.AnimationPanel4;
+import city.gui.restaurant4.AnimationPanel4;
+
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 
@@ -19,14 +20,14 @@ import java.util.ArrayList;
  */
 public class CityGui extends JFrame implements ActionListener, ChangeListener {
   
-    CityPanel cityPanel = new CityPanel(this);
+    CityPanel cityPanel = new CityPanel();
     
-	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
-	
-	AnimationPanel4 restaurant4 = new AnimationPanel4();
-
-	PersonAgent testPerson = new PersonAgent();
-	PersonGui testPersonGui = new PersonGui();
+    ControlPanel controlPanel = new ControlPanel();
+    
+        Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
+        AnimationPanel4 restaurant4 = new AnimationPanel4();
+        //PersonAgent testPerson = new PersonAgent("test");
+        //PersonGui testPersonGui = new PersonGui();
     
     private JPanel infoPanel;
         
@@ -44,23 +45,25 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
      * Sets up all the gui components.
      */
     public CityGui() {
+            
+            controlPanel.setCityGui(this);
    
-        testPerson.startThread();
-        testPerson.setGui(testPersonGui);
-        testPersonGui.addAnimationPanel(restaurant2);
-        guis.add(testPersonGui);
-        cityPanel.addGui(testPersonGui);
-    	    	
-    	setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
+        //testPerson.startThread();
+        //testPerson.setGui(testPersonGui);
+        //testPersonGui.addAnimationPanel(restaurant2);
+        //guis.add(testPersonGui);
+        //cityPanel.addGui(testPersonGui);
+                        
+            setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
 
-    	setLayout(new BorderLayout());
-    	
-    	cityPanel.setCityGui(this);
-    	cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
-    	restaurant2.setBackground(new Color(150, 20, 60));
-    	restaurant2.setCityGui(this);
-    	
-    	restaurant4.setCityGui(this);
+            setLayout(new BorderLayout());
+            
+            cityPanel.setCityGui(this);
+            //cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
+            restaurant2.setBackground(new Color(150, 20, 60));
+            restaurant2.setCityGui(this);
+            
+            restaurant4.setCityGui(this);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
         cityPanel.setPreferredSize(animationDim);
@@ -76,20 +79,21 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         
         infoPanel.setLayout(new FlowLayout());
         
-        add(infoPanel, BorderLayout.WEST);
+        //add(infoPanel, BorderLayout.WEST);
+        add(controlPanel, BorderLayout.WEST);
 
     }
     
     public void addGui(Gui g){
-    	guis.add(g);
+            guis.add(g);
     }
     
     public void addPerson(PersonAgent p){
-    	people.add(p);
+            people.add(p);
     }
 
     public void actionPerformed(ActionEvent e) {
-    	//if(e.getSource() == 
+            //if(e.getSource() == 
     }
     /**
      * Main routine to get gui started
@@ -102,31 +106,42 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-	public void stateChanged(ChangeEvent e) {
-		//if(e.getSource() ==
-		//(slider)
-	}
-	
-	public void changeView(String building){
-		if(building.equals("Restaurant1")){
-			cityPanel.setVisible(false);
-	        add(restaurant2, BorderLayout.EAST);
-			restaurant2.setVisible(true);
-		}
-		if(building.equals("City")){
-			restaurant2.setVisible(false);
-			cityPanel.setVisible(true);
-		}
-		
-	}
+        public void stateChanged(ChangeEvent e) {
+                //if(e.getSource() ==
+                //(slider)
+        }
+        
+        public void changeView(String building){
+                if(building.equals("Restaurant1")){
+                        cityPanel.setVisible(false);
+                add(restaurant2, BorderLayout.EAST);
+                        restaurant2.setVisible(true);
+                }
+                if(building.equals("City")){
+                        restaurant2.setVisible(false);
+                        cityPanel.setVisible(true);
+                }
+                
+        }
+        
+        public void addPerson(String name){
+                PersonAgent newPerson = new PersonAgent(name);
+                people.add(newPerson);
+                newPerson.startThread();
+                PersonGui g = new PersonGui();
+                newPerson.setGui(g);
+                guis.add(g);
+                cityPanel.addGui(g);
+                g.addAnimationPanel(restaurant2);
+        }
 
-	public void enableComeBack(Restaurant2Waiter agent) {
-		// TODO Auto-generated method stub
-		
-	}
+        public void enableComeBack(Restaurant2Waiter agent) {
+                // TODO Auto-generated method stub
+                
+        }
 
-	public void setEnabled(Restaurant2Waiter agent) {
-		// TODO Auto-generated method stub
-		
-	}	
+        public void setEnabled(Restaurant2Waiter agent) {
+                // TODO Auto-generated method stub
+                
+        }        
 }

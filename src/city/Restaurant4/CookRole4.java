@@ -1,12 +1,11 @@
 package city.Restaurant4;
 
-import agent.Agent;
-
+import Role.Role;
 import java.util.*;
 
-import city.Restaurant4.gui.CookGui4;
+import city.gui.restaurant4.CookGui4;
 
-public class CookRole4 extends Agent {
+public class CookRole4 extends Role {
 	String name;
 	WaiterRole4 waiter;
 	ArrayList<WaiterRole4> waiters= new ArrayList<WaiterRole4>();
