@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -24,7 +25,11 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     private static final int WINDOWY = 700;
     private static final int TIMER_INTERVAL = 15;
 
-	ImageIcon background = new ImageIcon("images/background.png");
+    static int gridX = 45; //# of x-axis tiles
+    static int gridY = 35; //# of y-axis tiles
+
+    //Semaphore grid for astar animation
+    Semaphore[][] grid = new Semaphore[gridX+1][gridY+1];
 	
 //	PersonAgent testPerson = new PersonAgent();
 //	PersonGui testPersonGui = new PersonGui();
@@ -34,12 +39,24 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
 	private List<Gui> guis = new ArrayList<Gui>();
     private Timer timer;
     
-    public CityPanel() {
+    public CityPanel(CityGui gui) {
+    	cityGui = gui;
+    	
     	setSize(WINDOWX, WINDOWY);
     	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
     	setMaximumSize(new Dimension(WINDOWX, WINDOWY));
     	setMinimumSize(new Dimension(WINDOWX, WINDOWY));
         setVisible(true);
+        
+        /*********Setting up semaphore grid***********/
+      	for (int i = 0; i <= gridX; i++) {
+    	    for (int j = 0; j <= gridY; j++) {
+    	    	grid[i][j] = new Semaphore(1,true);
+    	    }
+      	}
+      	
+      	
+      	/********Finished setting up semaphore grid***********/
     	
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
