@@ -1,6 +1,6 @@
 package city.Restaurant4;
 
-import agent.Agent;
+import Role.Role;
 import city.gui.restaurant4.HostGui4;
 
 import java.util.*;
@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Restaurant Host Agent
  */
-public class HostRole4 extends Agent {
+public class HostRole4 extends Role {
 	static final int NTABLES = 4;//a global for the number of tables.
 	public List<CustomerRole4> waitingToSit = Collections.synchronizedList(new ArrayList<CustomerRole4>());
 	public List<CustomerRole4> line = Collections.synchronizedList(new ArrayList<CustomerRole4>());
