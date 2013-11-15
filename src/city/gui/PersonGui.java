@@ -27,10 +27,10 @@ public class PersonGui implements Gui {
 	PersonGui(PersonAgent p){
 		agent = p;
 		
-		xPos = 30;
-		yPos = 30;
-		xDest = 210;
-		yDest = 210;
+		xPos = 780;
+		yPos = 680;
+		xDest = xPos;
+		yDest = yPos;
 	}
 	
 	
@@ -70,7 +70,9 @@ public class PersonGui implements Gui {
 	
 	@Override
 	public void draw(Graphics2D g) {
-        g.drawImage(icon.getImage(), xPos, yPos, animPanel);
+		g.setColor(Color.YELLOW);
+		g.fillRect(xPos, yPos, 20, 20);
+        //g.drawImage(icon.getImage(), xPos, yPos, animPanel);
 	}
 
 	@Override

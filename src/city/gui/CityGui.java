@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 public class CityGui extends JFrame implements ActionListener, ChangeListener {
   
-    CityPanel cityPanel = new CityPanel(this);
     AnimationPanel animationPanel = new AnimationPanel();
     
     ControlPanel controlPanel = new ControlPanel();
@@ -60,7 +59,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
             setLayout(new BorderLayout());
             
-            cityPanel.setCityGui(this);
+            animationPanel.setCityGui(this);
             //cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
             restaurant2.setBackground(new Color(150, 20, 60));
             restaurant2.setCityGui(this);
@@ -118,15 +117,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         
         public void changeView(String building){
                 if(building.equals("Restaurant1")){
-                        cityPanel.setVisible(false);
+                        animationPanel.setVisible(false);
                 add(restaurant2, BorderLayout.EAST);
                         restaurant2.setVisible(true);
                 }
                 if(building.equals("City")){
                         restaurant2.setVisible(false);
-                        cityPanel.setVisible(true);
-                }
-                
+                        animationPanel.setVisible(true);
+                }       
         }
         
         public void addPerson(String name, AStarTraversal aStarTraversal){

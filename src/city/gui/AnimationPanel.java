@@ -42,7 +42,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
         
-        addMouseListener(this);        
+        addMouseListener(this);
     }
     
     public void setCityGui(CityGui c){

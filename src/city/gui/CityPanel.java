@@ -33,7 +33,7 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     Semaphore[][] sidewalkGrid = new Semaphore[gridX+1][gridY+1];
     
     public CityPanel(CityGui gui) {
-    	cityGui = gui;
+    	//cityGui = gui;
     	
     	setSize(WINDOWX, WINDOWY);
     	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
@@ -149,7 +149,7 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     }
     
     public void setCityGui(CityGui c){
-    	cityGui = c;
+    	//cityGui = c;
     }
 
 	public void actionPerformed(ActionEvent e) {
