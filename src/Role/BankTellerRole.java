@@ -25,33 +25,33 @@ public class BankTellerRole extends Role {
 		}
 		
 				
-		void msgAssignMeCustomer(BankCustomerRole customer)
+		public void msgAssignMeCustomer(BankCustomerRole customer)
 		{
 			currentcustomer = customer;
 			currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
 		}
 
-		void msgOpenAccount() 
+		public void msgOpenAccount() 
 		{
 			banktellerstate = banktellerstate.openaccount;
 			stateChanged();
 		}
 
-		void msgDepositIntoAccount(double deposit)
+		public void msgDepositIntoAccount(double deposit)
 		{
 			this.deposit = deposit;
 			banktellerstate = banktellerstate.depositintoaccount;
 			stateChanged();
 		}
 
-		void msgWithdrawFromAccount(double withdrawal)
+		public void msgWithdrawFromAccount(double withdrawal)
 		{
 			this.withdrawal = withdrawal;
 			banktellerstate = banktellerstate.withdrawfromaccount;
 			stateChanged();
 		}
 
-		void msgGetLoan(double loan)
+		public void msgGetLoan(double loan)
 		{
 			this.loan = loan;
 			banktellerstate = banktellerstate.getloan;
@@ -59,7 +59,7 @@ public class BankTellerRole extends Role {
 		}
 
 
-	protected boolean pickedAndExecuteAnAction() {
+	protected boolean pickAndExecuteAnAction() {
 		
 		
 		if(banktellerstate == state.openaccount)
@@ -77,7 +77,7 @@ public class BankTellerRole extends Role {
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
 					findaccount.balance += this.deposit;
-					currentcustomer.msgDeositIntoAccountDone();
+					currentcustomer.msgOpenAccountDone();
 					break;
 				}
 			}
