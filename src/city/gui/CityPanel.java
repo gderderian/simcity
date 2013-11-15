@@ -55,6 +55,8 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     	    }
       	}
       	
+      	//Releasing all roads and sidewalks so guis can move around on them.
+      	
       	
       	/********Finished setting up semaphore grid***********/
     	
@@ -85,7 +87,7 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.drawImage(background.getImage(), 0, 0, this);
+		//g.drawImage(background.getImage(), 0, 0, this);
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
