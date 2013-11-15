@@ -112,16 +112,5 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			cityPanel.setVisible(true);
 		}
 		
-	}
-
-	public void enableComeBack(Restaurant2Waiter agent) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setEnabled(Restaurant2Waiter agent) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+	}	
 }
