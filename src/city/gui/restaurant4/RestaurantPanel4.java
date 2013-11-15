@@ -1,4 +1,4 @@
-package city.Restaurant4.gui;
+package city.gui.restaurant4;
 
 import city.Restaurant4.CashierRole4;
 import city.Restaurant4.CustomerRole4;

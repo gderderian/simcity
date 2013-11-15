@@ -1,7 +1,7 @@
 package city.Restaurant4;
 
 import agent.Agent;
-import city.Restaurant4.gui.HostGui4;
+import city.gui.restaurant4.HostGui4;
 
 import java.util.*;
 

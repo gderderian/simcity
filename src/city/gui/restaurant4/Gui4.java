@@ -1,4 +1,4 @@
-package city.Restaurant4.gui;
+package city.gui.restaurant4;
 
 import java.awt.*;
 
