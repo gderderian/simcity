@@ -1,7 +1,10 @@
-package city;
+package Role;
 
 import java.util.*;
+
 import javax.management.ObjectName;
+
+import city.PersonAgent;
 import Role.Role;
 
 public class LandlordRole extends Role{ // will eventually have to implement a landlord interface
