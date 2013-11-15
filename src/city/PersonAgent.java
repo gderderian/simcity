@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import city.gui.PersonGui;
+import Role.Role;
 import agent.Agent;
 
 public class PersonAgent extends Agent{
@@ -16,6 +17,37 @@ public class PersonAgent extends Agent{
 	//DATA
 	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
+	
+	List<Role> roles;
+	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
+	PersonState state;
+	HouseAgent house;
+	List<Restaurant> restaurants;
+	Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
+	CarAgent car;
+	String destination;
+	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
+	TransportationState transportationState;
+	CityMap cityMap;
+	BusStop busStop;
+	List<MyMeals> meals;
+	enum FoodState {cooking, done};
+	List<MyAppliances> appliancesToFix;
+	enum ApplianceState {broken, beingFixed, Fixed};
+	PersonAgent landlord;
+	List<Order> recievedOrders;   orders the person has gotten that they need to deal with
+	List<MarketAgent> markets;
+	List<String> groceryList;
+	List<Bills> billsToPay;
+	double takeHome; 		//some amount to take out of every paycheck and put in wallet
+	double wallet;
+	double moneyToDeposit;
+	BankAgent bank;
+	BankerRole bankTeller;
+	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
+	BankState bankState;
+	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
+	int accountNumber;
 	
 	PersonGui gui;
 	
@@ -28,6 +60,8 @@ public class PersonAgent extends Agent{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		msgImHungry();
 		
 	}
 	
@@ -61,6 +95,16 @@ public class PersonAgent extends Agent{
 		
 	}
 	
+	public void msgRentDue(double rate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void msgFixed(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 	//SCHEDULER
 	protected boolean pickAndExecuteAnAction() {
@@ -80,6 +124,14 @@ public class PersonAgent extends Agent{
 	//ACTIONS
 	
 	public void Eat(){	//hacked for now so that it randomly picks eating at home or going out
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("GotHungry")){
+					events.remove(e);
+					break;
+				}
+			}
+		}
 		Random rand = new Random();
 		int x = rand.nextInt(1);
 		if(x == 1){
@@ -96,8 +148,8 @@ public class PersonAgent extends Agent{
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
 		Restaurant restaurant2 = new Restaurant();
-		restaurant2.host.msgIWantFood(restaurant2.customer);
-		//gui.goToRestaurant(2);
+		//restaurant2.host.msgIWantFood(restaurant2.customer);
+		gui.goToRestaurant(2);
 	}
 	
 	
