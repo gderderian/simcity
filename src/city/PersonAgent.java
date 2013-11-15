@@ -75,6 +75,10 @@ public class PersonAgent extends Agent{
 		gui = g;
 	}
 	
+	public void addRole(Role r){
+		roles.add(r);
+	}
+	
 	//MESSAGES
 	public void msgImHungry(){	//sent from GUI ?
 		events.add("GotHungry");
