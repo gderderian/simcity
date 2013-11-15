@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import city.gui.PersonGui;
+import city.transportation.BusStopAgent;
+import city.transportation.CarAgent;
 import Role.Role;
 import agent.Agent;
 
