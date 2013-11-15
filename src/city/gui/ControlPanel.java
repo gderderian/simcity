@@ -27,7 +27,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private List<JButton> list = new ArrayList<JButton>();
     private JButton addPersonB = new JButton("Add");
     
-    private int WINDOWX = 300;
+    private int WINDOWX = 370;
     private int WINDOWY = 750;
     
     private Dimension scrollDim = new Dimension(WINDOWX, WINDOWY/4);
