@@ -24,7 +24,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
     private static final int WINDOWY = 700;
     private static final int TIMER_INTERVAL = 15;
 
-	ImageIcon background = new ImageIcon("images/background.png");
+	ImageIcon background = new ImageIcon("images/basic_background.png");
 	
 	PersonAgent testPerson = new PersonAgent();
 	PersonGui testPersonGui = new PersonGui();
