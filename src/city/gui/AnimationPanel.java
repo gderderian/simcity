@@ -1,12 +1,9 @@
 package city.gui;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.Timer;
+
+import city.PersonAgent;
+import city.gui.restaurant2.Restaurant2AnimationPanel;
 
 public class AnimationPanel extends JPanel implements MouseListener, ActionListener {
 
@@ -28,8 +26,12 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 
 	ImageIcon background = new ImageIcon("images/background.png");
 	
+	PersonAgent testPerson = new PersonAgent();
+	PersonGui testPersonGui = new PersonGui();
+	Restaurant2AnimationPanel testRest2AnimPanel = new Restaurant2AnimationPanel();
+	
 	CityGui cityGui;
-    
+	private List<Gui> guis = new ArrayList<Gui>();
     private Timer timer;
     
     public AnimationPanel() {
@@ -43,6 +45,11 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
         timer.start();
         
         addMouseListener(this);
+        
+        testPerson.startThread();
+        testPerson.setGui(testPersonGui);
+        testPersonGui.addAnimationPanel(testRest2AnimPanel);
+        guis.add(testPersonGui);
         
     }
     
@@ -67,6 +74,19 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		
 		//g2.fillRect(0, 0, WINDOWX, WINDOWY );
 		//g2.fillRect(0, 0, 50, 50);
+		
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.draw(g2);
+            }
+        }
+		
 	}
 
 	public void mouseClicked(MouseEvent e) {
