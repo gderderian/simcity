@@ -1,6 +1,9 @@
-package city;
+package city.transportation;
 
 import java.util.*;
+
+import city.PersonAgent;
+import city.Vehicle;
 
 public class BusAgent extends Vehicle {
 	//Data
@@ -27,14 +30,6 @@ public class BusAgent extends Vehicle {
 	enum BusEvent { arrivedAtStop, pickingUpPassengers, boarded, everyonePaid };
 	enum BusState { driving, atStop, pickingUpPassengers, askingForFare };
 
-<<<<<<< HEAD
-	@Override
-	protected boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-=======
 	//Messages
 	public void msgPeopleBoarding(List<PersonAgent> people) {
 		for(PersonAgent p : people) {
@@ -107,7 +102,6 @@ public class BusAgent extends Vehicle {
 		
 		return false;
 	}
->>>>>>> ee9d61ec80fab66107df9c4a1850630078fe2ced
 
 	//Actions
 	private void TellPassengersWeAreAtStop() {

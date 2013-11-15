@@ -5,9 +5,6 @@
 *.war
 *.ear
 
-<<<<<<< HEAD
-hollytesting/
-/bin
-=======
-hollytesting/test
->>>>>>> 7f7c0f3c7c3624950d45c7ad1981961e4758ec4e
+bin/
+
+hollytesting/test/

@@ -1,7 +1,7 @@
 package city;
 
-import hollytesting.interfaces.Restaurant2Customer;
-import hollytesting.interfaces.Restaurant2Host;
+import interfaces.Restaurant2Customer;
+import interfaces.Restaurant2Host;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import city.gui.PersonGui;
+import city.transportation.BusStopAgent;
+import city.transportation.CarAgent;
 import Role.Role;
 import agent.Agent;
 

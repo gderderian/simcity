@@ -1,6 +1,6 @@
 package city.gui.restaurant2;
 
-import hollytesting.interfaces.Restaurant2Cook;
+import interfaces.Restaurant2Cook;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
