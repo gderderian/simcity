@@ -29,7 +29,8 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     static int gridY = 35; //# of y-axis tiles
 
     //Semaphore grid for astar animation
-    Semaphore[][] grid = new Semaphore[gridX+1][gridY+1];
+    Semaphore[][] streetGrid = new Semaphore[gridX+1][gridY+1];
+    Semaphore[][] sidewalkGrid = new Semaphore[gridX+1][gridY+1];
 	
 //	PersonAgent testPerson = new PersonAgent();
 //	PersonGui testPersonGui = new PersonGui();
@@ -51,11 +52,31 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
         /*********Setting up semaphore grid***********/
       	for (int i = 0; i <= gridX; i++) {
     	    for (int j = 0; j <= gridY; j++) {
-    	    	grid[i][j] = new Semaphore(1,true);
+    	    	streetGrid[i][j] = new Semaphore(0,true);
+    	    	sidewalkGrid[i][j] = new Semaphore(0,true);
     	    }
       	}
+      	//NOTE: Must use same semaphores on crosswalks.
       	
       	//Releasing all roads and sidewalks so guis can move around on them.
+      	for(int i = 8; i < 39; i++) 
+      		for(int j = 8; j < 13; j++)
+      			streetGrid[i][j].release();
+      	for(int i = 8; i < 39; i++) 
+      		for(int j = 24; j < 29; j++)
+      			streetGrid[i][j].release();
+      	for(int i = 8; i < 13; i++) 
+      		for(int j = 13; j < 24; j++)
+      			streetGrid[i][j].release();
+      	for(int i = 34; i < 39; i++) 
+      		for(int j = 13; j < 24; j++)
+      			streetGrid[i][j].release();
+      	for(int i = 34; i < 39; i++) 
+      		for(int j = 39; j < 36; j++)
+      			streetGrid[i][j].release();
+      	//End of street grid releasing
+      	
+
       	
       	
       	/********Finished setting up semaphore grid***********/
