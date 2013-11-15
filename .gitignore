@@ -8,3 +8,5 @@
 bin/
 
 hollytesting/test/
+
+.DS_Store
