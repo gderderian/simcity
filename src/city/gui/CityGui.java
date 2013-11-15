@@ -25,7 +25,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     private JPanel infoPanel;
         
     private final int WINDOWX = 1300;
-    private final int WINDOWY = 700;
+    private final int WINDOWY = 750;
     private final int ANIMATIONX = 900;
     private final int WINDOW_X_COORD = 50;
     private final int WINDOW_Y_COORD = 50;
@@ -40,7 +40,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     	setLayout(new BorderLayout());
     	
     	animationPanel.setCityGui(this);
-    	animationPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
+    	//animationPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
     	restaurant2.setBackground(new Color(150, 20, 60));
     	restaurant2.setCityGui(this);
 
