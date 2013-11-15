@@ -1,6 +1,6 @@
 package city.gui;
 
-import hollytesting.interfaces.Restaurant2Waiter;
+import interfaces.Restaurant2Waiter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

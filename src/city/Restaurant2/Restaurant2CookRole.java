@@ -1,8 +1,8 @@
 package city.Restaurant2;
 
-import hollytesting.interfaces.Restaurant2Cook;
-import hollytesting.interfaces.Restaurant2Market;
-import hollytesting.interfaces.Restaurant2Waiter;
+import interfaces.Restaurant2Cook;
+import interfaces.Restaurant2Market;
+import interfaces.Restaurant2Waiter;
 
 import java.util.ArrayList;
 import java.util.Collections;

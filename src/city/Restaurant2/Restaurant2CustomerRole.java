@@ -1,9 +1,9 @@
 package city.Restaurant2;
 
-import hollytesting.interfaces.Restaurant2Cashier;
-import hollytesting.interfaces.Restaurant2Customer;
-import hollytesting.interfaces.Restaurant2Host;
-import hollytesting.interfaces.Restaurant2Waiter;
+import interfaces.Restaurant2Cashier;
+import interfaces.Restaurant2Customer;
+import interfaces.Restaurant2Host;
+import interfaces.Restaurant2Waiter;
 
 import java.util.Timer;
 import java.util.TimerTask;

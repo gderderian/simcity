@@ -15,9 +15,9 @@ import javax.swing.Timer;
 
 import city.gui.CityGui;
 import city.gui.Gui;
+import city.gui.PersonGui;
 
 public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
-	
 	
 	private final int WINDOWX = 900;
     private final int WINDOWY = 700;
@@ -118,7 +118,7 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         }
     }
     
-    public void addGui(Restaurant2CustomerGui gui) {
+    public void addGui(PersonGui gui) {
         guis.add(gui);
     }
 /*

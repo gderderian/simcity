@@ -1,11 +1,9 @@
 package city.Restaurant2;
 
-import hollytesting.interfaces.Restaurant2Cashier;
-import hollytesting.interfaces.Restaurant2Customer;
-import hollytesting.interfaces.Restaurant2Market;
-import hollytesting.interfaces.Restaurant2Waiter;
-import hollytesting.test.mock.EventLog;
-import hollytesting.test.mock.LoggedEvent;
+import interfaces.Restaurant2Cashier;
+import interfaces.Restaurant2Customer;
+import interfaces.Restaurant2Market;
+import interfaces.Restaurant2Waiter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import test.mock.EventLog;
+import test.mock.LoggedEvent;
 import Role.Role;
 
 public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
