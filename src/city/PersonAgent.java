@@ -1,7 +1,7 @@
 package city;
 
-import hollytesting.interfaces.Restaurant2Customer;
-import hollytesting.interfaces.Restaurant2Host;
+import interfaces.Restaurant2Customer;
+import interfaces.Restaurant2Host;
 
 import java.util.Collections;
 import java.util.List;
