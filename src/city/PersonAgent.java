@@ -29,21 +29,21 @@ public class PersonAgent extends Agent{
 	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
 	TransportationState transportationState;
 	CityMap cityMap;
-	BusStop busStop;
-	List<MyMeals> meals;
+	BusStopAgent busStop;
+	//List<MyMeals> meals;
 	enum FoodState {cooking, done};
-	List<MyAppliances> appliancesToFix;
+	//List<MyAppliances> appliancesToFix;
 	enum ApplianceState {broken, beingFixed, Fixed};
 	PersonAgent landlord;
-	List<Order> recievedOrders;   orders the person has gotten that they need to deal with
-	List<MarketAgent> markets;
+	//List<Order> recievedOrders;   //orders the person has gotten that they need to deal with
+	//List<MarketAgent> markets;
 	List<String> groceryList;
-	List<Bills> billsToPay;
+	//List<Bills> billsToPay;
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	double wallet;
 	double moneyToDeposit;
-	BankAgent bank;
-	BankerRole bankTeller;
+	//BankAgent bank;
+	//BankerRole bankTeller;
 	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
 	BankState bankState;
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
