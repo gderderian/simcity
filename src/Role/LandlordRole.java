@@ -2,8 +2,6 @@ package Role;
 
 import java.util.*;
 
-import javax.management.ObjectName;
-
 import city.PersonAgent;
 import Role.Role;
 

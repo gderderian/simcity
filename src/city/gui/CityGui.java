@@ -6,7 +6,11 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+<<<<<<< HEAD
+import city.Restaurant4.gui.AnimationPanel4;
+=======
 import city.PersonAgent;
+>>>>>>> 19689403787858d79182ae0618b04a70cec904bf
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 
 import java.awt.*;
@@ -21,8 +25,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     CityPanel cityPanel = new CityPanel();
     
 	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
+<<<<<<< HEAD
+	AnimationPanel4 restaurant4 = new AnimationPanel4();
+=======
 	PersonAgent testPerson = new PersonAgent();
 	PersonGui testPersonGui = new PersonGui();
+>>>>>>> 19689403787858d79182ae0618b04a70cec904bf
     
     private JPanel infoPanel;
         
@@ -55,6 +63,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     	cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
     	restaurant2.setBackground(new Color(150, 20, 60));
     	restaurant2.setCityGui(this);
+    	
+    	restaurant4.setCityGui(this);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
         cityPanel.setPreferredSize(animationDim);
