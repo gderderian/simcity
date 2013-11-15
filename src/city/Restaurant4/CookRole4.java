@@ -4,7 +4,7 @@ import agent.Agent;
 
 import java.util.*;
 
-import city.Restaurant4.gui.CookGui4;
+import city.gui.restaurant4.CookGui4;
 
 public class CookRole4 extends Agent {
 	String name;

@@ -3,7 +3,7 @@ package city.Restaurant4;
 import city.Restaurant4.HostRole4;
 import city.Restaurant4.WaiterRole4;
 import city.Restaurant4.WaiterRole4.Menu;
-import city.Restaurant4.gui.CustomerGui4;
+import city.gui.restaurant4.CustomerGui4;
 import justinetesting.interfaces.Customer4;
 import agent.Agent;
 

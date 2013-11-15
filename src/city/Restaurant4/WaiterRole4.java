@@ -1,9 +1,8 @@
 package city.Restaurant4;
 
 import agent.Agent;
-import city.Restaurant4.gui.WaiterGui4;
-import city.Restaurant4.gui.RestaurantGui4;
-import justinetesting.interfaces.Customer4;
+import city.gui.restaurant4.RestaurantGui4;
+import city.gui.restaurant4.WaiterGui4;
 import justinetesting.interfaces.Waiter4;
 import city.Restaurant4.CashierRole4;
 
