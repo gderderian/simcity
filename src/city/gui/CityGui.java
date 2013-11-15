@@ -128,7 +128,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 PersonAgent newPerson = new PersonAgent(name);
                 people.add(newPerson);
                 newPerson.startThread();
-                PersonGui g = new PersonGui();
+                PersonGui g = new PersonGui(newPerson);
                 newPerson.setGui(g);
                 guis.add(g);
                 cityPanel.addGui(g);

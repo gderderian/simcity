@@ -56,7 +56,6 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     	    	sidewalkGrid[i][j] = new Semaphore(0,true);
     	    }
       	}
-      	//NOTE: Must use same semaphores on crosswalks.
       	
       	//Releasing all roads and sidewalks so guis can move around on them.
       	//First, the roads
@@ -130,7 +129,7 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
       	}	
       	//End of sidewalk grid releasing
       	
-      	//Adding in stopwalks (shared semaphores between street grid and sidewalk grid)
+      	//Adding in crosswalks (shared semaphores between street grid and sidewalk grid)
       	for(int i = 13; i < 15; i++) //Top left crosswalk
       		for(int j = 8; j < 13; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
@@ -161,13 +160,9 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     public void setCityGui(CityGui c){
     	cityGui = c;
     }
-    
-    public void addGui(Gui g){
-    	guis.add(g);
-    }
 
 	public void actionPerformed(ActionEvent e) {
-		repaint();  //Will have paintComponent called
+		//Possible actions?
 	}
 	
 	public void paintComponent(Graphics g) {

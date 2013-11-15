@@ -26,8 +26,8 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 
 	ImageIcon background = new ImageIcon("images/basic_background.png");
 	
-	PersonAgent testPerson = new PersonAgent();
-	PersonGui testPersonGui = new PersonGui();
+	PersonAgent testPerson = new PersonAgent("test"); //Must create new people in CityPanel!!
+	PersonGui testPersonGui = new PersonGui(testPerson);
 	Restaurant2AnimationPanel testRest2AnimPanel = new Restaurant2AnimationPanel();
 	
 	CityGui cityGui;
