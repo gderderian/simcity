@@ -59,6 +59,7 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
       	//NOTE: Must use same semaphores on crosswalks.
       	
       	//Releasing all roads and sidewalks so guis can move around on them.
+      	//First, the roads
       	for(int i = 8; i < 39; i++) 
       		for(int j = 8; j < 13; j++)
       			streetGrid[i][j].release();
@@ -76,8 +77,72 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
       			streetGrid[i][j].release();
       	//End of street grid releasing
       	
-
+      	for(int i = 6; i < 8; i++) { //This loop covers the leftmost side of sidewalk, sans bus stop area.
+      		for(int j = 6; j < 16; j++)
+      			sidewalkGrid[i][j].release();
+      		for(int k = 21; k < 31; k++)
+      			sidewalkGrid[i][k].release();
+      	}
+      	for(int i = 39; i < 41; i++) { //This loop covers the rightmost side of sidewalk, sans bus stop area.
+      		for(int j = 6; j < 16; j++)
+      			sidewalkGrid[i][j].release();
+      		for(int k = 21; k < 36; k++)
+      			sidewalkGrid[i][k].release();
+      	}
+      	for(int i = 6; i < 8; i++) { //This loop covers the top side of sidewalk, sans bus stop area.
+      		for(int j = 8; j < 21; j++)
+      			sidewalkGrid[j][i].release();
+      		for(int k = 26; k < 39; k++)
+      			sidewalkGrid[k][i].release();
+      	}
+      	for(int i = 39; i < 41; i++) { //This loop covers the bottom side of sidewalk, sans bus stop area.
+      		for(int j = 8; j < 21; j++)
+      			sidewalkGrid[j][i].release();
+      		for(int k = 26; k < 34; k++)
+      			sidewalkGrid[k][i].release();
+      	}      	
+      	for(int i = 32; i < 34; i++) //This loop covers the extra portion on entrance street sidewalk
+      		for(int j = 41; j < 46; j++)
+      			sidewalkGrid[i][j].release();
+      	for(int i = 21; i < 26; i++) { //Top/bottom bus stop sidewalks.
+      		for(int j = 5; j < 7; j++)
+      			sidewalkGrid[i][j].release();
+      		for(int k = 40; k < 42; k++)
+      			sidewalkGrid[i][k].release();
+      	}
+      	for(int i = 39; i < 41; i++) { //Left/right bus stop sidewalks.
+      		for(int j = 5; j < 7; j++)
+      			sidewalkGrid[j][i].release();
+      		for(int k = 40; k < 42; k++)
+      			sidewalkGrid[k][i].release();
+      	}      	
+      	for(int i = 13; i < 24; i++) { //Inner sidewalk left and right.
+      		for(int j = 13; j < 15; j++)
+      			sidewalkGrid[j][i].release();
+      		for(int k = 32; k < 34; k++)
+      			sidewalkGrid[k][i].release();
+      	}      
+      	for(int i = 15; i < 31; i++) { //Inner sidewalk top and bottom.
+      		for(int j = 13; j < 15; j++)
+      			sidewalkGrid[i][j].release();
+      		for(int k = 22; k < 24; k++)
+      			sidewalkGrid[i][k].release();
+      	}	
+      	//End of sidewalk grid releasing
       	
+      	//Adding in stopwalks (shared semaphores between street grid and sidewalk grid)
+      	for(int i = 13; i < 15; i++) //Top left crosswalk
+      		for(int j = 8; j < 13; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	for(int i = 34; i < 39; i++) //Top right crosswalk
+      		for(int j = 13; j < 15; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	for(int i = 8; i < 13; i++) //Bottom left crosswalk
+      		for(int j = 22; j < 24; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	for(int i = 32; i < 34; i++) //Bottom right crosswalk
+      		for(int j = 24; j < 29; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];      	
       	
       	/********Finished setting up semaphore grid***********/
     	
