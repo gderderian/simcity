@@ -1,6 +1,6 @@
 package city.Restaurant4;
 
-import agent.Agent;
+import Role.Role;
 import city.gui.restaurant4.RestaurantGui4;
 import city.gui.restaurant4.WaiterGui4;
 import justinetesting.interfaces.Waiter4;
@@ -9,7 +9,7 @@ import city.Restaurant4.CashierRole4;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-public class WaiterRole4 extends Agent implements Waiter4 {
+public class WaiterRole4 extends Role implements Waiter4 {
 	private String name;
 	private  Menu menu;
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();

@@ -149,7 +149,7 @@ public class ListPanel4 extends JPanel implements ActionListener {
      */
     //public void addPerson(String name) {
     public void addPerson(){
-        String name = cNameField.getText();
+        /*String name = cNameField.getText();
     	if (name != null) {
     	    JButton button = new JButton(name);
             button.setBackground(Color.white);
@@ -169,11 +169,11 @@ public class ListPanel4 extends JPanel implements ActionListener {
             hunger= false;//update hunger boolean
             hungry.setSelected(false);
             validate();
-        }
+        }*/
     }
     
     public void addWaiter(){
-        String name = wNameField.getText();
+        /*String name = wNameField.getText();
         boolean okay= true;
         for(WaiterRole4 w : restPanel.waiters){
         	if(w.getName().equals(name)){
@@ -197,6 +197,6 @@ public class ListPanel4 extends JPanel implements ActionListener {
             restPanel.addWaiter(wNameField.getText());
             restPanel.showInfo(type, name, onBreak);
             validate();
-        }
+        }*/
     }
 }

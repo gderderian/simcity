@@ -6,6 +6,7 @@ import city.Restaurant4.HostRole4;
 import city.Restaurant4.CookRole4;
 import city.Restaurant4.MarketRole4;
 import city.Restaurant4.WaiterRole4;
+import Role.Role;
 
 import javax.swing.*;
 
@@ -15,18 +16,18 @@ import java.util.Vector;
 
 public class RestaurantPanel4 extends JPanel implements ActionListener {
     //Host, cook, waiters and customers
-	private CookRole4 cook;
-	private CookGui4 cookGui= new CookGui4(cook);
-	private CashierRole4 cashier;
-	private MarketRole4 market1;
-	private MarketRole4 market2;
-	private MarketRole4 market3;
+	//private CookRole4 cook;
+	//private CookGui4 cookGui= new CookGui4(cook);
+	//private CashierRole4 cashier;
+	//private MarketRole4 market1;
+	//private MarketRole4 market2;
+	//private MarketRole4 market3;
     //private CookGui cookGui = new CookGui(host);
-	private HostRole4 host;
-    private HostGui4 hostGui = new HostGui4(host);
+	//private HostRole4 host;
+    //private HostGui4 hostGui = new HostGui4(host);
     
-    Vector<CustomerRole4> customers = new Vector<CustomerRole4>();
-    Vector<WaiterRole4> waiters = new Vector<WaiterRole4>();
+    //Vector<CustomerRole4> customers = new Vector<CustomerRole4>();
+    //Vector<WaiterRole4> waiters = new Vector<WaiterRole4>();
 
     private JPanel restLabel = new JPanel();
     private JPanel ownerPanel = new JPanel();
@@ -43,7 +44,7 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
     private static int y= 230;
 
     public RestaurantPanel4(RestaurantGui4 gui) {
-        host = new HostRole4("Sarah");
+        /*host = new HostRole4("Sarah");
         cook= new CookRole4("Heisenberg");
         cashier= new CashierRole4("Cassie the Cashier");
         
@@ -72,7 +73,7 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
         
         market1.startThread();
         market2.startThread();
-        market3.startThread();
+        market3.startThread();*/
         
         setLayout(new GridLayout(rows, columns, space1, space1));
         
@@ -90,8 +91,8 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
     private void initRestLabel() {
         JLabel label = new JLabel();
         restLabel.setLayout(new BorderLayout());
-        label.setText(
-                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+        //label.setText(
+          //      "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
 
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
         restLabel.add(label, BorderLayout.CENTER);
@@ -123,12 +124,12 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
     		if(paused == false){
         		pause.setText("Resume");
         		paused= true;
-        		pause();
+        		//pause();
         	}
         	else if(paused == true){
         		pause.setText("Pause");
         		paused= false;
-        		restart();
+        		//restart();
         	}
         }
     }
@@ -142,7 +143,7 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
      * @param name name of person
      */
     public void showInfo(String type, String name, boolean status) {
-        if (type.equals("Customers")) {
+        /*if (type.equals("Customers")) {
             for (int i = 0; i < customers.size(); i++) {
                 CustomerRole4 temp = customers.get(i);
                 if (temp.getName() == name)
@@ -156,7 +157,7 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
                 if (temp.getName().equals(name))
                 	gui.updateInfoPanel(temp, status);
             }
-        }
+        }*/
     }
     
     /**
@@ -166,7 +167,7 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
      * @param name name of person
      */
     public void addPerson(String type, String name, boolean hunger) {
-    	if (type.equals("Customers")) {
+    	/*if (type.equals("Customers")) {
     		CustomerRole4 c = new CustomerRole4(name);	
     		CustomerGui4 g = new CustomerGui4(c, gui);
     		
@@ -175,12 +176,12 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
     		c.setCashier(cashier);
     		c.setGui(g);
     		customers.add(c);
-    		c.startThread();
-    	}
+    		//c.startThread();
+    	}*/
     }
     
     public void addWaiter(String name){
-    	WaiterRole4 waiter= new WaiterRole4(name, gui);
+    	/*WaiterRole4 waiter= new WaiterRole4(name, gui);
     	WaiterGui4 waiterGui= new WaiterGui4(waiter);
     	
     	gui.animationPanel.addGui(waiterGui);
@@ -193,11 +194,11 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
     	host.addWaiter(waiter);
     	waiters.add(waiter);
     	
-    	waiter.startThread();
+    	waiter.startThread();*/
     }
     
     public void pause(){
-    	cook.pause();
+    	/*cook.pause();
     	host.pause();
     	cashier.pause();
     	market1.pause();
@@ -208,11 +209,11 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
     	}
     	for(CustomerRole4 customer : customers){
     		customer.pause();
-    	}
+    	}*/
     }
     
     public void restart(){
-    	cook.resume();
+    	/*cook.resume();
     	host.resume();
     	cashier.resume();
     	market1.resume();
@@ -223,6 +224,6 @@ public class RestaurantPanel4 extends JPanel implements ActionListener {
     	}
     	for(CustomerRole4 customer : customers){
     		customer.resume();
-    	}
+    	}*/
     }
 }
