@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import agent.Agent;
-import restaurant.account;
-import restaurant.BankTellerRole;
+import city.account;
+import Role.BankTellerRole;
+import Role.BankCustomerRole;
 
 public class BankAgent extends Agent{
 	

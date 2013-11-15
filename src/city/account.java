@@ -1,13 +1,15 @@
 package city;
 
+import Role.BankCustomerRole;
+
 
 public class account {
 	/*
 
-	double balance;
-	int accountnumber;
+	public double balance;
+	public int accountnumber;
 	BankCustomerRole customer;
-	double loan;
+	public double loan;
 
 	public account(BankCustomerRole customer, int assignaccountnumber)
 	{
