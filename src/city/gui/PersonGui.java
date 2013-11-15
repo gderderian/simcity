@@ -3,10 +3,12 @@ package city.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import javax.swing.ImageIcon;
+
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 
-public class PersonGui implements Gui{
+public class PersonGui implements Gui {
 	private int xDest;
 	private int yDest;
 	private int yPos;
@@ -14,7 +16,11 @@ public class PersonGui implements Gui{
 	
 	PersonAgent agent;
 	
+	ImageIcon icon = new ImageIcon("images/basic_person.png");
+	
 	boolean moving = false; //Keeps track of whether gui is moving or staying in one place.
+	
+	AnimationPanel animPanel;
 	
 	Restaurant2AnimationPanel restaurant2panel;
 	
@@ -51,6 +57,10 @@ public class PersonGui implements Gui{
 		restaurant2panel = p;
 	}
 	
+	public void setMainAnimationPanel(AnimationPanel p) {
+		animPanel = p;
+	}
+	
 	public void moveTo(int x, int y) {
 		xDest = x;
 		yDest = y;
@@ -60,8 +70,7 @@ public class PersonGui implements Gui{
 	
 	@Override
 	public void draw(Graphics2D g) {
-        g.setColor(Color.ORANGE);
-        g.fillRect(xPos, yPos, 20, 20);
+        g.drawImage(icon.getImage(), xPos, yPos, animPanel);
 	}
 
 	@Override

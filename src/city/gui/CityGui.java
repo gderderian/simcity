@@ -20,7 +20,8 @@ import java.util.ArrayList;
  */
 public class CityGui extends JFrame implements ActionListener, ChangeListener {
   
-    CityPanel cityPanel = new CityPanel();
+    CityPanel cityPanel = new CityPanel(this);
+    AnimationPanel animationPanel = new AnimationPanel();
     
     ControlPanel controlPanel = new ControlPanel();
     
@@ -32,7 +33,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     private JPanel infoPanel;
         
     private final int WINDOWX = 1300;
-    private final int WINDOWY = 700;
+    private final int WINDOWY = 750;
     private final int ANIMATIONX = 900;
     private final int WINDOW_X_COORD = 50;
     private final int WINDOW_Y_COORD = 50;
@@ -44,8 +45,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public CityGui() {
-            
+    public CityGui() {            
             controlPanel.setCityGui(this);
    
         //testPerson.startThread();
@@ -66,9 +66,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             restaurant4.setCityGui(this);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
-        cityPanel.setPreferredSize(animationDim);
+        //cityPanel.setPreferredSize(animationDim);
         restaurant2.setPreferredSize(animationDim);
-        add(cityPanel, BorderLayout.EAST);
+        //add(cityPanel, BorderLayout.EAST);
+        animationPanel.setPreferredSize(animationDim);
+    	
+    	add(animationPanel, BorderLayout.EAST);
 
         Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
         infoPanel = new JPanel();
@@ -131,7 +134,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 PersonGui g = new PersonGui(newPerson);
                 newPerson.setGui(g);
                 guis.add(g);
-                cityPanel.addGui(g);
+                animationPanel.addGui(g);
                 g.addAnimationPanel(restaurant2);
         }
 

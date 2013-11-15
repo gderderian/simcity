@@ -49,6 +49,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
         testPerson.startThread();
         testPerson.setGui(testPersonGui);
         testPersonGui.addAnimationPanel(testRest2AnimPanel);
+        testPersonGui.setMainAnimationPanel(this);
         guis.add(testPersonGui);
         
     }
@@ -61,6 +62,10 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		repaint();  //Will have paintComponent called
 	}
 	
+	public void addGui(PersonGui gui) {
+		guis.add(gui);
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -68,9 +73,9 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
-		g2.setColor(new Color(0, 255, 0)); //Background color = green
+		//g2.setColor(new Color(0, 255, 0)); //Background color = green
 		
-		g2.fillRect(200, 200, 30, 30);
+		//g2.fillRect(200, 200, 30, 30);
 		
 		//g2.fillRect(0, 0, WINDOWX, WINDOWY );
 		//g2.fillRect(0, 0, 50, 50);

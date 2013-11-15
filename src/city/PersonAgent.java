@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 import city.gui.PersonGui;
 import city.transportation.BusStopAgent;
@@ -53,6 +54,8 @@ public class PersonAgent extends Agent{
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
 	int accountNumber;
 	
+	Semaphore atDestination = new Semaphore(0, true);
+	
 	PersonGui gui;
 	
 
@@ -69,6 +72,10 @@ public class PersonAgent extends Agent{
 		
 		msgImHungry();
 		
+	}
+	
+	public void msgAtDestination() {
+		atDestination.release();
 	}
 	
 	public void setGui(PersonGui g){

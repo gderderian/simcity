@@ -94,22 +94,24 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
       		for(int k = 26; k < 39; k++)
       			sidewalkGrid[k][i].release();
       	}
-      	for(int i = 39; i < 41; i++) { //This loop covers the bottom side of sidewalk, sans bus stop area.
+      	for(int i = 29; i < 31; i++) { //This loop covers the bottom side of sidewalk, sans bus stop area.
       		for(int j = 8; j < 21; j++)
       			sidewalkGrid[j][i].release();
       		for(int k = 26; k < 34; k++)
       			sidewalkGrid[k][i].release();
-      	}      	
+      	}     
+      	
       	for(int i = 32; i < 34; i++) //This loop covers the extra portion on entrance street sidewalk
-      		for(int j = 41; j < 46; j++)
+      		for(int j = 31; j < 36; j++)
       			sidewalkGrid[i][j].release();
+      	
       	for(int i = 21; i < 26; i++) { //Top/bottom bus stop sidewalks.
       		for(int j = 5; j < 7; j++)
       			sidewalkGrid[i][j].release();
-      		for(int k = 40; k < 42; k++)
+      		for(int k = 30; k < 32; k++)
       			sidewalkGrid[i][k].release();
       	}
-      	for(int i = 39; i < 41; i++) { //Left/right bus stop sidewalks.
+      	for(int i = 16; i < 21; i++) { //Left/right bus stop sidewalks.
       		for(int j = 5; j < 7; j++)
       			sidewalkGrid[j][i].release();
       		for(int k = 40; k < 42; k++)
@@ -163,34 +165,6 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		//Possible actions?
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		//g.drawImage(background.getImage(), 0, 0, this);
-		
-		Graphics2D g2 = (Graphics2D)g;
-		
-		g2.setColor(new Color(0, 255, 0)); //Background color = green
-		
-		g2.fillRect(200, 200, 30, 30);
-		
-		//g2.fillRect(0, 0, WINDOWX, WINDOWY );
-		//g2.fillRect(0, 0, 50, 50);
-		
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw(g2);
-            }
-        }
-		
 	}
 
 	public void mouseClicked(MouseEvent e) {
