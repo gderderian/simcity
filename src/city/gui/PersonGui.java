@@ -70,9 +70,7 @@ public class PersonGui implements Gui {
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.YELLOW);
-		g.fillRect(xPos, yPos, 20, 20);
-        //g.drawImage(icon.getImage(), xPos, yPos, animPanel);
+        g.drawImage(icon.getImage(), xPos, yPos, animPanel);
 	}
 
 	@Override
