@@ -14,6 +14,7 @@ import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 import Role.Role;
 import agent.Agent;
+import astar.AStarTraversal;
 
 public class PersonAgent extends Agent{
 	
@@ -55,14 +56,15 @@ public class PersonAgent extends Agent{
 	int accountNumber;
 	
 	Semaphore atDestination = new Semaphore(0, true);
-	
+	AStarTraversal aStarTraversal;
 	PersonGui gui;
 	
 
-	public PersonAgent(String n){
+	public PersonAgent(String n, AStarTraversal aStarTraversal){
 		super();
 		
 		name = n;
+		this.aStarTraversal = aStarTraversal;
 		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");

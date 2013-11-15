@@ -31,14 +31,6 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
     //Semaphore grid for astar animation
     Semaphore[][] streetGrid = new Semaphore[gridX+1][gridY+1];
     Semaphore[][] sidewalkGrid = new Semaphore[gridX+1][gridY+1];
-	
-//	PersonAgent testPerson = new PersonAgent();
-//	PersonGui testPersonGui = new PersonGui();
-//	Restaurant2AnimationPanel testRest2AnimPanel = new Restaurant2AnimationPanel();
-	
-	CityGui cityGui;
-	private List<Gui> guis = new ArrayList<Gui>();
-    private Timer timer;
     
     public CityPanel(CityGui gui) {
     	cityGui = gui;
@@ -146,9 +138,6 @@ public class CityPanel extends JPanel implements MouseListener, ActionListener {
       			sidewalkGrid[i][j] = streetGrid[i][j];      	
       	
       	/********Finished setting up semaphore grid***********/
-    	
-        timer = new Timer(TIMER_INTERVAL, this);
-        timer.start();
         
         addMouseListener(this);
         

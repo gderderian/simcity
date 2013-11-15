@@ -25,9 +25,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
     private static final int TIMER_INTERVAL = 15;
 
 	ImageIcon background = new ImageIcon("images/basic_background.png");
-	
-	PersonAgent testPerson = new PersonAgent("test"); //Must create new people in CityPanel!!
-	PersonGui testPersonGui = new PersonGui(testPerson);
+
 	Restaurant2AnimationPanel testRest2AnimPanel = new Restaurant2AnimationPanel();
 	
 	CityGui cityGui;
@@ -44,14 +42,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
         
-        addMouseListener(this);
-        
-        testPerson.startThread();
-        testPerson.setGui(testPersonGui);
-        testPersonGui.addAnimationPanel(testRest2AnimPanel);
-        testPersonGui.setMainAnimationPanel(this);
-        guis.add(testPersonGui);
-        
+        addMouseListener(this);        
     }
     
     public void setCityGui(CityGui c){
@@ -110,6 +101,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		//System.out.println("Mouse pressed in animation panel");
 	}
 
+	//Sample code for clicking on animation panel
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();

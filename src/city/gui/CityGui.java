@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import astar.AStarTraversal;
+
 import city.gui.restaurant4.AnimationPanel4;
 
 import city.PersonAgent;
@@ -127,8 +129,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 
         }
         
-        public void addPerson(String name){
-                PersonAgent newPerson = new PersonAgent(name);
+        public void addPerson(String name, AStarTraversal aStarTraversal){
+                PersonAgent newPerson = new PersonAgent(name, aStarTraversal);
                 people.add(newPerson);
                 newPerson.startThread();
                 PersonGui g = new PersonGui(newPerson);
