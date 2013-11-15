@@ -2,7 +2,7 @@ package city;
 
 
 public class account {
-
+	/*
 
 	double balance;
 	int accountnumber;
@@ -18,7 +18,7 @@ public class account {
 
 	}
 
-	
+	*/
 	
 	
 }

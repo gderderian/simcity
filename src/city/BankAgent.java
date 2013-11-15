@@ -1,4 +1,5 @@
 package city;
+/*
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -41,7 +42,7 @@ public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
 	stateChanged();
 }
 
-
+*/
 
 
 /*
@@ -53,7 +54,7 @@ public void msgCreateNewAccount(BankCustomerRole customer)
 	stateChanged();	
 }
 */
-
+/*
 public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 {
 	customers.remove(leavingcustomer);
@@ -140,10 +141,4 @@ class mycustomer {
 	}
 
 }
-
-
-
-
-	
-	
-}
+*/
