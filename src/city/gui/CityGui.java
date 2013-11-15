@@ -22,10 +22,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
   
     CityPanel cityPanel = new CityPanel();
     
+    ControlPanel controlPanel = new ControlPanel();
+    
 	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
 	AnimationPanel4 restaurant4 = new AnimationPanel4();
-	PersonAgent testPerson = new PersonAgent();
-	PersonGui testPersonGui = new PersonGui();
+	//PersonAgent testPerson = new PersonAgent("test");
+	//PersonGui testPersonGui = new PersonGui();
     
     private JPanel infoPanel;
         
@@ -43,19 +45,21 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
      * Sets up all the gui components.
      */
     public CityGui() {
+    	
+    	controlPanel.setCityGui(this);
    
-        testPerson.startThread();
-        testPerson.setGui(testPersonGui);
-        testPersonGui.addAnimationPanel(restaurant2);
-        guis.add(testPersonGui);
-        cityPanel.addGui(testPersonGui);
+        //testPerson.startThread();
+        //testPerson.setGui(testPersonGui);
+        //testPersonGui.addAnimationPanel(restaurant2);
+        //guis.add(testPersonGui);
+        //cityPanel.addGui(testPersonGui);
     	    	
     	setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
 
     	setLayout(new BorderLayout());
     	
     	cityPanel.setCityGui(this);
-    	cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
+    	//cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
     	restaurant2.setBackground(new Color(150, 20, 60));
     	restaurant2.setCityGui(this);
     	
@@ -75,7 +79,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         
         infoPanel.setLayout(new FlowLayout());
         
-        add(infoPanel, BorderLayout.WEST);
+        //add(infoPanel, BorderLayout.WEST);
+        add(controlPanel, BorderLayout.WEST);
 
     }
     
@@ -117,6 +122,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			cityPanel.setVisible(true);
 		}
 		
+	}
+	
+	public void addPerson(String name){
+		PersonAgent newPerson = new PersonAgent(name);
+		people.add(newPerson);
+		newPerson.startThread();
+		PersonGui g = new PersonGui();
+		newPerson.setGui(g);
+		guis.add(g);
+		cityPanel.addGui(g);
 	}
 
 	public void enableComeBack(Restaurant2Waiter agent) {

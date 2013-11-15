@@ -17,6 +17,8 @@ import agent.Agent;
 public class PersonAgent extends Agent{
 	
 	//DATA
+	String name;
+	
 	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
 	
@@ -54,8 +56,10 @@ public class PersonAgent extends Agent{
 	PersonGui gui;
 	
 
-	public PersonAgent(){
+	public PersonAgent(String n){
 		super();
+		
+		name = n;
 		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");
