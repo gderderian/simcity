@@ -1,8 +1,9 @@
 package city;
 
 import java.util.*;
+import agent.Agent;
 
-public class HouseAgent {
+public class HouseAgent extends Agent{
 	//DATA
 	PersonAgent owner;
 	Timer cook= new Timer();
@@ -30,12 +31,14 @@ public class HouseAgent {
 			fridge.addItem(groceries.get(i));
 			fridge.currentAmount++;
 		}
+		stateChanged();
 	}
 
 	public void msgCheckFridge(String type){
 		MyFood temp= new MyFood(type);
 		temp.cs= CookState.pending;
 		toCook.add(temp);
+		stateChanged();
 	}
 
 	public void msgCookFood(String type){
@@ -44,6 +47,7 @@ public class HouseAgent {
 				mf.cs= CookState.cooking;
 			}
 		}
+		stateChanged();
 	}
 
 	public void msgFixed(String appliance){
@@ -52,11 +56,12 @@ public class HouseAgent {
 				a.isBroken= false;
 			}
 		}
+		stateChanged();
 	}
 
 	
 	//SCHEDULER
-	protected Boolean pickAndExecuteAnAction(){
+	protected boolean pickAndExecuteAnAction(){
 		for(Appliance a : cookingAppliances){
 			if(a.isBroken){
 				applianceBroke(a);
@@ -131,7 +136,7 @@ public class HouseAgent {
 	
 	
 	//CLASSES
-	public class Appliance{
+	private class Appliance{
 		String type;
 		int capacity; 
 		int currentAmount;
@@ -181,7 +186,7 @@ public class HouseAgent {
 		}
 	}
 
-	public class MyFood{
+	private class MyFood{
 		Food food;
 		int currentAmount;
 		CookState cs;
