@@ -135,6 +135,10 @@ public class PersonAgent extends Agent{
 	
 	//SCHEDULER
 	protected boolean pickAndExecuteAnAction() {
+		
+		//Uncomment this and create people named a, b, c, and d to see basic animation.
+		//movementTest();
+		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -143,8 +147,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
-		
 		
 		return false;
 	}
@@ -172,6 +174,20 @@ public class PersonAgent extends Agent{
 		else{
 			goToRestaurant();
 		}
+	}
+	
+	public void movementTest() {
+		if(name.equals("a"))
+		moveTo(40, 25);
+		
+		if(name.equals("b"))
+			moveTo(39, 23);
+		
+		if(name.equals("c"))
+			moveTo(40, 21);
+		
+		if(name.equals("d"))
+			moveTo(39, 15);
 	}
 	
 	public void goToRestaurant(){
@@ -228,6 +244,7 @@ public class PersonAgent extends Agent{
 		    //System.out.println("[Gaut] " + guiWaiter.getName() + " got permit for " + tmpPath.toString());
 		    currentPosition.release(aStar.getGrid());
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
+		    print("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
 		    gui.moveTo(currentPosition.getX() * 20 - 20, currentPosition.getY() * 20 - 20);
 		    
 		    //Give animation time to move to square.

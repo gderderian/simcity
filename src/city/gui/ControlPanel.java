@@ -97,47 +97,22 @@ public class ControlPanel extends JPanel implements ActionListener{
       			streetGrid[i][j].release();
       	//End of street grid releasing
       	
-      	for(int i = 6; i < 8; i++) { //This loop covers the leftmost side of sidewalk, sans bus stop area.
-      		for(int j = 6; j < 16; j++)
+      	for(int i = 6; i < 8; i++) //This loop covers the leftmost side of sidewalk.
+      		for(int j = 6; j < 31; j++)
       			sidewalkGrid[i][j].release();
-      		for(int k = 21; k < 31; k++)
-      			sidewalkGrid[i][k].release();
-      	}
-      	for(int i = 39; i < 41; i++) { //This loop covers the rightmost side of sidewalk, sans bus stop area.
-      		for(int j = 6; j < 16; j++)
+      	for(int i = 39; i < 41; i++) //This loop covers the rightmost side of sidewalk.
+      		for(int j = 6; j < 36; j++)
       			sidewalkGrid[i][j].release();
-      		for(int k = 21; k < 36; k++)
-      			sidewalkGrid[i][k].release();
-      	}
-      	for(int i = 6; i < 8; i++) { //This loop covers the top side of sidewalk, sans bus stop area.
-      		for(int j = 8; j < 21; j++)
-      			sidewalkGrid[j][i].release();
-      		for(int k = 26; k < 39; k++)
-      			sidewalkGrid[k][i].release();
-      	}
-      	for(int i = 29; i < 31; i++) { //This loop covers the bottom side of sidewalk, sans bus stop area.
-      		for(int j = 8; j < 21; j++)
-      			sidewalkGrid[j][i].release();
-      		for(int k = 26; k < 34; k++)
-      			sidewalkGrid[k][i].release();
-      	}     
-      	
+      	for(int i = 8; i < 39; i++) //This loop covers the top side of sidewalk.
+      		for(int j = 6; j < 8; j++)
+      			sidewalkGrid[i][j].release();
+      	for(int i = 29; i < 31; i++) //This loop covers the bottom side of sidewalk.
+      		for(int j = 8; j < 34; j++)
+      			sidewalkGrid[i][j].release();      	
       	for(int i = 32; i < 34; i++) //This loop covers the extra portion on entrance street sidewalk
       		for(int j = 31; j < 36; j++)
       			sidewalkGrid[i][j].release();
-      	
-      	for(int i = 21; i < 26; i++) { //Top/bottom bus stop sidewalks.
-      		for(int j = 5; j < 7; j++)
-      			sidewalkGrid[i][j].release();
-      		for(int k = 30; k < 32; k++)
-      			sidewalkGrid[i][k].release();
-      	}
-      	for(int i = 16; i < 21; i++) { //Left/right bus stop sidewalks.
-      		for(int j = 5; j < 7; j++)
-      			sidewalkGrid[j][i].release();
-      		for(int k = 40; k < 42; k++)
-      			sidewalkGrid[k][i].release();
-      	}      	
+
       	for(int i = 13; i < 24; i++) { //Inner sidewalk left and right.
       		for(int j = 13; j < 15; j++)
       			sidewalkGrid[j][i].release();
@@ -164,7 +139,7 @@ public class ControlPanel extends JPanel implements ActionListener{
       			sidewalkGrid[i][j] = streetGrid[i][j];
       	for(int i = 32; i < 34; i++) //Bottom right crosswalk
       		for(int j = 24; j < 29; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];      	
+      			sidewalkGrid[i][j] = streetGrid[i][j];   
       	
       	/********Finished setting up semaphore grid***********/
     }

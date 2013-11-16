@@ -130,12 +130,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         public void addPerson(String name, AStarTraversal aStarTraversal){
                 PersonAgent newPerson = new PersonAgent(name, aStarTraversal);
                 people.add(newPerson);
-                newPerson.startThread();
                 PersonGui g = new PersonGui(newPerson);
                 newPerson.setGui(g);
                 guis.add(g);
                 animationPanel.addGui(g);
                 g.addAnimationPanel(restaurant2);
+                
+                newPerson.startThread();
         }
 
         public void enableComeBack(Restaurant2Waiter agent) {
