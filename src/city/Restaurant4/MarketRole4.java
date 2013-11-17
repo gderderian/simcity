@@ -1,12 +1,11 @@
 package city.Restaurant4;
 
-import agent.Agent;
-
+import Role.Role;
 import java.util.*;
 
 import justinetesting.interfaces.Market4;
 
-public class MarketRole4 extends Agent implements Market4 {
+public class MarketRole4 extends Role implements Market4 {
 	String name;
 	CookRole4 cook;
 	Timer timer= new Timer();

@@ -5,7 +5,7 @@ import city.Restaurant4.WaiterRole4;
 import city.Restaurant4.WaiterRole4.Menu;
 import city.gui.restaurant4.CustomerGui4;
 import justinetesting.interfaces.Customer4;
-import agent.Agent;
+import Role.Role;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * Restaurant customer agent.
  */
-public class CustomerRole4 extends Agent implements Customer4 {
+public class CustomerRole4 extends Role implements Customer4 {
 	private String name;
 	private String choice;
 	private Menu menu;

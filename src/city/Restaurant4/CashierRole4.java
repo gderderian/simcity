@@ -1,17 +1,15 @@
 package city.Restaurant4;
 
-import agent.Agent;
+import Role.Role;
 
 import java.util.*;
 
-import justinetesting.interfaces.Customer4;
-import justinetesting.interfaces.Market4;
 import justinetesting.interfaces.Waiter4;
 import justinetesting.test.mock.EventLog4;
 import justinetesting.test.mock.LoggedEvent4;
 
 
-public class CashierRole4 extends Agent {
+public class CashierRole4 extends Role {
 	WaiterRole4 waiter;
 	String name;
 	Timer cook= new Timer();
