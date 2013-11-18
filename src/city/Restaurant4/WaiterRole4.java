@@ -127,13 +127,13 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 	}
 	
-	public void msgOrderDone(String choice, CustomerRole4 c){
+	public void msgOrderDone(String choice, Customer4 c){
 		MyCustomer mc= find(c);
 		mc.s= customerState.foodDone;
 		stateChanged();
 	}
 	
-	public void msgDoneEating(CustomerRole4 c) {
+	public void msgDoneEating(Customer4 c){
 		MyCustomer mc= find(c);
 		mc.s= customerState.doneEating;
 		stateChanged();
@@ -156,13 +156,13 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		stateChanged();
 	}
 	
-	public void msgReadyForBill(CustomerRole4 c){
+	public void msgReadyForBill(Customer4 c){
 		MyCustomer mc = find(c);
 		mc.s= customerState.askedForBill;
 		stateChanged();
 	}
 	
-	public void msgHereIsBill(double amount, CustomerRole4 c){
+	public void msgHereIsBill(double amount, Customer4 c){
 		print("msgHereIsBill");
 		MyCustomer mc= find(c);
 		mc.amountOwed= amount;
@@ -175,7 +175,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		stateChanged();
 	}
 	
-	public void msgAtTable() {//from animation
+	public void msgAtTable(){//from animation
 		ws= waiterState.atTable;
 		atTable.release();
 		stateChanged();

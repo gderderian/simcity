@@ -5,13 +5,16 @@ import city.gui.restaurant4.HostGui4;
 
 import java.util.*;
 
+import justinetesting.interfaces.Customer4;
+import justinetesting.interfaces.Waiter4;
+
 /**
  * Restaurant Host Agent
  */
 public class HostRole4 extends Role {
 	static final int NTABLES = 4;//a global for the number of tables.
-	public List<CustomerRole4> waitingToSit = Collections.synchronizedList(new ArrayList<CustomerRole4>());
-	public List<CustomerRole4> line = Collections.synchronizedList(new ArrayList<CustomerRole4>());
+	public List<Customer4> waitingToSit = Collections.synchronizedList(new ArrayList<Customer4>());
+	public List<Customer4> line = Collections.synchronizedList(new ArrayList<Customer4>());
 	public List<MyWaiter> waiters;
 	public enum WaiterState {goingOnBreak, onBreak, denied, reset};
 	public Collection<Table> tables;
@@ -40,7 +43,7 @@ public class HostRole4 extends Role {
 		return name;
 	}
 
-	public List<CustomerRole4> getWaitingCustomers() {
+	public List<Customer4> getWaitingCustomers() {
 		return waitingToSit;
 	}
 
@@ -48,27 +51,28 @@ public class HostRole4 extends Role {
 		return tables;
 	}
 	
-	public void addWaiter(WaiterRole4 waiter){
+	public void addWaiter(Waiter4 waiter){
 		waiters.add(new MyWaiter(waiter));
 		waiter.msgNumber(waiters.size());
 		stateChanged();
 	}
 	
+	
 	// MESSAGES
-	public void msgIWantFood(CustomerRole4 c) {
+	public void msgIWantFood(Customer4 c) {
 		waitingToSit.add(c);
 		line.add(c);
 		stateChanged();
 	}
 
-	public void msgSeatingCustomer(CustomerRole4 c){
+	public void msgSeatingCustomer(Customer4 c){
 		line.remove(c);
 		stateChanged();
 	}
 	
-	public void msgLeavingRest(CustomerRole4 c){
+	public void msgLeavingRest(Customer4 c){
 		synchronized(waitingToSit){
-			for(CustomerRole4 cust : waitingToSit){
+			for(Customer4 cust : waitingToSit){
 				if(cust == c){
 					waitingToSit.remove(cust);
 					line.remove(cust);
@@ -79,7 +83,7 @@ public class HostRole4 extends Role {
 		}
 	}
 	
-	public void msgTableAvaliable(CustomerRole4 c) {
+	public void msgTableAvaliable(Customer4 c){
 		for (Table table : tables) {
 			if (table.getOccupant() == c) {
 				table.setUnoccupied();
@@ -94,7 +98,7 @@ public class HostRole4 extends Role {
 		stateChanged();
 	}
 
-	public void msgWantToGoOnBreak(WaiterRole4 w){
+	public void msgWantToGoOnBreak(Waiter4 w){
 		print("A waiter wants to take a break, let me see if I should accept or deny...");
 		MyWaiter waiter= find(w);
 		boolean okay= true;
@@ -114,7 +118,7 @@ public class HostRole4 extends Role {
 		stateChanged();
 	}
 	
-	public void msgReadyToWork(WaiterRole4 w){
+	public void msgReadyToWork(Waiter4 w){
 		print("Oh good, a waiter is coming off break");
 		MyWaiter waiter= find(w);
 		waiter.ws= WaiterState.reset;
@@ -155,7 +159,7 @@ public class HostRole4 extends Role {
 		synchronized(waitingToSit){
 			if(!waitingToSit.isEmpty()){
 				synchronized(waitingToSit){
-					for(CustomerRole4 c : waitingToSit){
+					for(Customer4 c : waitingToSit){
 						c.msgRestaurantFull();
 					}
 				}
@@ -181,13 +185,13 @@ public class HostRole4 extends Role {
 		line.get(i).msgPositionInLine(i);
 	}
 	
-	private void delegateToWaiter(CustomerRole4 c, Table table){
+	private void delegateToWaiter(Customer4 customer4, Table table){
 		MyWaiter mw= findLeastBusyWaiter(); 
 		int tableNum= table.getTableNumber();
-		mw.w.msgPleaseSeatCustomer(c, tableNum);
+		mw.w.msgPleaseSeatCustomer(customer4, tableNum);
 		mw.numCustomers++; 
-		table.setOccupant(c);
-		waitingToSit.remove(c);
+		table.setOccupant(customer4);
+		waitingToSit.remove(customer4);
 	}
 
 	private MyWaiter findLeastBusyWaiter(){
@@ -206,7 +210,7 @@ public class HostRole4 extends Role {
 		return seatCust;
 	}
 	
-	private MyWaiter find(WaiterRole4 w){
+	private MyWaiter find(Waiter4 w){
 		MyWaiter temp= waiters.get(0);  // initialize to the first waiter, will be updated in loop below
 		for(MyWaiter waiter : waiters){
 			if( w.equals(waiter.w) ){
@@ -241,32 +245,32 @@ public class HostRole4 extends Role {
 
 	// CLASSES
 	private class MyWaiter {
-		WaiterRole4 w;
+		Waiter4 w;
 		WaiterState ws= WaiterState.reset;
 		int numCustomers= 0;  // each waiter starts with zero customers
 		
-		MyWaiter(WaiterRole4 w){
-			this.w= w;
+		MyWaiter(Waiter4 waiter){
+			this.w= waiter;
 		}
 	}
 	
 	private class Table {
-		CustomerRole4 occupiedBy;
+		Customer4 occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber) {
 			this.tableNumber = tableNumber;
 		}
 
-		void setOccupant(CustomerRole4 cust) {
-			occupiedBy = cust;
+		void setOccupant(Customer4 customer4) {
+			occupiedBy = customer4;
 		}
 
 		void setUnoccupied() {
 			occupiedBy = null;
 		}
 
-		CustomerRole4 getOccupant() {
+		Customer4 getOccupant() {
 			return occupiedBy;
 		}
 
