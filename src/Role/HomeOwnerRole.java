@@ -1,12 +1,14 @@
 package Role;
 
+import interfaces.HomeOwner;
+
 import java.util.*;
 
 import city.Food;
 import city.HouseAgent;
 import city.PersonAgent;
 
-public class HomeOwnerRole extends Role {
+public class HomeOwnerRole extends Role implements HomeOwner {
 	//DATA
 	PersonAgent landlord;
 	HouseAgent house;

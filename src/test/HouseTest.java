@@ -21,13 +21,16 @@ public class HouseTest extends TestCase {
 		
 		house= new HouseAgent();
 		apartment= new Apartment();
-		person1= new PersonAgent("Landlord");
-		person2= new PersonAgent("Homeowner");
+		person1= new PersonAgent("Landlord", null);
+		person2= new PersonAgent("Homeowner", null);
 		person1.addRole(landlord);
 		person2.addRole(homeowner);
 	}	
 	
 	public void testOneRentCollection(){
+		//This tells the landlord it is time to collect rent
+		landlord.msgEndOfDay();
+		
 		
 	}
 	
