@@ -25,33 +25,53 @@ public class BankTellerRole extends Role {
 		}
 		
 				
+<<<<<<< HEAD
 		void msgAssignMeCustomer(BankCustomerRole customer)
+=======
+		public void msgAssignMeCustomer(BankCustomerRole customer)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 		{
 			currentcustomer = customer;
 			currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
 		}
 
+<<<<<<< HEAD
 		void msgOpenAccount() 
+=======
+		public void msgOpenAccount() 
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 		{
 			banktellerstate = banktellerstate.openaccount;
 			stateChanged();
 		}
 
+<<<<<<< HEAD
 		void msgDepositIntoAccount(double deposit)
+=======
+		public void msgDepositIntoAccount(double deposit)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 		{
 			this.deposit = deposit;
 			banktellerstate = banktellerstate.depositintoaccount;
 			stateChanged();
 		}
 
+<<<<<<< HEAD
 		void msgWithdrawFromAccount(double withdrawal)
+=======
+		public void msgWithdrawFromAccount(double withdrawal)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 		{
 			this.withdrawal = withdrawal;
 			banktellerstate = banktellerstate.withdrawfromaccount;
 			stateChanged();
 		}
 
+<<<<<<< HEAD
 		void msgGetLoan(double loan)
+=======
+		public void msgGetLoan(double loan)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 		{
 			this.loan = loan;
 			banktellerstate = banktellerstate.getloan;
@@ -59,7 +79,11 @@ public class BankTellerRole extends Role {
 		}
 
 
+<<<<<<< HEAD
 	protected boolean pickedAndExecuteAnAction() {
+=======
+	protected boolean pickAndExecuteAnAction() {
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 		
 		
 		if(banktellerstate == state.openaccount)
@@ -77,7 +101,11 @@ public class BankTellerRole extends Role {
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
 					findaccount.balance += this.deposit;
+<<<<<<< HEAD
 					currentcustomer.msgDeositIntoAccountDone();
+=======
+					currentcustomer.msgOpenAccountDone();
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 					break;
 				}
 			}

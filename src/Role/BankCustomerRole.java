@@ -11,5 +11,39 @@ public class BankCustomerRole {
 		
 		
 	}
+<<<<<<< HEAD
+=======
+
+	public void msgOpenAccountDone() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void msgHereIsYourWithdrawal(double withdrawal) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void msgWithdrawalFailed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void msgCannotGetLoan(double loan) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void msgLoanBorrowed(double loan) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	
+	
+	
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 	
 }

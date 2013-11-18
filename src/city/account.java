@@ -1,6 +1,10 @@
 package city;
 
 import Role.BankCustomerRole;
+<<<<<<< HEAD
+=======
+
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
 
 
 public class account {
