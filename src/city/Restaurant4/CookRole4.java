@@ -1,14 +1,19 @@
 package city.Restaurant4;
 
 import Role.Role;
+
 import java.util.*;
 
+import justinetesting.interfaces.Cook4;
+import justinetesting.interfaces.Customer4;
+import justinetesting.interfaces.Market4;
+import justinetesting.interfaces.Waiter4;
 import city.gui.restaurant4.CookGui4;
 
-public class CookRole4 extends Role {
+public class CookRole4 extends Role implements Cook4 {
 	String name;
 	WaiterRole4 waiter;
-	ArrayList<WaiterRole4> waiters= new ArrayList<WaiterRole4>();
+	ArrayList<Waiter4> waiters= new ArrayList<Waiter4>();
 	Timer cook= new Timer();
 	Order o= new Order();
 	List<Order> orders= Collections.synchronizedList(new ArrayList<Order>());;
@@ -52,11 +57,11 @@ public class CookRole4 extends Role {
 	}
 	
 	// MESSAGES 
-	public void msgHereIsOrder(WaiterRole4 w, String choice, CustomerRole4 c){
+	public void msgHereIsOrder(Waiter4 w, String choice, Customer4 c){
 		Order o= new Order(w, choice, c, "pending", id++);
 		orders.add(o);
 		boolean newWaiter= true;
-		for(WaiterRole4 wait : waiters){
+		for(Waiter4 wait : waiters){
 			if(wait == w){
 				newWaiter= false;
 			}
@@ -67,7 +72,7 @@ public class CookRole4 extends Role {
 		stateChanged();
 	}
 
-	public void msgPickedUpFood(CustomerRole4 c){
+	public void msgPickedUpFood(Customer4 c){
 		for(Order o : orders){
 			if(o.c.equals(c)){
 				//cookGui.itemPickedUp(o.choice, find(o));
@@ -89,7 +94,7 @@ public class CookRole4 extends Role {
 		stateChanged();
 	}
 	
-	public void msgOutOfItem(MarketRole4 m, String type){
+	public void msgOutOfItem(Market4 m, String type){
 		for(MyMarket market : markets){
 			if(m == market.m){
 				market.outOf(type);
@@ -245,7 +250,7 @@ public class CookRole4 extends Role {
 		for(Food food : foods){
 			food.currAmount += delivery.get(food.type);
 			print("Restocked " + food.type + ": " + food.currAmount);
-			for(WaiterRole4 w : waiters){
+			for(Waiter4 w : waiters){
 				w.msgRestocked(food.type);
 			}
 		}
@@ -281,7 +286,7 @@ public class CookRole4 extends Role {
 	}
 	
 	public void closeRestaurant(){
-		for(WaiterRole4 wait : waiters){
+		for(Waiter4 wait : waiters){
 			wait.msgAllMarketsOut();
 		}
 	}
@@ -299,9 +304,9 @@ public class CookRole4 extends Role {
 	
 	// CLASSES
 	public static class Order{
-		WaiterRole4 w;
+		Waiter4 w;
 		String choice;
-		CustomerRole4 c;
+		Customer4 c;
 		orderState s;
 		marketState ms;
 		int steak=0;
@@ -311,10 +316,10 @@ public class CookRole4 extends Role {
 		int id;
 		
 		
-		Order(WaiterRole4 w, String choice, CustomerRole4 c, String state, int id){
-			this.w= w;
+		Order(Waiter4 w2, String choice, Customer4 c2, String state, int id){
+			this.w= w2;
 			this.choice= choice;
-			this.c= c;
+			this.c= c2;
 			if(state == "pending"){
 				s= orderState.pending;
 			}

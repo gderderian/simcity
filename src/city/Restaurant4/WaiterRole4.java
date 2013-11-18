@@ -3,6 +3,7 @@ package city.Restaurant4;
 import Role.Role;
 import city.gui.restaurant4.RestaurantGui4;
 import city.gui.restaurant4.WaiterGui4;
+import justinetesting.interfaces.Customer4;
 import justinetesting.interfaces.Waiter4;
 import city.Restaurant4.CashierRole4;
 
@@ -85,7 +86,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		waiterGui.setHomePostion(num);
 	}
 	
-	public void msgPleaseSeatCustomer(CustomerRole4 c, int tableNum){
+	public void msgPleaseSeatCustomer(Customer4 c, int tableNum){
 		customers.add(new MyCustomer(c, tableNum));
 		
 		MyCustomer mc= find(c);
@@ -94,20 +95,20 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		stateChanged();
 	}
 	
-	public void msgReadyToOrder(CustomerRole4 c){
+	public void msgReadyToOrder(Customer4 c){
 		MyCustomer mc= find(c); 
 		mc.s= customerState.askedToOrder;
 		stateChanged();
 	}
 	
-	public void msgHereIsChoice(CustomerRole4 c, String choice){
+	public void msgHereIsChoice(Customer4 c, String choice){
 		MyCustomer mc= find(c);
 		mc.setChoice(choice);
 		mc.s= customerState.ordered;
 		stateChanged();
 	}
 	
-	public void msgOutOfFood(String choice, CustomerRole4 c){
+	public void msgOutOfFood(String choice, Customer4 c){
 		MyCustomer mc= find(c);
 		mc.s= customerState.reOrder;
 		menu.foods.remove(choice);
@@ -302,7 +303,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 
 	
 	// ACTIONS
-	private MyCustomer find(CustomerRole4 c){
+	private MyCustomer find(Customer4 c){
 		MyCustomer temp= customers.get(0);  // initialize to the first customer to be updated in loop below
 		for(MyCustomer customer : customers){
 			if( c == customer.c){
@@ -465,15 +466,15 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	
 	// CLASSES
 	private static class MyCustomer {
-		CustomerRole4 c;
+		Customer4 c;
 		int tableNum;
 		private String choice;
 		double amountOwed;
 		
 		customerState s;
 		
-		public MyCustomer(CustomerRole4 cust, int table){
-			c= cust;
+		public MyCustomer(Customer4 c2, int table){
+			c= c2;
 			tableNum= table;
 			amountOwed= 0;
 		}

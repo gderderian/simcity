@@ -1,11 +1,13 @@
 package Role;
 
+import interfaces.Landlord;
+
 import java.util.*;
 
 import city.PersonAgent;
 import Role.Role;
 
-public class LandlordRole extends Role{ // will eventually have to implement a landlord interface
+public class LandlordRole extends Role implements Landlord {
 	//DATA
 	double earnings= 0.0;
 	List<MyTenant> tenants= new ArrayList<MyTenant>();

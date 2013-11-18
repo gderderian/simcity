@@ -4,12 +4,15 @@ import Role.Role;
 
 import java.util.*;
 
+import justinetesting.interfaces.Cashier4;
+import justinetesting.interfaces.Customer4;
+import justinetesting.interfaces.Market4;
 import justinetesting.interfaces.Waiter4;
 import justinetesting.test.mock.EventLog4;
 import justinetesting.test.mock.LoggedEvent4;
 
 
-public class CashierRole4 extends Role {
+public class CashierRole4 extends Role implements Cashier4 {
 	WaiterRole4 waiter;
 	String name;
 	Timer cook= new Timer();
@@ -37,16 +40,16 @@ public class CashierRole4 extends Role {
 		cash= 0.0;
 	}
 	
-	public void msgComputeBill(Waiter4 w, CustomerRole4 c, String choice){
+	public void msgComputeBill(Waiter4 w, Customer4 c, String choice){
 		log.add(new LoggedEvent4("Received msgComputeBill from waiter"));
 		Bill b= new Bill(w, c, choice);
 		getBills().add(b);
 		stateChanged();
 	}
 	
-	public void msgHereIsMoney(CustomerRole4 customerRole4, double amount){
+	public void msgHereIsMoney(Customer4 customer, double amount){
 		log.add(new LoggedEvent4("Received msgHereIsMoney from customer. Amount = " + amount));
-		Bill b= find(customerRole4);
+		Bill b= find(customer);
 		if(b.getAmount() <= amount){
 			cash += amount;
 			b.bs= billState.paid;
@@ -58,9 +61,9 @@ public class CashierRole4 extends Role {
 		stateChanged();
 	}
 	
-	public void msgHereIsBill(MarketRole4 marketRole4, double amount){
+	public void msgHereIsBill(Market4 market, double amount){
 		log.add(new LoggedEvent4("Received msgHereIsBill from market"));
-		marketBills.add(new MarketBill(marketRole4, amount));
+		marketBills.add(new MarketBill(market, amount));
 		stateChanged();
 	}
 	
@@ -111,10 +114,10 @@ public class CashierRole4 extends Role {
 		b.bs= billState.sent;
 	}
 	
-	private Bill find(CustomerRole4 customerRole4){
+	private Bill find(Customer4 customer){
 		Bill temp= getBills().get(0);  // initialize to the first customer to be updated in loop below
 		for(Bill bill : getBills()){
-			if( customerRole4 == bill.c && bill.bs != billState.done){
+			if( customer == bill.c && bill.bs != billState.done){
 				return bill;
 			}
 		}
@@ -157,13 +160,13 @@ public class CashierRole4 extends Role {
 	// CLASSES
 	public static class Bill{
 		Waiter4 w;
-		public CustomerRole4 c;
+		public Customer4 c;
 		String choice;
 		private double amount;
 		billState bs;
 		
 			
-		public Bill(Waiter4 w, CustomerRole4 c2, String choice){
+		public Bill(Waiter4 w, Customer4 c2, String choice){
 			this.w= w;
 			this.c= c2;
 			this.choice= choice;
@@ -193,12 +196,12 @@ public class CashierRole4 extends Role {
 	}
 
 	public class MarketBill{
-		public MarketRole4 m;
+		public Market4 m;
 		public double amount;
 		marketBillState mbs= marketBillState.none;
 		
-		MarketBill(MarketRole4 marketRole4, double amount){
-			this.m= marketRole4;
+		MarketBill(Market4 market, double amount){
+			this.m= market;
 			this.amount= amount;
 			mbs= marketBillState.pending;
 		}
