@@ -31,7 +31,11 @@ public class BankAgent extends Agent{
 		super();
 		this.name = name;
 
+<<<<<<< HEAD
 >>>>>>> new update
+=======
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 
 	}
 
@@ -74,7 +78,11 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 		customers.remove(leavingcustomer);
 		stateChanged();
 	}
+<<<<<<< HEAD
 >>>>>>> new update
+=======
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 
 
 	public void msgBankTellerFree(BankTellerRole bankteller)
@@ -162,6 +170,9 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 */
 =======
 
@@ -171,7 +182,11 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 
 
 
+<<<<<<< HEAD
 >>>>>>> new update
 =======
 */
 >>>>>>> my agent files
+=======
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012

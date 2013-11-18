@@ -26,30 +26,51 @@ public class BankTellerRole extends Role {
 		
 				
 <<<<<<< HEAD
+<<<<<<< HEAD
 		public void msgAssignMeCustomer(BankCustomerRole customer)
 =======
 		void msgAssignMeCustomer(BankCustomerRole customer)
 >>>>>>> my agent files
+=======
+		void msgAssignMeCustomer(BankCustomerRole customer)
+=======
+		public void msgAssignMeCustomer(BankCustomerRole customer)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
 			currentcustomer = customer;
 			currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		public void msgOpenAccount() 
 =======
 		void msgOpenAccount() 
 >>>>>>> my agent files
+=======
+		void msgOpenAccount() 
+=======
+		public void msgOpenAccount() 
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
 			banktellerstate = banktellerstate.openaccount;
 			stateChanged();
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		public void msgDepositIntoAccount(double deposit)
 =======
 		void msgDepositIntoAccount(double deposit)
 >>>>>>> my agent files
+=======
+		void msgDepositIntoAccount(double deposit)
+=======
+		public void msgDepositIntoAccount(double deposit)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
 			this.deposit = deposit;
 			banktellerstate = banktellerstate.depositintoaccount;
@@ -57,10 +78,17 @@ public class BankTellerRole extends Role {
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		public void msgWithdrawFromAccount(double withdrawal)
 =======
 		void msgWithdrawFromAccount(double withdrawal)
 >>>>>>> my agent files
+=======
+		void msgWithdrawFromAccount(double withdrawal)
+=======
+		public void msgWithdrawFromAccount(double withdrawal)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
 			this.withdrawal = withdrawal;
 			banktellerstate = banktellerstate.withdrawfromaccount;
@@ -68,10 +96,17 @@ public class BankTellerRole extends Role {
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		public void msgGetLoan(double loan)
 =======
 		void msgGetLoan(double loan)
 >>>>>>> my agent files
+=======
+		void msgGetLoan(double loan)
+=======
+		public void msgGetLoan(double loan)
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
 			this.loan = loan;
 			banktellerstate = banktellerstate.getloan;
@@ -80,10 +115,17 @@ public class BankTellerRole extends Role {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	protected boolean pickAndExecuteAnAction() {
 =======
 	protected boolean pickedAndExecuteAnAction() {
 >>>>>>> my agent files
+=======
+	protected boolean pickedAndExecuteAnAction() {
+=======
+	protected boolean pickAndExecuteAnAction() {
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		
 		
 		if(banktellerstate == state.openaccount)
@@ -102,10 +144,17 @@ public class BankTellerRole extends Role {
 				{	
 					findaccount.balance += this.deposit;
 <<<<<<< HEAD
+<<<<<<< HEAD
 					currentcustomer.msgOpenAccountDone();
 =======
 					currentcustomer.msgDeositIntoAccountDone();
 >>>>>>> my agent files
+=======
+					currentcustomer.msgDeositIntoAccountDone();
+=======
+					currentcustomer.msgOpenAccountDone();
+>>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
+>>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 					break;
 				}
 			}
