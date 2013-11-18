@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import astar.AStarTraversal;
+
 import city.gui.restaurant4.AnimationPanel4;
 
 import city.PersonAgent;
@@ -20,19 +22,19 @@ import java.util.ArrayList;
  */
 public class CityGui extends JFrame implements ActionListener, ChangeListener {
   
-    CityPanel cityPanel = new CityPanel();
+    AnimationPanel animationPanel = new AnimationPanel();
     
     ControlPanel controlPanel = new ControlPanel();
     
-	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
-	AnimationPanel4 restaurant4 = new AnimationPanel4();
-	//PersonAgent testPerson = new PersonAgent("test");
-	//PersonGui testPersonGui = new PersonGui();
+        Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
+        AnimationPanel4 restaurant4 = new AnimationPanel4();
+        //PersonAgent testPerson = new PersonAgent("test");
+        //PersonGui testPersonGui = new PersonGui();
     
     private JPanel infoPanel;
         
     private final int WINDOWX = 1300;
-    private final int WINDOWY = 700;
+    private final int WINDOWY = 750;
     private final int ANIMATIONX = 900;
     private final int WINDOW_X_COORD = 50;
     private final int WINDOW_Y_COORD = 50;
@@ -44,31 +46,33 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public CityGui() {
-    	
-    	controlPanel.setCityGui(this);
+    public CityGui() {            
+            controlPanel.setCityGui(this);
    
         //testPerson.startThread();
         //testPerson.setGui(testPersonGui);
         //testPersonGui.addAnimationPanel(restaurant2);
         //guis.add(testPersonGui);
         //cityPanel.addGui(testPersonGui);
-    	    	
-    	setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
+                        
+            setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
 
-    	setLayout(new BorderLayout());
-    	
-    	cityPanel.setCityGui(this);
-    	//cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
-    	restaurant2.setBackground(new Color(150, 20, 60));
-    	restaurant2.setCityGui(this);
-    	
-    	restaurant4.setCityGui(this);
+            setLayout(new BorderLayout());
+            
+            animationPanel.setCityGui(this);
+            //cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
+            restaurant2.setBackground(new Color(150, 20, 60));
+            restaurant2.setCityGui(this);
+            
+            restaurant4.setCityGui(this);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
-        cityPanel.setPreferredSize(animationDim);
+        //cityPanel.setPreferredSize(animationDim);
         restaurant2.setPreferredSize(animationDim);
-        add(cityPanel, BorderLayout.EAST);
+        //add(cityPanel, BorderLayout.EAST);
+        animationPanel.setPreferredSize(animationDim);
+    	
+    	add(animationPanel, BorderLayout.EAST);
 
         Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
         infoPanel = new JPanel();
@@ -85,15 +89,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     }
     
     public void addGui(Gui g){
-    	guis.add(g);
+            guis.add(g);
     }
     
     public void addPerson(PersonAgent p){
-    	people.add(p);
+            people.add(p);
     }
 
     public void actionPerformed(ActionEvent e) {
-    	//if(e.getSource() == 
+            //if(e.getSource() == 
     }
     /**
      * Main routine to get gui started
@@ -106,42 +110,42 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-	public void stateChanged(ChangeEvent e) {
-		//if(e.getSource() ==
-		//(slider)
-	}
-	
-	public void changeView(String building){
-		if(building.equals("Restaurant1")){
-			cityPanel.setVisible(false);
-	        add(restaurant2, BorderLayout.EAST);
-			restaurant2.setVisible(true);
-		}
-		if(building.equals("City")){
-			restaurant2.setVisible(false);
-			cityPanel.setVisible(true);
-		}
-		
-	}
-	
-	public void addPerson(String name){
-		PersonAgent newPerson = new PersonAgent(name);
-		people.add(newPerson);
-		newPerson.startThread();
-		PersonGui g = new PersonGui();
-		newPerson.setGui(g);
-		guis.add(g);
-		cityPanel.addGui(g);
-		g.addAnimationPanel(restaurant2);
-	}
+        public void stateChanged(ChangeEvent e) {
+                //if(e.getSource() ==
+                //(slider)
+        }
+        
+        public void changeView(String building){
+                if(building.equals("Restaurant1")){
+                        animationPanel.setVisible(false);
+                add(restaurant2, BorderLayout.EAST);
+                        restaurant2.setVisible(true);
+                }
+                if(building.equals("City")){
+                        restaurant2.setVisible(false);
+                        animationPanel.setVisible(true);
+                }       
+        }
+        
+        public void addPerson(String name, AStarTraversal aStarTraversal){
+                PersonAgent newPerson = new PersonAgent(name, aStarTraversal);
+                people.add(newPerson);
+                PersonGui g = new PersonGui(newPerson);
+                newPerson.setGui(g);
+                guis.add(g);
+                animationPanel.addGui(g);
+                g.addAnimationPanel(restaurant2);
+                
+                newPerson.startThread();
+        }
 
-	public void enableComeBack(Restaurant2Waiter agent) {
-		// TODO Auto-generated method stub
-		
-	}
+        public void enableComeBack(Restaurant2Waiter agent) {
+                // TODO Auto-generated method stub
+                
+        }
 
-	public void setEnabled(Restaurant2Waiter agent) {
-		// TODO Auto-generated method stub
-		
-	}	
+        public void setEnabled(Restaurant2Waiter agent) {
+                // TODO Auto-generated method stub
+                
+        }        
 }
