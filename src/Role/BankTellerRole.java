@@ -25,33 +25,53 @@ public class BankTellerRole extends Role {
 		}
 		
 				
+<<<<<<< HEAD
 		public void msgAssignMeCustomer(BankCustomerRole customer)
+=======
+		void msgAssignMeCustomer(BankCustomerRole customer)
+>>>>>>> my agent files
 		{
 			currentcustomer = customer;
 			currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
 		}
 
+<<<<<<< HEAD
 		public void msgOpenAccount() 
+=======
+		void msgOpenAccount() 
+>>>>>>> my agent files
 		{
 			banktellerstate = banktellerstate.openaccount;
 			stateChanged();
 		}
 
+<<<<<<< HEAD
 		public void msgDepositIntoAccount(double deposit)
+=======
+		void msgDepositIntoAccount(double deposit)
+>>>>>>> my agent files
 		{
 			this.deposit = deposit;
 			banktellerstate = banktellerstate.depositintoaccount;
 			stateChanged();
 		}
 
+<<<<<<< HEAD
 		public void msgWithdrawFromAccount(double withdrawal)
+=======
+		void msgWithdrawFromAccount(double withdrawal)
+>>>>>>> my agent files
 		{
 			this.withdrawal = withdrawal;
 			banktellerstate = banktellerstate.withdrawfromaccount;
 			stateChanged();
 		}
 
+<<<<<<< HEAD
 		public void msgGetLoan(double loan)
+=======
+		void msgGetLoan(double loan)
+>>>>>>> my agent files
 		{
 			this.loan = loan;
 			banktellerstate = banktellerstate.getloan;
@@ -59,7 +79,11 @@ public class BankTellerRole extends Role {
 		}
 
 
+<<<<<<< HEAD
 	protected boolean pickAndExecuteAnAction() {
+=======
+	protected boolean pickedAndExecuteAnAction() {
+>>>>>>> my agent files
 		
 		
 		if(banktellerstate == state.openaccount)
@@ -77,7 +101,11 @@ public class BankTellerRole extends Role {
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
 					findaccount.balance += this.deposit;
+<<<<<<< HEAD
 					currentcustomer.msgOpenAccountDone();
+=======
+					currentcustomer.msgDeositIntoAccountDone();
+>>>>>>> my agent files
 					break;
 				}
 			}

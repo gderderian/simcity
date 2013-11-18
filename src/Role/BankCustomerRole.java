@@ -11,6 +11,7 @@ public class BankCustomerRole {
 		
 		
 	}
+<<<<<<< HEAD
 
 	public void msgOpenAccountDone() {
 		// TODO Auto-generated method stub
@@ -42,5 +43,7 @@ public class BankCustomerRole {
 	
 	
 	
+=======
+>>>>>>> my agent files
 	
 }
