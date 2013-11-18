@@ -257,7 +257,7 @@ public class PersonAgent extends Agent{
 	}
 	
 	public void notifyHouseFixed(MyAppliance a){
-		house.msgFixed(a.type);
+		house.fixedAppliance(a.type);
 		appliancesToFix.remove(a);	//no longer needed on this list
 	}
 	
@@ -283,7 +283,7 @@ public class PersonAgent extends Agent{
 	}
 	
 	public void cookMeal(MyMeal meal){
-		house.msgCookFood(meal.type);
+		house.cookFood(meal.type);
 		meal.state = FoodState.cooking;
 		//TODO add gui
 	}
