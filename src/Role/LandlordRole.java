@@ -72,7 +72,7 @@ public class LandlordRole extends Role{ // will eventually have to implement a l
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
-		mt.tenant.msgRentDue(mt.rate);
+		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
 		stateChanged();
 	}

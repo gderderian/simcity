@@ -12,6 +12,7 @@ import java.util.concurrent.Semaphore;
 import city.gui.PersonGui;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
+import Role.LandlordRole;
 import Role.Role;
 import agent.Agent;
 import astar.AStarNode;
@@ -38,15 +39,15 @@ public class PersonAgent extends Agent{
 	TransportationState transportationState;
 	CityMap cityMap;
 	BusStopAgent busStop;
-	//List<MyMeals> meals;
-	enum FoodState {cooking, done};
-	//List<MyAppliances> appliancesToFix;
-	enum ApplianceState {broken, beingFixed, Fixed};
-	PersonAgent landlord;
+	List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
+	enum FoodState {initial, cooking, done};
+	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
+	enum ApplianceState {broken, beingFixed, fixed};
+	LandlordRole landlord;
 	//List<Order> recievedOrders;   //orders the person has gotten that they need to deal with
 	//List<MarketAgent> markets;
 	List<String> groceryList;
-	//List<Bills> billsToPay;
+	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	double wallet;
 	double moneyToDeposit;
@@ -102,34 +103,47 @@ public class PersonAgent extends Agent{
 		stateChanged();
 	}
 	
+	//From house
 	public void msgImBroken(String type) {
-		// TODO Auto-generated method stub
-		
+		appliancesToFix.add(new MyAppliance(type));
+		stateChanged();
 	}
-
+	
 	public void msgItemInStock(String type) {
-		// TODO Auto-generated method stub
-		
+		meals.add(new MyMeal(type));
+		stateChanged();
 	}
 
-	public void msgDontHaveItem(String type) {
-		// TODO Auto-generated method stub
-		
+	public void msgDontHaveItem(String food) {
+		groceryList.add(food);
+		stateChanged();
 	}
 
-	public void msgFoodDone(String type) {
-		// TODO Auto-generated method stub
+	public void msgFoodDone(String food) {
+		synchronized(meals){
+			for(MyMeal m : meals){
+				if(m.type == food){
+					m.state = FoodState.done;
+				}
+			}
+		}
+	}
+	
+	//from landlord
+	public void msgFixed(String appliance) {
+		synchronized(appliancesToFix){
+			for(MyAppliance a : appliancesToFix){
+				if(a.type == appliance){
+					a.state = ApplianceState.fixed; 
+				}
+			}
+		}
 		
 	}
 	
-	public void msgRentDue(double rate) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void msgFixed(String string) {
-		// TODO Auto-generated method stub
-		
+	public void msgRentDue(LandlordRole r, double rate) {
+		billsToPay.add(new Bill("rent", rate, r));
+		stateChanged();
 	}
 	
 	
@@ -139,10 +153,54 @@ public class PersonAgent extends Agent{
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
 		//movementTest();
 		
+		//TODO figure out place for grocery shopping
+		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
 					Eat();
+					return true;
+				}
+			}
+		}
+		
+		synchronized(billsToPay){
+			if(!billsToPay.isEmpty()){
+				payBills();
+				return true;
+			}
+		}
+		
+		synchronized(meals){
+			for(MyMeal m : meals){
+				if(m.state == FoodState.initial){
+					cookMeal(m);
+					return true;
+				}
+			}
+		}
+		
+		synchronized(meals){
+			for(MyMeal m : meals){
+				if(m.state == FoodState.done){
+					eatMeal(m);
+				}
+			}
+		}
+		
+		synchronized(appliancesToFix){
+			for(MyAppliance a : appliancesToFix){
+				if(a.state == ApplianceState.broken){
+					notifyLandlordBroken(a);
+					return true;
+				}
+			}
+		}
+		
+		synchronized(appliancesToFix){
+			for(MyAppliance a : appliancesToFix){
+				if(a.state == ApplianceState.fixed){
+					notifyHouseFixed(a);
 					return true;
 				}
 			}
@@ -176,9 +234,36 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
+	public void notifyLandlordBroken(MyAppliance a){
+		print("Telling landlord that appliance " + a.type + " is broken");
+		landlord.msgFixAppliance(this, a.type);
+		a.state = ApplianceState.beingFixed;
+	}
+	
+	public void payBills(){
+		synchronized(billsToPay){
+			for(Bill b : billsToPay){
+				if(b.payTo == landlord){
+					if(wallet > b.amount){
+						landlord.msgHereIsMyRent(this, b.amount);
+						wallet -= b.amount;
+					}
+					else{
+						events.add("GoToBank");
+					}
+				}
+			}
+		}
+	}
+	
+	public void notifyHouseFixed(MyAppliance a){
+		house.msgFixed(a.type);
+		appliancesToFix.remove(a);	//no longer needed on this list
+	}
+	
 	public void movementTest() {
 		if(name.equals("a"))
-		moveTo(40, 25);
+			moveTo(40, 25);
 		
 		if(name.equals("b"))
 			moveTo(39, 23);
@@ -195,6 +280,18 @@ public class PersonAgent extends Agent{
 		Restaurant restaurant2 = new Restaurant();
 		//restaurant2.host.msgIWantFood(restaurant2.customer);
 		gui.goToRestaurant(2);
+	}
+	
+	public void cookMeal(MyMeal meal){
+		house.msgCookFood(meal.type);
+		meal.state = FoodState.cooking;
+		//TODO add gui
+	}
+	
+	public void eatMeal(MyMeal m){
+		//TODO make gui function
+		//gui.eatMeal();
+		meals.remove(m);
 	}
 	
 	void moveTo(int x, int y) {
@@ -307,6 +404,40 @@ public class PersonAgent extends Agent{
 		
 		public void setCustomer(Restaurant2Customer c){
 			customer = c;
+		}
+	}
+	
+	class Bill{
+		String type;
+		double amount;
+		Role payTo;
+		
+		public Bill(String t, double a, Role r){
+			type = t;
+			amount = a;
+			payTo = r;
+		}
+		
+	}
+	
+	class MyAppliance{
+		String type;
+		ApplianceState state;
+		
+		public MyAppliance(String t){
+			type = t;
+			state = ApplianceState.broken;
+		}
+		
+	}
+	
+	class MyMeal{
+		String type;
+		FoodState state;
+		
+		public MyMeal(String t){
+			type = t;
+			state = FoodState.initial;
 		}
 	}
 
