@@ -5,8 +5,8 @@ import city.transportation.BusAgent.BusEvent;
 
 public class CarAgent extends Vehicle {
 	//Data
-	CarEvent event = CarEvent.none;
-	CarState state = CarState.parked;
+	public CarEvent event = CarEvent.none;
+	public CarState state = CarState.parked;
 	
 	PersonAgent owner; //Car owner
 	
@@ -14,6 +14,10 @@ public class CarAgent extends Vehicle {
 	
 	enum CarEvent { none, driving, arriving, parking };
 	enum CarState { parked, driving, arrived };
+	
+	public CarAgent() {
+		capacity = 1;
+	}
 	
 	//Messages
 	public void msgDriveTo(PersonAgent p, String dest) {
@@ -65,7 +69,7 @@ public class CarAgent extends Vehicle {
 	
 	private void tellOwnerWeHaveArrived() {
 		//Uncomment when method is implemented within person
-		//owner.msgArrived();
+		owner.msgArrived();
 	}
 	
 	private void parkCar() {

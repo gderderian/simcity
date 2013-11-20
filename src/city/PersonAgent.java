@@ -75,7 +75,8 @@ public class PersonAgent extends Agent{
 		name = n;
 		this.aStar = aStarTraversal;
 		currentPosition = new Position(40, 35);
-        currentPosition.moveInto(aStar.getGrid());
+		if(aStar != null)
+			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
         
         cityMap = new CityMap();
@@ -144,6 +145,10 @@ public class PersonAgent extends Agent{
 	}
 	
 	public void msgBusIsHere(BusAgent b) { //Sent from bus stop
+		//STUB
+	}
+	
+	public void msgArrived() { //Sent from person's car
 		//STUB
 	}
 	
