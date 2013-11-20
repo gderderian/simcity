@@ -6,8 +6,9 @@ import java.util.List;
 import Role.BankCustomerRole;
 
 
-public class account {
 
+public class account {
+	
 
 	public double balance;
 	public int accountnumber;
@@ -28,6 +29,7 @@ public class account {
 		loans = new ArrayList<loan>();
 
 	}
+
 	
 	public void addloan(double loanamount)
 	{
@@ -77,6 +79,7 @@ public class account {
 		
 	}
 	
-	
+
+
 	
 }

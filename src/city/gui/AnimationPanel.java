@@ -24,10 +24,8 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
     private static final int WINDOWY = 700;
     private static final int TIMER_INTERVAL = 15;
 
-	ImageIcon background = new ImageIcon("images/background.png");
-	
-	PersonAgent testPerson = new PersonAgent();
-	PersonGui testPersonGui = new PersonGui();
+	ImageIcon background = new ImageIcon("images/basic_background.png");
+
 	Restaurant2AnimationPanel testRest2AnimPanel = new Restaurant2AnimationPanel();
 	
 	CityGui cityGui;
@@ -45,12 +43,6 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
         timer.start();
         
         addMouseListener(this);
-        
-        testPerson.startThread();
-        testPerson.setGui(testPersonGui);
-        testPersonGui.addAnimationPanel(testRest2AnimPanel);
-        guis.add(testPersonGui);
-        
     }
     
     public void setCityGui(CityGui c){
@@ -61,6 +53,10 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		repaint();  //Will have paintComponent called
 	}
 	
+	public void addGui(PersonGui gui) {
+		guis.add(gui);
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -68,9 +64,9 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
-		g2.setColor(new Color(0, 255, 0)); //Background color = green
+		//g2.setColor(new Color(0, 255, 0)); //Background color = green
 		
-		g2.fillRect(200, 200, 30, 30);
+		//g2.fillRect(200, 200, 30, 30);
 		
 		//g2.fillRect(0, 0, WINDOWX, WINDOWY );
 		//g2.fillRect(0, 0, 50, 50);
@@ -105,6 +101,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		//System.out.println("Mouse pressed in animation panel");
 	}
 
+	//Sample code for clicking on animation panel
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();

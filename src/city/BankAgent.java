@@ -1,4 +1,5 @@
 package city;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -23,11 +24,11 @@ public class BankAgent extends Agent{
 	public List<account> accounts = new ArrayList<account>();
 	bankstate state;
 
+
 	public BankAgent(String name)
 	{
 		super();
 		this.name = name;
-
 
 	}
 
@@ -40,7 +41,7 @@ public class BankAgent extends Agent{
 	public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
 	{
 		banktellers.add(new mybankteller(newbankteller, this));
-		//stateChanged();
+		stateChanged();
 	}
 
 	public void msgCalculateLoan() {
@@ -49,11 +50,19 @@ public class BankAgent extends Agent{
 		
 	}
 
-	public void msgCustomerLeft(BankCustomerRole leavingcustomer)
-	{
-		customers.remove(leavingcustomer);
-		stateChanged();
-	}
+public void msgCreateNewAccount(BankCustomerRole customer)
+{
+	accounts.add(new account(customer, uniqueaccountnumber));
+	uniqueaccountnumber++;
+	state = bankstate.createaccount;
+	stateChanged();	
+}
+
+public void msgCustomerLeft(BankCustomerRole leavingcustomer)
+{
+	customers.remove(leavingcustomer);
+	stateChanged();
+}
 
 
 	public void msgBankTellerFree(BankTellerRole bankteller)
@@ -169,6 +178,7 @@ public class BankAgent extends Agent{
 
 
 }
+
 
 
 

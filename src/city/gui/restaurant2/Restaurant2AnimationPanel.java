@@ -32,6 +32,7 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
     CityGui cityGui;
 	
 	public Restaurant2AnimationPanel(){
+		System.out.println("Animation panel created");
     	setSize(WINDOWX, WINDOWY);
     	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
     	setMaximumSize(new Dimension(WINDOWX, WINDOWY));
@@ -53,6 +54,9 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
+        
+        System.out.println("Paint component");
+        System.out.println(guis.size());
 
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
@@ -106,20 +110,26 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         
         
         for(Gui gui : guis) {
+        	System.out.println("in first for loop");
             if (gui.isPresent()) {
                 gui.updatePosition();
+                System.out.println("Updating gui position");
             }
         }
 
         for(Gui gui : guis) {
+        	System.out.println("in first for loop");
             if (gui.isPresent()) {
                 gui.draw(g2);
+                System.out.println("Drawing guis");
             }
         }
     }
     
     public void addGui(PersonGui gui) {
         guis.add(gui);
+        System.out.println("Person added to rest2 gui");
+        System.out.println("After add: " + guis.size());
     }
 /*
     public void addGui(Restaurant2WaiterGui gui) {

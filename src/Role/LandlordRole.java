@@ -1,7 +1,8 @@
-package city;
+package Role;
 
 import java.util.*;
-import javax.management.ObjectName;
+
+import city.PersonAgent;
 import Role.Role;
 
 public class LandlordRole extends Role{ // will eventually have to implement a landlord interface
@@ -71,7 +72,7 @@ public class LandlordRole extends Role{ // will eventually have to implement a l
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
-		mt.tenant.msgRentDue(mt.rate);
+		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
 		stateChanged();
 	}
