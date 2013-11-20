@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+//import restaurant.BankAgent.bankstate;
 import agent.Agent;
 import city.account;
 import Role.BankTellerRole;
@@ -11,7 +12,7 @@ import Role.BankCustomerRole;
 public class BankAgent extends Agent{
 
 	public enum banktellerstate {free, busy};
-	public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan};
+	public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan};
 	public enum customerstate {waiting, beingserved, leaving};
 	String name;
 	public static int uniqueaccountnumber = 0;
@@ -42,18 +43,11 @@ public class BankAgent extends Agent{
 		stateChanged();
 	}
 
-
-
-
-	/*
-public void msgCreateNewAccount(BankCustomerRole customer)
-{
-	accounts.add(new account(customer, uniqueaccountnumber));
-	uniqueaccountnumber++;
-	state = bankstate.createaccount;
-	stateChanged();	
-}
-	 */
+	public void msgCalculateLoan() {
+		state = bankstate.calculateloan;
+		stateChanged();
+		
+	}
 
 	public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 	{
@@ -79,7 +73,7 @@ public void msgCreateNewAccount(BankCustomerRole customer)
 	//Scheduler
 	//interest rate implementation
 
-	@Override
+
 	protected boolean pickAndExecuteAnAction() {
 
 
@@ -92,6 +86,7 @@ public void msgCreateNewAccount(BankCustomerRole customer)
 					if(bankteller.state == banktellerstate.free)
 					{
 						bankteller.bankteller.msgAssignMeCustomer(customer.customer);
+						customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
 						bankteller.state = banktellerstate.busy;
 						break;
 					}
@@ -109,7 +104,35 @@ public void msgCreateNewAccount(BankCustomerRole customer)
 			}
 
 		}
-
+		
+		if(state == bankstate.calculateloan)
+		{
+			//this is a very simple loan calculation system with some limits
+			for(account findaccountwithloan: accounts)
+			{
+				if(findaccountwithloan.loan > 0)
+				{
+					findaccountwithloan.loan *= findaccountwithloan.interestrate;
+					findaccountwithloan.interestrate *= .05;
+				}
+			}
+			
+			//this is my new design for loan system
+			for(account findaccountwithloan: accounts)
+			{
+				if(findaccountwithloan.loans.size() !=0)
+				{
+					findaccountwithloan.raiseinterestrateonloan();
+				}
+				
+			}
+			
+			
+			
+			
+			return true;
+		}
+		
 		return false;
 
 	}
