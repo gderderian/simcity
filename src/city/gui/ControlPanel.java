@@ -124,11 +124,11 @@ public class ControlPanel extends JPanel implements ActionListener{
       			sidewalkGrid[i][j].release();
       		for(int k = 22; k < 24; k++)
       			sidewalkGrid[i][k].release();
-      	}	
+      	}
       	//End of sidewalk grid releasing
       	
       	//Adding in crosswalks (shared semaphores between street grid and sidewalk grid)
-      	for(int i = 13; i < 15; i++) //Top left crosswalk
+      	/*for(int i = 13; i < 15; i++) //Top left crosswalk
       		for(int j = 8; j < 13; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
       	for(int i = 34; i < 39; i++) //Top right crosswalk
@@ -139,7 +139,7 @@ public class ControlPanel extends JPanel implements ActionListener{
       			sidewalkGrid[i][j] = streetGrid[i][j];
       	for(int i = 32; i < 34; i++) //Bottom right crosswalk
       		for(int j = 24; j < 29; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];   
+      			sidewalkGrid[i][j] = streetGrid[i][j];   */
       	
       	/********Finished setting up semaphore grid***********/
     }
