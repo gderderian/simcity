@@ -6,8 +6,10 @@ import agent.Agent;
 
 public abstract class Vehicle extends Agent {
 
-	int capacity;
+	public int capacity = 0;
 	
-	Semaphore guiFinished = new Semaphore(0, true);
+	Semaphore guiFinished;
 
+	protected Vehicle(){
+	}
 }

@@ -1,13 +1,14 @@
 package city.transportation;
 
 import city.PersonAgent;
+import city.transportation.BusAgent.BusEvent;
 
 public class CarAgent extends Vehicle {
 	//Data
 	CarEvent event = CarEvent.none;
 	CarState state = CarState.parked;
 	
-	PersonAgent p; //Car owner
+	PersonAgent owner; //Car owner
 	
 	String destination;
 	
@@ -50,14 +51,33 @@ public class CarAgent extends Vehicle {
 	
 	//Actions
 	private void driveToDestination() {
+		//gui.DoDriveTo(destination);
 		
+		try {
+			guiFinished.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		event = CarEvent.arriving;
 	}
 	
 	private void tellOwnerWeHaveArrived() {
-		
+		//Uncomment when method is implemented within person
+		//owner.msgArrived();
 	}
 	
 	private void parkCar() {
+		//gui.DoParkCar();
 		
+		try {
+			guiFinished.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		event = CarEvent.none;
 	}
 }
