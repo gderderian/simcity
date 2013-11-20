@@ -1,11 +1,13 @@
 package Role;
 
+import interfaces.Landlord;
+
 import java.util.*;
 
 import city.PersonAgent;
 import Role.Role;
 
-public class LandlordRole extends Role{ // will eventually have to implement a landlord interface
+public class LandlordRole extends Role implements Landlord {
 	//DATA
 	double earnings= 0.0;
 	List<MyTenant> tenants= new ArrayList<MyTenant>();
@@ -51,7 +53,7 @@ public class LandlordRole extends Role{ // will eventually have to implement a l
 	
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		for(MyTenant t : tenants){
 			if(t.newPayment == true || t.paymentsUpToDate == false){
 				collectRent(t);

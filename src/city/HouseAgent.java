@@ -1,94 +1,105 @@
 package city;
 
 import java.util.*;
-import agent.Agent;
 
-public class HouseAgent extends Agent{
+import Role.HomeOwnerRole;
+
+public class HouseAgent {
 	//DATA
-	PersonAgent owner;
-	Timer cook= new Timer();
-	Appliance fridge= new Appliance("Fridge");
-	Appliance microwave= new Appliance("Microwave");
-	Appliance oven= new Appliance("Oven");
-	Appliance stove= new Appliance("Stove");
-	List<Appliance> cookingAppliances= new ArrayList<Appliance>(); 
-	List<MyFood> toCook= Collections.synchronizedList(new ArrayList<MyFood>()); 
-	enum CookState{pending, checkedFridge, cooking};
+	private PersonAgent owner;
+	private HomeOwnerRole homeowner;
+	private Timer cook= new Timer();
+	private Appliance fridge= new Appliance("Fridge");
+	private Appliance microwave= new Appliance("Microwave");
+	private Appliance oven= new Appliance("Oven");
+	private Appliance stove= new Appliance("Stove");
+	private List<Appliance> cookingAppliances= new ArrayList<Appliance>(); 
 
-	public HouseAgent(PersonAgent p){
+	
+	//CONSTRUCTOR
+	public HouseAgent(){
 		super();
 		
-		owner= p;
 		cookingAppliances.add(microwave);
 		cookingAppliances.add(oven);
 		cookingAppliances.add(stove);
 	}
 	
 	
-	//MESSAGES
-	public void msgBoughtGroceries(List<Food> groceries){
+	//SETTERS/GETTERS
+	public void setOwner(PersonAgent p){
+		owner= p;
+		homeowner= new HomeOwnerRole(this);
+		owner.addRole(homeowner);
+	}
+	
+	
+	//PUBLIC METHODS
+	public void boughtGroceries(List<Food> groceries){
+		if(groceries.size() <= (fridge.capacity - fridge.currentAmount)){
+			homeowner.msgFridgeFull();
+		}
 		for(int i=0; (i<groceries.size()) && (fridge.currentAmount < fridge.capacity); i++){
 			fridge.addItem(groceries.get(i));
 			fridge.currentAmount++;
 		}
-		stateChanged();
 	}
 
-	public void msgCheckFridge(String type){
+	public void checkFridge(String type){
 		MyFood temp= new MyFood(type);
-		temp.cs= CookState.pending;
-		toCook.add(temp);
-		stateChanged();
-	}
-
-	public void msgCookFood(String type){
-		for(MyFood mf : toCook){
-			if(mf.food.type.equals(type) && mf.cs.equals(CookState.checkedFridge)){
-				mf.cs= CookState.cooking;
+		if(fridge.food.containsKey(temp.food.type)){
+			int tempAmount= fridge.food.get(temp.food.type).currentAmount;
+			if(tempAmount > 0){
+				homeowner.msgItemInStock(temp.food.type); 
+				return;
 			}
 		}
-		stateChanged();
+		homeowner.msgDontHaveItem(temp.food.type);	
+	}
+	
+	public void spaceInFridge(){
+		int spaceLeft= fridge.capacity - fridge.currentAmount;
+		homeowner.msgSpaceInFridge(spaceLeft);
 	}
 
-	public void msgFixed(String appliance){
+	public void cookFood(String type){
+		final MyFood temp= new MyFood(type);
+		if(fridge.food.containsKey(temp.food.type)){
+			int tempAmount= fridge.food.get(temp.food.type).currentAmount;
+			if(tempAmount > 0){
+				fridge.removeItem(temp.food);
+				int cookTime= temp.food.cookTime;
+				Appliance app= getAppliance(temp.food.appliance);
+				if(app.isBroken){
+					homeowner.msgApplianceBrokeCantCook();
+				}
+				if((app != null) && (app.currentAmount < app.capacity)){
+					cook.schedule(new TimerTask() {
+						@Override public void run() {
+							homeowner.msgFoodDone(temp.food.type);
+						}}, cookTime);
+					Random rand = new Random();
+					int num= rand.nextInt(10);
+					if(num == 0){ //there is a 1/10 chance the appliance will break each time it is used
+						app.isBroken= true;
+					}
+					return;
+				}
+			}
+		}
+		homeowner.msgNoSpaceCantCook();
+	}
+
+	public void fixedAppliance(String appliance){
 		for(Appliance a : cookingAppliances){
 			if(a.type.equals(appliance)){
 				a.isBroken= false;
 			}
 		}
-		stateChanged();
 	}
 
 	
-	//SCHEDULER
-	protected boolean pickAndExecuteAnAction(){
-		for(Appliance a : cookingAppliances){
-			if(a.isBroken){
-				applianceBroke(a);
-				return true;
-			}
-		}
-		synchronized(toCook){
-			for(MyFood mf : toCook){
-				if(mf.cs.equals(CookState.pending)){
-					checkFridge(mf);
-					return true;
-				}
-			}
-		}
-		synchronized(toCook){
-			for(MyFood mf : toCook){
-				if(mf.cs.equals(CookState.cooking)){
-					cookFood(mf);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	
-	//ACTIONS
+	//INTERNAL METHODS
 	private Appliance getAppliance(String type){
 		for(Appliance a : cookingAppliances){
 			if(a.type.equals(type)){
@@ -96,42 +107,6 @@ public class HouseAgent extends Agent{
 			}
 		}
 		return null;
-	}
-	
-	public void applianceBroke(Appliance a){
-		owner.msgImBroken(a.type);
-	}
-
-	public void checkFridge(MyFood mf){
-		mf.cs= CookState.checkedFridge;
-		if(fridge.food.containsKey(mf.food.type)){
-			int tempAmount= fridge.food.get(mf.food.type).currentAmount;
-			if(tempAmount > 0){
-				owner.msgItemInStock(mf.food.type); 
-				return;
-			}
-		}
-		owner.msgDontHaveItem(mf.food.type);
-	}
-
-	public void cookFood(final MyFood mf){
-		fridge.removeItem(mf.food);
-		int cookTime= mf.food.cookTime;
-		Appliance app= getAppliance(mf.food.appliance);
-		if(app != null && app.currentAmount < app.capacity){
-			cook.schedule(new TimerTask() {
-				@Override public void run() {
-					owner.msgFoodDone(mf.food.type);
-					toCook.remove(mf);
-				}}, cookTime);
-			Random rand = new Random();
-			int num= rand.nextInt(10);
-			if(num == 0){ //there is a 1/10 chance the appliance will break each time it is used
-				app.isBroken= true;
-			}
-			return;
-		}
-		//owner.msgCantCookNoSpace(); //what if the appliance needed is currently full? maybe this wont happen because only one person lives in the house
 	}
 	
 	
@@ -189,7 +164,6 @@ public class HouseAgent extends Agent{
 	private class MyFood{
 		Food food;
 		int currentAmount;
-		CookState cs;
 		
 		MyFood(Food f){
 			food= f;
