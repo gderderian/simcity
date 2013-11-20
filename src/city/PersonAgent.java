@@ -27,7 +27,7 @@ public class PersonAgent extends Agent{
 	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
 	
-	List<Role> roles;
+	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
 	PersonState state;
 	HouseAgent house;
@@ -44,7 +44,7 @@ public class PersonAgent extends Agent{
 	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
 	enum ApplianceState {broken, beingFixed, fixed};
 	LandlordRole landlord;
-	//List<Order> recievedOrders;   //orders the person has gotten that they need to deal with
+	List<MarketOrder> recievedOrders;   //orders the person has gotten that they need to deal with
 	//List<MarketAgent> markets;
 	List<String> groceryList;
 	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
@@ -57,6 +57,7 @@ public class PersonAgent extends Agent{
 	BankState bankState;
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
 	int accountNumber;
+	List<CarAgent> cars = new ArrayList<CarAgent>();
 	
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
@@ -146,6 +147,15 @@ public class PersonAgent extends Agent{
 		stateChanged();
 	}
 	
+	public void msgHereIsYourOrder(CarAgent car){		//order for a car
+		cars.add(car);
+		stateChanged();
+	}
+	public void msgHereIsYourOrder(MarketOrder order){		//order for groceries
+		recievedOrders.add(order);
+		stateChanged();
+	}
+	
 	
 	//SCHEDULER
 	protected boolean pickAndExecuteAnAction() {
@@ -155,6 +165,16 @@ public class PersonAgent extends Agent{
 		
 		//TODO figure out place for grocery shopping
 		
+		boolean anytrue = false;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r.isActive){
+					anytrue = r.pickAndExecuteAnAction();
+				}
+			}
+		}
+		
+
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -185,6 +205,12 @@ public class PersonAgent extends Agent{
 				if(m.state == FoodState.done){
 					eatMeal(m);
 				}
+			}
+		}
+		
+		synchronized(recievedOrders){
+			if(!recievedOrders.isEmpty()){
+				handleRecievedOrders();
 			}
 		}
 		
@@ -259,6 +285,17 @@ public class PersonAgent extends Agent{
 	public void notifyHouseFixed(MyAppliance a){
 		house.fixedAppliance(a.type);
 		appliancesToFix.remove(a);	//no longer needed on this list
+	}
+	
+	public void handleRecievedOrders(){
+		synchronized(recievedOrders){
+			for(MarketOrder o : recievedOrders){
+				for(int i = 0; i < o.orders.size(); i ++){
+					Food f = new Food(o.orders.get(i).type, "Stove", o.orders.get(i).quantity);
+					//TODO change the appliance type
+				}
+			}
+		}
 	}
 	
 	public void movementTest() {
