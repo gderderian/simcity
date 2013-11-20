@@ -156,8 +156,6 @@ public class PersonAgent extends Agent{
 		//movementTest();
 		//TODO figure out place for grocery shopping
 		
-		DoGoTo("restaurant1");
-		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
