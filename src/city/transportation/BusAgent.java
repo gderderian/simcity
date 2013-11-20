@@ -121,8 +121,7 @@ public class BusAgent extends Vehicle {
 	//Actions
 	private void TellPassengersWeAreAtStop() {
 		for(Passenger p : passengers) {
-			//uncomment when message is implemented within person
-			//p.p.msgArrivedAtStop(currentStop);
+			p.p.msgArrivedAtStop(currentStop);
 		}
 		
 		DoWaitAtStop();
@@ -136,8 +135,7 @@ public class BusAgent extends Vehicle {
 	private void AskPassengersForFare() {
 		for(Passenger p : passengers) {
 			if(!p.paidFare) {
-				//uncomment when message is implemented within person
-				//p.p.msgPleasePayFare(this, fare);
+				p.p.msgPleasePayFare(this, fare);
 			}
 		}
 	}

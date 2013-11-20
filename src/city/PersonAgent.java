@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import city.gui.PersonGui;
+import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 import Role.LandlordRole;
@@ -39,6 +40,7 @@ public class PersonAgent extends Agent{
 	TransportationState transportationState;
 	CityMap cityMap;
 	BusStopAgent busStop;
+	BusAgent bus;
 	List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
 	enum FoodState {initial, cooking, done};
 	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
@@ -130,6 +132,19 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
+	}
+	
+	//Messages from bus/bus stop
+	public void msgArrivedAtStop(int stop) {
+		//STUB
+	}
+	
+	public void msgPleasePayFare(BusAgent b, double fare) {
+		//STUB
+	}
+	
+	public void msgBusIsHere(BusAgent b) { //Sent from bus stop
+		//STUB
 	}
 	
 	//from landlord
