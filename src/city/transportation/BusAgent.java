@@ -3,7 +3,6 @@ package city.transportation;
 import java.util.*;
 
 import city.PersonAgent;
-import city.Vehicle;
 
 public class BusAgent extends Vehicle {
 	//Data
