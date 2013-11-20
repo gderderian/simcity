@@ -4,7 +4,6 @@ import java.util.*;
 
 import city.MarketOrder;
 import city.PersonAgent;
-import city.Vehicle;
 
 public class TruckAgent extends Vehicle {
         //Data

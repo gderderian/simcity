@@ -1,7 +1,6 @@
 package city.transportation;
 
 import city.PersonAgent;
-import city.Vehicle;
 
 public class CarAgent extends Vehicle {
 	//Data
