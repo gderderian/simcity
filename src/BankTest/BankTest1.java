@@ -29,9 +29,15 @@ public class BankTest1 extends TestCase {
 	{
 		//intitial set up
 		bank.msgBankTellerArrivedAtBank(bankteller);
-		assertEquals("bank should have 1 banktellers in it.",bank.banktellers.size(), 1);	
+		bank.msgCustomerArrivedAtBank(bankcustomer);
+		assertEquals("bank should have 1 banktellers in it.",bank.banktellers.size(), 1);
+		assertEquals("bank should have 1 customer in it", bank.customers.size(), 1);
 		assertEquals("CashierAgent should have an empty event log before the Cashier's HereIsCheck is called. Instead, the Cashier's event log reads: "
 				+ bankteller.log.toString(), 0, bankteller.log.size());
+		assertTrue("", bank.pickAndExecuteAnAction());
+		assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
+				+ bank.log.getLastLoggedEvent().toString(), bank.log.containsString("msgOpenAccount"));
+		
 		
 	
 		bankteller.msgAssignMeCustomer(bankcustomer);
@@ -44,6 +50,8 @@ public class BankTest1 extends TestCase {
 		assertEquals("bank should have 1 account in it",bank.accounts.size(),1);
 		
 		assertEquals("first bank account should have account number 1",bank.accounts.get(0).accountnumber,0);
+		
+		
 		
 		
 		
@@ -86,6 +94,7 @@ public class BankTest1 extends TestCase {
 				assertEquals(findaccount.balance, 30.0);
 			}
 		}
+		
 		
 		
 		

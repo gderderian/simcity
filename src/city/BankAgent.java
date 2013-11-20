@@ -40,7 +40,7 @@ public class BankAgent extends Agent{
 	public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
 	{
 		banktellers.add(new mybankteller(newbankteller, this));
-		stateChanged();
+		//stateChanged();
 	}
 
 	public void msgCalculateLoan() {
@@ -74,7 +74,7 @@ public class BankAgent extends Agent{
 	//interest rate implementation
 
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 
 
 		for(mycustomer customer: customers)
@@ -85,6 +85,7 @@ public class BankAgent extends Agent{
 				{
 					if(bankteller.state == banktellerstate.free)
 					{
+						
 						bankteller.bankteller.msgAssignMeCustomer(customer.customer);
 						customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
 						bankteller.state = banktellerstate.busy;
