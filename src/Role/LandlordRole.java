@@ -53,7 +53,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		for(MyTenant t : tenants){
 			if(t.newPayment == true || t.paymentsUpToDate == false){
 				collectRent(t);

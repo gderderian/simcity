@@ -1,4 +1,6 @@
 package Role;
+import test.mock.EventLog;
+import test.mock.LoggedEvent;
 import city.BankAgent;
 import city.account;
 import Role.BankCustomerRole;
@@ -6,133 +8,84 @@ public class BankTellerRole extends Role {
 	
 
 		BankCustomerRole currentcustomer;//since bank teller serves one customer at a time. no list is necessary
-		BankTellerRole banktellerrole;
-		int currentcustomeraccountnumber;
+		//BankTellerRole banktellerrole;
+		public int currentcustomeraccountnumber;
 		String name;
-		double deposit;
+		public double deposit;
 		double loan;
-		double withdrawal;
+		public double withdrawal;
+		double paybackloan;
 		public BankAgent bank;
-		enum state {openaccount, depositintoaccount, withdrawfromaccount, getloan};
+		enum state {openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan};
 		state banktellerstate;
+		public EventLog log = new EventLog();
 		
 		
-		public BankTellerRole(BankTellerRole assignbanktellerrole, BankAgent assignbank)
+		public BankTellerRole(/*BankTellerRole assignbanktellerrole,*/ BankAgent assignbank)
 		{
 			super();
-			this.banktellerrole = assignbanktellerrole;
+			//this.banktellerrole = assignbanktellerrole;
 			this.bank = assignbank;
+		
 		}
 		
 				
-<<<<<<< HEAD
-<<<<<<< HEAD
 		public void msgAssignMeCustomer(BankCustomerRole customer)
-=======
-		void msgAssignMeCustomer(BankCustomerRole customer)
->>>>>>> my agent files
-=======
-		void msgAssignMeCustomer(BankCustomerRole customer)
-=======
-		public void msgAssignMeCustomer(BankCustomerRole customer)
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
 			currentcustomer = customer;
 			currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
-		}
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-		public void msgOpenAccount() 
-=======
-		void msgOpenAccount() 
->>>>>>> my agent files
-=======
-		void msgOpenAccount() 
-=======
-		public void msgOpenAccount() 
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
-		{
-			banktellerstate = banktellerstate.openaccount;
 			stateChanged();
 		}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-		public void msgDepositIntoAccount(double deposit)
-=======
-		void msgDepositIntoAccount(double deposit)
->>>>>>> my agent files
-=======
-		void msgDepositIntoAccount(double deposit)
-=======
-		public void msgDepositIntoAccount(double deposit)
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
+		public void msgOpenAccount() 
 		{
+			
+			log.add(new LoggedEvent("msgOpenAccount"));
+			banktellerstate = state.openaccount;
+			stateChanged();
+		}
+
+		public void msgDepositIntoAccount(double deposit)
+		{
+			log.add(new LoggedEvent("msgDepositIntoAccount"));
 			this.deposit = deposit;
-			banktellerstate = banktellerstate.depositintoaccount;
+			banktellerstate = state.depositintoaccount;
 			stateChanged();
 		}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 		public void msgWithdrawFromAccount(double withdrawal)
-=======
-		void msgWithdrawFromAccount(double withdrawal)
->>>>>>> my agent files
-=======
-		void msgWithdrawFromAccount(double withdrawal)
-=======
-		public void msgWithdrawFromAccount(double withdrawal)
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
+			log.add(new LoggedEvent("msgWithdrawFromAccount"));
 			this.withdrawal = withdrawal;
-			banktellerstate = banktellerstate.withdrawfromaccount;
+			banktellerstate = state.withdrawfromaccount;
 			stateChanged();
 		}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 		public void msgGetLoan(double loan)
-=======
-		void msgGetLoan(double loan)
->>>>>>> my agent files
-=======
-		void msgGetLoan(double loan)
-=======
-		public void msgGetLoan(double loan)
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 		{
 			this.loan = loan;
-			banktellerstate = banktellerstate.getloan;
+			banktellerstate = state.getloan;
+			stateChanged();
+		}
+		
+		public void msgPayBackLoan(double paybackloan)
+		{
+			this.paybackloan = paybackloan;
+			banktellerstate = state.paybackloan;
 			stateChanged();
 		}
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	protected boolean pickAndExecuteAnAction() {
-=======
-	protected boolean pickedAndExecuteAnAction() {
->>>>>>> my agent files
-=======
-	protected boolean pickedAndExecuteAnAction() {
-=======
-	protected boolean pickAndExecuteAnAction() {
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
+	public boolean pickAndExecuteAnAction() {
 		
 		
 		if(banktellerstate == state.openaccount)
 		{
-		    bank.accounts.add(new account(currentcustomer, bank.uniqueaccountnumber));
-			bank.uniqueaccountnumber++;
+		    bank.accounts.add(new account(currentcustomer, BankAgent.uniqueaccountnumber));
+		    currentcustomeraccountnumber = BankAgent.uniqueaccountnumber;
+		    BankAgent.uniqueaccountnumber++;
 			currentcustomer.msgOpenAccountDone();
+			
 			return true;
 		}
 
@@ -142,19 +95,11 @@ public class BankTellerRole extends Role {
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
+					//System.out.println("accout number = "+currentcustomeraccountnumber);
+					//System.out.println("amount to deposit ="+this.deposit);
+					log.add(new LoggedEvent("deposit!"));
 					findaccount.balance += this.deposit;
-<<<<<<< HEAD
-<<<<<<< HEAD
-					currentcustomer.msgOpenAccountDone();
-=======
-					currentcustomer.msgDeositIntoAccountDone();
->>>>>>> my agent files
-=======
-					currentcustomer.msgDeositIntoAccountDone();
-=======
-					currentcustomer.msgOpenAccountDone();
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
+					currentcustomer.msgDepositIntoAccountDone();
 					break;
 				}
 			}
@@ -202,9 +147,65 @@ public class BankTellerRole extends Role {
 					break;	
 			
 				}
-			}	
-
+			}
+			
+			/*
+			for(account findaccount: bank.accounts)
+			{
+	
+				if(findaccount.accountnumber == currentcustomeraccountnumber)
+				{	
+					if(!(findaccount.calculatetotalloan() > 60))
+					{
+						findaccount.addloan(loan);
+						currentcustomer.msgLoanBorrowed(loan);
+						break;
+					}
+					else
+					{
+						currentcustomer.msgCannotGetLoan(loan);
+					}
+				}
+				
+			}
+			*/
+				
 		}
+		
+		
+		if(banktellerstate == state.paybackloan)
+		{
+			for(account findaccount: bank.accounts)
+			{
+				if(findaccount.accountnumber == currentcustomeraccountnumber)
+				{	
+					double oldestloanamount;
+					double subtotal;
+					
+					//60, loan 1 = 20, loan 2 30;
+					do
+					{
+						
+						oldestloanamount = findaccount.loans.get(0).loanamount;
+						subtotal = oldestloanamount - paybackloan;
+						if(subtotal <= 0)
+						{
+							findaccount.loans.remove(0);
+							currentcustomer.msgLoanPaid(findaccount.loans.get(0).loanamount,findaccount.loans.get(0).lendtime, findaccount.loans.get(0).interestrate);
+							
+						}
+						subtotal *= -1;
+						paybackloan = subtotal;	
+							
+					}while(paybackloan == 0 || findaccount.loans.size() == 0);
+			
+				}
+			}
+			
+		}
+		
+		
+		
 		return false;
 }
 

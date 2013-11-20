@@ -32,7 +32,7 @@ public abstract class Role {
      * @return true iff some action was executed that might have changed the
      *         state.
      */
-    protected abstract boolean pickAndExecuteAnAction();
+    public abstract boolean pickAndExecuteAnAction();
 
     /**
      * Return agent name for messages.  Default is to return java instance
