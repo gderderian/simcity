@@ -4,7 +4,10 @@ import city.Restaurant4.HostRole4;
 import city.Restaurant4.WaiterRole4;
 import city.Restaurant4.WaiterRole4.Menu;
 import city.gui.restaurant4.CustomerGui4;
+import justinetesting.interfaces.Cashier4;
 import justinetesting.interfaces.Customer4;
+import justinetesting.interfaces.Host4;
+import justinetesting.interfaces.Waiter4;
 import Role.Role;
 
 import java.util.Timer;
@@ -34,9 +37,9 @@ public class CustomerRole4 extends Role implements Customer4 {
 	double amount= 0;
 
 	// agent correspondents
-	private HostRole4 host;
-	private WaiterRole4 waiter;
-	private CashierRole4 cashier;
+	private Host4 host;
+	private Waiter4 waiter;
+	private Cashier4 cashier;
 	
 	// Finite State Machine requires both states and events
 	public enum AgentState {none, waitingAtRest, decidingToStay, beingSeated, askingToOrder, deciding, eating, needBill, paying, gone};
@@ -68,19 +71,19 @@ public class CustomerRole4 extends Role implements Customer4 {
 	/**
 	 * hack to establish connection to other agents.
 	 */
-	public void setHost(HostRole4 host) {
+	public void setHost(Host4 host) {
 		this.host = host;
 	}
 	
-	public void setWaiter(WaiterRole4 waiter){
+	public void setWaiter(Waiter4 waiter){
 		this.waiter= waiter;
 	}
 
-	public void setCashier(CashierRole4 cashier){
+	public void setCashier(Cashier4 cashier){
 		this.cashier= cashier;
 	}
 	
-	public WaiterRole4 getWaiter(){
+	public Waiter4 getWaiter(){
 		return waiter;
 	}
 	
@@ -109,7 +112,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 		customerGui.setyDestination(40);
 	}
 	
-	public void msgSitAtTable(int xTable, int yTable, WaiterRole4 waiter, Menu menu) {
+	public void msgSitAtTable(int xTable, int yTable, Waiter4 waiter, Menu menu) {
 		xDest= xTable;
 		yDest= yTable;
 		this.waiter= waiter;

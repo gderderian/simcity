@@ -6,6 +6,8 @@ import city.Restaurant4.WaiterRole4;
 
 import java.awt.*;
 
+import justinetesting.interfaces.Customer4;
+
 
 public class WaiterGui4 implements Gui4 {
 	
@@ -89,7 +91,7 @@ public class WaiterGui4 implements Gui4 {
         return true;
     }
 
-    public void doGoToTable(CustomerRole4 customer, int tableNumber) {
+    public void doGoToTable(Customer4 c, int tableNumber) {
         xTableNew= xTable * tableNumber;
         System.out.println("Table Number DoBringToTable: " + tableNumber);
     	xDestination = xTableNew + movement;
