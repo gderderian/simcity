@@ -73,6 +73,8 @@ public class PersonAgent extends Agent{
 		currentPosition = new Position(40, 35);
         currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
+        
+        cityMap = new CityMap();
 		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");
@@ -139,6 +141,8 @@ public class PersonAgent extends Agent{
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
 		//movementTest();
 		
+		DoGoTo("restaurant1");
+		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -200,6 +204,21 @@ public class PersonAgent extends Agent{
 	void moveTo(int x, int y) {
 		Position p = new Position(x, y);
 		guiMoveFromCurrentPositionTo(p);
+	}
+	
+	void DoGoTo(String location) {
+		int x = cityMap.getX(location);
+		int y = cityMap.getY(location);
+		
+		gui.moveTo(x * 20 - 20, y * 20 - 20);
+	    
+	    //Give animation time to move to square.
+	    try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
