@@ -177,6 +177,7 @@ public class PersonAgent extends Agent{
 			}
 		}
 
+		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
