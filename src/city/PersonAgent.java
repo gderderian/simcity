@@ -141,8 +141,6 @@ public class PersonAgent extends Agent{
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
 		//movementTest();
 		
-		DoGoTo("restaurant1");
-		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
