@@ -3,10 +3,11 @@ package city.transportation;
 import java.util.*;
 
 import city.PersonAgent;
+import city.transportation.interfaces.BusStop;
 
 import agent.Agent;
 
-public class BusStopAgent extends Agent {
+public class BusStopAgent extends Agent implements BusStop {
 	//Data
 	List<PersonAgent> peopleWaiting = new ArrayList<PersonAgent>();
 	

@@ -1,6 +1,7 @@
 package city.transportation;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import city.MarketOrder;
 import city.PersonAgent;
@@ -22,6 +23,8 @@ public class TruckAgent extends Vehicle {
         
         public TruckAgent() {
         	capacity = 0;
+        	
+        	guiFinished = new Semaphore(0, true);
         }
         
         //Messages
@@ -39,7 +42,12 @@ public class TruckAgent extends Vehicle {
                 temp.delivered = true;
                 stateChanged();
         }
-        
+    	
+    	public void msgGuiFinished() {
+    		guiFinished.release();
+    	}
+    	
+        //Scheduler
         protected boolean pickAndExecuteAnAction() {
                 for(MyMarketOrder mo : orders) {
                         if(mo.delivered == true) {
