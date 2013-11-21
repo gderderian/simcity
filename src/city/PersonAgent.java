@@ -186,7 +186,9 @@ public class PersonAgent extends Agent{
 		//movementTest();
 		//TODO figure out place for grocery shopping
 
-		DoGoTo("restaurant1");
+		//DoGoTo("restaurant1");
+		
+		//moveTo(35, 7);
 		
 		boolean anytrue = false;
 		synchronized(roles){
@@ -408,8 +410,9 @@ public class PersonAgent extends Agent{
 		    //Did not get lock after trying n attempts. So recalculating path.            
 		    if (!gotPermit) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
-			guiMoveFromCurrentPositionTo(to);
-			break;
+		    	path.clear(); aStarNode=null;
+		    	guiMoveFromCurrentPositionTo(to);
+		    	break;
 		    }
 
 		    //Got the required lock. Lets move.
