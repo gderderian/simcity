@@ -31,8 +31,8 @@ public class PersonAgent extends Agent{
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
 	PersonState state;
 	HouseAgent house;
-	List<Restaurant> restaurants;
-	Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
+	//List<Restaurant> restaurants;
+	//Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
 	CarAgent car;
 	String destination;
 	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
@@ -103,6 +103,7 @@ public class PersonAgent extends Agent{
 	//MESSAGES
 	public void msgImHungry(){	//sent from GUI ?
 		events.add("GotHungry");
+		print("Recieved msgImHungry");
 		stateChanged();
 	}
 	
@@ -173,11 +174,11 @@ public class PersonAgent extends Agent{
 			for(Role r : roles){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction();
+					return anytrue;
 				}
 			}
 		}
 
-		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -255,8 +256,8 @@ public class PersonAgent extends Agent{
 		if(x == 1){
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
-			//house.msgCheckFridge(food);
-			print("I'm going to eat " + food);
+			house.checkFridge(food);
+			print("I'm going to eat " + food + " in my house.");
 		}
 		else{
 			goToRestaurant();
@@ -317,8 +318,9 @@ public class PersonAgent extends Agent{
 	
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
-		Restaurant restaurant2 = new Restaurant();
+		//Restaurant restaurant2 = new Restaurant();
 		//restaurant2.host.msgIWantFood(restaurant2.customer);
+		
 		gui.goToRestaurant(2);
 	}
 	
@@ -445,22 +447,6 @@ public class PersonAgent extends Agent{
 	
 	
 	//CLASSES
-	class Restaurant{
-		Restaurant2Host host;	//HACK for testing: TODO: fix this
-		Restaurant2Customer customer;	//HACK for testing: TODO: fix this
-		
-		public Restaurant(){
-			//nothing yet
-		}
-		
-		public void setHost(Restaurant2Host h){
-			host = h;
-		}
-		
-		public void setCustomer(Restaurant2Customer c){
-			customer = c;
-		}
-	}
 	
 	class Bill{
 		String type;
