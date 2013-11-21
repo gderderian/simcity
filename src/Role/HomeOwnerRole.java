@@ -67,7 +67,7 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(hungry){
 			cookFood();
 		}

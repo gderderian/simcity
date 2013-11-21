@@ -1,5 +1,6 @@
 package city;
 
+import test.mock.LoggedEvent;
 import interfaces.Restaurant2Customer;
 import interfaces.Restaurant2Host;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import test.mock.EventLog;
 import city.gui.PersonGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
@@ -28,7 +30,7 @@ public class PersonAgent extends Agent{
 	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
 	
-	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
+	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
 	PersonState state;
 	HouseAgent house;
@@ -46,7 +48,7 @@ public class PersonAgent extends Agent{
 	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
 	enum ApplianceState {broken, beingFixed, fixed};
 	LandlordRole landlord;
-	List<MarketOrder> recievedOrders;   //orders the person has gotten that they need to deal with
+	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	//List<MarketAgent> markets;
 	List<String> groceryList;
 	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
@@ -60,6 +62,7 @@ public class PersonAgent extends Agent{
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
 	int accountNumber;
 	List<CarAgent> cars = new ArrayList<CarAgent>();
+	public EventLog log = new EventLog();
 	
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
@@ -87,8 +90,31 @@ public class PersonAgent extends Agent{
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
 		
-		msgImHungry();
+		//msgImHungry();
 		
+	}
+	
+	/*
+	 * Constructor without astar traversal for testing purposes 
+	 */
+	
+	public PersonAgent(String n){
+		super();
+		
+		name = n;
+      
+        cityMap = new CityMap();
+		
+		//populate foods list -- need to make sure this matches up with market
+		foodsToEat.add("Chicken");
+		foodsToEat.add("Steak");
+		foodsToEat.add("Salad");
+		foodsToEat.add("Pizza");
+				
+	}
+	
+	public String getName(){
+		return name;
 	}
 	
 	public void msgAtDestination() {
@@ -107,6 +133,7 @@ public class PersonAgent extends Agent{
 	public void msgImHungry(){	//sent from GUI ?
 		events.add("GotHungry");
 		print("Recieved msgImHungry");
+		log.add(new LoggedEvent("Recieved message Im Hungry"));
 		stateChanged();
 	}
 	
@@ -181,13 +208,13 @@ public class PersonAgent extends Agent{
 	
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
 		//movementTest();
 		//TODO figure out place for grocery shopping
 
-		DoGoTo("restaurant1");
+		//DoGoTo("restaurant1");
 		
 		boolean anytrue = false;
 		synchronized(roles){
@@ -263,6 +290,7 @@ public class PersonAgent extends Agent{
 	//ACTIONS
 	
 	public void Eat(){	//hacked for now so that it randomly picks eating at home or going out
+		print("Inside method EAT");
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -272,7 +300,8 @@ public class PersonAgent extends Agent{
 			}
 		}
 		Random rand = new Random();
-		int x = rand.nextInt(1);
+		//int x = rand.nextInt(1);
+		int x = (Math.random()<0.5) ? 0:1;
 		if(x == 1){
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);

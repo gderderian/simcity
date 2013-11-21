@@ -137,7 +137,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 g.addAnimationPanel(restaurant2);
                 
                 newPerson.startThread();
-                newPerson.msgImHungry();
         }
 
         public void enableComeBack(Restaurant2Waiter agent) {
