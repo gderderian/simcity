@@ -27,16 +27,21 @@ public class PersonAgent extends Agent{
 	
 	//DATA
 	String name;
-	
 	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
-	
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
 	PersonState state;
+	
+	//House
 	HouseAgent house;
-	//List<Restaurant> restaurants;
-	//Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
+	List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
+	enum FoodState {initial, cooking, done};
+	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
+	enum ApplianceState {broken, beingFixed, fixed};
+	LandlordRole landlord;
+	
+	//Transportation
 	CarAgent car;
 	String destination;
 	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
@@ -44,29 +49,34 @@ public class PersonAgent extends Agent{
 	CityMap cityMap;
 	BusStopAgent busStop;
 	BusAgent bus;
-	List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
-	enum FoodState {initial, cooking, done};
-	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
-	enum ApplianceState {broken, beingFixed, fixed};
-	LandlordRole landlord;
-	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
-	//List<MarketAgent> markets;
-	List<String> groceryList;
+	List<CarAgent> cars = new ArrayList<CarAgent>();
+	public List<BusRide> busRides = Collections.synchronizedList(new ArrayList<BusRide>());
+	
+	//Money
 	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	double wallet;
 	double moneyToDeposit;
+	
+	//Bank
 	BankAgent bank;
 	BankTellerRole bankTeller;
 	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
 	BankState bankState;
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
 	int accountNumber;
-	List<CarAgent> cars = new ArrayList<CarAgent>();
+	
+	//Other
+	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
+	//List<MarketAgent> markets;
+	//List<Restaurant> restaurants;
+	//Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
+	List<String> groceryList;
 	
 	//Testing
 	public EventLog log = new EventLog();
 	public boolean goToRestaurantTest = false;
+	public boolean takeBus = false;
 	
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
@@ -125,6 +135,10 @@ public class PersonAgent extends Agent{
 		goToRestaurantTest = true;
 	}
 	
+	public void setTakeBus(){	//for testing purposes
+		takeBus = true;
+	}
+	
 	public void msgAtDestination() {
 		atDestination.release();
 	}
@@ -140,8 +154,9 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
-	
-	//MESSAGES
+	/*
+	 * MESSAGES
+	 */
 	public void msgImHungry(){	//sent from GUI ?
 		events.add("GotHungry");
 		print("Recieved msgImHungry");
@@ -181,11 +196,21 @@ public class PersonAgent extends Agent{
 	}
 	
 	public void msgPleasePayFare(BusAgent b, double fare) {
-		//STUB
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.bus == b){
+					br.addFare(fare);
+				}
+			}
+		}
+		stateChanged();
 	}
 	
 	public void msgBusIsHere(BusAgent b) { //Sent from bus stop
-		//STUB
+		log.add(new LoggedEvent("Recieved message bus is here"));
+		events.add("BusIsHere");
+		busRides.add(new BusRide(b));
+		stateChanged();
 	}
 	
 	public void msgArrived() { //Sent from person's car
@@ -219,7 +244,14 @@ public class PersonAgent extends Agent{
 	}
 	
 	
-	//SCHEDULER
+	/*
+	 * Scheduler
+	 * @see agent.Agent#pickAndExecuteAnAction()
+	 * Scheduler events are order as follows:
+	 * 1. Role schedulers - if a person has a role active, these actions need to be taken care of first
+	 * 2. Things that need to be done immediately, i.e. paying bus fare
+	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
+	 */
 	public boolean pickAndExecuteAnAction() {
 		
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
@@ -234,6 +266,25 @@ public class PersonAgent extends Agent{
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction();
 					return anytrue;
+				}
+			}
+		}
+		/*
+		 * This is first because the person needs to pay their fare before they get off the bus
+		 */
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.fare != 0){
+					payBusFare(br);
+				}
+			}
+		}
+		
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("BusIsHere")){
+					getOnBus();
+					return true;
 				}
 			}
 		}
@@ -351,6 +402,18 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
+	public void getOnBus(){
+		
+	}
+	
+	/*
+	 * This is assuming the person will always have enough to pay the fare.
+	 * May need to fix this later in non-norm scenario
+	 */
+	public void payBusFare(BusRide br){
+		br.bus.msgHereIsFare(this, br.fare);
+	}
+	
 	public void notifyHouseFixed(MyAppliance a){
 		house.fixedAppliance(a.type);
 		appliancesToFix.remove(a);	//no longer needed on this list
@@ -388,6 +451,9 @@ public class PersonAgent extends Agent{
 		//restaurant2.host.msgIWantFood(restaurant2.customer);
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+		if(takeBus){
+			//cityMap.getNearestBusStop();	TODO make this a thing
+		}
 	}
 	
 	public void cookMeal(MyMeal meal){
@@ -546,6 +612,20 @@ public class PersonAgent extends Agent{
 		public MyMeal(String t){
 			type = t;
 			state = FoodState.initial;
+		}
+	}
+	
+	class BusRide{
+		BusAgent bus;
+		double fare;
+		
+		public BusRide(BusAgent b){
+			bus = b;
+			fare = 0;
+		}
+		
+		public void addFare(double f){
+			fare = f;
 		}
 	}
 
