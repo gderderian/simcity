@@ -67,6 +67,21 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		wallet = 20.00;
 		}
 	}
+	
+	public Restaurant2CustomerRole(){
+		super();
+		this.name = name;
+		tableNumber = -1;
+		if(name.equals("flake") || name.equals("honest")){
+			wallet = 5.00;
+		}
+		else if(name.equals("reorderleave") || name.equals("cheapest")){
+			wallet = 5.99;
+		}
+		else{
+		wallet = 20.00;
+		}
+	}
 
 	/**
 	 * hack to establish connection to Host agent.
@@ -168,7 +183,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
 		if ((state == AgentState.initial || state == AgentState.Gone) && event == AgentEvent.gotHungry){

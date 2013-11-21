@@ -232,7 +232,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(state == WaiterState.requestBreak){
 			requestBreak();
 			state = WaiterState.breakRequested;

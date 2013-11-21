@@ -85,7 +85,7 @@ public class BankCustomerRole extends Role{
 	
 	
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(bankcustomerstate == state.openaccount)
 		{
 			mybankteller.msgOpenAccount();
