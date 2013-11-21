@@ -15,4 +15,5 @@ public class MarketOrder {
 		this.destination = dest;
 		this.recipient = p;
 	}
+
 }
