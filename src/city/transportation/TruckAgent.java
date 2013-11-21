@@ -20,6 +20,10 @@ public class TruckAgent extends Vehicle {
                 }
         }
         
+        public TruckAgent() {
+        	capacity = 0;
+        }
+        
         //Messages
         public void msgPleaseDeliver(MarketOrder o) {
                 orders.add(new MyMarketOrder(o));

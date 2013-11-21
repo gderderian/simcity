@@ -31,6 +31,8 @@ public class BusStopAgent extends Agent {
 		buses.add(new MyBus(b, people));
 	}
 	
+	
+	
 	//Scheduler
 	protected boolean pickAndExecuteAnAction() {
 		if(!buses.isEmpty()) {
@@ -48,7 +50,7 @@ public class BusStopAgent extends Agent {
 		while(i < b.openSpots && !peopleWaiting.isEmpty()) {
 			PersonAgent temp = peopleWaiting.get(0);
 			newPassengers.add(temp);
-			//temp.msgBusIsHere(); //Need reference to bus or not? Bus will message person anyways.
+			temp.msgBusIsHere(b.b); //Need reference to bus or not? Bus will message person anyways.
 			peopleWaiting.remove(temp);
 			i++;
 		}
