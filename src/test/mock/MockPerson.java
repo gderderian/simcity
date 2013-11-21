@@ -46,6 +46,7 @@ public class MockPerson extends Mock implements Person {
 		System.out.println("Recieved msgFoodDone from house, " + food + "is done cooking now.");
 	}
 
+	
 	//FROM BUS
 	@Override
 	public void msgArrivedAtStop(int stop) {
@@ -71,19 +72,21 @@ public class MockPerson extends Mock implements Person {
 		
 	}
 
+	
 	//FROM LANDLORD
 	@Override
 	public void msgFixed(String appliance) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Recieved msgFixed from landlord, " + appliance + " is now fixed."));
+		System.out.println("Recieved msgFixed from landlord, " + appliance + " is now fixed.");
 	}
 
 	@Override
 	public void msgRentDue(LandlordRole r, double rate) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Recieved msgRentDue from landlord, I owe $" + rate + "."));
+		System.out.println("Recieved msgRentDue from landlord, I owe $" + rate + ".");
 	}
 
+	
 	//FROM MARKET
 	@Override
 	public void msgHereIsYourOrder(CarAgent car) {
