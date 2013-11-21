@@ -15,6 +15,7 @@ import city.gui.PersonGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
+import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.Role;
 import agent.Agent;
@@ -55,14 +56,17 @@ public class PersonAgent extends Agent{
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	double wallet;
 	double moneyToDeposit;
-	//BankAgent bank;
-	//BankerRole bankTeller;
+	BankAgent bank;
+	BankTellerRole bankTeller;
 	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
 	BankState bankState;
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
 	int accountNumber;
 	List<CarAgent> cars = new ArrayList<CarAgent>();
+	
+	//Testing
 	public EventLog log = new EventLog();
+	public boolean goToRestaurantTest = false;
 	
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
@@ -115,6 +119,10 @@ public class PersonAgent extends Agent{
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void setGoToRestaurant(){	//for testing purposes
+		goToRestaurantTest = true;
 	}
 	
 	public void msgAtDestination() {
@@ -255,6 +263,7 @@ public class PersonAgent extends Agent{
 			for(MyMeal m : meals){
 				if(m.state == FoodState.done){
 					eatMeal(m);
+					return true;
 				}
 			}
 		}
@@ -262,6 +271,7 @@ public class PersonAgent extends Agent{
 		synchronized(recievedOrders){
 			if(!recievedOrders.isEmpty()){
 				handleRecievedOrders();
+				return true;
 			}
 		}
 		
@@ -301,12 +311,14 @@ public class PersonAgent extends Agent{
 		}
 		Random rand = new Random();
 		//int x = rand.nextInt(1);
-		int x = (Math.random()<0.5) ? 0:1;
+		//int x = (Math.random()<0.5) ? 0:1;
+		int x = 0;		//HACK for testing TODO fix this
 		if(x == 1){
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
 			print("I'm going to eat " + food + " in my house.");
+			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
 		else{
 			goToRestaurant();
@@ -367,6 +379,7 @@ public class PersonAgent extends Agent{
 	
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
+		log.add(new LoggedEvent("Decided to go to a restaurant"));
 		//Restaurant restaurant2 = new Restaurant();
 		//restaurant2.host.msgIWantFood(restaurant2.customer);
 		

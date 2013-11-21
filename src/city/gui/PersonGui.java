@@ -24,7 +24,7 @@ public class PersonGui implements Gui {
 	
 	Restaurant2AnimationPanel restaurant2panel;
 	
-	PersonGui(PersonAgent p){
+	public PersonGui(PersonAgent p){
 		agent = p;
 		
 		xPos = 780;
@@ -68,12 +68,10 @@ public class PersonGui implements Gui {
 		moving = true;
 	}
 	
-	@Override
 	public void draw(Graphics2D g) {
         g.drawImage(icon.getImage(), xPos, yPos, animPanel);
 	}
 
-	@Override
 	public boolean isPresent() {
 		return true;
 	}
@@ -88,5 +86,3 @@ public class PersonGui implements Gui {
 	
 	
 }
-
-//Person wont show up on screen once I click on the restaurant
