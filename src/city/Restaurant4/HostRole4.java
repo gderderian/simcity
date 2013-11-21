@@ -134,7 +134,7 @@ public class HostRole4 extends Role {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(closed){
 			return false;
 		}

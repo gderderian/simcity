@@ -5,13 +5,15 @@ import interfaces.HomeOwner;
 import java.util.*;
 
 import city.Food;
-import city.HouseAgent;
+import city.House;
 import city.PersonAgent;
 
+
+//THIS ROLE IS NO LONGER NECCESSARY, ALL OF THIS FUNCTIONALITY SHOULD BE IN PERSONAGENT INSTEAD
 public class HomeOwnerRole extends Role implements HomeOwner {
 	//DATA
 	PersonAgent landlord;
-	HouseAgent house;
+	House house;
 	List<Food> groceries = new ArrayList<Food>();
 	boolean rentDue;
 	boolean hungry;
@@ -19,7 +21,7 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	String choice;
 	//needs access to person's money to pay rent
 
-	public HomeOwnerRole(HouseAgent house){
+	public HomeOwnerRole(House house){
 		this.house= house;
 	}
 	
@@ -67,7 +69,7 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(hungry){
 			cookFood();
 		}

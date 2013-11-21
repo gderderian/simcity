@@ -4,7 +4,7 @@ import java.util.*;
 
 import Role.HomeOwnerRole;
 
-public class HouseAgent {
+public class House {
 	//DATA
 	private PersonAgent owner;
 	private HomeOwnerRole homeowner;
@@ -17,7 +17,7 @@ public class HouseAgent {
 
 	
 	//CONSTRUCTOR
-	public HouseAgent(){
+	public House(){
 		super();
 		
 		cookingAppliances.add(microwave);

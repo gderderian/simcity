@@ -3,31 +3,35 @@ package test;
 import Role.HomeOwnerRole;
 import Role.LandlordRole;
 import city.Apartment;
-import city.HouseAgent;
+import city.House;
 import city.PersonAgent;
 import junit.framework.TestCase;
 
 
 public class HouseTest extends TestCase {
-	HouseAgent house;
+	//Dont need a mock for this because it is not threaded
+	House house;
+	//Dont need a mock for this because it is not threaded
 	Apartment apartment;
+	//Dont need a mock for this because it is not threaded unless associated with a person agent
 	LandlordRole landlord;
-	HomeOwnerRole homeowner;
-	PersonAgent person1;
+	//MockPerson person1;
+	
+	//PersonAgent person1;
 	PersonAgent person2;
 	
 	public void setUp() throws Exception{
 		super.setUp();	
 		
-		house= new HouseAgent();
+		house= new House();
 		apartment= new Apartment();
-		person1= new PersonAgent("Landlord", null);
+		landlord= new LandlordRole();
 		person2= new PersonAgent("Homeowner", null);
-		person1.addRole(landlord);
-		person2.addRole(homeowner);
 	}	
 	
 	public void testOneRentCollection(){
+		
+		
 		//This tells the landlord it is time to collect rent
 		landlord.msgEndOfDay();
 		

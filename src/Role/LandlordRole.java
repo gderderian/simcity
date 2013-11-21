@@ -12,8 +12,14 @@ public class LandlordRole extends Role implements Landlord {
 	double earnings= 0.0;
 	List<MyTenant> tenants= new ArrayList<MyTenant>();
 	
-	LandlordRole(){
+	public LandlordRole(){
 		super();
+	}
+	
+	//This should be done when the people are created, assuming they are living in an apartment and are not a landlord
+	public void addTenant(PersonAgent p){
+		MyTenant t= new MyTenant(p);
+		tenants.add(t);
 	}
 	
 	

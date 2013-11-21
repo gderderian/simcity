@@ -59,7 +59,7 @@ public class MarketRole4 extends Role implements Market4 {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(orders != null){
 			synchronized(orders){
 				for(Order order : orders){
