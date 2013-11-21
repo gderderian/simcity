@@ -133,8 +133,11 @@ public class PersonAgent extends Agent{
 		gui = g;
 	}
 	
-	public void addRole(Role r){
+	public void addRole(Role r, boolean active){
 		roles.add(r);
+		if(active){
+			r.setActive(true);
+		}
 	}
 	
 	//MESSAGES
@@ -383,7 +386,7 @@ public class PersonAgent extends Agent{
 		//Restaurant restaurant2 = new Restaurant();
 		//restaurant2.host.msgIWantFood(restaurant2.customer);
 		
-		gui.goToRestaurant(2);
+		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 	}
 	
 	public void cookMeal(MyMeal meal){
