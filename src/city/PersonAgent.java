@@ -140,6 +140,7 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
+	
 	//MESSAGES
 	public void msgImHungry(){	//sent from GUI ?
 		events.add("GotHungry");
