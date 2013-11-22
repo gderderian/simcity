@@ -33,7 +33,7 @@ public class ListPanel extends JPanel implements ActionListener {
     
     private JButton submit = new JButton("submit");
     
-    private RestaurantPanel restPanel;
+    private BankPanel restPanel;
     private String type;
     
     /**
@@ -42,7 +42,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public ListPanel(BankPanel rp, String type) {
         restPanel = rp;
         this.type = type;
         
