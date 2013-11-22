@@ -7,7 +7,6 @@ import java.util.*;
 
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
-import city.PersonAgent;
 import Role.Role;
 
 public class LandlordRole extends Role implements Landlord {
