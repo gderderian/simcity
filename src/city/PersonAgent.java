@@ -3,6 +3,8 @@ package city;
 import test.mock.LoggedEvent;
 import hollytesting.interfaces.Bus;
 import hollytesting.interfaces.Car;
+import hollytesting.interfaces.House;
+import hollytesting.interfaces.Landlord;
 import interfaces.Restaurant2Customer;
 import interfaces.Restaurant2Host;
 
@@ -36,9 +38,9 @@ public class PersonAgent extends Agent{
 	PersonState state;
 	
 	//House
-	HouseAgent house;
-	List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
-	enum FoodState {initial, cooking, done};
+	House house;
+	public List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
+	public enum FoodState {initial, cooking, done};
 	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
 	enum ApplianceState {broken, beingFixed, fixed};
 	LandlordRole landlord;
@@ -58,7 +60,7 @@ public class PersonAgent extends Agent{
 	public enum CarRideState {initial, arrived};
 	
 	//Money
-	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
+	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	double wallet;
 	double moneyToDeposit;
@@ -108,9 +110,7 @@ public class PersonAgent extends Agent{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
-		
-		//msgImHungry();
-		
+
 	}
 	
 	/*
@@ -159,6 +159,10 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
+	public void setHouse(House h){
+		house = h;
+	}
+	
 	/*
 	 * MESSAGES
 	 */
@@ -186,6 +190,7 @@ public class PersonAgent extends Agent{
 	}
 
 	public void msgFoodDone(String food) {
+		log.add(new LoggedEvent("Recieved message food is done"));
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.type == food){
@@ -193,6 +198,7 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
+		stateChanged();
 	}
 	
 	//Messages from bus/bus stop
@@ -251,7 +257,7 @@ public class PersonAgent extends Agent{
 		
 	}
 	
-	public void msgRentDue(LandlordRole r, double rate) {
+	public void msgRentDue(Landlord r, double rate) {
 		billsToPay.add(new Bill("rent", rate, r));
 		stateChanged();
 	}
@@ -302,7 +308,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(busRides){
 			for(BusRide br : busRides){
 				if(br.state == BusRideState.busIsHere){
@@ -311,7 +316,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(busRides){
 			for(BusRide br : busRides){
 				if(br.state == BusRideState.getOffBus){
@@ -320,7 +324,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(carRides){
 			for(CarRide cr : carRides){
 				if(cr.state == CarRideState.arrived){
@@ -328,7 +331,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -337,14 +339,12 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(billsToPay){
 			if(!billsToPay.isEmpty()){
 				payBills();
 				return true;
 			}
 		}
-		
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.state == FoodState.initial){
@@ -353,7 +353,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.state == FoodState.done){
@@ -362,14 +361,12 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(recievedOrders){
 			if(!recievedOrders.isEmpty()){
 				handleRecievedOrders();
 				return true;
 			}
 		}
-		
 		synchronized(appliancesToFix){
 			for(MyAppliance a : appliancesToFix){
 				if(a.state == ApplianceState.broken){
@@ -378,7 +375,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(appliancesToFix){
 			for(MyAppliance a : appliancesToFix){
 				if(a.state == ApplianceState.fixed){
@@ -519,12 +515,14 @@ public class PersonAgent extends Agent{
 	}
 	
 	public void cookMeal(MyMeal meal){
+		log.add(new LoggedEvent("Cooking meal"));
 		house.cookFood(meal.type);
 		meal.state = FoodState.cooking;
 		//TODO add gui
 	}
 	
 	public void eatMeal(MyMeal m){
+		log.add(new LoggedEvent("Eating meal"));
 		//TODO make gui function
 		//gui.eatMeal();
 		meals.remove(m);
@@ -647,11 +645,21 @@ public class PersonAgent extends Agent{
 		String type;
 		double amount;
 		Role payTo;
+		Landlord landlord;
 		
 		public Bill(String t, double a, Role r){
 			type = t;
 			amount = a;
 			payTo = r;
+		}
+		
+		/*
+		 * Constructor for testing
+		 */
+		public Bill(String t, double a, Landlord r){
+			type = t;
+			amount = a;
+			landlord = r;
 		}
 		
 	}
@@ -667,9 +675,9 @@ public class PersonAgent extends Agent{
 		
 	}
 	
-	class MyMeal{
-		String type;
-		FoodState state;
+	public class MyMeal{
+		public String type;
+		public FoodState state;
 		
 		public MyMeal(String t){
 			type = t;
