@@ -15,5 +15,9 @@ public class MarketOrder {
 		this.destination = dest;
 		this.recipient = p;
 	}
+	
+	public PersonAgent getRecipient(){
+		return recipient;
+	}
 
 }
