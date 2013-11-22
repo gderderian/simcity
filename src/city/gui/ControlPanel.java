@@ -85,12 +85,12 @@ public class ControlPanel extends JPanel implements ActionListener{
         stopLocations2.add("building2");
         stopLocations3.add("building3");
         
-        cityMap.addBusStop(0, stopLocations0);
-        cityMap.addBusStop(0, stopLocations0);
-        cityMap.addBusStop(0, stopLocations0);
-        cityMap.addBusStop(0, stopLocations0);
+        cityMap.addStopDestinations(0, stopLocations0);
+        cityMap.addStopDestinations(0, stopLocations0);
+        cityMap.addStopDestinations(0, stopLocations0);
+        cityMap.addStopDestinations(0, stopLocations0);
         
-                
+        
         
         /*********Setting up semaphore grid***********/
       	for (int i = 0; i <= gridX; i++) {

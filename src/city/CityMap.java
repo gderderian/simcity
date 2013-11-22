@@ -4,13 +4,17 @@ import java.util.*;
 
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
+import city.transportation.BusStopAgent;
 import Role.Role;
 import astar.Position;
 
 public class CityMap {
 	//Map of bus stop numbers to nearby destinations. Necessary?
-	Map<Integer, List<String>> busStops = new HashMap<Integer, List<String>>();
+	Map<Integer, List<String>> nearbyDestinations = new HashMap<Integer, List<String>>();
 
+	//References to 4 bus stops
+	List<BusStopAgent> busStops = new ArrayList<BusStopAgent>();
+	
 	//We may just keep a list of Restaurants, Banks, Markets, and BusStops here instead.
 	//Depends how the gui ends up working...
 	
@@ -40,15 +44,19 @@ public class CityMap {
 	
 	public int getClosestBusStop(String destination) { //Returns number of bus stop closest to destination. Returns -1 if destination is not found
 		for(int i = 0; i < 3; i++) {
-			if(busStops.get(i).contains(destination)) {
+			if(nearbyDestinations.get(i).contains(destination)) {
 				return i;
 			}
 		}
 		return -1;
 	}
 	
-	public void addBusStop(int number, List<String> nearbyDestinations) {
-		busStops.put(number, nearbyDestinations);
+	public void addBusStop(BusStopAgent b) {
+		busStops.add(b);
+	}
+	
+	public void addStopDestinations(int number, List<String> destinations) {
+		nearbyDestinations.put(number, destinations);
 	}
 	
 	//Classes which act as a "directory"
