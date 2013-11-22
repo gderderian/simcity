@@ -1,8 +1,8 @@
 package city.transportation.mock;
 
+import interfaces.BusStop;
 import city.PersonAgent;
 import city.transportation.BusAgent;
-import city.transportation.interfaces.BusStop;
 
 public class MockBusStop implements BusStop {
 

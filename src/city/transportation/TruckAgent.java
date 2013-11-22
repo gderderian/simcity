@@ -10,7 +10,7 @@ public class TruckAgent extends Vehicle {
         //Data
         //MarketAgent market; //Market that this truck reports to
         
-        List <MyMarketOrder> orders = new ArrayList<MyMarketOrder>();
+        public List <MyMarketOrder> orders = new ArrayList<MyMarketOrder>();
         
         class MyMarketOrder {
                 MarketOrder o;
@@ -76,5 +76,10 @@ public class TruckAgent extends Vehicle {
         private void ReportToMarket(MyMarketOrder o) {
                 //market.msgFinishedDelivery(o.o);
                 orders.remove(o);
+        }
+        
+        // Accessors
+        public int getOrderNum(){
+        	return orders.size();
         }
 }

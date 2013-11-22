@@ -1,9 +1,10 @@
 package city.transportation;
 
+import interfaces.BusStop;
+
 import java.util.*;
 
 import city.PersonAgent;
-import city.transportation.interfaces.BusStop;
 
 import agent.Agent;
 
