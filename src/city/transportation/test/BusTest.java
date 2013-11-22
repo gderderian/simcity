@@ -58,9 +58,13 @@ public class BusTest extends TestCase {
 		assertEquals(bus.passengers.size(), 0);
 		assertTrue(bus.event == BusEvent.arrivedAtStop);
 		assertTrue(bus.state == BusState.atStop);
-		
-		//Message
-		bus.msgFinishedUnloading();
+
+		try { //Wait for bus to complete its time waiting at stop
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//Postconditions
 		assertTrue(bus.event == BusEvent.pickingUpPassengers);
@@ -121,7 +125,13 @@ public class BusTest extends TestCase {
 		for(int i = 0; i < 5; i++) {
 			bus.msgImGettingOff(people.get(i));
 		}
-		bus.msgFinishedUnloading();
+		
+		try { //Wait for bus to complete its time waiting at stop
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		for(int i = 0; i < 6; i++) //Call scheduler 6 times - 5 people getting off + 1 state change
 			bus.pickAndExecuteAnAction();
@@ -167,7 +177,12 @@ public class BusTest extends TestCase {
 		for(int i = 5; i < 10; i++) {
 			bus.msgImGettingOff(people.get(i));
 		}
-		bus.msgFinishedUnloading();
+		try { //Wait for bus to complete its time waiting at stop
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		for(int i = 0; i < 6; i++) //Call scheduler 6 times - 5 people getting off + 1 state change
 			bus.pickAndExecuteAnAction();

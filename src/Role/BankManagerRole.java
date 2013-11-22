@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 
+
+
+import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
+import city.gui.Bank.BankManagerRoleGui;
 import Role.BankTellerRole;
 import Role.BankCustomerRole;
 import Role.Role;
@@ -19,25 +23,24 @@ public class BankManagerRole extends Role{
 	public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
 	public enum customerstate {waiting, beingserved, leaving};
 	String name;
-	public static int uniqueaccountnumber = 0;
 	public Semaphore accessingaccount = new Semaphore(0,true);
 
 	public List<mybankteller> banktellers = new ArrayList<mybankteller>();
 	public List<mycustomer> customers = new ArrayList<mycustomer>();
-	public List<account> accounts = new ArrayList<account>();
-	bankstate state;
 	
+	bankstate state;
+	Bank bank;
 	BankCustomerRole leavingcustomer;
 	BankTellerRole freebankteller;
 	PersonAgent person;
 	public EventLog log = new EventLog();
 
 
-	public BankManagerRole(String name, PersonAgent person)
+	public BankManagerRole(Bank setbank)
 	{
 		super();
-		this.name = name;
-		this.person = person;
+		this.bank = setbank;
+		//this.name = name;
 
 	}
 
@@ -61,8 +64,8 @@ public class BankManagerRole extends Role{
 
 public void msgCreateNewAccount(BankCustomerRole customer)
 {
-	accounts.add(new account(customer, uniqueaccountnumber));
-	uniqueaccountnumber++;
+	bank.accounts.add(new account(customer, bank.uniqueaccountnumber));
+	bank.uniqueaccountnumber++;
 	state = bankstate.createaccount;
 	stateChanged();	
 }
@@ -132,7 +135,7 @@ public boolean pickAndExecuteAnAction() {
 		if(state == bankstate.calculateloan)
 		{
 			//this is a very simple loan calculation system with some limits
-			for(account findaccountwithloan: accounts)
+			for(account findaccountwithloan: bank.accounts)
 			{
 				if(findaccountwithloan.loan > 0)
 				{
@@ -142,7 +145,7 @@ public boolean pickAndExecuteAnAction() {
 			}
 			
 			//this is my new design for loan system
-			for(account findaccountwithloan: accounts)
+			for(account findaccountwithloan: bank.accounts)
 			{
 				if(findaccountwithloan.loans.size() !=0)
 				{
@@ -219,6 +222,16 @@ public boolean pickAndExecuteAnAction() {
 			state = customerstate.waiting;
 		}
 
+	}
+
+	public void setPerson(PersonAgent person)
+	{
+		this.person = person;
+	}
+	
+	public void setGui(BankManagerRoleGui bankmanagerGui) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

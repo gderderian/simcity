@@ -2,6 +2,10 @@ package city.gui.Bank;
 
 
 import javax.swing.*;
+
+import Role.BankCustomerRole;
+import Role.BankTellerRole;
+
 import java.awt.*;
 import java.awt.event.*;
 /**
@@ -117,29 +121,29 @@ public class BankGui extends JFrame implements ActionListener {
         stateCB.setVisible(true);
         currentPerson = person;
 
-        if (person instanceof CustomerAgent) {
-            CustomerAgent customer = (CustomerAgent) person;
+        if (person instanceof BankCustomerRole) {
+            BankCustomerRole bankcustomer = (BankCustomerRole) person;
             stateCB.setText("Hungry?");
-          //Should checkmark be there? 
-            stateCB.setSelected(customer.getGui().isHungry());
-          //Is customer hungry? Hack. Should ask customerGui
-            stateCB.setEnabled(!customer.getGui().isHungry());
-          // Hack. Should ask customerGui
-            infoLabel.setText(
-               "<html><pre>     Name: " + customer.getName() + " </pre></html>");
+         
+            //stateCB.setSelected(bankcustomer.getGui().isHungry());
+          
+            //stateCB.setEnabled(!bankcustomer.getGui().isHungry());
+
+            //infoLabel.setText(
+              // "<html><pre>     Name: " + customer.getName() + " </pre></html>");
             
         }
-        else if (person instanceof WaiterAgent) {
-            WaiterAgent waiter = (WaiterAgent) person;
+        else if (person instanceof BankTellerRole) {
+            BankTellerRole bankteller = (BankTellerRole) person;
             stateCB.setText("Go on break");
-          //Should checkmark be there? 
-            stateCB.setSelected(waiter.getGui().onBreak());
-          //Is customer hungry? Hack. Should ask customerGui
+          
+            //stateCB.setSelected(waiter.getGui().onBreak());
+        
             //stateCB.setEnabled(!waiter.getGui().onBreak());
-            stateCB.setEnabled(true);
-          // Hack. Should ask customerGui
-            infoLabel.setText(
-               "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
+            //stateCB.setEnabled(true);
+         
+            //infoLabel.setText(
+               //"<html><pre>     Name: " + waiter.getName() + " </pre></html>");
             
         }
         infoPanel.validate();
@@ -151,18 +155,18 @@ public class BankGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerAgent) {
-                CustomerAgent c = (CustomerAgent) currentPerson;
-                c.getGui().setHungry();
+            if (currentPerson instanceof BankCustomerRole) {
+                BankCustomerRole c = (BankCustomerRole) currentPerson;
+                //c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
             
-            else if(currentPerson instanceof WaiterAgent) {
-            	WaiterAgent w = (WaiterAgent) currentPerson;
+            else if(currentPerson instanceof BankTellerRole) {
+            	BankTellerRole w = (BankTellerRole) currentPerson;
             	if(waiteronbreak == false)
             	{
             		System.out.println("waiter on break");
-            		w.getGui().setOnBreak();
+            		//w.getGui().setOnBreak();
             		waiteronbreak = true;
             		stateCB.setEnabled(true);
             		//stateCB.setSelected(false);
@@ -171,7 +175,7 @@ public class BankGui extends JFrame implements ActionListener {
             	{
             		System.out.println("waiter off break");
             		waiteronbreak = false;
-            		w.getGui().setOffBreak();
+            		//w.getGui().setOffBreak();
             		stateCB.setEnabled(true);
             		//stateCB.setSelected(false);	
             	}
@@ -220,9 +224,9 @@ public class BankGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
-        if (currentPerson instanceof CustomerAgent) {
-            CustomerAgent cust = (CustomerAgent) currentPerson;
+    public void setCustomerEnabled(BankCustomerRole c) {
+        if (currentPerson instanceof BankCustomerRole) {
+            BankCustomerRole cust = (BankCustomerRole) currentPerson;
             if (c.equals(cust)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);
@@ -233,7 +237,7 @@ public class BankGui extends JFrame implements ActionListener {
      * Main routine to get gui started
      */
     public static void main(String[] args) {
-        RestaurantGui gui = new RestaurantGui();
+        BankGui gui = new BankGui();
         gui.setTitle("csci201 Restaurant");
         gui.setVisible(true);
         gui.setResizable(false);

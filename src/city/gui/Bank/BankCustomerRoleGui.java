@@ -1,6 +1,8 @@
 package city.gui.Bank;
 
 import Role.BankCustomerRole;
+import Role.BankManagerRole;
+
 import java.awt.*;
 
 import javax.print.DocFlavor.URL;
@@ -13,7 +15,7 @@ public class BankCustomerRoleGui implements Gui{
 	private boolean isHungry = false;
 
 	//private HostAgent host;
-	RestaurantGui gui;
+	BankGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -26,7 +28,7 @@ public class BankCustomerRoleGui implements Gui{
 	private int xhomepos;
 	private int yhomepos;
 
-	public BankCustomerRoleGui(BankCustomerRole c, RestaurantGui gui, HostAgent host){ //HostAgent m) {
+	public BankCustomerRoleGui(BankCustomerRole c, BankGui gui, BankManagerRole bankmanager){ //HostAgent m) {
 		agent = c;
 		
 		//current position was -40 -40
@@ -36,8 +38,6 @@ public class BankCustomerRoleGui implements Gui{
 		yDestination = -20;
 		//maitreD = m;
 		this.gui = gui;
-		xcoordinatesoftables = host.getxcoordinatesTables();
-        ycoordinatesoftables = host.getycoordinatesTables();
 		
 		
 		
@@ -57,12 +57,12 @@ public class BankCustomerRoleGui implements Gui{
 		
 		
 		if(xPos == -20 && yPos == -20) {
-			agent.atLobby.release();
+			//agent.atLobby.release();
 		}
 		
 		if(xPos == 100 && yPos == 300)
 		{
-			agent.atWashingDishes.release();
+			//agent.atWashingDishes.release();
 			
 		}
 		if (xPos < xDestination)
@@ -76,58 +76,23 @@ public class BankCustomerRoleGui implements Gui{
 			yPos--;
 
 		if (xPos == xDestination && yPos == yDestination) {
-			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
+			/*
+			if (command==Command.GoToSeat) //agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
-				agent.msgAnimationFinishedLeaveRestaurant();
+				//agent.msgAnimationFinishedLeaveRestaurant();
 				isHungry = false;
 				gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
+			*/
 		}
 	}
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(xPos, yPos, 20, 20);
-		if(agent.eating == true && agent.choice == "chicken") {
-			//g.drawImage(imgofchicken, xPos, yPos + 20, 20, 20, gui);
-			g.drawString("Eating..", xPos, yPos - 10);
-			g.drawString("Chicken", xPos, yPos + 34);	
-		}
-		else if(agent.eating == true && agent.choice == "pizza") {
-			//g.drawImage(imgofpizza, xPos, yPos + 20, 20, 20, gui);
-			g.drawString("Eating..", xPos, yPos - 10);
-			g.drawString("Pizza", xPos, yPos + 34);
-		}
-		else if(agent.eating == true && agent.choice == "burrito") {
-			//g.drawImage(imgofburrito, xPos, yPos + 20, 20, 20, gui);
-			g.drawString("Eating..", xPos, yPos - 10);
-			g.drawString("Burrito", xPos, yPos + 34);
-		}
-		else if(agent.readytoorder == true) {
-			//g.drawImage(imgofexclamationmark, xPos , yPos -20, 20, 20, gui);
-			g.drawString("Ready!", xPos, yPos - 10);
-		}
-		else if(agent.readyforcheck == true) {
-			g.drawString("Check!", xPos, yPos - 10);
-		}
 		
-		else if(agent.ordered == true && agent.choice == "chicken") {
-			g.drawString("Chicken", xPos, yPos - 10);
-			//g.drawImage(imgofchicken, xPos + 20, yPos -20, 20, 20, gui);
-			//g.drawImage(imgofquestionmark, xPos , yPos -20, 20, 20, gui);
-		}
-		else if(agent.ordered == true && agent.choice == "pizza") {
-			g.drawString("Pizza", xPos, yPos - 10);
-			//g.drawImage(imgofpizza, xPos + 20, yPos -20, 20, 20, gui);
-			//g.drawImage(imgofquestionmark, xPos , yPos -20, 20, 20, gui);
-		}
-		else if(agent.ordered == true && agent.choice == "burrito") {
-			g.drawString("Burrito", xPos, yPos - 10);
-			//g.drawImage(imgofburrito, xPos + 20, yPos -20, 20, 20, gui);
-			//g.drawImage(imgofquestionmark, xPos, yPos -20, 20, 20, gui);
-		}
-		
+
 		
 	}
 
@@ -136,7 +101,7 @@ public class BankCustomerRoleGui implements Gui{
 	}
 	public void setHungry() {
 		isHungry = true;
-		agent.gotHungry();
+		//agent.gotHungry();
 		setPresent(true);
 	}
 	public boolean isHungry() {
@@ -148,8 +113,8 @@ public class BankCustomerRoleGui implements Gui{
 	}
 
 	public void DoGoToSeat(int seatnumber, int table) {//later you will map seatnumber to table coordinates.
-		xDestination = xcoordinatesoftables[table - 1];
-		yDestination = ycoordinatesoftables[table - 1];
+		//xDestination = xcoordinatesoftables[table - 1];
+		//yDestination = ycoordinatesoftables[table - 1];
 		command = Command.GoToSeat;
 	}
 	
@@ -174,7 +139,7 @@ public class BankCustomerRoleGui implements Gui{
 	{
 		xhomepos = x;
 		yhomepos = y;
-		agent.msgSetHomePos(x, y);
+		//agent.msgSetHomePos(x, y);
 	}
 	
 

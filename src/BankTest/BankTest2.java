@@ -1,6 +1,7 @@
 package BankTest;
 
 import junit.framework.TestCase;
+import city.Bank;
 import city.account;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
@@ -12,6 +13,7 @@ import Role.PersonAgent;
 
 public class BankTest2 extends TestCase {
 	
+	Bank bank;
 	BankManagerRole bankmanager;
 	BankTellerRole bankteller;
 	BankTellerRole bankteller2;
@@ -21,9 +23,10 @@ public class BankTest2 extends TestCase {
 	PersonAgent person2;
 	PersonAgent person3;
 	
+	
 	public void setUp() throws Exception{
 		super.setUp();		
-		bankmanager = new BankManagerRole("bank", person1);
+		bankmanager = new BankManagerRole(bank);
 		bankcustomer = new BankCustomerRole(50, person2);
 		bankcustomer2 = new BankCustomerRole(50, person3);
 		bankteller = new BankTellerRole(bankmanager);
@@ -51,8 +54,7 @@ public class BankTest2 extends TestCase {
 		assertEquals(bankteller2.currentcustomer, bankcustomer2);	
 		
 		
-		
-		
+	
 		
 	}//end one normal customer scenario
 

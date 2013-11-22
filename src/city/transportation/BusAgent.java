@@ -198,11 +198,11 @@ public class BusAgent extends Vehicle implements Bus {
 	}
 	
 	private void DoWaitAtStop() {
-		/*timer.schedule(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				 msgFinishedUnloading();
 			}
-		}, 1500	);*/
+		}, 1200	);
 	}
 }
  

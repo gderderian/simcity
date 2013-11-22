@@ -1,5 +1,11 @@
 package city.gui.Bank;
 import javax.swing.*;
+
+import Role.BankCustomerRole;
+import Role.BankManagerRole;
+import Role.BankTellerRole;
+import Role.PersonAgent;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -11,48 +17,50 @@ import java.util.Vector;
 
 public class BankPanel extends JPanel {
 	
+	PersonAgent person;
+	PersonAgent person2;
+	PersonAgent person3;
+	PersonAgent person4;
+	
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Sarah");
-    private HostGui hostGui = new HostGui(host); 
-    private CookAgent cook = new CookAgent("Cook");
-    private CashierAgent cashier = new CashierAgent("bobby");
-    private MarketAgent market1 = new MarketAgent("market1");
-    private MarketAgent market2 = new MarketAgent("market2");
-    private MarketAgent market3 = new MarketAgent("market3");
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    private BankManagerRole bankmanager = new BankManagerRole(person);
+    private BankManagerRoleGui bankmanagerGui = new BankManagerRoleGui(bankmanager); 
+  
+    private Vector<BankCustomerRole> bankcustomers = new Vector<BankCustomerRole>();
+    private Vector<BankTellerRole> banktellers = new Vector<BankTellerRole>();
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    //private ListPanel customerPanel = new ListPanel(this, "Customers");
+    //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
-    private RestaurantGui gui; //reference to main gui
-    private CookGui cookGui = new CookGui(cook, gui);
+    private BankGui gui; //reference to main gui
+  
+    
     int waiterposcounter = 30;
-    public BankPanel(RestaurantGui gui) {
+    public BankPanel(BankGui gui) {
         
     	this.gui = gui;
-        host.setGui(hostGui);
-        gui.animationPanel.addGui(hostGui);
-        host.startThread();    
+        bankmanager.setGui(bankmanagerGui);
+        gui.animationPanel.addGui(bankmanagerGui);
+        //bankmanager.startThread();    
         //this.addPerson("Cooks", "cook bily", false);
-        cook.setGui(cookGui);
-        gui.animationPanel.addGui(cookGui);
-        cook.addMarket(market1);
-        cook.addMarket(market2);
-        cook.addMarket(market3);
-        cook.addCashier(cashier);
+        //cook.setGui(cookGui);
+        //gui.animationPanel.addGui(cookGui);
+        //cook.addMarket(market1);
+        //cook.addMarket(market2);
+        //cook.addMarket(market3);
+        //cook.addCashier(cashier);
         //cook.addMarket(backupchickenmarket);
         
-        cook.startThread();
-        cashier.startThread();
-        market1.startThread();
-        market2.startThread();
-        market3.startThread();
+        //cook.startThread();
+        //cashier.startThread();
+        //market1.startThread();
+        //market2.startThread();
+        //market3.startThread();
   
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
-        group.add(customerPanel);
-        group.add(waiterPanel);
+        //group.add(customerPanel);
+        //group.add(waiterPanel);
         initRestLabel();
         add(restLabel);
         add(group);
@@ -67,7 +75,7 @@ public class BankPanel extends JPanel {
         JLabel label = new JLabel();
         restLabel.setLayout(new BorderLayout());
         label.setText(
-                "<html><h3><u>Tonight's Host</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Chicken</td><td>$2</td></tr><tr><td>Burrito</td><td>$3</td></tr><tr><td>Pizza</td><td>$4</td></tr><tr><td></td><td></td></tr></table><br></html>");
+                "<html><h3><u>Tonight's Host</u></h3><table><tr><td>host:</td><td>" + + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Chicken</td><td>$2</td></tr><tr><td>Burrito</td><td>$3</td></tr><tr><td>Pizza</td><td>$4</td></tr><tr><td></td><td></td></tr></table><br></html>");
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
         restLabel.add(label, BorderLayout.CENTER);
         restLabel.add(new JLabel("               "), BorderLayout.EAST);
@@ -85,20 +93,20 @@ public class BankPanel extends JPanel {
      */
     public void showInfo(String type, String name) {
 
-        if (type.equals("Customers")) {
+        if (type.equals("BankCustomerRole")) {
 
-            for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
-                if (temp.getName() == name)
-                    gui.updateInfoPanel(temp);
+            for (int i = 0; i < bankcustomers.size(); i++) {
+                BankCustomerRole temp = bankcustomers.get(i);
+                //if (temp.getName() == name)
+                   // gui.updateInfoPanel(temp);
             }
         
         }
-        else if(type.equals("Waiters")) {
-    		for (int i = 0; i < waiters.size(); i++) {
-                WaiterAgent temp = waiters.get(i);
-                if (temp.getName() == name)
-                    gui.updateInfoPanel(temp);
+        else if(type.equals("BankTellerRole")) {
+    		for (int i = 0; i < banktellers.size(); i++) {
+                BankTellerRole temp = banktellers.get(i);
+                //if (temp.getName() == name)
+                   // gui.updateInfoPanel(temp);
             }
     	}
         

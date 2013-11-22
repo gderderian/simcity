@@ -1,6 +1,7 @@
 package Role;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
+import city.Bank;
 import city.account;
 import Role.BankCustomerRole;
 public class BankTellerRole extends Role {
@@ -23,6 +24,7 @@ public class BankTellerRole extends Role {
 		public BankTellerRole(/*BankTellerRole assignbanktellerrole,*/ BankManagerRole assignbankmanager)
 		{
 			super();
+			
 			//this.banktellerrole = assignbanktellerrole;
 			this.bankmanager = assignbankmanager;
 		
@@ -88,16 +90,17 @@ public class BankTellerRole extends Role {
 		
 		if(banktellerstate == state.openaccount)
 		{
-		    bankmanager.accounts.add(new account(currentcustomer, bankmanager.uniqueaccountnumber));
-		    currentcustomeraccountnumber = bankmanager.uniqueaccountnumber;
+			
+		    bankmanager.bank.accounts.add(new account(currentcustomer, bankmanager.bank.uniqueaccountnumber));
+		    currentcustomeraccountnumber = bankmanager.bank.uniqueaccountnumber;
 		    currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
-		    bankmanager.uniqueaccountnumber++;
+		    bankmanager.bank.uniqueaccountnumber++;
 			return true;
 		}
 
 		if(banktellerstate == state.depositintoaccount)
 		{
-			for(account findaccount: bankmanager.accounts)
+			for(account findaccount: bankmanager.bank.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
@@ -114,7 +117,7 @@ public class BankTellerRole extends Role {
 
 		if(banktellerstate == state.withdrawfromaccount)
 		{
-			for(account findaccount: bankmanager.accounts)
+			for(account findaccount: bankmanager.bank.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
@@ -137,7 +140,7 @@ public class BankTellerRole extends Role {
 
 		if(banktellerstate == state.getloan)
 		{
-			for(account findaccount: bankmanager.accounts)
+			for(account findaccount: bankmanager.bank.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
@@ -184,7 +187,7 @@ public class BankTellerRole extends Role {
 		
 		if(banktellerstate == state.paybackloan)
 		{
-			for(account findaccount: bankmanager.accounts)
+			for(account findaccount: bankmanager.bank.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	

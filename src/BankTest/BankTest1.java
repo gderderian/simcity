@@ -1,15 +1,13 @@
 package BankTest;
 
-
-
 import junit.framework.TestCase;
 import test.mock.EventLog;
+import city.Bank;
 import city.account;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
 import Role.PersonAgent;
 import Role.BankManagerRole;
-
 
 public class BankTest1 extends TestCase {
 	
@@ -18,16 +16,20 @@ public class BankTest1 extends TestCase {
 	BankCustomerRole bankcustomer;
 	PersonAgent person1;
 	PersonAgent person2;
+	Bank bank;
 	
 	public EventLog log = new EventLog();
 	
 	public void setUp() throws Exception{
+		
 		super.setUp();	
 		person1 = new PersonAgent();
 		person2 = new PersonAgent();
-		bankmanager = new BankManagerRole("bank", person1);
+		bank = new Bank();
+		bankmanager = new BankManagerRole(bank);
 		bankcustomer = new BankCustomerRole(50, person2);
 		bankteller = new BankTellerRole(bankmanager);
+	
 	}	
 
 
@@ -51,9 +53,9 @@ public class BankTest1 extends TestCase {
 		
 		assertTrue("", bankteller.pickAndExecuteAnAction());
 		
-		assertEquals("bank should have 1 account in it",bankmanager.accounts.size(),1);
+		assertEquals("bank should have 1 account in it",bank.accounts.size(),1);
 		
-		assertEquals("first bank account should have account number 1",bankmanager.accounts.get(0).accountnumber,0);
+		assertEquals("first bank account should have account number 1",bank.accounts.get(0).accountnumber,0);
 		
 		//bankcustomer.pickAndExecuteAnAction();
 		assertTrue(" " + bankcustomer.log.getLastLoggedEvent().toString(), bankcustomer.log.containsString("msgOpenAccountDone"));
@@ -69,16 +71,16 @@ public class BankTest1 extends TestCase {
 				+ bankteller.log.getLastLoggedEvent().toString(), bankteller.log.containsString("msgDepositIntoAccount"));
 		//assertEquals("", bankteller.deposit, 50);
 		
-		assertEquals("bank should have 1 account in it",bankmanager.accounts.size(),1);
+		assertEquals("bank should have 1 account in it",bank.accounts.size(),1);
 		assertTrue("", bankteller.pickAndExecuteAnAction());
 		
-		assertEquals("first bank account should have account number 1",bankmanager.accounts.get(0).accountnumber,0);
+		assertEquals("first bank account should have account number 1",bank.accounts.get(0).accountnumber,0);
 		
 		assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
 				+ bankteller.log.getLastLoggedEvent().toString(), bankteller.log.containsString("deposit!"));
 		//assertEquals("", bankteller.deposit, 50);
 	
-		for(account findaccount: bankmanager.accounts)
+		for(account findaccount: bank.accounts)
 		{
 			if(findaccount.accountnumber == bankteller.currentcustomeraccountnumber)
 			{
@@ -101,7 +103,7 @@ public class BankTest1 extends TestCase {
 		assertEquals("", bankteller.withdrawal,20.0);
 		assertTrue("", bankteller.pickAndExecuteAnAction());
 		
-		for(account findaccount: bankmanager.accounts)
+		for(account findaccount: bank.accounts)
 		{
 			if(findaccount.accountnumber == bankteller.currentcustomeraccountnumber)
 			{
@@ -121,7 +123,7 @@ public class BankTest1 extends TestCase {
 		assertEquals("", bankteller.loan,30.0);
 		assertTrue("", bankteller.pickAndExecuteAnAction());
 		
-		for(account findaccount: bankmanager.accounts)
+		for(account findaccount: bank.accounts)
 		{
 			if(findaccount.accountnumber == bankteller.currentcustomeraccountnumber)
 			{

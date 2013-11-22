@@ -1,5 +1,6 @@
 package city.gui.Bank;
 
+import Role.BankCustomerRole;
 import Role.BankTellerRole;
 
 import java.awt.*;
@@ -41,7 +42,7 @@ public class BankTellerRoleGui implements Gui {
         return true;
     }
 
-    public void DoBringToTable(CustomerAgent customer, int tablexcoordinate, int tableycoordinate) {
+    public void DoBringToTable(BankCustomerRole customer, int tablexcoordinate, int tableycoordinate) {
       
         xDestination = tablexcoordinate + 20;
         yDestination = tableycoordinate - 20;
