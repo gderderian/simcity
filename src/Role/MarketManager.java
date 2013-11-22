@@ -3,10 +3,11 @@ package Role;
 import java.util.*;
 
 import city.MarketOrder;
+import city.OrderItem;
 import city.PersonAgent;
 import city.transportation.TruckAgent;
-import city.transportation.Vehicle;
 import Role.Role;
+
 
 public class MarketManager extends Role {
 
@@ -15,16 +16,23 @@ public class MarketManager extends Role {
 	private double marketMoney;
 	private ArrayList<myMarketWorker> myWorkers;
 	private ArrayList<myMarketOrder> myOrders;
-	private ArrayList<MarketItem> marketStock;
 	private ArrayList<TruckAgent> marketTrucks;
+	public Hashtable<String, MarketItem> marketStock;
 
 	public enum orderState {pendingWorkerAssignment, assignedToWorker, pickedReady, givenToTruck, pendingBilling, billed, done};
 	public enum deliveryType {inPerson, truckOrder};
 	
 	public enum itemType {food, car};
-
-	public enum orderState {pendingWorkerAssignment, assignedToWorker, inProgress, done};
-	public enum deliveryType {inPerson, truckOrder};
+	
+	MarketManager(String initialName){
+		name = initialName;
+		marketStock = new Hashtable<String, MarketItem>();
+		marketStock.put("Pasta", new MarketItem("Pasta", 5, itemType.food));
+		marketStock.put("Pizza", new MarketItem("Pizza", 5, itemType.food));
+		marketStock.put("Chicken", new MarketItem("Chicken", 5, itemType.food));
+		marketStock.put("Honda Accord", new MarketItem("Honda Accord", 5, itemType.car));
+		marketStock.put("Honda Civic", new MarketItem("Honda Accord", 5, itemType.car));
+	}
 	
 	public class myMarketOrder {
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
@@ -44,6 +52,13 @@ public class MarketManager extends Role {
 		public String itemName;
 		public int quantity;
 		public itemType type;
+		
+		MarketItem(String initItemName, int initialQuantity, itemType initialType){
+			itemName = initItemName;
+			quantity = initialQuantity;
+			type = initialType;
+		}
+		
 	}
 
 	private class myMarketWorker { // Used for internal stock-tracking within the market
@@ -81,7 +96,7 @@ public class MarketManager extends Role {
 		stateChanged();
 	}
 	// Scheduler
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		if (!myOrders.isEmpty()) {
 			for (myMarketOrder order : myOrders) {
 				if (order.state == orderState.pendingWorkerAssignment){
@@ -105,6 +120,15 @@ public class MarketManager extends Role {
 
 	// Actions
 	private void makeWorkerPrepareOrder(myMarketOrder o){ // Distribute load of incoming orders to all workers
+		
+		// Decrement quantity of things in each order
+		for (OrderItem item : o.order.orders){
+		
+			
+			
+		}
+		
+		
 		if (myWorkers.size() != 0) {
 			int initOrders = myWorkers.get(0).numWorkingOrders;
 			myMarketWorker w_selected = null;
