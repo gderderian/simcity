@@ -1,8 +1,9 @@
 package hollytesting.test.mock;
 
+import interfaces.Restaurant2Cook;
+
 import java.util.HashMap;
 
-import hollytesting.interfaces.Restaurant2Cook;
 import hollytesting.interfaces.Restaurant2Market;
 import test.mock.*;
 
