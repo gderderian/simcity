@@ -1,5 +1,7 @@
 package hollytesting.test;
 
+import interfaces.House;
+import interfaces.Landlord;
 import hollytesting.test.mock.MockHouse;
 import hollytesting.test.mock.MockLandlord;
 import city.PersonAgent;
@@ -20,7 +22,7 @@ public class PersonAgentHousingTest extends TestCase {
 	
 	public void testGettingFoodNormal(){
 		
-		person.setHouse(house);
+		person.setHouse((House) house);
 		//Check the fridge in the house for chicken
 		assertEquals("Persons meals list shouldn't have any meals in it", person.meals.size(), 0);
 		house.checkFridge("Chicken");
@@ -38,9 +40,10 @@ public class PersonAgentHousingTest extends TestCase {
 	public void testPayRentNormal(){
 		
 		assertEquals("Person should have no bills in their billsToPay list", person.billsToPay.size(), 0);
-		person.msgRentDue(landlord, 10.00);
+		person.msgRentDue((Landlord) landlord, 10.00);
 		assertEquals("Person should have one bill in their billsToPay list", person.billsToPay.size(), 1);
 		person.pickAndExecuteAnAction();
+		
 		
 	}
 	

@@ -1,12 +1,10 @@
 package city;
 
 import test.mock.LoggedEvent;
-import hollytesting.interfaces.Bus;
-import hollytesting.interfaces.Car;
-import hollytesting.interfaces.House;
-import hollytesting.interfaces.Landlord;
-import interfaces.Restaurant2Customer;
-import interfaces.Restaurant2Host;
+import interfaces.Bus;
+import interfaces.Car;
+import interfaces.House;
+import interfaces.Landlord;
 
 import java.util.Collections;
 import java.util.List;
