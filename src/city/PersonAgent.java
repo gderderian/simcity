@@ -102,7 +102,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		name = n;
 		this.aStar = aStarTraversal;
-		currentPosition = new Position(40, 35);
+		currentPosition = new Position(22, 19);
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
@@ -296,7 +296,7 @@ public class PersonAgent extends Agent implements Person{
 	public boolean pickAndExecuteAnAction() {
 		
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
-		//movementTest();
+		movementTest();
 		//TODO figure out place for grocery shopping
 
 		//DoGoTo("restaurant1");
@@ -530,16 +530,16 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void movementTest() {
 		if(name.equals("a"))
-			moveTo(40, 25);
+			moveTo(1, 1);
 		
 		if(name.equals("b"))
-			moveTo(39, 23);
+			moveTo(3, 19);
 		
 		if(name.equals("c"))
-			moveTo(40, 21);
+			moveTo(4, 2);
 		
 		if(name.equals("d"))
-			moveTo(39, 15);
+			moveTo(2, 7);
 	}
 	
 	public void cookMeal(MyMeal meal){
@@ -565,7 +565,7 @@ public class PersonAgent extends Agent implements Person{
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 		
-		gui.moveTo(x * 20 - 20, y * 20 - 20);
+		gui.moveTo(120 + (x * 30 - 30), 60 + (y * 30 - 30));
 	    
 	    //Give animation time to move to square.
 	    try {
@@ -620,7 +620,7 @@ public class PersonAgent extends Agent implements Person{
 		    currentPosition.release(aStar.getGrid());
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
 		    print("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
-		    gui.moveTo(currentPosition.getX() * 20 - 20, currentPosition.getY() * 20 - 20);
+		    gui.moveTo(120 + (currentPosition.getX() * 30 - 30), 60 + (currentPosition.getY() * 30 - 30));
 		    
 		    //Give animation time to move to square.
 		    try {
