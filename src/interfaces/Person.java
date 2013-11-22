@@ -19,6 +19,12 @@ public interface Person {
 
 	public abstract void msgFoodDone(String food);
 	
+	public abstract void msgFridgeFull();
+
+	public abstract void msgSpaceInFridge(int spaceLeft);
+	
+	public abstract void msgApplianceBrokeCantCook();
+	
 	
 	//Messages from bus/bus stop
 	public abstract void msgArrivedAtStop(int stop);

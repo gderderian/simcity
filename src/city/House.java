@@ -1,19 +1,23 @@
 package city;
 
+import interfaces.Person;
+
 import java.util.*;
 
+import test.mock.*;
 import Role.HomeOwnerRole;
 
 public class House {
 	//DATA
-	private PersonAgent owner;
-	private HomeOwnerRole homeowner;
+	private Person owner;
+	//private HomeOwnerRole homeowner;
 	private Timer cook= new Timer();
-	private Appliance fridge= new Appliance("Fridge");
+	public Appliance fridge= new Appliance("Fridge");
 	private Appliance microwave= new Appliance("Microwave");
 	private Appliance oven= new Appliance("Oven");
 	private Appliance stove= new Appliance("Stove");
-	private List<Appliance> cookingAppliances= new ArrayList<Appliance>(); 
+	public List<Appliance> cookingAppliances= new ArrayList<Appliance>(); 
+	public EventLog log= new EventLog();
 
 	
 	//CONSTRUCTOR
@@ -27,17 +31,18 @@ public class House {
 	
 	
 	//SETTERS/GETTERS
-	public void setOwner(PersonAgent p){
+	public void setOwner(Person p){
 		owner= p;
-		homeowner= new HomeOwnerRole(this);
-		owner.addRole(homeowner, true);
+		//owner= new HomeOwnerRole(this);
+		//owner.addRole(homeowner, true);
 	}
 	
 	
 	//PUBLIC METHODS
 	public void boughtGroceries(List<Food> groceries){
+		log.add(new LoggedEvent("Received boughtGroceries from person, fridge should now have " + groceries.size() + " items."));
 		if(groceries.size() <= (fridge.capacity - fridge.currentAmount)){
-			homeowner.msgFridgeFull();
+			owner.msgFridgeFull();
 		}
 		for(int i=0; (i<groceries.size()) && (fridge.currentAmount < fridge.capacity); i++){
 			fridge.addItem(groceries.get(i));
@@ -46,23 +51,26 @@ public class House {
 	}
 
 	public void checkFridge(String type){
+		log.add(new LoggedEvent("Recieved checkFridge from person, checking if there is any " + type + " in the fridge."));
 		MyFood temp= new MyFood(type);
 		if(fridge.food.containsKey(temp.food.type)){
 			int tempAmount= fridge.food.get(temp.food.type).currentAmount;
 			if(tempAmount > 0){
-				homeowner.msgItemInStock(temp.food.type); 
+				owner.msgItemInStock(temp.food.type); 
 				return;
 			}
 		}
-		homeowner.msgDontHaveItem(temp.food.type);	
+		owner.msgDontHaveItem(temp.food.type);	
 	}
 	
 	public void spaceInFridge(){
+		log.add(new LoggedEvent("Checking to see if there is any space left in the fridge."));
 		int spaceLeft= fridge.capacity - fridge.currentAmount;
-		homeowner.msgSpaceInFridge(spaceLeft);
+		owner.msgSpaceInFridge(spaceLeft);
 	}
 
 	public void cookFood(String type){
+		log.add(new LoggedEvent("Cooking " + type + "."));
 		final MyFood temp= new MyFood(type);
 		if(fridge.food.containsKey(temp.food.type)){
 			int tempAmount= fridge.food.get(temp.food.type).currentAmount;
@@ -71,26 +79,28 @@ public class House {
 				int cookTime= temp.food.cookTime;
 				Appliance app= getAppliance(temp.food.appliance);
 				if(app.isBroken){
-					homeowner.msgApplianceBrokeCantCook();
+					owner.msgApplianceBrokeCantCook();
 				}
-				if((app != null) && (app.currentAmount < app.capacity)){
+				//if((app != null) && (app.currentAmount < app.capacity)){
+				if(app != null){
 					cook.schedule(new TimerTask() {
 						@Override public void run() {
-							homeowner.msgFoodDone(temp.food.type);
+							owner.msgFoodDone(temp.food.type);
 						}}, cookTime);
 					Random rand = new Random();
 					int num= rand.nextInt(10);
 					if(num == 0){ //there is a 1/10 chance the appliance will break each time it is used
 						app.isBroken= true;
+						owner.msgImBroken(app.type);
 					}
 					return;
 				}
 			}
 		}
-		homeowner.msgNoSpaceCantCook();
 	}
 
 	public void fixedAppliance(String appliance){
+		log.add(new LoggedEvent("Recieved fixedAppliance from person, " + appliance + " is now fixed."));
 		for(Appliance a : cookingAppliances){
 			if(a.type.equals(appliance)){
 				a.isBroken= false;
@@ -111,10 +121,10 @@ public class House {
 	
 	
 	//CLASSES
-	private class Appliance{
+	public class Appliance{
 		String type;
 		int capacity; 
-		int currentAmount;
+		public int currentAmount;
 		Map<String, MyFood>  food= new HashMap<String, MyFood>(); 
 		Boolean isBroken= false;
 

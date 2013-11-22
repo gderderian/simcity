@@ -36,7 +36,7 @@ public class MockPerson extends Mock implements Person {
 
 	@Override
 	public void msgDontHaveItem(String food) {
-		log.add(new LoggedEvent("Recieved msgDontHaveItem from house, I dont have any " + food + "in my fridge."));
+		log.add(new LoggedEvent("Recieved msgDontHaveItem from house, I dont have any " + food + " in my fridge."));
 		System.out.println("Recieved msgDontHaveItem from house, I dont have any " + food + "in my fridge.");
 	}
 
@@ -44,6 +44,21 @@ public class MockPerson extends Mock implements Person {
 	public void msgFoodDone(String food) {
 		log.add(new LoggedEvent("Recieved msgFoodDone from house, " + food + "is done cooking now."));
 		System.out.println("Recieved msgFoodDone from house, " + food + "is done cooking now.");
+	}
+	
+	@Override
+	public void msgFridgeFull() {
+		
+	}
+
+	@Override
+	public void msgSpaceInFridge(int spaceLeft) {
+		
+	}
+
+	@Override
+	public void msgApplianceBrokeCantCook() {
+		
 	}
 
 	
@@ -99,5 +114,4 @@ public class MockPerson extends Mock implements Person {
 		// TODO Auto-generated method stub
 		
 	}
-	
 }

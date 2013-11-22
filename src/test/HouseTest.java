@@ -15,6 +15,7 @@ public class HouseTest extends TestCase {
 	Apartment apartment; //Don't need a mock for this because it is not threaded
 	LandlordRole landlord; //Don't need a mock for this because it is not threaded unless associated with a person agent
 	MockPerson person1;
+	MockPerson person2;
 	
 	public void setUp() throws Exception{
 		super.setUp();	
@@ -23,7 +24,9 @@ public class HouseTest extends TestCase {
 		apartment= new Apartment();
 		landlord= new LandlordRole();
 		person1= new MockPerson("person1");
+		person2= new MockPerson("person2");
 		landlord.addTenant(person1);
+		house.setOwner(person2);
 	}	
 	
 	
@@ -37,7 +40,7 @@ public class HouseTest extends TestCase {
 				"Landlord should have an empty event log before the Landlords's msgEndOfDay is called. Instead, the Landlord's event log reads: "
 						+ landlord.log.toString(), 0, landlord.log.size()); 
 		assertEquals(
-				"MockPerson should have an empty event log before the Landlord's scheduler is called for the first time. Instead, the MockPerson's event log reads: "
+				"Person1 should have an empty event log before the Landlord's scheduler is called for the first time. Instead, the Person1's event log reads: "
 						+ person1.log.toString(), 0, person1.log.size());
 		
 		
@@ -83,7 +86,7 @@ public class HouseTest extends TestCase {
 				"Landlord should have an empty event log before the Landlords's msgFixAppliance is called. Instead, the Landlord's event log reads: "
 						+ landlord.log.toString(), 0, landlord.log.size()); 
 		assertEquals(
-				"MockPerson should have an empty event log before the Landlord's scheduler is called for the first time. Instead, the MockPerson's event log reads: "
+				"Person1 should have an empty event log before the Landlord's scheduler is called for the first time. Instead, the Person1's event log reads: "
 						+ person1.log.toString(), 0, person1.log.size());
 		
 		
@@ -118,15 +121,54 @@ public class HouseTest extends TestCase {
 	
 	//Includes putting away groceries because we have to make sure there is something to cook
 	public void testThreeNormativeCooking(){
-		//Set up preconditions for test (make sure there is food in the fridge before attempting to cook anything)
+		//Preconditions for the test
+		assertEquals(
+				"House should have an empty event log before the House's boughtGroceries is called. Instead, the House's event log reads: "
+						+ house.log.toString(), 0, house.log.size());
+		assertEquals(
+				"Person2 should have an empty event log before the House's boughtGroceries is called for the first time. Instead, Person2's event log reads: "
+						+ person2.log.toString(), 0, person2.log.size());
+		
+		
+		//Part 1, check if there is food in the fridge before attempting to cook anything
+		house.checkFridge("Eggs");
+		
+		//Check postconditions for part 1 and preconditions for part 2
+		assertTrue(
+				"House should have logged \"Recieved checkFridge from person, checking if there is any Eggs in the fridge.\" but didn't. His log reads instead: "
+					+ house.log.getLastLoggedEvent().toString(), house.log.containsString("Recieved checkFridge from person, checking if there is any Eggs in the fridge."));
+		assertTrue(
+				"Person2 should have logged \"Recieved msgDontHaveItem from house, I dont have any Eggs in my fridge.\" but didn't. His log reads instead: "
+					+ person2.log.getLastLoggedEvent().toString(), person2.log.containsString("Recieved msgDontHaveItem from house, I dont have any Eggs in my fridge."));
+					
+		
+		//Part 2, put food in the fridge		
 		List<Food> groceries= new ArrayList<Food>();
 		Food food= new Food("Eggs", "Stove", 1500);
 		groceries.add(food);
 		house.boughtGroceries(groceries);
 		
+		//Check postconditions for part 2 and preconditions for part 3
+		assertEquals(
+				"House should have 1 item in the fridge. It doesn't.", house.fridge.currentAmount, 1);
+		assertTrue(
+				"House should have logged \"Received boughtGroceries from person, fridge should now have 1 items.\", but didn't. His log reads instead: "
+						+ house.log.getLastLoggedEvent().toString(), house.log.containsString("Received boughtGroceries from person, fridge should now have 1 items."));
+		assertTrue(
+				"Person2 should not have logged anything new, should still have \"Recieved msgDontHaveItem from house, I dont have any Eggs in my fridge.\" but didn't. His log reads instead: "
+					+ person2.log.getLastLoggedEvent().toString(), person2.log.containsString("Recieved msgDontHaveItem from house, I dont have any Eggs in my fridge."));
 		
 		
+		//Part 3, attempt to cook food
+		house.cookFood("Eggs");
 		
+		//Check postconditions for part 3
+		assertTrue(
+				"House should have logged \"Cooking Eggs.\", but didn't. His log reads instead: "
+						+ house.log.getLastLoggedEvent().toString(), house.log.containsString("Cooking Eggs."));
+		assertTrue(
+				"Person2 should have logged \"Recieved msgFoodDone from house, Eggs is done cooking now.\", but didn't. His log reads instead: "
+					+ person2.log.getLastLoggedEvent().toString(), person2.log.containsString("Recieved msgFoodDone from house, Eggs is done cooking now."));
 	}
 	
 	
