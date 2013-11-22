@@ -17,7 +17,7 @@ public class CityMap {
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
-	CityMap() {
+	public CityMap() {
 		buildingLocations.put("restaurant1", new Position(6,8));
 		buildingLocations.put("restaurant2", new Position(38,6));
 		buildingLocations.put("restaurant3", new Position(17,14));
