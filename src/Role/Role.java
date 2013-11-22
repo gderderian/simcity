@@ -10,10 +10,12 @@ public abstract class Role {
 
 	public Semaphore stateChange = new Semaphore(1, true);
 	public boolean isActive;
+	public boolean inUse;
 	
 
     protected Role() {
     	isActive = false;
+    	inUse = false;
     }
 
     /**
@@ -77,6 +79,10 @@ public abstract class Role {
     
     public void setActive(boolean active){
     	isActive = active;
+    }
+    
+    public boolean isInUse(){
+    	return inUse;
     }
 
 }
