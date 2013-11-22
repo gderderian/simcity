@@ -5,7 +5,7 @@ import test.mock.LoggedEvent;
 
 public class BankCustomerRole extends Role{
 
-	public enum state {arrived, wihdraw, openaccount, deposit, leave, getloan, paybackloan, openaccountsuccessful, depositintoaccountsuccessful, withdrawfromaccountsuccessful, getloansuccessful};
+	public enum state {arrived, waiting, openaccount, withdraw, deposit, leave, getloan, paybackloan, openaccountsuccessful, depositintoaccountsuccessful, withdrawfromaccountsuccessful, getloansuccessful};
 	public int bankaccountnumber;
 	state bankcustomerstate;
 	BankTellerRole mybankteller;
@@ -41,7 +41,7 @@ public class BankCustomerRole extends Role{
 	public void msgWithDrawFund(double withdrawal)
 	{
 		
-		bankcustomerstate = state.wihdraw;
+		bankcustomerstate = state.withdraw;
 		this.withdrawal = withdrawal;
 		stateChanged();
 		
@@ -160,30 +160,35 @@ public class BankCustomerRole extends Role{
 		if(bankcustomerstate == state.openaccount)
 		{
 			mybankteller.msgOpenAccount();
+			bankcustomerstate = state.waiting;
 			return true;
 		}
 		
 		if(bankcustomerstate == state.deposit)
 		{
 			mybankteller.msgDepositIntoAccount(this.deposit);
+			bankcustomerstate = state.waiting;
 			return true;
 		}
 		
-		if(bankcustomerstate == state.wihdraw)
+		if(bankcustomerstate == state.withdraw)
 		{
 			mybankteller.msgWithdrawFromAccount(this.withdrawal);
+			bankcustomerstate = state.waiting;
 			return true;
 		}
 		
 		if(bankcustomerstate == state.getloan)
 		{
 			mybankteller.msgGetLoan(this.loan);
+			bankcustomerstate = state.waiting;
 			return true;		
 		}
 		
 		if(bankcustomerstate == state.paybackloan)
 		{
 			mybankteller.msgGetLoan(this.paybackloan);
+			bankcustomerstate = state.waiting;
 			return true;
 		}
 		
@@ -191,6 +196,7 @@ public class BankCustomerRole extends Role{
 		{
 			log.add(new LoggedEvent("receivedaccountnumber"));
 			person.msgSetBankAccountNumber(this.bankaccountnumber);
+			bankcustomerstate = state.waiting;
 			return true;	
 		}
 		
@@ -199,6 +205,7 @@ public class BankCustomerRole extends Role{
 			log.add(new LoggedEvent("successfullydeposittedintoaccount"));
 			this.amountofcustomermoney -= this.deposit;
 			person.msgBalanceAfterDepositingIntoAccount(this.amountofcustomermoney);
+			bankcustomerstate = state.waiting;
 			return true;	
 		}
 		
@@ -207,6 +214,7 @@ public class BankCustomerRole extends Role{
 			log.add(new LoggedEvent("successfullywithdrewfromaccount"));
 			this.amountofcustomermoney += this.withdrawal;
 			person.msgBalanceAfterWithdrawingFromAccount(this.amountofcustomermoney);
+			bankcustomerstate = state.waiting;
 			return true;	
 		}
 		
@@ -214,11 +222,25 @@ public class BankCustomerRole extends Role{
 		{
 			this.amountofcustomermoney += this.loan;
 			person.msgBalanceAfterGetitngLoanFromAccount(this.amountofcustomermoney);
+			bankcustomerstate = state.waiting;
 			return true;	
+		}
+		
+		if(bankcustomerstate == state.leave)
+		{
+			mybankteller.msgBankCustomerLeaving();
+			//gui animation of customer leaving the bank
+			return true;
 		}
 		
 		
 		return false;
+	}
+
+
+	public Object getGui() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
