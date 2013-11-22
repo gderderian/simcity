@@ -17,6 +17,7 @@ public class HouseTest extends TestCase {
 	MockPerson person1;
 	MockPerson person2;
 	
+	@Override
 	public void setUp() throws Exception{
 		super.setUp();	
 		
@@ -144,7 +145,7 @@ public class HouseTest extends TestCase {
 		
 		//Part 2, put food in the fridge		
 		List<Food> groceries= new ArrayList<Food>();
-		Food food= new Food("Eggs", "Stove", 1500);
+		Food food= new Food("Eggs", "Stove", 0);
 		groceries.add(food);
 		house.boughtGroceries(groceries);
 		
@@ -157,6 +158,18 @@ public class HouseTest extends TestCase {
 		assertTrue(
 				"Person2 should not have logged anything new, should still have \"Recieved msgDontHaveItem from house, I dont have any Eggs in my fridge.\" but didn't. His log reads instead: "
 					+ person2.log.getLastLoggedEvent().toString(), person2.log.containsString("Recieved msgDontHaveItem from house, I dont have any Eggs in my fridge."));
+		
+		
+		//Part 4, check again that there is food in the fridge, now there should be
+		house.checkFridge("Eggs");
+		
+		//Check postconditions for part 1 and preconditions for part 2
+		assertTrue(
+				"House should have logged \"Recieved checkFridge from person, checking if there is any Eggs in the fridge.\" but didn't. His log reads instead: "
+					+ house.log.getLastLoggedEvent().toString(), house.log.containsString("Recieved checkFridge from person, checking if there is any Eggs in the fridge."));
+		assertTrue(
+				"Person2 should have logged \"Recieved msgItemInStock from house, I have at least one Eggs in my fridge.\" but didn't. His log reads instead: "
+					+ person2.log.getLastLoggedEvent().toString(), person2.log.containsString("Recieved msgItemInStock from house, I have at least one Eggs in my fridge."));
 		
 		
 		//Part 3, attempt to cook food

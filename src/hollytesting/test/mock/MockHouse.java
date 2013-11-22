@@ -1,4 +1,6 @@
-import java.util.List;
+package hollytesting.test.mock;
+
+import java.util.*;
 
 import test.mock.EventLog;
 import test.mock.LoggedEvent;

@@ -5,6 +5,7 @@ import interfaces.Bus;
 import interfaces.Car;
 import interfaces.House;
 import interfaces.Landlord;
+import interfaces.Person;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,7 @@ import astar.AStarNode;
 import astar.AStarTraversal;
 import astar.Position;
 
-public class PersonAgent extends Agent{
+public class PersonAgent extends Agent implements Person{
 	
 	//DATA
 	String name;
@@ -70,6 +71,8 @@ public class PersonAgent extends Agent{
 	BankState bankState;
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
 	int accountNumber;
+	List<BankEvent> bankEvents = Collections.synchronizedList(new ArrayList<BankEvent>());
+	enum BankEventType {withrawal, deposit, loan, openAccount};
 	
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
@@ -82,6 +85,9 @@ public class PersonAgent extends Agent{
 	public EventLog log = new EventLog();
 	public boolean goToRestaurantTest = false;
 	public boolean takeBus = false;
+	
+	//Job
+	Job myJob;
 	
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
@@ -155,6 +161,14 @@ public class PersonAgent extends Agent{
 		if(active){
 			r.setActive(true);
 		}
+	}
+	
+	public void addFirstJob(Role r, String location){
+		myJob = new Job(r, location);
+	}
+	
+	public void changeJob(Role r, String location){
+		myJob.changeJob(r, location);
 	}
 	
 	public void setHouse(House h){
@@ -264,6 +278,7 @@ public class PersonAgent extends Agent{
 		cars.add(car);
 		stateChanged();
 	}
+	
 	public void msgHereIsYourOrder(MarketOrder order){		//order for groceries
 		recievedOrders.add(order);
 		stateChanged();
@@ -337,6 +352,14 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("GoToBank"));
+				goToBank();
+				return true;
+			}
+		}
+		
 		synchronized(billsToPay){
 			if(!billsToPay.isEmpty()){
 				payBills();
@@ -411,6 +434,13 @@ public class PersonAgent extends Agent{
 		}
 		else{
 			goToRestaurant();
+		}
+	}
+	
+	public void goToBank(){
+		String bank;
+		synchronized(bankEvents){
+			bank = cityMap.getClosestBank();
 		}
 	}
 	
@@ -711,5 +741,80 @@ public class PersonAgent extends Agent{
 			state = CarRideState.initial;
 		}
 	}
+	
+	public class BankEvent{
+		public BankEventType type;
+		public double amount;
+		
+		public BankEvent(BankEventType t, double a){
+			type = t;
+			amount = a;
+		}
+	}
+	
+	public class Job{
+		Role role;
+		String location;
+		
+		public Job(Role r, String l){
+			role = r;
+			location = l;
+		}
+		
+		public void startJob(){
+			role.setActive(true);
+		}
+		
+		public void endJob(){
+			role.setActive(false);
+		}
+		
+		public void changeJob(Role r, String l){
+			role = r;
+			location = l;
+		}
+	}
 
+	@Override
+	public void msgFridgeFull() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgSpaceInFridge(int spaceLeft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgApplianceBrokeCantCook() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgBusIsHere(BusAgent b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgArrived() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgRentDue(LandlordRole r, double rate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsYourOrder(CarAgent car) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

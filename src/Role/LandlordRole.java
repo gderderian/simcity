@@ -16,6 +16,7 @@ public class LandlordRole extends Role implements Landlord {
 	public List<MyTenant> tenants= new ArrayList<MyTenant>();
 	public EventLog log= new EventLog();
 	String name;
+	private Timer fix= new Timer();
 	
 	public LandlordRole(){
 		super();
@@ -95,10 +96,14 @@ public class LandlordRole extends Role implements Landlord {
 		stateChanged();
 	}
 
-	private void fixAppliance(MyTenant mt){
-		mt.tenant.msgFixed(mt.needsMaintenance.get(0));
-		mt.needsMaintenance.remove(0);
-		stateChanged();
+	private void fixAppliance(final MyTenant mt){
+		fix.schedule(new TimerTask() {
+			@Override public void run() {
+				mt.needsMaintenance.remove(0);
+				System.out.println("needsMaintenance.size(): " + mt.needsMaintenance.size());
+				mt.tenant.msgFixed(mt.needsMaintenance.get(0));
+				stateChanged();
+			}}, 4000);		
 	}
 
 	

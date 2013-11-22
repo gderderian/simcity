@@ -9,7 +9,6 @@ public interface Person {
 
 	public abstract void msgImHungry();
 	
-	
 	//From house
 	public abstract void msgImBroken(String type);
 	
@@ -29,7 +28,7 @@ public interface Person {
 	//Messages from bus/bus stop
 	public abstract void msgArrivedAtStop(int stop);
 	
-	public abstract void msgPleasePayFare(BusAgent b, double fare);
+	public abstract void msgPleasePayFare(Bus b, double fare);
 	
 	public abstract void msgBusIsHere(BusAgent b);
 	
