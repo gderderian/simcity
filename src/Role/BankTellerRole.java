@@ -1,31 +1,30 @@
 package Role;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
-import city.BankAgent;
 import city.account;
 import Role.BankCustomerRole;
 public class BankTellerRole extends Role {
 	
 
-		BankCustomerRole currentcustomer;//since bank teller serves one customer at a time. no list is necessary
+		public BankCustomerRole currentcustomer;//since bank teller serves one customer at a time. no list is necessary
 		//BankTellerRole banktellerrole;
 		public int currentcustomeraccountnumber;
 		String name;
 		public double deposit;
-		double loan;
+		public double loan;
 		public double withdrawal;
 		double paybackloan;
-		public BankAgent bank;
-		enum state {openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan};
+		public BankManagerRole bankmanager;
+		enum state {openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft};
 		state banktellerstate;
 		public EventLog log = new EventLog();
 		
 		
-		public BankTellerRole(/*BankTellerRole assignbanktellerrole,*/ BankAgent assignbank)
+		public BankTellerRole(/*BankTellerRole assignbanktellerrole,*/ BankManagerRole assignbankmanager)
 		{
 			super();
 			//this.banktellerrole = assignbanktellerrole;
-			this.bank = assignbank;
+			this.bankmanager = assignbankmanager;
 		
 		}
 		
@@ -63,6 +62,7 @@ public class BankTellerRole extends Role {
 
 		public void msgGetLoan(double loan)
 		{
+			log.add(new LoggedEvent("msgGetLoan"));
 			this.loan = loan;
 			banktellerstate = state.getloan;
 			stateChanged();
@@ -74,6 +74,13 @@ public class BankTellerRole extends Role {
 			banktellerstate = state.paybackloan;
 			stateChanged();
 		}
+		
+		public void msgBankCustomerLeaving()
+		{
+			log.add(new LoggedEvent("msgBankCustomerLeaving"));
+			banktellerstate = state.customerleft;
+			stateChanged();
+		}
 
 
 	public boolean pickAndExecuteAnAction() {
@@ -81,17 +88,16 @@ public class BankTellerRole extends Role {
 		
 		if(banktellerstate == state.openaccount)
 		{
-		    bank.accounts.add(new account(currentcustomer, BankAgent.uniqueaccountnumber));
-		    currentcustomeraccountnumber = BankAgent.uniqueaccountnumber;
-		    BankAgent.uniqueaccountnumber++;
-			currentcustomer.msgOpenAccountDone();
-			
+		    bankmanager.accounts.add(new account(currentcustomer, bankmanager.uniqueaccountnumber));
+		    currentcustomeraccountnumber = bankmanager.uniqueaccountnumber;
+		    currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
+		    bankmanager.uniqueaccountnumber++;
 			return true;
 		}
 
 		if(banktellerstate == state.depositintoaccount)
 		{
-			for(account findaccount: bank.accounts)
+			for(account findaccount: bankmanager.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
@@ -99,7 +105,7 @@ public class BankTellerRole extends Role {
 					//System.out.println("amount to deposit ="+this.deposit);
 					log.add(new LoggedEvent("deposit!"));
 					findaccount.balance += this.deposit;
-					currentcustomer.msgDepositIntoAccountDone();
+					currentcustomer.msgDepositIntoAccountDone(this.deposit);
 					break;
 				}
 			}
@@ -108,7 +114,7 @@ public class BankTellerRole extends Role {
 
 		if(banktellerstate == state.withdrawfromaccount)
 		{
-			for(account findaccount: bank.accounts)
+			for(account findaccount: bankmanager.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
@@ -122,6 +128,7 @@ public class BankTellerRole extends Role {
 					{
 						currentcustomer.msgWithdrawalFailed();
 					}
+					
 				}
 			}
 			return true;
@@ -130,13 +137,14 @@ public class BankTellerRole extends Role {
 
 		if(banktellerstate == state.getloan)
 		{
-			for(account findaccount: bank.accounts)
+			for(account findaccount: bankmanager.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
 				
-					if(findaccount.loan + loan < 50)
+					if(findaccount.loan + loan > 50)
 					{
+						
 						currentcustomer.msgCannotGetLoan(loan);
 					}
 					else
@@ -144,10 +152,11 @@ public class BankTellerRole extends Role {
 						findaccount.loan += this.loan;
 						currentcustomer.msgLoanBorrowed(loan);
 					}
-					break;	
+					
 			
 				}
 			}
+			return true;
 			
 			/*
 			for(account findaccount: bank.accounts)
@@ -175,7 +184,7 @@ public class BankTellerRole extends Role {
 		
 		if(banktellerstate == state.paybackloan)
 		{
-			for(account findaccount: bank.accounts)
+			for(account findaccount: bankmanager.accounts)
 			{
 				if(findaccount.accountnumber == currentcustomeraccountnumber)
 				{	
@@ -192,7 +201,6 @@ public class BankTellerRole extends Role {
 						{
 							findaccount.loans.remove(0);
 							currentcustomer.msgLoanPaid(findaccount.loans.get(0).loanamount,findaccount.loans.get(0).lendtime, findaccount.loans.get(0).interestrate);
-							
 						}
 						subtotal *= -1;
 						paybackloan = subtotal;	
@@ -201,6 +209,15 @@ public class BankTellerRole extends Role {
 			
 				}
 			}
+			
+		}
+		
+		
+		if(banktellerstate == state.customerleft)
+		{
+			bankmanager.msgCustomerLeft(currentcustomer, this);
+			this.currentcustomer = null;
+			return true;
 			
 		}
 		
