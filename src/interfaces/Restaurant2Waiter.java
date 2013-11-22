@@ -1,6 +1,6 @@
 package interfaces;
 
-import test.mock.EventLog;
+import test.mock.*;
 
 public interface Restaurant2Waiter {
 	

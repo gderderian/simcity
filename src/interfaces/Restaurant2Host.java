@@ -1,5 +1,6 @@
 package interfaces;
 
+
 public interface Restaurant2Host {
 	
 	public void msgIWantFood(Restaurant2Customer cust);

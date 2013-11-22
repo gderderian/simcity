@@ -1,8 +1,5 @@
 package city;
 
-import interfaces.Restaurant2Customer;
-import interfaces.Restaurant2Host;
-
 import java.util.*;
 
 import city.Restaurant2.Restaurant2CustomerRole;

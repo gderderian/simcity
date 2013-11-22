@@ -1,5 +1,6 @@
 package hollytesting.test;
 
+import interfaces.Restaurant2Waiter;
 import test.mock.EventLog;
 import city.PersonAgent;
 import city.Restaurant2.Restaurant2CookRole;
