@@ -9,7 +9,7 @@ import astar.Position;
 
 public class CityMap {
 	//Map of bus stop numbers to nearby destinations. Necessary?
-	//Map<int, List<String>> busStops = new ArrayMap<int, List<String>>();
+	Map<Integer, List<String>> busStops = new HashMap<Integer, List<String>>();
 
 	//We may just keep a list of Restaurants, Banks, Markets, and BusStops here instead.
 	//Depends how the gui ends up working...
@@ -36,6 +36,15 @@ public class CityMap {
 	
 	public int getY(String location) {
 		return buildingLocations.get(location).getY();
+	}
+	
+	public int getClosestBusSTop(String destination) { //Returns number of closest bus stop to destination, or a -1 if destination is not found
+		for(int i = 0; i < 3; i++) {
+			if(busStops.get(i).contains(destination))
+				return i;
+		}
+		
+		return -1;
 	}
 	
 	
