@@ -34,6 +34,8 @@ public interface Person {
 	
 	public abstract void msgArrived();
 	
+	public abstract void msgPleasePayFare(BusAgent b, double fare);
+	
 	
 	//from landlord
 	public abstract void msgFixed(String appliance);

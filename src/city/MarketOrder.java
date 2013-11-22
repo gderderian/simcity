@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MarketOrder {
 	
-	List<OrderItem> orders = new ArrayList<OrderItem>();
+	public List<OrderItem> orders = new ArrayList<OrderItem>();
 	
 	String destination;
 	

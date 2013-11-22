@@ -78,7 +78,7 @@ public class PersonAgent extends Agent implements Person{
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
-	//Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
+	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
 	List<String> groceryList;
 	
 	//Testing
@@ -813,6 +813,12 @@ public class PersonAgent extends Agent implements Person{
 
 	@Override
 	public void msgHereIsYourOrder(CarAgent car) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgPleasePayFare(BusAgent b, double fare) {
 		// TODO Auto-generated method stub
 		
 	}

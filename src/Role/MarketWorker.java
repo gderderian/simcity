@@ -15,6 +15,13 @@ public class MarketWorker extends Role {
 	// Messages
 	public void msgPrepareOrder(MarketOrder o){
 		
+		
+		
 	}
+	
+	// Scheduler
+	
+	// Actions
+	
 	
 }

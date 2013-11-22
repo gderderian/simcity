@@ -115,4 +115,10 @@ public class MockPerson extends Mock implements Person {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void msgPleasePayFare(BusAgent b, double fare) {
+		// TODO Auto-generated method stub
+		
+	}
 }

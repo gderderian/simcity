@@ -2,12 +2,12 @@ package test;
 
 import java.util.*;
 
+import junit.framework.TestCase;
 import test.mock.MockPerson;
 import Role.LandlordRole;
 import city.Apartment;
 import city.Food;
 import city.House;
-import junit.framework.TestCase;
 
 
 public class HouseTest extends TestCase {
@@ -99,6 +99,9 @@ public class HouseTest extends TestCase {
 		assertTrue(
 				"Landlord should have logged \"Recieved msgFixAppliance from tenant, tenant should now have Oven in needsMaintenance\" but didn't. His log reads instead: "
 						+ landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Recieved msgFixAppliance from tenant, tenant should now have Oven in needsMaintenance"));
+		assertEquals(
+				"Person1 should still have an empty event log before the Landlord's scheduler is called for the first time. Instead, the Person1's event log reads: "
+						+ person1.log.toString(), 0, person1.log.size());
 		assertEquals(
 				"The tenant should have 1 broken appliance. It doesn't.", landlord.tenants.get(0).needsMaintenance.size(), 1);
 		
