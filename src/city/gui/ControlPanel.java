@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import city.CityMap;
+
 import astar.AStarTraversal;
 
 public class ControlPanel extends JPanel implements ActionListener{
@@ -39,6 +41,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel enterNames = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
+    
+    /** Universal city map **/
+    CityMap cityMap = new CityMap();
     
     //Size of astar semaphore grid
     static int gridX = 45; //# of x-axis tiles
