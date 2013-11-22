@@ -1,6 +1,8 @@
 package city;
 
 import test.mock.LoggedEvent;
+import hollytesting.interfaces.Bus;
+import hollytesting.interfaces.Car;
 import interfaces.Restaurant2Customer;
 import interfaces.Restaurant2Host;
 
@@ -49,8 +51,11 @@ public class PersonAgent extends Agent{
 	CityMap cityMap;
 	BusStopAgent busStop;
 	BusAgent bus;
-	List<CarAgent> cars = new ArrayList<CarAgent>();
+	public List<Car> cars = new ArrayList<Car>();
 	public List<BusRide> busRides = Collections.synchronizedList(new ArrayList<BusRide>());
+	public enum BusRideState {initial, waiting, busIsHere, onBus, done, paidFare, getOffBus};
+	public List<CarRide> carRides = Collections.synchronizedList(new ArrayList<CarRide>());
+	public enum CarRideState {initial, arrived};
 	
 	//Money
 	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
@@ -192,10 +197,17 @@ public class PersonAgent extends Agent{
 	
 	//Messages from bus/bus stop
 	public void msgArrivedAtStop(int stop) {
-		//STUB
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.busStop == stop){
+					br.state = BusRideState.getOffBus;
+				}
+			}
+		}
+		stateChanged();
 	}
 	
-	public void msgPleasePayFare(BusAgent b, double fare) {
+	public void msgPleasePayFare(Bus b, double fare) {
 		synchronized(busRides){
 			for(BusRide br : busRides){
 				if(br.bus == b){
@@ -206,15 +218,25 @@ public class PersonAgent extends Agent{
 		stateChanged();
 	}
 	
-	public void msgBusIsHere(BusAgent b) { //Sent from bus stop
+	public void msgBusIsHere(Bus b) { //Sent from bus stop
 		log.add(new LoggedEvent("Recieved message bus is here"));
 		events.add("BusIsHere");
-		busRides.add(new BusRide(b));
+		BusRide busride = new BusRide(b);
+		busride.state = BusRideState.busIsHere;
+		busRides.add(busride);
 		stateChanged();
 	}
 	
-	public void msgArrived() { //Sent from person's car
-		//STUB
+	public void msgArrived(Car car) { //Sent from person's car
+		log.add(new LoggedEvent("Recieved message arrived by car"));
+		synchronized(carRides){
+			for(CarRide cr : carRides){
+				if(cr.car == car){
+					cr.state = CarRideState.arrived;
+				}
+			}
+		}
+		stateChanged();
 	}
 	
 	//from landlord
@@ -234,7 +256,7 @@ public class PersonAgent extends Agent{
 		stateChanged();
 	}
 	
-	public void msgHereIsYourOrder(CarAgent car){		//order for a car
+	public void msgHereIsYourOrder(Car car){		//order for a car
 		cars.add(car);
 		stateChanged();
 	}
@@ -276,15 +298,33 @@ public class PersonAgent extends Agent{
 			for(BusRide br : busRides){
 				if(br.fare != 0){
 					payBusFare(br);
+					return true;
 				}
 			}
 		}
 		
-		synchronized(events){
-			for(String e : events){
-				if(e.equals("BusIsHere")){
-					getOnBus();
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.state == BusRideState.busIsHere){
+					getOnBus(br);
 					return true;
+				}
+			}
+		}
+		
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.state == BusRideState.getOffBus){
+					getOffBus(br);
+					return true;
+				}
+			}
+		}
+		
+		synchronized(carRides){
+			for(CarRide cr : carRides){
+				if(cr.state == CarRideState.arrived){
+					getOutOfCar(cr);
 				}
 			}
 		}
@@ -380,6 +420,25 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
+	public void goToRestaurant(){
+		print("Going to go to a restaurant");
+		log.add(new LoggedEvent("Decided to go to a restaurant"));
+		//Restaurant restaurant2 = new Restaurant();
+		//restaurant2.host.msgIWantFood(restaurant2.customer);
+		
+		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+		if(takeBus){
+			//cityMap.getNearestBusStop();	TODO make this a thing
+		}
+		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+			//String destination = restaurant.name;
+			String destination = "Restaurant2";
+			CarRide ride = new CarRide((Car) cars.get(0), destination);
+			carRides.add(ride);
+			ride.car.msgDriveTo(this, destination);
+		}
+	}
+	
 	public void notifyLandlordBroken(MyAppliance a){
 		print("Telling landlord that appliance " + a.type + " is broken");
 		landlord.msgFixAppliance(this, a.type);
@@ -402,8 +461,9 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
-	public void getOnBus(){
-		
+	public void getOnBus(BusRide ride){
+		ride.state = BusRideState.onBus;
+		log.add(new LoggedEvent("Getting on the bus"));
 	}
 	
 	/*
@@ -412,6 +472,20 @@ public class PersonAgent extends Agent{
 	 */
 	public void payBusFare(BusRide br){
 		br.bus.msgHereIsFare(this, br.fare);
+		br.state = BusRideState.paidFare;
+		br.fare = 0;
+		wallet -= br.fare;
+	}
+	
+	public void getOffBus(BusRide busride){
+		busride.bus.msgImGettingOff(this);
+		//gui.doGetOffBus();
+		busRides.remove(busride);
+	}
+	
+	public void getOutOfCar(CarRide ride){
+		ride.car.msgParkCar(this);
+		log.add(new LoggedEvent("Telling car to park"));
 	}
 	
 	public void notifyHouseFixed(MyAppliance a){
@@ -442,18 +516,6 @@ public class PersonAgent extends Agent{
 		
 		if(name.equals("d"))
 			moveTo(39, 15);
-	}
-	
-	public void goToRestaurant(){
-		print("Going to go to a restaurant");
-		log.add(new LoggedEvent("Decided to go to a restaurant"));
-		//Restaurant restaurant2 = new Restaurant();
-		//restaurant2.host.msgIWantFood(restaurant2.customer);
-		
-		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
-		if(takeBus){
-			//cityMap.getNearestBusStop();	TODO make this a thing
-		}
 	}
 	
 	public void cookMeal(MyMeal meal){
@@ -615,17 +677,32 @@ public class PersonAgent extends Agent{
 		}
 	}
 	
-	class BusRide{
-		BusAgent bus;
-		double fare;
+	public class BusRide{
+		public Bus bus;
+		public double fare;
+		public BusRideState state;
+		public int busStop;
 		
-		public BusRide(BusAgent b){
+		public BusRide(Bus b){
 			bus = b;
 			fare = 0;
+			state = BusRideState.initial;
 		}
 		
 		public void addFare(double f){
 			fare = f;
+		}
+	}
+	
+	public class CarRide{
+		public Car car;
+		public String destination;
+		public CarRideState state;
+		
+		public CarRide(Car c, String dest){
+			car = c;
+			destination = dest;
+			state = CarRideState.initial;
 		}
 	}
 
