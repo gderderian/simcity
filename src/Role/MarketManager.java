@@ -4,6 +4,7 @@ import java.util.*;
 
 import city.MarketOrder;
 import city.PersonAgent;
+import city.transportation.TruckAgent;
 import city.transportation.Vehicle;
 import Role.Role;
 
@@ -15,10 +16,12 @@ public class MarketManager extends Role {
 	private ArrayList<myMarketWorker> myWorkers;
 	private ArrayList<myMarketOrder> myOrders;
 	private ArrayList<MarketItem> marketStock;
-	private ArrayList<Vehicle> marketTrucks;
+	private ArrayList<TruckAgent> marketTrucks;
 
-	public enum orderState {pendingWorkerAssignment, assignedToWorker, inProgress, done};
+	public enum orderState {pendingWorkerAssignment, assignedToWorker, pickedReady, givenToTruck, pendingBilling, billed, done};
 	public enum deliveryType {inPerson, truckOrder};
+	
+	public enum itemType {food, car};
 	
 	public class myMarketOrder {
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
@@ -37,6 +40,8 @@ public class MarketManager extends Role {
 	private class MarketItem { // Used for internal stock-tracking within the market
 		public String itemName;
 		public int quantity;
+		public itemType type;
+		
 	}
 
 	private class myMarketWorker { // Used for internal stock-tracking within the market
@@ -50,6 +55,30 @@ public class MarketManager extends Role {
 		myOrders.add(mo);
 		stateChanged();
 	}
+	
+	public void msgOrderPicked(MarketOrder o){
+		myMarketOrder selectedMarketOrder = null;
+		for (myMarketOrder order : myOrders) {
+			if (order.order.equals(o)){
+				selectedMarketOrder = order;
+				return;
+			}
+		}
+		selectedMarketOrder.state = orderState.pickedReady;
+		stateChanged();
+	}
+	
+	public void msgFinishedDelivery(MarketOrder o){
+		myMarketOrder selectedMarketOrder = null;
+		for (myMarketOrder order : myOrders) {
+			if (order.order.equals(o)){
+				selectedMarketOrder = order;
+				return;
+			}
+		}
+		selectedMarketOrder.state = orderState.pendingBilling;
+		stateChanged();
+	}
 
 	// Scheduler
 	protected boolean pickAndExecuteAnAction(){
@@ -58,6 +87,15 @@ public class MarketManager extends Role {
 				if (order.state == orderState.pendingWorkerAssignment){
 					makeWorkerPrepareOrder(order);
 					order.state = orderState.assignedToWorker;
+					return true;
+				}
+				if (order.state == orderState.pickedReady){
+					deliverOrder(order);
+					return true;
+				}
+				if (order.state == orderState.pendingBilling){
+					billRecipient(order);
+					order.state = orderState.billed;
 					return true;
 				}
 			}
@@ -78,9 +116,30 @@ public class MarketManager extends Role {
 			}
 			w_selected.worker.msgPrepareOrder(o.order);
 			w_selected.numWorkingOrders++;
-			
 		}
 	}
 	
+	private void deliverOrder(myMarketOrder o){
+		if (o.type == deliveryType.inPerson){
+			o.order.getRecipient().msgHereIsYourOrder(o.order);
+			o.state = orderState.done;
+		} else if (o.type == deliveryType.truckOrder){
+			int initOrders = marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
+			TruckAgent selectedTruck = null;
+			for (TruckAgent t : marketTrucks){
+				if (t.orders.size() <= initOrders){
+					initOrders = t.getOrderNum();
+					selectedTruck = t;
+				}
+			}
+			selectedTruck.msgPleaseDeliver(o.order);
+			o.state = orderState.givenToTruck;
+		}
+	}
+	
+	private void billRecipient(myMarketOrder o){
+		// o.order.getRecipient().msgMarketBill(); // Need to discuss with Holly on how to bill people
+		o.state = orderState.billed;
+	}
 	
 }
