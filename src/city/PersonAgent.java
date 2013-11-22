@@ -421,15 +421,15 @@ public class PersonAgent extends Agent{
 		//restaurant2.host.msgIWantFood(restaurant2.customer);
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
-		if(takeBus){
-			//cityMap.getNearestBusStop();	TODO make this a thing
-		}
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
 			//String destination = restaurant.name;
 			String destination = "Restaurant2";
 			CarRide ride = new CarRide((Car) cars.get(0), destination);
 			carRides.add(ride);
 			ride.car.msgDriveTo(this, destination);
+		}
+		else{	//take bus
+			//cityMap.getNearestBusStop();	TODO make this a thing
 		}
 	}
 	
