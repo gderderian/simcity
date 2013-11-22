@@ -75,7 +75,7 @@ public abstract class Role {
      * This function sets the role to active or not for use with the PersonAgent's scheduler
      */
     
-    protected void setActive(boolean active){
+    public void setActive(boolean active){
     	isActive = active;
     }
 

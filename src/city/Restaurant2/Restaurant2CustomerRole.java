@@ -9,6 +9,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import test.mock.EventLog;
+import test.mock.LoggedEvent;
 import city.Menu;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import Role.Role;
@@ -25,25 +27,27 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private int waiterNum;
 
 	// agent correspondents
-	private Restaurant2Host host;
-	private Restaurant2Cashier cashier;
-	private Restaurant2Waiter waiter;
+	public Restaurant2Host host;
+	public Restaurant2Cashier cashier;
+	public Restaurant2Waiter waiter;
 	
 	private Menu menu;
 	private Menu reMenu;
 	
 	double wallet;
 	double check;
+	
+	public EventLog log = new EventLog();
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState {initial, WaitingInRestaurant, BeingSeated, Seated, Ordering, Ordered, Eating, 
 		DoneEating, PayingCheck, Leaving, ReadyToOrder, Gone, reordered};
-	private AgentState state = AgentState.initial;//The start state
+	public AgentState state = AgentState.initial;//The start state
 
 	public enum AgentEvent 
 	{none, gotHungry, tablesFull, followWaiter, seated, readyToOrder, ordering, recievedFood,
 		reorder, doneEating, doneLeaving, gotCheck, leaving};
-	AgentEvent event = AgentEvent.none;
+	public AgentEvent event = AgentEvent.none;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 
@@ -54,6 +58,21 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
 	public Restaurant2CustomerRole(String name){
+		super();
+		this.name = name;
+		tableNumber = -1;
+		if(name.equals("flake") || name.equals("honest")){
+			wallet = 5.00;
+		}
+		else if(name.equals("reorderleave") || name.equals("cheapest")){
+			wallet = 5.99;
+		}
+		else{
+		wallet = 20.00;
+		}
+	}
+	
+	public Restaurant2CustomerRole(){
 		super();
 		this.name = name;
 		tableNumber = -1;
@@ -104,6 +123,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 	public void msgFollowMeToTable(Restaurant2Waiter w, Menu m, int num, int waiterNum) {
 		print("Received msgSitAtTable");
+		log.add(new LoggedEvent("Recieved message follow waiter to table"));
 		event = AgentEvent.followWaiter;
 		setWaiter(w, waiterNum);
 		menu = m;
@@ -133,6 +153,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	public void msgWhatDoYouWant(){
 		print("Recieved msg What Do You Want");
+		log.add(new LoggedEvent("Recieved message what do you want"));
 		event = AgentEvent.ordering;
 		stateChanged();
 	}
@@ -168,7 +189,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
 		if ((state == AgentState.initial || state == AgentState.Gone) && event == AgentEvent.gotHungry){
@@ -181,7 +202,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 			event = AgentEvent.none;
 			return true;
 		}
-		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.followWaiter){
+		if ((state == AgentState.WaitingInRestaurant || state == AgentState.initial) && event == AgentEvent.followWaiter){
 			state = AgentState.BeingSeated;
 			ChooseAction(tableNumber);
 			//SitDown(tableNumber);
@@ -256,11 +277,13 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		else{
 			SitDown(tableNum);
 			waiter.msgReadyToBeSeated(this);
+			log.add(new LoggedEvent("I'm ready to be seated"));
 		}
 	}
 
 	private void SitDown(int seatNumber) {
 		Do("Being seated. Going to table");
+		log.add(new LoggedEvent("Sitting down at table " + seatNumber));
 		customerGui.DoGoToWaiter(waiterNum);
 		try{
 			atDestination.acquire();

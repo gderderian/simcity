@@ -106,7 +106,7 @@ public class CookRole4 extends Role implements Cook4 {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(orders != null){
 			synchronized(orders){
 				for(Order order : orders){

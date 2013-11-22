@@ -1,6 +1,6 @@
 package city;
 
-public class Apartment extends HouseAgent {
+public class Apartment extends House {
 	PersonAgent landlord;
 	int aptNum;
 	

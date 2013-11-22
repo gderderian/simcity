@@ -1,24 +1,38 @@
 package Role;
 
 import interfaces.Landlord;
+import interfaces.Person;
 
 import java.util.*;
 
+import test.mock.EventLog;
+import test.mock.LoggedEvent;
 import city.PersonAgent;
 import Role.Role;
 
 public class LandlordRole extends Role implements Landlord {
 	//DATA
 	double earnings= 0.0;
-	List<MyTenant> tenants= new ArrayList<MyTenant>();
+	public List<MyTenant> tenants= new ArrayList<MyTenant>();
+	public EventLog log= new EventLog();
+	String name;
 	
-	LandlordRole(){
+	public LandlordRole(){
 		super();
+		name= "Landlord";
+	}
+	
+	//This should be done when the people are created, assuming they are living in an apartment and are not a landlord
+	public void addTenant(Person p){
+		MyTenant t= new MyTenant(p);
+		tenants.add(t);
 	}
 	
 	
 	//MESSAGES
 	public void msgEndOfDay(){	
+		log.add(new LoggedEvent("Recieved msgEndOfDay, all tenants now should have rent due"));
+		print("Recieved msgEndOfDay, all tenants now should have rent due");
 		for(MyTenant t : tenants){
 			t.numOutstandingPayments++;
 			t.newPayment= true;
@@ -29,7 +43,8 @@ public class LandlordRole extends Role implements Landlord {
 		stateChanged();
 	}
 
-	public void msgHereIsMyRent(PersonAgent p, double amount){ // for the normative scenario, assuming tenant always pays correct amount for rent
+	public void msgHereIsMyRent(Person p, double amount){ // for the normative scenario, assuming tenant always pays correct amount for rent
+		log.add(new LoggedEvent("Recieved msgHereIsMyRent from tenant, tenant should now have no outstanding payments due"));
 		earnings += amount;
 		for(MyTenant t : tenants){
 			if(t.tenant.equals(p)){
@@ -42,7 +57,8 @@ public class LandlordRole extends Role implements Landlord {
 		stateChanged();
 	}
 
-	public void msgFixAppliance(PersonAgent p, String a){
+	public void msgFixAppliance(Person p, String a){
+		log.add(new LoggedEvent("Recieved msgFixAppliance from tenant, tenant should now have " + a + " in needsMaintenance"));
 		for(MyTenant t : tenants){
 			if(t.tenant.equals(p)){
 				t.needsMaintenance.add(a);
@@ -74,7 +90,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
-		mt.tenant.msgRentDue(this, mt.rate);
+		mt.tenant.msgRentDue((this, mt.rate);
 		mt.newPayment= false;
 		stateChanged();
 	}
@@ -88,15 +104,15 @@ public class LandlordRole extends Role implements Landlord {
 	
 	
 	//CLASSES
-	private class MyTenant{
-		PersonAgent tenant;
+	public class MyTenant{
+		Person tenant;
 		double rate;
 		boolean paymentsUpToDate= true; 
 		boolean newPayment= false;
-		int numOutstandingPayments= 0;
-		List<String> needsMaintenance= Collections.synchronizedList(new ArrayList<String>());
+		public int numOutstandingPayments= 0;
+		public List<String> needsMaintenance= Collections.synchronizedList(new ArrayList<String>());
 	
-		public MyTenant(PersonAgent p){
+		public MyTenant(Person p){
 			tenant= p;
 			rate= 10.00;
 		}

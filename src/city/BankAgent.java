@@ -1,9 +1,10 @@
 package city;
-/*
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+//import restaurant.BankAgent.bankstate;
 import agent.Agent;
 import city.account;
 import Role.BankTellerRole;
@@ -12,7 +13,7 @@ import Role.BankCustomerRole;
 public class BankAgent extends Agent{
 
 	public enum banktellerstate {free, busy};
-	public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan};
+	public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan};
 	public enum customerstate {waiting, beingserved, leaving};
 	String name;
 	public static int uniqueaccountnumber = 0;
@@ -23,19 +24,11 @@ public class BankAgent extends Agent{
 	public List<account> accounts = new ArrayList<account>();
 	bankstate state;
 
-<<<<<<< HEAD
-*/
-=======
+
 	public BankAgent(String name)
 	{
 		super();
 		this.name = name;
-
-<<<<<<< HEAD
->>>>>>> new update
-=======
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 
 	}
 
@@ -51,10 +44,12 @@ public class BankAgent extends Agent{
 		stateChanged();
 	}
 
+	public void msgCalculateLoan() {
+		state = bankstate.calculateloan;
+		stateChanged();
+		
+	}
 
-
-
-	/*
 public void msgCreateNewAccount(BankCustomerRole customer)
 {
 	accounts.add(new account(customer, uniqueaccountnumber));
@@ -62,27 +57,12 @@ public void msgCreateNewAccount(BankCustomerRole customer)
 	state = bankstate.createaccount;
 	stateChanged();	
 }
-<<<<<<< HEAD
-*/
-/*
+
 public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 {
 	customers.remove(leavingcustomer);
 	stateChanged();
 }
-=======
-	 */
-
-	public void msgCustomerLeft(BankCustomerRole leavingcustomer)
-	{
-		customers.remove(leavingcustomer);
-		stateChanged();
-	}
-<<<<<<< HEAD
->>>>>>> new update
-=======
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
 
 
 	public void msgBankTellerFree(BankTellerRole bankteller)
@@ -102,8 +82,8 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 	//Scheduler
 	//interest rate implementation
 
-	@Override
-	protected boolean pickAndExecuteAnAction() {
+
+	public boolean pickAndExecuteAnAction() {
 
 
 		for(mycustomer customer: customers)
@@ -114,7 +94,9 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 				{
 					if(bankteller.state == banktellerstate.free)
 					{
+						
 						bankteller.bankteller.msgAssignMeCustomer(customer.customer);
+						customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
 						bankteller.state = banktellerstate.busy;
 						break;
 					}
@@ -132,7 +114,35 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 			}
 
 		}
-
+		
+		if(state == bankstate.calculateloan)
+		{
+			//this is a very simple loan calculation system with some limits
+			for(account findaccountwithloan: accounts)
+			{
+				if(findaccountwithloan.loan > 0)
+				{
+					findaccountwithloan.loan *= findaccountwithloan.interestrate;
+					findaccountwithloan.interestrate *= .05;
+				}
+			}
+			
+			//this is my new design for loan system
+			for(account findaccountwithloan: accounts)
+			{
+				if(findaccountwithloan.loans.size() !=0)
+				{
+					findaccountwithloan.raiseinterestrateonloan();
+				}
+				
+			}
+			
+			
+			
+			
+			return true;
+		}
+		
 		return false;
 
 	}
@@ -168,13 +178,6 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 
 
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
-*/
-=======
 
 
 
@@ -182,11 +185,4 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer)
 
 
 
-<<<<<<< HEAD
->>>>>>> new update
-=======
-*/
->>>>>>> my agent files
-=======
->>>>>>> ae741fab47ec37fd55057b894a94a7702040c30d
->>>>>>> 3035ad05d37763c8776609d3d6f0973643da1012
+

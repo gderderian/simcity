@@ -1,17 +1,21 @@
 package city.transportation;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import city.PersonAgent;
+import city.transportation.interfaces.BusStop;
 
 public class BusAgent extends Vehicle {
 	//Data
-	int currentStop;
-	List<BusStopAgent> busStops = new ArrayList<BusStopAgent>();
-	
+	public int currentStop = 3;
+	public List<BusStop> busStops = new ArrayList<BusStop>();
 	double money;
+	double fare;
 	
-	List<Passenger> passengers;
+	Timer timer = new Timer();
+	
+	public List<Passenger> passengers = new ArrayList<Passenger>();
 	
 	class Passenger {
 		PersonAgent p;
@@ -23,14 +27,31 @@ public class BusAgent extends Vehicle {
 		}
 	}
 	
-	BusEvent event = BusEvent.arrivedAtStop;
-	BusState state = BusState.driving;
+	public BusEvent event = BusEvent.arrivedAtStop;
+	public BusState state = BusState.driving;
 	
-	enum BusEvent { arrivedAtStop, pickingUpPassengers, boarded, everyonePaid };
-	enum BusState { driving, atStop, pickingUpPassengers, askingForFare };
+	public enum BusEvent { none, arrivedAtStop, pickingUpPassengers, boarded, everyonePaid };
+	public enum BusState { driving, atStop, pickingUpPassengers, askingForFare };
 
+	public BusAgent() {
+		capacity = 10;
+		fare = 3.00;
+		money = 100.00;
+		
+		guiFinished = new Semaphore(0, true);
+		
+		//Send gui to stop 0
+		//acquire semaphore
+	}
+	
 	//Messages
 	public void msgPeopleBoarding(List<PersonAgent> people) {
+		if(people == null) {
+			event = BusEvent.boarded;
+			stateChanged();
+			return;
+		}
+		
 		for(PersonAgent p : people) {
 			passengers.add(new Passenger(p));
 		}
@@ -38,13 +59,12 @@ public class BusAgent extends Vehicle {
 		stateChanged();
 	}
 	
-	//Okay to potentially have two stateChanged() calls? - Check this method.
 	public void msgHereIsFare(PersonAgent pa, double money) {
 		this.money += money;
 		for(Passenger p : passengers) {
 			if(p.p == pa) {
 				p.paidFare = true;
-				stateChanged();
+				//stateChanged();
 			}
 		}
 		
@@ -66,7 +86,17 @@ public class BusAgent extends Vehicle {
 		}
 	}
 	
-	protected boolean pickAndExecuteAnAction() {
+	public void msgFinishedUnloading() {
+		event = BusEvent.pickingUpPassengers;
+		stateChanged();
+	}
+	
+	public void msgGuiFinished() {
+		guiFinished.release();
+	}
+	
+	//Scheduler
+	public boolean pickAndExecuteAnAction() {
 		for(Passenger p : passengers) {
 			if(p.wantsOff && p.paidFare) {
 				LetPassengerOff(p);
@@ -104,22 +134,73 @@ public class BusAgent extends Vehicle {
 
 	//Actions
 	private void TellPassengersWeAreAtStop() {
+		print("Telling passengers we have arrived at stop #" + currentStop);
+		for(Passenger p : passengers) {
+			p.p.msgArrivedAtStop(currentStop);
+		}
 		
+		DoWaitAtStop();
 	}
 	
 	private void PickUpPassengers() {
-		
+		int numSpots = capacity - passengers.size();
+		busStops.get(currentStop).msgICanPickUp(this, numSpots);
 	}
 	
 	private void AskPassengersForFare() {
+		if(allPassengersPaid()) {
+			print("Everyone has paid!");
+			event = BusEvent.everyonePaid;
+			stateChanged();
+		}
 		
+		for(Passenger p : passengers) {
+			if(!p.paidFare) {
+				print("Requesting fare from new passenger");
+				p.p.msgPleasePayFare(this, fare);
+			}
+		}
+	}
+	
+	private boolean allPassengersPaid() {
+		for(Passenger p : passengers) {
+			if(!p.paidFare)
+				return false;
+		}
+		return true;
 	}
 	
 	private void DriveToNextStop() {
+		//gui.DoDriveToStop(currentStop + 1);
+		
+		print("Driving to stop #" + (currentStop + 1));
+		/*try {
+			guiFinished.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+
+		event = BusEvent.arrivedAtStop;
 		
 	}
 	
 	private void LetPassengerOff(Passenger p) {
+		Passenger temp = null;
+		for(Passenger pass : passengers) {
+			if(pass == p)
+				temp = pass;
+		}
 		
+		passengers.remove(temp);
+	}
+	
+	private void DoWaitAtStop() {
+		/*timer.schedule(new TimerTask() {
+			public void run() {
+				 msgFinishedUnloading();
+			}
+		}, 1500	);*/
 	}
 }
+ 

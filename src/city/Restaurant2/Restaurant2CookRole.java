@@ -102,7 +102,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	//SCHEDULER
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(startCheck){
 			checkInventory();
 		}

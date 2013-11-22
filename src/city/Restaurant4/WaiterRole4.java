@@ -207,7 +207,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		try{
 		if(closeRest){
 			tellEveryoneToLeave();

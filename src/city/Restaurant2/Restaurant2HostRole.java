@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import test.mock.EventLog;
+import test.mock.LoggedEvent;
 import Role.Role;
 
 public class Restaurant2HostRole extends Role implements Restaurant2Host{
@@ -26,6 +28,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	
 	enum CustomerState {hungry, seated, tablesFull};
 	enum WaiterState {normal, breakRequested, onBreak, assessing};
+	public EventLog log = new EventLog();
 	
 	public List<MyWaiter> waiters = Collections.synchronizedList(new LinkedList<MyWaiter>());
 
@@ -57,7 +60,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	}
 	
 	//stateChanged?
-	public void AddWaiters(Restaurant2Waiter w){
+	public void addWaiters(Restaurant2Waiter w){
 		waiters.add(new MyWaiter(w));
 		stateChanged();
 	}
@@ -157,7 +160,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -219,6 +222,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 
 	private void seatCustomer(MyCustomer customer, Table table) {
 		print("Seating customer.");
+		log.add(new LoggedEvent("Now seating customer"));
 		if(waiters.size() != 0){
 			MyWaiter w = waiters.get(waiterNum-1);
 			if(w.ws == WaiterState.breakRequested || w.ws == WaiterState.onBreak){

@@ -185,7 +185,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 		if(closed && state != AgentState.none){
 			leaveTable();

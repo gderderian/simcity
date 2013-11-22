@@ -1,7 +1,10 @@
 package city;
 
-import interfaces.Restaurant2Customer;
-import interfaces.Restaurant2Host;
+import test.mock.LoggedEvent;
+import interfaces.Bus;
+import interfaces.Car;
+import interfaces.House;
+import interfaces.Landlord;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import test.mock.EventLog;
 import city.gui.PersonGui;
+import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
+import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.Role;
 import agent.Agent;
@@ -23,41 +29,59 @@ public class PersonAgent extends Agent{
 	
 	//DATA
 	String name;
-	
 	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
-	
-	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
+	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
 	PersonState state;
-	HouseAgent house;
-	List<Restaurant> restaurants;
-	Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
+	
+	//House
+	House house;
+	public List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
+	public enum FoodState {initial, cooking, done};
+	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
+	enum ApplianceState {broken, beingFixed, fixed};
+	LandlordRole landlord;
+	
+	//Transportation
 	CarAgent car;
 	String destination;
 	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
 	TransportationState transportationState;
 	CityMap cityMap;
 	BusStopAgent busStop;
-	List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
-	enum FoodState {initial, cooking, done};
-	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
-	enum ApplianceState {broken, beingFixed, fixed};
-	LandlordRole landlord;
-	List<MarketOrder> recievedOrders;   //orders the person has gotten that they need to deal with
-	//List<MarketAgent> markets;
-	List<String> groceryList;
-	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
+	BusAgent bus;
+	public List<Car> cars = new ArrayList<Car>();
+	public List<BusRide> busRides = Collections.synchronizedList(new ArrayList<BusRide>());
+	public enum BusRideState {initial, waiting, busIsHere, onBus, done, paidFare, getOffBus};
+	public List<CarRide> carRides = Collections.synchronizedList(new ArrayList<CarRide>());
+	public enum CarRideState {initial, arrived};
+	
+	//Money
+	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	double wallet;
 	double moneyToDeposit;
-	//BankAgent bank;
-	//BankerRole bankTeller;
+	
+	//Bank
+	BankAgent bank;
+	BankTellerRole bankTeller;
 	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
 	BankState bankState;
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
 	int accountNumber;
-	List<CarAgent> cars = new ArrayList<CarAgent>();
+	
+	//Other
+	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
+	//List<MarketAgent> markets;
+	//List<Restaurant> restaurants;
+	//Restaurant recentlyVisitedRestaurant; 	//so the person won’t go there twice in a row
+	List<String> groceryList;
+	
+	//Testing
+	public EventLog log = new EventLog();
+	public boolean goToRestaurantTest = false;
+	public boolean takeBus = false;
 	
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
@@ -73,7 +97,8 @@ public class PersonAgent extends Agent{
 		name = n;
 		this.aStar = aStarTraversal;
 		currentPosition = new Position(40, 35);
-        currentPosition.moveInto(aStar.getGrid());
+		if(aStar != null)
+			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
         
         cityMap = new CityMap();
@@ -83,9 +108,38 @@ public class PersonAgent extends Agent{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+
+	}
+	
+	/*
+	 * Constructor without astar traversal for testing purposes 
+	 */
+	
+	public PersonAgent(String n){
+		super();
 		
-		msgImHungry();
+		name = n;
+      
+        cityMap = new CityMap();
 		
+		//populate foods list -- need to make sure this matches up with market
+		foodsToEat.add("Chicken");
+		foodsToEat.add("Steak");
+		foodsToEat.add("Salad");
+		foodsToEat.add("Pizza");
+				
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public void setGoToRestaurant(){	//for testing purposes
+		goToRestaurantTest = true;
+	}
+	
+	public void setTakeBus(){	//for testing purposes
+		takeBus = true;
 	}
 	
 	public void msgAtDestination() {
@@ -96,13 +150,24 @@ public class PersonAgent extends Agent{
 		gui = g;
 	}
 	
-	public void addRole(Role r){
+	public void addRole(Role r, boolean active){
 		roles.add(r);
+		if(active){
+			r.setActive(true);
+		}
 	}
 	
-	//MESSAGES
+	public void setHouse(House h){
+		house = h;
+	}
+	
+	/*
+	 * MESSAGES
+	 */
 	public void msgImHungry(){	//sent from GUI ?
 		events.add("GotHungry");
+		print("Recieved msgImHungry");
+		log.add(new LoggedEvent("Recieved message Im Hungry"));
 		stateChanged();
 	}
 	
@@ -123,6 +188,7 @@ public class PersonAgent extends Agent{
 	}
 
 	public void msgFoodDone(String food) {
+		log.add(new LoggedEvent("Recieved message food is done"));
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.type == food){
@@ -130,6 +196,51 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
+		stateChanged();
+	}
+	
+	//Messages from bus/bus stop
+	public void msgArrivedAtStop(int stop) {
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.busStop == stop){
+					br.state = BusRideState.getOffBus;
+				}
+			}
+		}
+		stateChanged();
+	}
+	
+	public void msgPleasePayFare(Bus b, double fare) {
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.bus == b){
+					br.addFare(fare);
+				}
+			}
+		}
+		stateChanged();
+	}
+	
+	public void msgBusIsHere(Bus b) { //Sent from bus stop
+		log.add(new LoggedEvent("Recieved message bus is here"));
+		events.add("BusIsHere");
+		BusRide busride = new BusRide(b);
+		busride.state = BusRideState.busIsHere;
+		busRides.add(busride);
+		stateChanged();
+	}
+	
+	public void msgArrived(Car car) { //Sent from person's car
+		log.add(new LoggedEvent("Recieved message arrived by car"));
+		synchronized(carRides){
+			for(CarRide cr : carRides){
+				if(cr.car == car){
+					cr.state = CarRideState.arrived;
+				}
+			}
+		}
+		stateChanged();
 	}
 	
 	//from landlord
@@ -144,12 +255,12 @@ public class PersonAgent extends Agent{
 		
 	}
 	
-	public void msgRentDue(LandlordRole r, double rate) {
+	public void msgRentDue(Landlord r, double rate) {
 		billsToPay.add(new Bill("rent", rate, r));
 		stateChanged();
 	}
 	
-	public void msgHereIsYourOrder(CarAgent car){		//order for a car
+	public void msgHereIsYourOrder(Car car){		//order for a car
 		cars.add(car);
 		stateChanged();
 	}
@@ -159,25 +270,65 @@ public class PersonAgent extends Agent{
 	}
 	
 	
-	//SCHEDULER
-	protected boolean pickAndExecuteAnAction() {
+	/*
+	 * Scheduler
+	 * @see agent.Agent#pickAndExecuteAnAction()
+	 * Scheduler events are order as follows:
+	 * 1. Role schedulers - if a person has a role active, these actions need to be taken care of first
+	 * 2. Things that need to be done immediately, i.e. paying bus fare
+	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
+	 */
+	public boolean pickAndExecuteAnAction() {
 		
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
 		//movementTest();
 		//TODO figure out place for grocery shopping
 
-		DoGoTo("restaurant1");
+		//DoGoTo("restaurant1");
 		
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction();
+					return anytrue;
 				}
 			}
 		}
-
-		
+		/*
+		 * This is first because the person needs to pay their fare before they get off the bus
+		 */
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.fare != 0){
+					payBusFare(br);
+					return true;
+				}
+			}
+		}
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.state == BusRideState.busIsHere){
+					getOnBus(br);
+					return true;
+				}
+			}
+		}
+		synchronized(busRides){
+			for(BusRide br : busRides){
+				if(br.state == BusRideState.getOffBus){
+					getOffBus(br);
+					return true;
+				}
+			}
+		}
+		synchronized(carRides){
+			for(CarRide cr : carRides){
+				if(cr.state == CarRideState.arrived){
+					getOutOfCar(cr);
+				}
+			}
+		}
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -186,14 +337,12 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(billsToPay){
 			if(!billsToPay.isEmpty()){
 				payBills();
 				return true;
 			}
 		}
-		
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.state == FoodState.initial){
@@ -202,21 +351,20 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.state == FoodState.done){
 					eatMeal(m);
+					return true;
 				}
 			}
 		}
-		
 		synchronized(recievedOrders){
 			if(!recievedOrders.isEmpty()){
 				handleRecievedOrders();
+				return true;
 			}
 		}
-		
 		synchronized(appliancesToFix){
 			for(MyAppliance a : appliancesToFix){
 				if(a.state == ApplianceState.broken){
@@ -225,7 +373,6 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
-		
 		synchronized(appliancesToFix){
 			for(MyAppliance a : appliancesToFix){
 				if(a.state == ApplianceState.fixed){
@@ -242,6 +389,7 @@ public class PersonAgent extends Agent{
 	//ACTIONS
 	
 	public void Eat(){	//hacked for now so that it randomly picks eating at home or going out
+		print("Inside method EAT");
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -251,15 +399,37 @@ public class PersonAgent extends Agent{
 			}
 		}
 		Random rand = new Random();
-		int x = rand.nextInt(1);
+		//int x = rand.nextInt(1);
+		//int x = (Math.random()<0.5) ? 0:1;
+		int x = 0;		//HACK for testing TODO fix this
 		if(x == 1){
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
-			//house.msgCheckFridge(food);
-			print("I'm going to eat " + food);
+			house.checkFridge(food);
+			print("I'm going to eat " + food + " in my house.");
+			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
 		else{
 			goToRestaurant();
+		}
+	}
+	
+	public void goToRestaurant(){
+		print("Going to go to a restaurant");
+		log.add(new LoggedEvent("Decided to go to a restaurant"));
+		//Restaurant restaurant2 = new Restaurant();
+		//restaurant2.host.msgIWantFood(restaurant2.customer);
+		
+		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+		if(takeBus){
+			//cityMap.getNearestBusStop();	TODO make this a thing
+		}
+		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+			//String destination = restaurant.name;
+			String destination = "Restaurant2";
+			CarRide ride = new CarRide((Car) cars.get(0), destination);
+			carRides.add(ride);
+			ride.car.msgDriveTo(this, destination);
 		}
 	}
 	
@@ -283,6 +453,33 @@ public class PersonAgent extends Agent{
 				}
 			}
 		}
+	}
+	
+	public void getOnBus(BusRide ride){
+		ride.state = BusRideState.onBus;
+		log.add(new LoggedEvent("Getting on the bus"));
+	}
+	
+	/*
+	 * This is assuming the person will always have enough to pay the fare.
+	 * May need to fix this later in non-norm scenario
+	 */
+	public void payBusFare(BusRide br){
+		br.bus.msgHereIsFare(this, br.fare);
+		br.state = BusRideState.paidFare;
+		br.fare = 0;
+		wallet -= br.fare;
+	}
+	
+	public void getOffBus(BusRide busride){
+		busride.bus.msgImGettingOff(this);
+		//gui.doGetOffBus();
+		busRides.remove(busride);
+	}
+	
+	public void getOutOfCar(CarRide ride){
+		ride.car.msgParkCar(this);
+		log.add(new LoggedEvent("Telling car to park"));
 	}
 	
 	public void notifyHouseFixed(MyAppliance a){
@@ -315,20 +512,15 @@ public class PersonAgent extends Agent{
 			moveTo(39, 15);
 	}
 	
-	public void goToRestaurant(){
-		print("Going to go to a restaurant");
-		Restaurant restaurant2 = new Restaurant();
-		//restaurant2.host.msgIWantFood(restaurant2.customer);
-		gui.goToRestaurant(2);
-	}
-	
 	public void cookMeal(MyMeal meal){
+		log.add(new LoggedEvent("Cooking meal"));
 		house.cookFood(meal.type);
 		meal.state = FoodState.cooking;
 		//TODO add gui
 	}
 	
 	public void eatMeal(MyMeal m){
+		log.add(new LoggedEvent("Eating meal"));
 		//TODO make gui function
 		//gui.eatMeal();
 		meals.remove(m);
@@ -388,8 +580,9 @@ public class PersonAgent extends Agent{
 		    //Did not get lock after trying n attempts. So recalculating path.            
 		    if (!gotPermit) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
-			guiMoveFromCurrentPositionTo(to);
-			break;
+		    	path.clear(); aStarNode=null;
+		    	guiMoveFromCurrentPositionTo(to);
+		    	break;
 		    }
 
 		    //Got the required lock. Lets move.
@@ -445,32 +638,26 @@ public class PersonAgent extends Agent{
 	
 	
 	//CLASSES
-	class Restaurant{
-		Restaurant2Host host;	//HACK for testing: TODO: fix this
-		Restaurant2Customer customer;	//HACK for testing: TODO: fix this
-		
-		public Restaurant(){
-			//nothing yet
-		}
-		
-		public void setHost(Restaurant2Host h){
-			host = h;
-		}
-		
-		public void setCustomer(Restaurant2Customer c){
-			customer = c;
-		}
-	}
 	
 	class Bill{
 		String type;
 		double amount;
 		Role payTo;
+		Landlord landlord;
 		
 		public Bill(String t, double a, Role r){
 			type = t;
 			amount = a;
 			payTo = r;
+		}
+		
+		/*
+		 * Constructor for testing
+		 */
+		public Bill(String t, double a, Landlord r){
+			type = t;
+			amount = a;
+			landlord = r;
 		}
 		
 	}
@@ -486,13 +673,42 @@ public class PersonAgent extends Agent{
 		
 	}
 	
-	class MyMeal{
-		String type;
-		FoodState state;
+	public class MyMeal{
+		public String type;
+		public FoodState state;
 		
 		public MyMeal(String t){
 			type = t;
 			state = FoodState.initial;
+		}
+	}
+	
+	public class BusRide{
+		public Bus bus;
+		public double fare;
+		public BusRideState state;
+		public int busStop;
+		
+		public BusRide(Bus b){
+			bus = b;
+			fare = 0;
+			state = BusRideState.initial;
+		}
+		
+		public void addFare(double f){
+			fare = f;
+		}
+	}
+	
+	public class CarRide{
+		public Car car;
+		public String destination;
+		public CarRideState state;
+		
+		public CarRide(Car c, String dest){
+			car = c;
+			destination = dest;
+			state = CarRideState.initial;
 		}
 	}
 

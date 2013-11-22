@@ -10,14 +10,16 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
+import test.mock.EventLog;
+import test.mock.LoggedEvent;
 import city.Menu;
 import city.gui.restaurant2.Restaurant2WaiterGui;
 import Role.Role;
 
 public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
-	List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	enum CustomerState {waiting, prompted, proceed, seated, askedToOrder, askedForOrder, ordering, ordered, doneOrdering, 
+	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	public enum CustomerState {waiting, prompted, proceed, seated, askedToOrder, askedForOrder, ordering, ordered, doneOrdering, 
 		 reorder, hasFood, needsCheck, hasCheck, done, gone};
 	List<Order> orders = new ArrayList<Order>();
 	enum OrderState {pending, done};
@@ -25,6 +27,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	Restaurant2HostRole host;
 	Restaurant2CashierRole cashier;
 	private String name;
+	public EventLog log = new EventLog();
 	
 	private int waiterNum;
 	
@@ -232,7 +235,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(state == WaiterState.requestBreak){
 			requestBreak();
 			state = WaiterState.breakRequested;
@@ -354,9 +357,11 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		Menu m = new Menu();
 		//Do("Seating customer at table " + mc.table);
 		mc.c.msgFollowMeToTable(this, m, mc.table, waiterNum);
+		log.add(new LoggedEvent("Prompting customer to follow me to table"));
 	}
 	
 	void SeatCustomer(MyCustomer mc){
+		log.add(new LoggedEvent("Seating customer"));
 		DoSeatCustomer(mc.c, mc.table);
 		try {
 			atDest.acquire();
@@ -464,12 +469,12 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	//WAITER CLASSES
 	
-	private class MyCustomer{
+	public class MyCustomer{
 		Restaurant2Customer c;
 		int table;
 		String choice;
 		double price;
-		CustomerState s;
+		public CustomerState s;
 		
 		MyCustomer(Restaurant2Customer cust, int t){
 			c = cust;
