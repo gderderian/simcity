@@ -1,15 +1,12 @@
 package hollytesting.test;
 
-import interfaces.Restaurant2Waiter;
 import test.mock.EventLog;
 import city.PersonAgent;
 import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2CustomerRole.AgentEvent;
-import city.Restaurant2.Restaurant2CustomerRole.AgentState;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
-import city.Restaurant2.Restaurant2WaiterRole.CustomerState;
 import city.gui.PersonGui;
 import junit.framework.TestCase;
 
