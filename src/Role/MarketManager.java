@@ -4,10 +4,7 @@ import java.util.*;
 
 import city.MarketOrder;
 import city.PersonAgent;
-<<<<<<< HEAD
 import city.transportation.TruckAgent;
-=======
->>>>>>> 95f9124601994057c3754bd9dd1cebc0b97917c3
 import city.transportation.Vehicle;
 import Role.Role;
 
@@ -19,21 +16,16 @@ public class MarketManager extends Role {
 	private ArrayList<myMarketWorker> myWorkers;
 	private ArrayList<myMarketOrder> myOrders;
 	private ArrayList<MarketItem> marketStock;
-<<<<<<< HEAD
 	private ArrayList<TruckAgent> marketTrucks;
 
 	public enum orderState {pendingWorkerAssignment, assignedToWorker, pickedReady, givenToTruck, pendingBilling, billed, done};
 	public enum deliveryType {inPerson, truckOrder};
 	
 	public enum itemType {food, car};
-	
-=======
-	private ArrayList<Vehicle> marketTrucks;
 
 	public enum orderState {pendingWorkerAssignment, assignedToWorker, inProgress, done};
 	public enum deliveryType {inPerson, truckOrder};
 	
->>>>>>> 95f9124601994057c3754bd9dd1cebc0b97917c3
 	public class myMarketOrder {
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
 		orderState state;
@@ -51,11 +43,7 @@ public class MarketManager extends Role {
 	private class MarketItem { // Used for internal stock-tracking within the market
 		public String itemName;
 		public int quantity;
-<<<<<<< HEAD
 		public itemType type;
-		
-=======
->>>>>>> 95f9124601994057c3754bd9dd1cebc0b97917c3
 	}
 
 	private class myMarketWorker { // Used for internal stock-tracking within the market
@@ -69,8 +57,6 @@ public class MarketManager extends Role {
 		myOrders.add(mo);
 		stateChanged();
 	}
-<<<<<<< HEAD
-	
 	public void msgOrderPicked(MarketOrder o){
 		myMarketOrder selectedMarketOrder = null;
 		for (myMarketOrder order : myOrders) {
@@ -94,9 +80,6 @@ public class MarketManager extends Role {
 		selectedMarketOrder.state = orderState.pendingBilling;
 		stateChanged();
 	}
-=======
->>>>>>> 95f9124601994057c3754bd9dd1cebc0b97917c3
-
 	// Scheduler
 	protected boolean pickAndExecuteAnAction(){
 		if (!myOrders.isEmpty()) {
@@ -106,7 +89,6 @@ public class MarketManager extends Role {
 					order.state = orderState.assignedToWorker;
 					return true;
 				}
-<<<<<<< HEAD
 				if (order.state == orderState.pickedReady){
 					deliverOrder(order);
 					return true;
@@ -116,8 +98,6 @@ public class MarketManager extends Role {
 					order.state = orderState.billed;
 					return true;
 				}
-=======
->>>>>>> 95f9124601994057c3754bd9dd1cebc0b97917c3
 			}
 		}
 		return false;
@@ -136,7 +116,6 @@ public class MarketManager extends Role {
 			}
 			w_selected.worker.msgPrepareOrder(o.order);
 			w_selected.numWorkingOrders++;
-<<<<<<< HEAD
 		}
 	}
 	
@@ -162,11 +141,5 @@ public class MarketManager extends Role {
 		// o.order.getRecipient().msgMarketBill(); // Need to discuss with Holly on how to bill people
 		o.state = orderState.billed;
 	}
-=======
-			
-		}
-	}
-	
->>>>>>> 95f9124601994057c3754bd9dd1cebc0b97917c3
-	
+
 }
