@@ -2,6 +2,7 @@ package city;
 
 import test.mock.LoggedEvent;
 import hollytesting.interfaces.Bus;
+import hollytesting.interfaces.Car;
 import interfaces.Restaurant2Customer;
 import interfaces.Restaurant2Host;
 
@@ -50,9 +51,11 @@ public class PersonAgent extends Agent{
 	CityMap cityMap;
 	BusStopAgent busStop;
 	BusAgent bus;
-	List<CarAgent> cars = new ArrayList<CarAgent>();
+	public List<Car> cars = new ArrayList<Car>();
 	public List<BusRide> busRides = Collections.synchronizedList(new ArrayList<BusRide>());
 	public enum BusRideState {initial, waiting, busIsHere, onBus, done, paidFare, getOffBus};
+	public List<CarRide> carRides = Collections.synchronizedList(new ArrayList<CarRide>());
+	public enum CarRideState {initial, arrived};
 	
 	//Money
 	List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
@@ -224,8 +227,16 @@ public class PersonAgent extends Agent{
 		stateChanged();
 	}
 	
-	public void msgArrived() { //Sent from person's car
-		//STUB
+	public void msgArrived(Car car) { //Sent from person's car
+		log.add(new LoggedEvent("Recieved message arrived by car"));
+		synchronized(carRides){
+			for(CarRide cr : carRides){
+				if(cr.car == car){
+					cr.state = CarRideState.arrived;
+				}
+			}
+		}
+		stateChanged();
 	}
 	
 	//from landlord
@@ -245,7 +256,7 @@ public class PersonAgent extends Agent{
 		stateChanged();
 	}
 	
-	public void msgHereIsYourOrder(CarAgent car){		//order for a car
+	public void msgHereIsYourOrder(Car car){		//order for a car
 		cars.add(car);
 		stateChanged();
 	}
@@ -306,6 +317,14 @@ public class PersonAgent extends Agent{
 				if(br.state == BusRideState.getOffBus){
 					getOffBus(br);
 					return true;
+				}
+			}
+		}
+		
+		synchronized(carRides){
+			for(CarRide cr : carRides){
+				if(cr.state == CarRideState.arrived){
+					getOutOfCar(cr);
 				}
 			}
 		}
@@ -411,6 +430,13 @@ public class PersonAgent extends Agent{
 		if(takeBus){
 			//cityMap.getNearestBusStop();	TODO make this a thing
 		}
+		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+			//String destination = restaurant.name;
+			String destination = "Restaurant2";
+			CarRide ride = new CarRide((Car) cars.get(0), destination);
+			carRides.add(ride);
+			ride.car.msgDriveTo(this, destination);
+		}
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){
@@ -455,6 +481,11 @@ public class PersonAgent extends Agent{
 		busride.bus.msgImGettingOff(this);
 		//gui.doGetOffBus();
 		busRides.remove(busride);
+	}
+	
+	public void getOutOfCar(CarRide ride){
+		ride.car.msgParkCar(this);
+		log.add(new LoggedEvent("Telling car to park"));
 	}
 	
 	public void notifyHouseFixed(MyAppliance a){
@@ -660,6 +691,18 @@ public class PersonAgent extends Agent{
 		
 		public void addFare(double f){
 			fare = f;
+		}
+	}
+	
+	public class CarRide{
+		public Car car;
+		public String destination;
+		public CarRideState state;
+		
+		public CarRide(Car c, String dest){
+			car = c;
+			destination = dest;
+			state = CarRideState.initial;
 		}
 	}
 

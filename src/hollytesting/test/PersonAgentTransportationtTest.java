@@ -1,16 +1,12 @@
 package hollytesting.test;
 
+import hollytesting.interfaces.Car;
 import hollytesting.test.mock.MockBusAgent;
 import hollytesting.test.mock.MockBusStop;
+import hollytesting.test.mock.MockCar;
 import city.PersonAgent;
 import city.PersonAgent.BusRideState;
-import city.Restaurant2.Restaurant2CookRole;
-import city.Restaurant2.Restaurant2CustomerRole;
-import city.Restaurant2.Restaurant2HostRole;
-import city.Restaurant2.Restaurant2WaiterRole;
-import city.gui.PersonGui;
-import city.transportation.BusAgent;
-import city.transportation.BusStopAgent;
+import city.PersonAgent.CarRide;
 import junit.framework.TestCase;
 
 public class PersonAgentTransportationtTest extends TestCase {
@@ -18,12 +14,14 @@ public class PersonAgentTransportationtTest extends TestCase {
 	PersonAgent person;
 	MockBusAgent bus;
 	MockBusStop busStop;
+	MockCar car;
 	
 	public void setUp() throws Exception{
 		super.setUp();		
 		person = new PersonAgent("Person");
 		bus = new MockBusAgent("Bus");
 		busStop = new MockBusStop("BusStop", person, bus);
+		car = new MockCar("Car");
 	}
 	
 	public void testGettingOnBusNormal(){
@@ -52,6 +50,20 @@ public class PersonAgentTransportationtTest extends TestCase {
 		person.pickAndExecuteAnAction();
 		assertEquals("Person should have no more bus rides in their list.", person.busRides.size(), 0);
 		
+	}
+	
+	public void testCarNormal(){
+		
+		/*
+		 * Finish this when person has reason to take car
+		 */
+		
+		person.cars.add(car);
+		person.carRides.add(person.new CarRide(car, "Restaurant"));
+		car.msgDriveTo(person, "Restaurant");
+		assertTrue("The person should have record of the car arriving at destination", person.log.containsString("Recieved message arrived by car"));
+		person.pickAndExecuteAnAction();
+		assertTrue("The person should have a record of telling the car to park.", person.log.containsString("Telling car to park"));
 	}
 	
 	

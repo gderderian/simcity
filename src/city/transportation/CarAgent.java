@@ -80,7 +80,7 @@ public class CarAgent extends Vehicle {
 	
 	private void tellOwnerWeHaveArrived() {
 		//Uncomment when method is implemented within person
-		owner.msgArrived();
+		owner.msgArrived(this);
 	}
 	
 	private void parkCar() {
