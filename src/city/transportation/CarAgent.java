@@ -1,11 +1,13 @@
 package city.transportation;
 
+import interfaces.Car;
+
 import java.util.concurrent.Semaphore;
 
 import city.PersonAgent;
 import city.transportation.BusAgent.BusEvent;
 
-public class CarAgent extends Vehicle {
+public class CarAgent extends Vehicle implements Car {
 	//Data
 	public CarEvent event = CarEvent.none;
 	public CarState state = CarState.parked;

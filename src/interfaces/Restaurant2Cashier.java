@@ -1,8 +1,6 @@
 package interfaces;
 
-import interfaces.Restaurant2Customer;
-import interfaces.Restaurant2Market;
-import interfaces.Restaurant2Waiter;
+//import interfaces.Restaurant2Market; TODO add market capabilities
 
 public interface Restaurant2Cashier {
 	
@@ -10,6 +8,6 @@ public interface Restaurant2Cashier {
 	
 	public void msgHereIsPayment(Restaurant2Customer c, double amount);
 	
-	public void msgChargeForOrder(double total, Restaurant2Market m);
+	//public void msgChargeForOrder(double total, Restaurant2Market m);
 
 }

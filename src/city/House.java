@@ -1,19 +1,22 @@
 package city;
 
+import interfaces.Person;
+
 import java.util.*;
 
-import Role.HomeOwnerRole;
+import test.mock.*;
 
 public class House {
 	//DATA
-	private PersonAgent owner;
-	private HomeOwnerRole homeowner;
+	private Person owner;
+	//private HomeOwnerRole homeowner;
 	private Timer cook= new Timer();
-	private Appliance fridge= new Appliance("Fridge");
+	public Appliance fridge= new Appliance("Fridge");
 	private Appliance microwave= new Appliance("Microwave");
 	private Appliance oven= new Appliance("Oven");
 	private Appliance stove= new Appliance("Stove");
-	private List<Appliance> cookingAppliances= new ArrayList<Appliance>(); 
+	public List<Appliance> cookingAppliances= new ArrayList<Appliance>(); 
+	public EventLog log= new EventLog();
 
 	
 	//CONSTRUCTOR
@@ -27,70 +30,85 @@ public class House {
 	
 	
 	//SETTERS/GETTERS
-	public void setOwner(PersonAgent p){
+	public void setOwner(Person p){
 		owner= p;
-		homeowner= new HomeOwnerRole(this);
-		owner.addRole(homeowner, true);
+		//owner= new HomeOwnerRole(this);
+		//owner.addRole(homeowner, true);
 	}
 	
 	
 	//PUBLIC METHODS
 	public void boughtGroceries(List<Food> groceries){
+		log.add(new LoggedEvent("Received boughtGroceries from person, fridge should now have " + groceries.size() + " items."));
+		System.out.println("Received boughtGroceries from person, fridge should now have " + groceries.size() + " items.");
 		if(groceries.size() <= (fridge.capacity - fridge.currentAmount)){
-			homeowner.msgFridgeFull();
+			owner.msgFridgeFull();
 		}
 		for(int i=0; (i<groceries.size()) && (fridge.currentAmount < fridge.capacity); i++){
 			fridge.addItem(groceries.get(i));
-			fridge.currentAmount++;
+			//fridge.currentAmount++;
 		}
 	}
 
 	public void checkFridge(String type){
+		log.add(new LoggedEvent("Recieved checkFridge from person, checking if there is any " + type + " in the fridge."));
+		System.out.println("Recieved checkFridge from person, checking if there is any " + type + " in the fridge.");
 		MyFood temp= new MyFood(type);
 		if(fridge.food.containsKey(temp.food.type)){
 			int tempAmount= fridge.food.get(temp.food.type).currentAmount;
+			System.out.println("tempAmount: " + tempAmount);
 			if(tempAmount > 0){
-				homeowner.msgItemInStock(temp.food.type); 
+				owner.msgItemInStock(temp.food.type); 
 				return;
 			}
 		}
-		homeowner.msgDontHaveItem(temp.food.type);	
+		owner.msgDontHaveItem(temp.food.type);	
 	}
 	
 	public void spaceInFridge(){
+		log.add(new LoggedEvent("Checking to see if there is any space left in the fridge."));
 		int spaceLeft= fridge.capacity - fridge.currentAmount;
-		homeowner.msgSpaceInFridge(spaceLeft);
+		owner.msgSpaceInFridge(spaceLeft);
 	}
 
 	public void cookFood(String type){
+		log.add(new LoggedEvent("Cooking " + type + "."));
 		final MyFood temp= new MyFood(type);
 		if(fridge.food.containsKey(temp.food.type)){
 			int tempAmount= fridge.food.get(temp.food.type).currentAmount;
 			if(tempAmount > 0){
+				System.out.println("I have the type of food I'm trying to cook.");
 				fridge.removeItem(temp.food);
 				int cookTime= temp.food.cookTime;
-				Appliance app= getAppliance(temp.food.appliance);
+				final Appliance app= getAppliance(temp.food.appliance);
 				if(app.isBroken){
-					homeowner.msgApplianceBrokeCantCook();
+					owner.msgApplianceBrokeCantCook();
 				}
-				if((app != null) && (app.currentAmount < app.capacity)){
+				//if((app != null) && (app.currentAmount < app.capacity)){
+				if(app != null){
+					System.out.println("The appliance needed exists.");
 					cook.schedule(new TimerTask() {
 						@Override public void run() {
-							homeowner.msgFoodDone(temp.food.type);
+							System.out.println("Food is done cooking!");
+							owner.msgFoodDone(temp.food.type);
+						
+							Random rand = new Random();
+							int num= rand.nextInt(10);
+							if(num == 0){ //there is a 1/10 chance the appliance will break each time it is used
+							System.out.println("The appliance broke!");
+								app.isBroken= true;
+								owner.msgImBroken(app.type);
+							}
+							System.out.println("Done with the cookFood function.");
+							return;
 						}}, cookTime);
-					Random rand = new Random();
-					int num= rand.nextInt(10);
-					if(num == 0){ //there is a 1/10 chance the appliance will break each time it is used
-						app.isBroken= true;
-					}
-					return;
 				}
 			}
 		}
-		homeowner.msgNoSpaceCantCook();
 	}
 
 	public void fixedAppliance(String appliance){
+		log.add(new LoggedEvent("Recieved fixedAppliance from person, " + appliance + " is now fixed."));
 		for(Appliance a : cookingAppliances){
 			if(a.type.equals(appliance)){
 				a.isBroken= false;
@@ -111,11 +129,11 @@ public class House {
 	
 	
 	//CLASSES
-	private class Appliance{
+	public class Appliance{
 		String type;
 		int capacity; 
-		int currentAmount;
-		Map<String, MyFood>  food= new HashMap<String, MyFood>(); 
+		public int currentAmount;
+		Map<String, MyFood> food= new HashMap<String, MyFood>(); 
 		Boolean isBroken= false;
 
 		Appliance(String type){
@@ -135,12 +153,16 @@ public class House {
 		public void addItem(Food f){
 			MyFood myFood;
 			if(food.containsKey(f.type)){
+				System.out.println("Adding an item I've had before to fridge...");
 				myFood= food.get(f.type);
 				myFood.currentAmount += 1;
+				System.out.println("Current amount of " + myFood.food.type + ": " + myFood.currentAmount);
 				food.put(myFood.food.type, myFood);
 			}
 			else{
+				System.out.println("Adding a new item I've never had before to fridge...");
 				myFood= new MyFood(f);
+				myFood.currentAmount += 1;
 				food.put(myFood.food.type, myFood);
 			}
 			currentAmount++;
@@ -171,7 +193,7 @@ public class House {
 		}
 		
 		MyFood(String type){
-			food= new Food(type, "Microwave", 1000); //assigned manually until we decide how to handle this
+			food= new Food(type, "Microwave", 0); //assigned manually until we decide how to handle this
 			currentAmount= 0;
 		}
 	}

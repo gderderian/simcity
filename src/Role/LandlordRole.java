@@ -7,7 +7,6 @@ import java.util.*;
 
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
-import city.PersonAgent;
 import Role.Role;
 
 public class LandlordRole extends Role implements Landlord {
@@ -16,6 +15,7 @@ public class LandlordRole extends Role implements Landlord {
 	public List<MyTenant> tenants= new ArrayList<MyTenant>();
 	public EventLog log= new EventLog();
 	String name;
+	private Timer fix= new Timer();
 	
 	public LandlordRole(){
 		super();
@@ -90,15 +90,19 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
-		mt.tenant.msgRentDue((this, mt.rate);
+		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
 		stateChanged();
 	}
 
-	private void fixAppliance(MyTenant mt){
-		mt.tenant.msgFixed(mt.needsMaintenance.get(0));
-		mt.needsMaintenance.remove(0);
-		stateChanged();
+	private void fixAppliance(final MyTenant mt){
+		fix.schedule(new TimerTask() {
+			@Override public void run() {
+				mt.needsMaintenance.remove(0);
+				System.out.println("needsMaintenance.size(): " + mt.needsMaintenance.size());
+				mt.tenant.msgFixed(mt.needsMaintenance.get(0));
+				stateChanged();
+			}}, 4000);		
 	}
 
 	

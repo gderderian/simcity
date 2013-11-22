@@ -1,12 +1,14 @@
 package city.transportation;
 
+import interfaces.Bus;
+import interfaces.BusStop;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import city.PersonAgent;
-import city.transportation.interfaces.BusStop;
 
-public class BusAgent extends Vehicle {
+public class BusAgent extends Vehicle implements Bus {
 	//Data
 	public int currentStop = 3;
 	public List<BusStop> busStops = new ArrayList<BusStop>();
@@ -196,11 +198,11 @@ public class BusAgent extends Vehicle {
 	}
 	
 	private void DoWaitAtStop() {
-		/*timer.schedule(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				 msgFinishedUnloading();
 			}
-		}, 1500	);*/
+		}, 1200	);
 	}
 }
  

@@ -23,7 +23,7 @@ public class MarketManager extends Role {
 	public enum deliveryType {inPerson, truckOrder};
 	
 	public enum itemType {food, car};
-	
+
 	MarketManager(String initialName){
 		name = initialName;
 		marketStock = new Hashtable<String, MarketItem>();

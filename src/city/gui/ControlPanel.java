@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import city.CityMap;
+
 import astar.AStarTraversal;
 
 public class ControlPanel extends JPanel implements ActionListener{
@@ -39,6 +41,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel enterNames = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
+    
+    /** Universal city map **/
+    CityMap cityMap = new CityMap();
     
     //Size of astar semaphore grid
     static int gridX = 45; //# of x-axis tiles
@@ -68,7 +73,24 @@ public class ControlPanel extends JPanel implements ActionListener{
         setBorder(BorderFactory.createLineBorder(Color.black, 5));
         
         addPersonSection();
-                
+        
+        List<String> stopLocations0 = new ArrayList<String>();
+        List<String> stopLocations1 = new ArrayList<String>();
+        List<String> stopLocations2 = new ArrayList<String>();
+        List<String> stopLocations3 = new ArrayList<String>();
+        
+        //Add all nearby locations here
+        stopLocations0.add("building0");
+        stopLocations1.add("building1");
+        stopLocations2.add("building2");
+        stopLocations3.add("building3");
+        
+        cityMap.addStopDestinations(0, stopLocations0);
+        cityMap.addStopDestinations(0, stopLocations0);
+        cityMap.addStopDestinations(0, stopLocations0);
+        cityMap.addStopDestinations(0, stopLocations0);
+        
+        
         
         /*********Setting up semaphore grid***********/
       	for (int i = 0; i <= gridX; i++) {

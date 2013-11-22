@@ -9,7 +9,6 @@ public interface Person {
 
 	public abstract void msgImHungry();
 	
-	
 	//From house
 	public abstract void msgImBroken(String type);
 	
@@ -19,15 +18,23 @@ public interface Person {
 
 	public abstract void msgFoodDone(String food);
 	
+	public abstract void msgFridgeFull();
+
+	public abstract void msgSpaceInFridge(int spaceLeft);
+	
+	public abstract void msgApplianceBrokeCantCook();
+	
 	
 	//Messages from bus/bus stop
 	public abstract void msgArrivedAtStop(int stop);
 	
-	public abstract void msgPleasePayFare(BusAgent b, double fare);
+	public abstract void msgPleasePayFare(Bus b, double fare);
 	
 	public abstract void msgBusIsHere(BusAgent b);
 	
 	public abstract void msgArrived();
+	
+	public abstract void msgPleasePayFare(BusAgent b, double fare);
 	
 	
 	//from landlord
