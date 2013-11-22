@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import hollytesting.interfaces.Restaurant2Cook;
 import hollytesting.interfaces.Restaurant2Market;
+import test.mock.*;
 
 public class MockMarket extends Mock implements Restaurant2Market{
 
@@ -15,11 +16,9 @@ public class MockMarket extends Mock implements Restaurant2Market{
 		log.add(new LoggedEvent("Received payment from cashier of "+ payment));
 	}
 
-	@Override
 	public void msgPlaceFoodOrder(Restaurant2Cook cook,
 			HashMap<String, Integer> order) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Placed food order"));
 	}
 
 }

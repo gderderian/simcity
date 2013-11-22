@@ -1,7 +1,13 @@
 package city;
 
+import interfaces.Restaurant2Customer;
+import interfaces.Restaurant2Host;
+
 import java.util.*;
 
+import city.Restaurant2.Restaurant2CustomerRole;
+import city.Restaurant2.Restaurant2HostRole;
+import Role.Role;
 import astar.Position;
 
 public class CityMap {
@@ -12,6 +18,7 @@ public class CityMap {
 	//Depends how the gui ends up working...
 	
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
+	List<String> restaurants = new ArrayList<String>();
 	
 	CityMap() {
 		buildingLocations.put("restaurant1", new Position(6,8));
@@ -21,6 +28,9 @@ public class CityMap {
 		buildingLocations.put("restaurant5", new Position(40,12));
 		
 		//Add in all locations
+		
+		//Creating list of restaurants
+		restaurants.add("Restaurant2");
 	}
 	
 	public int getX(String location) {
@@ -29,5 +39,35 @@ public class CityMap {
 	
 	public int getY(String location) {
 		return buildingLocations.get(location).getY();
+	}
+	
+	
+	//Classes which act as a "directory"
+	
+	/*
+	 * host role: (the role the customer messages when they get to the restaurant
+	 * customer role: the role the person takes on when he/she gets to the restaurant
+	 * Person must create a *new* instance of the customer role to enter the restaurant
+	 * Host Role can be addressed as is: there will only ever be one host at a time
+	 */
+	class Restaurant2{		//HACKEY TODO: fix this maybe?
+		Restaurant2HostRole host;
+		Restaurant2CustomerRole customer;
+		String name;
+		
+		public Restaurant2(){
+			host = new Restaurant2HostRole("Sarah");
+			name = "Restaurant2";
+		}
+		public Role getHost(){
+			return host;
+		}
+		public Role getNewCustomerRole(){
+			customer = new Restaurant2CustomerRole();
+			return customer;
+		}
+		public String getName(){
+			return name;
+		}
 	}
 }

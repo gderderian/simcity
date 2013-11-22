@@ -3,14 +3,15 @@ package city.transportation;
 import java.util.*;
 
 import city.PersonAgent;
+import city.transportation.interfaces.BusStop;
 
 import agent.Agent;
 
-public class BusStopAgent extends Agent {
+public class BusStopAgent extends Agent implements BusStop {
 	//Data
-	List<PersonAgent> peopleWaiting = new ArrayList<PersonAgent>();
+	public List<PersonAgent> peopleWaiting = new ArrayList<PersonAgent>();
 	
-	List<MyBus> buses = new ArrayList<MyBus>();
+	public List<MyBus> buses = new ArrayList<MyBus>();
 	
 	class MyBus {
 		BusAgent b;
@@ -34,7 +35,7 @@ public class BusStopAgent extends Agent {
 	
 	
 	//Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(!buses.isEmpty()) {
 			sendPassengersToBus(buses.get(0));
 			return true;
@@ -45,6 +46,13 @@ public class BusStopAgent extends Agent {
 	
 	//Actions
 	private void sendPassengersToBus(MyBus b) {
+		if(peopleWaiting.isEmpty()) {
+			print("Sorry, no passengers waiting for bus!");
+			b.b.msgPeopleBoarding(null);
+			buses.remove(b);
+			return;
+		}
+		
 		List<PersonAgent> newPassengers = new ArrayList<PersonAgent>();
 		int i = 0;
 		while(i < b.openSpots && !peopleWaiting.isEmpty()) {
@@ -55,6 +63,7 @@ public class BusStopAgent extends Agent {
 			i++;
 		}
 		
+		print("Here are " + newPassengers.size() + " passengers!");
 		b.b.msgPeopleBoarding(newPassengers);
 		buses.remove(b);
 	}

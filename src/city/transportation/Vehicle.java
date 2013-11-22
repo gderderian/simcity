@@ -10,6 +10,7 @@ public abstract class Vehicle extends Agent {
 	
 	Semaphore guiFinished;
 
-	protected Vehicle(){
+	protected Vehicle() {
+		super();
 	}
 }

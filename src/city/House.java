@@ -30,7 +30,7 @@ public class House {
 	public void setOwner(PersonAgent p){
 		owner= p;
 		homeowner= new HomeOwnerRole(this);
-		owner.addRole(homeowner);
+		owner.addRole(homeowner, true);
 	}
 	
 	

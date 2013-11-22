@@ -1,5 +1,7 @@
 package city.transportation;
 
+import java.util.concurrent.Semaphore;
+
 import city.PersonAgent;
 import city.transportation.BusAgent.BusEvent;
 
@@ -8,19 +10,23 @@ public class CarAgent extends Vehicle {
 	public CarEvent event = CarEvent.none;
 	public CarState state = CarState.parked;
 	
-	PersonAgent owner; //Car owner
+	public PersonAgent owner = null; //Car owner
 	
-	String destination;
+	public String destination = null;
 	
-	enum CarEvent { none, driving, arriving, parking };
-	enum CarState { parked, driving, arrived };
+	public enum CarEvent { none, driving, arriving, parking };
+	public enum CarState { parked, driving, arrived };
 	
 	public CarAgent() {
+		super();
+		
 		capacity = 1;
+		guiFinished = new Semaphore(0, true);
 	}
 	
 	//Messages
 	public void msgDriveTo(PersonAgent p, String dest) {
+		owner = p;
 		event = CarEvent.driving;
 		destination = dest;
 		stateChanged();
@@ -31,9 +37,13 @@ public class CarAgent extends Vehicle {
 		destination = null;
 		stateChanged();
 	}
+	
+	public void msgGuiFinished() {
+		guiFinished.release();
+	}
 
 	//Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(state == CarState.parked && event == CarEvent.driving) {
 			state = CarState.driving;
 			driveToDestination();
@@ -57,30 +67,32 @@ public class CarAgent extends Vehicle {
 	private void driveToDestination() {
 		//gui.DoDriveTo(destination);
 		
-		try {
+		print("Driving to " + destination);
+		/*try {
 			guiFinished.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		event = CarEvent.arriving;
 	}
 	
 	private void tellOwnerWeHaveArrived() {
 		//Uncomment when method is implemented within person
-		owner.msgArrived();
+		owner.msgArrived(this);
 	}
 	
 	private void parkCar() {
 		//gui.DoParkCar();
 		
-		try {
+		print("parking");
+		/*try {
 			guiFinished.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		event = CarEvent.none;
 	}

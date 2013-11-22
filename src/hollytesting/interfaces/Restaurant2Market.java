@@ -1,8 +1,7 @@
 package hollytesting.interfaces;
 
 import java.util.HashMap;
-
-import hollytesting.test.mock.EventLog;
+import test.mock.EventLog;
 
 public interface Restaurant2Market {
 	

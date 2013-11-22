@@ -1,6 +1,6 @@
 package hollytesting.interfaces;
 
-import hollytesting.test.mock.EventLog;
+import test.mock.*;
 
 public interface Restaurant2Waiter {
 	

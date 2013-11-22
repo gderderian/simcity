@@ -1,7 +1,6 @@
-package restaurant.gui;
+package city.gui.Bank;
 
-import restaurant.CustomerAgent;
-import restaurant.WaiterAgent;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,12 +8,12 @@ import java.awt.event.*;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class RestaurantGui extends JFrame implements ActionListener {
+public class BankGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
 	//JFrame animationFrame = new JFrame("Restaurant Animation");
-	AnimationPanel animationPanel = new AnimationPanel();
+	BankAnimationPanel animationPanel = new BankAnimationPanel();
 	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
@@ -46,7 +45,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public RestaurantGui() {
+    public BankGui() {
         int WINDOWX = 650;
         int WINDOWY = 600;
 
