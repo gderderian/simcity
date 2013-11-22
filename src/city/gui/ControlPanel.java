@@ -73,6 +73,23 @@ public class ControlPanel extends JPanel implements ActionListener{
         setBorder(BorderFactory.createLineBorder(Color.black, 5));
         
         addPersonSection();
+        
+        List<String> stopLocations0 = new ArrayList<String>();
+        List<String> stopLocations1 = new ArrayList<String>();
+        List<String> stopLocations2 = new ArrayList<String>();
+        List<String> stopLocations3 = new ArrayList<String>();
+        
+        //Add all nearby locations here
+        stopLocations0.add("building0");
+        stopLocations1.add("building1");
+        stopLocations2.add("building2");
+        stopLocations3.add("building3");
+        
+        cityMap.addBusStop(0, stopLocations0);
+        cityMap.addBusStop(0, stopLocations0);
+        cityMap.addBusStop(0, stopLocations0);
+        cityMap.addBusStop(0, stopLocations0);
+        
                 
         
         /*********Setting up semaphore grid***********/
