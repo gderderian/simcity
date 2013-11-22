@@ -5,6 +5,7 @@ import java.util.*;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.transportation.BusStopAgent;
+import Role.BankManagerRole;
 import Role.Role;
 import astar.Position;
 
@@ -14,6 +15,7 @@ public class CityMap {
 
 	//References to 4 bus stops
 	List<BusStopAgent> busStops = new ArrayList<BusStopAgent>();
+	List<Bank> banks = new ArrayList<Bank>();
 	
 	//We may just keep a list of Restaurants, Banks, Markets, and BusStops here instead.
 	//Depends how the gui ends up working...
@@ -87,4 +89,19 @@ public class CityMap {
 			return name;
 		}
 	}
+	
+	class Bank{
+		BankManagerRole manager;
+		String name;
+		
+		public Bank(BankManagerRole m, String n){
+			manager = m;
+			name = n;
+		}
+	}
+	
+	public String getClosestBank(){
+		return banks.get(0).name;
+	}
+	
 }

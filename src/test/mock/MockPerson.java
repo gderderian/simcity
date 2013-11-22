@@ -4,6 +4,7 @@ import Role.LandlordRole;
 import city.MarketOrder;
 import city.transportation.BusAgent;
 import city.transportation.CarAgent;
+import interfaces.Bus;
 import interfaces.Person;
 
 
@@ -30,20 +31,20 @@ public class MockPerson extends Mock implements Person {
 
 	@Override
 	public void msgItemInStock(String type) {
-		log.add(new LoggedEvent("Recieved msgItemInStock from house, I have at least one " + type + "in my fridge."));
-		System.out.println("Recieved msgItemInStock from house, I have at least one " + type + "in my fridge.");
+		log.add(new LoggedEvent("Recieved msgItemInStock from house, I have at least one " + type + " in my fridge."));
+		System.out.println("Recieved msgItemInStock from house, I have at least one " + type + " in my fridge.");
 	}
 
 	@Override
 	public void msgDontHaveItem(String food) {
 		log.add(new LoggedEvent("Recieved msgDontHaveItem from house, I dont have any " + food + " in my fridge."));
-		System.out.println("Recieved msgDontHaveItem from house, I dont have any " + food + "in my fridge.");
+		System.out.println("Recieved msgDontHaveItem from house, I dont have any " + food + " in my fridge.");
 	}
 
 	@Override
 	public void msgFoodDone(String food) {
-		log.add(new LoggedEvent("Recieved msgFoodDone from house, " + food + "is done cooking now."));
-		System.out.println("Recieved msgFoodDone from house, " + food + "is done cooking now.");
+		log.add(new LoggedEvent("Recieved msgFoodDone from house, " + food + " is done cooking now."));
+		System.out.println("Recieved msgFoodDone from house, " + food + " is done cooking now.");
 	}
 	
 	@Override
@@ -65,12 +66,6 @@ public class MockPerson extends Mock implements Person {
 	//FROM BUS
 	@Override
 	public void msgArrivedAtStop(int stop) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgPleasePayFare(BusAgent b, double fare) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -111,6 +106,12 @@ public class MockPerson extends Mock implements Person {
 
 	@Override
 	public void msgHereIsYourOrder(MarketOrder order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgPleasePayFare(Bus b, double fare) {
 		// TODO Auto-generated method stub
 		
 	}
