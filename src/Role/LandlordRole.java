@@ -58,6 +58,7 @@ public class LandlordRole extends Role implements Landlord {
 	}
 
 	public void msgFixAppliance(Person p, String a){
+		log.add(new LoggedEvent("Recieved msgFixAppliance from tenant, tenant should now have " + a + " in needsMaintenance"));
 		for(MyTenant t : tenants){
 			if(t.tenant.equals(p)){
 				t.needsMaintenance.add(a);
@@ -109,7 +110,7 @@ public class LandlordRole extends Role implements Landlord {
 		boolean paymentsUpToDate= true; 
 		boolean newPayment= false;
 		public int numOutstandingPayments= 0;
-		List<String> needsMaintenance= Collections.synchronizedList(new ArrayList<String>());
+		public List<String> needsMaintenance= Collections.synchronizedList(new ArrayList<String>());
 	
 		public MyTenant(Person p){
 			tenant= p;
