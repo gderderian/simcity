@@ -278,6 +278,7 @@ public class PersonAgent extends Agent implements Person{
 		cars.add(car);
 		stateChanged();
 	}
+	
 	public void msgHereIsYourOrder(MarketOrder order){		//order for groceries
 		recievedOrders.add(order);
 		stateChanged();
@@ -772,6 +773,48 @@ public class PersonAgent extends Agent implements Person{
 			role = r;
 			location = l;
 		}
+	}
+
+	@Override
+	public void msgFridgeFull() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgSpaceInFridge(int spaceLeft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgApplianceBrokeCantCook() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgBusIsHere(BusAgent b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgArrived() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgRentDue(LandlordRole r, double rate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsYourOrder(CarAgent car) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
