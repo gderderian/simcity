@@ -38,15 +38,18 @@ public class CityMap {
 		return buildingLocations.get(location).getY();
 	}
 	
-	public int getClosestBusSTop(String destination) { //Returns number of closest bus stop to destination, or a -1 if destination is not found
+	public int getClosestBusStop(String destination) { //Returns number of bus stop closest to destination. Returns -1 if destination is not found
 		for(int i = 0; i < 3; i++) {
-			if(busStops.get(i).contains(destination))
+			if(busStops.get(i).contains(destination)) {
 				return i;
+			}
 		}
-		
 		return -1;
 	}
 	
+	public void addBusStop(int number, List<String> nearbyDestinations) {
+		busStops.put(number, nearbyDestinations);
+	}
 	
 	//Classes which act as a "directory"
 	
