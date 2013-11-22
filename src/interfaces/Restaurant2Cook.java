@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.util.HashMap;
+
 import city.Restaurant2.Restaurant2CookRole.Order;
 
 public interface Restaurant2Cook {
@@ -13,7 +14,7 @@ public interface Restaurant2Cook {
 		
 		public void msgHereIsShipment(HashMap<String, Integer> goodOrder);
 		
-		public void msgOutOfAllFood(Restaurant2Market m);
+		//public void msgOutOfAllFood(Restaurant2Market m);
 		
 		public void msgGotFood();
 

@@ -1,4 +1,4 @@
-package hollytesting.interfaces;
+package interfaces;
 
 import java.util.List;
 import java.util.Random;
