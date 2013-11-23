@@ -79,9 +79,7 @@ public class PersonAgent extends Agent implements Person{
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
-
-	//Restaurant recentlyVisitedRestaurant; 	//so the person won�t go there twice in a row
-	List<String> groceryList;
+	
 
 	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
 	
@@ -108,7 +106,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		name = n;
 		this.aStar = aStarTraversal;
-		currentPosition = new Position(22, 19);
+		currentPosition = new Position(21, 18);
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
