@@ -34,21 +34,28 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton addPersonB = new JButton("Add");
     private JTabbedPane controlPane = new JTabbedPane();
     private JPanel worldControls = new JPanel();
+    private JPanel addPerson = new JPanel();
+    private JPanel infoPanel = new JPanel();
     
     private int WINDOWX = 370;
     private int WINDOWY = 750;
+    private int SCROLLY = WINDOWY/4;
+    private int ADDPERSONY = WINDOWY/7;
+    private int INFOPANELY = WINDOWY - ADDPERSONY;
     
-    private Dimension scrollDim = new Dimension(WINDOWX, WINDOWY/4);
+    private Dimension scrollDim = new Dimension(WINDOWX, SCROLLY);
     private Dimension panelDim = new Dimension(WINDOWX, WINDOWY);
+    private Dimension addPersonDim = new Dimension(WINDOWX, ADDPERSONY);
+    private Dimension infoPanelDim = new Dimension(WINDOWX, INFOPANELY);
 
     private JTextField nameField;
-    private JComboBox jobField;
     private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
     private String[] jobs = {"Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
     		"Market Manager", "Market Worker", "Landlord"
     };
+    private JComboBox jobField = new JComboBox(jobs);
     
     /** Universal city map **/
     CityMap cityMap = new CityMap();
@@ -175,6 +182,13 @@ public class ControlPanel extends JPanel implements ActionListener{
     	personControls.add(new JLabel("<html><br><u>Add People</u><br></html>"));
     	
     	personControls.setPreferredSize(panelDim);
+    	
+    	addPerson.setPreferredSize(addPersonDim);
+    	infoPanel.setPreferredSize(infoPanelDim);
+    	
+    	//Add AddPerson panel and info panel to main panel
+    	personControls.add(addPerson);
+    	personControls.add(infoPanel);
         
         pane.setMinimumSize(scrollDim);
         pane.setMaximumSize(scrollDim);
@@ -182,19 +196,18 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         //set layout of control panel
         FlowLayout flow = new FlowLayout();
-        personControls.setLayout(new BoxLayout(personControls, BoxLayout.PAGE_AXIS));
+        addPerson.setLayout(new BoxLayout(addPerson, BoxLayout.PAGE_AXIS));
         
         //Adding enter name section
-        personControls.add(new JLabel("Name:"));
+        addPerson.add(new JLabel("Name:"));
         nameField = new JTextField();
         nameField.setColumns(16);
-        personControls.add(nameField, flow);
+        addPerson.add(nameField, flow);
         
         //Adding enter job section
-        personControls.add(new JLabel("Job: "));
-        jobField = new JComboBox();
+        addPerson.add(new JLabel("Job: "));
 
-        personControls.add(jobField, flow);
+        addPerson.add(jobField, flow);
         
         isHungry = new JCheckBox("Hungry?");
         isHungry.setEnabled(false);
@@ -237,7 +250,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
         addPersonB.addActionListener(this);
         
-        personControls.add(addPersonB, flow);
+        addPerson.add(addPersonB, flow);
 
         view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
         this.add(personControls);
