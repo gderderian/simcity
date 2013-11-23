@@ -72,7 +72,8 @@ public class PersonAgent extends Agent implements Person{
 	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
 	BankState bankState;
 	Boolean firstTimeAtBank = true;	//determines whether person needs to create account
-	int accountNumber;
+	double accountNumber;
+	double accountBalance;
 	List<BankEvent> bankEvents = Collections.synchronizedList(new ArrayList<BankEvent>());
 	enum BankEventType {withrawal, deposit, loan, openAccount};
 	
@@ -326,31 +327,22 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 	
-	
-	public void msgSetBankAccountNumber(double setbankaccountnumber)
-	{
-		
-	
+	//Bank
+	public void msgSetBankAccountNumber(double num){
+		accountNumber = num;
 	}
 	
-	public void msgBalanceAfterDepositingIntoAccount(double amountofcustomermoney)
-	{
-	
-		
+	public void msgBalanceAfterDepositingIntoAccount(double balance){
+		accountBalance = balance;
 	}
 	
-	public void msgBalanceAfterWithdrawingFromAccount(double amountofcustomermoney)
-	{
-		
+	public void msgBalanceAfterWithdrawingFromAccount(double balance){
+		accountBalance = balance;
 	}
 	
-	public void msgBalanceAfterGetitngLoanFromAccount(
-			double amountofcustomermoney) {
-	
-		
+	public void msgBalanceAfterGetitngLoanFromAccount(double balance) {
+		accountBalance = balance;
 	}
-	
-	
 	
 	/*
 	 * Scheduler

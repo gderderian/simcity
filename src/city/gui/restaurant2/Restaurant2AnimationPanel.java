@@ -156,7 +156,6 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
 		int x = e.getX();
 		int y = e.getY();
 		if((x >= 30) && (x <= 90) && (y >= 30) && (y <= 50)){
-			//System.out.println("GOING BACK TO CITY VIEW");
 			cityGui.changeView("City");
 		}
 	}

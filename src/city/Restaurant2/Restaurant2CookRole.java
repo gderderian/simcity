@@ -79,6 +79,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		stateChanged();
 	}
 	
+	//TODO fix this in V2
 	public void msgFailedOrder(HashMap<String, Integer> failedOrder){
 		shipmentOrders.add(new ShipmentOrder(failedOrder, ShipmentState.pending));
 		stateChanged();
@@ -195,6 +196,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		5000);
 	}
 	
+	
 	private void checkInventory() {
 		if(markets.isEmpty()){
 			return;
@@ -229,6 +231,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		checkInventory();
 	}
 	
+	//TODO change this to market order
 	private void sendShipmentOrder(ShipmentOrder s){
 		print("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.size());
 		Market m = markets.get(marketNumber);
