@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.BorderFactory;
@@ -77,6 +78,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     MarketManager marketManager;
     MarketWorker marketWorker;
     LandlordRole landlord;
+    
+    //TODO populate this
+    private Map<String, String> jobLocations = new HashMap<String, String>();
     
     /** Universal city map **/
     CityMap cityMap = new CityMap();
@@ -308,8 +312,9 @@ public class ControlPanel extends JPanel implements ActionListener{
         			errorDisplay.setText("Please select a job");
         		}
         		else{
+        			errorDisplay.setText("");
         			job = (String)jobField.getSelectedItem();
-                    addPerson(nameField.getText());
+                    addPerson(nameField.getText(), job);
                 	nameField.setText("");
                 	isHungry.setSelected(false);
         		}
@@ -324,14 +329,23 @@ public class ControlPanel extends JPanel implements ActionListener{
      *
      * @param name name of new person
      */
-    public void addPerson(String name) {
+    public void addPerson(String name, String job) {
         if (name != null) {
             JButton button = new JButton(name);
             button.setBackground(Color.white);
             
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
-            cityGui.addPerson(name, aStarTraversal);
+            //Find the role for the person's job
+            Role role = null;
+            for (Entry<String, Role> entry : jobRoles.entrySet()){
+            	if(entry.getKey().equals(job)){
+            		role = entry.getValue();
+            	}
+            }
+            
+            cityGui.addPerson(name, aStarTraversal, role);
+        	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
             Dimension buttonSize = new Dimension((paneSize.width - 20),
