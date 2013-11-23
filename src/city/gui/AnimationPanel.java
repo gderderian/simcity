@@ -64,13 +64,6 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
-		//g2.setColor(new Color(0, 255, 0)); //Background color = green
-		
-		//g2.fillRect(200, 200, 30, 30);
-		
-		//g2.fillRect(0, 0, WINDOWX, WINDOWY );
-		//g2.fillRect(0, 0, 50, 50);
-		
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
@@ -105,9 +98,11 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		if((x >= 200) && (x <= 230) && (y >= 200) && (y <= 230)){
-			System.out.println("YAY YOU CLICKED THE SQUARE");
-			cityGui.changeView("Restaurant1");
+		
+		//Restaurant 2
+		if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180)){
+			System.out.println("This is Restaurant2");
+			cityGui.changeView("Restaurant2");
 		}
 	}
 }

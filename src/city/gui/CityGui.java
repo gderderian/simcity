@@ -115,7 +115,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         }
         
         public void changeView(String building){
-                if(building.equals("Restaurant1")){
+                if(building.equals("Restaurant2")){
                         animationPanel.setVisible(false);
                 add(restaurant2, BorderLayout.EAST);
                         restaurant2.setVisible(true);

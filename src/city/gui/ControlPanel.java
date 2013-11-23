@@ -213,6 +213,11 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[0][12].release(100); //bank2
       	sidewalkGrid[21][4].release(100); //apart1
       	sidewalkGrid[1][18].release(100); //apart2
+      	sidewalkGrid[21][8].release(100); //stop0
+      	sidewalkGrid[11][0].release(100); //stop1
+      	sidewalkGrid[0][8].release(100); //stop2
+      	sidewalkGrid[18][7].release(100); //stop3
+      	
       	sidewalkGrid[20][18].release(100); //starting point for agents
       	
       	
@@ -230,6 +235,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     	
     	addPerson.setPreferredSize(addPersonDim);
     	infoPanel.setPreferredSize(infoPanelDim);
+        pane.setViewportView(view);
+        
+        infoPanel.add(new JLabel("List of people in SimCity"));
+    	infoPanel.add(pane);
     	
     	//Add AddPerson panel and info panel to main panel
     	personControls.add(addPerson);
@@ -254,10 +263,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 
         addPerson.add(jobField, flow);
         
-        addPerson.add(new JLabel("Error/help messages:"));
-        errorDisplay.setEditable(false);
-        addPerson.add(errorDisplay, flow);
-        
         isHungry = new JCheckBox("Hungry?");
         isHungry.setEnabled(false);
         isHungry.addActionListener(this);
@@ -270,21 +275,15 @@ public class ControlPanel extends JPanel implements ActionListener{
 				if(nameField.getText().length() > 0){
 					isHungry.setEnabled(true);
 				}
-				else{
-					isHungry.setEnabled(false);
-				}
+				else isHungry.setEnabled(false);
 			}
-
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				if(nameField.getText().length() > 0){
 					isHungry.setEnabled(true);
 				}
-				else{
-					isHungry.setEnabled(false);
-				}
+				else isHungry.setEnabled(false);
 			}
-
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(nameField.getText().length() > 0){
@@ -300,12 +299,13 @@ public class ControlPanel extends JPanel implements ActionListener{
         addPersonB.addActionListener(this);
         
         addPerson.add(addPersonB, flow);
+        
+        addPerson.add(new JLabel("Help messages:"));
+        errorDisplay.setEditable(false);
+        addPerson.add(errorDisplay, flow);
 
         view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
         this.add(personControls);
-        pane.setViewportView(view);
-        //add(pane);
-    	
     }
     
 
