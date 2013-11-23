@@ -16,8 +16,8 @@ public class BankManagerRoleGui implements Gui {
 
     private boolean returningtolobby = false;
 
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
+    private int xPos = 20, yPos = 20;//default waiter position
+    private int xDestination = 100, yDestination = 100;//default start position
 
 	private BankGui gui;
 

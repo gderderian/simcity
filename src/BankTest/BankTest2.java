@@ -1,12 +1,13 @@
 package BankTest;
 
+import astar.AStarTraversal;
 import junit.framework.TestCase;
 import city.Bank;
 import city.account;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
-import Role.PersonAgent;
+import city.PersonAgent;
 
 // this test is for two customers and two bank tellers I'm verifying whether the customers are being 
 //assigned to the correct bank tellers. 
@@ -22,7 +23,7 @@ public class BankTest2 extends TestCase {
         PersonAgent person1;
         PersonAgent person2;
         PersonAgent person3;
-        
+        AStarTraversal aStarTraversal;
         
         public void setUp() throws Exception{
                 super.setUp();                

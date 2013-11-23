@@ -1,12 +1,13 @@
 package BankTest;
 
+import astar.AStarTraversal;
 import junit.framework.TestCase;
 import test.mock.EventLog;
 import city.Bank;
 import city.account;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
-import Role.PersonAgent;
+import city.PersonAgent;
 import Role.BankManagerRole;
 
 public class BankTest1 extends TestCase {
@@ -17,14 +18,15 @@ public class BankTest1 extends TestCase {
         PersonAgent person1;
         PersonAgent person2;
         Bank bank;
+        AStarTraversal aStarTraversal;
         
         public EventLog log = new EventLog();
         
         public void setUp() throws Exception{
                 
                 super.setUp();        
-                person1 = new PersonAgent();
-                person2 = new PersonAgent();
+                person1 = new PersonAgent("bob", aStarTraversal);
+                person2 = new PersonAgent("tom", aStarTraversal);
                 bank = new Bank();
                 bankmanager = new BankManagerRole(bank);
                 bankcustomer = new BankCustomerRole(50, person2);

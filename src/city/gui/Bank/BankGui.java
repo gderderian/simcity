@@ -54,9 +54,7 @@ public class BankGui extends JFrame implements ActionListener {
         int WINDOWY = 600;
 
     	setLayout(new BorderLayout());
-    	
-
-    	
+    
         Dimension restDim = new Dimension(400, (int) (400));
         restPanel.setPreferredSize(restDim);
         
@@ -81,7 +79,7 @@ public class BankGui extends JFrame implements ActionListener {
         waitercomebackfrombreakbutton = new JButton("waiter come back");
         waitercomebackfrombreakbutton.addActionListener(this);
         
-        depletecooksupply = new JButton("deplete cook supply");
+        depletecooksupply = new JButton("add bank customer");
         depletecooksupply.addActionListener(this);
         
         depletemarket1supply = new JButton("deplete market 1 supply");
@@ -199,8 +197,8 @@ public class BankGui extends JFrame implements ActionListener {
         
         if(e.getSource() == depletecooksupply)
         {
-        	System.out.println("deplete cook's supply");
-        	restPanel.depletecooksupply();
+        	//System.out.println("deplete cook's supply");
+        	restPanel.addPerson("BankCustomerRole", "tom", true);
         }
         
         if(e.getSource() == depletemarket1supply)

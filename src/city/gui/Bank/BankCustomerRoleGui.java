@@ -12,7 +12,7 @@ public class BankCustomerRoleGui implements Gui{
 
 	private BankCustomerRole role = null;
 	private boolean isPresent = false;
-	private boolean isHungry = false;
+	private boolean arrivedAtBank = false;
 
 	//private HostAgent host;
 	BankGui gui;
@@ -34,10 +34,10 @@ public class BankCustomerRoleGui implements Gui{
 		
 		//current position was -40 -40
 
-		xPos = -20;
-		yPos = -20;
-		xDestination = -20;
-		yDestination = -20;
+		xPos = 20;
+		yPos = 20;
+		xDestination = 40;
+		yDestination = 40;
 		//maitreD = m;
 		this.gui = gui;
 
@@ -116,15 +116,12 @@ public class BankCustomerRoleGui implements Gui{
 	public boolean isPresent() {
 		return isPresent;
 	}
-	public void setHungry() {
-		isHungry = true;
-
-		//agent.gotHungry();
-
+	public void setArrivedAtBank() {
+		arrivedAtBank = true;
 		setPresent(true);
 	}
 	public boolean isHungry() {
-		return isHungry;
+		return arrivedAtBank;
 	}
 
 	public void setPresent(boolean p) {

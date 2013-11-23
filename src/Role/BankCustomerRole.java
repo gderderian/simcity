@@ -3,6 +3,7 @@ package Role;
 import city.gui.Bank.BankCustomerRoleGui;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
+import city.PersonAgent;
 
 public class BankCustomerRole extends Role{
 
@@ -18,6 +19,7 @@ public class BankCustomerRole extends Role{
         //public int customeraccountnumber;
         BankCustomerRoleGui gui;
         PersonAgent person;
+        String name;
         public EventLog log = new EventLog();
         
         
@@ -158,7 +160,8 @@ public class BankCustomerRole extends Role{
         public boolean pickAndExecuteAnAction() 
         {
                 
-
+        		gui.gotohomeposition();
+        	
                 if(bankcustomerstate == state.openaccount)
                 {
                         mybankteller.msgOpenAccount();
@@ -249,6 +252,12 @@ public class BankCustomerRole extends Role{
         {
         	this.gui = setGui;
         }
+        
+        public String getName() {
+        	return this.name;
+        }
+        
+        
         
         
 }
