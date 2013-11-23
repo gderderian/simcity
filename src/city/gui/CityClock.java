@@ -59,7 +59,7 @@ public class CityClock {
 					}
 					//System.out.println("Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState());
 					//System.out.println("Human time is " + getHumanTime());
-					cityGui.timerTick(getCurrentTime());
+					cityGui.timerTick(getCurrentTime(), getHourOfDayInHumanTime(), getMinuteOfDay(), getDayState(), getAmPm());
 					checkTimer.restart(); // Restarts every two seconds
 		      }
 		});
@@ -121,8 +121,19 @@ public class CityClock {
 		return hourFinalCalc / 60;
 	}
 	
-	public long getMinuteOfDayInMilTime(long baseTime){ // You should normally pass in getCurrentTime() by default
+	public int getHourOfDayInHumanTime(){
+		long hours = getHourOfDayInMilTime(getCurrentLongTime()) % 12;
+		return (int)hours;
+	}
+	
+	public long getMinuteOfDay(long baseTime){ // You should normally pass in getCurrentTime() by default
 		long calcMinute = baseTime * 1440;
+		long minuteFinalCalc = calcMinute / 179999;
+		return minuteFinalCalc % 60;
+	}
+	
+	public long getMinuteOfDay(){ // You should normally pass in getCurrentTime() by default
+		long calcMinute = getCurrentTime() * 1440;
 		long minuteFinalCalc = calcMinute / 179999;
 		return minuteFinalCalc % 60;
 	}
@@ -140,7 +151,7 @@ public class CityClock {
 	
 	public String getHumanTime(){
 		String amPm = "";
-		long minutes = getMinuteOfDayInMilTime(getCurrentLongTime());
+		long minutes = getMinuteOfDay(getCurrentLongTime());
 		long hours = getHourOfDayInMilTime(getCurrentLongTime()) % 12;
 		String leadingDisplayZero = "";
 		if (hours == 0){
@@ -155,6 +166,16 @@ public class CityClock {
 			amPm = "pm";
 		}
 		return hours + ":" + leadingDisplayZero + minutes + amPm;
+	}
+	
+	public String getAmPm(){
+		String amPm = "";
+		if (getHourOfDayInMilTime(getCurrentTime()) <= 11){
+			amPm = "am"; 
+		} else {
+			amPm = "pm";
+		}
+		return amPm;
 	}
 	
 }
