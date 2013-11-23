@@ -13,7 +13,7 @@ import city.PersonAgent;
 
 public class BusAgent extends Vehicle implements Bus {
 	//Data
-	public int currentStop = 3;
+	public int currentStop;
 	public List<BusStop> busStops = new ArrayList<BusStop>();
 	private Map<Integer, Position> stopPositions = new HashMap<Integer, Position>();
 	double money;
@@ -33,7 +33,7 @@ public class BusAgent extends Vehicle implements Bus {
 		}
 	}
 	
-	public BusEvent event = BusEvent.arrivedAtStop;
+	public BusEvent event = BusEvent.none;
 	public BusState state = BusState.driving;
 	
 	public enum BusEvent { none, arrivedAtStop, pickingUpPassengers, boarded, everyonePaid };
@@ -42,6 +42,7 @@ public class BusAgent extends Vehicle implements Bus {
 	public BusAgent(AStarTraversal aStar) {
 		super(aStar);
 		
+		currentStop = 3;
 		capacity = 10;
 		fare = 3.00;
 		money = 100.00;
@@ -196,7 +197,7 @@ public class BusAgent extends Vehicle implements Bus {
 	private void DriveToNextStop() {
 		
 		print("Driving to stop #" + (currentStop + 1));
-		GoToStop(currentStop + 1);
+		GoToStop((currentStop + 1) % 4);
 
 		event = BusEvent.arrivedAtStop;
 		
@@ -217,7 +218,7 @@ public class BusAgent extends Vehicle implements Bus {
 			public void run() {
 				 msgFinishedUnloading();
 			}
-		}, 1200	);
+		}, 2500	);
 	}
 	
 	public void addBusStops(List<BusStop> stops) {
@@ -225,13 +226,22 @@ public class BusAgent extends Vehicle implements Bus {
 	}
 	
 	private void GoToStop(int stop) {
-		guiMoveFromCurrentPositionTo(stopPositions.get(stop));
-		try {
-			guiFinished.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		switch(stop) { //Moves to a corner before going to next stop - makes paths as straight as possible
+		case 0:
+			guiMoveFromCurrentPositionTo(new Position(18, 15));
+			break;
+		case 1:
+			guiMoveFromCurrentPositionTo(new Position(18, 3));
+			break;
+		case 2:
+			guiMoveFromCurrentPositionTo(new Position(3, 3));
+			break;
+		case 3:
+			guiMoveFromCurrentPositionTo(new Position(3, 15));
+			break;
 		}
+		
+		guiMoveFromCurrentPositionTo(stopPositions.get(stop));
 	}
 }
  

@@ -39,7 +39,6 @@ public class BusStopAgent extends Agent implements BusStop {
 	public void msgICanPickUp(BusAgent b, int people) {
 		buses.add(new MyBus(b, people));
 		stateChanged();
-		print("called");
 	}	
 	
 	//Scheduler
