@@ -1,5 +1,7 @@
 package Role;
 
+import java.util.concurrent.Semaphore;
+
 import city.gui.Bank.BankCustomerRoleGui;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
@@ -7,7 +9,7 @@ import city.PersonAgent;
 
 public class BankCustomerRole extends Role{
 
-        public enum state {arrived, waiting, openaccount, withdraw, deposit, leave, getloan, paybackloan, openaccountsuccessful, depositintoaccountsuccessful, withdrawfromaccountsuccessful, getloansuccessful};
+        public enum state {arrived, waiting, inprogress, gotobankteller, openaccount, withdraw, deposit, leave, getloan, paybackloan, openaccountsuccessful, depositintoaccountsuccessful, withdrawfromaccountsuccessful, getloansuccessful};
         public int bankaccountnumber;
         state bankcustomerstate;
         BankTellerRole mybankteller;
@@ -17,6 +19,7 @@ public class BankCustomerRole extends Role{
         double paybackloan;
         public double amountofcustomermoney;
         //public int customeraccountnumber;
+        public Semaphore atBankStation = new Semaphore(0,true);
         BankCustomerRoleGui gui;
         PersonAgent person;
         String name;
@@ -29,7 +32,7 @@ public class BankCustomerRole extends Role{
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
                 this.person = setperson;
-                stateChanged();
+                //stateChanged();
         
         }
         
@@ -38,9 +41,11 @@ public class BankCustomerRole extends Role{
         {
 
                 mybankteller = assignbankteller;
+                bankcustomerstate = state.gotobankteller;
                 stateChanged();
-        
+       
         }
+        
         
         public void msgWithDrawFund(double withdrawal)
         {
@@ -160,7 +165,12 @@ public class BankCustomerRole extends Role{
         public boolean pickAndExecuteAnAction() 
         {
                 
-        		//gui.gotohomeposition();
+        		/*
+        		if(bankcustomerstate == state.gotobankteller)
+        		{
+        			gui.goToBankTellerStation(mybankteller)
+        		}
+        		*/
         	
                 if(bankcustomerstate == state.openaccount)
                 {
@@ -238,6 +248,7 @@ public class BankCustomerRole extends Role{
                         return true;
                 }
                 
+              //gui.gotohomeposition();
                 
                 return false;
         }
