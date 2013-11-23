@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,10 +42,13 @@ public class ControlPanel extends JPanel implements ActionListener{
     private Dimension panelDim = new Dimension(WINDOWX, WINDOWY);
 
     private JTextField nameField;
-    private JTextField jobField;
+    private JComboBox jobField;
     private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
+    private String[] jobs = {"Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
+    		"Market Manager", "Market Worker", "Landlord"
+    };
     
     /** Universal city map **/
     CityMap cityMap = new CityMap();
@@ -188,8 +192,8 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         //Adding enter job section
         personControls.add(new JLabel("Job: "));
-        jobField = new JTextField();
-        jobField.setColumns(16);
+        jobField = new JComboBox();
+
         personControls.add(jobField, flow);
         
         isHungry = new JCheckBox("Hungry?");
@@ -252,10 +256,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         	// Chapter 2.19 describes showInputDialog()
         	if(!nameField.getText().equals("")){
         		String job = null;
-        		if(!jobField.getText().equals("")){
-        			job = jobField.getText();
-        		}
-                addPerson(nameField.getText(), job);
+        		//if(!jobField.getText().equals("")){
+        		//	job = jobField.getText();
+        		//}
+                addPerson(nameField.getText());
             	nameField.setText("");
             	isHungry.setSelected(false);
         	}
@@ -269,14 +273,14 @@ public class ControlPanel extends JPanel implements ActionListener{
      *
      * @param name name of new person
      */
-    public void addPerson(String name, String job) {
+    public void addPerson(String name) {
         if (name != null) {
             JButton button = new JButton(name);
             button.setBackground(Color.white);
             
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
-            cityGui.addPerson(name, aStarTraversal, job);
+            cityGui.addPerson(name, aStarTraversal);
 
             Dimension paneSize = pane.getSize();
             Dimension buttonSize = new Dimension((paneSize.width - 20),

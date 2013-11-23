@@ -127,12 +127,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 }       
         }
         
-        public void addPerson(String name, AStarTraversal aStarTraversal, Role job){
+        public void addPerson(String name, AStarTraversal aStarTraversal){
                 PersonAgent newPerson = new PersonAgent(name, aStarTraversal);
-                if(job != null){
-                	newPerson.addFirstJob(job);
+                //if(job != null){
+                //	newPerson.addFirstJob(job);
                 	//Add location to this
-                }
+                //}
                 people.add(newPerson);
                 PersonGui g = new PersonGui(newPerson);
                 newPerson.setGui(g);
