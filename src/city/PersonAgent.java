@@ -278,6 +278,9 @@ public class PersonAgent extends Agent implements Person{
 		busride.state = BusRideState.busIsHere;
 		busRides.add(busride);
 		stateChanged();
+		
+		//This will change to add bus to existing BusRide
+		//TODO add bus stop to this message so I can find the BusRide
 	}
 	
 	public void msgArrived(Car car) { //Sent from person's car
@@ -500,14 +503,12 @@ public class PersonAgent extends Agent implements Person{
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
-			//String destination = restaurant.name;
 			String destination = "Restaurant2";
-			CarRide ride = new CarRide((Car) cars.get(0), destination);
-			carRides.add(ride);
-			ride.car.msgDriveTo(this, destination);
+			takeCar(destination);
 		}
 		else{	//take bus
-			//cityMap.getNearestBusStop();	TODO make this a thing
+			//String destination = cityMap.getNearestBusStop();	TODO make this a thing
+			//takeBus(destination);
 		}
 	}
 	
@@ -566,7 +567,33 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void goGroceryShopping(){
+		/*
+		 * TODO gui - go to market
+		 * NOT walking, because there will be groceries to carry
+		 */
+		if(cars.isEmpty()){
+			/*
+			 * String market = cityMap.getClosestMarket();
+			 * OR could have a function getClosest(type);
+			 * takeBus(market);
+			 */
+		}
+		else{
+			//takeCar(market);
+		}
 		
+	}
+	
+	public void takeBus(String dest){
+		//String stop = cityMap.getBusStop(destination);
+		//BusRide ride = new BusRide(stop);
+	}
+	
+	public void takeCar(String destination){
+		log.add(new LoggedEvent("Taking car to destination: " + destination));
+		CarRide ride = new CarRide((Car) cars.get(0), destination);
+		carRides.add(ride);
+		ride.car.msgDriveTo(this, destination);
 	}
 	
 	public void handleRecievedOrders(){
@@ -623,7 +650,6 @@ public class PersonAgent extends Agent implements Person{
 	    try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -678,7 +704,6 @@ public class PersonAgent extends Agent implements Person{
 		    try {
 				atDestination.acquire();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -771,10 +796,25 @@ public class PersonAgent extends Agent implements Person{
 		public BusRideState state;
 		public int busStop;
 		
+		/*
+		 * TODO change this so the second constructor is used ONLY
+		 */
+		
 		public BusRide(Bus b){
 			bus = b;
 			fare = 0;
 			state = BusRideState.initial;
+		}
+		
+		public BusRide(int stop){
+			busStop = stop;
+			fare = 0;
+			state = BusRideState.initial;
+		}
+		
+		//This will get used in the message recieved from the bus
+		public void setBus(Bus b){
+			bus = b;
 		}
 		
 		public void addFare(double f){
