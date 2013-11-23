@@ -13,6 +13,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import city.Market;
+import city.MarketOrder;
 import city.OrderItem;
 import city.gui.restaurant2.Restaurant2CookGui;
 import Role.Role;
@@ -28,7 +30,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	List<ShipmentOrder> shipmentOrders = Collections.synchronizedList(new ArrayList<ShipmentOrder>());
 	enum ShipmentState {pending, sent, arrived, processed};
 	int marketNumber;
-	List<Restaurant2Market> markets = new ArrayList<Restaurant2Market>();
+	List<Market> markets = new ArrayList<Market>();
 	boolean startCheck;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
@@ -50,7 +52,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		startCheck = true;
 	}
 	
-	public void addRestaurant2Market(Restaurant2Market m){
+	public void addRestaurant2Market(Market m){
 		markets.add(m);
 	}
 	
@@ -87,8 +89,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		stateChanged();
 	}
 	
-	public void msgOutOfAllFood(Restaurant2Market m){
-		for(Restaurant2Market ma : markets){
+	public void msgOutOfAllFood(Market m){
+		for(Market ma : markets){
 			if(ma == m){
 				markets.remove(ma);
 			}
@@ -228,8 +230,9 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	private void sendShipmentOrder(ShipmentOrder s){
 		print("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.size());
-		Restaurant2Market m = markets.get(marketNumber);
-		m.msgPlaceFoodOrder(this, s.order);
+		Market m = markets.get(marketNumber);
+		//MarketOrder order = new MarketOrder(, "Restaurant2", person);
+		//m.mktManager.msgPlaceFoodOrder(s.order);
 		if(marketNumber == (markets.size()-1)){
 			marketNumber = 0;
 		}

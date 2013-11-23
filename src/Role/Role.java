@@ -3,6 +3,7 @@ package Role;
 import java.util.concurrent.Semaphore;
 
 import agent.StringUtil;
+import city.PersonAgent;
 
 public abstract class Role {
 	
@@ -11,7 +12,7 @@ public abstract class Role {
 	public Semaphore stateChange = new Semaphore(1, true);
 	public boolean isActive;
 	public boolean inUse;
-	
+	protected PersonAgent person;
 
     protected Role() {
     	isActive = false;
@@ -77,8 +78,12 @@ public abstract class Role {
      * This function sets the role to active or not for use with the PersonAgent's scheduler
      */
     
-    public void setActive(boolean active){
-    	isActive = active;
+    public void setActive(PersonAgent person){
+    	isActive = true;
+    }
+    
+    public void setInactive(){
+    	isActive = false;
     }
     
     public boolean isInUse(){

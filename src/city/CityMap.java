@@ -23,6 +23,8 @@ public class CityMap {
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
+	Restaurant2 restaurant2 = new Restaurant2();
+	
 	public CityMap() {
 		//Restaurant locations
 		buildingLocations.put("rest1", new Position(20,0));
@@ -92,13 +94,14 @@ public class CityMap {
 		public Role getHost(){
 			return host;
 		}
-		public Role getNewCustomerRole(){
+		public Restaurant2CustomerRole getNewCustomerRole(){
 			customer = new Restaurant2CustomerRole();
 			return customer;
 		}
 		public String getName(){
 			return name;
 		}
+		
 	}
 	
 	class Bank{

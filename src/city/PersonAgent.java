@@ -6,6 +6,7 @@ import interfaces.Car;
 import interfaces.House;
 import interfaces.Landlord;
 import interfaces.Person;
+import interfaces.Restaurant2Customer;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import test.mock.EventLog;
+import city.Restaurant2.Restaurant2CustomerRole;
 import city.gui.PersonGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
@@ -163,7 +165,7 @@ public class PersonAgent extends Agent implements Person{
 	public void addRole(Role r, boolean active){
 		roles.add(r);
 		if(active){
-			r.setActive(true);
+			r.setActive(this);
 		}
 	}
 	
@@ -518,8 +520,10 @@ public class PersonAgent extends Agent implements Person{
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
-		//Restaurant restaurant2 = new Restaurant();
-		//restaurant2.host.msgIWantFood(restaurant2.customer);
+		Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole();
+		cityMap.restaurant2.host.msgIWantFood(customer);
+		customer.setActive(this);
+		roles.add(customer);
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
@@ -892,12 +896,12 @@ public class PersonAgent extends Agent implements Person{
 		}
 		
 		public void startJob(){
-			role.setActive(true);
+			role.setActive(PersonAgent.this);
 			workState = WorkState.atWork;
 		}
 		
 		public void endJob(){
-			role.setActive(false);
+			role.setInactive();
 			workState = WorkState.notWorking;
 		}
 		
