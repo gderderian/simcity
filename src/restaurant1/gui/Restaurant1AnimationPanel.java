@@ -31,6 +31,8 @@ public class Restaurant1AnimationPanel extends JPanel implements ActionListener,
     	setMaximumSize(new Dimension(WINDOWX, WINDOWY));
     	setMinimumSize(new Dimension(WINDOWX, WINDOWY));
         setVisible(true);
+
+        addMouseListener(this);
     	
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
@@ -168,7 +170,7 @@ public class Restaurant1AnimationPanel extends JPanel implements ActionListener,
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		if((x >= 20) && (x <= 640) && (y >= 20) && (y <= 440)) {
+		if((x >= 20) && (x <= 64) && (y >= 20) && (y <= 44)) {
 			cityGui.changeView("City");
 			System.out.println("CLICKED");
 		}
