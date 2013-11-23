@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import restaurant1.gui.Restaurant1AnimationPanel;
+
 import Role.Role;
 import astar.AStarTraversal;
 import city.gui.CityClock;
@@ -31,6 +33,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     ControlPanel controlPanel = new ControlPanel();
     
     Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
+    Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
         AnimationPanel4 restaurant4 = new AnimationPanel4();
         //PersonAgent testPerson = new PersonAgent("test");
         //PersonGui testPersonGui = new PersonGui();
@@ -138,9 +141,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                         restaurant2.setVisible(true);
                 }
                 if(building.equals("City")){
+                		restaurant1.setVisible(false);
                         restaurant2.setVisible(false);
                         animationPanel.setVisible(true);
                 }       
+                if(building.equals("Restaurant1")){
+                        animationPanel.setVisible(false);
+                add(restaurant1, BorderLayout.EAST);
+                        restaurant1.setVisible(true);
+                }
         }
         
         public void addPerson(String name, AStarTraversal aStarTraversal, Role job, CityMap map){

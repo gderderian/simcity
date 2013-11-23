@@ -29,8 +29,6 @@ public class VehicleGui implements Gui {
 	
 	AnimationPanel animPanel;
 	
-	Restaurant2AnimationPanel restaurant2panel;
-	
 	public VehicleGui(Vehicle v){
 		this.v = v;
 		this.type = v.getType();
