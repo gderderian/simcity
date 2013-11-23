@@ -3,7 +3,9 @@ import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Bank;
 import city.account;
+import city.gui.Bank.BankTellerRoleGui;
 import Role.BankCustomerRole;
+
 public class BankTellerRole extends Role {
         
 
@@ -18,6 +20,7 @@ public class BankTellerRole extends Role {
                 public BankManagerRole bankmanager;
                 enum state {openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft};
                 state banktellerstate;
+                BankTellerRoleGui gui;
                 public EventLog log = new EventLog();
                 
                 
@@ -228,6 +231,12 @@ public class BankTellerRole extends Role {
                 
                 return false;
 }
+
+
+		public void setGui(BankTellerRoleGui setgui) {
+			
+			this.gui = setgui;
+		}
 
         
         
