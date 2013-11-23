@@ -138,7 +138,7 @@ public class MarketManager extends Role {
 					w_selected = w;
 				}
 			}
-			w_selected.worker.msgPrepareOrder(o.order);
+			w_selected.worker.msgPrepareOrder(o.order, this);
 			w_selected.numWorkingOrders++;
 		}
 	}
