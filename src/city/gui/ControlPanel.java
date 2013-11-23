@@ -19,10 +19,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import city.CityMap;
-
 import astar.AStarTraversal;
 
 public class ControlPanel extends JPanel implements ActionListener{
@@ -31,14 +31,18 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel view = new JPanel();
     private List<JButton> list = new ArrayList<JButton>();
     private JButton addPersonB = new JButton("Add");
+    private JTabbedPane controlPane = new JTabbedPane();
+    private JPanel worldControls = new JPanel();
     
     private int WINDOWX = 370;
     private int WINDOWY = 750;
     
     private Dimension scrollDim = new Dimension(WINDOWX, WINDOWY/4);
+    private Dimension panelDim = new Dimension(WINDOWX, WINDOWY);
 
     private JTextField nameField;
-    private JPanel enterNames = new JPanel();
+    private JTextField jobField;
+    private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
     
@@ -65,14 +69,17 @@ public class ControlPanel extends JPanel implements ActionListener{
 
         view.setLayout(new FlowLayout());
         setLayout(new BoxLayout((Container) this, BoxLayout.PAGE_AXIS));
-        
-        pane.setMinimumSize(scrollDim);
-        pane.setMaximumSize(scrollDim);
-        pane.setPreferredSize(scrollDim);
 
         setBorder(BorderFactory.createLineBorder(Color.black, 5));
         
         addPersonSection();
+        
+        controlPane.setPreferredSize(panelDim);
+        //worldControls.setMaximumSize(panelDim);
+        worldControls.setPreferredSize(panelDim);
+        controlPane.addTab("People", personControls);
+        controlPane.addTab("World", worldControls);
+        add(controlPane);
         
         List<String> stopLocations0 = new ArrayList<String>();
         List<String> stopLocations1 = new ArrayList<String>();
@@ -171,15 +178,29 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void addPersonSection(){
-    	add(new JLabel("<html><br><u>Add People</u><br></html>"));
+    	personControls.add(new JLabel("<html><br><u>Add People</u><br></html>"));
+    	
+    	personControls.setPreferredSize(panelDim);
         
+        pane.setMinimumSize(scrollDim);
+        pane.setMaximumSize(scrollDim);
+        pane.setPreferredSize(scrollDim);
+        
+        //set layout of control panel
         FlowLayout flow = new FlowLayout();
+        personControls.setLayout(new BoxLayout(personControls, BoxLayout.PAGE_AXIS));
         
-        enterNames.add(new JLabel("Name:"), flow);
-        
+        //Adding enter name section
+        personControls.add(new JLabel("Name:"));
         nameField = new JTextField();
         nameField.setColumns(16);
-        enterNames.add(nameField, flow);
+        personControls.add(nameField, flow);
+        
+        //Adding enter job section
+        personControls.add(new JLabel("Job: "));
+        jobField = new JTextField();
+        jobField.setColumns(16);
+        personControls.add(jobField, flow);
         
         isHungry = new JCheckBox("Hungry?");
         isHungry.setEnabled(false);
@@ -221,13 +242,13 @@ public class ControlPanel extends JPanel implements ActionListener{
         });
 
         addPersonB.addActionListener(this);
-       
-        enterNames.add(addPersonB, flow);
+        
+        personControls.add(addPersonB, flow);
 
         view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
-        this.add(enterNames);
+        this.add(personControls);
         pane.setViewportView(view);
-        add(pane);
+        //add(pane);
     	
     }
     
@@ -240,7 +261,11 @@ public class ControlPanel extends JPanel implements ActionListener{
         if (e.getSource() == addPersonB) {
         	// Chapter 2.19 describes showInputDialog()
         	if(!nameField.getText().equals("")){
-                addPerson(nameField.getText());
+        		String job = null;
+        		if(!jobField.getText().equals("")){
+        			job = jobField.getText();
+        		}
+                addPerson(nameField.getText(), job);
             	nameField.setText("");
             	isHungry.setSelected(false);
         	}
@@ -254,14 +279,14 @@ public class ControlPanel extends JPanel implements ActionListener{
      *
      * @param name name of new person
      */
-    public void addPerson(String name) {
+    public void addPerson(String name, String job) {
         if (name != null) {
             JButton button = new JButton(name);
             button.setBackground(Color.white);
             
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
-            cityGui.addPerson(name, aStarTraversal);
+            cityGui.addPerson(name, aStarTraversal, job);
 
             Dimension paneSize = pane.getSize();
             Dimension buttonSize = new Dimension((paneSize.width - 20),
