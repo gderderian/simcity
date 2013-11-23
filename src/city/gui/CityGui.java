@@ -182,6 +182,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         		newBus.setGui(g);
         		guis.add(g);
         		animationPanel.addGui(g);
+        		g.setMainAnimationPanel(animationPanel);
 
         		newBus.startThread();   
         	}

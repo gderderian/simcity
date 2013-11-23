@@ -334,7 +334,7 @@ public class ControlPanel extends JPanel implements ActionListener{
       	
       	//Releasing all roads and sidewalks so guis can move around on them.
       	//First, the roads
-      	for(int i = 3; i < 18; i++) { //Top and bottom portions of road
+      	for(int i = 3; i < 19; i++) { //Top and bottom portions of road
       		for(int j = 3; j < 7; j++)
       			streetGrid[i][j].release();
       		for(int j = 12; j < 16; j++)
@@ -409,6 +409,8 @@ public class ControlPanel extends JPanel implements ActionListener{
       	for(int i = 0; i < 4; i++) {
       		busStops.add(new BusStopAgent(i));
       		cityMap.addBusStop(busStops.get(i));
+      		BusStopAgent newBus = (BusStopAgent)busStops.get(i);
+      		newBus.startThread();
       	}
     }
 }
