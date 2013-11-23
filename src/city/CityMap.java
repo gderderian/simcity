@@ -33,7 +33,7 @@ public class CityMap {
 		buildingLocations.put("rest1", new Position(20,0));
 		buildingLocations.put("rest2", new Position(0,3));
 		buildingLocations.put("rest3", new Position(0,17));
-		buildingLocations.put("rest4", new Position(18,10));
+		buildingLocations.put("rest4", new Position(10,18));
 		buildingLocations.put("rest5", new Position(13,9));
 		//Market locations
 		buildingLocations.put("mark1", new Position(21,11));
