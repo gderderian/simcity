@@ -910,9 +910,4 @@ public class PersonAgent extends Agent implements Person{
 			location = l;
 		}
 	}
-
-
-
-	
-
 }

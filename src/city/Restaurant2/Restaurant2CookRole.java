@@ -49,7 +49,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		foods.put("Salad", new Food("Salad", 5, 1));
 		//each food starts off with low inventory
 		
-		startCheck = true;
+		//startCheck = true;
+		startCheck = false;
 	}
 	
 	public void addRestaurant2Market(Market m){
@@ -231,6 +232,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	private void sendShipmentOrder(ShipmentOrder s){
 		print("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.size());
 		Market m = markets.get(marketNumber);
+		//TODO fix this
 		//MarketOrder order = new MarketOrder(, "Restaurant2", person);
 		//m.mktManager.msgPlaceFoodOrder(s.order);
 		if(marketNumber == (markets.size()-1)){
