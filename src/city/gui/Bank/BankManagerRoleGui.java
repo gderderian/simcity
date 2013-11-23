@@ -19,12 +19,15 @@ public class BankManagerRoleGui implements Gui {
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
 
+	private BankGui gui;
+
     public static int xTable = 200;
     public static int yTable = 250;
 
 
-    public BankManagerRoleGui(BankManagerRole setrole) {
+    public BankManagerRoleGui(BankManagerRole setrole, BankGui gui) {
         this.role = setrole;
+        this.gui = gui;
 
     }
 

@@ -79,9 +79,7 @@ public class PersonAgent extends Agent implements Person{
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
-
-	//Restaurant recentlyVisitedRestaurant; 	//so the person won�t go there twice in a row
-	List<String> groceryList;
+	
 
 	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
 	
@@ -108,7 +106,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		name = n;
 		this.aStar = aStarTraversal;
-		currentPosition = new Position(22, 19);
+		currentPosition = new Position(20, 18);
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
@@ -330,7 +328,7 @@ public class PersonAgent extends Agent implements Person{
 	public void msgSetBankAccountNumber(double setbankaccountnumber)
 	{
 		
-		
+	
 	}
 	
 	public void msgBalanceAfterDepositingIntoAccount(double amountofcustomermoney)
@@ -357,7 +355,8 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		//DoGoTo("restaurant1");
+		//Test movement by creating people named a, b, c, or d
+		movementTest();
 		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -630,16 +629,16 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void movementTest() {
 		if(name.equals("a"))
-			moveTo(1, 1);
+			DoGoTo("bank1");
 		
 		if(name.equals("b"))
-			moveTo(3, 19);
+			DoGoTo("apart2");
 		
 		if(name.equals("c"))
-			moveTo(4, 2);
+			DoGoTo("rest3");
 		
 		if(name.equals("d"))
-			moveTo(2, 7);
+			DoGoTo("mark3");
 	}
 	
 	public void cookMeal(MyMeal meal){
@@ -660,8 +659,10 @@ public class PersonAgent extends Agent implements Person{
 		Position p = new Position(x, y);
 		
 		if(currentPosition.distance(p) > 16) {
-			//intermediate movement.
+			//Intermediate step?
+			print("Long trip!");
 		}
+		
 		guiMoveFromCurrentPositionTo(p);
 	}
 	
@@ -669,8 +670,9 @@ public class PersonAgent extends Agent implements Person{
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
-	    gui.moveTo(130 + x * 30, 70 + y * 30);
-	    
+	    //gui.moveTo(130 + x * 30, 70 + y * 30);
+	    moveTo(x, y);
+		
 	    //Give animation time to move to square.
 	    try {
 			atDestination.acquire();

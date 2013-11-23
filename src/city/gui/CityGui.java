@@ -6,10 +6,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Role.Role;
 import astar.AStarTraversal;
-
 import city.gui.restaurant4.AnimationPanel4;
-
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 
@@ -130,7 +129,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         public void addPerson(String name, AStarTraversal aStarTraversal, Role job){
                 PersonAgent newPerson = new PersonAgent(name, aStarTraversal);
                 if(job != null){
-                	newPerson.addFirstJob(job);
+                	newPerson.addFirstJob(job, "Unknown");
                 	//Add location to this
                 }
                 people.add(newPerson);
