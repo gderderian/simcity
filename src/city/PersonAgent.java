@@ -529,6 +529,7 @@ public class PersonAgent extends Agent implements Person{
 		else{	//take bus
 			//String destination = cityMap.getNearestBusStop();	TODO make this a thing
 			//takeBus(destination);
+			DoGoTo("rest2");
 		}
 	}
 	
@@ -645,6 +646,10 @@ public class PersonAgent extends Agent implements Person{
 		
 		if(name.equals("f"))
 			DoGoTo("rest2");
+		
+		if(name.equals("RestaurantTest"))
+			msgImHungry();
+
 	}
 	
 	public void cookMeal(MyMeal meal){
