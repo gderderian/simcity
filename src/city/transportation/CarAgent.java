@@ -4,6 +4,8 @@ import interfaces.Car;
 
 import java.util.concurrent.Semaphore;
 
+import astar.AStarTraversal;
+
 import city.PersonAgent;
 import city.transportation.BusAgent.BusEvent;
 
@@ -19,10 +21,11 @@ public class CarAgent extends Vehicle implements Car {
 	public enum CarEvent { none, driving, arriving, parking };
 	public enum CarState { parked, driving, arrived };
 	
-	public CarAgent() {
-		super();
+	public CarAgent(AStarTraversal aStar) {
+		super(aStar);
 		
 		capacity = 1;
+		type = "car";
 		guiFinished = new Semaphore(0, true);
 	}
 	

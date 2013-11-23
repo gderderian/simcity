@@ -14,6 +14,8 @@ public abstract class Vehicle extends Agent {
 
 	public int capacity = 0;
 	
+	String type;
+	
 	Position currentPosition;
 	AStarTraversal aStar;
 	Semaphore guiFinished;

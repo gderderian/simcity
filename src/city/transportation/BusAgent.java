@@ -6,6 +6,8 @@ import interfaces.BusStop;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import astar.AStarTraversal;
+
 import city.PersonAgent;
 
 public class BusAgent extends Vehicle implements Bus {
@@ -35,7 +37,8 @@ public class BusAgent extends Vehicle implements Bus {
 	public enum BusEvent { none, arrivedAtStop, pickingUpPassengers, boarded, everyonePaid };
 	public enum BusState { driving, atStop, pickingUpPassengers, askingForFare };
 
-	public BusAgent() {
+	public BusAgent(AStarTraversal aStar) {
+		super(aStar);
 		capacity = 10;
 		fare = 3.00;
 		money = 100.00;
