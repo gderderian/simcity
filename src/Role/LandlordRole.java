@@ -71,7 +71,7 @@ public class LandlordRole extends Role implements Landlord {
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
 		for(MyTenant t : tenants){
-			if(t.newPayment == true || t.paymentsUpToDate == false){
+			if(t.newPayment == true){// t.paymentsUpToDate == false){
 				collectRent(t);
 				return true;
 			}
@@ -90,19 +90,18 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
+		System.out.println("tenant's name: " + mt.tenant);
 		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
 		stateChanged();
 	}
 
 	private void fixAppliance(final MyTenant mt){
-		fix.schedule(new TimerTask() {
-			@Override public void run() {
-				mt.needsMaintenance.remove(0);
-				System.out.println("needsMaintenance.size(): " + mt.needsMaintenance.size());
-				mt.tenant.msgFixed(mt.needsMaintenance.get(0));
-				stateChanged();
-			}}, 4000);		
+		System.out.println("Fixing appliance.");
+		mt.tenant.msgFixed(mt.needsMaintenance.get(0));
+		mt.needsMaintenance.remove(0);
+		System.out.println("needsMaintenance.size(): " + mt.needsMaintenance.size());
+		stateChanged();	
 	}
 
 	

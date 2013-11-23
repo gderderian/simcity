@@ -27,8 +27,8 @@ public class PersonGui implements Gui {
 	public PersonGui(PersonAgent p){
 		agent = p;
 		
-		xPos = 780;
-		yPos = 680;
+		xPos = 720;
+		yPos = 660;
 		xDest = xPos;
 		yDest = yPos;
 	}
