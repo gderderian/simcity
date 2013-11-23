@@ -76,10 +76,14 @@ public class PersonAgent extends Agent implements Person{
 	
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
+	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
+
 	//Restaurant recentlyVisitedRestaurant; 	//so the person won�t go there twice in a row
 	List<String> groceryList;
+
+	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
 	
 	//Testing
 	public EventLog log = new EventLog();
@@ -87,7 +91,9 @@ public class PersonAgent extends Agent implements Person{
 	public boolean takeBus = false;
 	
 	//Job
-	Job myJob;
+	public Job myJob;
+	public enum WorkState {notWorking, goToWork, atWork};
+	WorkState workState;
 	
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
@@ -175,6 +181,16 @@ public class PersonAgent extends Agent implements Person{
 		house = h;
 	}
 	
+	//For testing, until we have the time functionality
+	public void setWorkState(String s){
+		if(s.equals("Go to work")){
+			workState = WorkState.goToWork;
+		}
+		else if(s.equals("Not working")){
+			workState = WorkState.notWorking;
+		}
+	}
+	
 	/*
 	 * MESSAGES
 	 */
@@ -198,6 +214,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgDontHaveItem(String food) {
 		groceryList.add(food);
+		events.add("GoGroceryShopping");
 		stateChanged();
 	}
 
@@ -211,6 +228,28 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		stateChanged();
+	}
+
+	public void msgFridgeFull() {
+		// TODO Auto-generated method stub
+		//This is a non-norm, will fill in later
+		print("Recieved message fridge full");
+		log.add(new LoggedEvent("Recieved message fridge full"));
+		
+	}
+
+	public void msgSpaceInFridge(int spaceLeft) {
+		// TODO Auto-generated method stub
+		//Not sure what to do with this one - also non-norm, will assume for now that there is definitely space in fridge?
+	}
+
+	public void msgApplianceBrokeCantCook() {
+		synchronized(meals){
+			for(MyMeal m : meals){
+				
+			}
+		}
+		
 	}
 	
 	//Messages from bus/bus stop
@@ -317,10 +356,10 @@ public class PersonAgent extends Agent implements Person{
 		
 		//Uncomment this and create people named a, b, c, and d to see basic animation.
 		//movementTest();
-		//TODO figure out place for grocery shopping
 
 		//DoGoTo("restaurant1");
 		
+		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
@@ -330,9 +369,8 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		/*
-		 * This is first because the person needs to pay their fare before they get off the bus
-		 */
+		
+		//This is first because the person needs to pay their fare before they get off the bus
 		synchronized(busRides){
 			for(BusRide br : busRides){
 				if(br.fare != 0){
@@ -364,6 +402,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		//Person getting hungry
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -372,6 +411,15 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		//Go grocery shopping
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("GoGroceryShopping")){
+					goGroceryShopping();
+				}
+			}
+		}
+		//Go to bank
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GoToBank"));
@@ -379,13 +427,7 @@ public class PersonAgent extends Agent implements Person{
 				return true;
 			}
 		}
-		
-		synchronized(billsToPay){
-			if(!billsToPay.isEmpty()){
-				payBills();
-				return true;
-			}
-		}
+		//Cook meal
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.state == FoodState.initial){
@@ -394,6 +436,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		//Eat meal
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.state == FoodState.done){
@@ -402,12 +445,21 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		//Deal with recieved orders
 		synchronized(recievedOrders){
 			if(!recievedOrders.isEmpty()){
 				handleRecievedOrders();
 				return true;
 			}
 		}
+		//Pay bills
+		synchronized(billsToPay){
+			if(!billsToPay.isEmpty()){
+				payBills();
+				return true;
+			}
+		}
+		//Notify landlord of broken appliance
 		synchronized(appliancesToFix){
 			for(MyAppliance a : appliancesToFix){
 				if(a.state == ApplianceState.broken){
@@ -416,6 +468,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		//Notify house that appliance is fixed
 		synchronized(appliancesToFix){
 			for(MyAppliance a : appliancesToFix){
 				if(a.state == ApplianceState.fixed){
@@ -442,16 +495,15 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		Random rand = new Random();
-		//int x = rand.nextInt(1);
-		//int x = (Math.random()<0.5) ? 0:1;
-		int x = 0;		//HACK for testing TODO fix this
-		if(x == 1){
+		//If the person needs to go to work, they will eat at home
+		if(workState == WorkState.goToWork){
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
 			print("I'm going to eat " + food + " in my house.");
 			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
+		//Else if they don't have to go to work, they will go to a restaurant
 		else{
 			goToRestaurant();
 		}
@@ -535,6 +587,10 @@ public class PersonAgent extends Agent implements Person{
 	public void notifyHouseFixed(MyAppliance a){
 		house.fixedAppliance(a.type);
 		appliancesToFix.remove(a);	//no longer needed on this list
+	}
+	
+	public void goGroceryShopping(){
+		
 	}
 	
 	public void handleRecievedOrders(){
@@ -783,10 +839,12 @@ public class PersonAgent extends Agent implements Person{
 		
 		public void startJob(){
 			role.setActive(true);
+			workState = WorkState.atWork;
 		}
 		
 		public void endJob(){
 			role.setActive(false);
+			workState = WorkState.notWorking;
 		}
 		
 		public void changeJob(Role r, String l){
@@ -795,46 +853,8 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 
-	@Override
-	public void msgFridgeFull() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void msgSpaceInFridge(int spaceLeft) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void msgApplianceBrokeCantCook() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgBusIsHere(BusAgent b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgArrived() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgRentDue(LandlordRole r, double rate) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgHereIsYourOrder(CarAgent car) {
-		// TODO Auto-generated method stub
-		
-	}
 	
+
 }

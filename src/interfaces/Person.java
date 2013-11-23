@@ -30,19 +30,17 @@ public interface Person {
 	
 	public abstract void msgPleasePayFare(Bus b, double fare);
 	
-	public abstract void msgBusIsHere(BusAgent b);
+	public abstract void msgBusIsHere(Bus b);
 	
-	public abstract void msgArrived();
-	
-	public abstract void msgPleasePayFare(BusAgent b, double fare);
-	
+	public abstract void msgArrived(Car c);
+		
 	
 	//from landlord
 	public abstract void msgFixed(String appliance);
 	
-	public abstract void msgRentDue(LandlordRole r, double rate);
+	public abstract void msgRentDue(Landlord r, double rate);
 	
-	public abstract void msgHereIsYourOrder(CarAgent car);
+	public abstract void msgHereIsYourOrder(Car car);
 	
 	public abstract void msgHereIsYourOrder(MarketOrder order);
 }
