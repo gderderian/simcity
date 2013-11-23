@@ -13,7 +13,7 @@ public interface Restaurant2Cook {
 		
 		public void msgFailedOrder(HashMap<String, Integer> failedOrder);
 		
-		public void msgHereIsShipment(MarketOrder goodOrder);
+		public void msgHereIsYourOrder(MarketOrder goodOrder);
 		
 		//public void msgOutOfAllFood(Restaurant2Market m);
 		
