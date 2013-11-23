@@ -1,15 +1,17 @@
 package city.gui.Bank;
 import javax.swing.*;
 
+import astar.AStarTraversal;
 import city.Bank;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
-import Role.PersonAgent;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+
+import city.PersonAgent;
 
 /**
 * Panel in frame that contains all the restaurant information,
@@ -23,15 +25,15 @@ public class BankPanel extends JPanel {
 	PersonAgent person3;
 	PersonAgent person4;
 	Bank bank;
-	
+    AStarTraversal aStarTraversal;
     //Host, cook, waiters and customers
     private BankManagerRole bankmanager = new BankManagerRole(bank);
     
     private Vector<BankCustomerRole> bankcustomers = new Vector<BankCustomerRole>();
     private Vector<BankTellerRole> banktellers = new Vector<BankTellerRole>();
     private JPanel restLabel = new JPanel();
-    //private ListPanel customerPanel = new ListPanel(this, "Customers");
-    //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private ListPanel bankcustomerPanel = new ListPanel(this, "Customers");
+    private ListPanel banktellerPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
     private BankGui gui; //reference to main gui
     private BankManagerRoleGui bankmanagerGui = new BankManagerRoleGui(bankmanager, gui); 
@@ -52,17 +54,40 @@ public class BankPanel extends JPanel {
         //cook.addMarket(market3);
         //cook.addCashier(cashier);
         //cook.addMarket(backupchickenmarket);
+        BankCustomerRole bcr = new BankCustomerRole(10,person);	
+		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
+		g.setHomePosition(12, 20 + bankcustomers.size() * 25);
+		g.setArrivedAtBank();
+		gui.animationPanel.addGui(g);
+		bcr.setGui(g);
+		bankcustomers.add(bcr);
+        PersonAgent person = new PersonAgent("bob", aStarTraversal);
+        person.startThread();
+        person.addRole(bcr, true);
         
-        //cook.startThread();
-        //cashier.startThread();
-        //market1.startThread();
-        //market2.startThread();
-        //market3.startThread();
+        
+        
+        BankManagerRole bmr = new BankManagerRole(bank);	
+		BankManagerRoleGui g2 = new BankManagerRoleGui(bmr, gui);
+		//g2.setHomePosition(12, 20 + bankcustomers.size() * 25);
+		//g2.setArrivedAtBank();
+		gui.animationPanel.addGui(g2);
+		bmr.setGui(g2);
+		bankcustomers.add(bcr);
+        PersonAgent person2 = new PersonAgent("steve", aStarTraversal);
+        person.startThread();
+        person.addRole(bcr, true);
+        
+        
+        
+        
+        
+      
   
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
-        //group.add(customerPanel);
-        //group.add(waiterPanel);
+        group.add(bankcustomerPanel);
+        group.add(banktellerPanel);
         initRestLabel();
         add(restLabel);
         add(group);
@@ -100,16 +125,16 @@ public class BankPanel extends JPanel {
 
             for (int i = 0; i < bankcustomers.size(); i++) {
                 BankCustomerRole temp = bankcustomers.get(i);
-                //if (temp.getName() == name)
-                   // gui.updateInfoPanel(temp);
+                if (temp.getName() == name)
+                   gui.updateInfoPanel(temp);
             }
         
         }
         else if(type.equals("BankTellerRole")) {
     		for (int i = 0; i < banktellers.size(); i++) {
                 BankTellerRole temp = banktellers.get(i);
-                //if (temp.getName() == name)
-                   // gui.updateInfoPanel(temp);
+                if (temp.getName() == name)
+                   gui.updateInfoPanel(temp);
             }
     	}
         
@@ -133,11 +158,8 @@ public class BankPanel extends JPanel {
     		BankCustomerRole bcr = new BankCustomerRole(10,person);	
     		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
     		g.setHomePosition(12, 20 + bankcustomers.size() * 25);
-    		
-    		if(ishungry == true)
-    	    {
-    	    	g.setHungry();
-    	    }
+    	    g.setArrivedAtBank();
+    	  
     		gui.animationPanel.addGui(g);
     		//c.setHost(host);
     		//c.setCashier(cashier);
@@ -153,7 +175,7 @@ public class BankPanel extends JPanel {
     		BankTellerRole bt = new BankTellerRole(bankmanager);	
     		BankTellerRoleGui g = new BankTellerRoleGui(bt, gui);
     		//wg.xPos += waiterposcounter;
-    		g.setHomePosition(20 + banktellers.size() * 25, 45);
+    		g.setHomePosition(20 + banktellers.size() * 25, 20);
     		gui.animationPanel.addGui(g);
     		bt.setGui(g);
     		banktellers.add(bt);
