@@ -46,8 +46,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     CityMap cityMap = new CityMap();
     
     //Size of astar semaphore grid
-    static int gridX = 22; //# of x-axis tiles
-    static int gridY = 19; //# of y-axis tiles
+    static int gridX = 21; //# of x-axis tiles
+    static int gridY = 18; //# of y-axis tiles
 
     //Semaphore grid for astar animation
     Semaphore[][] streetGrid = new Semaphore[gridX+1][gridY+1];
@@ -110,35 +110,33 @@ public class ControlPanel extends JPanel implements ActionListener{
       	}
       	
       	//Release sidewalk semaphores
-      	for(int i = 1; i < 23; i++) { //Top and bottom
-      		for(int j = 1; j < 4; j++)
+      	for(int i = 1; i < 21; i++) { //Top and bottom
+      		for(int j = 1; j < 3; j++)
       			sidewalkGrid[i][j].release();
-      		for(int j = 17; j < 20; j++)
+      		for(int j = 16; j < 18; j++)
       			sidewalkGrid[i][j].release();
       	}
 
-      	for(int i = 4; i < 17; i++) { //Left and right
-      		for(int j = 1; j < 4; j++)
+      	for(int i = 3; i < 16; i++) { //Left and right
+      		for(int j = 1; j < 3; j++)
       			sidewalkGrid[j][i].release();
-      		for(int j = 20; j < 23; j++)
+      		for(int j = 19; j < 21; j++)
       			sidewalkGrid[j][i].release();
       	}
+      	
+      	for(int i = 7; i < 15; i++)
+      		for(int j = 10; j < 12; j++)
+      			sidewalkGrid[i][j].release();
       	
       	//End of sidewalk grid releasing
       	
       	//Adding in crosswalks (shared semaphores between street grid and sidewalk grid)
-      	/*for(int i = 13; i < 15; i++) //Top left crosswalk
-      		for(int j = 8; j < 13; j++)
+      	for(int i = 15; i < 19; i++) //Bottom right crosswalk
+      		for(int j = 16; j < 18; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
-      	for(int i = 34; i < 39; i++) //Top right crosswalk
-      		for(int j = 13; j < 15; j++)
+      	for(int i = 13; i < 15; i++) //Crosswalk to island
+      		for(int j = 12; j < 16; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
-      	for(int i = 8; i < 13; i++) //Bottom left crosswalk
-      		for(int j = 22; j < 24; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];
-      	for(int i = 32; i < 34; i++) //Bottom right crosswalk
-      		for(int j = 24; j < 29; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];   */
       	
       	/********Finished setting up semaphore grid***********/
     }
