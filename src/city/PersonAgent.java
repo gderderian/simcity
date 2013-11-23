@@ -106,7 +106,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		name = n;
 		this.aStar = aStarTraversal;
-		currentPosition = new Position(21, 18);
+		currentPosition = new Position(20, 18);
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
@@ -670,8 +670,9 @@ public class PersonAgent extends Agent implements Person{
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
-	    gui.moveTo(130 + x * 30, 70 + y * 30);
-	    
+	    //gui.moveTo(130 + x * 30, 70 + y * 30);
+	    moveTo(x, y);
+		
 	    //Give animation time to move to square.
 	    try {
 			atDestination.acquire();
