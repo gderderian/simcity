@@ -36,24 +36,35 @@ public class BankPanel extends JPanel {
     private ListPanel banktellerPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
     private BankGui gui; //reference to main gui
-    private BankManagerRoleGui bankmanagerGui = new BankManagerRoleGui(bankmanager, gui); 
+    //private BankManagerRoleGui bankmanagerGui = new BankManagerRoleGui(bankmanager, gui); 
     
     
     int waiterposcounter = 30;
     public BankPanel(BankGui gui) {
         
     	this.gui = gui;
-        bankmanager.setGui(bankmanagerGui);
-        gui.animationPanel.addGui(bankmanagerGui);
-        //bankmanager.startThread();    
-        //this.addPerson("Cooks", "cook bily", false);
-        //cook.setGui(cookGui);
-        //gui.animationPanel.addGui(cookGui);
-        //cook.addMarket(market1);
-        //cook.addMarket(market2);
-        //cook.addMarket(market3);
-        //cook.addCashier(cashier);
-        //cook.addMarket(backupchickenmarket);
+    	
+    	BankManagerRole bmr = new BankManagerRole(bank);	
+		BankManagerRoleGui g2 = new BankManagerRoleGui(bmr, gui);
+		gui.animationPanel.addGui(g2);
+		bmr.setGui(g2);
+        PersonAgent person2 = new PersonAgent("steve", aStarTraversal);
+        person2.startThread();
+        person2.addRole(bmr, true);
+    	
+        BankTellerRole btr = new BankTellerRole(bmr);	
+		BankTellerRoleGui g3 = new BankTellerRoleGui(btr, gui);
+		//g3.setHomePosition(12, 20 + bankcustomers.size() * 25);
+		//g3.setArrivedAtBank();
+		gui.animationPanel.addGui(g3);
+		btr.setGui(g3);
+		banktellers.add(btr);
+        PersonAgent person3 = new PersonAgent("john", aStarTraversal);
+        person3.startThread();
+        person3.addRole(btr, true);
+        
+        bmr.msgBankTellerArrivedAtBank(btr);
+    
         BankCustomerRole bcr = new BankCustomerRole(10,person);	
 		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
 		g.setHomePosition(12, 20 + bankcustomers.size() * 25);
@@ -65,25 +76,16 @@ public class BankPanel extends JPanel {
         person.startThread();
         person.addRole(bcr, true);
         
-        
-        
-        BankManagerRole bmr = new BankManagerRole(bank);	
-		BankManagerRoleGui g2 = new BankManagerRoleGui(bmr, gui);
-		//g2.setHomePosition(12, 20 + bankcustomers.size() * 25);
-		//g2.setArrivedAtBank();
-		gui.animationPanel.addGui(g2);
-		bmr.setGui(g2);
-		bankcustomers.add(bcr);
-        PersonAgent person2 = new PersonAgent("steve", aStarTraversal);
-        person.startThread();
-        person.addRole(bcr, true);
+        bmr.msgCustomerArrivedAtBank(bcr);
         
         
         
         
         
-      
-  
+        
+        
+        
+        
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
         group.add(bankcustomerPanel);
