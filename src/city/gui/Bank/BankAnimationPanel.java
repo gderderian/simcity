@@ -38,11 +38,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         Graphics2D g3 = (Graphics2D)g;
-        Graphics2D g4 = (Graphics2D)g;
-        Graphics2D g5 = (Graphics2D)g;
-        Graphics2D kitchentable = (Graphics2D)g;
-        Graphics2D cookingarea = (Graphics2D)g;
-        Graphics2D stove = (Graphics2D)g;
+        
         Graphics2D waitingarea = (Graphics2D)g;
         
         //Clear the screen by painting a rectangle the size of the frame
@@ -51,18 +47,6 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         
         g3.setColor(Color.orange);
         g3.fillRect(260, 250, 50, 50);
-       
-        g4.setColor(Color.orange);
-        g4.fillRect(320, 250, 50, 50);
-       
-        g5.setColor(Color.orange);
-        g5.fillRect(380, 250, 50, 50);
-        
-        kitchentable.setColor(Color.yellow);
-        kitchentable.fillRect(340, 70, 250, 40);
-        
-        cookingarea.setColor(Color.gray);
-        cookingarea.fillRect(340, 7, 250, 20);
         
         waitingarea.setColor(Color.gray);
         waitingarea.fillRect(5, 40, 20, 270);

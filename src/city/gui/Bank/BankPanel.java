@@ -1,6 +1,7 @@
 package city.gui.Bank;
 import javax.swing.*;
 
+import city.Bank;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -21,11 +22,11 @@ public class BankPanel extends JPanel {
 	PersonAgent person2;
 	PersonAgent person3;
 	PersonAgent person4;
+	Bank bank;
 	
     //Host, cook, waiters and customers
-    private BankManagerRole bankmanager = new BankManagerRole(person);
-    private BankManagerRoleGui bankmanagerGui = new BankManagerRoleGui(bankmanager); 
-  
+    private BankManagerRole bankmanager = new BankManagerRole(bank);
+    
     private Vector<BankCustomerRole> bankcustomers = new Vector<BankCustomerRole>();
     private Vector<BankTellerRole> banktellers = new Vector<BankTellerRole>();
     private JPanel restLabel = new JPanel();
@@ -33,7 +34,8 @@ public class BankPanel extends JPanel {
     //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
     private BankGui gui; //reference to main gui
-  
+    private BankManagerRoleGui bankmanagerGui = new BankManagerRoleGui(bankmanager, gui); 
+    
     
     int waiterposcounter = 30;
     public BankPanel(BankGui gui) {
@@ -74,8 +76,9 @@ public class BankPanel extends JPanel {
     	
         JLabel label = new JLabel();
         restLabel.setLayout(new BorderLayout());
-        label.setText(
-                "<html><h3><u>Tonight's Host</u></h3><table><tr><td>host:</td><td>" + + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Chicken</td><td>$2</td></tr><tr><td>Burrito</td><td>$3</td></tr><tr><td>Pizza</td><td>$4</td></tr><tr><td></td><td></td></tr></table><br></html>");
+        label.setText("stuff" );
+                //"<html><h3><u>Tonight's Host</u></h3><table><tr><td>host:</td><td>" + + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Chicken</td><td>$2</td></tr><tr><td>Burrito</td><td>$3</td></tr><tr><td>Pizza</td><td>$4</td></tr><tr><td></td><td></td></tr></table><br></html>");
+   
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
         restLabel.add(label, BorderLayout.CENTER);
         restLabel.add(new JLabel("               "), BorderLayout.EAST);
@@ -125,58 +128,58 @@ public class BankPanel extends JPanel {
     
     public void addPerson(String type, String name, boolean ishungry) {
     	//creating new customer agents
-    	if (type.equals("Customers")) {
+    	if (type.equals("BankCustomerRole")) {
     		
-    		CustomerAgent c = new CustomerAgent(name);	
-    		CustomerGui g = new CustomerGui(c, gui, host);
-    		g.setHomePosition(12, 20 + customers.size() * 25);
+    		BankCustomerRole bcr = new BankCustomerRole(10,person);	
+    		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
+    		g.setHomePosition(12, 20 + bankcustomers.size() * 25);
     		
     		if(ishungry == true)
     	    {
     	    	g.setHungry();
     	    }
     		gui.animationPanel.addGui(g);
-    		c.setHost(host);
-    		c.setCashier(cashier);
-    		c.setGui(g);
-    		customers.add(c);
-    		c.startThread();
+    		//c.setHost(host);
+    		//c.setCashier(cashier);
+    		bcr.setGui(g);
+    		bankcustomers.add(bcr);
+    		//c.startThread();
     	
     	}
     	//creating new waiter agents
-    	else if(type.equals(("Waiters"))) {
+    	else if(type.equals(("BankTellerRole"))) {
     		
     		//WaiterGui waiterGui = new WaiterGui(waiter, host, );
-    		WaiterAgent w = new WaiterAgent(name,host,cook,cashier);	
-    		WaiterGui wg = new WaiterGui(w, gui,host);
-    	
+    		BankTellerRole bt = new BankTellerRole(bankmanager);	
+    		BankTellerRoleGui g = new BankTellerRoleGui(bt, gui);
     		//wg.xPos += waiterposcounter;
-    		wg.setHomePosition(45, 20 + waiters.size() * 25);
-    		gui.animationPanel.addGui(wg);
-    		w.setGui(wg);
-    		waiters.add(w);
-    		host.addwaiter(w);
-    		w.startThread();
+    		g.setHomePosition(20 + banktellers.size() * 25, 45);
+    		gui.animationPanel.addGui(g);
+    		bt.setGui(g);
+    		banktellers.add(bt);
+    		bankmanager.msgBankTellerArrivedAtBank(bt);
+    		//w.startThread();
     		//waiterposcounter += 15;
     		
     	
     	}
     	//creating new cook agent
-    	else if(type.equals(("Cooks"))) {
+    	else if(type.equals(("BankManagerRole"))) {
     		
-    		CookAgent c = new CookAgent(name);
-    		CookGui cg = new CookGui(c,gui);
+    		BankManagerRole bm = new BankManagerRole(bank);
+    		BankManagerRoleGui g = new BankManagerRoleGui(bm, gui);
     		//gui.animationPanel.addGui(cg);
-    		c.setGui(cg);
-    		c.startThread();	
+    		bm.setGui(g);
+    		//c.startThread();	
     	
     	}
     }
     
     //back-end implementation of the pause button
     public void pauseagents() {
-    	host.pause();
-    	cook.pause();
+    	 /*
+    	 host.pause();
+    	 cook.pause();
     	 cashier.pause();
          market1.pause();
          market2.pause();
@@ -188,10 +191,12 @@ public class BankPanel extends JPanel {
     	for(WaiterAgent pausewaiter: waiters) {
     		pausewaiter.pause();
     	}
+    	*/
     }
     
     //back-end implementation of the restart button
     public void restartagents() {
+    	/*
     	host.restart();
     	cook.restart();
     	 cashier.restart();
@@ -205,34 +210,35 @@ public class BankPanel extends JPanel {
     	for(WaiterAgent pausewaiter: waiters) {
     		pausewaiter.restart();
     	}
+    	*/
     }
     
     public void waitergoonbreak() {
  
-    	host.msgWaiterWantBreak(waiters.get(1));
+    	//host.msgWaiterWantBreak(waiters.get(1));
     
     }
     
     public void waitercomebackfrombreak() {
     	
-    	host.msgWaiterComeBackFromBreak(waiters.get(1));
+    	//host.msgWaiterComeBackFromBreak(waiters.get(1));
     
     }
     
     public void depletecooksupply() {
     	
-    	cook.msgDepleteCookSupply();
+    	//cook.msgDepleteCookSupply();
     	
     }
     
     public void depletemarket1supply() {
     	
-    	market1.depletemarketsupply();
+    	//market1.depletemarketsupply();
     }
     
     public void depletemarket2supply() {
     	
-    	market2.depletemarketsupply();
+    	//market2.depletemarketsupply();
     }
     
     
