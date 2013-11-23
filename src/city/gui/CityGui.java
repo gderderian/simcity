@@ -162,7 +162,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 
         }        
         
-        public void addBus(BusAgent b) {
-        	
+        public void addBus(String type, AStarTraversal aStarTraversal) {
+        	//STUB
         }
 }
