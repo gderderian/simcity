@@ -85,7 +85,7 @@ public void msgBankTellerFree(BankTellerRole bankteller)
                         {
                                 log.add(new LoggedEvent("msgBankTellerFree"));
                                 freebankteller.state = banktellerstate.free;
-                                //Do("assign customer to bank teller");
+                                Do("assign customer to bank teller");
                                 break;
                         }
                 }
