@@ -25,7 +25,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     
     ControlPanel controlPanel = new ControlPanel();
     
-        Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
+    Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
         AnimationPanel4 restaurant4 = new AnimationPanel4();
         //PersonAgent testPerson = new PersonAgent("test");
         //PersonGui testPersonGui = new PersonGui();

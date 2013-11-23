@@ -55,7 +55,6 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         
-        System.out.println("Paint component");
         System.out.println(guis.size());
 
         //Clear the screen by painting a rectangle the size of the frame
@@ -110,18 +109,14 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         
         
         for(Gui gui : guis) {
-        	System.out.println("in first for loop");
             if (gui.isPresent()) {
                 gui.updatePosition();
-                System.out.println("Updating gui position");
             }
         }
 
         for(Gui gui : guis) {
-        	System.out.println("in first for loop");
             if (gui.isPresent()) {
                 gui.draw(g2);
-                System.out.println("Drawing guis");
             }
         }
     }
@@ -161,7 +156,6 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
 		int x = e.getX();
 		int y = e.getY();
 		if((x >= 30) && (x <= 90) && (y >= 30) && (y <= 50)){
-			System.out.println("GOING BACK TO CITY VIEW");
 			cityGui.changeView("City");
 		}
 	}

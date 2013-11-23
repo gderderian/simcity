@@ -16,6 +16,15 @@ public class MarketOrder {
 		this.recipient = p;
 	}
 	
+	MarketOrder(String dest, PersonAgent p){
+		destination = dest;
+		recipient = p;
+	}
+	
+	public void addOrder(OrderItem o){
+		orders.add(o);
+	}
+	
 	public PersonAgent getRecipient(){
 		return recipient;
 	}
