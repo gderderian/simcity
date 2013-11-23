@@ -9,7 +9,6 @@ public abstract class Role {
 	
 	//Is this state change necessary if the role has no thread  ?
 
-	public Semaphore stateChange = new Semaphore(1, true);
 	public boolean isActive;
 	public boolean inUse;
 	protected PersonAgent person;
@@ -24,7 +23,7 @@ public abstract class Role {
      * the agent to do something.
      */
     protected void stateChanged() {
-        stateChange.release();
+        person.stateChanged();
     }
 
     /**

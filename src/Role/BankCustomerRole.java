@@ -160,7 +160,7 @@ public class BankCustomerRole extends Role{
         public boolean pickAndExecuteAnAction() 
         {
                 
-        		gui.gotohomeposition();
+        		//gui.gotohomeposition();
         	
                 if(bankcustomerstate == state.openaccount)
                 {
