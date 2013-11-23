@@ -106,7 +106,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		name = n;
 		this.aStar = aStarTraversal;
-		currentPosition = new Position(21, 18);
+		currentPosition = new Position(20, 18);
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
