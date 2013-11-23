@@ -104,4 +104,8 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView("Restaurant2");
 		}
 	}
+
+	public void addGui(VehicleGui g) {
+		guis.add(g);
+	}
 }

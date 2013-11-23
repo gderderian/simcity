@@ -1,5 +1,7 @@
 package city;
 
+import interfaces.BusStop;
+
 import java.util.*;
 
 import city.Restaurant2.Restaurant2CustomerRole;
@@ -71,8 +73,8 @@ public class CityMap {
 		return -1;
 	}
 	
-	public void addBusStop(BusStopAgent b) {
-		busStops.add(b);
+	public void addBusStop(BusStop busStop) {
+		busStops.add((BusStopAgent) busStop);
 	}
 	
 	public void addStopDestinations(int number, List<String> destinations) {

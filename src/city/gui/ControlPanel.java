@@ -1,5 +1,7 @@
 package city.gui;
 
+import interfaces.BusStop;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -87,7 +89,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     /** Universal city map **/
     CityMap cityMap = new CityMap();
     //Bus stops
-    private List<BusStopAgent> busStops = new ArrayList<BusStopAgent>();
+    private List<BusStop> busStops = new ArrayList<BusStop>();
     
     //Size of astar semaphore grid
     static int gridX = 21; //# of x-axis tiles
@@ -157,7 +159,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityGui = c;
     }
     
-    public List<BusStopAgent> getBusStops() {
+    public List<BusStop> getBusStops() {
     	return busStops;
     }
     

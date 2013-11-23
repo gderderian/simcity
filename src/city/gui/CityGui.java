@@ -169,6 +169,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         }        
         
         public void addBus(String type, AStarTraversal aStarTraversal) {
-        	//STUB
+        	BusAgent newBus = new BusAgent(aStarTraversal);
+        	newBus.addBusStops(controlPanel.getBusStops());
+        	vehicles.add(newBus);
+        	VehicleGui g = new VehicleGui(newBus);
+        	newBus.setGui(g);
+        	guis.add(g);
+        	animationPanel.addGui(g);
+        	
+        	newBus.startThread();        	
         }
 }

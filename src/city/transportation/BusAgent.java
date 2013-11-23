@@ -39,9 +39,11 @@ public class BusAgent extends Vehicle implements Bus {
 
 	public BusAgent(AStarTraversal aStar) {
 		super(aStar);
+		
 		capacity = 10;
 		fare = 3.00;
 		money = 100.00;
+		type = "bus";
 		
 		guiFinished = new Semaphore(0, true);
 		
@@ -206,6 +208,10 @@ public class BusAgent extends Vehicle implements Bus {
 				 msgFinishedUnloading();
 			}
 		}, 1200	);
+	}
+	
+	public void addBusStops(List<BusStop> stops) {
+		busStops = stops;
 	}
 }
  

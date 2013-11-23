@@ -145,5 +145,12 @@ public abstract class Vehicle extends Agent {
 		}
 		*/
 	    }
+
+	public String getType() {
+		return type;
+	}
 	
+	public void setGui(VehicleGui g) {
+		this.gui = g;
+	}
 }
