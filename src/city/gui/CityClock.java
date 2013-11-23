@@ -46,7 +46,7 @@ public class CityClock {
 		week = 1;
 		
 		// Begin checker/notification timer to manually adjust day/night
-		checkTimer = new Timer(2000, // Messages to people in city fire every 2 seconds
+		checkTimer = new Timer(1875, // Messages to people in city fire every 2 seconds
 				new ActionListener() { public void actionPerformed(ActionEvent event) {
 					// Message all people saying the current time is:
 					// System.currentTimeMillis() - beginTime
@@ -57,8 +57,9 @@ public class CityClock {
 					} else  if (getCurrentTime() >= 120000){
 						dayState = dayStates.night;
 					}
-					//System.out.println("Two seconds! Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState());
-					cityGui.timerTick(getCurrentTime());
+					//System.out.println("Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState());
+					//System.out.println("Human time is " + getHumanTime());
+					cityGui.timerTick(getCurrentTime(), getHourOfDayInHumanTime(), getMinuteOfDay(), getDayState(), getAmPm());
 					checkTimer.restart(); // Restarts every two seconds
 		      }
 		});
@@ -67,6 +68,10 @@ public class CityClock {
 	
 	public int getCurrentTime(){
 		return (int)(System.currentTimeMillis() - beginTime);
+	}
+	
+	public long getCurrentLongTime(){
+		return (System.currentTimeMillis() - beginTime);
 	}
 	
 	public String getDayOfWeek(){
@@ -108,6 +113,69 @@ public class CityClock {
 		} else {
 			return "Night";
 		}
+	}
+	
+	public long getHourOfDayInMilTime(long baseTime){ // You should normally pass in getCurrentTime() by default
+		long calcHour = baseTime * 1440;
+		long hourFinalCalc = calcHour / 179999;
+		return hourFinalCalc / 60;
+	}
+	
+	public int getHourOfDayInHumanTime(){
+		long hours = getHourOfDayInMilTime(getCurrentLongTime()) % 12;
+		return (int)hours;
+	}
+	
+	public long getMinuteOfDay(long baseTime){ // You should normally pass in getCurrentTime() by default
+		long calcMinute = baseTime * 1440;
+		long minuteFinalCalc = calcMinute / 179999;
+		return minuteFinalCalc % 60;
+	}
+	
+	public long getMinuteOfDay(){ // You should normally pass in getCurrentTime() by default
+		long calcMinute = getCurrentTime() * 1440;
+		long minuteFinalCalc = calcMinute / 179999;
+		return minuteFinalCalc % 60;
+	}
+	
+	public String getHumanTime(int baseHours, int baseMinutes){
+		String amPm = "";
+		int hours = baseHours % 12;
+		if (baseHours <= 11){
+			amPm = "am"; 
+		} else {
+			amPm = "pm";
+		}
+		return hours + ":" + baseMinutes + amPm;
+	}
+	
+	public String getHumanTime(){
+		String amPm = "";
+		long minutes = getMinuteOfDay(getCurrentLongTime());
+		long hours = getHourOfDayInMilTime(getCurrentLongTime()) % 12;
+		String leadingDisplayZero = "";
+		if (hours == 0){
+			hours = 12;
+		}
+		if (minutes < 10){
+			leadingDisplayZero = "0";
+		}
+		if (getHourOfDayInMilTime(getCurrentTime()) <= 11){
+			amPm = "am"; 
+		} else {
+			amPm = "pm";
+		}
+		return hours + ":" + leadingDisplayZero + minutes + amPm;
+	}
+	
+	public String getAmPm(){
+		String amPm = "";
+		if (getHourOfDayInMilTime(getCurrentTime()) <= 11){
+			amPm = "am"; 
+		} else {
+			amPm = "pm";
+		}
+		return amPm;
 	}
 	
 }
