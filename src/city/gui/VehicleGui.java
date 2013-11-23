@@ -34,10 +34,12 @@ public class VehicleGui implements Gui {
 	public VehicleGui(Vehicle v){
 		this.v = v;
 		this.type = v.getType();
-		xPos = 730;
-		yPos = 720;
+		xPos = 660;
+		yPos = 660;
 		xDest = xPos;
 		yDest = yPos;
+		
+		icon = movingUp;
 	}
 
 	@Override

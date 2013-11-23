@@ -270,6 +270,9 @@ public class ControlPanel extends JPanel implements ActionListener{
         	}
         	else{
         		errorDisplay.setText("Please enter a name for the person");
+        		
+        		//Testing addVehicle method
+        		addVehicle("bus");
         	}
         }
     }
@@ -311,6 +314,12 @@ public class ControlPanel extends JPanel implements ActionListener{
             isHungry.setEnabled(false);
             validate();
         }
+    }
+    
+    public void addVehicle(String type) {
+        AStarTraversal aStarTraversal = new AStarTraversal(streetGrid); //Create new aStarTraversal using streetGrid instead of sidewalkGrid
+        
+    	cityGui.addVehicle(type, aStarTraversal);
     }
     
     private void populateSemaphoreGrids() {

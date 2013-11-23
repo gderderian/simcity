@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import astar.AStarTraversal;
+import astar.Position;
 
 import city.PersonAgent;
 
@@ -14,6 +15,7 @@ public class BusAgent extends Vehicle implements Bus {
 	//Data
 	public int currentStop = 3;
 	public List<BusStop> busStops = new ArrayList<BusStop>();
+	private Map<Integer, Position> stopPositions = new HashMap<Integer, Position>();
 	double money;
 	double fare;
 	
@@ -47,8 +49,12 @@ public class BusAgent extends Vehicle implements Bus {
 		
 		guiFinished = new Semaphore(0, true);
 		
-		//Send gui to stop 0
-		//acquire semaphore
+		stopPositions.put(0, new Position(18, 8));
+		stopPositions.put(1, new Position(10, 3));
+		stopPositions.put(2, new Position(3, 9));
+		stopPositions.put(3, new Position(8, 15));
+		
+		currentPosition = new Position(18, 18);
 	}
 	
 	//Messages
@@ -110,6 +116,10 @@ public class BusAgent extends Vehicle implements Bus {
 				return true;
 			}
 		}
+		if(state == BusState.driving && event == BusEvent.none) {
+			GoToFirstStop();
+			return true;
+		}
 		
 		if(state == BusState.driving && event == BusEvent.arrivedAtStop) {
 			state = BusState.atStop;
@@ -148,9 +158,15 @@ public class BusAgent extends Vehicle implements Bus {
 		
 		DoWaitAtStop();
 	}
+
+	private void GoToFirstStop() {
+		GoToStop(0);
+		event = BusEvent.arrivedAtStop;
+	}
 	
 	private void PickUpPassengers() {
 		int numSpots = capacity - passengers.size();
+		print("I can pick up " + numSpots + " people.");
 		busStops.get(currentStop).msgICanPickUp(this, numSpots);
 	}
 	
@@ -178,15 +194,9 @@ public class BusAgent extends Vehicle implements Bus {
 	}
 	
 	private void DriveToNextStop() {
-		//gui.DoDriveToStop(currentStop + 1);
 		
 		print("Driving to stop #" + (currentStop + 1));
-		/*try {
-			guiFinished.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		GoToStop(currentStop + 1);
 
 		event = BusEvent.arrivedAtStop;
 		
@@ -212,6 +222,16 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	public void addBusStops(List<BusStop> stops) {
 		busStops = stops;
+	}
+	
+	private void GoToStop(int stop) {
+		guiMoveFromCurrentPositionTo(stopPositions.get(stop));
+		try {
+			guiFinished.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
  
