@@ -1,5 +1,7 @@
 package city.gui;
 
+import interfaces.BusStop;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -87,7 +89,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     /** Universal city map **/
     CityMap cityMap = new CityMap();
     //Bus stops
-    private List<BusStopAgent> busStops = new ArrayList<BusStopAgent>();
+    private List<BusStop> busStops = new ArrayList<BusStop>();
     
     //Size of astar semaphore grid
     static int gridX = 21; //# of x-axis tiles
@@ -157,7 +159,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityGui = c;
     }
     
-    public List<BusStopAgent> getBusStops() {
+    public List<BusStop> getBusStops() {
     	return busStops;
     }
     
@@ -268,6 +270,9 @@ public class ControlPanel extends JPanel implements ActionListener{
         	}
         	else{
         		errorDisplay.setText("Please enter a name for the person");
+        		
+        		//Testing addVehicle method
+        		addVehicle("bus");
         	}
         }
     }
@@ -311,6 +316,12 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
     }
     
+    public void addVehicle(String type) {
+        AStarTraversal aStarTraversal = new AStarTraversal(streetGrid); //Create new aStarTraversal using streetGrid instead of sidewalkGrid
+        
+    	cityGui.addVehicle(type, aStarTraversal);
+    }
+    
     private void populateSemaphoreGrids() {
 
         /*********Setting up semaphore grid***********/
@@ -337,7 +348,7 @@ public class ControlPanel extends JPanel implements ActionListener{
       	}
       	
       	for(int i = 15; i < 19; i++) //Crosswalk area
-      		for(int j = 16; j < 18; j++)
+      		for(int j = 16; j < 19; j++)
       			streetGrid[i][j].release();
       	
       	//Release sidewalk semaphores
@@ -388,6 +399,8 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[18][7].release(100); //stop3
       	
       	sidewalkGrid[20][18].release(100); //starting point for agents
+      	
+      	streetGrid[18][18].release(100); //starting point for vehicles
       	
       	/********Finished setting up semaphore grid***********/
     }

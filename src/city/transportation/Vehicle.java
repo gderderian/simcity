@@ -100,7 +100,7 @@ public abstract class Vehicle extends Agent {
 		    currentPosition.release(aStar.getGrid());
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
 		    print("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
-		    gui.moveTo(130 + (currentPosition.getX() * 30), 70 + (currentPosition.getY() * 30));
+		    gui.moveTo(120 + (currentPosition.getX() * 30), 60 + (currentPosition.getY() * 30));
 		    
 		    //Give animation time to move to square.
 		    try {
@@ -145,5 +145,12 @@ public abstract class Vehicle extends Agent {
 		}
 		*/
 	    }
+
+	public String getType() {
+		return type;
+	}
 	
+	public void setGui(VehicleGui g) {
+		this.gui = g;
+	}
 }

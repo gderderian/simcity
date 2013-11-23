@@ -31,13 +31,15 @@ public class VehicleGui implements Gui {
 	
 	Restaurant2AnimationPanel restaurant2panel;
 	
-	public VehicleGui(Vehicle v, String type){
+	public VehicleGui(Vehicle v){
 		this.v = v;
-		this.type = type;
-		xPos = 730;
-		yPos = 720;
+		this.type = v.getType();
+		xPos = 660;
+		yPos = 660;
 		xDest = xPos;
 		yDest = yPos;
+		
+		icon = movingUp;
 	}
 
 	@Override
