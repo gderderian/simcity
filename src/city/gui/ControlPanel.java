@@ -339,7 +339,7 @@ public class ControlPanel extends JPanel implements ActionListener{
       	}
       	
       	for(int i = 15; i < 19; i++) //Crosswalk area
-      		for(int j = 16; j < 18; j++)
+      		for(int j = 16; j < 19; j++)
       			streetGrid[i][j].release();
       	
       	//Release sidewalk semaphores
@@ -390,6 +390,8 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[18][7].release(100); //stop3
       	
       	sidewalkGrid[20][18].release(100); //starting point for agents
+      	
+      	streetGrid[18][18].release(100); //starting point for vehicles
       	
       	/********Finished setting up semaphore grid***********/
     }
