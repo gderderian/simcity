@@ -25,8 +25,8 @@ public class BankTest1 extends TestCase {
         public void setUp() throws Exception{
                 
                 super.setUp();        
-                person1 = new PersonAgent("bob", aStarTraversal);
-                person2 = new PersonAgent("tom", aStarTraversal);
+                person1 = new PersonAgent("bob", aStarTraversal, null);
+                person2 = new PersonAgent("tom", aStarTraversal, null);
                 bank = new Bank();
                 bankmanager = new BankManagerRole(bank);
                 bankcustomer = new BankCustomerRole(50, person2);
