@@ -81,11 +81,11 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	//TODO fix this in V2
 	public void msgFailedOrder(HashMap<String, Integer> failedOrder){
-		shipmentOrders.add(new ShipmentOrder(failedOrder, ShipmentState.pending));
+	//	shipmentOrders.add(new ShipmentOrder(failedOrder, ShipmentState.pending));
 		stateChanged();
 	}
 	
-	public void msgHereIsShipment(HashMap<String, Integer> goodOrder){
+	public void msgHereIsShipment(MarketOrder goodOrder){
 		print("Recieved msg here is shipment");
 		shipmentOrders.add(new ShipmentOrder(goodOrder, ShipmentState.arrived));
 		stateChanged();
@@ -196,19 +196,18 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		5000);
 	}
 	
-	
 	private void checkInventory() {
 		if(markets.isEmpty()){
 			return;
 		}
-		HashMap<String, Integer> newOrder = new HashMap<String, Integer>();
+		MarketOrder newOrder = new MarketOrder("rest2", person);
 		for(Map.Entry<String, Food> e : foods.entrySet()){
 			if((e.getValue().inventory <= e.getValue().lowPoint) && e.getValue().os == FoodOrderState.notOrdered){
-				newOrder.put(e.getValue().type, e.getValue().capacity - e.getValue().inventory);
+				newOrder.addOrder(new OrderItem(e.getKey(), e.getValue().capacity - e.getValue().inventory));
 				e.getValue().os = FoodOrderState.Ordered;
 			}
 		}
-		if(!newOrder.isEmpty()){
+		if(newOrder.orders.size() != 0){
 			sendShipmentOrder(new ShipmentOrder(newOrder, ShipmentState.sent));
 		}
 	}
@@ -233,7 +232,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	//TODO change this to market order
 	private void sendShipmentOrder(ShipmentOrder s){
-		print("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.size());
+		print("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.orders.size());
 		Market m = markets.get(marketNumber);
 		//TODO fix this
 		//MarketOrder order = new MarketOrder(, "Restaurant2", person);
@@ -312,10 +311,10 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	}
 	
 	class ShipmentOrder{
-		HashMap<String, Integer> order;
+		MarketOrder order;
 		ShipmentState ss;
 		
-		ShipmentOrder(HashMap<String, Integer> o, ShipmentState state){
+		ShipmentOrder(MarketOrder o, ShipmentState state){
 			order = o;
 			ss = state;
 		}
