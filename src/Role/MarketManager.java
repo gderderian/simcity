@@ -22,10 +22,6 @@ public class MarketManager extends Role {
 	public enum deliveryType {inPerson, truckOrder};
 	
 	public enum itemType {food, car};
-
-	public enum orderState {pendingWorkerAssignment, assignedToWorker, inProgress, done};
-	public enum deliveryType {inPerson, truckOrder};
-	
 	public class myMarketOrder {
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
 		orderState state;
@@ -81,7 +77,7 @@ public class MarketManager extends Role {
 		stateChanged();
 	}
 	// Scheduler
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		if (!myOrders.isEmpty()) {
 			for (myMarketOrder order : myOrders) {
 				if (order.state == orderState.pendingWorkerAssignment){
