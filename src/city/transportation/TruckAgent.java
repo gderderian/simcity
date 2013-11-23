@@ -3,6 +3,7 @@ package city.transportation;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import astar.AStarTraversal;
 import city.MarketOrder;
 import city.PersonAgent;
 
@@ -21,9 +22,9 @@ public class TruckAgent extends Vehicle {
                 }
         }
         
-        public TruckAgent() {
+        public TruckAgent(AStarTraversal aStarTraversal) {
+        	super(aStarTraversal);
         	capacity = 0;
-        	
         	guiFinished = new Semaphore(0, true);
         }
         
