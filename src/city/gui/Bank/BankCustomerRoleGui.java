@@ -35,10 +35,10 @@ public class BankCustomerRoleGui implements Gui{
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
 		this.role = setrole;		
 
-		xPos = 20;
-		yPos = 20;
-		xDestination = 40;
-		yDestination = 40;
+		xPos = -20;
+		yPos = -20;
+		//xDestination = 40;
+		//yDestination = 40;
 		//maitreD = m;
 		this.gui = gui;
 		int initialxc = 200;
@@ -105,8 +105,10 @@ public class BankCustomerRoleGui implements Gui{
 		}
 
 	public void draw(Graphics2D g) {
+		
 		g.setColor(Color.BLUE);
 		g.fillRect(xPos, yPos, 20, 20);
+		
 	}
 
 	public boolean isPresent() {
@@ -138,16 +140,14 @@ public class BankCustomerRoleGui implements Gui{
 		command = Command.leavebank;
 		
 	}
+
 	
-	public void gotohomeposition() {
-		xDestination = xhomepos;
-		yDestination = yhomepos;
-	}
-	
-	public void setHomePosition(int x, int y)
+	public void setWaitingPosition(int x, int y)
 	{
-		xhomepos = x;
-		yhomepos = y;
+		//xPos = x;
+		//yPos = y;
+		xDestination = x;
+		yDestination = y;
 		//agent.msgSetHomePos(x, y);
 
 	}

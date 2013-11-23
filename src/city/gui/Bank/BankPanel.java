@@ -70,7 +70,7 @@ public class BankPanel extends JPanel {
     
         BankCustomerRole bcr = new BankCustomerRole(10,person);	
 		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
-		g.setHomePosition(12, 20 + bankcustomers.size() * 25);
+		//g.setHomePosition(12, 20 + bankcustomers.size() * 25);
 		g.setArrivedAtBank();
 		gui.animationPanel.addGui(g);
 		bcr.setGui(g);
@@ -80,6 +80,10 @@ public class BankPanel extends JPanel {
         person.addRole(bcr, true);
         
         bmr.msgCustomerArrivedAtBank(bcr);
+        bcr.gui.setWaitingPosition(100, 100);
+        
+        
+        bcr.gui.goToBankTellerStation(2);
         
         
         
@@ -157,7 +161,7 @@ public class BankPanel extends JPanel {
     		
     		BankCustomerRole bcr = new BankCustomerRole(10,person);	
     		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
-    		g.setHomePosition(12, 20 + bankcustomers.size() * 25);
+    		//g.setHomePosition(12, 20 + bankcustomers.size() * 25);
     	    g.setArrivedAtBank();
     	  
     		gui.animationPanel.addGui(g);
@@ -199,7 +203,9 @@ public class BankPanel extends JPanel {
     
     //back-end implementation of the pause button
     public void pauseagents() {
-    	 /*
+    	 
+    	
+    	/*
     	 host.pause();
     	 cook.pause();
     	 cashier.pause();

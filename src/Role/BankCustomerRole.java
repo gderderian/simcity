@@ -21,7 +21,7 @@ public class BankCustomerRole extends Role{
         //public int customeraccountnumber;
         public Semaphore atBankStation = new Semaphore(0,true);
         public Semaphore atBankLobby = new Semaphore(0,true);
-        BankCustomerRoleGui gui;
+        public BankCustomerRoleGui gui;
         PersonAgent person;
         String name;
         public EventLog log = new EventLog();
@@ -256,8 +256,8 @@ public class BankCustomerRole extends Role{
 
 
         public Object getGui() {
-                // TODO Auto-generated method stub
-                return null;
+           
+                return this.gui;
         }
         
         public void setGui(BankCustomerRoleGui setGui)
