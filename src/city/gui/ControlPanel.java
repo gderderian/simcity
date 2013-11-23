@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.BorderFactory;
@@ -25,6 +27,13 @@ import javax.swing.JTextField;
 
 import city.CityMap;
 import astar.AStarTraversal;
+import Role.BankManagerRole;
+import Role.BankTellerRole;
+import Role.LandlordRole;
+import Role.MarketManager;
+import Role.MarketWorker;
+import Role.Role;
+import city.Restaurant2.*;
 
 public class ControlPanel extends JPanel implements ActionListener{
 	
@@ -40,22 +49,34 @@ public class ControlPanel extends JPanel implements ActionListener{
     private int WINDOWX = 370;
     private int WINDOWY = 750;
     private int SCROLLY = WINDOWY/4;
-    private int ADDPERSONY = WINDOWY/7;
+    private int ADDPERSONY = WINDOWY/5;
     private int INFOPANELY = WINDOWY - ADDPERSONY;
+    private int WINDOWXINSIDE = WINDOWX - 10;
     
-    private Dimension scrollDim = new Dimension(WINDOWX, SCROLLY);
+    private Dimension scrollDim = new Dimension(WINDOWXINSIDE, SCROLLY);
     private Dimension panelDim = new Dimension(WINDOWX, WINDOWY);
-    private Dimension addPersonDim = new Dimension(WINDOWX, ADDPERSONY);
-    private Dimension infoPanelDim = new Dimension(WINDOWX, INFOPANELY);
+    private Dimension addPersonDim = new Dimension(WINDOWXINSIDE, ADDPERSONY);
+    private Dimension infoPanelDim = new Dimension(WINDOWXINSIDE, INFOPANELY);
 
     private JTextField nameField;
+    private JTextField errorDisplay = new JTextField();
     private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
-    private String[] jobs = {"Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
+    private String[] jobs = {"[Please select a job]", "Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
     		"Market Manager", "Market Worker", "Landlord"
     };
     private JComboBox jobField = new JComboBox(jobs);
+    private Map<String, Role> jobRoles = new HashMap<String, Role>();
+    //All the roles for the map
+    Restaurant2WaiterRole rest2Waiter;
+    Restaurant2CookRole rest2Cook;
+    Restaurant2HostRole rest2Host;
+    BankManagerRole bankManager;
+    BankTellerRole bankTeller;
+    MarketManager marketManager;
+    MarketWorker marketWorker;
+    LandlordRole landlord;
     
     /** Universal city map **/
     CityMap cityMap = new CityMap();
@@ -77,7 +98,17 @@ public class ControlPanel extends JPanel implements ActionListener{
      * @param type indicates if this is for customers or waiters
      */
     public ControlPanel() {
-
+    	
+    	//Adding jobs to jobRoles map
+    	jobRoles.put("Restaurant2 Waiter", rest2Waiter);
+    	jobRoles.put("Restaurant2Cook", rest2Cook);
+    	jobRoles.put("Rest2Host", rest2Host);
+    	jobRoles.put("Bank Manager", bankManager);
+    	jobRoles.put("Bank Teller", bankTeller);
+    	jobRoles.put("Market Manager", marketManager);
+    	jobRoles.put("Market Worker", marketWorker);
+    	jobRoles.put("Landlord", landlord);
+    	
         view.setLayout(new FlowLayout());
         setLayout(new BoxLayout((Container) this, BoxLayout.PAGE_AXIS));
 
@@ -86,7 +117,6 @@ public class ControlPanel extends JPanel implements ActionListener{
         addPersonSection();
         
         controlPane.setPreferredSize(panelDim);
-        //worldControls.setMaximumSize(panelDim);
         worldControls.setPreferredSize(panelDim);
         controlPane.addTab("People", personControls);
         controlPane.addTab("World", worldControls);
@@ -180,7 +210,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void addPersonSection(){
-    	personControls.add(new JLabel("<html><br><u>Add People</u><br></html>"));
+    	//personControls.add(new JLabel("<html><br><u>Add People</u><br></html>"));
     	
     	personControls.setPreferredSize(panelDim);
     	
@@ -209,6 +239,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         addPerson.add(new JLabel("Job: "));
 
         addPerson.add(jobField, flow);
+        
+        addPerson.add(new JLabel("Error/help messages:"));
+        errorDisplay.setEditable(false);
+        addPerson.add(errorDisplay, flow);
         
         isHungry = new JCheckBox("Hungry?");
         isHungry.setEnabled(false);
@@ -270,12 +304,15 @@ public class ControlPanel extends JPanel implements ActionListener{
         	// Chapter 2.19 describes showInputDialog()
         	if(!nameField.getText().equals("")){
         		String job = null;
-        		//if(!jobField.getText().equals("")){
-        		//	job = jobField.getText();
-        		//}
-                addPerson(nameField.getText());
-            	nameField.setText("");
-            	isHungry.setSelected(false);
+        		if(jobField.getSelectedIndex() == 0){
+        			errorDisplay.setText("Please select a job");
+        		}
+        		else{
+        			job = (String)jobField.getSelectedItem();
+                    addPerson(nameField.getText());
+                	nameField.setText("");
+                	isHungry.setSelected(false);
+        		}
         	}
         }
     }
