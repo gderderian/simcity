@@ -104,6 +104,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             //if(e.getSource() == 
     }
     
+    public void timerTick(String sectionOfDay) {
+    	for (PersonAgent person : people) {
+    		person.msgTimeUpdate(sectionOfDay);
+    	}
+    }
+    
     /**
      * Main routine to get gui started
      */
