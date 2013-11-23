@@ -1,9 +1,16 @@
 package city;
 
+import java.util.*;
+
 public class Food {
 	String type;
 	String appliance;
-	int cookTime;
+	public int cookTime;
+	Map<String, MyFood> allFoodTypes= new HashMap<String, MyFood>();
+	MyFood eggs= new MyFood("Stove", 1000);
+	MyFood pancakes= new MyFood("Stove", 1250);
+	MyFood waffels= new MyFood("Stove", 1250);
+	MyFood bacon= new MyFood("Stove", 1000);
 	
 	public Food(String type, String appliance, int time){
 		this.type= type;
@@ -12,8 +19,24 @@ public class Food {
 	}
 	
 	public Food(String type){
+		allFoodTypes.put("Eggs", eggs);
+		allFoodTypes.put("Pacakes", pancakes);
+		allFoodTypes.put("Waffels", waffels);
+		allFoodTypes.put("Bacon", bacon);
+		
 		this.type= type;
-		// ideally the food class will know which appliance and cookTime is appropriate based on the type so we don't need to make the arguments
-		// maybe eventually we'll use a map to do this, but for now the first constructor will work where everything is done manually
+		MyFood temp= allFoodTypes.get(type);
+		this.appliance= temp.appliance;
+		this.cookTime= temp.cookTime;
+	}
+	
+	private class MyFood{
+		String appliance;
+		int cookTime;
+		
+		MyFood(String type,  int time){
+			this.appliance= type;
+			this.cookTime= time;
+		}
 	}
 }

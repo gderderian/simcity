@@ -13,6 +13,7 @@ public class HouseTest extends TestCase {
 	House house; //Don't need a mock for this because it is not threaded (not an "Agent")
 	Apartment apartment;
 	MockPerson person1;
+	private Timer cook= new Timer();
 	
 	@Override
 	public void setUp() throws Exception{
@@ -51,7 +52,7 @@ public class HouseTest extends TestCase {
 		
 		//Part 2, put food in the fridge		
 		List<Food> groceries= new ArrayList<Food>();
-		Food food= new Food("Eggs", "Stove", 0);
+		Food food= new Food("Eggs");
 		groceries.add(food);
 		house.boughtGroceries(groceries);
 		
@@ -81,13 +82,17 @@ public class HouseTest extends TestCase {
 		//Part 3, attempt to cook food
 		house.cookFood("Eggs");
 		
-		//Check postconditions for part 3
-		assertTrue(
-				"House should have logged \"Cooking Eggs.\", but didn't. His log reads instead: "
-						+ house.log.getLastLoggedEvent().toString(), house.log.containsString("Cooking Eggs."));
-		assertTrue(
-				"Person1 should have logged \"Recieved msgFoodDone from house, Eggs is done cooking now.\", but didn't. His log reads instead: "
-					+ person1.log.getLastLoggedEvent().toString(), person1.log.containsString("Recieved msgFoodDone from house, Eggs is done cooking now."));
+		//Check postconditions for part 3 after the cooking timer goes up
+		cook.schedule(new TimerTask() {
+			@Override public void run() {
+				assertTrue(
+						"House should have logged \"Cooking Eggs.\", but didn't. His log reads instead: "
+								+ house.log.getLastLoggedEvent().toString(), house.log.containsString("Cooking Eggs."));
+				assertTrue(
+						"Person1 should have logged \"Recieved msgFoodDone from house, Eggs is done cooking now.\", but didn't. His log reads instead: "
+								+ person1.log.getLastLoggedEvent().toString(), person1.log.containsString("Recieved msgFoodDone from house, Eggs is done cooking now."));
+			
+			}}, food.cookTime);
 	}
 	
 	
