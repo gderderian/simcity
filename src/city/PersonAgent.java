@@ -80,7 +80,9 @@ public class PersonAgent extends Agent implements Person{
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
-	String timeOfDay;
+	int timeOfDay;
+	enum TimeStatus {wakeUp, getReadyForWork, goToWork, atWork, leaveWork, nightTime};
+	TimeStatus timeStatus = TimeStatus.wakeUp;
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
 	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
@@ -203,9 +205,9 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	//TODO fix this
-	public void msgTimeUpdate(String t){
+	public void msgTimeUpdate(int t){
 		timeOfDay = t;
-		events.add("TimeUpdate");
+		
 		stateChanged();
 	}
 	
@@ -496,19 +498,6 @@ public class PersonAgent extends Agent implements Person{
 	
 	
 	//ACTIONS
-
-	//TODO fix this
-	private void timeUpdate(){
-		if(timeOfDay.equals("Morning")){
-			
-		}
-		else if(timeOfDay.equals("Afternoon")){
-			
-		}
-		else{
-			
-		}
-	}
 	
 	public void Eat(){	//hacked for now so that it randomly picks eating at home or going out
 		print("Inside method EAT");
