@@ -11,11 +11,12 @@ public abstract class Role {
 
 	public boolean isActive;
 	public boolean inUse;
-	protected PersonAgent person;
+	public PersonAgent person;
 
     protected Role() {
     	isActive = false;
     	inUse = false;
+    	person = new PersonAgent("Start");
     }
 
     /**
@@ -24,6 +25,10 @@ public abstract class Role {
      */
     protected void stateChanged() {
         person.stateChanged();
+    }
+    
+    public void setPerson(PersonAgent p){
+    	person = p;
     }
 
     /**
@@ -87,10 +92,6 @@ public abstract class Role {
     
     public boolean isInUse(){
     	return inUse;
-    }
-    
-    public void setPerson(PersonAgent p){
-    	person = p;
     }
 
 }

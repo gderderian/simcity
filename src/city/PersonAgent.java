@@ -105,7 +105,7 @@ public class PersonAgent extends Agent implements Person{
 	PersonGui gui;
 	
 
-	public PersonAgent(String n, AStarTraversal aStarTraversal){
+	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map){
 		super();
 		
 		name = n;
@@ -115,8 +115,8 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
         
-        cityMap = new CityMap();
-		
+        cityMap = map;
+        		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");
 		foodsToEat.add("Steak");
@@ -133,8 +133,6 @@ public class PersonAgent extends Agent implements Person{
 		super();
 		
 		name = n;
-      
-        cityMap = new CityMap();
 		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");
@@ -184,6 +182,10 @@ public class PersonAgent extends Agent implements Person{
 		house = h;
 	}
 	
+	public void setJobLocation(String loc){
+		myJob.location = loc;
+	}
+	
 	//For testing, until we have the time functionality
 	public void setWorkState(String s){
 		if(s.equals("Go to work")){
@@ -205,8 +207,11 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	//TODO fix this
+	
 	public void msgTimeUpdate(int t){
+		/*
 		timeOfDay = t;
+		
 		if(myJob.leaveForWork == t){
 			events.add("GoToWork");
 		}
@@ -217,8 +222,8 @@ public class PersonAgent extends Agent implements Person{
 			events.add("WorkDone");
 		}
 		stateChanged();
+		*/
 	}
-	
 	//From house
 	public void msgImBroken(String type) {
 		appliancesToFix.add(new MyAppliance(type));
@@ -542,7 +547,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void Eat(){	//hacked for now so that it randomly picks eating at home or going out
-		print("Inside method EAT");
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -585,9 +589,7 @@ public class PersonAgent extends Agent implements Person{
 		print("Going to go to a restaurant");
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
 		Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole();
-		cityMap.restaurant2.host.msgIWantFood(customer);
-		customer.setActive();
-		roles.add(customer);
+		addRole(customer, true);
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
@@ -597,8 +599,12 @@ public class PersonAgent extends Agent implements Person{
 		else{	//take bus
 			//String destination = cityMap.getNearestBusStop();	TODO make this a thing
 			//takeBus(destination);
+			
+			//This is walking
 			DoGoTo("rest2");
+		    gui.setInvisible();
 		}
+		cityMap.restaurant2.getHost().msgIWantFood(customer);
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){
@@ -722,9 +728,6 @@ public class PersonAgent extends Agent implements Person{
 		
 		if(name.equals("f"))
 			DoGoTo("rest2");
-		
-		if(name.equals("RestaurantTest"))
-			msgImHungry();
 
 	}
 	
@@ -968,6 +971,9 @@ public class PersonAgent extends Agent implements Person{
 		public Job(Role r, String l){
 			role = r;
 			location = l;
+			workStartTime = -1;
+			workEndTime = -1;
+			leaveForWork = -1;
 		}
 		
 		public void startJob(){

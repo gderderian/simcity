@@ -16,6 +16,8 @@ public class PersonGui implements Gui {
 	
 	PersonAgent agent;
 	
+	boolean isPresent = true;
+	
 	ImageIcon icon = new ImageIcon("images/basic_person.png");
 	
 	boolean moving = false; //Keeps track of whether gui is moving or staying in one place.
@@ -33,8 +35,6 @@ public class PersonGui implements Gui {
 		yDest = yPos;
 	}
 	
-	
-
 	@Override
 	public void updatePosition() {
         if (xPos < xDest)
@@ -73,7 +73,7 @@ public class PersonGui implements Gui {
 	}
 
 	public boolean isPresent() {
-		return true;
+		return isPresent;
 	}
 	
 	public void goToRestaurant(int restaurantNum){
@@ -82,6 +82,15 @@ public class PersonGui implements Gui {
 		if(restaurantNum == 2){
 			restaurant2panel.addGui(this);
 		}
+	}
+	
+	public void setInvisible(){
+		isPresent = false;
+		System.out.println("Setting invisible");
+	}
+	
+	public void setVisible(){
+		isPresent = true;
 	}
 	
 	

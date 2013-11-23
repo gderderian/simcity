@@ -74,8 +74,9 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	public Restaurant2CustomerRole(){
 		super();
-		this.name = name;
+		//this.name = name;
 		tableNumber = -1;
+		/*
 		if(name.equals("flake") || name.equals("honest")){
 			wallet = 5.00;
 		}
@@ -83,8 +84,9 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 			wallet = 5.99;
 		}
 		else{
+		*/
 		wallet = 20.00;
-		}
+		//}
 	}
 
 	/**
