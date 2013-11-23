@@ -197,7 +197,7 @@ public class BankGui extends JFrame implements ActionListener {
         
         if(e.getSource() == depletecooksupply)
         {
-        	System.out.println("deplete cook's supply");
+        	//System.out.println("deplete cook's supply");
         	restPanel.addPerson("BankCustomerRole", "tom", true);
         }
         
