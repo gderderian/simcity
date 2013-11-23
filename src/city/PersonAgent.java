@@ -80,10 +80,9 @@ public class PersonAgent extends Agent implements Person{
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
+	String timeOfDay;
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
-	
-
 	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
 	
 	//Testing
@@ -200,6 +199,13 @@ public class PersonAgent extends Agent implements Person{
 		events.add("GotHungry");
 		print("Recieved msgImHungry");
 		log.add(new LoggedEvent("Recieved message Im Hungry"));
+		stateChanged();
+	}
+	
+	//TODO fix this
+	public void msgTimeUpdate(String t){
+		timeOfDay = t;
+		events.add("TimeUpdate");
 		stateChanged();
 	}
 	
@@ -358,6 +364,14 @@ public class PersonAgent extends Agent implements Person{
 		//Test movement by creating people named a, b, c, or d
 		movementTest();
 		
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("TimeUpdate")){
+					timeUpdate();
+				}
+			}
+		}
+		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
@@ -482,6 +496,19 @@ public class PersonAgent extends Agent implements Person{
 	
 	
 	//ACTIONS
+
+	//TODO fix this
+	private void timeUpdate(){
+		if(timeOfDay.equals("Morning")){
+			
+		}
+		else if(timeOfDay.equals("Afternoon")){
+			
+		}
+		else{
+			
+		}
+	}
 	
 	public void Eat(){	//hacked for now so that it randomly picks eating at home or going out
 		print("Inside method EAT");
