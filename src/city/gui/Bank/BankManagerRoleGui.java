@@ -9,7 +9,11 @@ import Role.BankManagerRole;
 
 public class BankManagerRoleGui implements Gui {
 
+
     private BankManagerRole role = null;
+
+    private BankManagerRole agent = null;
+
     private boolean returningtolobby = false;
 
     private int xPos = -20, yPos = -20;//default waiter position
@@ -18,8 +22,10 @@ public class BankManagerRoleGui implements Gui {
     public static int xTable = 200;
     public static int yTable = 250;
 
+
     public BankManagerRoleGui(BankManagerRole setrole) {
         this.role = setrole;
+
     }
 
     public void updatePosition() {
@@ -43,6 +49,7 @@ public class BankManagerRoleGui implements Gui {
     public boolean isPresent() {
         return true;
     }
+
 
     public void DoBringToTable(int tablexcoordinate, int tableycoordinate) {
       

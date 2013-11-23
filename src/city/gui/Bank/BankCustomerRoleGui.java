@@ -1,6 +1,8 @@
 package city.gui.Bank;
 
 import Role.BankCustomerRole;
+import Role.BankManagerRole;
+
 import java.awt.*;
 
 import javax.print.DocFlavor.URL;
@@ -28,6 +30,10 @@ public class BankCustomerRoleGui implements Gui{
 
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
 		this.role = setrole;
+
+		
+		//current position was -40 -40
+
 		xPos = -20;
 		yPos = -20;
 		xDestination = -20;
@@ -52,11 +58,16 @@ public class BankCustomerRoleGui implements Gui{
 		
 		
 		if(xPos == -20 && yPos == -20) {
-			
+
+			//agent.atLobby.release();
+
 		}
 		
 		if(xPos == 100 && yPos == 300)
 		{
+
+			//agent.atWashingDishes.release();
+
 			
 		}
 		if (xPos < xDestination)
@@ -70,6 +81,7 @@ public class BankCustomerRoleGui implements Gui{
 			yPos--;
 
 		if (xPos == xDestination && yPos == yDestination) {
+
 			if (command==Command.GoToSeat) //agent.msgAnimationFinishedGoToSeat();
 			{
 				
@@ -78,8 +90,18 @@ public class BankCustomerRoleGui implements Gui{
 				//agent.msgAnimationFinishedLeaveRestaurant();
 				//isHungry = false;
 				//gui.setCustomerEnabled(agent);
+
+			/*
+			if (command==Command.GoToSeat) //agent.msgAnimationFinishedGoToSeat();
+			else if (command==Command.LeaveRestaurant) {
+				//agent.msgAnimationFinishedLeaveRestaurant();
+				isHungry = false;
+				gui.setCustomerEnabled(agent);
+
 			}
 			command=Command.noCommand;
+			*/
+			}
 		}
 	}
 
@@ -87,7 +109,7 @@ public class BankCustomerRoleGui implements Gui{
 		g.setColor(Color.BLUE);
 		g.fillRect(xPos, yPos, 20, 20);
 		
-		
+
 		
 	}
 
@@ -96,6 +118,9 @@ public class BankCustomerRoleGui implements Gui{
 	}
 	public void setHungry() {
 		isHungry = true;
+
+		//agent.gotHungry();
+
 		setPresent(true);
 	}
 	public boolean isHungry() {
@@ -107,6 +132,10 @@ public class BankCustomerRoleGui implements Gui{
 	}
 
 	public void DoGoToSeat(int seatnumber, int table) {//later you will map seatnumber to table coordinates.
+
+		//xDestination = xcoordinatesoftables[table - 1];
+		//yDestination = ycoordinatesoftables[table - 1];
+
 		command = Command.GoToSeat;
 	}
 	
@@ -131,6 +160,9 @@ public class BankCustomerRoleGui implements Gui{
 	{
 		xhomepos = x;
 		yhomepos = y;
+
+		//agent.msgSetHomePos(x, y);
+
 	}
 	
 
