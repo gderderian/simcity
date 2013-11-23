@@ -33,7 +33,7 @@ public class BankManagerRole extends Role{
         public List<mycustomer> customers = new ArrayList<mycustomer>();
         
         bankmanagerstate state;
-        Bank bank;
+        public Bank bank;
         BankCustomerRole leavingcustomer;
         BankTellerRole freebankteller;
         PersonAgent person;
@@ -85,6 +85,7 @@ public void msgBankTellerFree(BankTellerRole bankteller)
                 
                 for(mybankteller freebankteller: banktellers)
                 {
+                	
                         if(freebankteller.bankteller == bankteller)
                         {
                                 log.add(new LoggedEvent("msgBankTellerFree"));
@@ -102,9 +103,12 @@ public void msgBankTellerFree(BankTellerRole bankteller)
 
 public boolean pickAndExecuteAnAction() {
 
-			
+					
+					Do("im in the scheduler");
+					Do("" + banktellers.size());
 					for(mybankteller newbankteller: banktellers)
 					{
+						
 						if(newbankteller.state == banktellerstate.arrived)
 						{
 						
@@ -112,6 +116,7 @@ public boolean pickAndExecuteAnAction() {
 							{
 								if(!findfreebankstation.isOccupied())
 								{
+									Do("assign banker to station");
 									findfreebankstation.setBankTeller(newbankteller.bankteller);
 									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
 									newbankteller.state = banktellerstate.free;
@@ -123,7 +128,7 @@ public boolean pickAndExecuteAnAction() {
 						}
 						
 					}
-				
+		
                 for(mycustomer customer: customers)
                 {
                         if(customer.state == customerstate.waiting)
