@@ -47,11 +47,10 @@ public class AStarTraversal extends GraphTraversal
 	int y = pos.getY();
 	//this next pair of loops will create all the possible moves
 	//from pos.
-	for(int i = -1; i <= 1; i++) {//increment for x direction
-	    for (int j = -1; j <= 1; j++) {//increment for y direction
+	for(int i = -1; i <= 1; i += 2) {//Checks nodes to left and right
 		//create the potential next position
 		int nextX=x+i;
-		int nextY=y+j;
+		int nextY=y;
 		//make sure next point is on the grid
 		if ((nextX+1>grid.length || nextY+1>grid[0].length) ||
 		      (nextX<0 || nextY<0)) continue;
@@ -75,7 +74,34 @@ public class AStarTraversal extends GraphTraversal
 		expandedNodes.add(nodeTemp);//could have just added
 					    //them directly to nodelist 
 	    }
-	}
+
+    for (int j = -1; j <= 1; j += 2) {//Checks nodes above and below
+    	//create the potential next position
+    			int nextX=x;
+    			int nextY=y+j;
+    			//make sure next point is on the grid
+    			if ((nextX+1>grid.length || nextY+1>grid[0].length) ||
+    			      (nextX<0 || nextY<0)) continue;
+    			Position next = new Position(nextX,nextY);
+    			//System.out.println("considering"+next);
+    			if (inPath(next,path) || !next.open(grid) ) continue;
+    			//printCurrentList();
+    			//System.out.println("available"+next);
+    			AStarNode nodeTemp = new AStarNode(next);
+
+    			//update distance travelled
+    			nodeTemp.setDistTravelled(
+    	                        node.getDistTravelled()+pos.distance(next));
+    			//update approximate total distance to destination
+    			//note that we are computing the straight-line
+    			//heuristic on the fly right here from next to endingState
+    			nodeTemp.setApproxTotalDist(
+    				nodeTemp.getDistTravelled() + next.distance((Position)endingState));	
+    			//update internal path
+    			nodeTemp.updatePath(path);
+    			expandedNodes.add(nodeTemp);//could have just added
+    						    //them directly to nodelist 
+    }
 	return expandedNodes;
     }//end expandFunc
     private boolean inPath (Position pos, List<Position> path){
