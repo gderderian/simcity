@@ -294,7 +294,7 @@ public class ControlPanel extends JPanel implements ActionListener{
             	}
             }
             
-            cityGui.addPerson(name, aStarTraversal, role);
+            cityGui.addPerson(name, aStarTraversal, role, cityMap);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();

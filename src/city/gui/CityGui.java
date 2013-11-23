@@ -10,6 +10,7 @@ import Role.Role;
 import astar.AStarTraversal;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
+import city.CityMap;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 import city.transportation.BusAgent;
@@ -142,11 +143,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 }       
         }
         
-        public void addPerson(String name, AStarTraversal aStarTraversal, Role job){
-                PersonAgent newPerson = new PersonAgent(name, aStarTraversal);
+        public void addPerson(String name, AStarTraversal aStarTraversal, Role job, CityMap map){
+                PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map);
                 if(job != null){
-                	newPerson.addFirstJob(job, "Unknown");
                 	//Add location to this
+                    newPerson.addFirstJob(job, "Unknown");
                 }
                 people.add(newPerson);
                 PersonGui g = new PersonGui(newPerson);
@@ -156,6 +157,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 g.addAnimationPanel(restaurant2);
                 
                 newPerson.startThread();
+                
+                if(name.equals("RestaurantTest")){
+                	newPerson.msgImHungry();
+                }
         }
 
         public void enableComeBack(Restaurant2Waiter agent) {

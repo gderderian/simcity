@@ -57,7 +57,7 @@ public class CityClock {
 					} else  if (getCurrentTime() >= 120000){
 						dayState = dayStates.night;
 					}
-					System.out.println("Two seconds! Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState());
+					//System.out.println("Two seconds! Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState());
 					cityGui.timerTick(getCurrentTime());
 					checkTimer.restart(); // Restarts every two seconds
 		      }
