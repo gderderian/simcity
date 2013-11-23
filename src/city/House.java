@@ -8,9 +8,9 @@ import test.mock.*;
 
 public class House {
 	//DATA
-	private Person owner;
+	public Person owner;
 	//private HomeOwnerRole homeowner;
-	private Timer cook= new Timer();
+	protected Timer cook= new Timer();
 	public Appliance fridge= new Appliance("Fridge");
 	private Appliance microwave= new Appliance("Microwave");
 	private Appliance oven= new Appliance("Oven");
@@ -46,7 +46,6 @@ public class House {
 		}
 		for(int i=0; (i<groceries.size()) && (fridge.currentAmount < fridge.capacity); i++){
 			fridge.addItem(groceries.get(i));
-			//fridge.currentAmount++;
 		}
 	}
 
@@ -84,21 +83,12 @@ public class House {
 				if(app.isBroken){
 					owner.msgApplianceBrokeCantCook();
 				}
-				//if((app != null) && (app.currentAmount < app.capacity)){
 				if(app != null){
 					System.out.println("The appliance needed exists.");
 					cook.schedule(new TimerTask() {
 						@Override public void run() {
 							System.out.println("Food is done cooking!");
 							owner.msgFoodDone(temp.food.type);
-						
-							Random rand = new Random();
-							int num= rand.nextInt(10);
-							if(num == 0){ //there is a 1/10 chance the appliance will break each time it is used
-							System.out.println("The appliance broke!");
-								app.isBroken= true;
-								owner.msgImBroken(app.type);
-							}
 							System.out.println("Done with the cookFood function.");
 							return;
 						}}, cookTime);
@@ -118,7 +108,7 @@ public class House {
 
 	
 	//INTERNAL METHODS
-	private Appliance getAppliance(String type){
+	protected Appliance getAppliance(String type){
 		for(Appliance a : cookingAppliances){
 			if(a.type.equals(type)){
 				return a;
@@ -130,11 +120,11 @@ public class House {
 	
 	//CLASSES
 	public class Appliance{
-		String type;
+		public String type;
 		int capacity; 
 		public int currentAmount;
 		Map<String, MyFood> food= new HashMap<String, MyFood>(); 
-		Boolean isBroken= false;
+		public Boolean isBroken= false;
 
 		Appliance(String type){
 	 		this.type= type;
@@ -183,7 +173,7 @@ public class House {
 		}
 	}
 
-	private class MyFood{
+	class MyFood{
 		Food food;
 		int currentAmount;
 		
