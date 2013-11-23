@@ -647,7 +647,7 @@ public class PersonAgent extends Agent implements Person{
 		if(name.equals("f"))
 			DoGoTo("rest2");
 		
-		if(name.equals("restTest"))
+		if(name.equals("RestaurantTest"))
 			msgImHungry();
 
 	}
