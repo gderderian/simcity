@@ -72,12 +72,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             //cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
             restaurant2.setBackground(new Color(150, 20, 60));
             restaurant2.setCityGui(this);
+            restaurant1.setBackground(Color.LIGHT_GRAY);
+            restaurant1.setCityGui(this);
             
             restaurant4.setCityGui(this);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
         //cityPanel.setPreferredSize(animationDim);
         restaurant2.setPreferredSize(animationDim);
+        restaurant1.setPreferredSize(animationDim);
         //add(cityPanel, BorderLayout.EAST);
         animationPanel.setPreferredSize(animationDim);
     	
