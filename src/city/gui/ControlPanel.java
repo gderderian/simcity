@@ -64,7 +64,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
-    private String[] jobs = {"[Please select a job]", "Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
+    private String[] jobs = {"[Please select a job]", "No job", "Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
     		"Market Manager", "Market Worker", "Landlord"
     };
     private JComboBox jobField = new JComboBox(jobs);
@@ -318,6 +318,9 @@ public class ControlPanel extends JPanel implements ActionListener{
                 	nameField.setText("");
                 	isHungry.setSelected(false);
         		}
+        	}
+        	else{
+        		errorDisplay.setText("Please enter a name for the person");
         	}
         }
     }
