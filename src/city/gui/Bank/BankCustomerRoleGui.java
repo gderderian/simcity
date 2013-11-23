@@ -21,7 +21,7 @@ public class BankCustomerRoleGui implements Gui{
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
-	private enum Command {noCommand, GoToSeat, LeaveRestaurant, GoToWashDishes};
+	private enum Command {noCommand, gotobanktellerstation, leavebank, arrived};
 	private Command command=Command.noCommand;
 	
 
@@ -52,7 +52,8 @@ public class BankCustomerRoleGui implements Gui{
 		
 	}
 
-	public void updatePosition() {
+	public void updatePosition() 
+	{
 		
 		/*
 		if(xPos == -40 && yPos == -40 && agent.goingtocashier == true){
@@ -65,19 +66,6 @@ public class BankCustomerRoleGui implements Gui{
 		//agent.ycoordinate = yPos;
 		
 		
-		if(xPos == -20 && yPos == -20) {
-
-			//agent.atLobby.release();
-
-		}
-		
-		if(xPos == 100 && yPos == 300)
-		{
-
-			//agent.atWashingDishes.release();
-
-			
-		}
 		if (xPos < xDestination)
 			xPos++;
 		else if (xPos > xDestination)
@@ -90,15 +78,19 @@ public class BankCustomerRoleGui implements Gui{
 
 		if (xPos == xDestination && yPos == yDestination) {
 
-			if (command==Command.GoToSeat) //agent.msgAnimationFinishedGoToSeat();
+			if (command==Command.gotobanktellerstation) //agent.msgAnimationFinishedGoToSeat();
 			{
 				role.atBankStation.release();
+				command = Command.arrived;
 			}
-			else if (command==Command.LeaveRestaurant) {
+			else if (command==Command.leavebank)
+			{
+				role.atBankLobby.release();
+				command = Command.arrived;
 				//agent.msgAnimationFinishedLeaveRestaurant();
 				//isHungry = false;
 				//gui.setCustomerEnabled(agent);
-
+			}
 			/*
 			if (command==Command.GoToSeat) //agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
@@ -111,27 +103,24 @@ public class BankCustomerRoleGui implements Gui{
 			*/
 			}
 		}
-	}
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(xPos, yPos, 20, 20);
-		
-
-		
 	}
 
 	public boolean isPresent() {
 		return isPresent;
 	}
+	
 	public void setArrivedAtBank() {
 		arrivedAtBank = true;
 		setPresent(true);
 	}
-	public boolean isHungry() {
+	public boolean isAtBank() {
 		return arrivedAtBank;
 	}
-
+	
 	public void setPresent(boolean p) {
 		isPresent = p;
 	}
@@ -140,19 +129,14 @@ public class BankCustomerRoleGui implements Gui{
 		
 		xDestination = xcoordinatesofstations[bankstationnumber - 1];
 		yDestination = ycoordinatesofstations[bankstationnumber - 1];
-		command = Command.GoToSeat;
+		command = Command.gotobanktellerstation;
 	}
 	
-	public void DoGoToWait(int xcoordinateofwaitingspot, int ycoordinateofwaitingspot) {
-		xDestination = xcoordinateofwaitingspot;
-		yDestination = ycoordinateofwaitingspot;
+	public void leaveBank() {
+		xDestination = -20;
+		yDestination = -20;
+		command = Command.leavebank;
 		
-	}
-	
-	public void DoGoToWashDishes(int x, int y) {
-		xDestination = x;
-		yDestination = y;
-		command = Command.GoToWashDishes;
 	}
 	
 	public void gotohomeposition() {
@@ -168,10 +152,4 @@ public class BankCustomerRoleGui implements Gui{
 
 	}
 	
-
-	public void DoExitRestaurant() {
-		xDestination = -20;
-		yDestination = -20;
-		command = Command.LeaveRestaurant;
-	}
 }

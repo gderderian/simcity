@@ -20,6 +20,7 @@ public class BankCustomerRole extends Role{
         public double amountofcustomermoney;
         //public int customeraccountnumber;
         public Semaphore atBankStation = new Semaphore(0,true);
+        public Semaphore atBankLobby = new Semaphore(0,true);
         BankCustomerRoleGui gui;
         PersonAgent person;
         String name;
