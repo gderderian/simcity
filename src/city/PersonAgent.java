@@ -658,14 +658,18 @@ public class PersonAgent extends Agent implements Person{
 	
 	void moveTo(int x, int y) {
 		Position p = new Position(x, y);
+		
+		if(currentPosition.distance(p) > 16) {
+			//intermediate movement.
+		}
 		guiMoveFromCurrentPositionTo(p);
 	}
 	
 	void DoGoTo(String location) {
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
-		
-		gui.moveTo(120 + (x * 30 - 30), 60 + (y * 30 - 30));
+
+	    gui.moveTo(130 + x * 30, 70 + y * 30);
 	    
 	    //Give animation time to move to square.
 	    try {
@@ -719,7 +723,7 @@ public class PersonAgent extends Agent implements Person{
 		    currentPosition.release(aStar.getGrid());
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
 		    print("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
-		    gui.moveTo(120 + (currentPosition.getX() * 30 - 30), 60 + (currentPosition.getY() * 30 - 30));
+		    gui.moveTo(130 + (currentPosition.getX() * 30), 70 + (currentPosition.getY() * 30));
 		    
 		    //Give animation time to move to square.
 		    try {
