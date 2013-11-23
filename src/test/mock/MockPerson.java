@@ -5,6 +5,8 @@ import city.MarketOrder;
 import city.transportation.BusAgent;
 import city.transportation.CarAgent;
 import interfaces.Bus;
+import interfaces.Car;
+import interfaces.Landlord;
 import interfaces.Person;
 
 
@@ -71,13 +73,13 @@ public class MockPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgBusIsHere(BusAgent b) {
+	public void msgBusIsHere(Bus b) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgArrived() {
+	public void msgArrived(Car c) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -91,7 +93,7 @@ public class MockPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgRentDue(LandlordRole r, double rate) {
+	public void msgRentDue(Landlord r, double rate) {
 		log.add(new LoggedEvent("Recieved msgRentDue from landlord, I owe $" + rate + "."));
 		System.out.println("Recieved msgRentDue from landlord, I owe $" + rate + ".");
 	}
@@ -99,7 +101,7 @@ public class MockPerson extends Mock implements Person {
 	
 	//FROM MARKET
 	@Override
-	public void msgHereIsYourOrder(CarAgent car) {
+	public void msgHereIsYourOrder(Car car) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -116,9 +118,4 @@ public class MockPerson extends Mock implements Person {
 		
 	}
 
-	@Override
-	public void msgPleasePayFare(BusAgent b, double fare) {
-		// TODO Auto-generated method stub
-		
-	}
 }
