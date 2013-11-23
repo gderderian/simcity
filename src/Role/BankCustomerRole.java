@@ -1,5 +1,6 @@
 package Role;
 
+import city.gui.Bank.BankCustomerRoleGui;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 
@@ -15,6 +16,7 @@ public class BankCustomerRole extends Role{
         double paybackloan;
         public double amountofcustomermoney;
         //public int customeraccountnumber;
+        BankCustomerRoleGui gui;
         PersonAgent person;
         public EventLog log = new EventLog();
         
@@ -241,6 +243,11 @@ public class BankCustomerRole extends Role{
         public Object getGui() {
                 // TODO Auto-generated method stub
                 return null;
+        }
+        
+        public void setGui(BankCustomerRoleGui setGui)
+        {
+        	this.gui = setGui;
         }
         
         

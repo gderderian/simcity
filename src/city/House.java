@@ -80,9 +80,6 @@ public class House {
 				fridge.removeItem(temp.food);
 				int cookTime= temp.food.cookTime;
 				final Appliance app= getAppliance(temp.food.appliance);
-				if(app.isBroken){
-					owner.msgApplianceBrokeCantCook();
-				}
 				if(app != null){
 					System.out.println("The appliance needed exists.");
 					cook.schedule(new TimerTask() {
@@ -183,7 +180,7 @@ public class House {
 		}
 		
 		MyFood(String type){
-			food= new Food(type, "Microwave", 0); //assigned manually until we decide how to handle this
+			food= new Food(type); //assigned manually until we decide how to handle this
 			currentAmount= 0;
 		}
 	}

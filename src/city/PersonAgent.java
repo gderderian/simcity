@@ -328,7 +328,7 @@ public class PersonAgent extends Agent implements Person{
 	public void msgSetBankAccountNumber(double setbankaccountnumber)
 	{
 		
-		
+	
 	}
 	
 	public void msgBalanceAfterDepositingIntoAccount(double amountofcustomermoney)

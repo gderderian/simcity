@@ -15,7 +15,6 @@ public class LandlordRole extends Role implements Landlord {
 	public List<MyTenant> tenants= new ArrayList<MyTenant>();
 	public EventLog log= new EventLog();
 	String name;
-	private Timer fix= new Timer();
 	
 	public LandlordRole(){
 		super();

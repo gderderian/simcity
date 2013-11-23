@@ -104,13 +104,13 @@ public class LandlordTest extends TestCase {
 		//Part 2, run the landlord's scheduler so it will fix the appliance
 		landlord.pickAndExecuteAnAction();
 		
-		//Postconditions for part 2
+		//Postconditions for part 2 to be checked after the landlord's fix timer goes off
 		assertTrue(
 				"Person1 should have logged \"Recieved msgFixed from landlord, Oven is now fixed.\" but didn't. His log reads instead: "
 						+ person1.log.getLastLoggedEvent().toString(), person1.log.containsString("Recieved msgFixed from landlord, Oven is now fixed."));
 		assertEquals(
 				"The tenant should have 0 broken appliances. It doesn't.", landlord.tenants.get(0).needsMaintenance.size(), 0);
-		
+
 		
 		//Scenario is finished, the scheduler should now return false
 		assertFalse(
