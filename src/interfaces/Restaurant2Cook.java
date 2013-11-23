@@ -2,6 +2,7 @@ package interfaces;
 
 import java.util.HashMap;
 
+import city.MarketOrder;
 import city.Restaurant2.Restaurant2CookRole.Order;
 
 public interface Restaurant2Cook {
@@ -12,7 +13,7 @@ public interface Restaurant2Cook {
 		
 		public void msgFailedOrder(HashMap<String, Integer> failedOrder);
 		
-		public void msgHereIsShipment(HashMap<String, Integer> goodOrder);
+		public void msgHereIsShipment(MarketOrder goodOrder);
 		
 		//public void msgOutOfAllFood(Restaurant2Market m);
 		

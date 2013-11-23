@@ -77,7 +77,7 @@ public abstract class Role {
      * This function sets the role to active or not for use with the PersonAgent's scheduler
      */
     
-    public void setActive(PersonAgent person){
+    public void setActive(){
     	isActive = true;
     }
     
@@ -87,6 +87,10 @@ public abstract class Role {
     
     public boolean isInUse(){
     	return inUse;
+    }
+    
+    public void setPerson(PersonAgent p){
+    	person = p;
     }
 
 }
