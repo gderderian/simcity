@@ -911,6 +911,12 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 
+	public void msgBalanceAfterGetitngLoanFromAccount(
+			double amountofcustomermoney) {
+	
+		
+	}
+
 
 
 	

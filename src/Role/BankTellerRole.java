@@ -238,7 +238,9 @@ public class BankTellerRole extends Role {
 			this.gui = setgui;
 		}
 
-        
+		public String getName() {
+			return this.name;
+		}
         
         
         
