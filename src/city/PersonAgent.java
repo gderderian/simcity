@@ -165,8 +165,9 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void addRole(Role r, boolean active){
 		roles.add(r);
+		r.setPerson(this);
 		if(active){
-			r.setActive(this);
+			r.setActive();
 		}
 	}
 	
@@ -519,7 +520,7 @@ public class PersonAgent extends Agent implements Person{
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
 		Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole();
 		cityMap.restaurant2.host.msgIWantFood(customer);
-		customer.setActive(this);
+		customer.setActive();
 		roles.add(customer);
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
@@ -893,7 +894,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		
 		public void startJob(){
-			role.setActive(PersonAgent.this);
+			role.setActive();
 			workState = WorkState.atWork;
 		}
 		

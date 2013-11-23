@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import Role.Role;
 import astar.AStarTraversal;
+import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
@@ -15,6 +16,7 @@ import city.gui.restaurant2.Restaurant2AnimationPanel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -84,6 +86,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         
         //add(infoPanel, BorderLayout.WEST);
         add(controlPanel, BorderLayout.WEST);
+        
+        CityClock masterClock = new CityClock(this);
+        masterClock.startTime();
 
     }
     
@@ -98,6 +103,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     public void actionPerformed(ActionEvent e) {
             //if(e.getSource() == 
     }
+    
     /**
      * Main routine to get gui started
      */
