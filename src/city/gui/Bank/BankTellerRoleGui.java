@@ -12,12 +12,16 @@ public class BankTellerRoleGui implements Gui {
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
+	private BankGui gui;
 
     public static int xTable = 200;
     public static int yTable = 250;
 
-    public BankTellerRoleGui(BankTellerRole agent) {
+    public BankTellerRoleGui(BankTellerRole agent, BankGui gui) {
         this.agent = agent;
+        this.gui = gui;
+        
+        
     }
 
     public void updatePosition() {
@@ -64,4 +68,9 @@ public class BankTellerRoleGui implements Gui {
     public int getYPos() {
         return yPos;
     }
+
+	public void setHomePosition(int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}
 }
