@@ -9,7 +9,7 @@ import city.gui.restaurant2.Restaurant2AnimationPanel;
 import city.transportation.Vehicle;
 
 public class VehicleGui implements Gui {
-	String vehicleType;
+	String type;
 	
 	private int xDest;
 	private int yDest;
@@ -18,10 +18,10 @@ public class VehicleGui implements Gui {
 	
 	Vehicle v;
 	
-	ImageIcon movingRight = new ImageIcon("images/vehicle_right.png");
-	ImageIcon movingLeft = new ImageIcon("images/vehicle_left.png");
-	ImageIcon movingUp = new ImageIcon("images/vehicle_up.png");
-	ImageIcon movingDown = new ImageIcon("images/vehicle_down.png");
+	ImageIcon movingRight = new ImageIcon("images/" + type + "_right.png");
+	ImageIcon movingLeft = new ImageIcon("images/" + type + "_left.png");
+	ImageIcon movingUp = new ImageIcon("images/" + type + "_up.png");
+	ImageIcon movingDown = new ImageIcon("images/" + type + "_down.png");
 	
 	ImageIcon icon;
 	
@@ -31,9 +31,9 @@ public class VehicleGui implements Gui {
 	
 	Restaurant2AnimationPanel restaurant2panel;
 	
-	public VehicleGui(Vehicle v){
+	public VehicleGui(Vehicle v, String type){
 		this.v = v;
-		
+		this.type = type;
 		xPos = 730;
 		yPos = 720;
 		xDest = xPos;
