@@ -8,6 +8,8 @@ import java.awt.*;
 import javax.print.DocFlavor.URL;
 import javax.swing.ImageIcon;
 
+import city.Bank;
+
 public class BankCustomerRoleGui implements Gui{
 
 	private BankCustomerRole role = null;
@@ -128,8 +130,10 @@ public class BankCustomerRoleGui implements Gui{
 		isPresent = p;
 	}
 
-	public void DoGoToSeat(int seatnumber, int table) {//later you will map seatnumber to table coordinates.
+	public void goToBankTellerStation(int bankstationnumber) {//later you will map seatnumber to table coordinates.
 
+		xDestination = Bank.bankstations[bankstationnumber].xcoordinate;
+		
 		//xDestination = xcoordinatesoftables[table - 1];
 		//yDestination = ycoordinatesoftables[table - 1];
 
@@ -157,7 +161,6 @@ public class BankCustomerRoleGui implements Gui{
 	{
 		xhomepos = x;
 		yhomepos = y;
-
 		//agent.msgSetHomePos(x, y);
 
 	}

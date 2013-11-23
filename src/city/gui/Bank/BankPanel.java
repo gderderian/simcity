@@ -86,6 +86,7 @@ public class BankPanel extends JPanel {
         
         
         
+        
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
         group.add(bankcustomerPanel);

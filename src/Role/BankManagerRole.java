@@ -7,6 +7,8 @@ import java.util.concurrent.Semaphore;
 
 
 
+
+
 import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
@@ -20,8 +22,9 @@ import city.PersonAgent;
 
 public class BankManagerRole extends Role{
 
-        public enum banktellerstate {free, busy};
-        public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
+        public enum banktellerstate {arrived, free, busy};
+        //public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
+        public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft};
         public enum customerstate {waiting, beingserved, leaving};
         String name;
         public Semaphore accessingaccount = new Semaphore(0,true);
@@ -29,12 +32,13 @@ public class BankManagerRole extends Role{
         public List<mybankteller> banktellers = new ArrayList<mybankteller>();
         public List<mycustomer> customers = new ArrayList<mycustomer>();
         
-        bankstate state;
+        bankmanagerstate state;
         Bank bank;
         BankCustomerRole leavingcustomer;
         BankTellerRole freebankteller;
         PersonAgent person;
         public EventLog log = new EventLog();
+        
 
 
         public BankManagerRole(Bank setbank)
@@ -60,7 +64,7 @@ public class BankManagerRole extends Role{
         }
 
         public void msgCalculateLoan() {
-                state = bankstate.calculateloan;
+                state = bankmanagerstate.calculateloan;
                 stateChanged();
                 
         }
@@ -71,7 +75,7 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer, BankTellerRole ban
         log.add(new LoggedEvent("msgCustomerLeft"));
         this.leavingcustomer = leavingcustomer;
         this.freebankteller = bankteller;
-        state = bankstate.customerleft;
+        state = bankmanagerstate.customerleft;
         stateChanged();
 }
 
@@ -85,7 +89,6 @@ public void msgBankTellerFree(BankTellerRole bankteller)
                         {
                                 log.add(new LoggedEvent("msgBankTellerFree"));
                                 freebankteller.state = banktellerstate.free;
-                                Do("assign customer to bank teller");
                                 break;
                         }
                 }
@@ -99,7 +102,28 @@ public void msgBankTellerFree(BankTellerRole bankteller)
 
 public boolean pickAndExecuteAnAction() {
 
-
+			
+					for(mybankteller newbankteller: banktellers)
+					{
+						if(newbankteller.state == banktellerstate.arrived)
+						{
+						
+							for(Bank.bankstation findfreebankstation : bank.bankstations)
+							{
+								if(!findfreebankstation.isOccupied())
+								{
+									findfreebankstation.setBankTeller(newbankteller.bankteller);
+									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
+									newbankteller.state = banktellerstate.free;
+									return true;
+								}
+							
+							}
+						
+						}
+						
+					}
+				
                 for(mycustomer customer: customers)
                 {
                         if(customer.state == customerstate.waiting)
@@ -109,10 +133,12 @@ public boolean pickAndExecuteAnAction() {
                                         if(bankteller.state == banktellerstate.free)
                                         {
                                                 log.add(new LoggedEvent("banktellerassigned"));
+                                                Do("assign customer to bank teller");
                                                 bankteller.bankteller.msgAssignMeCustomer(customer.customer);
                                                 customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;
+                                                //customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
                                                 return true;
                                         }
                                 }
@@ -129,7 +155,7 @@ public boolean pickAndExecuteAnAction() {
 
                 }
                 
-                if(state == bankstate.calculateloan)
+                if(state == bankmanagerstate.calculateloan)
                 {
                         //this is a very simple loan calculation system with some limits
                         for(account findaccountwithloan: bank.accounts)
@@ -152,12 +178,12 @@ public boolean pickAndExecuteAnAction() {
                         }
                         
                         
-                        
+                        state = bankmanagerstate.doingnothing;
                         
                         return true;
                 }
                 
-                if(state == bankstate.customerleft)
+                if(state == bankmanagerstate.customerleft)
                 {
                 
                         for(mycustomer leavingcustomer: customers)
@@ -198,12 +224,24 @@ public boolean pickAndExecuteAnAction() {
 
                 BankTellerRole bankteller;
                 banktellerstate state;
+                int bankstationnumber;
 
                 public mybankteller(BankTellerRole bt, BankManagerRole bm)
                 {
                         bankteller = bt;
                         bankteller.bankmanager = bm;
-                        state = banktellerstate.free;
+                        state = banktellerstate.arrived;
+                   
+                }
+                
+                public void setBankStationNumber(int setbankstationnumber)
+                {
+                	this.bankstationnumber = setbankstationnumber;
+                }
+                
+                public int getBankStationNumber()
+                {
+                	return this.bankstationnumber;
                 }
 
         }
@@ -230,8 +268,9 @@ public boolean pickAndExecuteAnAction() {
                 // TODO Auto-generated method stub
                 
         }
-
-
+        
+        
+       
 }
 
 
