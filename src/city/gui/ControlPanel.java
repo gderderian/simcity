@@ -169,6 +169,7 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[0][12].release(100); //bank2
       	sidewalkGrid[21][4].release(100); //apart1
       	sidewalkGrid[1][18].release(100); //apart2
+      	sidewalkGrid[21][18].release(100); //starting point for agents
       	
       	
       	/********Finished setting up semaphore grid***********/

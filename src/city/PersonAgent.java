@@ -670,8 +670,9 @@ public class PersonAgent extends Agent implements Person{
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
-	    gui.moveTo(130 + x * 30, 70 + y * 30);
-	    
+	    //gui.moveTo(130 + x * 30, 70 + y * 30);
+	    moveTo(x, y);
+		
 	    //Give animation time to move to square.
 	    try {
 			atDestination.acquire();
