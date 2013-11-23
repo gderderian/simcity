@@ -16,6 +16,7 @@ import Role.BankCustomerRole;
 import Role.Role;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
+import city.PersonAgent;
 
 public class BankManagerRole extends Role{
 
