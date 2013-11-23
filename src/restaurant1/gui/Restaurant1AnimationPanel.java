@@ -172,7 +172,6 @@ public class Restaurant1AnimationPanel extends JPanel implements ActionListener,
 		int y = e.getY();
 		if((x >= 20) && (x <= 64) && (y >= 20) && (y <= 44)) {
 			cityGui.changeView("City");
-			System.out.println("CLICKED");
 		}
 	}
 }
