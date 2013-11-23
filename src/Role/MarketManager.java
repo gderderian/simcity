@@ -123,9 +123,9 @@ public class MarketManager extends Role {
 		
 		// Decrement quantity of things in each order
 		for (OrderItem item : o.order.orders){
-		
-			
-			
+			MarketItem selectedMarketItem = marketStock.get(item.name);
+			selectedMarketItem.quantity = selectedMarketItem.quantity - 1;
+			marketStock.put(item.name, selectedMarketItem);
 		}
 		
 		
