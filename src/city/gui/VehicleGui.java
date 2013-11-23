@@ -42,15 +42,21 @@ public class VehicleGui implements Gui {
 
 	@Override
 	public void updatePosition() {
-        if (xPos < xDest)
+        if (xPos < xDest) {
             xPos++;
-        else if (xPos > xDest)
+        	icon = movingRight;
+        } else if (xPos > xDest) {
             xPos--;
+        	icon = movingLeft;
+        }
 
-        if (yPos < yDest)
+        if (yPos < yDest) {
             yPos++;
-        else if (yPos > yDest)
+            icon = movingUp;
+        } else if (yPos > yDest) {
             yPos--;
+            icon = movingDown;
+        }
         
         if(xPos == xDest && yPos == yDest && moving) {
         	v.msgGuiFinished();
