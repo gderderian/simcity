@@ -20,8 +20,7 @@ public class BankTellerRoleGui implements Gui {
     public BankTellerRoleGui(BankTellerRole agent, BankGui gui) {
         this.agent = agent;
         this.gui = gui;
-        
-        
+            
     }
 
     public void updatePosition() {

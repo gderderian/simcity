@@ -243,3 +243,21 @@ public class BankGui extends JFrame implements ActionListener {
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
+
+
+class banktellerstation {
+	
+	int xcoordinate;
+	int ycoordinate;
+	int stationnumber;
+	boolean occupied;
+
+	public banktellerstation(int setxcoordinate, int setycoordinate, int setstationnumber)
+	{
+		this.xcoordinate = setxcoordinate;
+		this.ycoordinate = setycoordinate;
+		this.stationnumber = setstationnumber;
+		occupied = false;
+	}
+}
+

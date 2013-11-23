@@ -47,13 +47,15 @@ public class BankManagerRole extends Role{
 
         public void msgCustomerArrivedAtBank(BankCustomerRole newcustomer)
         {
-                customers.add(new mycustomer(newcustomer));
+                Do("new customer arrived");
+        		customers.add(new mycustomer(newcustomer));
                 stateChanged();
         }
 
         public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
         {
-                banktellers.add(new mybankteller(newbankteller, this));
+                Do("new bankteller arrived");
+        		banktellers.add(new mybankteller(newbankteller, this));
                 stateChanged();
         }
 
@@ -63,13 +65,6 @@ public class BankManagerRole extends Role{
                 
         }
 
-public void msgCreateNewAccount(BankCustomerRole customer)
-{
-        bank.accounts.add(new account(customer, bank.uniqueaccountnumber));
-        bank.uniqueaccountnumber++;
-        state = bankstate.createaccount;
-        stateChanged();        
-}
 
 public void msgCustomerLeft(BankCustomerRole leavingcustomer, BankTellerRole bankteller)
 {
@@ -90,6 +85,7 @@ public void msgBankTellerFree(BankTellerRole bankteller)
                         {
                                 log.add(new LoggedEvent("msgBankTellerFree"));
                                 freebankteller.state = banktellerstate.free;
+                                //Do("assign customer to bank teller");
                                 break;
                         }
                 }
