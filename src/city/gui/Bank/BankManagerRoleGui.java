@@ -2,13 +2,18 @@ package city.gui.Bank;
 
 
 
-import city.BankAgent; 
 
 import java.awt.*;
 
+import Role.BankManagerRole;
+
 public class BankManagerRoleGui implements Gui {
 
-    private BankAgent agent = null;
+
+    private BankManagerRole role = null;
+
+    private BankManagerRole agent = null;
+
     private boolean returningtolobby = false;
 
     private int xPos = -20, yPos = -20;//default waiter position
@@ -17,8 +22,10 @@ public class BankManagerRoleGui implements Gui {
     public static int xTable = 200;
     public static int yTable = 250;
 
-    public BankManagerRoleGui(BankAgent agent) {
-        this.agent = agent;
+
+    public BankManagerRoleGui(BankManagerRole setrole) {
+        this.role = setrole;
+
     }
 
     public void updatePosition() {
@@ -43,7 +50,8 @@ public class BankManagerRoleGui implements Gui {
         return true;
     }
 
-    public void DoBringToTable(CustomerAgent customer, int tablexcoordinate, int tableycoordinate) {
+
+    public void DoBringToTable(int tablexcoordinate, int tableycoordinate) {
       
         xDestination = tablexcoordinate + 20;
         yDestination = tableycoordinate - 20;

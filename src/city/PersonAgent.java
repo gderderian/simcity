@@ -79,6 +79,10 @@ public class PersonAgent extends Agent implements Person{
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
+
+	//Restaurant recentlyVisitedRestaurant; 	//so the person won�t go there twice in a row
+	List<String> groceryList;
+
 	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
 	
 	//Testing
@@ -321,6 +325,26 @@ public class PersonAgent extends Agent implements Person{
 		recievedOrders.add(order);
 		stateChanged();
 	}
+	
+	
+	public void msgSetBankAccountNumber(double setbankaccountnumber)
+	{
+		
+		
+	}
+	
+	public void msgBalanceAfterDepositingIntoAccount(double amountofcustomermoney)
+	{
+	
+		
+	}
+	
+	public void msgBalanceAfterWithdrawingFromAccount(double amountofcustomermoney)
+	{
+		
+	}
+	
+	
 	
 	
 	/*
@@ -868,4 +892,9 @@ public class PersonAgent extends Agent implements Person{
 			location = l;
 		}
 	}
+
+
+
+	
+
 }
