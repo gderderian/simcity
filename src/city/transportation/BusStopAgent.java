@@ -14,6 +14,8 @@ public class BusStopAgent extends Agent implements BusStop {
 	
 	public List<MyBus> buses = new ArrayList<MyBus>();
 	
+	int number;
+	
 	class MyBus {
 		BusAgent b;
 		int openSpots;
@@ -24,16 +26,20 @@ public class BusStopAgent extends Agent implements BusStop {
 		}
 	}
 	
+	public BusStopAgent(int number) {
+		this.number = number;
+	}
+	
 	//Messages
 	public void msgWaitingForBus(PersonAgent p) {
 		peopleWaiting.add(p);
+		stateChanged();
 	}
 	
 	public void msgICanPickUp(BusAgent b, int people) {
 		buses.add(new MyBus(b, people));
-	}
-	
-	
+		stateChanged();
+	}	
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {

@@ -1,7 +1,10 @@
 package city;
 
+import interfaces.BusStop;
+
 import java.util.*;
 
+import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.transportation.BusStopAgent;
@@ -71,8 +74,8 @@ public class CityMap {
 		return -1;
 	}
 	
-	public void addBusStop(BusStopAgent b) {
-		busStops.add(b);
+	public void addBusStop(BusStop busStop) {
+		busStops.add((BusStopAgent) busStop);
 	}
 	
 	public void addStopDestinations(int number, List<String> destinations) {
@@ -87,6 +90,7 @@ public class CityMap {
 	 * Person must create a *new* instance of the customer role to enter the restaurant
 	 * Host Role can be addressed as is: there will only ever be one host at a time
 	 */
+	/*
 	class Restaurant2{		//HACKEY TODO: fix this maybe?
 		Restaurant2HostRole host;
 		Restaurant2CustomerRole customer;
@@ -108,6 +112,7 @@ public class CityMap {
 		}
 		
 	}
+	*/
 	
 	class Bank{
 		BankManagerRole manager;

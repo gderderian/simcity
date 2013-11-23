@@ -13,6 +13,12 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import city.PersonAgent;
+import city.Restaurant2.Restaurant2;
+import city.Restaurant2.Restaurant2CashierRole;
+import city.Restaurant2.Restaurant2CookRole;
+import city.Restaurant2.Restaurant2HostRole;
+import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.CityGui;
 import city.gui.Gui;
 import city.gui.PersonGui;
@@ -29,6 +35,17 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
     private final int STOVEX = KITCHENX - 75;
     private final int STOVEY = KITCHENY + 60;
     
+    Restaurant2 restaurant = new Restaurant2();
+    
+    //People for testing
+    PersonAgent personCook = new PersonAgent("Cook");
+    PersonAgent personHost = new PersonAgent("Host");
+    PersonAgent personCashier = new PersonAgent("Cashier");
+    PersonAgent personWaiter = new PersonAgent("Waiter");
+    Restaurant2CookRole Cook = new Restaurant2CookRole("CookRole");
+    Restaurant2CashierRole Cashier = new Restaurant2CashierRole("CashierRole");
+    Restaurant2WaiterRole Waiter = new Restaurant2WaiterRole("WaiterRole");
+    
     CityGui cityGui;
 	
 	public Restaurant2AnimationPanel(){
@@ -40,6 +57,12 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         setVisible(false);
         
         addMouseListener(this);
+        
+        personCook.addRole(Cook, true);
+        personHost.addRole(restaurant.getHostRole(), true);
+        personCashier.addRole(Cashier, true);
+        personWaiter.addRole(Waiter, true);
+        
 	}
 	
 	public void setCityGui(CityGui c){

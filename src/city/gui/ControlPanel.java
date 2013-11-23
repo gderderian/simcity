@@ -1,5 +1,7 @@
 package city.gui;
 
+import interfaces.BusStop;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -35,6 +37,8 @@ import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
 import city.Restaurant2.*;
+import city.transportation.BusAgent;
+import city.transportation.BusStopAgent;
 
 public class ControlPanel extends JPanel implements ActionListener{
 	
@@ -84,6 +88,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     /** Universal city map **/
     CityMap cityMap = new CityMap();
+    //Bus stops
+    private List<BusStop> busStops = new ArrayList<BusStop>();
     
     //Size of astar semaphore grid
     static int gridX = 21; //# of x-axis tiles
@@ -142,90 +148,23 @@ public class ControlPanel extends JPanel implements ActionListener{
         cityMap.addStopDestinations(0, stopLocations0);
         cityMap.addStopDestinations(0, stopLocations0);
         
-        
-        
-        /*********Setting up semaphore grid***********/
-      	for (int i = 0; i <= gridX; i++) {
-    	    for (int j = 0; j <= gridY; j++) {
-    	    	streetGrid[i][j] = new Semaphore(0,true);
-    	    	sidewalkGrid[i][j] = new Semaphore(0,true);
-    	    }
-      	}
+        //Set up the grids of semaphores
+        populateSemaphoreGrids();
       	
-      	//Releasing all roads and sidewalks so guis can move around on them.
-      	//First, the roads
-      	for(int i = 3; i < 18; i++) { //Top and bottom portions of road
-      		for(int j = 3; j < 7; j++)
-      			streetGrid[i][j].release();
-      		for(int j = 12; j < 16; j++)
-      			streetGrid[i][j].release();
-      	}
-      	for(int i = 7; i < 12; i++) { //Left and right portions of road
-      		for(int j = 3; j < 7; j++)
-      			streetGrid[j][i].release();
-      		for(int j = 15; j < 19; j++)
-      			streetGrid[j][i].release();
-      	}
-      	
-      	for(int i = 15; i < 19; i++) //Crosswalk area
-      		for(int j = 16; j < 18; j++)
-      			streetGrid[i][j].release();
-      	
-      	//Release sidewalk semaphores
-      	for(int i = 1; i < 21; i++) { //Top and bottom
-      		for(int j = 1; j < 3; j++)
-      			sidewalkGrid[i][j].release();
-      		for(int j = 16; j < 18; j++)
-      			sidewalkGrid[i][j].release();
-      	}
-
-      	for(int i = 3; i < 16; i++) { //Left and right
-      		for(int j = 1; j < 3; j++)
-      			sidewalkGrid[j][i].release();
-      		for(int j = 19; j < 21; j++)
-      			sidewalkGrid[j][i].release();
-      	}
-      	
-      	for(int i = 7; i < 15; i++)
-      		for(int j = 10; j < 12; j++)
-      			sidewalkGrid[i][j].release();
-      	
-      	//End of sidewalk grid releasing
-      	
-      	//Adding in crosswalks (shared semaphores between street grid and sidewalk grid)
-      	for(int i = 15; i < 19; i++) //Bottom right crosswalk
-      		for(int j = 16; j < 18; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];
-      	for(int i = 13; i < 15; i++) //Crosswalk to island
-      		for(int j = 12; j < 16; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];
-      	
-      	//Releasing many semaphores on building entrances so multiple guis can "go in" to buildings
-      	sidewalkGrid[20][0].release(100); //rest1
-      	sidewalkGrid[0][3].release(100); //rest2
-      	sidewalkGrid[0][17].release(100); //rest3
-      	sidewalkGrid[18][10].release(100); //rest4
-      	sidewalkGrid[13][9].release(100); //rest5
-      	sidewalkGrid[21][11].release(100); //mark1
-      	sidewalkGrid[5][0].release(100); //mark2
-      	sidewalkGrid[9][9].release(100); //mark3
-      	sidewalkGrid[21][1].release(100); //bank1
-      	sidewalkGrid[0][12].release(100); //bank2
-      	sidewalkGrid[21][4].release(100); //apart1
-      	sidewalkGrid[1][18].release(100); //apart2
-      	sidewalkGrid[21][8].release(100); //stop0
-      	sidewalkGrid[11][0].release(100); //stop1
-      	sidewalkGrid[0][8].release(100); //stop2
-      	sidewalkGrid[18][7].release(100); //stop3
-      	
-      	sidewalkGrid[20][18].release(100); //starting point for agents
-      	
-      	
-      	/********Finished setting up semaphore grid***********/
+      	//Creation of bus stops
+        createBusStops();
     }
     
     public void setCityGui(CityGui c){
     	cityGui = c;
+    }
+    
+    public List<BusStop> getBusStops() {
+    	return busStops;
+    }
+    
+    public CityMap getCityMap() {
+    	return cityMap;
     }
     
     private void addPersonSection(){
@@ -331,6 +270,9 @@ public class ControlPanel extends JPanel implements ActionListener{
         	}
         	else{
         		errorDisplay.setText("Please enter a name for the person");
+        		
+        		//Testing addVehicle method
+        		addVehicle("bus");
         	}
         }
     }
@@ -357,7 +299,7 @@ public class ControlPanel extends JPanel implements ActionListener{
             	}
             }
             
-            cityGui.addPerson(name, aStarTraversal, role);
+            cityGui.addPerson(name, aStarTraversal, role, cityMap);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
@@ -373,5 +315,102 @@ public class ControlPanel extends JPanel implements ActionListener{
             validate();
         }
     }
+    
+    public void addVehicle(String type) {
+        AStarTraversal aStarTraversal = new AStarTraversal(streetGrid); //Create new aStarTraversal using streetGrid instead of sidewalkGrid
+        
+    	cityGui.addVehicle(type, aStarTraversal);
+    }
+    
+    private void populateSemaphoreGrids() {
+
+        /*********Setting up semaphore grid***********/
+      	for (int i = 0; i <= gridX; i++) {
+    	    for (int j = 0; j <= gridY; j++) {
+    	    	streetGrid[i][j] = new Semaphore(0,true);
+    	    	sidewalkGrid[i][j] = new Semaphore(0,true);
+    	    }
+      	}
+      	
+      	//Releasing all roads and sidewalks so guis can move around on them.
+      	//First, the roads
+      	for(int i = 3; i < 19; i++) { //Top and bottom portions of road
+      		for(int j = 3; j < 7; j++)
+      			streetGrid[i][j].release();
+      		for(int j = 12; j < 16; j++)
+      			streetGrid[i][j].release();
+      	}
+      	for(int i = 7; i < 12; i++) { //Left and right portions of road
+      		for(int j = 3; j < 7; j++)
+      			streetGrid[j][i].release();
+      		for(int j = 15; j < 19; j++)
+      			streetGrid[j][i].release();
+      	}
+      	
+      	for(int i = 15; i < 19; i++) //Crosswalk area
+      		for(int j = 16; j < 19; j++)
+      			streetGrid[i][j].release();
+      	
+      	//Release sidewalk semaphores
+      	for(int i = 1; i < 21; i++) { //Top and bottom
+      		for(int j = 1; j < 3; j++)
+      			sidewalkGrid[i][j].release();
+      		for(int j = 16; j < 18; j++)
+      			sidewalkGrid[i][j].release();
+      	}
+
+      	for(int i = 3; i < 16; i++) { //Left and right
+      		for(int j = 1; j < 3; j++)
+      			sidewalkGrid[j][i].release();
+      		for(int j = 19; j < 21; j++)
+      			sidewalkGrid[j][i].release();
+      	}
+      	
+      	for(int i = 7; i < 15; i++)
+      		for(int j = 10; j < 12; j++)
+      			sidewalkGrid[i][j].release();
+      	
+      	//End of sidewalk grid releasing
+      	
+      	//Adding in crosswalks (shared semaphores between street grid and sidewalk grid)
+      	for(int i = 15; i < 19; i++) //Bottom right crosswalk
+      		for(int j = 16; j < 18; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	for(int i = 13; i < 15; i++) //Crosswalk to island
+      		for(int j = 12; j < 16; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	
+      	//Releasing many semaphores on building entrances so multiple guis can "go in" to buildings
+      	sidewalkGrid[20][0].release(100); //rest1
+      	sidewalkGrid[0][3].release(100); //rest2
+      	sidewalkGrid[0][17].release(100); //rest3
+      	sidewalkGrid[18][10].release(100); //rest4
+      	sidewalkGrid[13][9].release(100); //rest5
+      	sidewalkGrid[21][11].release(100); //mark1
+      	sidewalkGrid[5][0].release(100); //mark2
+      	sidewalkGrid[9][9].release(100); //mark3
+      	sidewalkGrid[21][1].release(100); //bank1
+      	sidewalkGrid[0][12].release(100); //bank2
+      	sidewalkGrid[21][4].release(100); //apart1
+      	sidewalkGrid[1][18].release(100); //apart2
+      	sidewalkGrid[21][8].release(100); //stop0
+      	sidewalkGrid[11][0].release(100); //stop1
+      	sidewalkGrid[0][8].release(100); //stop2
+      	sidewalkGrid[18][7].release(100); //stop3
+      	
+      	sidewalkGrid[20][18].release(100); //starting point for agents
+      	
+      	streetGrid[18][18].release(100); //starting point for vehicles
+      	
+      	/********Finished setting up semaphore grid***********/
+    }
 	
+    private void createBusStops() {
+      	for(int i = 0; i < 4; i++) {
+      		busStops.add(new BusStopAgent(i));
+      		cityMap.addBusStop(busStops.get(i));
+      		BusStopAgent newBus = (BusStopAgent)busStops.get(i);
+      		newBus.startThread();
+      	}
+    }
 }

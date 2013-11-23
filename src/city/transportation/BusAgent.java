@@ -6,12 +6,16 @@ import interfaces.BusStop;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import astar.AStarTraversal;
+import astar.Position;
+
 import city.PersonAgent;
 
 public class BusAgent extends Vehicle implements Bus {
 	//Data
-	public int currentStop = 3;
+	public int currentStop;
 	public List<BusStop> busStops = new ArrayList<BusStop>();
+	private Map<Integer, Position> stopPositions = new HashMap<Integer, Position>();
 	double money;
 	double fare;
 	
@@ -29,21 +33,29 @@ public class BusAgent extends Vehicle implements Bus {
 		}
 	}
 	
-	public BusEvent event = BusEvent.arrivedAtStop;
+	public BusEvent event = BusEvent.none;
 	public BusState state = BusState.driving;
 	
 	public enum BusEvent { none, arrivedAtStop, pickingUpPassengers, boarded, everyonePaid };
 	public enum BusState { driving, atStop, pickingUpPassengers, askingForFare };
 
-	public BusAgent() {
+	public BusAgent(AStarTraversal aStar) {
+		super(aStar);
+		
+		currentStop = 3;
 		capacity = 10;
 		fare = 3.00;
 		money = 100.00;
+		type = "bus";
 		
 		guiFinished = new Semaphore(0, true);
 		
-		//Send gui to stop 0
-		//acquire semaphore
+		stopPositions.put(0, new Position(18, 8));
+		stopPositions.put(1, new Position(10, 3));
+		stopPositions.put(2, new Position(3, 9));
+		stopPositions.put(3, new Position(8, 15));
+		
+		currentPosition = new Position(18, 18);
 	}
 	
 	//Messages
@@ -105,6 +117,10 @@ public class BusAgent extends Vehicle implements Bus {
 				return true;
 			}
 		}
+		if(state == BusState.driving && event == BusEvent.none) {
+			GoToFirstStop();
+			return true;
+		}
 		
 		if(state == BusState.driving && event == BusEvent.arrivedAtStop) {
 			state = BusState.atStop;
@@ -143,9 +159,15 @@ public class BusAgent extends Vehicle implements Bus {
 		
 		DoWaitAtStop();
 	}
+
+	private void GoToFirstStop() {
+		GoToStop(0);
+		event = BusEvent.arrivedAtStop;
+	}
 	
 	private void PickUpPassengers() {
 		int numSpots = capacity - passengers.size();
+		print("I can pick up " + numSpots + " people.");
 		busStops.get(currentStop).msgICanPickUp(this, numSpots);
 	}
 	
@@ -173,15 +195,9 @@ public class BusAgent extends Vehicle implements Bus {
 	}
 	
 	private void DriveToNextStop() {
-		//gui.DoDriveToStop(currentStop + 1);
 		
 		print("Driving to stop #" + (currentStop + 1));
-		/*try {
-			guiFinished.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		GoToStop((currentStop + 1) % 4);
 
 		event = BusEvent.arrivedAtStop;
 		
@@ -202,7 +218,30 @@ public class BusAgent extends Vehicle implements Bus {
 			public void run() {
 				 msgFinishedUnloading();
 			}
-		}, 1200	);
+		}, 2500	);
+	}
+	
+	public void addBusStops(List<BusStop> stops) {
+		busStops = stops;
+	}
+	
+	private void GoToStop(int stop) {
+		switch(stop) { //Moves to a corner before going to next stop - makes paths as straight as possible
+		case 0:
+			guiMoveFromCurrentPositionTo(new Position(18, 15));
+			break;
+		case 1:
+			guiMoveFromCurrentPositionTo(new Position(18, 3));
+			break;
+		case 2:
+			guiMoveFromCurrentPositionTo(new Position(3, 3));
+			break;
+		case 3:
+			guiMoveFromCurrentPositionTo(new Position(3, 15));
+			break;
+		}
+		
+		guiMoveFromCurrentPositionTo(stopPositions.get(stop));
 	}
 }
  

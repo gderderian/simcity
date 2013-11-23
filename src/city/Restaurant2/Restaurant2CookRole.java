@@ -85,7 +85,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		stateChanged();
 	}
 	
-	public void msgHereIsShipment(MarketOrder goodOrder){
+	public void msgHereIsYourOrder(MarketOrder goodOrder){
 		print("Recieved msg here is shipment");
 		shipmentOrders.add(new ShipmentOrder(goodOrder, ShipmentState.arrived));
 		stateChanged();
@@ -234,9 +234,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	private void sendShipmentOrder(ShipmentOrder s){
 		print("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.orders.size());
 		Market m = markets.get(marketNumber);
-		//TODO fix this
-		//MarketOrder order = new MarketOrder(, "Restaurant2", person);
-		//m.mktManager.msgPlaceFoodOrder(s.order);
+		m.mktManager.msgHereIsOrder(s.order);
 		if(marketNumber == (markets.size()-1)){
 			marketNumber = 0;
 		}

@@ -48,7 +48,7 @@ public class BankPanel extends JPanel {
 		BankManagerRoleGui g2 = new BankManagerRoleGui(bmr, gui);
 		gui.animationPanel.addGui(g2);
 		bmr.setGui(g2);
-        PersonAgent person2 = new PersonAgent("steve", aStarTraversal);
+        PersonAgent person2 = new PersonAgent("steve", aStarTraversal, null);
         person2.startThread();
         person2.addRole(bmr, true);
     	
@@ -59,7 +59,7 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g3);
 		btr.setGui(g3);
 		banktellers.add(btr);
-        PersonAgent person3 = new PersonAgent("john", aStarTraversal);
+        PersonAgent person3 = new PersonAgent("john", aStarTraversal, null);
         person3.startThread();
         person3.addRole(btr, true);
         
@@ -72,7 +72,7 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g);
 		bcr.setGui(g);
 		bankcustomers.add(bcr);
-        PersonAgent person = new PersonAgent("bob", aStarTraversal);
+        PersonAgent person = new PersonAgent("bob", aStarTraversal, null);
         person.startThread();
         person.addRole(bcr, true);
         

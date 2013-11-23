@@ -18,10 +18,10 @@ public class VehicleGui implements Gui {
 	
 	Vehicle v;
 	
-	ImageIcon movingRight = new ImageIcon("images/" + type + "_right.png");
-	ImageIcon movingLeft = new ImageIcon("images/" + type + "_left.png");
-	ImageIcon movingUp = new ImageIcon("images/" + type + "_up.png");
-	ImageIcon movingDown = new ImageIcon("images/" + type + "_down.png");
+	ImageIcon movingRight;
+	ImageIcon movingLeft;
+	ImageIcon movingUp;
+	ImageIcon movingDown;
 	
 	ImageIcon icon;
 	
@@ -31,13 +31,20 @@ public class VehicleGui implements Gui {
 	
 	Restaurant2AnimationPanel restaurant2panel;
 	
-	public VehicleGui(Vehicle v, String type){
+	public VehicleGui(Vehicle v){
 		this.v = v;
-		this.type = type;
-		xPos = 730;
-		yPos = 720;
+		this.type = v.getType();
+		xPos = 660;
+		yPos = 660;
 		xDest = xPos;
 		yDest = yPos;
+		
+		movingRight = new ImageIcon("images/" + type + "_right.png");
+		movingLeft = new ImageIcon("images/" + type + "_left.png");
+		movingUp = new ImageIcon("images/" + type + "_up.png");
+		movingDown = new ImageIcon("images/" + type + "_down.png");
+		
+		icon = movingUp;
 	}
 
 	@Override
@@ -52,10 +59,10 @@ public class VehicleGui implements Gui {
 
         if (yPos < yDest) {
             yPos++;
-            icon = movingUp;
+            icon = movingDown;
         } else if (yPos > yDest) {
             yPos--;
-            icon = movingDown;
+            icon = movingUp;
         }
         
         if(xPos == xDest && yPos == yDest && moving) {

@@ -80,10 +80,11 @@ public class PersonAgent extends Agent implements Person{
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
+	int timeOfDay;
+	enum TimeStatus {wakeUp, getReadyForWork, goToWork, atWork, leaveWork, nightTime};
+	TimeStatus timeStatus = TimeStatus.wakeUp;
 	//List<MarketAgent> markets;
 	//List<Restaurant> restaurants;
-	
-
 	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
 	
 	//Testing
@@ -104,7 +105,7 @@ public class PersonAgent extends Agent implements Person{
 	PersonGui gui;
 	
 
-	public PersonAgent(String n, AStarTraversal aStarTraversal){
+	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map){
 		super();
 		
 		name = n;
@@ -114,8 +115,8 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
         
-        cityMap = new CityMap();
-		
+        cityMap = map;
+        		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");
 		foodsToEat.add("Steak");
@@ -132,8 +133,6 @@ public class PersonAgent extends Agent implements Person{
 		super();
 		
 		name = n;
-      
-        cityMap = new CityMap();
 		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");
@@ -183,6 +182,10 @@ public class PersonAgent extends Agent implements Person{
 		house = h;
 	}
 	
+	public void setJobLocation(String loc){
+		myJob.location = loc;
+	}
+	
 	//For testing, until we have the time functionality
 	public void setWorkState(String s){
 		if(s.equals("Go to work")){
@@ -203,6 +206,24 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 	
+	//TODO fix this
+	
+	public void msgTimeUpdate(int t){
+		/*
+		timeOfDay = t;
+		
+		if(myJob.leaveForWork == t){
+			events.add("GoToWork");
+		}
+		else if(t == 2000 || t == 28000 || t == 60000){
+			events.add("GotHungry");
+		}
+		if(myJob.workEndTime == t){
+			events.add("WorkDone");
+		}
+		stateChanged();
+		*/
+	}
 	//From house
 	public void msgImBroken(String type) {
 		appliancesToFix.add(new MyAppliance(type));
@@ -245,6 +266,7 @@ public class PersonAgent extends Agent implements Person{
 		//Not sure what to do with this one - also non-norm, will assume for now that there is definitely space in fridge?
 	}
 
+	//TODO finish this function
 	public void msgApplianceBrokeCantCook() {
 		synchronized(meals){
 			for(MyMeal m : meals){
@@ -357,19 +379,33 @@ public class PersonAgent extends Agent implements Person{
 
 		//Test movement by creating people named a, b, c, or d
 		movementTest();
-		
+
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
 				if(r.isActive){
-					anytrue = r.pickAndExecuteAnAction();
-					return anytrue;
+					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
+				}
+			}
+			if (anytrue){
+				return anytrue;
+			}
+		}
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("GoToWork")){
+					goToWork();
 				}
 			}
 		}
-		
-		//This is first because the person needs to pay their fare before they get off the bus
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("WorkDone")){
+					leaveWork();
+				}
+			}
+		}
 		synchronized(busRides){
 			for(BusRide br : busRides){
 				if(br.fare != 0){
@@ -415,6 +451,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("GoGroceryShopping")){
 					goGroceryShopping();
+					return true;
 				}
 			}
 		}
@@ -483,8 +520,33 @@ public class PersonAgent extends Agent implements Person{
 	
 	//ACTIONS
 	
+	public void goToWork(){
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("GoToWork")){
+					events.remove(e);
+				}
+			}
+		}
+		DoGoTo(myJob.location);
+		//Semaphore stuff
+		//TODO how to announce that the person is there for work
+		myJob.startJob();
+	}
+	
+	public void leaveWork(){
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("LeaveWork")){
+					events.remove(e);
+				}
+			}
+		}
+		//Need to make the gui step outside the building, and then the person can do whatever the next thing is on their list
+		myJob.endJob();
+	}
+	
 	public void Eat(){	//hacked for now so that it randomly picks eating at home or going out
-		print("Inside method EAT");
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GotHungry")){
@@ -509,8 +571,16 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void goToBank(){
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("GoToBank")){
+					events.remove(e);
+				}
+			}
+		}
 		String bank;
 		synchronized(bankEvents){
+			//TODO finish this
 			bank = cityMap.getClosestBank();
 		}
 	}
@@ -519,9 +589,7 @@ public class PersonAgent extends Agent implements Person{
 		print("Going to go to a restaurant");
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
 		Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole();
-		cityMap.restaurant2.host.msgIWantFood(customer);
-		customer.setActive();
-		roles.add(customer);
+		addRole(customer, true);
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
@@ -531,8 +599,12 @@ public class PersonAgent extends Agent implements Person{
 		else{	//take bus
 			//String destination = cityMap.getNearestBusStop();	TODO make this a thing
 			//takeBus(destination);
+			
+			//This is walking
 			DoGoTo("rest2");
+		    gui.setInvisible();
 		}
+		cityMap.restaurant2.getHost().msgIWantFood(customer);
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){
@@ -590,6 +662,14 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void goGroceryShopping(){
+		synchronized(events){
+			for(String e : events){
+				if(e.equals("GoGroceryShopping")){
+					events.remove(e);
+				}
+			}
+		}
+		
 		/*
 		 * TODO gui - go to market
 		 * NOT walking, because there will be groceries to carry
@@ -648,9 +728,6 @@ public class PersonAgent extends Agent implements Person{
 		
 		if(name.equals("f"))
 			DoGoTo("rest2");
-		
-		if(name.equals("RestaurantTest"))
-			msgImHungry();
 
 	}
 	
@@ -887,10 +964,16 @@ public class PersonAgent extends Agent implements Person{
 	public class Job{
 		Role role;
 		String location;
+		int workStartTime;
+		int leaveForWork;
+		int workEndTime;
 		
 		public Job(Role r, String l){
 			role = r;
 			location = l;
+			workStartTime = -1;
+			workEndTime = -1;
+			leaveForWork = -1;
 		}
 		
 		public void startJob(){

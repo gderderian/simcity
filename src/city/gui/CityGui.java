@@ -10,8 +10,11 @@ import Role.Role;
 import astar.AStarTraversal;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
+import city.CityMap;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
+import city.transportation.BusAgent;
+import city.transportation.Vehicle;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -42,6 +45,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     
     ArrayList<Gui> guis = new ArrayList<Gui>();
     ArrayList<PersonAgent> people = new ArrayList<PersonAgent>();
+    
+    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     
     /**
      * Constructor for RestaurantGui class.
@@ -92,6 +97,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
     }
     
+    public void timerTick(int timeOfDay) {
+    	for (PersonAgent person : people) {
+    		person.msgTimeUpdate(timeOfDay);
+    	}
+    }
+    
     public void addGui(Gui g){
             guis.add(g);
     }
@@ -132,11 +143,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 }       
         }
         
-        public void addPerson(String name, AStarTraversal aStarTraversal, Role job){
-                PersonAgent newPerson = new PersonAgent(name, aStarTraversal);
+        public void addPerson(String name, AStarTraversal aStarTraversal, Role job, CityMap map){
+                PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map);
                 if(job != null){
-                	newPerson.addFirstJob(job, "Unknown");
                 	//Add location to this
+                    newPerson.addFirstJob(job, "Unknown");
                 }
                 people.add(newPerson);
                 PersonGui g = new PersonGui(newPerson);
@@ -146,6 +157,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 g.addAnimationPanel(restaurant2);
                 
                 newPerson.startThread();
+                
+                if(name.equals("RestaurantTest")){
+                	newPerson.msgImHungry();
+                }
         }
 
         public void enableComeBack(Restaurant2Waiter agent) {
@@ -157,4 +172,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 // TODO Auto-generated method stub
                 
         }        
+        
+        public void addVehicle(String type, AStarTraversal aStarTraversal) {
+        	if(type == "bus") {
+        		BusAgent newBus = new BusAgent(aStarTraversal);
+        		newBus.addBusStops(controlPanel.getBusStops());
+        		vehicles.add(newBus);
+        		VehicleGui g = new VehicleGui(newBus);
+        		newBus.setGui(g);
+        		guis.add(g);
+        		animationPanel.addGui(g);
+        		g.setMainAnimationPanel(animationPanel);
+
+        		newBus.startThread();   
+        	}
+        }
 }
