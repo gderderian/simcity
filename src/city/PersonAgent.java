@@ -641,9 +641,15 @@ public class PersonAgent extends Agent implements Person{
 		if(name.equals("d"))
 			DoGoTo("mark3");
 		
-		if(name.equals("restTest")){
+		if(name.equals("e"))
+			DoGoTo("mark2");
+		
+		if(name.equals("f"))
+			DoGoTo("rest2");
+		
+		if(name.equals("restTest"))
 			msgImHungry();
-		}
+
 	}
 	
 	public void cookMeal(MyMeal meal){
