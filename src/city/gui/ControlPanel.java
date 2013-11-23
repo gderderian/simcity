@@ -230,6 +230,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     	
     	addPerson.setPreferredSize(addPersonDim);
     	infoPanel.setPreferredSize(infoPanelDim);
+        pane.setViewportView(view);
+        
+        infoPanel.add(new JLabel("List of people in SimCity"));
+    	infoPanel.add(pane);
     	
     	//Add AddPerson panel and info panel to main panel
     	personControls.add(addPerson);
@@ -254,10 +258,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 
         addPerson.add(jobField, flow);
         
-        addPerson.add(new JLabel("Error/help messages:"));
-        errorDisplay.setEditable(false);
-        addPerson.add(errorDisplay, flow);
-        
         isHungry = new JCheckBox("Hungry?");
         isHungry.setEnabled(false);
         isHungry.addActionListener(this);
@@ -270,21 +270,15 @@ public class ControlPanel extends JPanel implements ActionListener{
 				if(nameField.getText().length() > 0){
 					isHungry.setEnabled(true);
 				}
-				else{
-					isHungry.setEnabled(false);
-				}
+				else isHungry.setEnabled(false);
 			}
-
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				if(nameField.getText().length() > 0){
 					isHungry.setEnabled(true);
 				}
-				else{
-					isHungry.setEnabled(false);
-				}
+				else isHungry.setEnabled(false);
 			}
-
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(nameField.getText().length() > 0){
@@ -300,12 +294,13 @@ public class ControlPanel extends JPanel implements ActionListener{
         addPersonB.addActionListener(this);
         
         addPerson.add(addPersonB, flow);
+        
+        addPerson.add(new JLabel("Help messages:"));
+        errorDisplay.setEditable(false);
+        addPerson.add(errorDisplay, flow);
 
         view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
         this.add(personControls);
-        pane.setViewportView(view);
-        //add(pane);
-    	
     }
     
 
