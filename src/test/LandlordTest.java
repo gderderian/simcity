@@ -17,12 +17,13 @@ public class LandlordTest extends TestCase {
 		super.setUp();	
 		
 		apartment= new Apartment();
+		apartment2= new Apartment();
 		landlord= new LandlordRole();
 		person1= new MockPerson("person1");
 		person2= new MockPerson("person2");
 		landlord.addTenant(person1);
 		apartment.setOwner(person1);
-		apartment.setOwner(person2);
+		apartment2.setOwner(person2);
 	}
 	
 	public void testOneRentCollection(){
