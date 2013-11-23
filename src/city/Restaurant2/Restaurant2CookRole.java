@@ -246,10 +246,10 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	}
 	
 	private void recieveShipment(ShipmentOrder s){
-		for(Map.Entry<String, Integer> entry : s.order.entrySet()){
+		for(OrderItem o : s.order.orders){
 			for(Map.Entry<String, Food> e : foods.entrySet()){
-				if(entry.getKey() == e.getKey()){
-					e.getValue().addToInventory(entry.getValue());
+				if(o.name.equals(e.getKey())){
+					e.getValue().addToInventory(o.quantity);
 				}
 			}
 		}
