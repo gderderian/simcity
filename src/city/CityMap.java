@@ -24,13 +24,24 @@ public class CityMap {
 	List<String> restaurants = new ArrayList<String>();
 	
 	public CityMap() {
-		buildingLocations.put("restaurant1", new Position(6,8));
-		buildingLocations.put("restaurant2", new Position(38,6));
-		buildingLocations.put("restaurant3", new Position(17,14));
-		buildingLocations.put("restaurant4", new Position(29,23));
-		buildingLocations.put("restaurant5", new Position(40,12));
-		
-		//Add in all locations
+		//Restaurant locations
+		buildingLocations.put("rest1", new Position(20,0));
+		buildingLocations.put("rest2", new Position(0,3));
+		buildingLocations.put("rest3", new Position(0,17));
+		buildingLocations.put("rest4", new Position(18,10));
+		buildingLocations.put("rest5", new Position(13,9));
+		//Market locations
+		buildingLocations.put("mark1", new Position(21,11));
+		buildingLocations.put("mark2", new Position(5,0));
+		buildingLocations.put("mark3", new Position(9,9));
+		//Bank locations
+		buildingLocations.put("bank1", new Position(21,1));
+		buildingLocations.put("bank2", new Position(0,12));
+		//Apartment locations
+		buildingLocations.put("apart1", new Position(21,4));
+		buildingLocations.put("apart2", new Position(1,18));
+		//House locations
+		//...
 		
 		//Creating list of restaurants
 		restaurants.add("Restaurant2");
