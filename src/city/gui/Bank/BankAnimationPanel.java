@@ -37,26 +37,31 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
-        Graphics2D g3 = (Graphics2D)g;
+        Graphics2D banktellerstation1 = (Graphics2D)g;
+        Graphics2D banktellerstation2 = (Graphics2D)g;
+        Graphics2D banktellerstation3 = (Graphics2D)g;
+        Graphics2D banktellerstation4 = (Graphics2D)g;
         
         Graphics2D waitingarea = (Graphics2D)g;
         
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-        
-        g3.setColor(Color.orange);
-        g3.fillRect(260, 250, 50, 50);
+       
         
         waitingarea.setColor(Color.gray);
         waitingarea.fillRect(5, 40, 20, 270);
-     
         
+        banktellerstation1.setColor(Color.gray);
+        banktellerstation1.fillRect(200, 100, 50, 50);
+        banktellerstation2.setColor(Color.gray);
+        banktellerstation2.fillRect(300, 100, 50, 50);
+        banktellerstation3.setColor(Color.gray);
+        banktellerstation3.fillRect(400, 100, 50, 50);
+        banktellerstation4.setColor(Color.gray);
+        banktellerstation4.fillRect(500, 100, 50, 50);
         //Here is the table
         //got rid of the magic numbers
-        g2.setColor(Color.ORANGE);
-        g2.fillRect(tablewidth, tablelength, tablespacing, tablespacing);//200 and 250 need to be table params
-
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -67,7 +72,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
-                gui.draw(g3); 
+                //gui.draw(g3); 
             }
         }
     }
