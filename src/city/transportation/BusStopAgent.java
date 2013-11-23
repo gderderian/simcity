@@ -14,6 +14,8 @@ public class BusStopAgent extends Agent implements BusStop {
 	
 	public List<MyBus> buses = new ArrayList<MyBus>();
 	
+	int number;
+	
 	class MyBus {
 		BusAgent b;
 		int openSpots;
@@ -22,6 +24,10 @@ public class BusStopAgent extends Agent implements BusStop {
 			this.b = b;
 			this.openSpots = spots;
 		}
+	}
+	
+	public BusStopAgent(int number) {
+		this.number = number;
 	}
 	
 	//Messages

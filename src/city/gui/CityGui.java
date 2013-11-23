@@ -12,6 +12,8 @@ import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
+import city.transportation.BusAgent;
+import city.transportation.Vehicle;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -42,6 +44,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     
     ArrayList<Gui> guis = new ArrayList<Gui>();
     ArrayList<PersonAgent> people = new ArrayList<PersonAgent>();
+    
+    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     
     /**
      * Constructor for RestaurantGui class.
@@ -104,12 +108,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             //if(e.getSource() == 
     }
     
-    public void timerTick(String sectionOfDay) {
-    	for (PersonAgent person : people) {
-    		person.msgTimeUpdate(sectionOfDay);
-    	}
-    }
-    
     /**
      * Main routine to get gui started
      */
@@ -163,4 +161,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 // TODO Auto-generated method stub
                 
         }        
+        
+        public void addBus(BusAgent b) {
+        	
+        }
 }
