@@ -357,7 +357,8 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		//DoGoTo("restaurant1");
+		//Test movement by creating people named a, b, c, or d
+		movementTest();
 		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -630,16 +631,16 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void movementTest() {
 		if(name.equals("a"))
-			moveTo(1, 1);
+			DoGoTo("bank1");
 		
 		if(name.equals("b"))
-			moveTo(3, 19);
+			DoGoTo("apart2");
 		
 		if(name.equals("c"))
-			moveTo(4, 2);
+			DoGoTo("rest3");
 		
 		if(name.equals("d"))
-			moveTo(2, 7);
+			DoGoTo("mark3");
 	}
 	
 	public void cookMeal(MyMeal meal){
@@ -660,8 +661,10 @@ public class PersonAgent extends Agent implements Person{
 		Position p = new Position(x, y);
 		
 		if(currentPosition.distance(p) > 16) {
-			//intermediate movement.
+			//Intermediate step?
+			print("Long trip!");
 		}
+		
 		guiMoveFromCurrentPositionTo(p);
 	}
 	
