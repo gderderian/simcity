@@ -120,12 +120,22 @@ public class ControlPanel extends JPanel implements ActionListener{
       	
       	//Releasing all roads and sidewalks so guis can move around on them.
       	//First, the roads
-      	for(int i = 4; i < 20; i++) {
-      		for(int j = 4; j < 8; j++)
+      	for(int i = 3; i < 18; i++) { //Top and bottom portions of road
+      		for(int j = 3; j < 7; j++)
       			streetGrid[i][j].release();
-      		for(int j = 13; j < 17; j++)
+      		for(int j = 12; j < 16; j++)
       			streetGrid[i][j].release();
       	}
+      	for(int i = 7; i < 12; i++) { //Left and right portions of road
+      		for(int j = 3; j < 7; j++)
+      			streetGrid[j][i].release();
+      		for(int j = 15; j < 19; j++)
+      			streetGrid[j][i].release();
+      	}
+      	
+      	for(int i = 15; i < 19; i++) //Crosswalk area
+      		for(int j = 16; j < 18; j++)
+      			streetGrid[i][j].release();
       	
       	//Release sidewalk semaphores
       	for(int i = 1; i < 21; i++) { //Top and bottom
