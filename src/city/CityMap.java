@@ -42,6 +42,11 @@ public class CityMap {
 		//Apartment locations
 		buildingLocations.put("apart1", new Position(21,4));
 		buildingLocations.put("apart2", new Position(1,18));
+		//Bus Stop locations
+		buildingLocations.put("stop0", new Position(21,8));
+		buildingLocations.put("stop1", new Position(11,0));
+		buildingLocations.put("stop2", new Position(0,8));
+		buildingLocations.put("stop3", new Position(18,7));
 		//House locations
 		//...
 		
