@@ -52,6 +52,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel worldControls = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
+    private JButton populateCity = new JButton("Populate City");
     
     private int WINDOWX = 370;
     private int WINDOWY = 750;
@@ -133,10 +134,12 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         addPersonSection();
         
+        setupWorldControls();
+        
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
-        controlPane.addTab("People", personControls);
         controlPane.addTab("World", worldControls);
+        controlPane.addTab("People", personControls);
         add(controlPane);
         
         List<String> stopLocations0 = new ArrayList<String>();
@@ -178,6 +181,12 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public CityMap getCityMap() {
     	return cityMap;
+    }
+    
+    private void setupWorldControls(){
+    	populateCity.addActionListener(this);
+    	
+    	worldControls.add(populateCity);
     }
     
     private void addPersonSection(){
@@ -287,6 +296,9 @@ public class ControlPanel extends JPanel implements ActionListener{
         		//Testing addVehicle method
         		addVehicle("bus");
         	}
+        }
+        else if(e.getSource() == populateCity){
+        	populateCity();
         }
     }
 
@@ -466,6 +478,12 @@ public class ControlPanel extends JPanel implements ActionListener{
     	houses.add(apart1);
     	Apartment apart2 = new Apartment("apart2", 2);
     	houses.add(apart2);
+    }
+    
+    public void populateCity(){
+    	
+    	
+    	
     }
 
 }
