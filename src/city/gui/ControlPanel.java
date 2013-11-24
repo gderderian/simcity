@@ -85,6 +85,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     MarketWorker marketWorker;
     LandlordRole landlord;
     
+    int houseAssignmentNumber = 0;
+    
     //TODO populate this
     private Map<String, String> jobLocations = new HashMap<String, String>();
     
@@ -303,16 +305,15 @@ public class ControlPanel extends JPanel implements ActionListener{
             
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
-            /*
-            //Find the role for the person's job
-            Role role = null;
-            for (Entry<String, Role> entry : jobRoles.entrySet()){
-            	if(entry.getKey().equals(job)){
-            		role = entry.getValue();
-            	}
-            }*/
+            House house = houses.get(houseAssignmentNumber);
+            if(houseAssignmentNumber == 27){
+            	houseAssignmentNumber = 26;
+            }
+            else{
+                houseAssignmentNumber++;
+            }
             
-            cityGui.addPerson(name, aStarTraversal, job, cityMap);
+            cityGui.addPerson(name, aStarTraversal, job, cityMap, house);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
