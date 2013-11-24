@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import city.Apartment;
 import city.CityMap;
 import city.House;
 import astar.AStarTraversal;
@@ -83,6 +84,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     MarketManager marketManager;
     MarketWorker marketWorker;
     LandlordRole landlord;
+    
+    int houseAssignmentNumber = 0;
     
     //TODO populate this
     private Map<String, String> jobLocations = new HashMap<String, String>();
@@ -158,8 +161,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         //Creation of houses and apartments
         createHouses();
       	//Creation of bus stops
-        createBusStops();
-        
+        createBusStops();        
     }
     
     public void addRest2ToCityMap(Restaurant2 r){
@@ -302,16 +304,15 @@ public class ControlPanel extends JPanel implements ActionListener{
             
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
-            /*
-            //Find the role for the person's job
-            Role role = null;
-            for (Entry<String, Role> entry : jobRoles.entrySet()){
-            	if(entry.getKey().equals(job)){
-            		role = entry.getValue();
-            	}
-            }*/
+            House house = houses.get(houseAssignmentNumber);
+            if(houseAssignmentNumber == 27){
+            	houseAssignmentNumber = 26;
+            }
+            else{
+                houseAssignmentNumber++;
+            }
             
-            cityGui.addPerson(name, aStarTraversal, job, cityMap);
+            cityGui.addPerson(name, aStarTraversal, job, cityMap, house);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
@@ -461,5 +462,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     		houses.add(new House("house" + Integer.toString(i + 1)));
     		System.out.println(houses.get(i).getName());
     	}
+    	Apartment apart1 = new Apartment("apart1", 1);
+    	houses.add(apart1);
+    	Apartment apart2 = new Apartment("apart2", 2);
+    	houses.add(apart2);
     }
+
 }

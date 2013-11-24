@@ -5,21 +5,26 @@ import Role.BankTellerRole;
 
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
 import city.Bank;
 
 public class BankTellerRoleGui implements Gui {
 
     private BankTellerRole role = null;
-    private boolean returningtolobby = false;
     private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
+    private int xDestination = 100, yDestination = 100;//default start position
 	private BankGui gui;
 
     int initialxc = 200;
     private int xcoordinatesofstations[] = new int [4];
 	private int ycoordinatesofstations[] = new int [4];
-
-    //Bank bank;
+	
+	private enum Command {noCommand, gotobanktellerstation, leavebank, arrived};
+	private Command command=Command.noCommand;
+	
+	//ImageIcon icon = new ImageIcon("images/bankteller.png");
+	public Image imgofbankteller = new ImageIcon("images/bankteller.png").getImage();
 
     public BankTellerRoleGui(BankTellerRole setrole, BankGui setgui) {
         this.role = setrole;
@@ -49,8 +54,9 @@ public class BankTellerRoleGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(xPos, yPos, 20, 20);
+    	g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 50, gui);
+    	//g.setColor(Color.MAGENTA);
+        //g.fillRect(xPos, yPos, 20, 20);
     }
 
     public boolean isPresent() {
@@ -61,14 +67,16 @@ public class BankTellerRoleGui implements Gui {
     	
     	xDestination = xcoordinatesofstations[bankstationnumber - 1];
 		yDestination = ycoordinatesofstations[bankstationnumber - 1];
-		//command = Command.GoToSeat;
+		command = Command.gotobanktellerstation;
         
     }
+    
+    
 
-    public void DoLeaveCustomer() {
+    public void leaveBank() {
         xDestination = -20;
         yDestination = -20;
-        returningtolobby = true;
+        command = Command.leavebank;
     }
 
     public int getXPos() {
@@ -80,7 +88,7 @@ public class BankTellerRoleGui implements Gui {
     }
 
 	public void setHomePosition(int i, int j) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

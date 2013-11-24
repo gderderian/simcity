@@ -680,7 +680,7 @@ public class PersonAgent extends Agent implements Person{
 		 * NOT walking, because there will be groceries to carry
 		 */
 		if(cars.isEmpty()){
-			 String market = cityMap.getClosestPlaceFromHere("house1", "mark");
+			 String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
 			 takeBus(market);
 		}
 		else{
@@ -713,6 +713,9 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void movementTest() {
+		
+		DoGoTo(house.getName());
+		
 		if(name.equals("a"))
 			DoGoTo("rest3");
 		

@@ -6,6 +6,8 @@ import restaurant1.gui.Restaurant1CookGui;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent;
+
 /**
  * Restaurant Host Agent
  */
@@ -32,6 +34,8 @@ public class Restaurant1CookRole extends Agent {
 	
 	private String name;
 	
+	PersonAgent person;
+	
 	Timer timer = new Timer();
 	
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
@@ -40,8 +44,10 @@ public class Restaurant1CookRole extends Agent {
 	
 	public Restaurant1CookGui cookGui = null;
 
-	public Restaurant1CookRole(String name) {
+	public Restaurant1CookRole(String name, PersonAgent p) {
 		super();
+		
+		person = p;
 		
 				// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
 		foods.put("steak", new Food("steak", 8, 6, 5, 8));
@@ -62,12 +68,12 @@ public class Restaurant1CookRole extends Agent {
 	// Messages
 	public void msgHereIsOrder(Restaurant1WaiterRole w, String choice, int table) {
 		orders.add(new Order(w, choice, table, orderState.pending, orderCount++));
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgFoodDoneCooking(Order o) {
 		o.s = orderState.cooked;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgPickedUpOrder(int orderNumber) {
@@ -78,7 +84,7 @@ public class Restaurant1CookRole extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgWeWillDeliver(Restaurant1MarketRole m, List<Restaurant1FoodOrder> orders) { //Market will notify the cook how much they are able to deliver
@@ -95,7 +101,7 @@ public class Restaurant1CookRole extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgCannotFulfillOrder(List<Restaurant1FoodOrder> orders) {
@@ -107,7 +113,7 @@ public class Restaurant1CookRole extends Agent {
 				tempFood.state = foodOrderingState.notYetOrdered;
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgFoodDelivery(Restaurant1MarketRole m, List<Restaurant1FoodOrder> orders) { //Actual delivery of food
@@ -121,7 +127,7 @@ public class Restaurant1CookRole extends Agent {
 				tempFood.amount += tempOrder.amount;
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgRecheckInventory() {
@@ -135,12 +141,12 @@ public class Restaurant1CookRole extends Agent {
 		temp.amount = temp.low - 1;
 		
 		restaurantOpening = true;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAtDestination() {
 		atDestination.release();
-		stateChanged();
+		person.stateChanged();
 	}
 
 	/**

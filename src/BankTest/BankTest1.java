@@ -17,6 +17,7 @@ public class BankTest1 extends TestCase {
         BankCustomerRole bankcustomer;
         PersonAgent person1;
         PersonAgent person2;
+        PersonAgent person3;
         Bank bank;
         AStarTraversal aStarTraversal;
         
@@ -27,10 +28,13 @@ public class BankTest1 extends TestCase {
                 super.setUp();        
                 person1 = new PersonAgent("bob", aStarTraversal, null);
                 person2 = new PersonAgent("tom", aStarTraversal, null);
+                person3 = new PersonAgent("manaager", aStarTraversal, null);
                 bank = new Bank();
                 bankmanager = new BankManagerRole(bank);
+                bankmanager.setPerson(person3);
                 bankcustomer = new BankCustomerRole(50, person2);
                 bankteller = new BankTellerRole(bankmanager);
+                bankteller.setPerson(person1);
         
         }        
 
@@ -46,7 +50,12 @@ public class BankTest1 extends TestCase {
                                 + bankteller.log.toString(), 0, bankteller.log.size());
                 assertTrue("", bankmanager.pickAndExecuteAnAction());
                 assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
-                                + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("banktellerassigned"));
+                                + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("bankstationassigned"));
+               
+                assertTrue("", bankmanager.pickAndExecuteAnAction());
+                //assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
+                              //  + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("bantellerassigned"));
+               
                 assertEquals("verify if the customer is assigned to correct bank teller", bankteller.currentcustomer, bankcustomer);
                 //bankteller.msgAssignMeCustomer(bankcustomer);
                 bankteller.msgOpenAccount();
