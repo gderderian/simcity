@@ -109,7 +109,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView("Market1");
 		} else if((x >= 780) && (x <= 850) && (y >= 150) && (y <= 240)){
 			cityGui.changeView("Apartment1");
-		} else if((x >= 351) && (x <= 400) && (y >= 0) && (y <= 60)){
+		} else if((x >= 120) && (x <= 210) && (y >= 635) && (y <= 695)){
 			cityGui.changeView("Apartment2");
 		}
 		
