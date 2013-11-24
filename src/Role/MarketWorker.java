@@ -9,9 +9,14 @@ import Role.Role;
 
 public class MarketWorker extends Role {
 	
+	MarketWorker(PersonAgent person){
+		p = person;
+	}
+	
 	// Data
 	int numWorkingOrders;
 	private ArrayList<PickableOrder> pickOrders;
+	PersonAgent p;
 	
 	public enum orderPickState {pending, picking, done};
 	
@@ -36,7 +41,7 @@ public class MarketWorker extends Role {
 	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);
 		pickOrders.add(newPickableOrder);
-		stateChanged();
+		p.stateChanged();
 	}
 
 	// Scheduler
