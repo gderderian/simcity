@@ -29,6 +29,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import city.CityMap;
+import city.House;
 import astar.AStarTraversal;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -88,6 +89,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     /** Universal city map **/
     CityMap cityMap = new CityMap();
+    //Houses and apartments
+    private List<House> houses = new ArrayList<House>();
+    
     //Bus stops
     private List<BusStop> busStops = new ArrayList<BusStop>();
     
@@ -151,6 +155,8 @@ public class ControlPanel extends JPanel implements ActionListener{
         //Set up the grids of semaphores
         populateSemaphoreGrids();
       	
+        //Creation of houses and apartments
+        createHouses();
       	//Creation of bus stops
         createBusStops();
         
@@ -448,5 +454,12 @@ public class ControlPanel extends JPanel implements ActionListener{
       		BusStopAgent newBus = (BusStopAgent)busStops.get(i);
       		newBus.startThread();
       	}
+    }
+    
+    private void createHouses() {
+    	for(int i = 0; i < 26; i++) {
+    		houses.add(new House("house" + Integer.toString(i + 1)));
+    		System.out.println(houses.get(i).getName());
+    	}
     }
 }

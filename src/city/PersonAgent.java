@@ -3,7 +3,6 @@ package city;
 import test.mock.LoggedEvent;
 import interfaces.Bus;
 import interfaces.Car;
-import interfaces.House;
 import interfaces.Landlord;
 import interfaces.Person;
 import interfaces.Restaurant2Customer;
