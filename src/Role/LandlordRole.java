@@ -69,6 +69,19 @@ public class LandlordRole extends Role implements Landlord {
 		this.p.stateChanged();
 	}
 	
+	//From Animation
+	public void msgAnimationAtStove(){
+		
+	}
+	
+	public void msgAnimationAtOven(){
+		
+	}
+	
+	public void msgAnimationAtMicrowave(){
+		
+	}
+	
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
