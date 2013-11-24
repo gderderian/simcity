@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import city.Apartment;
 import city.CityMap;
 import city.House;
 import astar.AStarTraversal;
@@ -461,5 +462,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     		houses.add(new House("house" + Integer.toString(i + 1)));
     		System.out.println(houses.get(i).getName());
     	}
+    	Apartment apart1 = new Apartment("apart1", 1);
+    	houses.add(apart1);
+    	Apartment apart2 = new Apartment("apart2", 2);
+    	houses.add(apart2);
     }
 }
