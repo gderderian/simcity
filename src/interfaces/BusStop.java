@@ -5,7 +5,7 @@ import city.transportation.BusAgent;
 
 public interface BusStop {
 
-	public void msgWaitingForBus(PersonAgent p);
+	public void msgWaitingForBus(Person p);
 	
-	public void msgICanPickUp(BusAgent b, int people);
+	public void msgICanPickUp(Bus b, int people);
 }

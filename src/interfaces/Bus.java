@@ -6,11 +6,11 @@ import city.PersonAgent;
 
 public interface Bus {
 	
-	public void msgPeopleBoarding(List<PersonAgent> people);
+	public void msgPeopleBoarding(List<Person> people);
 	
-	public void msgHereIsFare(PersonAgent pa, double money);
+	public void msgHereIsFare(Person pa, double money);
 
-	public void msgImGettingOff(PersonAgent pa);
+	public void msgImGettingOff(Person pa);
 	
 	public void msgFinishedUnloading();
 	

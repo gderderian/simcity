@@ -9,31 +9,32 @@ import city.transportation.BusAgent;
 import city.transportation.BusAgent.BusEvent;
 import city.transportation.BusAgent.BusState;
 import city.transportation.BusStopAgent;
+import city.transportation.mock.MockBus;
 import city.transportation.mock.MockBusStop;
 
 public class BusStopTest extends TestCase {
 	//instantiated in setUp()
 	List<PersonAgent> people;
 	BusStopAgent stop;
-	BusAgent bus1;
-	BusAgent bus2;
-	BusAgent bus3;
+	MockBus bus1;
+	MockBus bus2;
+	MockBus bus3;
 
 	public void setUp() throws Exception {
 		super.setUp();
 		people = new ArrayList<PersonAgent>();
 		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
-			people.add(new PersonAgent("person", null));
+			people.add(new PersonAgent("person", null, null));
 		}
-		bus1 = new BusAgent();
-		bus2 = new BusAgent();
-		bus3 = new BusAgent();
+		bus1 = new MockBus();
+		bus2 = new MockBus();
+		bus3 = new MockBus();
 		
-		stop = new BusStopAgent();
+		stop = new BusStopAgent(0);
 		
 	}	
 
-	/* This tests the cashier receiving a single check request from a waiter which is then paid off by a customer */
+	/* This tests three buses checking in at one bus stop, picking up people */
 	public void testBusDriving() {		
 		
 		//Preconditions
