@@ -18,6 +18,7 @@ public class BankCustomerRole extends Role{
         double loan;
         double paybackloan;
         public double amountofcustomermoney;
+        int stationnumber;
         //public int customeraccountnumber;
         public Semaphore atBankStation = new Semaphore(0,true);
         public Semaphore atBankLobby = new Semaphore(0,true);
@@ -47,8 +48,11 @@ public class BankCustomerRole extends Role{
         		}
         		Do("assigned to " + assignbankteller.person);
                 mybankteller = assignbankteller;
-                bankcustomerstate = state.gotobankteller;
-                
+                stationnumber = mybankteller.stationnumber;
+               
+                //animation state change
+                bankcustomerstate = state.gotobankteller; 
+                //
                 //Do("assigned to " + assignbankteller.person.getName());
                 person.stateChanged();
        
@@ -101,7 +105,7 @@ public class BankCustomerRole extends Role{
         
         public void msgLeaveBank()
         {
-                
+                //animation state change
                 bankcustomerstate = state.leave;
                 person.stateChanged();
                 
@@ -177,7 +181,8 @@ public class BankCustomerRole extends Role{
         		
         		if(bankcustomerstate == state.gotobankteller)
         		{
-        			//gui.goToBankTellerStation(mybankteller)
+        			guiGoToBankTellerStation(stationnumber);
+        			bankcustomerstate = state.waiting;
         			return true;
         		}
         	
@@ -254,7 +259,8 @@ public class BankCustomerRole extends Role{
                 if(bankcustomerstate == state.leave)
                 {
                         mybankteller.msgBankCustomerLeaving();
-                        //gui animation of customer leaving the bank
+                        guiLeaveBank();
+                        bankcustomerstate = state.waiting;
                         return true;
                 }
                 
@@ -276,6 +282,31 @@ public class BankCustomerRole extends Role{
         
         public String getName() {
         	return this.name;
+        }
+        
+        public void guiGoToBankTellerStation(int stationnumber)
+		{
+			gui.goToBankTellerStation(stationnumber);
+        	try {
+    			atBankStation.acquire();
+    			//atLobby.acquire();
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}		
+		}
+        
+        public void guiLeaveBank()
+        {
+        	gui.leaveBank();
+        	try {
+    			atBankLobby.acquire();
+    			//atLobby.acquire();
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        	
         }
         
         

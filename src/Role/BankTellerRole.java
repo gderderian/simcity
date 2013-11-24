@@ -22,11 +22,12 @@ public class BankTellerRole extends Role {
                 double paybackloan;
                 public BankManagerRole bankmanager;
                 public Semaphore atBankStation = new Semaphore(0,true);
-                enum state {openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft};
+                enum state {doingnothing, openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft, gotobanktellerstation};
                 state banktellerstate;
                 public BankTellerRoleGui gui;
                 public EventLog log = new EventLog();
                 PersonAgent person;
+                int stationnumber;
                 
                 
                 public BankTellerRole(BankManagerRole assignbankmanager)
@@ -41,11 +42,12 @@ public class BankTellerRole extends Role {
                 public void msgGoToBankTellerStation(int banktellerstationnumber)
                 {
                 	
-                	
+                	stationnumber = banktellerstationnumber;
+                	banktellerstate = state.gotobanktellerstation;
+                	person.stateChanged();
                 	
                 }
-                
-                                
+                            
                 public void msgAssignMeCustomer(BankCustomerRole customer)
                 {
                         currentcustomer = customer;
@@ -102,7 +104,15 @@ public class BankTellerRole extends Role {
 
         public boolean pickAndExecuteAnAction() {
                 
-                
+        	
+        		if(banktellerstate == state.gotobanktellerstation)
+        		{
+        			guiGoToBankTellerStation(stationnumber);
+        			banktellerstate = state.doingnothing;
+        			return true;
+        		}
+        	
+        	
                 if(banktellerstate == state.openaccount)
                 {
                         
@@ -110,7 +120,8 @@ public class BankTellerRole extends Role {
                     currentcustomeraccountnumber = bankmanager.bank.uniqueaccountnumber;
                     currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
                     bankmanager.bank.uniqueaccountnumber++;
-                        return true;
+                    banktellerstate = state.doingnothing;
+                    return true;
                 }
 
                 if(banktellerstate == state.depositintoaccount)
@@ -127,6 +138,7 @@ public class BankTellerRole extends Role {
                                         break;
                                 }
                         }
+                        banktellerstate = state.doingnothing;
                         return true;
                 }
 
@@ -149,6 +161,7 @@ public class BankTellerRole extends Role {
                                         
                                 }
                         }
+                        banktellerstate = state.doingnothing;
                         return true;
                 }
 
@@ -174,6 +187,7 @@ public class BankTellerRole extends Role {
                         
                                 }
                         }
+                        banktellerstate = state.doingnothing;
                         return true;
                         
                         /*
@@ -235,11 +249,11 @@ public class BankTellerRole extends Role {
                 {
                         bankmanager.msgCustomerLeft(currentcustomer, this);
                         this.currentcustomer = null;
+                        banktellerstate = state.doingnothing;
                         return true;
                         
                 }
-                
-                
+                          
                 
                 return false;
 }
