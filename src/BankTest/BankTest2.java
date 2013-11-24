@@ -3,6 +3,7 @@ package BankTest;
 import astar.AStarTraversal;
 import junit.framework.TestCase;
 import city.Bank;
+import city.House;
 import city.account;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
@@ -26,16 +27,18 @@ public class BankTest2 extends TestCase {
         PersonAgent person4;
         PersonAgent person5;
         AStarTraversal aStarTraversal;
+        House house;
         
         public void setUp() throws Exception{
                 super.setUp();
                 bank = new Bank();
                 
-                person1 = new PersonAgent("bob", aStarTraversal, null);
-                person2 = new PersonAgent("tom", aStarTraversal, null);
-                person3 = new PersonAgent("manaager", aStarTraversal, null);
-                person4 = new PersonAgent("tom", aStarTraversal, null);
-                person5 = new PersonAgent("manaager", aStarTraversal, null);
+                
+                person1 = new PersonAgent("bob", aStarTraversal, null, house);
+                person2 = new PersonAgent("tom", aStarTraversal, null, house);
+                person3 = new PersonAgent("manaager", aStarTraversal, null, house);
+                person4 = new PersonAgent("tom", aStarTraversal, null, house);
+                person5 = new PersonAgent("manaager", aStarTraversal, null, house);
                 
                 
                 bankmanager = new BankManagerRole(bank);

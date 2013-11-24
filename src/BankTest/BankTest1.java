@@ -4,6 +4,8 @@ import astar.AStarTraversal;
 import junit.framework.TestCase;
 import test.mock.EventLog;
 import city.Bank;
+import city.CityMap;
+import city.House;
 import city.account;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
@@ -19,16 +21,18 @@ public class BankTest1 extends TestCase {
         PersonAgent person2;
         PersonAgent person3;
         Bank bank;
+        House house = new House("house1");
         AStarTraversal aStarTraversal;
+        CityMap citymap;
         
         public EventLog log = new EventLog();
         
         public void setUp() throws Exception{
                 
                 super.setUp();        
-                person1 = new PersonAgent("bob", aStarTraversal, null);
-                person2 = new PersonAgent("tom", aStarTraversal, null);
-                person3 = new PersonAgent("manaager", aStarTraversal, null);
+                person1 = new PersonAgent("bob", aStarTraversal, citymap, house);
+                person2 = new PersonAgent("tom", aStarTraversal, citymap, house);
+                person3 = new PersonAgent("manaager", aStarTraversal, citymap, house);
                 bank = new Bank();
                 bankmanager = new BankManagerRole(bank);
                 bankmanager.setPerson(person3);
