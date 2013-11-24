@@ -379,6 +379,8 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
+		
+		DoGoTo(house.getName());
 
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -735,11 +737,13 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	void DoGoTo(String location) {
+		gui.setVisible();
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
 	    //gui.moveTo(130 + x * 30, 70 + y * 30);
 	    moveTo(x, y);
+	    gui.setInvisible();
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
