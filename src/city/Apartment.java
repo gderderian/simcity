@@ -8,18 +8,24 @@ import test.mock.LoggedEvent;
 public class Apartment extends House {
 	PersonAgent landlord;
 	int aptNum;
+	int aptBuilding;
 	
 	public Apartment(){
 		super();
 	}
 	
-	public Apartment(int num){
+	public Apartment(int roomNum, int buildNum){
 		super();
-		aptNum= num;
+		aptNum= roomNum;
+		aptBuilding= buildNum;
 	}
 	
-	public void setNum(int num){
+	public void setRoom(int num){
 		this.aptNum= num;
+	}
+	
+	public void setBuilding(int num){
+		this.aptBuilding= num;
 	}
 	
 	@Override

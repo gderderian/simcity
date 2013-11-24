@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import city.gui.CityGui;
 import city.gui.Gui;
 import city.gui.PersonGui;
 
@@ -23,6 +24,8 @@ public class HouseAnimationPanel extends JPanel implements ActionListener, Mouse
     private static final int TIMER = 8;
     
     private List<Gui> guis = new ArrayList<Gui>();
+    
+    CityGui cityGui;
     
     public HouseAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -39,6 +42,10 @@ public class HouseAnimationPanel extends JPanel implements ActionListener, Mouse
 		repaint();
 	}
     
+    public void setCityGui(CityGui c){
+		cityGui = c;
+	}
+    
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -49,11 +56,12 @@ public class HouseAnimationPanel extends JPanel implements ActionListener, Mouse
         g2.fillRect(0, 0, WINDOWX, WINDOWY);
 		
         
-        //This is the door to the city
+        //This is the exit to the city
         g2.setColor(Color.CYAN);
         g2.fillRect(75, 0, 100, 30);
         g2.setColor(Color.BLACK);
         g2.drawString("Exit to City", 80, 5);
+        
         
         //This is the kitchen table
         g2.setColor(Color.ORANGE);
@@ -109,7 +117,14 @@ public class HouseAnimationPanel extends JPanel implements ActionListener, Mouse
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		int x = e.getX();
+		int y = e.getY();
+		
+		//Change to city
+		if((x >= 75) && (x <= 175) && (y >= 0) && (y <= 30)){
+			System.out.println("Back to the city view, goodbye!");
+			cityGui.changeView("City");
+		}
 		
 	}
 

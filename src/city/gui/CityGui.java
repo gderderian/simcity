@@ -6,16 +6,18 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Role.Role;
 import astar.AStarTraversal;
-
+import city.gui.House.ApartmentAnimationPanel;
+import city.gui.House.HouseAnimationPanel;
 import city.gui.restaurant4.AnimationPanel4;
-
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -30,7 +32,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         AnimationPanel4 restaurant4 = new AnimationPanel4();
         //PersonAgent testPerson = new PersonAgent("test");
         //PersonGui testPersonGui = new PersonGui();
+    ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
+    List<HouseAnimationPanel> apt1List = new ArrayList<HouseAnimationPanel>();
     
+    ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
+    List<HouseAnimationPanel> apt2List = new ArrayList<HouseAnimationPanel>();
+        
+        
     private JPanel infoPanel;
         
     private final int WINDOWX = 1300;
@@ -73,6 +81,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         animationPanel.setPreferredSize(animationDim);
     	
     	add(animationPanel, BorderLayout.EAST);
+    	
+    	apt1.setCityGui(this);
+    	//Populate first list of apartments
+        for(int i=0; i<10; i++){
+        	apt1List.add(new HouseAnimationPanel());
+        	apt1List.get(i).setCityGui(this);
+        }
+        apt2.setCityGui(this);
+    	//Populate second list of apartments
+        for(int i=0; i<10; i++){
+        	apt2List.add(new HouseAnimationPanel());
+        	apt2List.get(i).setCityGui(this);
+        }
 
         Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
         infoPanel = new JPanel();
@@ -115,16 +136,40 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 //(slider)
         }
         
-        public void changeView(String building){
-                if(building.equals("Restaurant1")){
-                        animationPanel.setVisible(false);
+        public void changeView(String building){  
+        	System.out.println("IN CHANGE VIEW");
+        	if(building.equals("Restaurant1")){
+        		animationPanel.setVisible(false);
                 add(restaurant2, BorderLayout.EAST);
-                        restaurant2.setVisible(true);
-                }
-                if(building.equals("City")){
-                        restaurant2.setVisible(false);
-                        animationPanel.setVisible(true);
-                }       
+                restaurant2.setVisible(true);
+            }
+            if(building.equals("City")){
+                restaurant2.setVisible(false);
+                animationPanel.setVisible(true);
+            }
+            if(building.equals("Apartment1")){
+                animationPanel.setVisible(false);
+                add(apt1, BorderLayout.EAST);
+                apt1.setVisible(true);
+            }
+            if(building.equals("Apartment2")){
+                animationPanel.setVisible(false);
+                add(apt2, BorderLayout.EAST);
+                apt2.setVisible(true);
+            }
+        }
+        
+        public void changeView(int building, int num){
+        	if(building == 1){
+        		apt1.setVisible(false);
+        		add(apt1List.get(num), BorderLayout.EAST);
+        		apt1List.get(num).setVisible(true);
+        	}
+        	if(building == 2){
+        		apt2.setVisible(false);
+        		add(apt2List.get(num), BorderLayout.EAST);
+        		apt2List.get(num).setVisible(true);
+        	}
         }
         
         public void addPerson(String name, AStarTraversal aStarTraversal, Role job){
