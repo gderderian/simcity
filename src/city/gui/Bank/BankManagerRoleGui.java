@@ -5,23 +5,20 @@ package city.gui.Bank;
 
 import java.awt.*;
 
+
 import Role.BankManagerRole;
 
 public class BankManagerRoleGui implements Gui {
 
 
     private BankManagerRole role = null;
-
-    private BankManagerRole agent = null;
-
-    private boolean returningtolobby = false;
-
     private int xPos = 20, yPos = 20;//default waiter position
     private int xDestination = 100, yDestination = 100;//default start position
 
 	private BankGui gui;
-
-    public static int xTable = 200;
+	private enum Command {noCommand, gotobankmanageroffice, leavebank, arrived};
+	private Command command=Command.noCommand;
+	public static int xTable = 200;
     public static int yTable = 250;
 
 
@@ -54,19 +51,18 @@ public class BankManagerRoleGui implements Gui {
     }
 
 
-    public void DoBringToTable(int tablexcoordinate, int tableycoordinate) {
+    public void goToBankManagerOffice(int setxcoordinate, int setycoordinate) {
       
-        xDestination = tablexcoordinate + 20;
-        yDestination = tableycoordinate - 20;
-        xTable = tablexcoordinate;
-        yTable = tableycoordinate;
+        xDestination = setxcoordinate;
+        yDestination = setycoordinate;
+        command = Command.gotobankmanageroffice;
         
     }
 
-    public void DoLeaveCustomer() {
+    public void leaveBank() {
         xDestination = -20;
         yDestination = -20;
-        returningtolobby = true;
+        command = Command.leavebank;
     }
 
     public int getXPos() {

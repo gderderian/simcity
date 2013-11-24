@@ -53,19 +53,21 @@ public class BankManagerRole extends Role{
         {
                 Do("new customer arrived");
         		customers.add(new mycustomer(newcustomer));
-                stateChanged();
+                person.stateChanged();
+        		
         }
 
         public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
         {
                 Do("new bankteller arrived");
         		banktellers.add(new mybankteller(newbankteller, this));
-                stateChanged();
+        		Do("" + banktellers.size());
+                person.stateChanged();
         }
 
         public void msgCalculateLoan() {
                 state = bankmanagerstate.calculateloan;
-                stateChanged();
+                person.stateChanged();
                 
         }
 
@@ -76,7 +78,7 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer, BankTellerRole ban
         this.leavingcustomer = leavingcustomer;
         this.freebankteller = bankteller;
         state = bankmanagerstate.customerleft;
-        stateChanged();
+        person.stateChanged();
 }
 
 
@@ -93,7 +95,7 @@ public void msgBankTellerFree(BankTellerRole bankteller)
                                 break;
                         }
                 }
-                stateChanged();
+                person.stateChanged();
 }
 
 
@@ -108,15 +110,16 @@ public boolean pickAndExecuteAnAction() {
 					Do("" + banktellers.size());
 					for(mybankteller newbankteller: banktellers)
 					{
-						
 						if(newbankteller.state == banktellerstate.arrived)
 						{
-						
+							
 							for(Bank.bankstation findfreebankstation : bank.bankstations)
 							{
+				
 								if(!findfreebankstation.isOccupied())
 								{
-									Do("assign banker to station");
+									Do("assign bankteller  to station");
+									log.add(new LoggedEvent("bankstationassigned"));
 									findfreebankstation.setBankTeller(newbankteller.bankteller);
 									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
 									newbankteller.state = banktellerstate.free;
@@ -141,6 +144,7 @@ public boolean pickAndExecuteAnAction() {
                                                 Do("assign customer to bank teller");
                                                 bankteller.bankteller.msgAssignMeCustomer(customer.customer);
                                                 customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
+                                                Do("assign bankteller to customer:" + customer.customer.mybankteller);
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;
                                                 //customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
@@ -263,6 +267,10 @@ public boolean pickAndExecuteAnAction() {
                 }
 
         }
+        
+        
+        
+        
 
         public void setPerson(PersonAgent person)
         {
