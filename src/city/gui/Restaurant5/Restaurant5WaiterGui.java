@@ -6,10 +6,11 @@ import tomtesting.interfaces.Restaurant5Waiter;
 import tomtesting.interfaces.Restaurant5Host;
 import tomtesting.interfaces.Restaurant5Cook;
 
+import city.PersonAgent;
 //import restaurant.HostAgent;
 //import restaurant.WaiterAgent;
 //import restaurant.CustomerAgent;
-import restaurant.WaiterAgent.AgentState;
+import city.Restaurant5.*;
 
 import java.awt.*;
 
@@ -19,9 +20,10 @@ import javax.swing.ImageIcon;
 public class Restaurant5WaiterGui implements Gui {
 
 	private Restaurant5Waiter  agent = null;
-	RestaurantGui gui; 
+	Restaurant5Gui gui; 
 	private boolean isPresent = false;
 	private boolean onBreak = false;
+	PersonAgent person;
 	
 	//original position was -20 -20
 	public int xPos = 20 ,yPos = 20;//default waiter position
@@ -56,7 +58,7 @@ public class Restaurant5WaiterGui implements Gui {
 	private int xcoordinatesoftables[];
 	private int ycoordinatesoftables[];
 
-	public WaiterGui(WaiterAgent agent, RestaurantGui gui, HostAgent host) {
+	public Restaurant5WaiterGui(Restaurant5WaiterRole agent, Restaurant5Gui gui, Restaurant5HostRole host) {
 		this.agent = agent;
 		this.gui = gui;
 		xcoordinatesoftables = host.getxcoordinatesTables();

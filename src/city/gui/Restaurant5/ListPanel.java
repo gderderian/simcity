@@ -1,9 +1,9 @@
-package restaurant.gui;
+package city.gui.Restaurant5;
 
-import restaurant.CustomerAgent;
-import restaurant.HostAgent;
 
 import javax.swing.*;
+
+import city.gui.Bank.BankPanel;
 
 import java.awt.*;
 import java.awt.event.*;

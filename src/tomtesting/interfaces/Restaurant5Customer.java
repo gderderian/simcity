@@ -1,6 +1,8 @@
 package tomtesting.interfaces;
 
 import city.Restaurant5.Restaurant5Check;
+import city.Restaurant5.Restaurant5CustomerRole.AgentState;
+import city.gui.Restaurant5.Restaurant5CustomerGui;
 //import restaurant.CashierAgent;
 //import restaurant.Check;
 //import restaurant.HostAgent;
@@ -60,9 +62,9 @@ public interface Restaurant5Customer {
 
 	public String toString();
 
-	public void setGui(CustomerGui g);
+	public void setGui(Restaurant5CustomerGui g);
 
-	public CustomerGui getGui();
+	public Restaurant5CustomerGui getGui();
 
 	public int getxcoordinate();
 	

@@ -2,14 +2,17 @@ package city.Restaurant5;
 
 import Role.Role;
 import agent.Agent;
-import restaurant.CustomerAgent.AgentState;
-import restaurant.gui.HostGui;
+//import restaurant.CustomerAgent.AgentState;
+
+
 import tomtesting.interfaces.Restaurant5Host;
 import tomtesting.interfaces.Restaurant5Customer;
 import tomtesting.interfaces.Restaurant5Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
+import city.PersonAgent;
 
 /**
  * Restaurant Host Agent
@@ -23,7 +26,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	
 	//with List semantics.
-	public List<Restaurant5CustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<Restaurant5CustomerRole>());
+	public List<Restaurant5Customer> waitingCustomers = Collections.synchronizedList(new ArrayList<Restaurant5Customer>());
 	
 	//list of waiter agents
 	public List<mywaiter> waiters = Collections.synchronizedList(new ArrayList<mywaiter>());
@@ -33,21 +36,23 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 	
+	PersonAgent person;
 	boolean alltableoccupied = true;
 
 	private String name;
     private int currentwaiter = 0;
-	public HostGui hostGui = null;
+	//public HostGui hostGui = null;
 	private int numberoftablesfilled = 0;
-	Restaurant5CustomerRole assigncustomer;
+	Restaurant5Customer assigncustomer;
 	Restaurant5CustomerRole assigncustomertowaitingarea;
 	int xcoordinateofwaitingspot = 25;
 	int ycoordinateofwaitingspot = 170;
 	int occupiedtablecounter = 0;
-	public Restaurant5HostRole(String name) {
+	public Restaurant5HostRole(String name, PersonAgent person) {
 		super();
 
 		this.name = name;
+		this.person = person;
 		// make some tables
 		tables = new ArrayList<Table>(NTABLES);
 		int table1xcoordinate = 200;
@@ -117,7 +122,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 
 	public void msgIWantFood(Restaurant5Customer cust) {
 		waitingCustomers.add(cust);
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgTableIsEmpty(Table T) {
@@ -136,7 +141,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 				print(cust + " leaving " + table);
 				table.setUnoccupied();
 				print("table " + table + " is set uoccupied");
-				stateChanged();
+				person.stateChanged();
 			}
 		}
 		
@@ -202,7 +207,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -311,20 +316,21 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	private void Dogobacktolobby(){
 		
 		print("back in lobby");
-		hostGui.DoLeaveCustomer();
+		//hostGui.DoLeaveCustomer();
 	}
 
 	//utilities
-
-	public void setGui(HostGui gui) {
-		hostGui = gui;
+	/*
+	public void setGui(Restaurant5HostGui gui) {
+		//hostGui = gui;
 	}
+	*/
 
-	
+	/*
 	public HostGui getGui() {
 		return hostGui;
 	}
-	
+	*/
 	
 	public void assignwaiter(Restaurant5Customer customer, Restaurant5Waiter waiter, Table table)
 	{
@@ -333,7 +339,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	}
 	
 	public void tellcustomerrestaurantisfull() {
-		for(Restaurant5CustomerRole customer : waitingCustomers)
+		for(Restaurant5Customer customer : waitingCustomers)
 		{
 			customer.msgRestaurantFullLeave();
 			waitingCustomers.remove(customer);
@@ -434,6 +440,12 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 		}
 	
 	
+	}
+
+	@Override
+	public void msgTableIsEmpty(tomtesting.interfaces.Restaurant5Host.Table T) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

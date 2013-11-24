@@ -1,14 +1,13 @@
-package restaurant.gui;
+package city.gui.Restaurant5;
 
 
-import restaurant.CustomerAgent;
-import restaurant.HostAgent;
+import tomtesting.interfaces.*;
 
 import java.awt.*;
 
 public class HostGui implements Gui {
 
-    private HostAgent agent = null;
+    private Restaurant5Host agent = null;
     private boolean returningtolobby = false;
 
     private int xPos = -20, yPos = -20;//default waiter position
@@ -17,7 +16,7 @@ public class HostGui implements Gui {
     public static int xTable = 200;
     public static int yTable = 250;
 
-    public HostGui(HostAgent agent) {
+    public HostGui(Restaurant5Host agent) {
         this.agent = agent;
     }
 
@@ -43,7 +42,7 @@ public class HostGui implements Gui {
         return true;
     }
 
-    public void DoBringToTable(CustomerAgent customer, int tablexcoordinate, int tableycoordinate) {
+    public void DoBringToTable(Restaurant5Customer customer, int tablexcoordinate, int tableycoordinate) {
       
         xDestination = tablexcoordinate + 20;
         yDestination = tableycoordinate - 20;

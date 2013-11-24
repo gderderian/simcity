@@ -5,7 +5,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-import restaurant.gui.CustomerGui;
+import city.PersonAgent;
+import city.gui.Restaurant5.Restaurant5CustomerGui;
 import tomtesting.interfaces.Restaurant5Cashier;
 import tomtesting.interfaces.Restaurant5Host;
 import tomtesting.interfaces.Restaurant5Customer;
@@ -32,7 +33,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	private int lookingatchecktime = 3;
 	Timer timer = new Timer();
 	Timer timerforordering = new Timer();
-	private CustomerGui customerGui;
+	private Restaurant5CustomerGui customerGui;
 	public int xcoordinate;
 	public int ycoordinate;
 
@@ -60,7 +61,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	Restaurant5Check mycheck;
 	Restaurant5Menu menu = new Restaurant5Menu();
 	private boolean scumbagnexttime = false; //this is for non-normative scenario
-
+	PersonAgent person;
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
 	{DoingNothing, WaitingInRestaurant, WaitingInWaitingArea, BeingSeated, Seated, WaitingForWaiter, WaitingForFood, Eating, DoneEating, Paying, LookingAtCheck, Leaving};
@@ -76,8 +77,9 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public Restaurant5CustomerRole(String name){
+	public Restaurant5CustomerRole(String name, PersonAgent person){
 		super();
+		
 		
 		if(name.equals("cheap"))
 		{
@@ -96,6 +98,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 			this.currentmoney = 6;
 		}
 		this.name = name;
+		this.person = person;
 		
 	}
 
@@ -131,7 +134,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	public void gotHungry() {
 		print("I'm hungry");
 		event = AgentEvent.gotHungry;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgGoToWaitingArea(int xcoordinateofwaitingspot, int ycoordinateofwaitingspot) {
@@ -139,14 +142,14 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		event = AgentEvent.goToWaitingArea;
 		this.xcoordinateofwaitingspot = xcoordinateofwaitingspot;
 		this.ycoordinateofwaitingspot = ycoordinateofwaitingspot;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgSitAtTable(int table) {
 		print("Received msgSitAtTable");
 		event = AgentEvent.followHost;
 		this.table = table;
-		stateChanged();
+		person.stateChanged();
 		
 	}
 	
@@ -158,23 +161,23 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
 		event = AgentEvent.seated;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgTakeOrder(Restaurant5Waiter waiter) {
 		event = AgentEvent.ordering;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgHereIsYourFood(Restaurant5Waiter waiter) {
 		event = AgentEvent.gotFood;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgFoodIsOut(Restaurant5Waiter waiter, String order) {
 		event = AgentEvent.reordering;
 		print("waiter state" + state);
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgReceivedCheckFromWaiter(Restaurant5Check checkfromwaiter) {
@@ -183,7 +186,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		event = AgentEvent.receivedCheck;
 		print("total: $" + mycheck.total + " table: " + mycheck.assignedtable);		
 		print("received check from the waiter");
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgReceivedMoneyFromCashier(int moneyleftfromeating) {
@@ -197,7 +200,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		{
 			event = AgentEvent.doneLeaving;
 		}
-		stateChanged();
+		person.stateChanged();
 		
 	}
 	
@@ -206,29 +209,29 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		this.paybackmoney = paybackmoney;
 		print("has to pay back this much: $" + this.paybackmoney);
 		event = AgentEvent.doneLeaving;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgDontHaveMoneyWashDishes() {
 		event = AgentEvent.washDishes;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgRestaurantFullLeave() {
 		print("restaurant is full so I'm leaving");
 		state = AgentState.DoingNothing;
-		stateChanged();
+		person.stateChanged();
 	}
  	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		event = AgentEvent.doneLeaving;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 		//customer gets hungry and goes to restaurant
 		
@@ -403,7 +406,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 				event = AgentEvent.noMoneyLeave;
 			}
 			
-			stateChanged();
+			person.stateChanged();
 			}
 			
 		},
@@ -566,7 +569,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 				eating = false;
 				print("Done eating" /*cookie=" + cookie*/);
 				event = AgentEvent.doneEating;
-				stateChanged();
+				person.stateChanged();
 			}
 		},
 		getHungerLevel() * 1000);//how long to wait before running task
@@ -581,7 +584,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 			public void run() {
 			//print("ordering, cookie=" + cookie);
 			event = AgentEvent.goToCashier;
-			stateChanged();
+			person.stateChanged();
 			}
 			
 		},
@@ -717,11 +720,11 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		return "customer " + getName();
 	}
 
-	public void setGui(CustomerGui g) {
+	public void setGui(Restaurant5CustomerGui g) {
 		customerGui = g;
 	}
 
-	public CustomerGui getGui() {
+	public Restaurant5CustomerGui getGui() {
 		return customerGui;
 	}
 

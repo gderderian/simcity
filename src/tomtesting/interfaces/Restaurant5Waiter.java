@@ -12,6 +12,9 @@ public interface Restaurant5Waiter {
 	
 	
 	
+	int xCoordinate = 0;
+	int yCoordinate = 0;
+
 	public String getMaitreDName();
 	
 	public String getName();

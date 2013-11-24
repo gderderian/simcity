@@ -2,16 +2,13 @@ package city.Restaurant5;
 
 import Role.Role;
 import agent.Agent;
-import restaurant.CookAgent;
-import restaurant.HostAgent;
-import restaurant.CustomerAgent;
 
 
 
 
-import restaurant.CustomerAgent.AgentState;
-import restaurant.gui.HostGui;
-import restaurant.gui.WaiterGui;
+
+import city.PersonAgent;
+import city.gui.Restaurant5.Restaurant5WaiterGui;
 import tomtesting.interfaces.Restaurant5Customer;
 import tomtesting.interfaces.Restaurant5Market;
 import tomtesting.interfaces.Restaurant5Waiter;
@@ -49,33 +46,35 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	private String name;
 	private Restaurant5HostRole host;
 	private Restaurant5CookRole cook;
-	private CashierAgent cashier;
+	private Restaurant5Cashier cashier;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore atTable1 = new Semaphore(0,true);
 	private Semaphore atLobby = new Semaphore(0,true);
 	public Semaphore atKitchen = new Semaphore(0, true);
 	private boolean atlobbycurrently = true;
 	public String currentfood; 
-	public Check currentcheck;
+	public Restaurant5Check currentcheck;
 	public boolean foodout = false;
+	PersonAgent person;
 	
 	
 	//public boolean atkitchencurrently = false;
 	
 	Restaurant5Menu menu = new Restaurant5Menu();
 
-	public WaiterGui waiterGui = null;
+	public Restaurant5WaiterGui waiterGui = null;
 
 	public int xCoordinate;
 	public int yCoordinate;
 
-	public Restaurant5WaiterRole(String name, Restaurant5HostRole host, Restaurant5CookRole cook, CashierAgent cashier) {
+	public Restaurant5WaiterRole(String name, Restaurant5HostRole host, Restaurant5CookRole cook, Restaurant5Cashier cashier, PersonAgent person) {
 		super();
 
 		this.name = name;
 		this.host = host;
 		this.cook = cook;
 		this.cashier = cashier;
+		this.person = person;
 
 	}
 
@@ -95,21 +94,21 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 		
 		atTable.release();
 		//Do("i have attable " + atTable.availablePermits() + "permits");
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgAtLobby() {
 
 		atlobbycurrently = true;
 		atLobby.release();
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAssignMeCustomer(Restaurant5Customer customer, int table)
 	{
 		customer.setWaiter(this);
 		customers.add(new mycustomer(customer, table));
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgReadyToOrder(Restaurant5Customer customer)
@@ -121,7 +120,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			if(findcustomer.customer == customer) {
 				//print("searching customer");
 				findcustomer.state = customerstate.ReadyToOrder; 
-				stateChanged();
+				person.stateChanged();
 				return; 
 			}
 		}
@@ -140,7 +139,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			if(findcustomer.customer == customer) {
 				//print("searching customer");
 				findcustomer.state = customerstate.ReadyToPay; 
-				stateChanged();
+				person.stateChanged();
 				return; 
 			}
 		}
@@ -165,14 +164,14 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					//print("Ordered.");
 				}
 				customer.choice = order;
-				stateChanged();
+				person.stateChanged();
 				break;
 				//return;
 			}	
 		}
 		
 		}
-		stateChanged();
+		person.stateChanged();
 		//send a message to cook	
 	}
 	
@@ -186,7 +185,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			if(tellcustomerfoodisout.table == table)
 			{ 
 				tellcustomerfoodisout.state = customerstate.Reorder;
-				stateChanged();
+				person.stateChanged();
 			}
 
 		}
@@ -206,7 +205,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			if(givefoodtocustomer.table == table)
 			{ 
 				givefoodtocustomer.state = customerstate.FoodReady;
-				stateChanged();
+				person.stateChanged();
 			}
 
 		}
@@ -226,7 +225,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 				givechecktocustomer.state = customerstate.CheckReady;
 				//currentcheck = check;
 				checks.add(check);
-				stateChanged();
+				person.stateChanged();
 			}
 
 		}
@@ -246,7 +245,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			if(findcustomer.customer == customerleft) {
 				//print("searching customer");
 				findcustomer.state = customerstate.LeavingWithoutEating; 
-				stateChanged();
+				person.stateChanged();
 				return; 
 			}
 		}
@@ -263,7 +262,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			{
 				Do("set customer state to leaving!");
 				removecustomer.state = customerstate.Leaving;
-				stateChanged();
+				person.stateChanged();
 			}
 		}
 		
@@ -276,7 +275,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	 * @param Waiting 
 	 * @throws InterruptedException 
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -475,7 +474,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					if(customer.state == customerstate.CheckReady && atlobbycurrently == true)
 					{
 						//print("bring check!!!");
-						for(Check findcheck: checks)
+						for(Restaurant5Check findcheck: checks)
 						{
 							if(findcheck.customer == customer)
 							{
@@ -879,11 +878,11 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	}
 
 
-	public void setGui(WaiterGui gui) {
+	public void setGui(Restaurant5WaiterGui gui) {
 		waiterGui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public Restaurant5WaiterGui getGui() {
 		return waiterGui;
 	}
 	
