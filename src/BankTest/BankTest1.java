@@ -23,7 +23,7 @@ public class BankTest1 extends TestCase {
         Bank bank;
         House house = new House("house1");
         AStarTraversal aStarTraversal;
-        CityMap citymap;
+        CityMap citymap = new CityMap();
         
         public EventLog log = new EventLog();
         
