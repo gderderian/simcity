@@ -7,6 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
+import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.Bank.BankAnimationPanel;
 import city.gui.House.ApartmentAnimationPanel;
@@ -22,6 +23,7 @@ import city.House;
 import city.Market;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
+import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.transportation.BusAgent;
 import city.transportation.Vehicle;
 
@@ -298,6 +300,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			newBus.startThread();   
 		}
 	}   
+	
+	private PersonAgent personFactory(PersonAgent p, int i) {
+		if(i == 1) {
+			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
+			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
+			restaurant2.addGui(customerGui);
+			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
+			
+		}
+		return null;
+	}
 
 	private void addBuildingPanel(BuildingPanel bp) {
 		bp.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
