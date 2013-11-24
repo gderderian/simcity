@@ -380,8 +380,6 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
-		DoGoTo(house.getName());
 
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -610,6 +608,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		Restaurant2 test = cityMap.restaurant2;
 		cityMap.restaurant2.getHost().msgIWantFood(customer);
+		print("I want food!");
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){

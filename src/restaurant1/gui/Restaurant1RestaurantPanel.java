@@ -4,10 +4,11 @@ import restaurant1.Restaurant1CashierRole;
 import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
-import restaurant1.Restaurant1MarketRole;
 import restaurant1.Restaurant1WaiterRole;
 
 import javax.swing.*;
+
+import city.PersonAgent;
 
 import agent.Agent;
 
@@ -23,20 +24,20 @@ public class Restaurant1RestaurantPanel extends JPanel {
 
     private Vector<Agent> agents = new Vector<Agent>();
     
+    //Added for SimCity - creating a staff of person agents
+    PersonAgent hostPerson = new PersonAgent("host");
+    PersonAgent cookPerson = new PersonAgent("cook");
+    PersonAgent cashierPerson = new PersonAgent("cashier");
+    
     //Host, cook, waiters and customers
-    private Restaurant1HostRole host = new Restaurant1HostRole("Wilczynski");
+    private Restaurant1HostRole host = new Restaurant1HostRole("Wilczynski", hostPerson);
     private Restaurant1HostGui hostGui = new Restaurant1HostGui(host);
     
-    private Restaurant1CookRole cook = new Restaurant1CookRole("Rami");
+    private Restaurant1CookRole cook = new Restaurant1CookRole("Rami", cookPerson);
     private Restaurant1CookGui cookGui = new Restaurant1CookGui(cook);
     
-    private Restaurant1CashierRole cashier = new Restaurant1CashierRole("Crowley");
+    private Restaurant1CashierRole cashier = new Restaurant1CashierRole("Crowley", cashierPerson);
     private Restaurant1CashierGui cashierGui = new Restaurant1CashierGui(cashier);
-    
-    							//usage: new MarketAgent(String name, int steak, int fish, int chicken);
-    private Restaurant1MarketRole market1 = new Restaurant1MarketRole("Market 1", 7, 7, 7);
-    private Restaurant1MarketRole market2 = new Restaurant1MarketRole("Market 2", 10, 10, 10);
-    private Restaurant1MarketRole market3 = new Restaurant1MarketRole("Market 3", 100, 100, 100);
 
     private Vector<Restaurant1WaiterRole> waiters = new Vector<Restaurant1WaiterRole>();
     private Vector<Restaurant1CustomerRole> customers = new Vector<Restaurant1CustomerRole>();
@@ -59,25 +60,11 @@ public class Restaurant1RestaurantPanel extends JPanel {
         host.startThread();
         cook.startThread();
         cashier.startThread();
-        
-        market1.startThread();
-        market2.startThread();
-        market3.startThread();
-        
-        agents.add(market1);
-        agents.add(market2);
-        agents.add(market3);
-        cook.addMarket(market1);
-        cook.addMarket(market2);
-        cook.addMarket(market3);
+       
         agents.add(host);
         agents.add(cook);
         agents.add(cashier);
         
-        market1.addCashier(cashier);
-        market2.addCashier(cashier);
-        market3.addCashier(cashier);
-
         setLayout(new BorderLayout(0, 0));
         group.setLayout(new GridLayout(1, 3, 1, 1));
 
@@ -143,10 +130,10 @@ public class Restaurant1RestaurantPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
-    public void addPerson(String type, String name, boolean isHungry) {
+    /*public void addPerson(String type, String name, boolean isHungry) {
 
     	if (type.equals("Customers")) {
-    		Restaurant1CustomerRole c = new Restaurant1CustomerRole(name);
+    		Restaurant1CustomerRole c = new Restaurant1CustomerRole(name, new PersonAgent(name));
     		Restaurant1CustomerGui g = new Restaurant1CustomerGui(c, gui);
     		if(isHungry) {
     			g.setHungry();
@@ -160,7 +147,7 @@ public class Restaurant1RestaurantPanel extends JPanel {
     		c.startThread();
     	}
     	if (type.equals("Waiters")) {
-    		Restaurant1WaiterRole w = new Restaurant1WaiterRole(name);
+    		Restaurant1WaiterRole w = new Restaurant1WaiterRole(name, new PersonAgent(name));
     		Restaurant1WaiterGui g = new Restaurant1WaiterGui(w);
     		
     		gui.animationPanel.addGui(g);
@@ -179,7 +166,7 @@ public class Restaurant1RestaurantPanel extends JPanel {
     		}
     		w.startThread();
     	}
-    }
+    }*/
     
     public void pause() {
     	for(Agent a : agents) {
@@ -191,33 +178,5 @@ public class Restaurant1RestaurantPanel extends JPanel {
     	for(Agent a : agents) {
     		a.resume();
     	}
-    }
-    
-    public void emptyMarket1() {
-    	market1.clearInventory();
-    }
-    
-    public void emptyMarket2() {
-    	market2.clearInventory();
-    }
-    
-    public void emptyMarket3() {
-    	market3.clearInventory();
-    }
-    
-    public void noMoreSteak() {
-    	cook.clearSteak();
-    }
-    
-    public void noMoreFish() {
-    	cook.clearFish();
-    }
-    
-    public void noMoreChicken() {
-    	cook.clearChicken();
-    }
-    
-    public void recheckInventory() {
-    	cook.msgRecheckInventory();
     }
 }

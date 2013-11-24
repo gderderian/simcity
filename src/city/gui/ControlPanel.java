@@ -483,6 +483,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     public void populateCity(){
+    	//Add two buses at an interval
     	addVehicle("bus");
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -490,7 +491,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000	);
     	
-    	
+		/*addPerson("host", "Restaurant2 Host");
+		addPerson("cashier", "Restaurant2 Cashier");
+		addPerson("cook", "Restaurant2 Cook");
+		addPerson("waiter", "Restaurant2 Waiter");
+		addPerson("RestaurantTest", "none");*/
+		
+		
     }
 
 }

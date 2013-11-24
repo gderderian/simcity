@@ -50,9 +50,9 @@ public class Restaurant1CookRole extends Agent {
 		person = p;
 		
 				// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
-		foods.put("steak", new Food("steak", 8, 6, 5, 8));
-		foods.put("fish", new Food("fish", 6, 6, 5, 8));
-		foods.put("chicken", new Food("chicken", 4, 6, 5, 8));
+		foods.put("steak", new Food("steak", 8, 100, 5, 8));
+		foods.put("fish", new Food("fish", 6, 100, 5, 8));
+		foods.put("chicken", new Food("chicken", 4, 100, 5, 8));
 		
 		this.name = name;
 	}

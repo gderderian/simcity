@@ -75,7 +75,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         personCashier.addRole(Cashier, true);
         personCashier.startThread();
         personWaiter.addRole(Waiter, true);
-        //personWaiter.startThread();
+        personWaiter.startThread();
         Host.addWaiters(Waiter);
         
 	}
