@@ -177,13 +177,13 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		print("inside host scheduler");
+		//print("inside host scheduler");
 		try{
 			for (Table table : tables) {
 				if (!table.isOccupied()) {
-					print("Table not occupied");
+					//print("Table not occupied");
 					if(!waiters.isEmpty()){
-						print("Waiters not empty");
+						//print("Waiters not empty");
 						for(MyCustomer mc : customers){
 							if(mc.cs == CustomerState.hungry){
 								print("going to seat customer");
