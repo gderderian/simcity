@@ -105,12 +105,13 @@ public class PersonAgent extends Agent implements Person{
 	PersonGui gui;
 	
 
-	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map){
+	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map, House h){
 		super();
 		
 		name = n;
+		this.house = h;
 		this.aStar = aStarTraversal;
-		currentPosition = new Position(20, 18);
+		currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
@@ -741,7 +742,6 @@ public class PersonAgent extends Agent implements Person{
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
-	    //gui.moveTo(130 + x * 30, 70 + y * 30);
 	    moveTo(x, y);
 	    gui.setInvisible();
 	}

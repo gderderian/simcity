@@ -215,7 +215,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         }
         
         public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
-                PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map);
+                PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
                 
                 //TODO finish the job thing
                 Role r = Role.getNewRole(job, newPerson);
@@ -225,7 +225,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                     newPerson.addFirstJob(r, "Unknown");
                 }
                 people.add(newPerson);
-                newPerson.setHouse(h);
                 PersonGui g = new PersonGui(newPerson);
                 newPerson.setGui(g);
                 guis.add(g);
