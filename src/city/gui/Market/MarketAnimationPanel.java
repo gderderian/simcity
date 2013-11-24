@@ -2,16 +2,20 @@ package city.gui.Market;
 
 import javax.swing.*;
 
+import city.gui.CityGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class MarketAnimationPanel extends JPanel implements ActionListener {
+public class MarketAnimationPanel extends JPanel implements ActionListener, MouseListener {
 
-    private final int WINDOWX = 500;
-    private final int WINDOWY = 550;
+    private final int WINDOWX = 900;
+    private final int WINDOWY = 750;
     
     private final int MAIN_TIMER = 15;
     private final int TABLE_X = 50;
@@ -24,11 +28,14 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	Timer timer = new Timer(MAIN_TIMER, this);
 	private boolean timerIsRunning = false;
     
-    public MarketAnimationPanel() {
+	CityGui cg;
+	
+    public MarketAnimationPanel(CityGui newCityGui) {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
     	timer.start();
     	timerIsRunning = true;
+    	cg = newCityGui;
     }
 
     public void toggleTimer() {
@@ -113,10 +120,50 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         
     }
 
-    /*
+    	/*
     public void addGui(CustomerGui gui) {
         guis.add(gui);
     }
+
+    public void addGui(WaiterGui gui) {
+        guis.add(gui);
+    }
+    
+    public void addGui(CookGui gui) {
+        guis.add(gui);
+    }
     */
+    
+	public void mouseReleased(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		if((x >= 20) && (x <= 64) && (y >= 20) && (y <= 44)) {
+			cg.changeView("City");
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
