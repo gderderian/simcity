@@ -20,11 +20,12 @@ import city.Restaurant2.Restaurant2CashierRole;
 import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.gui.BuildingPanel;
 import city.gui.CityGui;
 import city.gui.Gui;
 import city.gui.PersonGui;
 
-public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
+public class Restaurant2AnimationPanel extends BuildingPanel implements MouseListener {
 	
 	private final int WINDOWX = 900;
     private final int WINDOWY = 700;
@@ -47,9 +48,6 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
     Restaurant2CashierRole Cashier;
     Restaurant2WaiterRole Waiter;
     Restaurant2HostRole Host;
-    
-    
-    CityGui cityGui;
 	
 	public Restaurant2AnimationPanel(Restaurant2 r){
 		System.out.println("Animation panel created");
@@ -80,10 +78,6 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         //personWaiter.startThread();
         Host.addWaiters(Waiter);
         
-	}
-	
-	public void setCityGui(CityGui c){
-		cityGui = c;
 	}
 
     private List<Gui> guis = new ArrayList<Gui>();
