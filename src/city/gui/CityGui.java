@@ -102,13 +102,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     	add(animationPanel, BorderLayout.EAST);
 
     	//Set up and populate apartment 1
-    	apt1.setCityGui(this);
+    	addBuildingPanel(apt1);
     	for(int i=0; i<10; i++){
     		apt1List.add(new HouseAnimationPanel());
     		buildingPanels.add(apt1List.get(i));
     	}
     	//Set up and populate apartment 2
-    	apt2.setCityGui(this);
+    	addBuildingPanel(apt2);
     	for(int i=0; i<10; i++){
     		apt2List.add(new HouseAnimationPanel());
     		buildingPanels.add(apt2List.get(i));
@@ -174,8 +174,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 if(building.equals("City")){
                 	for(BuildingPanel bp : buildingPanels) {
                 		bp.setVisible(false);
+                		bp.setEnabled(false);
                 	}
                         animationPanel.setVisible(true);
+                        animationPanel.setEnabled(true);
                         add(animationPanel, BorderLayout.EAST);
                 }       
                 if(building.equals("Restaurant1")){
