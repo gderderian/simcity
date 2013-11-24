@@ -1,14 +1,17 @@
 package test;
 
+import junit.framework.TestCase;
 import test.mock.MockPerson;
 import Role.LandlordRole;
 import city.Apartment;
-import junit.framework.TestCase;
+import city.PersonAgent;
+
 
 public class LandlordTest extends TestCase {
 	Apartment apartment; //Don't need a mock for this because it is not threaded
 	Apartment apartment2;
 	LandlordRole landlord; //Don't need a mock for this because it is not threaded unless associated with a person agent
+	PersonAgent person;
 	MockPerson person1;
 	MockPerson person2;
 	
@@ -16,9 +19,10 @@ public class LandlordTest extends TestCase {
 	public void setUp() throws Exception{
 		super.setUp();	
 		
-		apartment= new Apartment();
-		apartment2= new Apartment();
-		landlord= new LandlordRole();
+		person= new PersonAgent("person");
+		apartment= new Apartment("Apartment2", 1);
+		apartment2= new Apartment("Apartment1", 2);
+		landlord= new LandlordRole("Landlord", person);
 		person1= new MockPerson("person1");
 		person2= new MockPerson("person2");
 		landlord.addTenant(person1);

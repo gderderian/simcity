@@ -19,8 +19,8 @@ public class HouseTest extends TestCase {
 	public void setUp() throws Exception{
 		super.setUp();	
 		
-		house= new House();
-		apartment= new Apartment();
+		house= new House("House");
+		apartment= new Apartment("Apartment", 1);
 		person1= new MockPerson("person1");
 		house.setOwner(person1);
 		apartment.setOwner(person1);
