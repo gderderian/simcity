@@ -1,13 +1,15 @@
 package city.Restaurant4;
 
+import Role.MarketManager;
 import Role.Role;
 
 import java.util.*;
 
 import justinetesting.interfaces.Cook4;
 import justinetesting.interfaces.Customer4;
-import justinetesting.interfaces.Market4;
 import justinetesting.interfaces.Waiter4;
+import city.MarketOrder;
+import city.OrderItem;
 import city.PersonAgent;
 import city.gui.restaurant4.CookGui4;
 
@@ -20,13 +22,14 @@ public class CookRole4 extends Role implements Cook4 {
 	Order o= new Order();
 	List<Order> orders= Collections.synchronizedList(new ArrayList<Order>());;
 	ArrayList<Food> foods;
-	ArrayList<MyMarket> markets;
+	//ArrayList<MyMarket> markets;
+	MarketManager market;
 	public enum orderState {none, pending, cooking, outOfItem, done, finished};
 	public enum marketState{none, checkForRestock, ready, ordered, fulfilled, partiallyFullfilled, allMarketsOut};
-	static final int steakTime= 1500;
-	static final int chickenTime= 1200;
-	static final int saladTime= 1000;
-	static final int pizzaTime= 1250;
+	static final int eggTime= 1500;
+	static final int waffelTime= 1200;
+	static final int pancakeTime= 1000;
+	static final int baconTime= 1250;
 	static final int randSelector= 3;
 	public int id= 0;
 	Map<String, Integer> delivery= new HashMap<String, Integer>();
@@ -40,23 +43,24 @@ public class CookRole4 extends Role implements Cook4 {
 		this.name= name;
 		this.p= p;
 		foods= new ArrayList<Food>();
-		markets= new ArrayList<MyMarket>();
-		foods.add(new Food("Steak"));
-		foods.add(new Food("Chicken"));
-		foods.add(new Food("Salad"));
-		foods.add(new Food("Pizza"));
-		delivery.put("Steak", 0);
-		delivery.put("Chicken", 0);
-		delivery.put("Salad", 0);
-		delivery.put("Pizza", 0);
+		//markets= new ArrayList<MyMarket>();
+		foods.add(new Food("Eggs"));
+		foods.add(new Food("Waffels"));
+		foods.add(new Food("Pancakes"));
+		foods.add(new Food("Bacon"));
+		delivery.put("Eggs", 0);
+		delivery.put("Waffels", 0);
+		delivery.put("Pancakes", 0);
+		delivery.put("Bacon", 0);
 	}
 
 	public String getName(){
 		return name;
 	}
 	
-	public void addMarket(MarketRole4 m){
-		markets.add(new MyMarket(m));
+	public void addMarket(MarketManager m){
+		//markets.add(new MyMarket(m));
+		market= m;
 	}
 	
 	// MESSAGES 
@@ -85,25 +89,27 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 	}
 	
-	public void msgHereIsDelivery(int st, int ch, int s, int p, boolean successful){
+	public void msgHereIsDelivery(int e, int w, int p, int b, boolean successful){
 		print("Recieved delivery, let's check it out!");
-		print("STEAK: " + st + "  CHICKEN: " + ch + "  SALAD: " + s + "  PIZZA: " + p);
-		delivery.put("Steak", st);
-		delivery.put("Chicken", ch);
-		delivery.put("Salad", s);
-		delivery.put("Pizza", p);
+		print("EGGS: " + e + "  WAFFELS: " + w + "  PANCAKES: " + p + "  BACON: " + b);
+		delivery.put("Eggs", e);
+		delivery.put("Waffels", w);
+		delivery.put("Pancakes", p);
+		delivery.put("Bacon", b);
 		this.successful= successful;
 		o.ms= marketState.fulfilled;
 		this.p.stateChanged();
 	}
 	
-	public void msgOutOfItem(Market4 m, String type){
+	
+	
+	/*public void msgOutOfItem(Market4 m, String type){
 		for(MyMarket market : markets){
 			if(m == market.m){
 				market.outOf(type);
 			}
 		}
-	}
+	}*/
 	
 	
 	/**
@@ -111,7 +117,7 @@ public class CookRole4 extends Role implements Cook4 {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		if(orders != null){
-			synchronized(orders){
+			synchronized(orders){ 
 				for(Order order : orders){
 					if(order.s == orderState.done){
 						print("Order up!");
@@ -197,7 +203,20 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 
 	public void sendOrder(){
-		Random rand = new Random();
+		List<OrderItem> orders= new ArrayList<OrderItem>();
+		OrderItem eggs= new OrderItem("Eggs", o.eggs);
+		OrderItem waffels= new OrderItem("Waffels", o.waffels);
+		OrderItem pancakes= new OrderItem("Pancakes", o.pancakes);
+		OrderItem bacon= new OrderItem("Bacon", o.bacon);
+		
+		orders.add(eggs);
+		orders.add(waffels);
+		orders.add(pancakes);
+		orders.add(bacon);
+		
+		MarketOrder order= new MarketOrder(orders, "Restaruant4", p);
+		market.msgHereIsOrder(order);
+		/*Random rand = new Random();
 		int num= rand.nextInt(randSelector);
 		if(num == 0 && !markets.get(0).out){
 			markets.get(0).m.msgHereIsOrder(this, o.steak, o.chicken, o.salad, o.pizza);
@@ -211,39 +230,39 @@ public class CookRole4 extends Role implements Cook4 {
 		else{
 			o.ms= marketState.allMarketsOut;
 			return;
-		}
+		}*/
 		o.ms= marketState.ordered;
 		p.stateChanged();
 	}
 	
 	public void calculateOrder(){
 		for(Food food : foods){
-			if(food.type == "Steak"){
+			if(food.type == "Eggs"){
 				if(food.currAmount <= food.low){
-					print("Steak is low, I need to restock!");
-					int st= food.capacity - food.currAmount;
-					o.add("Steak", st);
+					print("Eggs are low, I need to restock!");
+					int e= food.capacity - food.currAmount;
+					o.add("Eggs", e);
 				}
 			}
-			if(food.type == "Chicken"){
+			if(food.type == "Waffels"){
 				if(food.currAmount <= food.low){
-					print("Chicken is low, I need to restock!");
-					int ch= food.capacity - food.currAmount;
-					o.add("Chicken", ch);
+					print("Waffels are low, I need to restock!");
+					int w= food.capacity - food.currAmount;
+					o.add("Waffels", w);
 				}
 			}
-			if(food.type == "Salad"){
+			if(food.type == "Pancakes"){
 				if(food.currAmount <= food.low){
-					print("Salad is low, I need to restock!");
-					int s= food.capacity - food.currAmount;
-					o.add("Salad", s);
-				}
-			}
-			if(food.type == "Pizza"){
-				if(food.currAmount <= food.low){
-					print("Pizza is low, I need to restock!");
+					print("Pancakes are low, I need to restock!");
 					int p= food.capacity - food.currAmount;
-					o.add("Pizza", p);
+					o.add("Pancakes", p);
+				}
+			}
+			if(food.type == "Bacon"){
+				if(food.currAmount <= food.low){
+					print("Bacon is low, I need to restock!");
+					int b= food.capacity - food.currAmount;
+					o.add("Bacon", b);
 				}
 			}
 		}
@@ -259,29 +278,29 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 		if(successful){
 			print("Oh good, I got everything I needed!");
-			o.steak= 0;
-			o.chicken= 0;
-			o.salad= 0;
-			o.pizza= 0;
-			delivery.put("Steak", 0);
-			delivery.put("Chicken", 0);
-			delivery.put("Salad", 0);
-			delivery.put("Pizza", 0);
+			o.eggs= 0;
+			o.waffels= 0;
+			o.pancakes= 0;
+			o.bacon= 0;
+			delivery.put("Eggs", 0);
+			delivery.put("Waffels", 0);
+			delivery.put("Pancakes", 0);
+			delivery.put("Bacon", 0);
 			o.ms= marketState.none;
 		}
 		else{
 			print("Oh no, I'm missing a few items! I should ask another market this time");
-			if(delivery.get("Steak") < o.steak){
-				o.add("Steak", (o.steak - delivery.get("Steak")));
+			if(delivery.get("Eggs") < o.eggs){
+				o.add("Eggs", (o.eggs - delivery.get("Eggs")));
 			}
-			else if(delivery.get("Chicken") < o.chicken){
-				o.add("Chicken", (o.chicken - delivery.get("Chicken")));
+			else if(delivery.get("Waffels") < o.waffels){
+				o.add("Waffels", (o.waffels - delivery.get("Waffels")));
 			}
-			else if(delivery.get("Salad") < o.salad){
-				o.add("Salad", (o.salad - delivery.get("Salad")));
+			else if(delivery.get("Pancakes") < o.pancakes){
+				o.add("Pancakes", (o.pancakes - delivery.get("Pancakes")));
 			}
-			else if(delivery.get("Pizza") < o.pizza){
-				o.add("Pizza", (o.pizza - delivery.get("Pizza")));
+			else if(delivery.get("Bacon") < o.bacon){
+				o.add("Bacon", (o.bacon - delivery.get("Bacon")));
 			}
 			o.ms= marketState.partiallyFullfilled;
 		}
@@ -312,10 +331,10 @@ public class CookRole4 extends Role implements Cook4 {
 		Customer4 c;
 		orderState s;
 		marketState ms;
-		int steak=0;
-		int chicken=0;
-		int salad=0;
-		int pizza=0;
+		int eggs=0;
+		int waffels=0;
+		int pancakes=0;
+		int bacon=0;
 		int id;
 		
 		
@@ -332,26 +351,26 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 		
 		Order(){
-			steak= 0;
-			chicken= 0;
-			salad= 0;
-			pizza= 0;
+			eggs= 0;
+			waffels= 0;
+			pancakes= 0;
+			bacon= 0;
 			ms= marketState.none;
 		}
 
 		public void add(String type, int amount){
 			ms= marketState.ready;
 			if(type == "Steak"){
-				steak= amount;
+				eggs= amount;
 			}
 			else if(type == "Chicken"){
-				chicken= amount;
+				waffels= amount;
 			}
 			else if(type == "Salad"){
-				salad= amount;
+				pancakes= amount;
 			}
 			else if(type == "Pizza"){
-				pizza= amount;
+				bacon= amount;
 			}
 		}
 	}
@@ -366,17 +385,17 @@ public class CookRole4 extends Role implements Cook4 {
 		Food(String type){
 			this.type= type;
 			currAmount= 3;
-			if(type == "Steak"){
-				cookingTime= steakTime;
+			if(type == "Eggs"){
+				cookingTime= eggTime;
 			}
-			else if(type == "Chicken"){
-				cookingTime= chickenTime;
+			else if(type == "Waffels"){
+				cookingTime= waffelTime;
 			}
-			else if(type == "Salad"){
-				cookingTime= saladTime;
+			else if(type == "Pancakes"){
+				cookingTime= pancakeTime;
 			}
-			else if(type == "Pizza"){
-				cookingTime= pizzaTime;
+			else if(type == "Bacon"){
+				cookingTime= baconTime;
 			}
 		}
 		
@@ -393,7 +412,7 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 	}	
 	
-	public class MyMarket{
+	/*public class MyMarket{
 		boolean steak= true;
 		boolean chicken= true;
 		boolean salad= true;
@@ -423,5 +442,5 @@ public class CookRole4 extends Role implements Cook4 {
 				out= true;
 			}
 		}
-	}
+	}*/
 }

@@ -3,19 +3,58 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="team16simcity">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="team16">
     <property environment="env"/>
+    <property name="src.link" value="../../../../GitHub/team16/src"/>
+    <property name="JRE_LIB" value="../../../../../../../Program Files/Java/jre7/lib/rt.jar"/>
+    <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
-    <path id="team16simcity.classpath">
-        <pathelement location="bin"/>
+    <path id="Persisted container [C:/Users/Trevor/Documents/GitHub/team16/bin for project [team16]].libraryclasspath"/>
+    <path id="JUnit 3.libraryclasspath">
+        <pathelement location="../../../../../../../Program Files/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar"/>
     </path>
+    <path id="team16.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="${JRE_LIB}"/>
+        <path refid="Persisted container [C:/Users/Trevor/Documents/GitHub/team16/bin for project [team16]].libraryclasspath"/>
+        <path refid="JUnit 3.libraryclasspath"/>
+    </path>
+    <path id="run.BusStopTest.classpath">
+        <pathelement location="${JRE_LIB}"/>
+        <path refid="team16.classpath"/>
+    </path>
+    <path id="run.BusStopTest.bootclasspath"/>
+    <path id="run.BusTest.classpath">
+        <pathelement location="${JRE_LIB}"/>
+        <path refid="team16.classpath"/>
+    </path>
+    <path id="run.BusTest.bootclasspath"/>
+    <path id="run.CarTest.classpath">
+        <pathelement location="${JRE_LIB}"/>
+        <path refid="team16.classpath"/>
+    </path>
+    <path id="run.CarTest.bootclasspath"/>
+    <path id="run.CityGui (1).classpath">
+        <pathelement location="${JRE_LIB}"/>
+        <path refid="team16.classpath"/>
+    </path>
+    <path id="run.CityGui (1).bootclasspath"/>
+    <path id="run.TruckTest.classpath">
+        <pathelement location="${JRE_LIB}"/>
+        <path refid="team16.classpath"/>
+    </path>
+    <path id="run.TruckTest.bootclasspath"/>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-                <exclude name="**/*.launch"/>
+            <fileset dir="${src.link}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="images">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -29,8 +68,9 @@
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <classpath refid="team16simcity.classpath"/>
+            <src path="${src.link}"/>
+            <src path="images"/>
+            <classpath refid="team16.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
@@ -46,5 +86,65 @@
     <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
+    </target>
+    <target name="BusStopTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="city.transportation.test.BusStopTest" todir="${junit.output.dir}"/>
+            <classpath refid="run.BusStopTest.classpath"/>
+            <bootclasspath>
+                <path refid="run.BusStopTest.bootclasspath"/>
+            </bootclasspath>
+        </junit>
+    </target>
+    <target name="BusTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="city.transportation.test.BusTest" todir="${junit.output.dir}"/>
+            <classpath refid="run.BusTest.classpath"/>
+            <bootclasspath>
+                <path refid="run.BusTest.bootclasspath"/>
+            </bootclasspath>
+        </junit>
+    </target>
+    <target name="CarTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="city.transportation.test.CarTest" todir="${junit.output.dir}"/>
+            <classpath refid="run.CarTest.classpath"/>
+            <bootclasspath>
+                <path refid="run.CarTest.bootclasspath"/>
+            </bootclasspath>
+        </junit>
+    </target>
+    <target name="CityGui (1)">
+        <java classname="city.gui.CityGui" failonerror="true" fork="yes">
+            <classpath refid="run.CityGui (1).classpath"/>
+            <bootclasspath>
+                <path refid="run.CityGui (1).bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="TruckTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="city.transportation.test.TruckTest" todir="${junit.output.dir}"/>
+            <classpath refid="run.TruckTest.classpath"/>
+            <bootclasspath>
+                <path refid="run.TruckTest.bootclasspath"/>
+            </bootclasspath>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
     </target>
 </project>
