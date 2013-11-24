@@ -33,6 +33,7 @@ public class BankCustomerRole extends Role{
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
                 this.person = setperson;
+                //this.name = setperson.getName();
                 //stateChanged();
         
         }
@@ -40,10 +41,16 @@ public class BankCustomerRole extends Role{
         
         public void msgAssignMeBankTeller(BankTellerRole assignbankteller)
         {
-
+        		if(assignbankteller == null)
+        		{
+        		Do("its set to null");
+        		}
+        		Do("assigned to " + assignbankteller.person);
                 mybankteller = assignbankteller;
                 bankcustomerstate = state.gotobankteller;
-                stateChanged();
+                
+                //Do("assigned to " + assignbankteller.person.getName());
+                person.stateChanged();
        
         }
         
@@ -53,15 +60,16 @@ public class BankCustomerRole extends Role{
                 
                 bankcustomerstate = state.withdraw;
                 this.withdrawal = withdrawal;
-                stateChanged();
+                person.stateChanged();
                 
         }
         
         public void msgOpenAccount()
         {
+        		Do("msgOpenAccount");
                 //log.add(new LoggedEvent("msgOpenAccount")
                 bankcustomerstate = state.openaccount;
-                stateChanged();
+                person.stateChanged();
                 
         }
         
@@ -70,7 +78,7 @@ public class BankCustomerRole extends Role{
                 
                 bankcustomerstate = state.deposit;
                 this.deposit = deposit;
-                stateChanged();
+                person.stateChanged();
                 
         }
         
@@ -79,7 +87,7 @@ public class BankCustomerRole extends Role{
                 
                 bankcustomerstate = state.getloan;
                 this.loan = loan;
-                stateChanged();
+                person.stateChanged();
                 
         }
         
@@ -88,14 +96,14 @@ public class BankCustomerRole extends Role{
                 
                 bankcustomerstate = state.paybackloan;
                 this.paybackloan = paybackloan;
-                stateChanged();        
+                person.stateChanged();        
         }
         
         public void msgLeaveBank()
         {
                 
                 bankcustomerstate = state.leave;
-                stateChanged();
+                person.stateChanged();
                 
         }
 
@@ -104,7 +112,7 @@ public class BankCustomerRole extends Role{
                 log.add(new LoggedEvent("msgOpenAccountDone"));
                 bankcustomerstate = state.openaccountsuccessful;
                 this.bankaccountnumber = setcustomeraccountnumber;
-                stateChanged();
+                person.stateChanged();
                 
         }
         
@@ -113,7 +121,7 @@ public class BankCustomerRole extends Role{
                 log.add(new LoggedEvent("msgDepositIntoAccountDone"));
                 bankcustomerstate = state.depositintoaccountsuccessful;
                 this.deposit = setdeposit;
-                stateChanged();
+                person.stateChanged();
 
         }
 
@@ -122,7 +130,7 @@ public class BankCustomerRole extends Role{
                 log.add(new LoggedEvent("msgHereIsYourWithdrawal"));
                 bankcustomerstate = state.withdrawfromaccountsuccessful;
                 this.withdrawal = setwithdrawal;
-                stateChanged();
+                person.stateChanged();
                 
         }
         
@@ -130,7 +138,7 @@ public class BankCustomerRole extends Role{
         {
                 bankcustomerstate = state.getloansuccessful;
                 this.loan = setloan;
-                stateChanged();
+                person.stateChanged();
         }
 
         public void msgWithdrawalFailed() 
@@ -166,12 +174,13 @@ public class BankCustomerRole extends Role{
         public boolean pickAndExecuteAnAction() 
         {
                 
-        		/*
+        		
         		if(bankcustomerstate == state.gotobankteller)
         		{
-        			gui.goToBankTellerStation(mybankteller)
+        			//gui.goToBankTellerStation(mybankteller)
+        			return true;
         		}
-        		*/
+        	
         	
                 if(bankcustomerstate == state.openaccount)
                 {

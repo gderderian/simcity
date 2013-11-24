@@ -35,8 +35,8 @@ public class BankCustomerRoleGui implements Gui{
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
 		this.role = setrole;		
 
-		xPos = -20;
-		yPos = -20;
+		xPos = 0;
+		yPos = 100;
 		//xDestination = 40;
 		//yDestination = 40;
 		//maitreD = m;
