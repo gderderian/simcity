@@ -196,7 +196,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(bank1Animation, BorderLayout.EAST);
 			bank1Animation.setVisible(true);
 		}
-		
 		if(building.equals("Market1")){
 			animationPanel.setVisible(false);
 			add(market1Animation, BorderLayout.EAST);
