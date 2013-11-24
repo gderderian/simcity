@@ -164,7 +164,6 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void addRole(Role r, boolean active){
 		roles.add(r);
-		r.setPerson(this);
 		if(active){
 			r.setActive();
 		}
