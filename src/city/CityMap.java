@@ -157,4 +157,40 @@ public class CityMap {
 		return banks.get(0).name;
 	}
 	
+	
+	
+	public String getClosestPlaceFromHere(String here, String type){
+		int housex = 0;
+		int housey = 0;
+		int posx = 0;
+		int posy = 0;
+		double shortestDistance = 0;
+		double currentDistance = 0;
+		String closestPlace = null;
+		String currentPlace = null;
+		for (Map.Entry<String, Position> entry : buildingLocations.entrySet()){
+			if(entry.getKey().equals(here)){
+				housex = entry.getValue().getX();
+				housey = entry.getValue().getY();
+			}
+		}
+		for (Map.Entry<String, Position> entry : buildingLocations.entrySet()){
+			if(entry.getKey().contains(type)){
+				posx = entry.getValue().getX();
+				posy = entry.getValue().getY();
+				
+				currentPlace = entry.getKey();
+				
+				currentDistance = Math.sqrt(Math.pow(posx - housex,2) +
+						Math.pow(posy - housey,2));
+				
+				if(currentDistance < shortestDistance){
+					shortestDistance = currentDistance;
+					closestPlace = currentPlace;
+				}
+			}
+		}
+		return closestPlace;
+	}
+	
 }
