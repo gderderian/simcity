@@ -25,6 +25,8 @@ public class BankPanel extends JPanel {
 	PersonAgent person2;
 	PersonAgent person3;
 	PersonAgent person4;
+	PersonAgent person5;
+	PersonAgent person6;
 	Bank bank = new Bank();
 	AStarTraversal aStarTraversal;
     CityMap citymap;
@@ -47,17 +49,20 @@ public class BankPanel extends JPanel {
     	this.gui = gui;
     	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap);
         person2.startThread();
-    	BankManagerRole bmr = new BankManagerRole(bank);	
-		BankManagerRoleGui g2 = new BankManagerRoleGui(bmr, gui);
-		bmr.setPerson(person2);
+    	//BankManagerRole bmr = new BankManagerRole(bank);	
+		BankManagerRoleGui g2 = new BankManagerRoleGui(bankmanager, gui);
+		bankmanager.setPerson(person2);
 		gui.animationPanel.addGui(g2);
-		bmr.setGui(g2);
-       
-        person2.addRole(bmr, true);
+		bankmanager.setGui(g2);
+        
+		
+		
+        person2.addRole(bankmanager, true);
     	
         PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap);
         person3.startThread();
         
+        /*
         BankTellerRole btr = new BankTellerRole(bmr);	
 		BankTellerRoleGui g3 = new BankTellerRoleGui(btr, gui);
 		btr.setPerson(person3);
@@ -67,9 +72,8 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g3);
 		btr.setGui(g3);
 		banktellers.add(btr);
-        
-       
-    
+        */
+	
         PersonAgent person = new PersonAgent("bob", aStarTraversal, citymap);
         person.startThread();
         
@@ -85,7 +89,20 @@ public class BankPanel extends JPanel {
        
 		
         
-        
+		bcr.gui.goToBankTellerStation(3);
+		/*
+		try {
+			bcr.atBankStation.acquire();
+			//atLobby.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		
+		bcr.gui.leaveBank();
+		
+		
         //bcr.gui.setWaitingPosition(250, 50);
         
         //bcr.gui.goToBankTellerStation(2);
@@ -167,18 +184,25 @@ public class BankPanel extends JPanel {
     	//creating new customer agents
     	if (type.equals("BankCustomerRole")) {
     		
-    		BankCustomerRole bcr = new BankCustomerRole(10,person);	
-    		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
+    		person5 = new PersonAgent("jimmy", aStarTraversal, citymap);
+            person5.startThread();
     		
-    	    g.setArrivedAtBank();
+    		
+    		BankCustomerRole bcrnew = new BankCustomerRole(10,person5);	
+    		BankCustomerRoleGui gnew = new BankCustomerRoleGui(bcrnew, gui);
+    		
+    	    gnew.setArrivedAtBank();
     	  
-    		gui.animationPanel.addGui(g);
+    		gui.animationPanel.addGui(gnew);
     		//c.setHost(host);
     		//c.setCashier(cashier);
-    		bcr.setGui(g);
-    		bcr.gui.setWaitingPosition(x, 350);
+    		bcrnew.setGui(gnew);
+    		bcrnew.gui.setWaitingPosition(x, 350);
     		x += 30;
-    		bankcustomers.add(bcr);
+    		bankcustomers.add(bcrnew);
+    		
+    		bankmanager.msgCustomerArrivedAtBank(bcrnew);
+    		
     		//c.startThread();
     	
     	}
@@ -214,6 +238,8 @@ public class BankPanel extends JPanel {
     //back-end implementation of the pause button
     public void pauseagents() {
     	 
+      	
+    
     	
     	/*
     	 host.pause();
@@ -265,13 +291,30 @@ public class BankPanel extends JPanel {
     
     public void depletecooksupply() {
     	
+    	
     	//cook.msgDepleteCookSupply();
     	
     }
     
     public void depletemarket1supply() {
     	
-    	//market1.depletemarketsupply();
+    	PersonAgent person6 = new PersonAgent("boobbyy", aStarTraversal, citymap);
+        person6.startThread();
+		
+    	BankTellerRole btr = new BankTellerRole(bankmanager);	
+		BankTellerRoleGui g6 = new BankTellerRoleGui(btr, gui);
+		btr.setPerson(person6);
+		//g3.setHomePosition(12, 20 + bankcustomers.size() * 25);
+		person6.addRole(btr, true);
+		//g3.setArrivedAtBank();
+		gui.animationPanel.addGui(g6);
+		btr.setGui(g6);
+		banktellers.add(btr);
+		
+		bankmanager.msgBankTellerArrivedAtBank(btr);
+    	
+    	
+    	
     }
     
     public void depletemarket2supply() {

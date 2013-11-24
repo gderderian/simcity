@@ -18,7 +18,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     private static int tablespacing = 50;
     
     public Image imgofcouch = new ImageIcon("images/sofaforbank.jpg").getImage();
-
+    public Image imgofbankfloor = new ImageIcon("images/bankfloor.jpg").getImage();
     private Image bufferImage;
     private Dimension bufferSize;
 
@@ -37,12 +37,16 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
 		repaint();  //Will have paintComponent called
 	}
 
+	
+	
     public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D)g;
+        g.drawImage(imgofbankfloor, 0,0,this);
+    	Graphics2D g2 = (Graphics2D)g;
         Graphics2D banktellerstation1 = (Graphics2D)g;
         Graphics2D banktellerstation2 = (Graphics2D)g;
         Graphics2D banktellerstation3 = (Graphics2D)g;
         Graphics2D banktellerstation4 = (Graphics2D)g;
+      
         
         Graphics2D waitingarea = (Graphics2D)g;
         
@@ -51,7 +55,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(0, 0, this.getWidth(), this.getHeight());
        
         g.drawImage(imgofcouch, 50, 300, 400, 100, this);
-       // g.drawImage(imgofcouch, 200, 300, 100, 100, this);
+        // g.drawImage(imgofcouch, 200, 300, 100, 100, this);
         //g.drawImage(imgofcouch, 350, 300, 100, 100, this);
         g.drawImage(imgofcouch, 500, 300, 100, 100, this);
 
