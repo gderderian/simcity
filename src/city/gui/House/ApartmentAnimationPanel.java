@@ -18,7 +18,7 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 	private static final int WINDOWX = 900;
 	private static final int WINDOWY = 700;
 	private static final int NUM_APTS = 5;
-	private static int aptBuilding;
+	private int aptBuilding;
 
 	public ApartmentAnimationPanel(int num) {
 		setSize(WINDOWX, WINDOWY);
@@ -97,61 +97,61 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		//Change to apt 1
 		if((x >= 200) && (x <= 250) && (y >= 70) && (y <= 130)){
 			System.out.println("To apartment 1");
-			cityGui.changeView(aptBuilding, 0);
+			super.cityGui.changeView(aptBuilding, 0);
 		}
 
 		//Change to apt 2 
 		if((x >= 200) && (x <= 250) && (y >= 135) && (y <= 185)){
 			System.out.println("To apartment 2");
-			cityGui.changeView(aptBuilding, 1);
+			super.cityGui.changeView(aptBuilding, 1);
 		}
 
 		//Change to apt 3
 		if((x >= 200) && (x <= 250) && (y >= 190) && (y <= 240)){
 			System.out.println("To apartment 3");
-			cityGui.changeView(aptBuilding, 2);
+			super.cityGui.changeView(aptBuilding, 2);
 		}
 
 		//Change to apt 4
 		if((x >= 200) && (x <= 250) && (y >= 245) && (y <= 295)){
 			System.out.println("To apartment 4");
-			cityGui.changeView(aptBuilding, 3);
+			super.cityGui.changeView(aptBuilding, 3);
 		}
 
 		//Change to apt 5
 		if((x >= 200) && (x <= 250) && (y >= 300) && (y <= 350)){
 			System.out.println("To apartment 5");
-			cityGui.changeView(aptBuilding, 4);
+			super.cityGui.changeView(aptBuilding, 4);
 		}
 
 		//Change to apt 6
 		if((x >= 400) && (x <= 450) && (y >= 70) && (y <= 130)){
 			System.out.println("To apartment 6");
-			cityGui.changeView(aptBuilding, 5);
+			super.cityGui.changeView(aptBuilding, 5);
 		}
 
 		//Change to apt 7
 		if((x >= 400) && (x <= 450) && (y >= 135) && (y <= 185)){
 			System.out.println("To apartment 7");
-			cityGui.changeView(aptBuilding, 6);
+			super.cityGui.changeView(aptBuilding, 6);
 		}
 
 		//Change to apt 8
 		if((x >= 400) && (x <= 450) && (y >= 190) && (y <= 240)){
 			System.out.println("To apartment 8");
-			cityGui.changeView(aptBuilding, 7);
+			super.cityGui.changeView(aptBuilding, 7);
 		}
 
 		//Change to apt 9
 		if((x >= 400) && (x <= 450) && (y >= 245) && (y <= 295)){
 			System.out.println("To apartment 9");
-			cityGui.changeView(aptBuilding, 8);
+			super.cityGui.changeView(aptBuilding, 8);
 		}
 
 		//Change to apt 10
 		if((x >= 400) && (x <= 450) && (y >= 300) && (y <= 350)){
 			System.out.println("To apartment 10");
-			cityGui.changeView(aptBuilding, 9);
+			super.cityGui.changeView(aptBuilding, 9);
 		}
 	}
 
