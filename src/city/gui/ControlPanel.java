@@ -296,13 +296,11 @@ public class ControlPanel extends JPanel implements ActionListener{
         	}
         	else{
         		errorDisplay.setText("Please enter a name for the person");
-        		
-        		//Testing addVehicle method
-        		addVehicle("bus");
         	}
         }
         else if(e.getSource() == populateCity){
         	populateCity();
+        	populateCity.setVisible(false);
         }
     }
 
