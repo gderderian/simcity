@@ -40,10 +40,11 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	Restaurant2CookGui gui;
 		
-	public Restaurant2CookRole(String n){
+	public Restaurant2CookRole(String n, PersonAgent p){
 		super();
 		
 		marketNumber = 0;
+		person = p;
 		
 		name = n;
 		foods.put("Chicken", new Food("Chicken", 10, 3));
@@ -68,9 +69,10 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		atDestination.release();
 	}
 	
+	/*
 	public void setPerson(PersonAgent p) {
 		person = p;
-	}
+	}*/
 	
 	//MESSAGES
 	

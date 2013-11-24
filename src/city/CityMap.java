@@ -26,7 +26,7 @@ public class CityMap {
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
-	Restaurant2 restaurant2 = new Restaurant2();
+	Restaurant2 restaurant2;
 	
 	public CityMap() {
 		//Restaurant locations
@@ -55,6 +55,10 @@ public class CityMap {
 		
 		//Creating list of restaurants
 		restaurants.add("Restaurant2");
+	}
+	
+	public void setRestaurant2(Restaurant2 r){
+		restaurant2 = r;
 	}
 	
 	public int getX(String location) {

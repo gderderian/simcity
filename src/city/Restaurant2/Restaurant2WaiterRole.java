@@ -50,10 +50,11 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	private Restaurant2WaiterGui gui;
 	
-	public Restaurant2WaiterRole(String n){
+	public Restaurant2WaiterRole(String n, PersonAgent p){
 		super();
 		
 		name = n;
+		person = p;
 		
 		atStand = true;
 		
@@ -86,9 +87,10 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		waiterNum = n;
 	}
 	
+	/*
 	public void setPerson(PersonAgent p){
 		person = p;
-	}
+	}*/
 	
 	
 	//MESSAGES

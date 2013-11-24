@@ -7,9 +7,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
-
 import Role.Role;
 import astar.AStarTraversal;
+import city.Restaurant2.Restaurant2;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
 import city.CityMap;
@@ -32,7 +32,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     
     ControlPanel controlPanel = new ControlPanel();
     
-    Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
+    Restaurant2 rest2 = new Restaurant2();
+    Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
     Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
         AnimationPanel4 restaurant4 = new AnimationPanel4();
         //PersonAgent testPerson = new PersonAgent("test");
@@ -76,6 +77,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             restaurant1.setCityGui(this);
             
             restaurant4.setCityGui(this);
+            
+            controlPanel.addRest2ToCityMap(rest2);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
         //cityPanel.setPreferredSize(animationDim);

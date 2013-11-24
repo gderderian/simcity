@@ -153,6 +153,11 @@ public class ControlPanel extends JPanel implements ActionListener{
       	
       	//Creation of bus stops
         createBusStops();
+        
+    }
+    
+    public void addRest2ToCityMap(Restaurant2 r){
+        cityMap.setRestaurant2(r);
     }
     
     public void setCityGui(CityGui c){

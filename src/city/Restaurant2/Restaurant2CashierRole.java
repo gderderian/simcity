@@ -30,21 +30,22 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	
 	PersonAgent person;
 	
-	public Restaurant2CashierRole(String n){
+	public Restaurant2CashierRole(String n, PersonAgent p){
 		super();
 		
 		name = n;
+		person = p;
 		
 		options.put("Steak", 15.99);
 		options.put("Chicken", 10.99);
 		options.put("Salad", 5.99);
 		options.put("Pizza", 8.99);
 	}
-	
+	/*
 	public void setPerson(PersonAgent p){
 		person = p;
 	}
-
+*/
 	
 	//MESSAGES
 	public void msgGenerateCheck(String food, Restaurant2Customer c, Restaurant2Waiter w){
