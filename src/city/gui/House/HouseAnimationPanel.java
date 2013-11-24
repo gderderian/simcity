@@ -27,6 +27,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     
     private List<Gui> guis = new ArrayList<Gui>();
     
+    //functional things
     public Image bed = new ImageIcon("images/bed.png").getImage();
     public Image lamp = new ImageIcon("images/lamp.png").getImage();
     public Image table = new ImageIcon("images/table.png").getImage();
@@ -34,6 +35,12 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     public Image oven = new ImageIcon("images/oven.png").getImage();
     public Image fridge = new ImageIcon("images/fridge.png").getImage();
     public Image microwave = new ImageIcon("images/microwave.png").getImage();
+    
+    //Christmas things
+    public Image tree = new ImageIcon("images/christmasTree.png").getImage();
+    public Image poinsettia = new ImageIcon("images/poinsettia.png").getImage();
+    public Image santaHat = new ImageIcon("images/santaHat.png").getImage();
+    
     
     public HouseAnimationPanel() {
         setSize(WINDOWX, WINDOWY);
@@ -84,6 +91,14 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         
         //This is the lamp
         g.drawImage(lamp, 50, 575, 50, 50, this);
+        
+        
+        //This is the Christmas tree
+        g.drawImage(tree, 600, 480, 175, 225, this);
+        //This is the poinsettia
+        g.drawImage(poinsettia, 525, 210, 25, 25, this);
+        //This is the santa hat
+        g.drawImage(santaHat, 100, 510, 30, 30, this);
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {
