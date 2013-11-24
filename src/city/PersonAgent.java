@@ -143,6 +143,10 @@ public class PersonAgent extends Agent implements Person{
 				
 	}
 	
+	public void setCityMap(CityMap c){	//for JUnit testing
+		cityMap = c;
+	}
+	
 	public String getName(){
 		return name;
 	}

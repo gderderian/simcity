@@ -7,6 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
+import city.Restaurant2.Restaurant2WaiterRole;
 import Role.Role;
 import astar.AStarTraversal;
 import city.Restaurant2.Restaurant2;
@@ -158,11 +159,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 }
         }
         
-        public void addPerson(String name, AStarTraversal aStarTraversal, Role job, CityMap map){
+        public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map){
                 PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map);
-                if(job != null){
+                
+                //TODO finish the job thing
+                Role r = Role.getNewRole(job, newPerson);
+                
+                if(r != null){
                 	//Add location to this
-                    newPerson.addFirstJob(job, "Unknown");
+                    newPerson.addFirstJob(r, "Unknown");
                 }
                 people.add(newPerson);
                 PersonGui g = new PersonGui(newPerson);
@@ -201,5 +206,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
         		newBus.startThread();   
         	}
-        }
+        }   
+        
 }

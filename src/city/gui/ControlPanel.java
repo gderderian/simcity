@@ -296,15 +296,16 @@ public class ControlPanel extends JPanel implements ActionListener{
             
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
+            /*
             //Find the role for the person's job
             Role role = null;
             for (Entry<String, Role> entry : jobRoles.entrySet()){
             	if(entry.getKey().equals(job)){
             		role = entry.getValue();
             	}
-            }
+            }*/
             
-            cityGui.addPerson(name, aStarTraversal, role, cityMap);
+            cityGui.addPerson(name, aStarTraversal, job, cityMap);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
