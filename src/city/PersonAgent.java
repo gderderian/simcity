@@ -712,13 +712,13 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void movementTest() {
 		if(name.equals("a"))
-			DoGoTo("bank1");
+			DoGoTo("rest3");
 		
 		if(name.equals("b"))
-			DoGoTo("apart2");
+			DoGoTo("rest4");
 		
 		if(name.equals("c"))
-			DoGoTo("rest3");
+			DoGoTo("rest5");
 		
 		if(name.equals("d"))
 			DoGoTo("mark3");
@@ -764,11 +764,11 @@ public class PersonAgent extends Agent implements Person{
 	    moveTo(x, y);
 		
 	    //Give animation time to move to square.
-	    try {
+	    /*try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
@@ -791,11 +791,11 @@ public class PersonAgent extends Agent implements Person{
 		    gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
 
 		    //Did not get lock. Lets make n attempts.
-		    while (!gotPermit && attempts < 3) {
+		    while (!gotPermit && attempts < 10) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
 
 			//Wait for 1sec and try again to get lock.
-			try { Thread.sleep(1000); }
+			try { Thread.sleep(500); }
 			catch (Exception e){}
 
 			gotPermit   = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
