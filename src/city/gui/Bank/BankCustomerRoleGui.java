@@ -82,6 +82,7 @@ public class BankCustomerRoleGui implements Gui{
 			{
 				role.atBankStation.release();
 				command = Command.arrived;
+				System.out.print("I'm at the station!");
 			}
 			else if (command==Command.leavebank)
 			{

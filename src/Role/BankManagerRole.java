@@ -28,7 +28,8 @@ public class BankManagerRole extends Role{
         public enum customerstate {waiting, beingserved, leaving};
         String name;
         public Semaphore accessingaccount = new Semaphore(0,true);
-
+        public Semaphore atBankStation = new Semaphore(0,true);
+        
         public List<mybankteller> banktellers = new ArrayList<mybankteller>();
         public List<mycustomer> customers = new ArrayList<mycustomer>();
         
@@ -122,6 +123,9 @@ public boolean pickAndExecuteAnAction() {
 									log.add(new LoggedEvent("bankstationassigned"));
 									findfreebankstation.setBankTeller(newbankteller.bankteller);
 									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
+									//animation stuff
+									newbankteller.bankteller.msgGoToBankTellerStation(findfreebankstation.stationnumber);
+									//
 									newbankteller.state = banktellerstate.free;
 									return true;
 								}
@@ -145,6 +149,9 @@ public boolean pickAndExecuteAnAction() {
                                                 bankteller.bankteller.msgAssignMeCustomer(customer.customer);
                                                 customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
                                                 Do("assign bankteller to customer:" + customer.customer.mybankteller);
+                                                //animation stuff
+                                                
+                                                //
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;
                                                 //customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
@@ -270,7 +277,9 @@ public boolean pickAndExecuteAnAction() {
         
         
         
+        //actions
         
+       
 
         public void setPerson(PersonAgent person)
         {
