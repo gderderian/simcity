@@ -380,9 +380,6 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		//Test movement by creating people named a, b, c, or d
-		movementTest();
-
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
@@ -710,30 +707,6 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-	}
-	
-	public void movementTest() {
-		
-		DoGoTo(house.getName());
-		
-		if(name.equals("a"))
-			DoGoTo("rest3");
-		
-		if(name.equals("b"))
-			DoGoTo("rest4");
-		
-		if(name.equals("c"))
-			DoGoTo("rest5");
-		
-		if(name.equals("d"))
-			DoGoTo("mark3");
-		
-		if(name.equals("e"))
-			DoGoTo("mark2");
-		
-		if(name.equals("f"))
-			DoGoTo("rest2");
-
 	}
 	
 	public void cookMeal(MyMeal meal){
