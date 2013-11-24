@@ -11,15 +11,14 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import city.gui.BuildingPanel;
 import city.gui.CityGui;
 
-public class ApartmentAnimationPanel extends JPanel implements ActionListener, MouseListener{
+public class ApartmentAnimationPanel extends BuildingPanel implements ActionListener, MouseListener{
         private static final int WINDOWX = 1300;
     private static final int WINDOWY = 700;
     private static final int NUM_APTS = 5;
     private static int aptBuilding;
-    
-    CityGui cityGui;
     
     public ApartmentAnimationPanel(int num) {
             setSize(WINDOWX, WINDOWY);
@@ -35,10 +34,6 @@ public class ApartmentAnimationPanel extends JPanel implements ActionListener, M
     
     public void actionPerformed(ActionEvent e) {
                 repaint();
-        }
-    
-    public void setCityGui(CityGui c){
-                cityGui = c;
         }
     
     public void paintComponent(Graphics g) {
@@ -140,7 +135,7 @@ public class ApartmentAnimationPanel extends JPanel implements ActionListener, M
                         System.out.println("To apartment 7");
                         cityGui.changeView(aptBuilding, 6);
                 }
-                
+                 
                 //Change to apt 8
                 if((x >= 800) && (x <= 850) && (y >= 190) && (y <= 240)){
                         System.out.println("To apartment 8");
