@@ -14,18 +14,16 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import city.gui.BuildingPanel;
 import city.gui.CityGui;
 import city.gui.Gui;
 import city.gui.PersonGui;
 
-public class HouseAnimationPanel extends JPanel implements ActionListener, MouseListener {
-        private static final int WINDOWX = 1300;
+public class HouseAnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
+    private static final int WINDOWX = 1300;
     private static final int WINDOWY = 700;
-    private static final int TIMER = 8;
     
     private List<Gui> guis = new ArrayList<Gui>();
-    
-    CityGui cityGui;
     
     public HouseAnimationPanel() {
             setSize(WINDOWX, WINDOWY);
@@ -33,25 +31,16 @@ public class HouseAnimationPanel extends JPanel implements ActionListener, Mouse
             setMaximumSize(new Dimension(WINDOWX, WINDOWY));
             setMinimumSize(new Dimension(WINDOWX, WINDOWY));
         setVisible(true);
-        
-        Timer timer = new Timer(TIMER, this );
-            timer.start();
     }
     
     public void actionPerformed(ActionEvent e) {
                 repaint();
-        }
+    }
     
-    public void setCityGui(CityGui c){
-                cityGui = c;
-        }
-    
-    public void paintComponent(Graphics g) {
-                super.paintComponent(g);
+    public void paintComponent(Graphics g) {         
+        Graphics2D g2 = (Graphics2D)g;
                 
-                Graphics2D g2 = (Graphics2D)g;
-                
-                //Clear the screen by painting a rectangle the size of the frame
+        //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY);
                 
@@ -123,7 +112,8 @@ public class HouseAnimationPanel extends JPanel implements ActionListener, Mouse
                 //Change to city
                 if((x >= 75) && (x <= 175) && (y >= 0) && (y <= 30)){
                         System.out.println("Back to the city view, goodbye!");
-                        cityGui.changeView("City");
+                        //cityGui.changeView("City");
+                        changeBackToCity(); 
                 }
                 
         }

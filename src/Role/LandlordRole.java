@@ -2,6 +2,7 @@ package Role;
 
 import interfaces.Landlord;
 import interfaces.Person;
+import city.PersonAgent;
 
 import java.util.*;
 
@@ -15,10 +16,12 @@ public class LandlordRole extends Role implements Landlord {
 	public List<MyTenant> tenants= new ArrayList<MyTenant>();
 	public EventLog log= new EventLog();
 	String name;
+	PersonAgent p;
 	
-	public LandlordRole(){
+	public LandlordRole(String name, PersonAgent p){
 		super();
 		name= "Landlord";
+		this.p= p;
 	}
 	
 	//This should be done when the people are created, assuming they are living in an apartment and are not a landlord
@@ -39,7 +42,7 @@ public class LandlordRole extends Role implements Landlord {
 				t.paymentsUpToDate= false;
 			}
 		}
-		stateChanged();
+		this.p.stateChanged();
 	}
 
 	public void msgHereIsMyRent(Person p, double amount){ // for the normative scenario, assuming tenant always pays correct amount for rent
@@ -53,7 +56,7 @@ public class LandlordRole extends Role implements Landlord {
 				}
 			}
 		}
-		stateChanged();
+		this.p.stateChanged();
 	}
 
 	public void msgFixAppliance(Person p, String a){
@@ -63,7 +66,7 @@ public class LandlordRole extends Role implements Landlord {
 				t.needsMaintenance.add(a);
 			}
 		}
-		stateChanged();
+		this.p.stateChanged();
 	}
 	
 	
@@ -92,7 +95,7 @@ public class LandlordRole extends Role implements Landlord {
 		System.out.println("tenant's name: " + mt.tenant);
 		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
-		stateChanged();
+		p.stateChanged();
 	}
 
 	private void fixAppliance(final MyTenant mt){
@@ -100,7 +103,7 @@ public class LandlordRole extends Role implements Landlord {
 		mt.tenant.msgFixed(mt.needsMaintenance.get(0));
 		mt.needsMaintenance.remove(0);
 		System.out.println("needsMaintenance.size(): " + mt.needsMaintenance.size());
-		stateChanged();	
+		p.stateChanged();	
 	}
 
 	
