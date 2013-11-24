@@ -7,6 +7,8 @@ import restaurant1.interfaces.Restaurant1Waiter;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent;
+
 /**
  * Restaurant Host Agent
  */
@@ -30,6 +32,9 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 	breakState breakStatus = breakState.none;
 
 	private String name;
+	
+	PersonAgent person;
+	
 	private Semaphore atDestination = new Semaphore(0, true);
 	private Semaphore customerAtTable = new Semaphore(0, true);
 	
@@ -41,11 +46,12 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 	
 	public Restaurant1WaiterGui waiterGui = null;
 
-	public Restaurant1WaiterRole(String name) {
+	public Restaurant1WaiterRole(String name, PersonAgent p) {
 		super();
 
 		this.state = waiterState.working;
 		this.name = name;
+		person = p;
 	}
 
 	public String getName() {
@@ -71,12 +77,12 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 			if(mc.c == c) {
 				mc.s = customerState.waiting;
 				mc.table = table;
-				stateChanged();
+				person.stateChanged();
 				return;
 			}
 		}
 		customers.add(new MyCustomer(c, table, customerState.waiting));
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgImReadyToOrder(Restaurant1CustomerRole c) {
@@ -84,7 +90,7 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 			if(mc.c == c) {
 				mc.s = customerState.readyToOrder;
 			}
-		stateChanged();
+		person.stateChanged();
 		}
 	}
 	
@@ -95,7 +101,7 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 				mc.choice = choice;
 				print("One " + choice + ", coming right up!");
 			}
-			stateChanged();
+			person.stateChanged();
 		}
 	}
 	
@@ -106,7 +112,7 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 				mc.s = customerState.checkReady;
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgOutOf(String choice, int table) {
@@ -114,7 +120,7 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 			if(mc.table == table) {
 				mc.s = customerState.orderOut;
 			}
-			stateChanged();
+			person.stateChanged();
 		}
 	}
 	
@@ -124,7 +130,7 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 				mc.s = customerState.foodReady;
 				mc.orderNumber = orderNumber;
 			}
-			stateChanged();
+			person.stateChanged();
 		}
 	}
 	
@@ -134,38 +140,38 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 				mc.s = customerState.finished;
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgIWantABreak() {
 		breakStatus = breakState.wantABreak;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgSorryNoBreakNow() {
 		print("No break?! This is inhumane!");
 		breakStatus = breakState.none;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgFinishUpAndTakeABreak() {
 		event = waiterEvent.takeABreak;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgBreakIsFinished() {
 		breakStatus = breakState.doneWithBreak;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAtDestination() {
 		atDestination.release();
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgCustomerSatDown() {
 		customerAtTable.release();
-		stateChanged();
+		person.stateChanged();
 	}
 
 	/**

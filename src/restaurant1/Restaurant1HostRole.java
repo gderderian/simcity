@@ -5,6 +5,8 @@ import restaurant1.gui.Restaurant1HostGui;
 
 import java.util.*;
 
+import city.PersonAgent;
+
 /**
  * Restaurant Host Agent
  */
@@ -24,16 +26,19 @@ public class Restaurant1HostRole extends Agent {
 
 	private String name;
 	
+	PersonAgent person;
+	
 	private int numberOfWorkingWaiters = 0; //To make sure there's always at least 1 waiter working
 	
 	private int waitingSpot = 0; //Keeps track of where new customers should wait.
 	
 	public Restaurant1HostGui hostGui = null;
 
-	public Restaurant1HostRole(String name) {
+	public Restaurant1HostRole(String name, PersonAgent p) {
 		super();
 
 		this.name = name;
+		person = p;
 		// make some tables
 		synchronized(tables) {
 			for (int i = 1; i <= NTABLES; i++) {
@@ -49,7 +54,7 @@ public class Restaurant1HostRole extends Agent {
 	public void addWaiter(Restaurant1WaiterRole w) {
 		waiters.add(new MyWaiter(w));
 		numberOfWorkingWaiters++;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	// Messages
@@ -61,14 +66,14 @@ public class Restaurant1HostRole extends Agent {
 					mc.waiting = true;
 					mc.toldRestaurantIsFull = false;
 					print("Welcome to Restaurant V2.2, " + c.getName() + "!");
-					stateChanged();
+					person.stateChanged();
 					return;
 				}
 			}
 		}
 		customers.add(new MyCustomer(c));
 		print("Welcome to Restaurant V2.2, " + c.getName() + "!");
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgIWantABreak(Restaurant1WaiterRole w) {
@@ -79,7 +84,7 @@ public class Restaurant1HostRole extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgImDoneWithMyBreak(Restaurant1WaiterRole w) {
@@ -92,7 +97,7 @@ public class Restaurant1HostRole extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgImLeaving(Restaurant1CustomerRole c) {
@@ -104,7 +109,7 @@ public class Restaurant1HostRole extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgTableIsFree(int table, Restaurant1WaiterRole w) {
@@ -122,7 +127,7 @@ public class Restaurant1HostRole extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	/**
