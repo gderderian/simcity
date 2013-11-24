@@ -27,7 +27,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     
     private List<Gui> guis = new ArrayList<Gui>();
     
-    //functional things
+    //Functional things
     public Image bed = new ImageIcon("images/bed.png").getImage();
     public Image lamp = new ImageIcon("images/lamp.png").getImage();
     public Image table = new ImageIcon("images/table.png").getImage();
@@ -73,22 +73,16 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         
         //This is the kitchen table
         g.drawImage(table, 500, 200, 75, 75, this);
-        
         //This is the fridge
         g.drawImage(fridge, 450, 0, 75, 80, this);
-        
         //This is the stove
         g.drawImage(stove, 525, 25, 55, 55, this);
-        
         //This is the oven
         g.drawImage(oven, 580, 25, 55, 55, this);
-        
         //This is the microwave
         g.drawImage(microwave, 635, 25, 55, 55, this);
-        
         //This is the bed
         g.drawImage(bed,100, 500, 180, 140, this);
-        
         //This is the lamp
         g.drawImage(lamp, 50, 575, 50, 50, this);
         

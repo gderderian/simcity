@@ -50,7 +50,7 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		g2.setColor(Color.CYAN);
 		g2.fillRect(0, 0, 100, 30);
 		g2.setColor(Color.BLACK);
-		g2.drawString("Back to City", 5, 20);
+		g2.drawString("Exit to City", 5, 20);
 
 
 		//Show a layout of all of the rooms in the apartment
