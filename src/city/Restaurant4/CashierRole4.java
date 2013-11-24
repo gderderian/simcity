@@ -4,6 +4,7 @@ import Role.Role;
 
 import java.util.*;
 
+import city.PersonAgent;
 import justinetesting.interfaces.Cashier4;
 import justinetesting.interfaces.Customer4;
 import justinetesting.interfaces.Market4;
@@ -14,6 +15,7 @@ import justinetesting.test.mock.LoggedEvent4;
 
 public class CashierRole4 extends Role implements Cashier4 {
 	WaiterRole4 waiter;
+	PersonAgent p;
 	String name;
 	Timer cook= new Timer();
 	private List<Bill> bills= Collections.synchronizedList(new ArrayList<Bill>());
@@ -24,9 +26,10 @@ public class CashierRole4 extends Role implements Cashier4 {
 	double cash= 100.00;
 	
 
-	public CashierRole4(String name) {
+	public CashierRole4(String name, PersonAgent p) {
 		super();
 		this.name= name;
+		this.p= p;
 	}
 
 	public String getName(){
@@ -44,7 +47,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 		log.add(new LoggedEvent4("Received msgComputeBill from waiter"));
 		Bill b= new Bill(w, c, choice);
 		getBills().add(b);
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgHereIsMoney(Customer4 customer, double amount){
@@ -58,13 +61,13 @@ public class CashierRole4 extends Role implements Cashier4 {
 			b.bs= billState.payNextTime;
 		}
 		print("The restaruant now has: $" + cash);
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgHereIsBill(Market4 market, double amount){
 		log.add(new LoggedEvent4("Received msgHereIsBill from market"));
 		marketBills.add(new MarketBill(market, amount));
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	
@@ -134,7 +137,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 			b.c.msgHereIsChange(false);
 		}
 		b.bs= billState.done;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void sendMoney(MarketBill mb){
@@ -149,7 +152,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 		}
 			print("The restaruant now has: $" + cash);
 			marketBills.remove(mb);
-			stateChanged();
+			p.stateChanged();
 	}
 
 	public List<Bill> getBills() {
