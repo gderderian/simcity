@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.gui.Bank.BankAnimationPanel;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.Market.MarketAnimationPanel;
@@ -46,7 +47,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	AnimationPanel4 restaurant4 = new AnimationPanel4();
 
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
-
+	BankAnimationPanel bank1Animation = new BankAnimationPanel(this);
+	
 	ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
@@ -96,6 +98,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.addRest2ToCityMap(rest2);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
+		
+		addBuildingPanel(bank1Animation);
 
 
 		addBuildingPanel(market1Animation);
@@ -187,6 +191,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(restaurant1, BorderLayout.EAST);
 			restaurant1.setVisible(true);
 		}
+		if(building.equals("Bank1")) {
+			animationPanel.setVisible(false);
+			add(bank1Animation, BorderLayout.EAST);
+			bank1Animation.setVisible(true);
+		}
+		
 		if(building.equals("Market1")){
 			animationPanel.setVisible(false);
 			add(market1Animation, BorderLayout.EAST);

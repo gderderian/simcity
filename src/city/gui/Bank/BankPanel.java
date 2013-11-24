@@ -31,7 +31,7 @@ public class BankPanel extends JPanel {
 	House house = new House("house1");
 	Bank bank = new Bank();
 	AStarTraversal aStarTraversal;
-    CityMap citymap;
+    CityMap citymap = new CityMap();
     //Host, cook, waiters and customers
     private BankManagerRole bankmanager = new BankManagerRole(bank);
     
