@@ -113,7 +113,7 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
 		int x = e.getX();
 		int y = e.getY();
 		if((x >= 25) && (x <= 125) && (y >= 30) && (y <= 55)) {
-			super.backToCity();
+			changeBackToCity();
 		}
 	}
 
