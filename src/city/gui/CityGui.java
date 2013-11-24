@@ -7,11 +7,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
-<<<<<<< HEAD
 import city.Restaurant2.Restaurant2WaiterRole;
-=======
 import city.gui.Market.MarketAnimationPanel;
->>>>>>> grant
 import Role.Role;
 import astar.AStarTraversal;
 import city.Restaurant2.Restaurant2;
