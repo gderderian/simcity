@@ -36,6 +36,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener, Mous
     	timer.start();
     	timerIsRunning = true;
     	cg = newCityGui;
+    	addMouseListener(this);
     }
 
     public void toggleTimer() {
@@ -60,17 +61,11 @@ public class MarketAnimationPanel extends JPanel implements ActionListener, Mous
         g2.setColor(getBackground());
         g2.fillRect(SCREEN_RECT_X_COORD, SCREEN_RECT_Y_COORD, WINDOWX, WINDOWY);
         
-        // Customer Waiting Area
+        // Arriving Customer Waiting Area
         g2.setColor(Color.WHITE);
-        g2.fillRect(5, 15, 105, 100);
+        g2.fillRect(5, 600, 200, 100);
         g2.setColor(Color.BLUE);
-        g2.drawString("Customer Area", 5, 127);
-        
-        // Waiter Waiting Area
-        g2.setColor(Color.WHITE);
-        g2.fillRect(245, 15, 105, 105);
-        g2.setColor(Color.BLUE);
-        g2.drawString("Waiter Area", 245, 132);
+        g2.drawString("Customer Area", 5, 595);
         
         // Kitchen Area
         g2.setColor(Color.WHITE);
@@ -105,6 +100,12 @@ public class MarketAnimationPanel extends JPanel implements ActionListener, Mous
         // Table 4
         g2.setColor(Color.ORANGE);
         g2.fillRect(275, 275, TABLE_X, TABLE_Y); // Table location set by host
+        
+        //BACK BUTTON
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.fillRect(30, 30, 60, 20);
+        g2.setColor(Color.BLACK);
+        g2.drawString("CITY VIEW", 30, 45);
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {

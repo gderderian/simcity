@@ -474,10 +474,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     		houses.add(new House("house" + Integer.toString(i + 1)));
     		System.out.println(houses.get(i).getName());
     	}
-    	Apartment apart1 = new Apartment("apart1", 1);
-    	houses.add(apart1);
-    	Apartment apart2 = new Apartment("apart2", 2);
-    	houses.add(apart2);
+    	//Apartment apart1 = new Apartment("apart1", 1);
+    	//houses.add(apart1);
+    	//Apartment apart2 = new Apartment("apart2", 2);
+    	//houses.add(apart2);
     }
     
     public void populateCity(){

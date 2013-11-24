@@ -176,6 +176,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 if(building.equals("City")){
                 		restaurant1.setVisible(false);
                         restaurant2.setVisible(false);
+                        market1Animation.setVisible(false);
                         animationPanel.setVisible(true);
                 }       
                 if(building.equals("Restaurant1")){
