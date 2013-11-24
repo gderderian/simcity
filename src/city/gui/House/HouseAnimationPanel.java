@@ -26,11 +26,13 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     private List<Gui> guis = new ArrayList<Gui>();
     
     public HouseAnimationPanel() {
-            setSize(WINDOWX, WINDOWY);
-            setPreferredSize(new Dimension(WINDOWX, WINDOWY));
-            setMaximumSize(new Dimension(WINDOWX, WINDOWY));
-            setMinimumSize(new Dimension(WINDOWX, WINDOWY));
+        setSize(WINDOWX, WINDOWY);
+        setPreferredSize(new Dimension(WINDOWX, WINDOWY));
+        setMaximumSize(new Dimension(WINDOWX, WINDOWY));
+        setMinimumSize(new Dimension(WINDOWX, WINDOWY));
         setVisible(true);
+        
+        addMouseListener(this);
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -49,12 +51,12 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         g2.setColor(Color.CYAN);
         g2.fillRect(75, 0, 100, 30);
         g2.setColor(Color.BLACK);
-        g2.drawString("Exit to City", 80, 5);
+        g2.drawString("Exit to City", 90, 15);
         
         
         //This is the kitchen table
         g2.setColor(Color.ORANGE);
-        g2.fillRect(750, 350, 20, 20);
+        g2.fillRect(250, 350, 40, 40);
         
         //This is the fridge
         g2.setColor(Color.GRAY);

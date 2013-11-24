@@ -53,6 +53,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
 	ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
+	
+	HouseAnimationPanel house1= new HouseAnimationPanel();
 	//End of animation panel creation!
 	
 	List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
@@ -103,6 +105,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 
 		addBuildingPanel(market1Animation);
+		
+		addBuildingPanel(house1);
 
 		add(animationPanel, BorderLayout.EAST);
 
@@ -210,6 +214,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			animationPanel.setVisible(false);
 			add(apt2, BorderLayout.EAST);
 			apt2.setVisible(true);
+		}
+		if(building.equals("House1")){
+			animationPanel.setVisible(false);
+			add(house1, BorderLayout.EAST);
+			house1.setVisible(true);
 		}
 	}
 
