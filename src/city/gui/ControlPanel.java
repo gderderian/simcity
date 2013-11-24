@@ -474,7 +474,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private void createHouses() {
     	for(int i = 0; i < 26; i++) {
     		houses.add(new House("house" + Integer.toString(i + 1)));
-    		System.out.println(houses.get(i).getName());
+    		System.out.println("Created houses.");
     	}
     	//Apartment apart1 = new Apartment("apart1", 1);
     	//houses.add(apart1);
