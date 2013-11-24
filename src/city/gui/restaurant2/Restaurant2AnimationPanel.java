@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import astar.AStarTraversal;
 import city.PersonAgent;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CashierRole;
@@ -47,6 +48,7 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
     Restaurant2WaiterRole Waiter;
     Restaurant2HostRole Host;
     
+    
     CityGui cityGui;
 	
 	public Restaurant2AnimationPanel(Restaurant2 r){
@@ -76,6 +78,7 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         personCashier.startThread();
         personWaiter.addRole(Waiter, true);
         //personWaiter.startThread();
+        Host.addWaiters(Waiter);
         
 	}
 	

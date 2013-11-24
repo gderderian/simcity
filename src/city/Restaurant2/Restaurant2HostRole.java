@@ -27,7 +27,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 	
-	enum CustomerState {hungry, seated, tablesFull};
+	public enum CustomerState {hungry, seated, tablesFull};
 	enum WaiterState {normal, breakRequested, onBreak, assessing};
 	public EventLog log = new EventLog();
 	
@@ -79,6 +79,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	public void msgIWantFood(Restaurant2Customer cust) {
 		boolean alreadyExists = false;
 		print("Customer is hungry");
+		log.add(new LoggedEvent("Customer is hungry"));
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == cust){
@@ -180,7 +181,9 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		try{
 			for (Table table : tables) {
 				if (!table.isOccupied()) {
+					print("Table not occupied");
 					if(!waiters.isEmpty()){
+						print("Waiters not empty");
 						for(MyCustomer mc : customers){
 							if(mc.cs == CustomerState.hungry){
 								print("going to seat customer");
@@ -303,9 +306,9 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		
 	}
 	
-	private class MyCustomer{
+	public class MyCustomer{
 		Restaurant2Customer c;
-		CustomerState cs;
+		public CustomerState cs;
 		
 		public MyCustomer(Restaurant2Customer customer){
 			c = customer;

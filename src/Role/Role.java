@@ -4,6 +4,10 @@ import java.util.concurrent.Semaphore;
 
 import agent.StringUtil;
 import city.PersonAgent;
+import city.Restaurant2.Restaurant2CashierRole;
+import city.Restaurant2.Restaurant2CookRole;
+import city.Restaurant2.Restaurant2HostRole;
+import city.Restaurant2.Restaurant2WaiterRole;
 
 public abstract class Role {
 	
@@ -79,5 +83,14 @@ public abstract class Role {
     public boolean isInUse(){
     	return inUse;
     }
-
+    
+	public static Role getNewRole(String type, PersonAgent p){
+		if(type.equals("Restaurant2 Waiter")) return new Restaurant2WaiterRole(p.getName(), p);
+		else if(type.equals("Restaurant2 Host")) return new Restaurant2HostRole(p.getName(), p);
+		else if(type.equals("Restaurant2 Cook")) return new Restaurant2CookRole(p.getName(), p);
+		else if(type.equals("Restaurant2 Cashier")) return new Restaurant2CashierRole(p.getName(), p);
+		//else if(type.equals("Bank Manager")) return new BankManagerRole();
+		else return null;
+	}
+    
 }

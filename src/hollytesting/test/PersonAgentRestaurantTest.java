@@ -1,7 +1,9 @@
 package hollytesting.test;
 
 import test.mock.EventLog;
+import city.CityMap;
 import city.PersonAgent;
+import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2CustomerRole.AgentEvent;
@@ -9,6 +11,7 @@ import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.PersonGui;
 import junit.framework.TestCase;
+import city.Restaurant2.Restaurant2HostRole.CustomerState;
 
 public class PersonAgentRestaurantTest extends TestCase{
 
@@ -22,6 +25,8 @@ public class PersonAgentRestaurantTest extends TestCase{
         Restaurant2CookRole cook;
         public EventLog log;
         PersonGui gui;
+        CityMap cityMap = new CityMap();
+        Restaurant2 rest2 = new Restaurant2();
         
         public void setUp() throws Exception{
                 super.setUp();                
@@ -33,6 +38,7 @@ public class PersonAgentRestaurantTest extends TestCase{
                 cookPerson = new PersonAgent("cookPerson");
                 cook = new Restaurant2CookRole("Cook", cookPerson);
                 gui = new PersonGui(person);
+                cityMap.setRestaurant2(rest2);
         }
         
         public void testPersonNormalRestaurant(){
@@ -69,6 +75,9 @@ public class PersonAgentRestaurantTest extends TestCase{
                 //Message the host that the customer wants food
                 host.msgIWantFood(customer);
                 //customer.state = AgentState.WaitingInRestaurant;        //This normally gets changed in I'm hungry message
+                assertTrue(host.log.containsString("Customer is hungry"));
+                assertEquals("Host should have a person in its list", host.customers.size(), 1);
+                assertTrue("Host should have a customer whose state is hungry", host.customers.get(0).cs == CustomerState.hungry);
                 
                 //Test that normal scenario is running properly
                 assertTrue("Host person's scheduler should return true because it's dealing with the host role's scheduler",
