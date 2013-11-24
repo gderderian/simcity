@@ -26,7 +26,7 @@ public class BusTest extends TestCase {
 		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
 			people.add(new PersonAgent("person", null));
 		}
-		bus = new BusAgent();
+		bus = new BusAgent(null);
 		
 		stop1 = new MockBusStop();
 		stop2 = new MockBusStop();
@@ -60,7 +60,7 @@ public class BusTest extends TestCase {
 		assertTrue(bus.state == BusState.atStop);
 
 		try { //Wait for bus to complete its time waiting at stop
-			Thread.sleep(1500);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,7 +127,7 @@ public class BusTest extends TestCase {
 		}
 		
 		try { //Wait for bus to complete its time waiting at stop
-			Thread.sleep(1500);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -178,7 +178,7 @@ public class BusTest extends TestCase {
 			bus.msgImGettingOff(people.get(i));
 		}
 		try { //Wait for bus to complete its time waiting at stop
-			Thread.sleep(1500);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

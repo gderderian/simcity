@@ -9,12 +9,12 @@ public class Apartment extends House {
 	PersonAgent landlord;
 	int aptNum;
 	
-	public Apartment(){
-		super();
+	public Apartment(String name){
+		super(name);
 	}
 	
-	public Apartment(int num){
-		super();
+	public Apartment(String name, int num){
+		super(name);
 		aptNum= num;
 	}
 	

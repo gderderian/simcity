@@ -8,12 +8,14 @@ import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.gui.Market.MarketAnimationPanel;
 import Role.Role;
 import astar.AStarTraversal;
 import city.Restaurant2.Restaurant2;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
 import city.CityMap;
+import city.Market;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 import city.transportation.BusAgent;
@@ -39,6 +41,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         AnimationPanel4 restaurant4 = new AnimationPanel4();
         //PersonAgent testPerson = new PersonAgent("test");
         //PersonGui testPersonGui = new PersonGui();
+        
+    MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
     
     private JPanel infoPanel;
         
@@ -78,13 +82,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             restaurant1.setCityGui(this);
             
             restaurant4.setCityGui(this);
-            
             controlPanel.addRest2ToCityMap(rest2);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
         //cityPanel.setPreferredSize(animationDim);
         restaurant2.setPreferredSize(animationDim);
         restaurant1.setPreferredSize(animationDim);
+        market1Animation.setPreferredSize(animationDim);
         //add(cityPanel, BorderLayout.EAST);
         animationPanel.setPreferredSize(animationDim);
     	
@@ -154,8 +158,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 }       
                 if(building.equals("Restaurant1")){
                         animationPanel.setVisible(false);
-                add(restaurant1, BorderLayout.EAST);
+                        add(restaurant1, BorderLayout.EAST);
                         restaurant1.setVisible(true);
+                }
+                if(building.equals("Market1")){
+                    	animationPanel.setVisible(false);
+                    	add(market1Animation, BorderLayout.EAST);
+                    	market1Animation.setVisible(true);
                 }
         }
         

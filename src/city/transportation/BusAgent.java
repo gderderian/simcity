@@ -2,6 +2,7 @@ package city.transportation;
 
 import interfaces.Bus;
 import interfaces.BusStop;
+import interfaces.Person;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -24,11 +25,11 @@ public class BusAgent extends Vehicle implements Bus {
 	public List<Passenger> passengers = new ArrayList<Passenger>();
 	
 	class Passenger {
-		PersonAgent p;
+		Person p;
 		boolean wantsOff = false;
 		boolean paidFare = false;
 
-		Passenger(PersonAgent p) {
+		Passenger(Person p) {
 			this.p = p;
 		}
 	}
@@ -59,21 +60,21 @@ public class BusAgent extends Vehicle implements Bus {
 	}
 	
 	//Messages
-	public void msgPeopleBoarding(List<PersonAgent> people) {
+	public void msgPeopleBoarding(List<Person> people) {
 		if(people == null) {
 			event = BusEvent.boarded;
 			stateChanged();
 			return;
 		}
 		
-		for(PersonAgent p : people) {
+		for(Person p : people) {
 			passengers.add(new Passenger(p));
 		}
 		event = BusEvent.boarded;
 		stateChanged();
 	}
 	
-	public void msgHereIsFare(PersonAgent pa, double money) {
+	public void msgHereIsFare(Person pa, double money) {
 		this.money += money;
 		for(Passenger p : passengers) {
 			if(p.p == pa) {
@@ -91,7 +92,7 @@ public class BusAgent extends Vehicle implements Bus {
 		stateChanged();
 	}
 	
-	public void msgImGettingOff(PersonAgent pa) {
+	public void msgImGettingOff(Person pa) {
 		for(Passenger p : passengers) {
 			if(p.p == pa) {
 				p.wantsOff = true;

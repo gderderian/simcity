@@ -9,6 +9,7 @@ import test.mock.*;
 public class House {
 	//DATA
 	public Person owner;
+	String houseName;
 	//private HomeOwnerRole homeowner;
 	protected Timer cook= new Timer();
 	public Appliance fridge= new Appliance("Fridge");
@@ -20,8 +21,10 @@ public class House {
 
 	
 	//CONSTRUCTOR
-	public House(){
+	public House(String name){
 		super();
+		
+		this.houseName = name;
 		
 		cookingAppliances.add(microwave);
 		cookingAppliances.add(oven);
@@ -112,6 +115,10 @@ public class House {
 			}
 		}
 		return null;
+	}
+	
+	public String getName() {
+		return houseName;
 	}
 	
 	

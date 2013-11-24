@@ -24,8 +24,11 @@ public class MarketManager extends Role {
 	
 	public enum itemType {food, car};
 
-	MarketManager(String initialName){
+	PersonAgent p;
+	
+	MarketManager(String initialName, PersonAgent person){
 		name = initialName;
+		p = person;
 		marketStock = new Hashtable<String, MarketItem>();
 		marketStock.put("Pasta", new MarketItem("Pasta", 5, itemType.food));
 		marketStock.put("Pizza", new MarketItem("Pizza", 5, itemType.food));
@@ -70,7 +73,7 @@ public class MarketManager extends Role {
 	public void msgHereIsOrder(MarketOrder o){
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.inPerson);
 		myOrders.add(mo);
-		stateChanged();
+		p.stateChanged();
 	}
 	public void msgOrderPicked(MarketOrder o){
 		myMarketOrder selectedMarketOrder = null;
@@ -81,7 +84,7 @@ public class MarketManager extends Role {
 			}
 		}
 		selectedMarketOrder.state = orderState.pickedReady;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgFinishedDelivery(MarketOrder o){
@@ -93,7 +96,7 @@ public class MarketManager extends Role {
 			}
 		}
 		selectedMarketOrder.state = orderState.pendingBilling;
-		stateChanged();
+		p.stateChanged();
 	}
 	// Scheduler
 	public boolean pickAndExecuteAnAction(){

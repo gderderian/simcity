@@ -1,6 +1,8 @@
 package city.transportation;
 
+import interfaces.Bus;
 import interfaces.BusStop;
+import interfaces.Person;
 
 import java.util.*;
 
@@ -10,17 +12,17 @@ import agent.Agent;
 
 public class BusStopAgent extends Agent implements BusStop {
 	//Data
-	public List<PersonAgent> peopleWaiting = new ArrayList<PersonAgent>();
+	public List<Person> peopleWaiting = new ArrayList<Person>();
 	
 	public List<MyBus> buses = new ArrayList<MyBus>();
 	
 	int number;
 	
 	class MyBus {
-		BusAgent b;
+		Bus b;
 		int openSpots;
 		
-		MyBus(BusAgent b, int spots) {
+		MyBus(Bus b, int spots) {
 			this.b = b;
 			this.openSpots = spots;
 		}
@@ -31,12 +33,12 @@ public class BusStopAgent extends Agent implements BusStop {
 	}
 	
 	//Messages
-	public void msgWaitingForBus(PersonAgent p) {
+	public void msgWaitingForBus(Person p) {
 		peopleWaiting.add(p);
 		stateChanged();
 	}
 	
-	public void msgICanPickUp(BusAgent b, int people) {
+	public void msgICanPickUp(Bus b, int people) {
 		buses.add(new MyBus(b, people));
 		stateChanged();
 	}	
@@ -60,10 +62,10 @@ public class BusStopAgent extends Agent implements BusStop {
 			return;
 		}
 		
-		List<PersonAgent> newPassengers = new ArrayList<PersonAgent>();
+		List<Person> newPassengers = new ArrayList<Person>();
 		int i = 0;
 		while(i < b.openSpots && !peopleWaiting.isEmpty()) {
-			PersonAgent temp = peopleWaiting.get(0);
+			Person temp = peopleWaiting.get(0);
 			newPassengers.add(temp);
 			temp.msgBusIsHere(b.b); //Need reference to bus or not? Bus will message person anyways.
 			peopleWaiting.remove(temp);
