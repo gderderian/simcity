@@ -12,6 +12,7 @@ import java.util.concurrent.Semaphore;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Menu;
+import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import Role.Role;
 
@@ -50,6 +51,8 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	public AgentEvent event = AgentEvent.none;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
+	
+	PersonAgent person;
 
 	/**
 	 * Constructor for CustomerAgent class
@@ -88,6 +91,10 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		wallet = 20.00;
 		//}
 	}
+	
+	public void setPerson(PersonAgent p){
+		person = p;
+	}
 
 	/**
 	 * hack to establish connection to Host agent.
@@ -111,7 +118,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	public void gotHungry() {//from animation
 		print("I'm hungry");
 		event = AgentEvent.gotHungry;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAtDestination(){
@@ -120,7 +127,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	public void msgTablesAreFull(){
 		event = AgentEvent.tablesFull;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgFollowMeToTable(Restaurant2Waiter w, Menu m, int num, int waiterNum) {
@@ -130,62 +137,62 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		setWaiter(w, waiterNum);
 		menu = m;
 		tableNumber = num;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
 		event = AgentEvent.seated;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
 		//event = AgentEvent.doneLeaving;
 		state = AgentState.Gone;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void ReadyToOrder(){
 		//from animation
 		print("Recieved msReadyToOrder");
 		event = AgentEvent.readyToOrder;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgWhatDoYouWant(){
 		print("Recieved msg What Do You Want");
 		log.add(new LoggedEvent("Recieved message what do you want"));
 		event = AgentEvent.ordering;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	
 	public void msgHereIsYourFood(String food){
 		print("Recieved food " + food);
 		event = AgentEvent.recievedFood;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgPleaseReorder(String m){
 		print("Recieved msg Reorder food");
 		event = AgentEvent.reorder;
 		reMenu = menu.remove(m);
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgHereIsYourCheck(String food, double price, Restaurant2Cashier c){
 		print("Recieved msg here is your check");
 		event = AgentEvent.gotCheck;
 		cashier = c;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgHereIsYourChange(double change){
 		print("Recieved change " + change);
 		event = AgentEvent.leaving;
 		wallet = wallet + change;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	/**
@@ -385,7 +392,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 				event = AgentEvent.doneEating;
 				customerGui.setDoneEating();
 				//isHungry = false;
-				stateChanged();
+				person.stateChanged();
 			}
 		},
 		5000);//getHungerLevel() * 1000);//how long to wait before running task

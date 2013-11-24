@@ -58,8 +58,13 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         
         addMouseListener(this);
         
+        Cook.setPerson(personCook);
+        Cashier.setPerson(personCashier);
+        Restaurant2HostRole Host = restaurant.getHostRole();
+        Host.setPerson(personHost);
+        Waiter.setPerson(personWaiter);
         personCook.addRole(Cook, true);
-        personHost.addRole(restaurant.getHostRole(), true);
+        personHost.addRole(Host, true);
         personCashier.addRole(Cashier, true);
         personWaiter.addRole(Waiter, true);
         

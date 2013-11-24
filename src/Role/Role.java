@@ -18,11 +18,6 @@ public abstract class Role {
     }
 
     /**
-     * This should be called whenever state has changed that might cause
-     * the agent to do something.
-     */
-
-    /**
      * Agents must implement this scheduler to perform any actions appropriate for the
      * current state.  Will be called whenever a state change has occurred,
      * and will be called repeated as long as it returns true.

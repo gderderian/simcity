@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import city.PersonAgent;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import Role.Role;
@@ -27,6 +28,8 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	
 	public EventLog log = new EventLog();
 	
+	PersonAgent person;
+	
 	public Restaurant2CashierRole(String n){
 		super();
 		
@@ -36,6 +39,10 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 		options.put("Chicken", 10.99);
 		options.put("Salad", 5.99);
 		options.put("Pizza", 8.99);
+	}
+	
+	public void setPerson(PersonAgent p){
+		person = p;
 	}
 
 	
@@ -53,7 +60,7 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 		if(!returningCustomer){
 			checks.add(new Check(food, c, CheckState.initial, w));
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgHereIsPayment(Restaurant2Customer c, double amount){
@@ -64,7 +71,7 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 				ch.cs = CheckState.pending;
 				ch.addPayment(amount);
 				log.add(new LoggedEvent("Changed state of check to pending."));
-				stateChanged();
+				person.stateChanged();
 				return;
 			}
 		}
@@ -73,7 +80,7 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	public void msgChargeForOrder(double total, Restaurant2Market m){
 		print("Recieved msgChargeForOrder from market");
 		marketBills.add(new MarketBill(m, MarketBillState.pending, total));
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void clearChecks(){		//ONLY for testing purposes

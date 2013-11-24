@@ -763,12 +763,6 @@ public class PersonAgent extends Agent implements Person{
 	    //gui.moveTo(130 + x * 30, 70 + y * 30);
 	    moveTo(x, y);
 		
-	    //Give animation time to move to square.
-	    try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){

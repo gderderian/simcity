@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import Role.Role;
@@ -37,6 +38,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	Semaphore guard = new Semaphore(1);
 	
 	private int waiterNum;
+	PersonAgent person;
 
 	public Restaurant2HostRole(String name) {
 		super();
@@ -59,10 +61,14 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		return name;
 	}
 	
+	public void setPerson(PersonAgent p){
+		person = p;
+	}
+	
 	//stateChanged?
 	public void addWaiters(Restaurant2Waiter w){
 		waiters.add(new MyWaiter(w));
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	
@@ -99,7 +105,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgNoTablesLeaving(Restaurant2Customer c){
@@ -110,7 +116,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgIllStay(Restaurant2Customer c){
@@ -121,7 +127,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgTableIsFree(int table) {
@@ -129,7 +135,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 			for(Table t : tables){
 				if (t.tableNumber == table){
 					t.setUnoccupied();
-					stateChanged();
+					person.stateChanged();
 				}
 			}
 		}
@@ -140,7 +146,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 			for(MyWaiter mw : waiters){
 				if (mw.w == w){
 					mw.ws = WaiterState.breakRequested;
-					stateChanged();
+					person.stateChanged();
 				}
 			}
 		}
