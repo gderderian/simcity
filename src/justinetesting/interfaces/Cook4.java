@@ -8,6 +8,6 @@ public interface Cook4 {
 	
 	public abstract void msgHereIsDelivery(int st, int ch, int s, int p, boolean successful);
 	
-	public abstract void msgOutOfItem(Market4 m, String type);
+	//public abstract void msgOutOfItem(Market4 m, String type);
 	
 }
