@@ -16,6 +16,7 @@ import java.util.concurrent.Semaphore;
 import city.Market;
 import city.MarketOrder;
 import city.OrderItem;
+import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2CookGui;
 import Role.Role;
 
@@ -34,6 +35,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	boolean startCheck;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
+	
+	PersonAgent person;
 	
 	Restaurant2CookGui gui;
 		
@@ -65,30 +68,34 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		atDestination.release();
 	}
 	
+	public void setPerson(PersonAgent p) {
+		person = p;
+	}
+	
 	//MESSAGES
 	
 	public void msgHereIsOrder(Restaurant2Waiter w, String choice, int table){
 		print("Recieved order msg.");
 		orders.add(new Order(w, choice, table));
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgFoodDone(Order o){ //msg sent from the timer when it finishes
 		print("Food is done cooking.");
 		o.setState(OrderState.done);
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	//TODO fix this in V2
 	public void msgFailedOrder(HashMap<String, Integer> failedOrder){
 	//	shipmentOrders.add(new ShipmentOrder(failedOrder, ShipmentState.pending));
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgHereIsYourOrder(MarketOrder goodOrder){
 		print("Recieved msg here is shipment");
 		shipmentOrders.add(new ShipmentOrder(goodOrder, ShipmentState.arrived));
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgOutOfAllFood(Market m){

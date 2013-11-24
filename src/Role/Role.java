@@ -11,24 +11,10 @@ public abstract class Role {
 
 	public boolean isActive;
 	public boolean inUse;
-	public PersonAgent person;
 
     protected Role() {
     	isActive = false;
     	inUse = false;
-    	person = new PersonAgent("Start");
-    }
-
-    /**
-     * This should be called whenever state has changed that might cause
-     * the agent to do something.
-     */
-    protected void stateChanged() {
-        person.stateChanged();
-    }
-    
-    public void setPerson(PersonAgent p){
-    	person = p;
     }
 
     /**

@@ -164,7 +164,6 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void addRole(Role r, boolean active){
 		roles.add(r);
-		r.setPerson(this);
 		if(active){
 			r.setActive();
 		}
@@ -593,13 +592,14 @@ public class PersonAgent extends Agent implements Person{
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
-			String destination = "Restaurant2";
+			String destination = "rest2";
 			takeCar(destination);
 		}
-		else{	//take bus
-			//String destination = cityMap.getNearestBusStop();	TODO make this a thing
-			//takeBus(destination);
-			
+		else if(takeBus){	//take bus
+			int stop = cityMap.getClosestBusStop("rest2");
+			BusRide ride = new BusRide(stop);
+		}
+		else{
 			//This is walking
 			DoGoTo("rest2");
 		    gui.setInvisible();
@@ -762,13 +762,6 @@ public class PersonAgent extends Agent implements Person{
 
 	    //gui.moveTo(130 + x * 30, 70 + y * 30);
 	    moveTo(x, y);
-		
-	    //Give animation time to move to square.
-	    /*try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
