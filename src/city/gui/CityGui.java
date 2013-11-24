@@ -15,6 +15,7 @@ import city.Restaurant2.Restaurant2;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
 import city.CityMap;
+import city.House;
 import city.Market;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
@@ -168,7 +169,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                 }
         }
         
-        public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map){
+        public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
                 PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map);
                 
                 //TODO finish the job thing
@@ -179,6 +180,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                     newPerson.addFirstJob(r, "Unknown");
                 }
                 people.add(newPerson);
+                newPerson.setHouse(h);
                 PersonGui g = new PersonGui(newPerson);
                 newPerson.setGui(g);
                 guis.add(g);
