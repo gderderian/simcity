@@ -51,7 +51,32 @@ public class CityMap {
 		buildingLocations.put("stop2", new Position(0,8));
 		buildingLocations.put("stop3", new Position(18,7));
 		//House locations
-		//...
+		buildingLocations.put("house1", new Position(21,17));
+		buildingLocations.put("house2", new Position(21,15));
+		buildingLocations.put("house3", new Position(21,13));
+		buildingLocations.put("house4", new Position(21,10));
+		buildingLocations.put("house5", new Position(21,6));
+		buildingLocations.put("house6", new Position(21,2));
+		buildingLocations.put("house7", new Position(19,0));
+		buildingLocations.put("house8", new Position(17,0));
+		buildingLocations.put("house9", new Position(15,0));
+		buildingLocations.put("house10", new Position(13,0));
+		buildingLocations.put("house11", new Position(9,0));
+		buildingLocations.put("house12", new Position(7,0));
+		buildingLocations.put("house13", new Position(3,0));
+		buildingLocations.put("house14", new Position(1,0));
+		buildingLocations.put("house15", new Position(0,0));
+		buildingLocations.put("house16", new Position(0,4));
+		buildingLocations.put("house17", new Position(0,6));
+		buildingLocations.put("house18", new Position(0,10));
+		buildingLocations.put("house19", new Position(0,14));
+		buildingLocations.put("house20", new Position(0,16));
+		buildingLocations.put("house21", new Position(3,18));
+		buildingLocations.put("house22", new Position(5,18));
+		buildingLocations.put("house23", new Position(11,18));
+		buildingLocations.put("house24", new Position(12,9));
+		buildingLocations.put("house25", new Position(10,9));
+		buildingLocations.put("house26", new Position(10,7));
 		
 		//Creating list of restaurants
 		restaurants.add("Restaurant2");
