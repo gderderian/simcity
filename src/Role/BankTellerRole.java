@@ -1,4 +1,6 @@
 package Role;
+import java.util.concurrent.Semaphore;
+
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Bank;
@@ -9,7 +11,7 @@ import city.PersonAgent;
 
 public class BankTellerRole extends Role {
         
-
+				
                 public BankCustomerRole currentcustomer;//since bank teller serves one customer at a time. no list is necessary
                 //BankTellerRole banktellerrole;
                 public int currentcustomeraccountnumber;
@@ -19,20 +21,28 @@ public class BankTellerRole extends Role {
                 public double withdrawal;
                 double paybackloan;
                 public BankManagerRole bankmanager;
+                public Semaphore atBankStation = new Semaphore(0,true);
                 enum state {openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft};
                 state banktellerstate;
-                BankTellerRoleGui gui;
+                public BankTellerRoleGui gui;
                 public EventLog log = new EventLog();
                 PersonAgent person;
                 
                 
-                public BankTellerRole(/*BankTellerRole assignbanktellerrole,*/ BankManagerRole assignbankmanager)
+                public BankTellerRole(BankManagerRole assignbankmanager)
                 {
                         super();
                         
                         //this.banktellerrole = assignbanktellerrole;
                         this.bankmanager = assignbankmanager;
                 
+                }
+                
+                public void msgGoToBankTellerStation(int banktellerstationnumber)
+                {
+                	
+                	
+                	
                 }
                 
                                 
@@ -246,6 +256,20 @@ public class BankTellerRole extends Role {
         
 		public void setPerson(PersonAgent setperson) {
 			this.person = setperson;
+		}
+		
+		public void guiGoToBankTellerStation(int stationnumber)
+		{
+			gui.goToBankTellerStation(stationnumber);
+        	try {
+    			atBankStation.acquire();
+    			//atLobby.acquire();
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        	
+			
 		}
         
         

@@ -85,7 +85,20 @@ public class BankPanel extends JPanel {
        
 		
         
-        
+		bcr.gui.goToBankTellerStation(3);
+		/*
+		try {
+			bcr.atBankStation.acquire();
+			//atLobby.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		
+		bcr.gui.leaveBank();
+		
+		
         //bcr.gui.setWaitingPosition(250, 50);
         
         //bcr.gui.goToBankTellerStation(2);

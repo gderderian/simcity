@@ -45,7 +45,7 @@ public class BankTest2 extends TestCase {
                 bankteller = new BankTellerRole(bankmanager);
                 bankteller.setPerson(person4);
                 bankteller2 = new BankTellerRole(bankmanager);
-                bankteller.setPerson(person5);
+                bankteller2.setPerson(person5);
         }        
 
         public void testOneNormalCustomerScenario()
@@ -70,7 +70,7 @@ public class BankTest2 extends TestCase {
                 assertTrue(" " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("banktellerassigned"));
                 assertEquals(bankteller.currentcustomer, bankcustomer);        
              
-                assertTrue(bankmanager.pickAndExecuteAnAction());
+                bankmanager.pickAndExecuteAnAction();
                 assertTrue(" " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("banktellerassigned"));
                 assertEquals(bankteller2.currentcustomer, bankcustomer2);        
                 
