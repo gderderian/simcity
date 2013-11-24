@@ -48,6 +48,11 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
     Restaurant2CashierRole Cashier;
     Restaurant2WaiterRole Waiter;
     Restaurant2HostRole Host;
+    
+    //
+    Restaurant2CookGui cookGui;
+    Restaurant2CustomerGui customerGui;
+    Restaurant2WaiterGui waiterGui;
 	
 	public Restaurant2AnimationPanel(Restaurant2 r){
 		System.out.println("Animation panel created");
