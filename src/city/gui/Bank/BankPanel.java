@@ -4,6 +4,7 @@ import javax.swing.*;
 import astar.AStarTraversal;
 import city.Bank;
 import city.CityMap;
+import city.House;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -27,6 +28,7 @@ public class BankPanel extends JPanel {
 	PersonAgent person4;
 	PersonAgent person5;
 	PersonAgent person6;
+	House house = new House("house1");
 	Bank bank = new Bank();
 	AStarTraversal aStarTraversal;
     CityMap citymap;
@@ -47,7 +49,7 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         
     	this.gui = gui;
-    	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap);
+    	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
         person2.startThread();
     	//BankManagerRole bmr = new BankManagerRole(bank);	
 		BankManagerRoleGui g2 = new BankManagerRoleGui(bankmanager, gui);
@@ -59,7 +61,7 @@ public class BankPanel extends JPanel {
 		
         person2.addRole(bankmanager, true);
     	
-        PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap);
+        PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
         person3.startThread();
         
         /*
@@ -74,7 +76,7 @@ public class BankPanel extends JPanel {
 		banktellers.add(btr);
         */
 	
-        PersonAgent person = new PersonAgent("bob", aStarTraversal, citymap);
+        PersonAgent person = new PersonAgent("bob", aStarTraversal, citymap, house);
         person.startThread();
         
         BankCustomerRole bcr = new BankCustomerRole(10,person);	
@@ -184,7 +186,7 @@ public class BankPanel extends JPanel {
     	//creating new customer agents
     	if (type.equals("BankCustomerRole")) {
     		
-    		person5 = new PersonAgent("jimmy", aStarTraversal, citymap);
+    		person5 = new PersonAgent("jimmy", aStarTraversal, citymap, house);
             person5.startThread();
     		
     		
@@ -298,7 +300,7 @@ public class BankPanel extends JPanel {
     
     public void depletemarket1supply() {
     	
-    	PersonAgent person6 = new PersonAgent("boobbyy", aStarTraversal, citymap);
+    	PersonAgent person6 = new PersonAgent("boobbyy", aStarTraversal, citymap, house);
         person6.startThread();
 		
     	BankTellerRole btr = new BankTellerRole(bankmanager);	
