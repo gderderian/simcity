@@ -5,21 +5,33 @@ import Role.BankTellerRole;
 
 import java.awt.*;
 
+import city.Bank;
+
 public class BankTellerRoleGui implements Gui {
 
-    private BankTellerRole agent = null;
+    private BankTellerRole role = null;
     private boolean returningtolobby = false;
-
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
 	private BankGui gui;
 
-    public static int xTable = 200;
-    public static int yTable = 250;
+    int initialxc = 200;
+    private int xcoordinatesofstations[] = new int [4];
+	private int ycoordinatesofstations[] = new int [4];
 
-    public BankTellerRoleGui(BankTellerRole agent, BankGui gui) {
-        this.agent = agent;
-        this.gui = gui;
+    //Bank bank;
+
+    public BankTellerRoleGui(BankTellerRole setrole, BankGui setgui) {
+        this.role = setrole;
+        this.gui = setgui;
+        
+       
+		for(int i = 0; i < 4; i++)
+		{
+			xcoordinatesofstations[i] = initialxc;
+			ycoordinatesofstations[i] = 100;
+			initialxc += 100;	
+		}
             
     }
 
@@ -45,12 +57,11 @@ public class BankTellerRoleGui implements Gui {
         return true;
     }
 
-    public void DoBringToTable(BankCustomerRole customer, int tablexcoordinate, int tableycoordinate) {
-      
-        xDestination = tablexcoordinate + 20;
-        yDestination = tableycoordinate - 20;
-        xTable = tablexcoordinate;
-        yTable = tableycoordinate;
+    public void goToBankTellerStation(int bankstationnumber) {
+    	
+    	xDestination = xcoordinatesofstations[bankstationnumber - 1];
+		yDestination = ycoordinatesofstations[bankstationnumber - 1];
+		//command = Command.GoToSeat;
         
     }
 

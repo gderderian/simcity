@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import restaurant1.gui.Restaurant1AnimationPanel;
+
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 
@@ -24,9 +26,11 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
     private static final int WINDOWY = 700;
     private static final int TIMER_INTERVAL = 15;
 
-	ImageIcon background = new ImageIcon("images/new_background.png");
+	ImageIcon background = new ImageIcon("images/background.png");
 
 	Restaurant2AnimationPanel testRest2AnimPanel = new Restaurant2AnimationPanel();
+	
+	//Restaurant1AnimationPanel rest1AnimPanel = new Restaurant1AnimationPanel();
 	
 	CityGui cityGui;
 	private List<Gui> guis = new ArrayList<Gui>();
@@ -102,6 +106,8 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		//Restaurant 2
 		if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180)){
 			cityGui.changeView("Restaurant2");
+		} else if((x >= 720) && (x <= 780) && (y >= 0) && (y <= 60)) {
+			cityGui.changeView("Restaurant1");
 		}
 	}
 

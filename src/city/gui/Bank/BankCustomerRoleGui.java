@@ -8,6 +8,8 @@ import java.awt.*;
 import javax.print.DocFlavor.URL;
 import javax.swing.ImageIcon;
 
+import city.Bank;
+
 public class BankCustomerRoleGui implements Gui{
 
 	private BankCustomerRole role = null;
@@ -27,12 +29,11 @@ public class BankCustomerRoleGui implements Gui{
 	public static final int yTable = 250;
 	private int xhomepos;
 	private int yhomepos;
+	private int xcoordinatesofstations[] = new int [4];
+	private int ycoordinatesofstations[] = new int [4];
 
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
-		this.role = setrole;
-
-		
-		//current position was -40 -40
+		this.role = setrole;		
 
 		xPos = 20;
 		yPos = 20;
@@ -40,6 +41,13 @@ public class BankCustomerRoleGui implements Gui{
 		yDestination = 40;
 		//maitreD = m;
 		this.gui = gui;
+		int initialxc = 200;
+		for(int i = 0; i < 4; i++)
+		{
+			xcoordinatesofstations[i] = initialxc;
+			ycoordinatesofstations[i] = 100;
+			initialxc += 100;	
+		}
 
 		
 	}
@@ -84,7 +92,7 @@ public class BankCustomerRoleGui implements Gui{
 
 			if (command==Command.GoToSeat) //agent.msgAnimationFinishedGoToSeat();
 			{
-				
+				role.atBankStation.release();
 			}
 			else if (command==Command.LeaveRestaurant) {
 				//agent.msgAnimationFinishedLeaveRestaurant();
@@ -128,11 +136,10 @@ public class BankCustomerRoleGui implements Gui{
 		isPresent = p;
 	}
 
-	public void DoGoToSeat(int seatnumber, int table) {//later you will map seatnumber to table coordinates.
-
-		//xDestination = xcoordinatesoftables[table - 1];
-		//yDestination = ycoordinatesoftables[table - 1];
-
+	public void goToBankTellerStation(int bankstationnumber) {//later you will map seatnumber to table coordinates.
+		
+		xDestination = xcoordinatesofstations[bankstationnumber - 1];
+		yDestination = ycoordinatesofstations[bankstationnumber - 1];
 		command = Command.GoToSeat;
 	}
 	
@@ -157,7 +164,6 @@ public class BankCustomerRoleGui implements Gui{
 	{
 		xhomepos = x;
 		yhomepos = y;
-
 		//agent.msgSetHomePos(x, y);
 
 	}

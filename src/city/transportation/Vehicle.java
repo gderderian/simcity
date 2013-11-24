@@ -76,7 +76,7 @@ public abstract class Vehicle extends Agent {
 		    gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
 
 		    //Did not get lock. Lets make n attempts.
-		    while (!gotPermit && attempts < 3) {
+		    while (!gotPermit && attempts < 10) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
 
 			//Wait for 1sec and try again to get lock.

@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import restaurant1.gui.Restaurant1AnimationPanel;
+
 import Role.Role;
 import astar.AStarTraversal;
 import city.gui.CityClock;
@@ -31,6 +33,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     ControlPanel controlPanel = new ControlPanel();
     
     Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel();
+    Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
         AnimationPanel4 restaurant4 = new AnimationPanel4();
         //PersonAgent testPerson = new PersonAgent("test");
         //PersonGui testPersonGui = new PersonGui();
@@ -69,12 +72,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             //cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
             restaurant2.setBackground(new Color(150, 20, 60));
             restaurant2.setCityGui(this);
+            restaurant1.setBackground(Color.LIGHT_GRAY);
+            restaurant1.setCityGui(this);
             
             restaurant4.setCityGui(this);
 
         Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
         //cityPanel.setPreferredSize(animationDim);
         restaurant2.setPreferredSize(animationDim);
+        restaurant1.setPreferredSize(animationDim);
         //add(cityPanel, BorderLayout.EAST);
         animationPanel.setPreferredSize(animationDim);
     	
@@ -97,7 +103,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
     }
     
-    public void timerTick(int timeOfDay) {
+    public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm) {
     	for (PersonAgent person : people) {
     		person.msgTimeUpdate(timeOfDay);
     	}
@@ -138,9 +144,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                         restaurant2.setVisible(true);
                 }
                 if(building.equals("City")){
+                		restaurant1.setVisible(false);
                         restaurant2.setVisible(false);
                         animationPanel.setVisible(true);
                 }       
+                if(building.equals("Restaurant1")){
+                        animationPanel.setVisible(false);
+                add(restaurant1, BorderLayout.EAST);
+                        restaurant1.setVisible(true);
+                }
         }
         
         public void addPerson(String name, AStarTraversal aStarTraversal, Role job, CityMap map){

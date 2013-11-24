@@ -3,6 +3,7 @@ import javax.swing.*;
 
 import astar.AStarTraversal;
 import city.Bank;
+import city.CityMap;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -26,6 +27,7 @@ public class BankPanel extends JPanel {
 	PersonAgent person4;
 	Bank bank;
     AStarTraversal aStarTraversal;
+    CityMap citymap;
     //Host, cook, waiters and customers
     private BankManagerRole bankmanager = new BankManagerRole(bank);
     
@@ -48,10 +50,11 @@ public class BankPanel extends JPanel {
 		BankManagerRoleGui g2 = new BankManagerRoleGui(bmr, gui);
 		gui.animationPanel.addGui(g2);
 		bmr.setGui(g2);
-        PersonAgent person2 = new PersonAgent("steve", aStarTraversal, null);
+        PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap);
         person2.startThread();
         person2.addRole(bmr, true);
     	
+        
         BankTellerRole btr = new BankTellerRole(bmr);	
 		BankTellerRoleGui g3 = new BankTellerRoleGui(btr, gui);
 		//g3.setHomePosition(12, 20 + bankcustomers.size() * 25);
@@ -59,7 +62,7 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g3);
 		btr.setGui(g3);
 		banktellers.add(btr);
-        PersonAgent person3 = new PersonAgent("john", aStarTraversal, null);
+        PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap);
         person3.startThread();
         person3.addRole(btr, true);
         
@@ -72,16 +75,11 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g);
 		bcr.setGui(g);
 		bankcustomers.add(bcr);
-        PersonAgent person = new PersonAgent("bob", aStarTraversal, null);
+        PersonAgent person = new PersonAgent("bob", aStarTraversal, citymap);
         person.startThread();
         person.addRole(bcr, true);
         
         bmr.msgCustomerArrivedAtBank(bcr);
-        
-        
-        
-        
-        
         
         
         
