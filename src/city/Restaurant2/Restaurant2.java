@@ -2,6 +2,8 @@ package city.Restaurant2;
 
 import java.util.List;
 
+import city.PersonAgent;
+
 public class Restaurant2 {
 	
 	String name;
@@ -23,8 +25,8 @@ public class Restaurant2 {
 		return host;
 	}
 	
-	public Restaurant2CustomerRole getNewCustomerRole(){
-		customer = new Restaurant2CustomerRole();
+	public Restaurant2CustomerRole getNewCustomerRole(PersonAgent p){
+		customer = new Restaurant2CustomerRole(p);
 		return customer;
 	}
 }

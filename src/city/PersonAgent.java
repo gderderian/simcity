@@ -588,7 +588,7 @@ public class PersonAgent extends Agent implements Person{
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
-		Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole();
+		Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
 		addRole(customer, true);
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
