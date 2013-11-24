@@ -14,10 +14,11 @@ public class Apartment extends House {
 		super(name);
 	}
 	
-	public Apartment(String name, int num, int buildNum){
+	//public Apartment(String name, int num, int buildNum){
+	public Apartment(String name, int num){
 		super(name);
 		aptNum= num;
-		aptBuilding= buildNum;
+		//aptBuilding= buildNum;
 	}
 	
 	public void setRoom(int num){
