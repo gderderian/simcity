@@ -26,6 +26,7 @@ import city.transportation.Vehicle;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -51,6 +52,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
     ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
     ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
+    
+    List<JPanel> buildingPanels = new ArrayList<JPanel>();
     
     
     private JPanel infoPanel;
@@ -84,6 +87,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
             setLayout(new BorderLayout());
             
             animationPanel.setCityGui(this);
+            buildingPanels.add(animationPanel);
             //cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
             restaurant2.setBackground(new Color(150, 20, 60));
             restaurant2.setCityGui(this);
@@ -262,5 +266,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         		newBus.startThread();   
         	}
         }   
+        
+        private void addPanel(JPanel jp) {
+        	buildingPanels.add(jp);
+        	
+        }
         
 }
