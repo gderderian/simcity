@@ -8,4 +8,8 @@ public class BuildingPanel extends JPanel {
 	public void setCityGui(CityGui g) {
 		cityGui = g;
 	}
+	
+	protected void changeBackToCity() {
+		cityGui.changeView("City");
+	}
 }
