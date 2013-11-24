@@ -2,13 +2,19 @@ package city.gui.Bank;
 
 import javax.swing.*;
 
+import city.gui.BuildingPanel;
+import city.gui.CityGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class BankAnimationPanel extends JPanel implements ActionListener {
+//JPanel
+public class BankAnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
 
     private final int WINDOWX = 700;//450
     private final int WINDOWY = 350;
@@ -21,10 +27,12 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     public Image imgofbankfloor = new ImageIcon("images/bankfloor.jpg").getImage();
     private Image bufferImage;
     private Dimension bufferSize;
+    private CityGui citygui;
 
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public BankAnimationPanel() {
+    public BankAnimationPanel(CityGui citygui) {
+    	this.citygui = citygui;
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         setBackground(Color.white);
@@ -101,4 +109,38 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     public void addGui(BankTellerRoleGui gui) {
     	guis.add(gui);
     }
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		if((x >= 25) && (x <= 125) && (y >= 30) && (y <= 55)) {
+			citygui.changeView("City");
+		}
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
