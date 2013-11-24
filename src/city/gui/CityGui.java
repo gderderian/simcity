@@ -8,6 +8,8 @@ import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.gui.House.ApartmentAnimationPanel;
+import city.gui.House.HouseAnimationPanel;
 import city.gui.Market.MarketAnimationPanel;
 import Role.Role;
 import astar.AStarTraversal;
@@ -43,6 +45,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         //PersonGui testPersonGui = new PersonGui();
         
     MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
+    
+    ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
+    ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
+    ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
+    ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
+    
     
     private JPanel infoPanel;
         
@@ -93,7 +101,20 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         animationPanel.setPreferredSize(animationDim);
     	
     	add(animationPanel, BorderLayout.EAST);
-
+    	
+    	//Set up and populate apartment 1
+    	apt1.setCityGui(this);
+    	for(int i=0; i<10; i++){
+    		apt1List.add(new HouseAnimationPanel());
+    		apt1List.get(i).setCityGui(this);
+    	}
+    	//Set up and populate apartment 2
+    	apt2.setCityGui(this);
+    	for(int i=0; i<10; i++){
+    		apt2List.add(new HouseAnimationPanel());
+    		apt2List.get(i).setCityGui(this);
+    	}
+    	
         Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
         infoPanel = new JPanel();
         infoPanel.setPreferredSize(panelDim);
@@ -166,6 +187,29 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                     	add(market1Animation, BorderLayout.EAST);
                     	market1Animation.setVisible(true);
                 }
+                if(building.equals("Apartment1")){
+                	animationPanel.setVisible(false);
+                	add(apt1, BorderLayout.EAST);
+                	apt1.setVisible(true);
+                }
+                if(building.equals("Apartment2")){
+                	animationPanel.setVisible(false);
+                	add(apt2, BorderLayout.EAST);
+                	apt2.setVisible(true);
+                }
+        }
+        
+        public void changeView(int building, int num){
+        	if(building == 1){
+        		apt1.setVisible(false);
+        		add(apt1List.get(num), BorderLayout.EAST);
+        		apt1List.get(num).setVisible(true);
+        	}
+        	if(building == 2){
+        		apt2.setVisible(false);
+        		add(apt2List.get(num), BorderLayout.EAST);
+        		apt2List.get(num).setVisible(true);
+        	}
         }
         
         public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map){
