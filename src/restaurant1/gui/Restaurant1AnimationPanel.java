@@ -2,6 +2,7 @@ package restaurant1.gui;
 
 import javax.swing.*;
 
+import city.gui.BuildingPanel;
 import city.gui.CityGui;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Restaurant1AnimationPanel extends JPanel implements ActionListener, MouseListener {
+public class Restaurant1AnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
 
     private static final int WINDOWX = 800;
     private static final int WINDOWY = 600;
@@ -22,9 +23,7 @@ public class Restaurant1AnimationPanel extends JPanel implements ActionListener,
     
     private Timer timer;
 
-    //Additions for SimCity
-    CityGui cityGui;
-    
+    //Additions for SimCity    
     public Restaurant1AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
     	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
@@ -117,10 +116,6 @@ public class Restaurant1AnimationPanel extends JPanel implements ActionListener,
 
 	}
 
-	public void setCityGui(CityGui c){
-		cityGui = c;
-	}
-
     public void addGui(Restaurant1CustomerGui gui) {
         guis.add(gui);
     }
@@ -171,7 +166,7 @@ public class Restaurant1AnimationPanel extends JPanel implements ActionListener,
 		int x = e.getX();
 		int y = e.getY();
 		if((x >= 20) && (x <= 64) && (y >= 20) && (y <= 44)) {
-			cityGui.changeView("City");
+			changeBackToCity();
 		}
 	}
 }

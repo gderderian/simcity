@@ -53,7 +53,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
     ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
     
-    List<JPanel> buildingPanels = new ArrayList<JPanel>();
+    List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
     
     
     private JPanel infoPanel;
@@ -74,66 +74,60 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
      * Sets up all the gui components.
      */
     public CityGui() {            
-            controlPanel.setCityGui(this);
-   
-        //testPerson.startThread();
-        //testPerson.setGui(testPersonGui);
-        //testPersonGui.addAnimationPanel(restaurant2);
-        //guis.add(testPersonGui);
-        //cityPanel.addGui(testPersonGui);
-                        
-            setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
+    	controlPanel.setCityGui(this);
 
-            setLayout(new BorderLayout());
-            
-            animationPanel.setCityGui(this);
-            buildingPanels.add(animationPanel);
-            //cityPanel.setBackground(Color.LIGHT_GRAY); //To see where it is for now
-            restaurant2.setBackground(new Color(150, 20, 60));
-            restaurant2.setCityGui(this);
-            restaurant1.setBackground(Color.LIGHT_GRAY);
-            restaurant1.setCityGui(this);
-            
-            restaurant4.setCityGui(this);
-            controlPanel.addRest2ToCityMap(rest2);
+    	//testPerson.startThread();
+    	//testPerson.setGui(testPersonGui);
+    	//testPersonGui.addAnimationPanel(restaurant2);
+    	//guis.add(testPersonGui);
+    	//cityPanel.addGui(testPersonGui);
 
-        Dimension animationDim = new Dimension(ANIMATIONX, WINDOWY);
-        //cityPanel.setPreferredSize(animationDim);
-        restaurant2.setPreferredSize(animationDim);
-        restaurant1.setPreferredSize(animationDim);
-        market1Animation.setPreferredSize(animationDim);
-        //add(cityPanel, BorderLayout.EAST);
-        animationPanel.setPreferredSize(animationDim);
+    	setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
+
+    	setLayout(new BorderLayout());
+
+    	animationPanel.setCityGui(this);
+    	animationPanel.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
+
+    	restaurant2.setBackground(new Color(150, 20, 60));
+    	addBuildingPanel(restaurant2);
+    	restaurant1.setBackground(Color.LIGHT_GRAY);
+    	addBuildingPanel(restaurant1);           
+
+    	//restaurant4.setCityGui(this);
+    	controlPanel.addRest2ToCityMap(rest2);
     	
+    	addBuildingPanel(market1Animation);
+
     	add(animationPanel, BorderLayout.EAST);
-    	
+
     	//Set up and populate apartment 1
     	apt1.setCityGui(this);
     	for(int i=0; i<10; i++){
     		apt1List.add(new HouseAnimationPanel());
-    		apt1List.get(i).setCityGui(this);
+    		buildingPanels.add(apt1List.get(i));
     	}
     	//Set up and populate apartment 2
     	apt2.setCityGui(this);
     	for(int i=0; i<10; i++){
     		apt2List.add(new HouseAnimationPanel());
-    		apt2List.get(i).setCityGui(this);
+    		buildingPanels.add(apt2List.get(i));
     	}
-    	
-        Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
-        infoPanel = new JPanel();
-        infoPanel.setPreferredSize(panelDim);
-        infoPanel.setMinimumSize(panelDim);
-        infoPanel.setMaximumSize(panelDim);
-        infoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
-        
-        infoPanel.setLayout(new FlowLayout());
-        
-        //add(infoPanel, BorderLayout.WEST);
-        add(controlPanel, BorderLayout.WEST);
-        
-        CityClock masterClock = new CityClock(this);
-        masterClock.startTime();
+
+    	Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
+    	infoPanel = new JPanel();
+    	infoPanel.setPreferredSize(panelDim);
+    	infoPanel.setMinimumSize(panelDim);
+    	infoPanel.setMaximumSize(panelDim);
+    	infoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
+
+    	infoPanel.setLayout(new FlowLayout());
+
+    	//add(infoPanel, BorderLayout.WEST);
+    	add(controlPanel, BorderLayout.WEST);
+
+    	CityClock masterClock = new CityClock(this);
+    	masterClock.startTime();
 
     }
     
@@ -178,20 +172,21 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
                         restaurant2.setVisible(true);
                 }
                 if(building.equals("City")){
-                		restaurant1.setVisible(false);
-                        restaurant2.setVisible(false);
-                        market1Animation.setVisible(false);
+                	for(BuildingPanel bp : buildingPanels) {
+                		bp.setVisible(false);
+                	}
                         animationPanel.setVisible(true);
+                        add(animationPanel, BorderLayout.EAST);
                 }       
                 if(building.equals("Restaurant1")){
-                        animationPanel.setVisible(false);
-                        add(restaurant1, BorderLayout.EAST);
-                        restaurant1.setVisible(true);
+                	animationPanel.setVisible(false);
+                	add(restaurant1, BorderLayout.EAST);
+                	restaurant1.setVisible(true);
                 }
                 if(building.equals("Market1")){
-                    	animationPanel.setVisible(false);
-                    	add(market1Animation, BorderLayout.EAST);
-                    	market1Animation.setVisible(true);
+                	animationPanel.setVisible(false);
+                	add(market1Animation, BorderLayout.EAST);
+                	market1Animation.setVisible(true);
                 }
                 if(building.equals("Apartment1")){
                 	animationPanel.setVisible(false);
@@ -206,13 +201,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         }
         
         public void changeView(int building, int num){
-        	if(building == 1){
+        	if(building == 1) {
         		apt1.setVisible(false);
+        		for(int i = 0; i < 10; i++)
+        			apt1List.get(i).setVisible(false);
         		add(apt1List.get(num), BorderLayout.EAST);
         		apt1List.get(num).setVisible(true);
         	}
         	if(building == 2){
         		apt2.setVisible(false);
+        		for(int i = 0; i < 10; i++)
+        			apt2List.get(i).setVisible(false);
         		add(apt2List.get(num), BorderLayout.EAST);
         		apt2List.get(num).setVisible(true);
         	}
@@ -267,9 +266,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
         	}
         }   
         
-        private void addPanel(JPanel jp) {
-        	buildingPanels.add(jp);
-        	
+        private void addBuildingPanel(BuildingPanel bp) {
+        	bp.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
+        	buildingPanels.add(bp);
+        	bp.setCityGui(this);        	
         }
         
 }

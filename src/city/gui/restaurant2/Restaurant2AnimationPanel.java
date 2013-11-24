@@ -190,7 +190,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
 		int x = e.getX();
 		int y = e.getY();
 		if((x >= 30) && (x <= 90) && (y >= 30) && (y <= 50)){
-			cityGui.changeView("City");
+			changeBackToCity();
 		}
 	}
 
