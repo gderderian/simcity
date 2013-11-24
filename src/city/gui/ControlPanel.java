@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimerTask;
 import java.util.Map.Entry;
+import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.BorderFactory;
@@ -53,6 +55,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JButton populateCity = new JButton("Populate City");
+    
+    private Timer timer = new Timer();
     
     private int WINDOWX = 370;
     private int WINDOWY = 750;
@@ -481,7 +485,12 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     public void populateCity(){
-    	
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
     	
     	
     }
