@@ -2,6 +2,7 @@ package city.gui.Market;
 
 import javax.swing.*;
 
+import city.gui.BuildingPanel;
 import city.gui.CityGui;
 
 import java.awt.*;
@@ -12,14 +13,12 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class MarketAnimationPanel extends JPanel implements ActionListener, MouseListener {
+public class MarketAnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
 
     private final int WINDOWX = 900;
     private final int WINDOWY = 750;
     
     private final int MAIN_TIMER = 15;
-    private final int TABLE_X = 50;
-    private final int TABLE_Y = 50;
     private final int SCREEN_RECT_X_COORD = 0;
     private final int SCREEN_RECT_Y_COORD = 0;
 
@@ -27,15 +26,12 @@ public class MarketAnimationPanel extends JPanel implements ActionListener, Mous
     
 	Timer timer = new Timer(MAIN_TIMER, this);
 	private boolean timerIsRunning = false;
-    
-	CityGui cg;
 	
     public MarketAnimationPanel(CityGui newCityGui) {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
     	timer.start();
     	timerIsRunning = true;
-    	cg = newCityGui;
     	addMouseListener(this);
     }
 
@@ -117,7 +113,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener, Mous
 		int x = e.getX();
 		int y = e.getY();
 		if((x >= 25) && (x <= 125) && (y >= 30) && (y <= 55)) {
-			cg.changeView("City");
+			super.backToCity();
 		}
 	}
 
