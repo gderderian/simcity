@@ -8,11 +8,13 @@ import justinetesting.interfaces.Cook4;
 import justinetesting.interfaces.Customer4;
 import justinetesting.interfaces.Market4;
 import justinetesting.interfaces.Waiter4;
+import city.PersonAgent;
 import city.gui.restaurant4.CookGui4;
 
 public class CookRole4 extends Role implements Cook4 {
 	String name;
 	WaiterRole4 waiter;
+	PersonAgent p;
 	ArrayList<Waiter4> waiters= new ArrayList<Waiter4>();
 	Timer cook= new Timer();
 	Order o= new Order();
@@ -33,9 +35,10 @@ public class CookRole4 extends Role implements Cook4 {
 	// Implement cook gui
 	public CookGui4 cookGui = null;
 
-	public CookRole4(String name) {
+	public CookRole4(String name, PersonAgent p) {
 		super();
 		this.name= name;
+		this.p= p;
 		foods= new ArrayList<Food>();
 		markets= new ArrayList<MyMarket>();
 		foods.add(new Food("Steak"));
@@ -69,7 +72,7 @@ public class CookRole4 extends Role implements Cook4 {
 		if(newWaiter){
 			waiters.add(w);
 		}
-		stateChanged();
+		p.stateChanged();
 	}
 
 	public void msgPickedUpFood(Customer4 c){
@@ -91,7 +94,7 @@ public class CookRole4 extends Role implements Cook4 {
 		delivery.put("Pizza", p);
 		this.successful= successful;
 		o.ms= marketState.fulfilled;
-		stateChanged();
+		this.p.stateChanged();
 	}
 	
 	public void msgOutOfItem(Market4 m, String type){
@@ -164,7 +167,7 @@ public class CookRole4 extends Role implements Cook4 {
 		cookGui.doPlating(o.choice, find(o), o.id);
 		o.w.msgOrderDone(o.choice, o.c);
 		o.s= orderState.finished;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void cookIt(final Order o){
@@ -175,7 +178,7 @@ public class CookRole4 extends Role implements Cook4 {
 					o.w.msgOutOfFood(food.type, o.c);
 					o.s= orderState.outOfItem;
 					this.o.ms= marketState.checkForRestock;
-					stateChanged();
+					p.stateChanged();
 					return;
 				}
 				else {
@@ -185,7 +188,7 @@ public class CookRole4 extends Role implements Cook4 {
 					cook.schedule(new TimerTask() {
 						@Override public void run() {
 							o.s= orderState.done;
-							stateChanged();
+							p.stateChanged();
 						}}, cookingTime);
 					return;
 				}
@@ -210,7 +213,7 @@ public class CookRole4 extends Role implements Cook4 {
 			return;
 		}
 		o.ms= marketState.ordered;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void calculateOrder(){
@@ -282,7 +285,7 @@ public class CookRole4 extends Role implements Cook4 {
 			}
 			o.ms= marketState.partiallyFullfilled;
 		}
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void closeRestaurant(){

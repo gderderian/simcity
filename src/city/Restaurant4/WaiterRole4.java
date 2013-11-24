@@ -1,6 +1,7 @@
 package city.Restaurant4;
 
 import Role.Role;
+import city.PersonAgent;
 import city.gui.restaurant4.RestaurantGui4;
 import city.gui.restaurant4.WaiterGui4;
 import justinetesting.interfaces.Customer4;
@@ -12,6 +13,7 @@ import java.util.concurrent.Semaphore;
 
 public class WaiterRole4 extends Role implements Waiter4 {
 	private String name;
+	PersonAgent p;
 	private  Menu menu;
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public enum customerState{waiting, seated, askedToOrder, ordered, reOrder, foodDone, eating, doneEating, askedForBill, readyForBill, done, none};
@@ -40,9 +42,10 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	public RestaurantGui4 gui;
 
 	
-	public WaiterRole4(String name, RestaurantGui4 gui) {
+	public WaiterRole4(String name, RestaurantGui4 gui, PersonAgent p) {
 		super();
 		this.name= name;
+		this.p= p;
 		this.gui= gui;
 		bs= breakState.none;
 		menu= new Menu();
@@ -92,27 +95,27 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		MyCustomer mc= find(c);
 		mc.s= customerState.waiting;
 
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgReadyToOrder(Customer4 c){
 		MyCustomer mc= find(c); 
 		mc.s= customerState.askedToOrder;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgHereIsChoice(Customer4 c, String choice){
 		MyCustomer mc= find(c);
 		mc.setChoice(choice);
 		mc.s= customerState.ordered;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgOutOfFood(String choice, Customer4 c){
 		MyCustomer mc= find(c);
 		mc.s= customerState.reOrder;
 		menu.foods.remove(choice);
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgRestocked(String choice){
@@ -130,36 +133,36 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	public void msgOrderDone(String choice, Customer4 c){
 		MyCustomer mc= find(c);
 		mc.s= customerState.foodDone;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgDoneEating(Customer4 c){
 		MyCustomer mc= find(c);
 		mc.s= customerState.doneEating;
-		stateChanged();
+		p.stateChanged();
 	}
 
 	public void msgWantBreak(){
 		bs= breakState.wantToGoOnBreak;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgBreakApproved(){
 		print("YES! i get to take my break now");
 		bs= breakState.goOnBreak;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgBreakDenied(){
 		print("I really wish i could have taken my break :(");
 		bs= breakState.deniedBreak;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgReadyForBill(Customer4 c){
 		MyCustomer mc = find(c);
 		mc.s= customerState.askedForBill;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgHereIsBill(double amount, Customer4 c){
@@ -167,32 +170,32 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		MyCustomer mc= find(c);
 		mc.amountOwed= amount;
 		mc.s= customerState.readyForBill;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgAllMarketsOut(){
 		closeRest= true;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgAtTable(){//from animation
 		ws= waiterState.atTable;
 		atTable.release();
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgAtCook(){
 		if(atCook.availablePermits() == 0){
 			ws= waiterState.atCook;
 			atCook.release();
-			stateChanged();
+			p.stateChanged();
 		}
 	}
 
 	public void msgAtEntrance(){
 		ws= waiterState.atEntrance;
 		atEntrance.release();
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgAtHome(){
@@ -200,7 +203,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		if(bs == breakState.onBreak){
 			atHome.release();
 		}
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	
@@ -338,7 +341,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 			bs= breakState.wantToGoOnBreak;
 			print("breakState: " + bs);
 		}
-		stateChanged();
+		p.stateChanged();
 	}
 
 	private void takeOrder(MyCustomer c){
@@ -351,7 +354,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 		c.c.msgWhatDoWant();
 		c.s= customerState.none;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void reOrder(MyCustomer c, String choice){
@@ -364,7 +367,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 		c.c.msgWhatDoWant(choice);
 		c.s= customerState.none;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void sendOrderToCook(MyCustomer c){
@@ -377,7 +380,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 		cook.msgHereIsOrder(this, c.choice, c.c);
 		c.s= customerState.none;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void deliverFood(MyCustomer c){
@@ -398,26 +401,26 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 		c.c.msgHereIsFood(c.choice);
 		c.s= customerState.eating;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void updateHost(MyCustomer c){
 		host.msgTableAvaliable(c.c);
 		c.s= customerState.done;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void tellCashier(MyCustomer c){
 		cashier.msgComputeBill(this, c.c, c.choice);
 		c.s= customerState.none;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void giveBill(MyCustomer c){
 		c.c.msgHereIsBill(c.amountOwed);
 		c.s= customerState.none;
 		customers.remove(c.c);
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void askHostForBreak(){
@@ -438,7 +441,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 			@Override public void run() { 
 				bs= breakState.finishedBreak;
 			}}, breakTime);
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	private void readyToWork(){
