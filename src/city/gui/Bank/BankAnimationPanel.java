@@ -36,6 +36,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         setBackground(Color.white);
+        addMouseListener(this);
         bufferSize = this.getSize();
     	Timer timer = new Timer(13, this );
     	timer.start();
@@ -127,7 +128,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
 		int x = e.getX();
 		int y = e.getY();
 		if((x >= 25) && (x <= 125) && (y >= 30) && (y <= 55)) {
-			citygui.changeView("City");
+			changeBackToCity();
 		}
 		
 	}
