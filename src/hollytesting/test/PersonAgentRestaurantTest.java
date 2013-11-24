@@ -26,13 +26,12 @@ public class PersonAgentRestaurantTest extends TestCase{
         public void setUp() throws Exception{
                 super.setUp();                
                 person = new PersonAgent("Person");
-                host = new Restaurant2HostRole("Host");        
                 hostPerson = new PersonAgent("hostPerson");
-                customer = new Restaurant2CustomerRole("Customer");                
-                waiter = new Restaurant2WaiterRole("Waiter");
+                host = new Restaurant2HostRole("Host", hostPerson);        
                 waiterPerson = new PersonAgent("waiterPerson");
-                cook = new Restaurant2CookRole("Cook");
+                waiter = new Restaurant2WaiterRole("Waiter", waiterPerson);
                 cookPerson = new PersonAgent("cookPerson");
+                cook = new Restaurant2CookRole("Cook", cookPerson);
                 gui = new PersonGui(person);
         }
         
@@ -55,6 +54,7 @@ public class PersonAgentRestaurantTest extends TestCase{
                                 person.log.getLastLoggedEvent().toString(), person.log.containsString("Decided to go to a restaurant"));
                 
                 //Add customer role
+                customer = new Restaurant2CustomerRole("Customer", person);
                 person.addRole(customer, true);
                 assertEquals("Person should have one role in their roles list.", person.roles.size(), 1);
                 

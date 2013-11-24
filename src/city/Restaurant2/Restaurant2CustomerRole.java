@@ -60,9 +60,10 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public Restaurant2CustomerRole(String name){
+	public Restaurant2CustomerRole(String name, PersonAgent p){
 		super();
 		this.name = name;
+		person = p;
 		tableNumber = -1;
 		if(name.equals("flake") || name.equals("honest")){
 			wallet = 5.00;
@@ -75,10 +76,12 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		}
 	}
 	
-	public Restaurant2CustomerRole(){
+	public Restaurant2CustomerRole(PersonAgent p){
 		super();
 		//this.name = name;
 		tableNumber = -1;
+		person = p;
+		name = p.getName();
 		/*
 		if(name.equals("flake") || name.equals("honest")){
 			wallet = 5.00;
@@ -91,11 +94,11 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		wallet = 20.00;
 		//}
 	}
-	
+	/*
 	public void setPerson(PersonAgent p){
 		person = p;
 	}
-
+*/
 	/**
 	 * hack to establish connection to Host agent.
 	 */
