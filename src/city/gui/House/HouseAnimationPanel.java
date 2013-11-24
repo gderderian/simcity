@@ -20,7 +20,7 @@ import city.gui.Gui;
 import city.gui.PersonGui;
 
 public class HouseAnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
-    private static final int WINDOWX = 1300;
+    private static final int WINDOWX = 900;
     private static final int WINDOWY = 700;
     
     private List<Gui> guis = new ArrayList<Gui>();
@@ -112,7 +112,6 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 //Change to city
                 if((x >= 75) && (x <= 175) && (y >= 0) && (y <= 30)){
                         System.out.println("Back to the city view, goodbye!");
-                        //cityGui.changeView("City");
                         changeBackToCity(); 
                 }
                 
