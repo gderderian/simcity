@@ -52,6 +52,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel worldControls = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
+    private JButton populateCity = new JButton("Populate City");
     
     private int WINDOWX = 370;
     private int WINDOWY = 750;
@@ -84,6 +85,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     MarketManager marketManager;
     MarketWorker marketWorker;
     LandlordRole landlord;
+    
+    int houseAssignmentNumber = 0;
     
     //TODO populate this
     private Map<String, String> jobLocations = new HashMap<String, String>();
@@ -131,10 +134,12 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         addPersonSection();
         
+        setupWorldControls();
+        
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
-        controlPane.addTab("People", personControls);
         controlPane.addTab("World", worldControls);
+        controlPane.addTab("People", personControls);
         add(controlPane);
         
         List<String> stopLocations0 = new ArrayList<String>();
@@ -159,8 +164,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         //Creation of houses and apartments
         createHouses();
       	//Creation of bus stops
-        createBusStops();
-        
+        createBusStops();        
     }
     
     public void addRest2ToCityMap(Restaurant2 r){
@@ -177,6 +181,12 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public CityMap getCityMap() {
     	return cityMap;
+    }
+    
+    private void setupWorldControls(){
+    	populateCity.addActionListener(this);
+    	
+    	worldControls.add(populateCity);
     }
     
     private void addPersonSection(){
@@ -287,6 +297,9 @@ public class ControlPanel extends JPanel implements ActionListener{
         		addVehicle("bus");
         	}
         }
+        else if(e.getSource() == populateCity){
+        	populateCity();
+        }
     }
 
     /**
@@ -303,16 +316,15 @@ public class ControlPanel extends JPanel implements ActionListener{
             
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
-            /*
-            //Find the role for the person's job
-            Role role = null;
-            for (Entry<String, Role> entry : jobRoles.entrySet()){
-            	if(entry.getKey().equals(job)){
-            		role = entry.getValue();
-            	}
-            }*/
+            House house = houses.get(houseAssignmentNumber);
+            if(houseAssignmentNumber == 27){
+            	houseAssignmentNumber = 26;
+            }
+            else{
+                houseAssignmentNumber++;
+            }
             
-            cityGui.addPerson(name, aStarTraversal, job, cityMap);
+            cityGui.addPerson(name, aStarTraversal, job, cityMap, house);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
@@ -467,4 +479,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     	//Apartment apart2 = new Apartment("apart2", 2);
     	//houses.add(apart2);
     }
+    
+    public void populateCity(){
+    	
+    	
+    	
+    }
+
 }

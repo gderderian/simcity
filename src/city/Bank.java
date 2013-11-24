@@ -10,8 +10,8 @@ import Role.BankManagerRole;
 public class Bank {
 
         BankManagerRole bankmanager;
-        public List<account> accounts;
-        public static List<bankstation> bankstations;
+        public List<account> accounts = new ArrayList<account>();
+        public static List<bankstation> bankstations = new ArrayList<bankstation>();
         public static int uniqueaccountnumber = 0;
         int initialxcofbank = 200;
         int initialycofbank = 100;
@@ -52,9 +52,9 @@ public class Bank {
         	public boolean isOccupied()
         	{
         		if(bankteller != null)
-        		return false;
-        		else
         		return true;
+        		else
+        		return false;
         		
         	}
         	

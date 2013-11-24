@@ -5,6 +5,7 @@ import city.Bank;
 import city.account;
 import city.gui.Bank.BankTellerRoleGui;
 import Role.BankCustomerRole;
+import city.PersonAgent;
 
 public class BankTellerRole extends Role {
         
@@ -22,6 +23,7 @@ public class BankTellerRole extends Role {
                 state banktellerstate;
                 BankTellerRoleGui gui;
                 public EventLog log = new EventLog();
+                PersonAgent person;
                 
                 
                 public BankTellerRole(/*BankTellerRole assignbanktellerrole,*/ BankManagerRole assignbankmanager)
@@ -38,7 +40,7 @@ public class BankTellerRole extends Role {
                 {
                         currentcustomer = customer;
                         currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
-                        stateChanged();
+                        person.stateChanged();
                 }
 
                 public void msgOpenAccount() 
@@ -46,7 +48,7 @@ public class BankTellerRole extends Role {
                         
                         log.add(new LoggedEvent("msgOpenAccount"));
                         banktellerstate = state.openaccount;
-                        stateChanged();
+                        person.stateChanged();
                 }
 
                 public void msgDepositIntoAccount(double deposit)
@@ -54,7 +56,7 @@ public class BankTellerRole extends Role {
                         log.add(new LoggedEvent("msgDepositIntoAccount"));
                         this.deposit = deposit;
                         banktellerstate = state.depositintoaccount;
-                        stateChanged();
+                        person.stateChanged();
                 }
 
                 public void msgWithdrawFromAccount(double withdrawal)
@@ -62,7 +64,7 @@ public class BankTellerRole extends Role {
                         log.add(new LoggedEvent("msgWithdrawFromAccount"));
                         this.withdrawal = withdrawal;
                         banktellerstate = state.withdrawfromaccount;
-                        stateChanged();
+                        person.stateChanged();
                 }
 
                 public void msgGetLoan(double loan)
@@ -70,21 +72,21 @@ public class BankTellerRole extends Role {
                         log.add(new LoggedEvent("msgGetLoan"));
                         this.loan = loan;
                         banktellerstate = state.getloan;
-                        stateChanged();
+                        person.stateChanged();
                 }
                 
                 public void msgPayBackLoan(double paybackloan)
                 {
                         this.paybackloan = paybackloan;
                         banktellerstate = state.paybackloan;
-                        stateChanged();
+                        person.stateChanged();
                 }
                 
                 public void msgBankCustomerLeaving()
                 {
                         log.add(new LoggedEvent("msgBankCustomerLeaving"));
                         banktellerstate = state.customerleft;
-                        stateChanged();
+                        person.stateChanged();
                 }
 
 
@@ -231,7 +233,7 @@ public class BankTellerRole extends Role {
                 
                 return false;
 }
-
+        
 
 		public void setGui(BankTellerRoleGui setgui) {
 			
@@ -242,6 +244,9 @@ public class BankTellerRole extends Role {
 			return this.name;
 		}
         
+		public void setPerson(PersonAgent setperson) {
+			this.person = setperson;
+		}
         
         
         

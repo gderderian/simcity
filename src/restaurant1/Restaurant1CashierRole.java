@@ -8,6 +8,8 @@ import restaurant1.test.mock.Restaurant1EventLog;
 
 import java.util.*;
 
+import city.PersonAgent;
+
 public class Restaurant1CashierRole extends Agent {
 	
 	public Restaurant1EventLog log; //Log for keeping track of events while unit testing cashier
@@ -28,8 +30,12 @@ public class Restaurant1CashierRole extends Agent {
 	
 	Timer timer = new Timer();
 
-	public Restaurant1CashierRole(String name) {
+	PersonAgent person;
+	
+	public Restaurant1CashierRole(String name, PersonAgent p) {
 		super();
+		
+		person = p;
 		
 		this.name = name;
 	}
@@ -53,7 +59,7 @@ public class Restaurant1CashierRole extends Agent {
 		}
 		checks.add(new MyCheck(w, check));
 		
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgPayBill(Restaurant1Check check, double money) {
@@ -73,12 +79,12 @@ public class Restaurant1CashierRole extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgYouOwe(Restaurant1Market m, double amount) {
 		marketBills.add(new MarketBill(m, amount));
-		stateChanged();
+		person.stateChanged();
 	}
 
 	/**

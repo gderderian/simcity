@@ -9,6 +9,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent;
+
 /**
  * Restaurant customer agent.
  */
@@ -41,6 +43,8 @@ public class Restaurant1CustomerRole extends Agent implements Restaurant1Custome
 	public enum AgentEvent 
 	{none, gotHungry, followWaiter, seated, askedToOrder, ordered, reordering, startedEating, doneEating, payBill, leaving};
 	AgentEvent event = AgentEvent.none;
+	
+	PersonAgent person;
 
 	Random ranGenerator = new Random(); //Random number generator for money and choice
 	
@@ -50,10 +54,12 @@ public class Restaurant1CustomerRole extends Agent implements Restaurant1Custome
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public Restaurant1CustomerRole(String name){
+	public Restaurant1CustomerRole(String name, PersonAgent p){
 		super();
 		
 		this.name = name;
+		
+		person = p;
 		
 		money = (double) ranGenerator.nextInt(60) + 10;
 		
@@ -117,13 +123,13 @@ public class Restaurant1CustomerRole extends Agent implements Restaurant1Custome
 		if(name.equals("patient")) {
 			print("I'm in no hurry, I'll wait around.");
 			goingInside = true;
-			stateChanged();
+			person.stateChanged();
 			return;
 		}
 		if(name.equals("impatient")) {
 			print("I don't have time to wait around!");
 			event = AgentEvent.leaving;
-			stateChanged();
+			person.stateChanged();
 			return;
 		}
 		
@@ -135,41 +141,41 @@ public class Restaurant1CustomerRole extends Agent implements Restaurant1Custome
 			print("I'm in no hurry, I'll wait around.");
 			goingInside = true;
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgFeelFreeToWait(int spot) {
 		waitingSpot = spot;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgGotHungry() {//from animation
 		print("I'm hungry");
 		event = AgentEvent.gotHungry;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgFollowMe(Restaurant1WaiterRole w, Restaurant1Menu m) {
 		waiter = w;
 		menu = m;
 		event = AgentEvent.followWaiter;
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
 		event = AgentEvent.seated;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgWhatDoYouWant() {
 		event = AgentEvent.askedToOrder;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgPleaseReorder() {
 		event = AgentEvent.reordering;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgRemoveFromMenu(String choice) {
@@ -178,28 +184,28 @@ public class Restaurant1CustomerRole extends Agent implements Restaurant1Custome
 	
 	public void msgHereIsYourBill(Restaurant1Check c) {
 		check = c;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgHereIsChange(double change) {
 		money += change;
 		event = AgentEvent.leaving;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgHereIsYourFood(String choice) {
 		event = AgentEvent.startedEating;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAnimationDoneEatingFood() {
 		event = AgentEvent.doneEating;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAtDestination() {
 		atDestination.release();
-		stateChanged();
+		person.stateChanged();
 	}
 
 	/**

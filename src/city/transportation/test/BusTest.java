@@ -9,10 +9,12 @@ import city.transportation.BusAgent;
 import city.transportation.BusAgent.BusEvent;
 import city.transportation.BusAgent.BusState;
 import city.transportation.mock.MockBusStop;
+import city.transportation.mock.MockTransportationPerson;
+import interfaces.Person;
 
 public class BusTest extends TestCase {
 	//instantiated in setUp()
-	List<PersonAgent> people;
+	List<Person> people;
 	BusAgent bus;
 	
 	MockBusStop stop1;
@@ -22,9 +24,9 @@ public class BusTest extends TestCase {
 
 	public void setUp() throws Exception {
 		super.setUp();
-		people = new ArrayList<PersonAgent>();
+		people = new ArrayList<Person>();
 		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
-			people.add(new PersonAgent("person", null));
+			people.add(new MockTransportationPerson());
 		}
 		bus = new BusAgent(null);
 		
@@ -47,7 +49,7 @@ public class BusTest extends TestCase {
 		assertTrue(bus.capacity == 10);
 		assertTrue(bus.currentStop == 3);
 		assertEquals(bus.passengers.size(), 0);
-		assertTrue(bus.event == BusEvent.arrivedAtStop);
+		assertTrue(bus.event == BusEvent.none);
 		assertTrue(bus.state == BusState.driving);
 		
 		//Scheduler
