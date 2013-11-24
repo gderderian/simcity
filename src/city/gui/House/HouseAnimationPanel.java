@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -11,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -24,6 +26,14 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     private static final int WINDOWY = 700;
     
     private List<Gui> guis = new ArrayList<Gui>();
+    
+    public Image bed = new ImageIcon("images/bed.png").getImage();
+    public Image lamp = new ImageIcon("images/lamp.png").getImage();
+    public Image table = new ImageIcon("images/table.png").getImage();
+    public Image stove = new ImageIcon("images/stove.png").getImage();
+    public Image oven = new ImageIcon("images/oven.png").getImage();
+    public Image fridge = new ImageIcon("images/fridge.png").getImage();
+    public Image microwave = new ImageIcon("images/microwave.png").getImage();
     
     public HouseAnimationPanel() {
         setSize(WINDOWX, WINDOWY);
@@ -55,25 +65,25 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         
         
         //This is the kitchen table
-        g2.setColor(Color.ORANGE);
-        g2.fillRect(250, 350, 40, 40);
+        g.drawImage(table, 500, 200, 75, 75, this);
         
         //This is the fridge
-        g2.setColor(Color.GRAY);
-        g2.fillRect(0, 320, 70, 25);
+        g.drawImage(fridge, 450, 0, 75, 80, this);
         
         //This is the stove
-        g2.setColor(Color.DARK_GRAY);
-        g2.fillRect(0, 345, 30, 30);
+        g.drawImage(stove, 525, 25, 55, 55, this);
         
         //This is the oven
-        g2.setColor(Color.BLUE);
-        g2.fillRect(0, 375, 30, 30);
+        g.drawImage(oven, 580, 25, 55, 55, this);
         
         //This is the microwave
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(0, 405, 30, 30);
+        g.drawImage(microwave, 635, 25, 55, 55, this);
         
+        //This is the bed
+        g.drawImage(bed,100, 500, 180, 140, this);
+        
+        //This is the lamp
+        g.drawImage(lamp, 50, 575, 50, 50, this);
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {
