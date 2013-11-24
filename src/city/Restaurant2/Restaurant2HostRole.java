@@ -40,10 +40,11 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	private int waiterNum;
 	PersonAgent person;
 
-	public Restaurant2HostRole(String name) {
+	public Restaurant2HostRole(String name, PersonAgent p) {
 		super();
 		
 		waiterNum = 1;
+		person = p;
 
 		this.name = name;
 		// make some tables
@@ -61,10 +62,11 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		return name;
 	}
 	
+	/*
 	public void setPerson(PersonAgent p){
 		person = p;
 	}
-	
+	*/
 	//stateChanged?
 	public void addWaiters(Restaurant2Waiter w){
 		waiters.add(new MyWaiter(w));
@@ -87,6 +89,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		}
 		if(!alreadyExists){
 			customers.add(new MyCustomer(cust));
+			print("Adding customer");
 		}
 		int tcount = 0;
 		synchronized(tables){
@@ -106,6 +109,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 			}
 		}
 		person.stateChanged();
+		print("My person is " + person.getName());
 	}
 	
 	public void msgNoTablesLeaving(Restaurant2Customer c){
@@ -172,13 +176,14 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-			
+		print("inside host scheduler");
 		try{
 			for (Table table : tables) {
 				if (!table.isOccupied()) {
 					if(!waiters.isEmpty()){
 						for(MyCustomer mc : customers){
 							if(mc.cs == CustomerState.hungry){
+								print("going to seat customer");
 								seatCustomer(mc, table);//the action
 								return true;//return true to the abstract agent to reinvoke the scheduler.
 							}
@@ -218,6 +223,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 
 		}
 
+		print("Returning false");
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent

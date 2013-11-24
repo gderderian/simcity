@@ -12,11 +12,11 @@ public class Restaurant2 {
 	List<Restaurant2WaiterRole> waiters;
 	
 	public Restaurant2(){
-		host = new Restaurant2HostRole("Restaurant 2 Host");
+		//nothing here
 	}
 	
-	public Restaurant2HostRole getHostRole(){
-		return host;
+	public void setHost(Restaurant2HostRole h){
+		host = h;
 	}
 	
 	public Restaurant2HostRole getHost(){

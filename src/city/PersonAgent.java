@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import test.mock.EventLog;
+import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.gui.PersonGui;
 import city.transportation.BusAgent;
@@ -604,6 +605,7 @@ public class PersonAgent extends Agent implements Person{
 			DoGoTo("rest2");
 		    gui.setInvisible();
 		}
+		Restaurant2 test = cityMap.restaurant2;
 		cityMap.restaurant2.getHost().msgIWantFood(customer);
 	}
 	
@@ -807,7 +809,7 @@ public class PersonAgent extends Agent implements Person{
 		    //System.out.println("[Gaut] " + guiWaiter.getName() + " got permit for " + tmpPath.toString());
 		    currentPosition.release(aStar.getGrid());
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
-		    print("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
+		    //print("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
 		    gui.moveTo(130 + (currentPosition.getX() * 30), 70 + (currentPosition.getY() * 30));
 		    
 		    //Give animation time to move to square.

@@ -35,20 +35,21 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
     private final int STOVEX = KITCHENX - 75;
     private final int STOVEY = KITCHENY + 60;
     
-    Restaurant2 restaurant = new Restaurant2();
+    Restaurant2 restaurant;
     
     //People for testing
     PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
     PersonAgent personCashier = new PersonAgent("Cashier");
     PersonAgent personWaiter = new PersonAgent("Waiter");
-    Restaurant2CookRole Cook = new Restaurant2CookRole("CookRole");
-    Restaurant2CashierRole Cashier = new Restaurant2CashierRole("CashierRole");
-    Restaurant2WaiterRole Waiter = new Restaurant2WaiterRole("WaiterRole");
+    Restaurant2CookRole Cook;
+    Restaurant2CashierRole Cashier;
+    Restaurant2WaiterRole Waiter;
+    Restaurant2HostRole Host;
     
     CityGui cityGui;
 	
-	public Restaurant2AnimationPanel(){
+	public Restaurant2AnimationPanel(Restaurant2 r){
 		System.out.println("Animation panel created");
     	setSize(WINDOWX, WINDOWY);
     	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
@@ -58,15 +59,23 @@ public class Restaurant2AnimationPanel extends JPanel implements MouseListener{
         
         addMouseListener(this);
         
-        Cook.setPerson(personCook);
-        Cashier.setPerson(personCashier);
-        Restaurant2HostRole Host = restaurant.getHostRole();
-        Host.setPerson(personHost);
-        Waiter.setPerson(personWaiter);
+        restaurant = r;
+        
+        Cook = new Restaurant2CookRole("CookRole", personCook);
+        Cashier = new Restaurant2CashierRole("CashierRole", personCashier);
+        Waiter = new Restaurant2WaiterRole("WaiterRole", personWaiter);
+        Host = new Restaurant2HostRole("HostRole", personHost);
+        
+        restaurant.setHost(Host);
+        
         personCook.addRole(Cook, true);
+        personCook.startThread();
         personHost.addRole(Host, true);
+        personHost.startThread();
         personCashier.addRole(Cashier, true);
+        personCashier.startThread();
         personWaiter.addRole(Waiter, true);
+        //personWaiter.startThread();
         
 	}
 	
