@@ -38,6 +38,8 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	double wallet;
 	double check;
 	
+	String type;
+	
 	public EventLog log = new EventLog();
 
 	//    private boolean isHungry = false; //hack for gui
@@ -74,7 +76,10 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		else{
 		wallet = 20.00;
 		}
+		
+		type = "Restaurant2CustomerRole";
 	}
+	
 	
 	public Restaurant2CustomerRole(PersonAgent p){
 		super();

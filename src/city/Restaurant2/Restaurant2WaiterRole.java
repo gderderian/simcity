@@ -87,6 +87,10 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		waiterNum = n;
 	}
 	
+	public void setType(String t){
+		
+	}
+	
 	/*
 	public void setPerson(PersonAgent p){
 		person = p;
@@ -110,7 +114,6 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 			customers.add(new MyCustomer(c, table));
 		}
 		person.stateChanged();
-		print("called stateChanged");
 	}
 	
 	public void msgReadyToBeSeated(Restaurant2Customer c){
