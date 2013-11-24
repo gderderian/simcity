@@ -713,6 +713,9 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void movementTest() {
+		
+		DoGoTo(house.getName());
+		
 		if(name.equals("a"))
 			DoGoTo("rest3");
 		

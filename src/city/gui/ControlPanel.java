@@ -161,8 +161,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         //Creation of houses and apartments
         createHouses();
       	//Creation of bus stops
-        createBusStops();
-        
+        createBusStops();        
     }
     
     public void addRest2ToCityMap(Restaurant2 r){
@@ -468,4 +467,5 @@ public class ControlPanel extends JPanel implements ActionListener{
     	Apartment apart2 = new Apartment("apart2", 2);
     	houses.add(apart2);
     }
+
 }
