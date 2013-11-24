@@ -29,7 +29,7 @@ public class PersonGui implements Gui {
 	ImageIcon flat3 = new ImageIcon("images/person_flat3.png");
 	
 	private int movementCounter = 0;
-	private final int iconSwitch = 10;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
 	
 	ImageIcon icon = new ImageIcon("images/person_up1.png");
 	
