@@ -2,6 +2,12 @@ package Role;
 
 import java.util.concurrent.Semaphore;
 
+import restaurant1.Restaurant1CashierRole;
+import restaurant1.Restaurant1CookRole;
+import restaurant1.Restaurant1CustomerRole;
+import restaurant1.Restaurant1HostRole;
+import restaurant1.Restaurant1WaiterRole;
+
 import agent.StringUtil;
 import city.PersonAgent;
 import city.Restaurant2.Restaurant2CashierRole;
@@ -90,6 +96,11 @@ public abstract class Role {
 		else if(type.equals("Restaurant2 Cook")) return new Restaurant2CookRole(p.getName(), p);
 		else if(type.equals("Restaurant2 Cashier")) return new Restaurant2CashierRole(p.getName(), p);
 		//else if(type.equals("Bank Manager")) return new BankManagerRole();
+		else if(type.equals("Restaurant1 Customer")) return new Restaurant1CustomerRole(p.getName(), p);
+		else if(type.equals("Restaurant1 Waiter")) return new Restaurant1WaiterRole(p.getName(), p);
+		else if(type.equals("Restaurant1 Cook")) return new Restaurant1CookRole(p.getName(), p);
+		else if(type.equals("Restaurant1 Host")) return new Restaurant1HostRole(p.getName(), p);
+		else if(type.equals("Restaurant1 Cashier")) return new Restaurant1CashierRole(p.getName(), p);
 		else return null;
 	}
     

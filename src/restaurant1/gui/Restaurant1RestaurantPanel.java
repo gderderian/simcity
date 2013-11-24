@@ -57,13 +57,13 @@ public class Restaurant1RestaurantPanel extends JPanel {
 
         gui.animationPanel.addGui(cookGui);
         gui.animationPanel.addGui(cashierGui);
-        host.startThread();
-        cook.startThread();
-        cashier.startThread();
+        hostPerson.startThread();
+        cookPerson.startThread();
+        cashierPerson.startThread();
        
-        agents.add(host);
-        agents.add(cook);
-        agents.add(cashier);
+        agents.add(hostPerson);
+        agents.add(cookPerson);
+        agents.add(cashierPerson);
         
         setLayout(new BorderLayout(0, 0));
         group.setLayout(new GridLayout(1, 3, 1, 1));

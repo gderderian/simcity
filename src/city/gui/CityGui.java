@@ -237,10 +237,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		guis.add(g);
 		animationPanel.addGui(g);
 		g.addAnimationPanel(restaurant2);
-
+		
 		newPerson.startThread();
 
 		if(name.equals("RestaurantTest")){
+			newPerson.msgImHungry();
+		}
+		
+		if(name.equals("rest1test")) {
 			newPerson.msgImHungry();
 		}
 	}

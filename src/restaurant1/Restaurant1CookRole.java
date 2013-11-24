@@ -1,5 +1,6 @@
 package restaurant1;
 
+import Role.Role;
 import agent.Agent;
 import restaurant1.gui.Restaurant1CookGui;
 
@@ -15,11 +16,10 @@ import city.PersonAgent;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class Restaurant1CookRole extends Agent {
+public class Restaurant1CookRole extends Role {
 	
 	public List<Order> orders = new ArrayList<Order>();
 	
-	private List<Restaurant1MarketRole> markets = Collections.synchronizedList(new ArrayList<Restaurant1MarketRole>());
 	int marketChooser = 0; //This will allow the cook to try a different market if one market runs out of a food
 	
 	public enum orderState { pending, cooking, cooked, pickedUp, finished };
@@ -87,6 +87,7 @@ public class Restaurant1CookRole extends Agent {
 		person.stateChanged();
 	}
 	
+	/*
 	public void msgWeWillDeliver(Restaurant1MarketRole m, List<Restaurant1FoodOrder> orders) { //Market will notify the cook how much they are able to deliver
 		synchronized(orders) {
 			for(int i = 0; i < orders.size(); i++) {
@@ -129,6 +130,7 @@ public class Restaurant1CookRole extends Agent {
 		}
 		person.stateChanged();
 	}
+	*/
 	
 	public void msgRecheckInventory() {
 		Food temp = foods.get("steak");
@@ -152,14 +154,14 @@ public class Restaurant1CookRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(restaurantOpening) {
 			initialInventoryCheck();
 			return true;
 		}
 		
 		if(needToReorder) {
-			reorderFood();
+			//reorderFood();
 			needToReorder = false;
 			return true;
 		}
@@ -255,11 +257,11 @@ public class Restaurant1CookRole extends Agent {
 						}, cookTime	);
 	}
 	
-	private void reorderFood() {
+	/*private void reorderFood() {
 		marketChooser = (marketChooser + 1) % markets.size(); //Start ordering from a different market.
 		
 		orderMoreFood();
-	}
+	}*/
 
 	private void plateIt(Order o) {
 		DoGoToGrill();
@@ -329,7 +331,7 @@ public class Restaurant1CookRole extends Agent {
 		}
 		
 		print("Sending order for more food to the market!");
-		markets.get(marketChooser).msgFoodOrder(this, orderList);
+		//markets.get(marketChooser).msgFoodOrder(this, orderList);
 	}
 	
 	private void DoGoToHome() {
@@ -359,10 +361,10 @@ public class Restaurant1CookRole extends Agent {
 	public void clearChicken() {
 		foods.get("chicken").amount = 0;
 	}
-	
+	/*
 	public void addMarket(Restaurant1MarketRole m) {
 		markets.add(m);
-	}
+	}*/
 
 	private class Order {
 		Restaurant1WaiterRole w;
