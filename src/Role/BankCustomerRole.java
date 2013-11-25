@@ -8,6 +8,7 @@ import city.gui.Bank.BankCustomerRoleGui;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.PersonAgent;
+import city.gui.Gui;
 
 public class BankCustomerRole extends Role{
 
@@ -286,7 +287,7 @@ public class BankCustomerRole extends Role{
         }
 
 
-        public Object getGui() {
+        public Gui getGui() {
            
                 return this.gui;
         }

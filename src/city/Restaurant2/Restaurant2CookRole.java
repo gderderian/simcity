@@ -41,7 +41,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	PersonAgent person;
 	
-	Restaurant2CookGui gui;
+	Restaurant2CookGui cookGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2COOK;
 		
 	public Restaurant2CookRole(String n, PersonAgent p){
@@ -67,6 +67,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	}
 	
 	public void setGui(Restaurant2CookGui g){
+		cookGui = g;
 		gui = g;
 	}
 	
@@ -114,7 +115,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	}
 	
 	public void msgGotFood(){
-		gui.setFoodDone(false);
+		cookGui.setFoodDone(false);
 	}
 	
 	//SCHEDULER
@@ -178,32 +179,32 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	private void CookIt(final Order o){
 		Do("Cooking food " + o.choice);
-		gui.doStartCooking();
+		cookGui.doStartCooking();
 		try{
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		gui.doCookFood(); //Animation method
+		cookGui.doCookFood(); //Animation method
 		try{
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		gui.setFoodCooking(true);
+		cookGui.setFoodCooking(true);
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
 				msgFoodDone(o);
-				gui.doPlateFood();
+				cookGui.doPlateFood();
 				try{
 					atDestination.acquire();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				gui.setFoodDone(true);
-				gui.goHome();
+				cookGui.setFoodDone(true);
+				cookGui.goHome();
 			}
 		},
 		//foods.get((o.getChoice()).cookTime);

@@ -33,7 +33,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
     private static final int WINDOWY = 750;
     private static final int TIMER_INTERVAL = 15;
 
-    private List<Restaurant1Gui> guis = new ArrayList<Restaurant1Gui>();
+    private List<Gui> guis = new ArrayList<Gui>();
     
     PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
@@ -142,13 +142,13 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
         g.drawRect(689, 469, 61, 51);
         g.drawString("Fridge", 700, 495);
 		
-		for(Restaurant1Gui gui : guis) {
+		for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 		
-		for(Restaurant1Gui gui : guis) {
+		for(Gui gui : guis) {
 			gui.draw(g2);
 		}
 		
@@ -164,7 +164,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
 	}
 
-    public void addGui(Restaurant1Gui gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
     }
 	
@@ -196,11 +196,5 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
 	public void mouseReleased(MouseEvent e) {
 		//Nothing
-	}
-
-	@Override
-	public void addGui(Gui g) {
-		// TODO Auto-generated method stub
-		
 	}
 }

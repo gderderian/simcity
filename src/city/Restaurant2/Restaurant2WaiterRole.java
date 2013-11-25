@@ -50,7 +50,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	private Semaphore atDest = new Semaphore(0,true);
 	
-	private Restaurant2WaiterGui gui;
+	private Restaurant2WaiterGui waiterGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2WAITER;
 	
 	public Restaurant2WaiterRole(String n, PersonAgent p){
@@ -84,6 +84,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	public void setGui(Restaurant2WaiterGui g){
+		waiterGui = g;
 		gui = g;
 	}
 	
@@ -364,7 +365,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	//ACTIONS
 	
 	void resetGui(){
-		gui.setDeniedBreak();
+		waiterGui.setDeniedBreak();
 	}
 	
 	void PromptCustomer(MyCustomer mc){
@@ -382,50 +383,50 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		gui.DoLeaveCustomer();
+		waiterGui.DoLeaveCustomer();
 	}
 	
 	private void DoSeatCustomer(Restaurant2Customer customer, int table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
 		log("Seating " + customer + " at table " + table);
-		gui.DoGoToTable(customer, table);
+		waiterGui.DoGoToTable(customer, table);
 	}
 	
 	void TakeOrder(MyCustomer mc){
 		Do("Taking order of customer at table " + mc.table);
-		gui.DoGoToTable(mc.c, mc.table);	//animation
+		waiterGui.DoGoToTable(mc.c, mc.table);	//animation
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		mc.c.msgWhatDoYouWant();
-		gui.DoLeaveCustomer();
+		waiterGui.DoLeaveCustomer();
 	}
 	
 	void DeliverFood(Order o){
 		Do("Delivering food to customer at table " + o.table);
-		gui.DoGoToKitchen();//animation
+		waiterGui.DoGoToKitchen();//animation
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		cook.msgGotFood();
-		gui.DoDeliverFood(o.choice, o.table);
+		waiterGui.DoDeliverFood(o.choice, o.table);
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		gui.DoLeaveCustomer();
+		waiterGui.DoLeaveCustomer();
 		for(MyCustomer mc : customers){
 			if(mc.table == o.table){
 				mc.s = CustomerState.hasFood;
 				mc.c.msgHereIsYourFood(o.choice);
 				o.s = OrderState.done;
-				gui.setDelivering(false);
+				waiterGui.setDelivering(false);
 				cashier.msgGenerateCheck(o.choice, mc.c, this);
 			}
 		}
@@ -436,7 +437,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	void sendCheck(MyCustomer c){
-		gui.DoGoToTable(c.c, c.table);
+		waiterGui.DoGoToTable(c.c, c.table);
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
@@ -459,7 +460,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	void Reorder(MyCustomer c){
 		Do("Taking REorder of customer at table " + c.table);
-		gui.DoGoToTable(c.c, c.table);	//animation
+		waiterGui.DoGoToTable(c.c, c.table);	//animation
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
@@ -470,7 +471,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	void goToHome(){
-		gui.DoLeaveCustomer();
+		waiterGui.DoLeaveCustomer();
 	}
 	
 	void requestBreak(){
@@ -478,7 +479,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	void takeBreak(){
-		gui.DoTakeBreak();
+		waiterGui.DoTakeBreak();
 	}
 	
 	//WAITER CLASSES
@@ -525,7 +526,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	public Restaurant2WaiterGui getGui(){
-		return gui;
+		return waiterGui;
 	}
 	
 	private void log(String msg){

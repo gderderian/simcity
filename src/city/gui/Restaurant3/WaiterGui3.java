@@ -19,6 +19,8 @@ public class WaiterGui3 implements Gui {
 	boolean isAnimating = false;
 	boolean hasDestination = false;
 	
+	boolean isPresent = true;
+	
 	String carryingOrderText = "";
 	boolean isOnBreak;
 	int index = 0;
@@ -80,8 +82,15 @@ public class WaiterGui3 implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
     
 	public void beginAnimate(){
 		isAnimating = true;

@@ -19,6 +19,8 @@ public class HostGui4 implements Gui {
     public static int xTable = 100;
     public static int xTableNew;
     public static final int yTable = 250;
+    
+    boolean isPresent = true;
 
     public HostGui4(HostRole4 agent) {
         //this.agent = agent;
@@ -47,8 +49,15 @@ public class HostGui4 implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public void DoBringToTable(CustomerRole4 customer, int tableNumber) {
         xTableNew= xTable * tableNumber;

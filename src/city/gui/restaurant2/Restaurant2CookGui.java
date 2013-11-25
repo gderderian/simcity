@@ -29,6 +29,8 @@ public class Restaurant2CookGui implements Gui{
 	boolean foodDone;
 	Restaurant2CookRole cook;
 	
+	boolean isPresent = true;
+	
 	public Restaurant2CookGui(Restaurant2CookRole c){
 		cook = c;
 		xPos = HOMEX;
@@ -70,7 +72,7 @@ public class Restaurant2CookGui implements Gui{
 	}
 
 	public boolean isPresent() {
-		return true;
+		return isPresent;
 	}
 	
 	public void doStartCooking(){	//first move to the refrigerator
@@ -108,6 +110,13 @@ public class Restaurant2CookGui implements Gui{
 	public void goHome(){
 		xDest = HOMEX;
 		yDest = HOMEY;
+	}
+	
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
 	}
 
 

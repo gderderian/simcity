@@ -1,6 +1,6 @@
 package restaurant1.gui;
 
-
+import city.gui.Gui;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
 import restaurant1.Restaurant1WaiterRole;
@@ -11,7 +11,7 @@ import java.awt.image.ImageObserver;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class Restaurant1WaiterGui implements Restaurant1Gui {
+public class Restaurant1WaiterGui implements Gui {
 	
 	private static final int XPOS = -30, YPOS = -30;
 	private static final int WIDTH = 30, HEIGHT = 30;
@@ -24,6 +24,8 @@ public class Restaurant1WaiterGui implements Restaurant1Gui {
 	private boolean moving = false;
 	private boolean carryingFood = false;
 	private boolean onBreak = false;
+	
+	boolean isPresent = true;
 	
 	private int cycleCount = 0;
 
@@ -104,8 +106,12 @@ public class Restaurant1WaiterGui implements Restaurant1Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean p) {
+		isPresent = p;
+	}
     
     public void takeBreak() {
     	

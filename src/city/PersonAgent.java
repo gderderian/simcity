@@ -17,6 +17,7 @@ import test.mock.EventLog;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.gui.BuildingPanel;
+import city.gui.Gui;
 import city.gui.PersonGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
@@ -1018,6 +1019,7 @@ public class PersonAgent extends Agent implements Person{
 		int leaveForWork;
 		int workEndTime;
 		BuildingPanel building;
+		Gui jobGui;
 		
 		public Job(Role r, String l){
 			role = r;
@@ -1025,16 +1027,27 @@ public class PersonAgent extends Agent implements Person{
 			workStartTime = -1;
 			workEndTime = -1;
 			leaveForWork = -1;
+			synchronized(roles){
+				for(Role temp : roles){
+					if(temp.getBuilding().equals(location)){
+						building.addGui(temp.getGui());
+						jobGui = temp.getGui();
+						jobGui.setPresent(false);
+					}
+				}
+			}
 		}
 		
 		public void startJob(){
 			role.setActive();
 			workState = WorkState.atWork;
+			jobGui.setPresent(true);
 		}
 		
 		public void endJob(){
 			role.setInactive();
 			workState = WorkState.notWorking;
+			jobGui.setPresent(false);
 		}
 		
 		public void changeJob(Role r, String l){

@@ -20,6 +20,8 @@ public class WaiterGui4 implements Gui{
     private String choice;
     private boolean doGoToEntrance= false;
     private boolean doBringFood= false;
+    
+    boolean isPresent = true;
 
     public int temp= 0;
     public int xTable = 100;
@@ -88,8 +90,15 @@ public class WaiterGui4 implements Gui{
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public void doGoToTable(Customer4 c, int tableNumber) {
         xTableNew= xTable * tableNumber;
