@@ -197,8 +197,8 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
-	public void addFirstJob(Role r, String location){
-		myJob = new Job(r, location);
+	public void addFirstJob(Role r, String location, BuildingPanel b){
+		myJob = new Job(r, location, b);
 	}
 	
 	public void changeJob(Role r, String location){
@@ -254,7 +254,9 @@ public class PersonAgent extends Agent implements Person{
 	 * MESSAGES
 	 */
 	public void msgImHungry(){	//sent from GUI ?
-		events.add("GotHungry");
+		synchronized(events){
+			events.add("GotHungry");
+		}
 		log("Recieved msgImHungry");
 		log.add(new LoggedEvent("Recieved message Im Hungry"));
 		stateChanged();
@@ -267,12 +269,16 @@ public class PersonAgent extends Agent implements Person{
 		timeOfDay = t;
 		
 		if(t < 2020 && name.equals("waiter")){
-			events.add("GoToWork");
+			synchronized(events){
+				events.add("GoToWork");
+			}
 			log("Its time for me to go to work");
 		}
 		else if(t > 14000 && t < 16000 && name.equals("rest2Test")){
 			log("The time right now is " + t);
-			events.add("GotHungry");
+			synchronized(events){
+				events.add("GotHungry");
+			}
 			log("It's time for me to eat something");
 		}
 		
@@ -291,7 +297,9 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgDontHaveItem(String food) {
 		groceryList.add(food);
-		events.add("GoGroceryShopping");
+		synchronized(events){
+			events.add("GoGroceryShopping");
+		}
 		stateChanged();
 	}
 
@@ -355,7 +363,9 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void msgBusIsHere(Bus b) { //Sent from bus stop
 		log.add(new LoggedEvent("Recieved message bus is here"));
-		events.add("BusIsHere");
+		synchronized(events){
+			events.add("BusIsHere");
+		}
 		BusRide busride = new BusRide(b);
 		busride.state = BusRideState.busIsHere;
 		busRides.add(busride);
@@ -386,7 +396,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		
+		stateChanged();
 	}
 	
 	public void msgRentDue(Landlord r, double rate) {
@@ -629,6 +639,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("GoToBank")){
 					events.remove(e);
+					break;
 				}
 			}
 		}
@@ -645,18 +656,7 @@ public class PersonAgent extends Agent implements Person{
 		if(name.equals("rest2Test")) restName = "rest2";
 		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
 		//addRole(customer, true);
-		Role role = null;
-		synchronized(roles){
-			for(Role r : roles){
-				if(r instanceof Restaurant2CustomerRole){
-					r.setActive();
-					role = (Restaurant2CustomerRole) r;
-					restName = role.getBuilding();
-					log("Found role to set active");
-				}
-			}
-		}
-		
+
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
 			String destination = restName;
@@ -669,7 +669,18 @@ public class PersonAgent extends Agent implements Person{
 		else{
 			//This is walking
 			DoGoTo(restName);
-		    gui.setInvisible();
+		}
+	    gui.setInvisible();
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof Restaurant2CustomerRole){
+					r.setActive();
+					role = (Restaurant2CustomerRole) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
+			}
 		}
 		log("I want food!");
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
@@ -691,7 +702,9 @@ public class PersonAgent extends Agent implements Person{
 						wallet -= b.amount;
 					}
 					else{
-						events.add("GoToBank");
+						synchronized(events){
+							events.add("GoToBank");
+						}
 					}
 				}
 			}
@@ -735,6 +748,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("GoGroceryShopping")){
 					events.remove(e);
+					break;
 				}
 			}
 		}
@@ -1021,12 +1035,13 @@ public class PersonAgent extends Agent implements Person{
 		BuildingPanel building;
 		Gui jobGui;
 		
-		public Job(Role r, String l){
+		public Job(Role r, String l, BuildingPanel b){
 			role = r;
 			location = r.getBuilding();
 			workStartTime = -1;
 			workEndTime = -1;
 			leaveForWork = -1;
+			building = b;
 			synchronized(roles){
 				for(Role temp : roles){
 					if(temp.getBuilding().equals(location)){
@@ -1054,6 +1069,7 @@ public class PersonAgent extends Agent implements Person{
 			role = r;
 			location = l;
 		}
+		
 	}
 	
 	private void log(String msg){

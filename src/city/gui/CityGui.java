@@ -362,7 +362,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
 			restaurant2.addGui(customerGui);
 			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest2");
+			p.addFirstJob(waiterRole, "rest2", restaurant2);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
@@ -371,7 +371,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
 			restaurant1.addGui(customerGui);
 			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest2");
+			p.addFirstJob(waiterRole, "rest2", restaurant2);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
@@ -384,8 +384,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		customerRole.setGui(customerGui);
 		p.addRole(customerRole, false);
 		if(!job.equals("No job")){
-			Role r = Role.getNewRole(job, p, this, restaurant2);
-			p.addFirstJob(r, "rest2");
+			Role r = Role.getNewRole(job, p, this);
+			if(job.contains("Restaurant2")){
+				p.addFirstJob(r, "rest2", restaurant2);
+			}
 			if(r instanceof Restaurant2WaiterRole)
 				p.addRole(r, false);
 			else
