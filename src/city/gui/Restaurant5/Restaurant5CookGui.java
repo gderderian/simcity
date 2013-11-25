@@ -34,6 +34,8 @@ public class Restaurant5CookGui implements Gui {
     int counter = 10;
     int spotnumber = 0;
     
+    boolean isPresent = true;
+    
     //private int[] counterypos = {
     
     public Restaurant5CookGui(Restaurant5CookRole agent, Restaurant5Gui gui) {
@@ -231,8 +233,15 @@ public class Restaurant5CookGui implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public int getXPos() {
         return xPos;

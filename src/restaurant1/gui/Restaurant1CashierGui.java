@@ -1,6 +1,6 @@
 package restaurant1.gui;
 
-
+import city.gui.Gui;
 import restaurant1.Restaurant1CashierRole;
 import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1CustomerRole;
@@ -10,11 +10,13 @@ import java.awt.*;
 
 /* NOTE: This code is not used in Restaurant V2 */
 
-public class Restaurant1CashierGui implements Restaurant1Gui {
+public class Restaurant1CashierGui implements Gui {
 	
 	private static final int XPOS = 50, YPOS = 300;
 
     private Restaurant1CashierRole agent = null;
+    
+    boolean isPresent = true;
 
     private int xPos = XPOS, yPos = YPOS;//default waiter position
     private int xDestination = XPOS, yDestination = YPOS;//default start position
@@ -49,4 +51,12 @@ public class Restaurant1CashierGui implements Restaurant1Gui {
     public boolean isPresent() {
         return true;
     }
+
+	@Override
+	public void setPresent(boolean t) {
+		isPresent = t;
+	}
+    
+
+
 }

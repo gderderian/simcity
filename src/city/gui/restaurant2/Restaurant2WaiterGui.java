@@ -46,6 +46,8 @@ public class Restaurant2WaiterGui implements Gui{
     
     int waiterNum;
     
+    boolean isPresent = true;
+    
     private boolean deliverFood;
     private boolean breakRequested = false;
     	//this is true if waiter is on break, or if break is simply on request
@@ -120,8 +122,15 @@ public class Restaurant2WaiterGui implements Gui{
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public void DoGoToTable(Restaurant2Customer customer, int table) {
     	if(table == 1){

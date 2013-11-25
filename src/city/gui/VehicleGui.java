@@ -18,6 +18,8 @@ public class VehicleGui implements Gui {
 	
 	Vehicle v;
 	
+	boolean isPresent = true;
+	
 	ImageIcon movingRight;
 	ImageIcon movingLeft;
 	ImageIcon movingUp;
@@ -85,7 +87,14 @@ public class VehicleGui implements Gui {
 	}
 
 	public boolean isPresent() {
-		return true;
+		return isPresent;
+	}
+	
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
 	}
 
 }

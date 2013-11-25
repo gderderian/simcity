@@ -59,7 +59,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param cookGui  reference to the customergui so the customer can send it messages
 	 */
 	public CustomerRole4(String name, PersonAgent p){
 		super();

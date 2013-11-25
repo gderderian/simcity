@@ -16,6 +16,8 @@ public class BankManagerRoleGui implements Gui{
 	private Command command=Command.noCommand;
 	public static int xTable = 200;
     public static int yTable = 250;
+    
+    boolean isPresent = true;
 
 
     public BankManagerRoleGui(BankManagerRole setrole, BankGui gui) {
@@ -43,7 +45,7 @@ public class BankManagerRoleGui implements Gui{
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
 
 
@@ -68,4 +70,11 @@ public class BankManagerRoleGui implements Gui{
     public int getYPos() {
         return yPos;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 }

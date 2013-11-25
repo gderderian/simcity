@@ -15,6 +15,7 @@ import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.CityGui;
+import city.gui.Gui;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 import city.gui.restaurant2.Restaurant2CookGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
@@ -28,6 +29,7 @@ public abstract class Role {
 	public boolean inUse;
 	
 	protected String building;
+	protected Gui gui;
 
     protected Role() {
     	isActive = false;
@@ -55,6 +57,10 @@ public abstract class Role {
     
     public String getBuilding() {
     	return building;
+    }
+    
+    public Gui getGui(){
+    	return gui;
     }
 
     /**

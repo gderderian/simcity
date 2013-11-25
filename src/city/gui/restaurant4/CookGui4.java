@@ -16,6 +16,8 @@ public class CookGui4 implements Gui {
     ArrayList<MyGrillSpot> grillSpots = new ArrayList<MyGrillSpot>();
     ArrayList<MyPlateSpot> plateSpots = new ArrayList<MyPlateSpot>();
     
+    boolean isPresent = true;
+    
     public CookGui4(CookRole4 agent) {
         this.agent = agent;
     }
@@ -52,8 +54,15 @@ public class CookGui4 implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
     
     public MyGrillSpot findGrill(int id){
     	for(MyGrillSpot gs : grillSpots){

@@ -1,6 +1,6 @@
 package restaurant1.gui;
 
-
+import city.gui.Gui;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 
 /* NOTE: This code is not used in Restaurant V2 */
 
-public class Restaurant1HostGui implements Restaurant1Gui {
+public class Restaurant1HostGui implements Gui {
 	
 	private static final int XPOS = -20, YPOS = -20;
 	private static final int XTABLE = 200, YTABLE = 250;
@@ -22,6 +22,8 @@ public class Restaurant1HostGui implements Restaurant1Gui {
 
     public static final int xTable = XTABLE;
     public static final int yTable = YTABLE;
+    
+    boolean isPresent = true;
 
     public Restaurant1HostGui(Restaurant1HostRole agent) {
         this.agent = agent;
@@ -51,8 +53,12 @@ public class Restaurant1HostGui implements Restaurant1Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean p) {
+		isPresent = p;
+	}
 
     public void DoLeaveCustomer() {
     	// Initial coordinates (off-screen)

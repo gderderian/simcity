@@ -79,7 +79,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param cookGui  reference to the customergui so the customer can send it messages
 	 */
 	public Restaurant5CustomerRole(String name, PersonAgent person){
 		super();
