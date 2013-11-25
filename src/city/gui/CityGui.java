@@ -56,7 +56,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
 	ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
 	
-	HouseAnimationPanel house1= new HouseAnimationPanel();
+	//HouseAnimationPanel house1= new HouseAnimationPanel();
+	ArrayList<HouseAnimationPanel> houses = new ArrayList<HouseAnimationPanel>();
 	//End of animation panel creation!
 	
 	List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
@@ -125,7 +126,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt2List.get(i));
 		}
 		
-		addBuildingPanel(house1);
+		//Set up all of the houses
+		for(int i=0; i<26; i++){
+			houses.add(new HouseAnimationPanel());
+			addBuildingPanel(houses.get(i));
+		}
+		//addBuildingPanel(house1);
 		//End of adding building panels!
 
 		Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
@@ -224,14 +230,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(apt2, BorderLayout.EAST);
 			apt2.setVisible(true);
 		}
-		if(building.equals("House1")){
+		/*if(building.equals("House1")){
 			animationPanel.setVisible(false);
 			add(house1, BorderLayout.EAST);
 			house1.setVisible(true);
-		}
+		}*/
 	}
 
 	public void changeView(int building, int num){
+		if(building == 0) {
+			animationPanel.setVisible(false);
+			add(houses.get(num), BorderLayout.EAST);
+			houses.get(num).setVisible(true);
+		}
 		if(building == 1) {
 			apt1.setVisible(false);
 			for(int i = 0; i < 10; i++)

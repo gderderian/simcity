@@ -113,10 +113,27 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView("Apartment2");
 		} else if((x >= 780) && (x <= 850) && (y >= 60) && (y <= 120)){
 			cityGui.changeView("Bank1");
-		} else if((x >= 150) && (x <= 180) && (y >= 0) && (y <= 60)){
-			cityGui.changeView("House1");
-		} else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
+		}  else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
 			cityGui.changeView("Restaurant4");
+		}
+		
+		//Houses
+		if ((x >= 780) && (x <= 850) && (y >= 570) && (y <= 600)){
+			cityGui.changeView(0, 1);
+		} else if ((x >= 780) && (x <= 850) && (y >= 510) && (y <= 540)){
+			cityGui.changeView(0, 1);
+		} else if ((x >= 780) && (x <= 850) && (y >= 450) && (y <= 480)){
+			cityGui.changeView(0, 2);
+		} else if ((x >= 780) && (x <= 850) && (y >= 370) && (y <= 390)){
+			cityGui.changeView(0, 3);
+		} else if ((x >= 780) && (x <= 850) && (y >= 240) && (y <= 270)){
+			cityGui.changeView(0, 4);
+		} else if((x >= 780) && (x <= 850) && (y >= 120) && (y <= 150)){
+			cityGui.changeView(0, 5);
+		}
+
+		 if((x >= 150) && (x <= 180) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 14);
 		}
 		
 		
