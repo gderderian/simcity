@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
+import city.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -95,19 +96,10 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
         
     }
 
-    	/*
-    public void addGui(CustomerGui gui) {
+   
+    public void addGui(Gui gui) {
         guis.add(gui);
     }
-
-    public void addGui(WaiterGui gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(CookGui gui) {
-        guis.add(gui);
-    }
-    */
     
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();

@@ -8,17 +8,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JPanel;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
+import city.gui.Gui;
 
 public class ApartmentAnimationPanel extends BuildingPanel implements ActionListener, MouseListener{
 	private static final int WINDOWX = 900;
 	private static final int WINDOWY = 700;
 	private static final int NUM_APTS = 5;
 	private int aptBuilding;
+	
+	List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
 	public ApartmentAnimationPanel(int num) {
 		setSize(WINDOWX, WINDOWY);
@@ -34,6 +40,10 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 
 	public void actionPerformed(ActionEvent e) {
 		repaint();
+	}
+	
+	public void addGui(Gui g) {
+		guis.add(g);
 	}
 
 	public void paintComponent(Graphics g) {

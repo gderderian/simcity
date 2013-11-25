@@ -1,7 +1,7 @@
 package city.gui.Restaurant3;
 
 import javax.swing.*;
-
+import city.gui.Gui;
 import city.gui.BuildingPanel;
 
 import java.awt.*;
@@ -23,7 +23,7 @@ public class AnimationPanel3 extends BuildingPanel implements ActionListener, Mo
     private final int SCREEN_RECT_X_COORD = 0;
     private final int SCREEN_RECT_Y_COORD = 0;
 
-    private List<Gui3> guis = new ArrayList<Gui3>();
+    private List<Gui> guis = new ArrayList<Gui>();
     
 	Timer timer = new Timer(MAIN_TIMER, this);
 	private boolean timerIsRunning = false;
@@ -103,13 +103,13 @@ public class AnimationPanel3 extends BuildingPanel implements ActionListener, Mo
         g2.setColor(Color.ORANGE);
         g2.fillRect(275, 275, TABLE_X, TABLE_Y); // Table location set by host
         
-        for(Gui3 gui : guis) {
+        for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(Gui3 gui : guis) {
+        for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
@@ -117,17 +117,10 @@ public class AnimationPanel3 extends BuildingPanel implements ActionListener, Mo
         
     }
 
-    public void addGui(CustomerGui3 gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
     }
 
-    public void addGui(WaiterGui3 gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(CookGui3 gui) {
-        guis.add(gui);
-    }
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

@@ -1,10 +1,10 @@
 package city.gui.Restaurant3;
 
 import city.Restaurant3.*;
-
+import city.gui.Gui;
 import java.awt.*;
 
-public class WaiterGui3 implements Gui3 {
+public class WaiterGui3 implements Gui {
 
     private WaiterRole3 agent = null;
 

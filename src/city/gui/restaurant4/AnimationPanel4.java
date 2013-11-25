@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
+import city.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,7 +35,7 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
     private final int NXSTATIONS= 5;
     private final int NYSTATIONS= 3;
 
-    private List<Gui4> guis = new ArrayList<Gui4>();
+    private List<Gui> guis = new ArrayList<Gui>();
 
     
   	
@@ -89,33 +90,21 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
         	g2.fillRect(PLATEX + (GRILLDIMENSIONS*i), PLATEY, GRILLDIMENSIONS, GRILLDIMENSIONS);
         }
         
-        for(Gui4 gui : guis) {
+        for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(Gui4 gui : guis) {
+        for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
         }
     }
     
-    public void addGui(CustomerGui4 gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
-    }
-
-    public void addGui(HostGui4 gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(WaiterGui4 gui){
-    	guis.add(gui);
-    }
-    
-    public void addGui(CookGui4 gui){
-    	guis.add(gui);
     }
 
 	public void setCityGui(CityGui cityGui) {

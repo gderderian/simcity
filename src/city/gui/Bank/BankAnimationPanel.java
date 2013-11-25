@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
+import city.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -111,16 +112,8 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         }
     }
 
-    public void addGui(BankCustomerRoleGui gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
-    }
-
-    public void addGui(BankManagerRoleGui gui) {
-        guis.add(gui);
-    }
- 
-    public void addGui(BankTellerRoleGui gui) {
-    	guis.add(gui);
     }
 
 	@Override
@@ -156,4 +149,5 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
 		// TODO Auto-generated method stub
 		
 	}
+
 }

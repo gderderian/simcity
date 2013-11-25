@@ -16,6 +16,7 @@ import java.util.concurrent.Semaphore;
 import test.mock.EventLog;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
+import city.gui.BuildingPanel;
 import city.gui.PersonGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
@@ -116,7 +117,6 @@ public class PersonAgent extends Agent implements Person{
 		
 		
 		if(house != null) {
-			log(house.getName());
 			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		} else {
 			currentPosition = new Position(20, 18);
@@ -262,20 +262,20 @@ public class PersonAgent extends Agent implements Person{
 	//TODO fix this
 	
 	public void msgTimeUpdate(int t){
-		/*
+		
 		timeOfDay = t;
 		
-		if(myJob.leaveForWork == t){
+		if(t < 2020 && name.equals("waiter")){
 			events.add("GoToWork");
+			log("Its time for me to go to work");
 		}
-		else if(t == 2000 || t == 28000 || t == 60000){
+		else if(t > 14000 && t < 16000 && name.equals("rest2Test")){
+			log("The time right now is " + t);
 			events.add("GotHungry");
+			log("It's time for me to eat something");
 		}
-		if(myJob.workEndTime == t){
-			events.add("WorkDone");
-		}
+		
 		stateChanged();
-		*/
 	}
 	//From house
 	public void msgImBroken(String type) {
@@ -571,10 +571,12 @@ public class PersonAgent extends Agent implements Person{
 	//ACTIONS
 	
 	public void goToWork(){
+		log("Going to work");
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GoToWork")){
 					events.remove(e);
+					break;
 				}
 			}
 		}
@@ -589,6 +591,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("LeaveWork")){
 					events.remove(e);
+					break;
 				}
 			}
 		}
@@ -637,8 +640,8 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void goToRestaurant(){
 		log("Going to go to a restaurant");
-		log.add(new LoggedEvent("Decided to go to a restaurant"));
 		String restName = null;
+		if(name.equals("rest2Test")) restName = "rest2";
 		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
 		//addRole(customer, true);
 		Role role = null;
@@ -667,7 +670,6 @@ public class PersonAgent extends Agent implements Person{
 			DoGoTo(restName);
 		    gui.setInvisible();
 		}
-		Restaurant2 test = cityMap.restaurant2;
 		log("I want food!");
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
 		((Restaurant2CustomerRole)role).setGuiActive();
@@ -1015,10 +1017,11 @@ public class PersonAgent extends Agent implements Person{
 		int workStartTime;
 		int leaveForWork;
 		int workEndTime;
+		BuildingPanel building;
 		
 		public Job(Role r, String l){
 			role = r;
-			location = l;
+			location = r.getBuilding();
 			workStartTime = -1;
 			workEndTime = -1;
 			leaveForWork = -1;

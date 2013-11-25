@@ -110,7 +110,7 @@ public abstract class Role {
 			Restaurant2WaiterRole role = new Restaurant2WaiterRole(p.getName(), p);
 			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), cityGui, 1);
 			role.setGui(gui);
-			rest2anim.addGui(gui);
+			//rest2anim.addGui(gui); This needs to be moved elsewhere
 			return role;
 		}
 		else if(type.equals("Restaurant2 Host")){
@@ -128,28 +128,31 @@ public abstract class Role {
 			Restaurant2CashierRole role = new Restaurant2CashierRole(p.getName(), p);
 			return role;
 		}
-		/*
 		else if(type.equals("Restaurant2 Customer")){
 			Restaurant2CustomerRole role = new Restaurant2CustomerRole(p.getName(), p);
 			Restaurant2CustomerGui gui = new Restaurant2CustomerGui(role, p.getName(), 1);
 			return role;
-		}*/
+		}
 		//else if(type.equals("Bank Manager")) return new BankManagerRole();
 		else if(type.equals("Restaurant1 Customer")){
 			Restaurant1CustomerRole role = new Restaurant1CustomerRole(p.getName(), p);
 			return role;
 		}
 		else if(type.equals("Restaurant1 Waiter")){
-			return new Restaurant1WaiterRole(p.getName(), p);
+			Restaurant1WaiterRole role = new Restaurant1WaiterRole(p.getName(), p);
+			return role;
 		}
 		else if(type.equals("Restaurant1 Cook")){
-			return new Restaurant1CookRole(p.getName(), p);
+			Restaurant1CookRole role = new Restaurant1CookRole(p.getName(), p);
+			return role;
 		}
 		else if(type.equals("Restaurant1 Host")){
-			return new Restaurant1HostRole(p.getName(), p);
+			Restaurant1HostRole role = new Restaurant1HostRole(p.getName(), p);
+			return role;
 		}
 		else if(type.equals("Restaurant1 Cashier")){
-			return new Restaurant1CashierRole(p.getName(), p);
+			Restaurant1CashierRole role = new Restaurant1CashierRole(p.getName(), p);
+			return role;
 		}
 		else return null;
 	}
