@@ -12,6 +12,7 @@ import java.util.concurrent.Semaphore;
 
 
 
+
 import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
@@ -122,8 +123,8 @@ public boolean pickAndExecuteAnAction() {
 				
 								if(!findfreebankstation.isOccupied())
 								{
-									Do("assign bankteller  to station");
-									log.add(new LoggedEvent("bankteller assigned to station " + findfreebankstation.stationnumber));
+									Do("assign bankteller  to station " + findfreebankstation.stationnumber);
+									log.add(new LoggedEvent("bankstationassigned"));
 									findfreebankstation.setBankTeller(newbankteller.bankteller);
 									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
 									//animation stuff
@@ -148,16 +149,18 @@ public boolean pickAndExecuteAnAction() {
                                         if(bankteller.state == banktellerstate.free)
                                         {
                                                 log.add(new LoggedEvent("banktellerassigned"));
-                                                Do("assign customer to bank teller");
                                                 bankteller.bankteller.msgAssignMeCustomer(customer.customer);
                                                 customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
-                                                Do("assign bankteller to customer:" + customer.customer.mybankteller);
+                                                Do("assign bankteller to customer:" + customer.customer.person.getName());
+                                                
                                                 //animation stuff
                                                 
                                                 //
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;
-                                                //customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
+                                                //customer.customer.msg(bankteller.bankstationnumber);
+                                                
+                                                customer.customer.msgOpenAccount();
                                                 return true;
                                         }
                                 }
