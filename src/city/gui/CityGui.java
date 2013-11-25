@@ -295,7 +295,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				apt1List.get(i).setVisible(false);
 			add(apt1List.get(num), BorderLayout.EAST);
 			apt1List.get(num).setVisible(true);
-			return;
 		}
 		if(building == 2){
 			apt2.setVisible(false);
@@ -303,8 +302,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				apt2List.get(i).setVisible(false);
 			add(apt2List.get(num), BorderLayout.EAST);
 			apt2List.get(num).setVisible(true);
-			return;
 		}
+		controlPanel.enableBackToCity();
 	}
 
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){

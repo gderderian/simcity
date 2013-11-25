@@ -15,7 +15,6 @@ public class MockBusStop implements BusStop {
 
 	public void msgICanPickUp(Bus b, int people) {
 		System.out.println("Bus stop: Received message: Bus can pick up " + people + " people.");
-		
 	}
 
 }
