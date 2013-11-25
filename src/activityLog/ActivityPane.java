@@ -46,6 +46,7 @@ public class ActivityPane extends JScrollPane {
 				try{
 					int endPosition = textPane.getDocument().getEndPosition().getOffset();
 					textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
+					endPosition = textPane.getDocument().getEndPosition().getOffset();
 					textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
 				}
 				catch (BadLocationException e){
