@@ -49,6 +49,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	AnimationPanel4 restaurant4 = new AnimationPanel4();
 
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
+	MarketAnimationPanel market2Animation = new MarketAnimationPanel(this);
+	MarketAnimationPanel market3Animation = new MarketAnimationPanel(this);
 	BankAnimationPanel bank1Animation = new BankAnimationPanel(this);
 	
 	ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
