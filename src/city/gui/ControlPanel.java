@@ -3,6 +3,7 @@ package city.gui;
 import interfaces.BusStop;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -55,6 +56,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JButton populateCity = new JButton("Populate City");
+    private JLabel timeDisplay = new JLabel("8:15am  -  Day 1  -  Week 1");
     
     private Timer timer = new Timer();
     
@@ -142,6 +144,8 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
+        worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
+        worldControls.setAlignmentX(Component.CENTER_ALIGNMENT);
         controlPane.addTab("World", worldControls);
         controlPane.addTab("People", personControls);
         add(controlPane);
@@ -188,9 +192,13 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void setupWorldControls(){
+    	
     	populateCity.addActionListener(this);
     	
     	worldControls.add(populateCity);
+    	populateCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(timeDisplay);
+    	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
     
     private void addPersonSection(){
@@ -499,6 +507,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		
 		//addPerson("rest1test", "Restaurant1 Customer");
 		
+    }
+    
+    public void setTimeDisplay(String timeToDisplay){
+    	timeDisplay.setText(timeToDisplay);
     }
 
 }
