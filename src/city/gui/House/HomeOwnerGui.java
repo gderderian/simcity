@@ -38,7 +38,7 @@ public class HomeOwnerGui {
         //Check if reached any destination yet
         if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xTable + movement) & (yDestination == yTable - movement)) {
-           person.msgAnimationAtTable();
+           person.msgAnimationAtTable(); 
         } else if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xFridge + movement) & (yDestination == yAppliance - movement)) {
             person.msgAnimationAtFridge();

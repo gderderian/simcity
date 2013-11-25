@@ -72,17 +72,17 @@ public class WaiterGui4 implements Gui4 {
         
         if(doBringFood){
 			g.setColor(Color.BLACK);
-			if(choice == "Steak"){
-				g.drawString("Steak", xPos, yPos + foodDisplacement);
+			if(choice == "Eggs"){
+				g.drawString("Eggs", xPos, yPos + foodDisplacement);
 			}
-			else if(choice == "Chicken"){
-				g.drawString("Chicken", xPos, yPos + foodDisplacement);
+			else if(choice == "Waffels"){
+				g.drawString("Waffels", xPos, yPos + foodDisplacement);
 			}
-			else if(choice == "Salad"){
-				g.drawString("Salad", xPos, yPos + foodDisplacement);
+			else if(choice == "Pancakes"){
+				g.drawString("Pancakes", xPos, yPos + foodDisplacement);
 			}
-			else if(choice == "Pizza"){
-				g.drawString("Pizza", xPos, yPos + foodDisplacement);
+			else if(choice == "Bacon"){
+				g.drawString("Bacon", xPos, yPos + foodDisplacement);
 			}
 		}
     }
