@@ -50,6 +50,10 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         
     	this.gui = gui;
+    	person5 = new PersonAgent("jimmy", aStarTraversal, citymap, house);
+        person5.startThread();
+		
+    	
     	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
     	PersonGui person2gui = new PersonGui(person2);
     	person2.setGui(person2gui);
@@ -59,11 +63,8 @@ public class BankPanel extends JPanel {
 		bankmanager.setPerson(person2);
 		gui.animationPanel.addGui(g2);
 		bankmanager.setGui(g2);
-        
-		
-		
+        	
         person2.addRole(bankmanager, true);
-    	
         PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
         person3.startThread();
         
@@ -79,22 +80,10 @@ public class BankPanel extends JPanel {
 		banktellers.add(btr);
         */
 	
-        PersonAgent person = new PersonAgent("bob", aStarTraversal, citymap, house);
-        person.startThread();
         
-        BankCustomerRole bcr = new BankCustomerRole(10,person);	
-		BankCustomerRoleGui g = new BankCustomerRoleGui(bcr, gui);
-		bcr.setGui(g);
-		person.addRole(bcr, true);
-		//g.setHomePosition(12, 20 + bankcustomers.size() * 25);
-		g.setArrivedAtBank();
-		gui.animationPanel.addGui(g);
-		bankcustomers.add(bcr);
-
-       
 		
-        
-		bcr.gui.goToBankTellerStation(3);
+       
+		//bcr.gui.goToBankTellerStation(3);
 		/*
 		try {
 			bcr.atBankStation.acquire();
@@ -105,7 +94,7 @@ public class BankPanel extends JPanel {
 		}
 		*/
 		
-		bcr.gui.leaveBank();
+		//bcr.gui.leaveBank();
 		
 		
         //bcr.gui.setWaitingPosition(250, 50);
@@ -189,8 +178,6 @@ public class BankPanel extends JPanel {
     	//creating new customer agents
     	if (type.equals("BankCustomerRole")) {
     		
-    		person5 = new PersonAgent("jimmy", aStarTraversal, citymap, house);
-            person5.startThread();
     		
     		
     		BankCustomerRole bcrnew = new BankCustomerRole(10,person5);	
@@ -205,7 +192,6 @@ public class BankPanel extends JPanel {
     		bcrnew.gui.setWaitingPosition(x, 350);
     		x += 30;
     		bankcustomers.add(bcrnew);
-    		
     		bankmanager.msgCustomerArrivedAtBank(bcrnew);
     		
     		//c.startThread();
