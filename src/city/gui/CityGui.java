@@ -330,7 +330,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	private void addBuildingPanel(BuildingPanel bp) {
 		bp.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
 		buildingPanels.add(bp);
-		bp.setCityGui(this);        	
+		bp.setCityGui(this);
 	}
 
 }
