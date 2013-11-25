@@ -32,7 +32,8 @@ public class BusStopTest extends TestCase {
 		
 	}	
 
-	/* This tests a single bus checking in at one bus stop twice, picking up some people, and then trying to pick up more when the bus stop is empty */
+	/* This tests a BusStopAgent with a single bus checking in twice, picking up some people, 
+	 * and then trying to pick up more when the bus stop is empty */
 	public void testBusDriving() {		
 		//Preconditions
 				assertTrue(stop.peopleWaiting.size() == 0);

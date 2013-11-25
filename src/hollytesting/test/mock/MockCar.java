@@ -5,6 +5,7 @@ import test.mock.LoggedEvent;
 import test.mock.Mock;
 import city.PersonAgent;
 import interfaces.Car;
+import interfaces.Person;
 
 public class MockCar extends Mock implements Car{
         
@@ -16,14 +17,14 @@ public class MockCar extends Mock implements Car{
         }
 
         @Override
-        public void msgDriveTo(PersonAgent p, String dest) {
+        public void msgDriveTo(Person p, String dest) {
                 log.add(new LoggedEvent("Recieved message drive to " + dest));
-                person = p;
+                person = (PersonAgent) p;
                 p.msgArrived(this);
         }
 
         @Override
-        public void msgParkCar(PersonAgent p) {
+        public void msgParkCar(Person p) {
                 log.add(new LoggedEvent("Recieved message park car"));
         }
 

@@ -38,7 +38,7 @@ public class TruckTest extends TestCase {
 		//Created a full market order with items, destination, and recipient
 	}	
 
-	/* This tests the truck receiving a single delivery from the market and delivering it */
+	/* This tests the TruckAgent receiving a single delivery from the market and delivering it */
 	public void testTruckDelivery() {		
 		//Preconditions
 		assertTrue(truck.capacity == 0); //No driver/passengers in delivery truck

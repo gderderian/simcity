@@ -45,7 +45,7 @@ public class BusTest2 extends TestCase {
 		bus.busStops.add(stop4);
 	}	
 
-	/* This is a simpler BusAgent test to make sure bus doesn't exceed its capacity of passengers */
+	/* This is a simpler BusAgent test to make sure bus doesn't exceed its capacity of passengers while interacting with bus stops */
 	public void testBusDriving() {		
 		
 		//Preconditions

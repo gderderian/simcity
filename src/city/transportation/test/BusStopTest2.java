@@ -36,7 +36,7 @@ public class BusStopTest2 extends TestCase {
 		
 	}	
 
-	/* This tests three buses checking in at one bus stop, all picking up different numbers of people */
+	/* This tests a BusStopAgent with three buses checking in, all picking up different numbers of people */
 	public void testBusDriving() {		
 		
 		//Preconditions
