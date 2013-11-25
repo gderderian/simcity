@@ -39,6 +39,8 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	
 	private int waiterNum;
 	PersonAgent person;
+	
+	Restaurant2 restaurant;
 
 	public Restaurant2HostRole(String name, PersonAgent p) {
 		super();
@@ -60,6 +62,10 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 
 	public String getName() {
 		return name;
+	}
+	
+	public void setRestaurant(Restaurant2 r){
+		restaurant = r;
 	}
 	
 	/*
@@ -176,6 +182,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		print("Inside host state pick and execute");
 		try{
 			for (Table table : tables) {
 				if (!table.isOccupied()) {

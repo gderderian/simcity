@@ -29,7 +29,7 @@ public class Restaurant2CookGui implements Gui{
 	boolean foodDone;
 	Restaurant2CookRole cook;
 	
-	Restaurant2CookGui(Restaurant2CookRole c){
+	public Restaurant2CookGui(Restaurant2CookRole c){
 		cook = c;
 		xPos = HOMEX;
 		yPos = HOMEY;

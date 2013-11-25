@@ -1,5 +1,6 @@
 package city.Restaurant2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import city.PersonAgent;
@@ -14,7 +15,7 @@ public class Restaurant2 {
 	List<Restaurant2WaiterRole> waiters;
 	
 	public Restaurant2(){
-		//nothing here
+		waiters = new ArrayList<Restaurant2WaiterRole>();
 	}
 	
 	public void setHost(Restaurant2HostRole h){
@@ -28,5 +29,10 @@ public class Restaurant2 {
 	public Restaurant2CustomerRole getNewCustomerRole(PersonAgent p){
 		customer = new Restaurant2CustomerRole(p);
 		return customer;
+	}
+	
+	public void addWaiters(Restaurant2WaiterRole w){
+		waiters.add(w);
+		host.addWaiters(w);
 	}
 }

@@ -11,6 +11,7 @@ import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
 import restaurant1.gui.Restaurant1CustomerGui;
 import city.Restaurant2.Restaurant2CustomerRole;
+import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.Bank.BankAnimationPanel;
 import city.gui.House.ApartmentAnimationPanel;
@@ -113,6 +114,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		addBuildingPanel(bank1Animation);
 		addBuildingPanel(market1Animation);
+		addBuildingPanel(market2Animation);
+		addBuildingPanel(market3Animation);
 
 		add(animationPanel, BorderLayout.EAST);
 
@@ -220,6 +223,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(market1Animation, BorderLayout.EAST);
 			market1Animation.setVisible(true);
 		}
+		if(building.equals("Market2")){
+			animationPanel.setVisible(false);
+			add(market2Animation, BorderLayout.EAST);
+			market2Animation.setVisible(true);
+		}
+		if(building.equals("Market3")){
+			animationPanel.setVisible(false);
+			add(market3Animation, BorderLayout.EAST);
+			market3Animation.setVisible(true);
+		}
 		if(building.equals("Bank1")){
 			animationPanel.setVisible(false);
 			add(bank1Animation, BorderLayout.EAST);
@@ -267,21 +280,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
 		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
 		
-		personFactory(newPerson, 1);
-
-		//TODO finish the job thing
-		//Role r = Role.getNewRole(job, newPerson);
-		/*
-		if(r != null){
-			//Add location to this
-			newPerson.addFirstJob(r, "Unknown");
-		}
-		*/
+		personFactory(newPerson, job);
+		
 		people.add(newPerson);
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
+		if(job.equals("No job")){
+			animationPanel.addGui(g);
+		}
 		guis.add(g);
-		animationPanel.addGui(g);
 		g.addAnimationPanel(restaurant2);
 		
 		newPerson.startThread();
@@ -338,6 +345,22 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			p.addFirstJob(waiterRole, "rest2");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
+		}
+	}
+	
+	private void personFactory(PersonAgent p, String job) {
+		Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
+		Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
+		restaurant2.addGui(customerGui);
+		customerRole.setGui(customerGui);
+		p.addRole(customerRole, false);
+		Role r = Role.getNewRole(job, p, this, restaurant2);
+		p.addFirstJob(r, "rest2");
+		if(r instanceof Restaurant2HostRole){
+			rest2.setHost((Restaurant2HostRole)r);
+		}
+		else if(r instanceof Restaurant2WaiterRole){
+			rest2.addWaiters((Restaurant2WaiterRole) r);
 		}
 	}
 

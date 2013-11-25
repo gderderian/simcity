@@ -46,14 +46,18 @@ public class BankCustomerRole extends Role{
         		{
         		Do("its set to null");
         		}
-        		Do("assigned to " + assignbankteller.person);
+        		//Do("assigned to " + assignbankteller.person.getName());
                 mybankteller = assignbankteller;
                 stationnumber = mybankteller.stationnumber;
                
                 //animation state change
                 bankcustomerstate = state.gotobankteller; 
                 //
+               // Do("" + bankcustomerstate);
                 //Do("assigned to " + assignbankteller.person.getName());
+                Do("customer message");
+                System.out.println("customer message2");
+                Do("" + person.getName());
                 person.stateChanged();
        
         }
@@ -178,10 +182,12 @@ public class BankCustomerRole extends Role{
         public boolean pickAndExecuteAnAction() 
         {
                 
-        		
         		if(bankcustomerstate == state.gotobankteller)
         		{
+        			
+        			Do("gui is going to bank teller station");
         			guiGoToBankTellerStation(stationnumber);
+        			
         			bankcustomerstate = state.waiting;
         			return true;
         		}

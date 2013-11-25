@@ -7,13 +7,18 @@ import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
 import restaurant1.Restaurant1WaiterRole;
-
 import agent.StringUtil;
 import city.PersonAgent;
 import city.Restaurant2.Restaurant2CashierRole;
 import city.Restaurant2.Restaurant2CookRole;
+import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.gui.CityGui;
+import city.gui.restaurant2.Restaurant2AnimationPanel;
+import city.gui.restaurant2.Restaurant2CookGui;
+import city.gui.restaurant2.Restaurant2CustomerGui;
+import city.gui.restaurant2.Restaurant2WaiterGui;
 
 public abstract class Role {
 	
@@ -91,17 +96,53 @@ public abstract class Role {
     	return inUse;
     }
     
-	public static Role getNewRole(String type, PersonAgent p){
-		if(type.equals("Restaurant2 Waiter")) return new Restaurant2WaiterRole(p.getName(), p);
-		else if(type.equals("Restaurant2 Host")) return new Restaurant2HostRole(p.getName(), p);
-		else if(type.equals("Restaurant2 Cook")) return new Restaurant2CookRole(p.getName(), p);
-		else if(type.equals("Restaurant2 Cashier")) return new Restaurant2CashierRole(p.getName(), p);
+	public static Role getNewRole(String type, PersonAgent p, CityGui cityGui, Restaurant2AnimationPanel rest2anim){
+		if(type.equals("Restaurant2 Waiter")){
+			//Creates role, gui for role
+			//Adds role to gui and gui to role
+			//Adds role to correct animation panel
+			Restaurant2WaiterRole role = new Restaurant2WaiterRole(p.getName(), p);
+			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), cityGui, 1);
+			role.setGui(gui);
+			rest2anim.addGui(gui);
+			return role;
+		}
+		else if(type.equals("Restaurant2 Host")){
+			Restaurant2HostRole role = new Restaurant2HostRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant2 Cook")){
+			Restaurant2CookRole role = new Restaurant2CookRole(p.getName(), p);
+			Restaurant2CookGui gui = new Restaurant2CookGui(role);
+			rest2anim.addGui(gui);
+			return role;
+		}
+		else if(type.equals("Restaurant2 Cashier")){
+			return new Restaurant2CashierRole(p.getName(), p);
+		}
+		/*
+		else if(type.equals("Restaurant2 Customer")){
+			Restaurant2CustomerRole role = new Restaurant2CustomerRole(p.getName(), p);
+			Restaurant2CustomerGui gui = new Restaurant2CustomerGui(role, p.getName(), 1);
+			return role;
+		}*/
 		//else if(type.equals("Bank Manager")) return new BankManagerRole();
-		else if(type.equals("Restaurant1 Customer")) return new Restaurant1CustomerRole(p.getName(), p);
-		else if(type.equals("Restaurant1 Waiter")) return new Restaurant1WaiterRole(p.getName(), p);
-		else if(type.equals("Restaurant1 Cook")) return new Restaurant1CookRole(p.getName(), p);
-		else if(type.equals("Restaurant1 Host")) return new Restaurant1HostRole(p.getName(), p);
-		else if(type.equals("Restaurant1 Cashier")) return new Restaurant1CashierRole(p.getName(), p);
+		else if(type.equals("Restaurant1 Customer")){
+			Restaurant1CustomerRole role = new Restaurant1CustomerRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant1 Waiter")){
+			return new Restaurant1WaiterRole(p.getName(), p);
+		}
+		else if(type.equals("Restaurant1 Cook")){
+			return new Restaurant1CookRole(p.getName(), p);
+		}
+		else if(type.equals("Restaurant1 Host")){
+			return new Restaurant1HostRole(p.getName(), p);
+		}
+		else if(type.equals("Restaurant1 Cashier")){
+			return new Restaurant1CashierRole(p.getName(), p);
+		}
 		else return null;
 	}
     
