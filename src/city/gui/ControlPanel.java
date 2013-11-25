@@ -58,6 +58,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel infoPanel = new JPanel();
     //private JPanel activityLog = new JPanel();
     private ActivityPane activityPane = new ActivityPane();
+    private JButton backToCity = new JButton("Switch back to city view");
     private JButton populateCity = new JButton("Populate City");
     private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
     
@@ -185,7 +186,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     private void setupWorldControls(){
     	
     	populateCity.addActionListener(this);
+    	backToCity.addActionListener(this);
+    	backToCity.setEnabled(false);
     	
+    	worldControls.add(backToCity);
+    	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(populateCity);
     	populateCity.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(timeDisplay);
@@ -300,6 +305,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         else if(e.getSource() == populateCity){
         	populateCity();
         	populateCity.setEnabled(false);
+        }
+        else if(e.getSource() == backToCity) {
+        	cityGui.backToCityView();
+        	backToCity.setEnabled(false);
         }
     }
 
@@ -526,9 +535,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("waiter", "Restaurant2 Waiter");
 		addPerson("RestaurantTest", "No job");
 		
-		/*addPerson("host1", "Restaurant1 Host");
-		addPerson("cashier1", "Restaurant1 Host");
-		addPerson("cook1", "Restaurant1 Cook");
+		/*addPersonNoHouse("host1", "Restaurant1 Host");
+		addPersonNoHouse("cashier1", "Restaurant1 Host");
+		addPersonNoHouse("cook1", "Restaurant1 Cook");
 		addPerson("waiter1", "Restaurant1 Waiter");
 		addPerson("rest1test", "Restaurant1 Customer");*/
 		
@@ -536,6 +545,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void setTimeDisplay(String timeToDisplay){
     	timeDisplay.setText(timeToDisplay);
+    }
+    
+    public void enableBackToCity() {
+    	backToCity.setEnabled(true);
     }
 
 }
