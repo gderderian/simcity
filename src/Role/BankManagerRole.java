@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import activityLog.ActivityLog;
-import activityLog.ActivityTag;
 import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
@@ -39,7 +37,7 @@ public class BankManagerRole extends Role{
         PersonAgent person;
         public EventLog log = new EventLog();
         
-        ActivityTag tag = ActivityTag.BANKMANAGER;
+
 
         public BankManagerRole(Bank setbank)
         {
@@ -304,11 +302,6 @@ public boolean pickAndExecuteAnAction() {
                 
         }
         
-    	private void log(String msg){
-    		print(msg);
-            ActivityLog.getInstance().logActivity(tag, msg, name);
-            log.add(new LoggedEvent(msg));
-    	}
         
        
 }

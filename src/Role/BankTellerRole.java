@@ -1,8 +1,6 @@
 package Role;
 import java.util.concurrent.Semaphore;
 
-import activityLog.ActivityLog;
-import activityLog.ActivityTag;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Bank;
@@ -30,8 +28,6 @@ public class BankTellerRole extends Role {
                 public EventLog log = new EventLog();
                 PersonAgent person;
                 int stationnumber;
-                
-                ActivityTag tag = ActivityTag.BANKTELLER;
                 
                 
                 public BankTellerRole(BankManagerRole assignbankmanager)
@@ -293,11 +289,7 @@ public class BankTellerRole extends Role {
 			
 		}
         
-		private void log(String msg){
-			print(msg);
-	        ActivityLog.getInstance().logActivity(tag, msg, name);
-	        log.add(new LoggedEvent(msg));
-		}
+        
         
         
 }

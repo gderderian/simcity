@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
-import city.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -79,7 +78,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         //g.drawImage(imgofcouch, 500, 300, 100, 100, this);
 
         waitingarea.setColor(Color.gray);
-        waitingarea.fillRect(160, 0, 20, 180);
+        waitingarea.fillRect(170, 10, 20, 180);
         
         backtocityviewbutton.setColor(Color.red);
         backtocityviewbutton.fillRect(20, 20,20, 20);
@@ -112,8 +111,16 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         }
     }
 
-    public void addGui(Gui gui) {
+    public void addGui(BankCustomerRoleGui gui) {
         guis.add(gui);
+    }
+
+    public void addGui(BankManagerRoleGui gui) {
+        guis.add(gui);
+    }
+ 
+    public void addGui(BankTellerRoleGui gui) {
+    	guis.add(gui);
     }
 
 	@Override
@@ -150,4 +157,9 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
 		
 	}
 
+	@Override
+	public void addGui(city.gui.Gui g) {
+		// TODO Auto-generated method stub
+		
+	}
 }
