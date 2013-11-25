@@ -32,8 +32,9 @@ public class TruckAgent extends Vehicle {
                 }
         }
         
-        public TruckAgent(AStarTraversal aStarTraversal) {
+        public TruckAgent(MarketManager market, AStarTraversal aStarTraversal) {
         	super(aStarTraversal);
+        	this.market = market;
         	capacity = 0;
         	guiFinished = new Semaphore(0, true);
         }
@@ -59,7 +60,7 @@ public class TruckAgent extends Vehicle {
     	}
     	
         //Scheduler
-        protected boolean pickAndExecuteAnAction() {
+        public boolean pickAndExecuteAnAction() {
                 for(MyMarketOrder mo : orders) {
                         if(mo.delivered == true) {
                                 ReportToMarket(mo);
@@ -79,9 +80,13 @@ public class TruckAgent extends Vehicle {
 
         //Actions
         private void DeliverOrder(MyMarketOrder o) {
-                //DoDriveTo(o.o.destination);
-                o.o.getRecipient().msgHereIsYourOrder(o.o);
-                //DoDriveToMarket();
+        	log("Going to " + o.o.destination);
+        	//DoDriveTo(o.o.destination);
+        	log("Delivering order from market to recipient");
+        	o.o.getRecipient().msgHereIsYourOrder(o.o);
+        	o.delivered = true;
+        	log("Returning to market");
+        	//DoDriveToMarket();
         }
         
         private void ReportToMarket(MyMarketOrder o) {

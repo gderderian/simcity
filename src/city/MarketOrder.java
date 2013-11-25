@@ -8,7 +8,7 @@ public class MarketOrder {
 	
 	public List<OrderItem> orders = new ArrayList<OrderItem>();
 	
-	String destination;
+	public String destination;
 	
 	Person recipient; //Should usually be a CookRole - may need to change later
 
