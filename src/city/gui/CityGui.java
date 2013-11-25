@@ -250,11 +250,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(apt2, BorderLayout.EAST);
 			apt2.setVisible(true);
 		}
-		/*if(building.equals("House1")){
-			animationPanel.setVisible(false);
-			add(house1, BorderLayout.EAST);
-			house1.setVisible(true);
-		}*/
 	}
 
 	public void changeView(int building, int num){
