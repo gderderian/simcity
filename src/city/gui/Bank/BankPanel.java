@@ -50,9 +50,7 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         
     	this.gui = gui;
-    	person5 = new PersonAgent("jimmy", aStarTraversal, citymap, house);
-        person5.startThread();
-		
+    	
     	
     	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
     	PersonGui person2gui = new PersonGui(person2);
@@ -178,13 +176,14 @@ public class BankPanel extends JPanel {
     	//creating new customer agents
     	if (type.equals("BankCustomerRole")) {
     		
+    		person5 = new PersonAgent("jimmy", aStarTraversal, citymap, house);
+            person5.startThread();
     		
-    		
-    		BankCustomerRole bcrnew = new BankCustomerRole(10,person5);	
+    		BankCustomerRole bcrnew = new BankCustomerRole(10/*,person5*/);	
     		BankCustomerRoleGui gnew = new BankCustomerRoleGui(bcrnew, gui);
-    		
-    	    gnew.setArrivedAtBank();
-    	  
+    		bcrnew.setPerson(person5);
+    		person5.addRole(bcrnew, true);
+    		gnew.setArrivedAtBank();
     		gui.animationPanel.addGui(gnew);
     		//c.setHost(host);
     		//c.setCashier(cashier);
@@ -192,6 +191,7 @@ public class BankPanel extends JPanel {
     		bcrnew.gui.setWaitingPosition(x, 350);
     		x += 30;
     		bankcustomers.add(bcrnew);
+    		bcrnew.setManager(bankmanager);
     		bankmanager.msgCustomerArrivedAtBank(bcrnew);
     		
     		//c.startThread();
@@ -199,6 +199,8 @@ public class BankPanel extends JPanel {
     	}
     	//creating new waiter agents
     	else if(type.equals(("BankTellerRole"))) {
+    		
+    		
     		
     		//WaiterGui waiterGui = new WaiterGui(waiter, host, );
     		BankTellerRole bt = new BankTellerRole(bankmanager);	

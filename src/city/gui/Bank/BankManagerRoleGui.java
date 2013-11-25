@@ -1,10 +1,15 @@
 package city.gui.Bank;
 
+
+
+
 import java.awt.*;
-import city.gui.Gui;
+
+import javax.swing.ImageIcon;
+
 import Role.BankManagerRole;
 
-public class BankManagerRoleGui implements Gui{
+public class BankManagerRoleGui implements Gui {
 
 
     private BankManagerRole role = null;
@@ -16,9 +21,7 @@ public class BankManagerRoleGui implements Gui{
 	private Command command=Command.noCommand;
 	public static int xTable = 200;
     public static int yTable = 250;
-    
-    boolean isPresent = true;
-
+    public Image imgofbankmanager = new ImageIcon("images/basic_person.png").getImage();
 
     public BankManagerRoleGui(BankManagerRole setrole, BankGui gui) {
         this.role = setrole;
@@ -40,12 +43,14 @@ public class BankManagerRoleGui implements Gui{
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(xPos, yPos, 20, 20);
+        
+    	g.drawImage(imgofbankmanager, xPos, yPos + 20, 30, 30, gui);
+    	//g.setColor(Color.MAGENTA);
+        //g.fillRect(xPos, yPos, 20, 20);
     }
 
     public boolean isPresent() {
-        return isPresent;
+        return true;
     }
 
 
@@ -70,11 +75,4 @@ public class BankManagerRoleGui implements Gui{
     public int getYPos() {
         return yPos;
     }
-    
-	public void setPresent(boolean t) {
-		if(t)
-			isPresent = true;
-		else
-			isPresent = false;
-	}
 }

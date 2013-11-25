@@ -744,6 +744,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		// TODO Auto-generated method stub
 		return ycoordinate;
 	}
+<<<<<<< HEAD
 
 	
 
@@ -751,6 +752,8 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
+=======
+>>>>>>> tom
 	
 
 	

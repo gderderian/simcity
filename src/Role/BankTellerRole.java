@@ -109,6 +109,8 @@ public class BankTellerRole extends Role {
         public boolean pickAndExecuteAnAction() {
                 
         	
+        		Do("i'm in the bankteller scheduler");
+        	
         		if(banktellerstate == state.gotobanktellerstation)
         		{
         			guiGoToBankTellerStation(stationnumber);
@@ -274,6 +276,7 @@ public class BankTellerRole extends Role {
         
 		public void setPerson(PersonAgent setperson) {
 			this.person = setperson;
+			this.name = person.getName();
 		}
 		
 		public void guiGoToBankTellerStation(int stationnumber)
