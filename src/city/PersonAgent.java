@@ -112,9 +112,13 @@ public class PersonAgent extends Agent implements Person{
 		this.house = h;
 		this.aStar = aStarTraversal;
 		
-		print(house.getName());
-				
-		currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
+		
+		if(house != null) {
+			print(house.getName());
+			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
+		} else {
+			currentPosition = new Position(20, 18);
+		}
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
@@ -799,7 +803,6 @@ public class PersonAgent extends Agent implements Person{
 		
 		if(currentPosition.distance(p) > 16) {
 			//Intermediate step?
-			print("Long trip!");
 		}
 		
 		guiMoveFromCurrentPositionTo(p);
