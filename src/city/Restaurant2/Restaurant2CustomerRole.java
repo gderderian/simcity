@@ -427,6 +427,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		waiter.msgDoneEatingNowLeaving(this);
 		customerGui.DoExitRestaurant();
 		wallet = wallet + 20.00; //replenish their money supply
+		person.setGuiVisible();
 	}
 
 	// Accessors, etc.

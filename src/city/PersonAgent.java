@@ -111,6 +111,8 @@ public class PersonAgent extends Agent implements Person{
 		name = n;
 		this.house = h;
 		this.aStar = aStarTraversal;
+		
+		print(house.getName());
 				
 		currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		if(aStar != null)
@@ -775,6 +777,10 @@ public class PersonAgent extends Agent implements Person{
 		//TODO make gui function
 		//gui.eatMeal();
 		meals.remove(m);
+	}
+	
+	public void setGuiVisible(){
+		gui.setVisible();
 	}
 	
 	//Animation code below!
