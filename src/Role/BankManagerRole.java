@@ -6,14 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-
-
-
-
-
-
-
-
 import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
@@ -130,7 +122,6 @@ public boolean pickAndExecuteAnAction() {
 									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
 									//animation stuff
 									newbankteller.bankteller.msgGoToBankTellerStation(findfreebankstation.stationnumber);
-									//
 									newbankteller.state = banktellerstate.free;
 									return true;
 								}
@@ -151,16 +142,20 @@ public boolean pickAndExecuteAnAction() {
                                         {
                                                 log.add(new LoggedEvent("banktellerassigned"));
                                                 bankteller.bankteller.msgAssignMeCustomer(customer.customer);
-                                                customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
                                                 Do("assign bankteller to customer:" + customer.customer.person.getName());
-                                                
+                                                customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
+                      
+                                                //customer.customer.pickAndExecuteAnAction();
                                                 //animation stuff
                                                 
                                                 //
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;
                                                 //customer.customer.msg(bankteller.bankstationnumber);
-                                                customer.customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
+                                                //customer.customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
+                                                
+                                                /*customer.customer.gui.leaveBank();
+                                                
                                                 try {
                                         			customer.customer.atBankStation.acquire();
                                         			//atLobby.acquire();
@@ -170,6 +165,8 @@ public boolean pickAndExecuteAnAction() {
                                         		}
                                                 //Do("open account");
                                                 customer.customer.msgOpenAccount();
+                                                */
+                                                
                                                 return true;
                                         }
                                 }
@@ -299,6 +296,7 @@ public boolean pickAndExecuteAnAction() {
         public void setPerson(PersonAgent person)
         {
                 this.person = person;
+                this.name = person.getName();
         }
         
         public void setGui(BankManagerRoleGui bankmanagerGui) {

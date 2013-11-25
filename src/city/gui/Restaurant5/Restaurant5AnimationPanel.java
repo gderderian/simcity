@@ -49,7 +49,7 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     Restaurant5CustomerGui customerGui;
     Restaurant5WaiterGui waiterGui;
     
-   Restaurant5Gui restaurant5gui = new Restaurant5Gui();
+   //Restaurant5Gui restaurant5gui = new Restaurant5Gui();
     
     private Image bufferImage;
     private Dimension bufferSize;
@@ -66,14 +66,14 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     	this.restaurant = restaurant;
     	
     	Cook = new Restaurant5CookRole("CookRole", personCook);
-        cookGui = new Restaurant5CookGui(Cook, restaurant5gui);
+        cookGui = new Restaurant5CookGui(Cook, null);
         Cook.setGui(cookGui);
         Cashier = new Restaurant5CashierRole("CashierRole", personCashier);
        
         Host = new Restaurant5HostRole("HostRole", personHost);
         
         Waiter = new Restaurant5WaiterRole("WaiterRole",Host, Cook, Cashier, personWaiter);
-        waiterGui = new Restaurant5WaiterGui(Waiter, restaurant5gui, Host);
+        waiterGui = new Restaurant5WaiterGui(Waiter, null, Host);
         Waiter.setGui(waiterGui);
          
         restaurant.setHost(Host);

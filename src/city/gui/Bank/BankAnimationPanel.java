@@ -24,6 +24,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
     private static int tablespacing = 50;
     
     public Image imgoftable = new ImageIcon("images/bluetable.png").getImage();
+    public Image imgofmanagertable = new ImageIcon("images/table.png").getImage();
     public Image imgofcouch = new ImageIcon("images/sofaforbank.jpg").getImage();
     public Image imgofbankfloor = new ImageIcon("images/bankfloor2.jpg").getImage();
     
@@ -60,22 +61,27 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
       
         
         Graphics2D waitingarea = (Graphics2D)g;
+        Graphics2D backtocityviewbutton = (Graphics2D)g;
         
         //Clear the screen by painting a rectangle the size of the frame
         //g2.setColor(getBackground());
         //g2.fillRect(0, 0, this.getWidth(), this.getHeight());
        
-        g.drawImage(imgoftable, 200, 100, 50, 50, this);
-        g.drawImage(imgoftable, 300, 100, 50, 50, this);
-        g.drawImage(imgoftable, 400, 100, 50, 50, this);
-        g.drawImage(imgoftable, 500, 100, 50, 50, this);
-        g.drawImage(imgofcouch, 50, 300, 400, 100, this);
+        
+        g.drawImage(imgoftable, 200, 150, 50, 50, this);
+        g.drawImage(imgoftable, 300, 150, 50, 50, this);
+        g.drawImage(imgoftable, 400, 150, 50, 50, this);
+        g.drawImage(imgoftable, 500, 150, 50, 50, this);
+        //g.drawImage(imgofcouch, 50, 300, 400, 100, this);
         // g.drawImage(imgofcouch, 200, 300, 100, 100, this);
         //g.drawImage(imgofcouch, 350, 300, 100, 100, this);
-        g.drawImage(imgofcouch, 500, 300, 100, 100, this);
+        //g.drawImage(imgofcouch, 500, 300, 100, 100, this);
 
         waitingarea.setColor(Color.gray);
         waitingarea.fillRect(5, 40, 20, 270);
+        
+        backtocityviewbutton.setColor(Color.red);
+        backtocityviewbutton.fillRect(20, 20,20, 20);
         
         //banktellerstation1.setColor(Color.gray);
         //banktellerstation1.fillRect(200, 100, 50, 50);
