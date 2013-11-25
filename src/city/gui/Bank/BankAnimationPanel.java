@@ -23,7 +23,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
     private static int tablelength = 250;
     private static int tablespacing = 50;
     
-    public Image imgoftable = new ImageIcon("images/table.png").getImage();
+    public Image imgoftable = new ImageIcon("images/bluetable.png").getImage();
     public Image imgofcouch = new ImageIcon("images/sofaforbank.jpg").getImage();
     public Image imgofbankfloor = new ImageIcon("images/bankfloor2.jpg").getImage();
     
@@ -66,6 +66,9 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         //g2.fillRect(0, 0, this.getWidth(), this.getHeight());
        
         g.drawImage(imgoftable, 200, 100, 50, 50, this);
+        g.drawImage(imgoftable, 300, 100, 50, 50, this);
+        g.drawImage(imgoftable, 400, 100, 50, 50, this);
+        g.drawImage(imgoftable, 500, 100, 50, 50, this);
         g.drawImage(imgofcouch, 50, 300, 400, 100, this);
         // g.drawImage(imgofcouch, 200, 300, 100, 100, this);
         //g.drawImage(imgofcouch, 350, 300, 100, 100, this);
@@ -74,14 +77,14 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         waitingarea.setColor(Color.gray);
         waitingarea.fillRect(5, 40, 20, 270);
         
-        banktellerstation1.setColor(Color.gray);
-        banktellerstation1.fillRect(200, 100, 50, 50);
-        banktellerstation2.setColor(Color.gray);
-        banktellerstation2.fillRect(300, 100, 50, 50);
-        banktellerstation3.setColor(Color.gray);
-        banktellerstation3.fillRect(400, 100, 50, 50);
-        banktellerstation4.setColor(Color.gray);
-        banktellerstation4.fillRect(500, 100, 50, 50);
+        //banktellerstation1.setColor(Color.gray);
+        //banktellerstation1.fillRect(200, 100, 50, 50);
+        //banktellerstation2.setColor(Color.gray);
+        //banktellerstation2.fillRect(300, 100, 50, 50);
+        //banktellerstation3.setColor(Color.gray);
+        //banktellerstation3.fillRect(400, 100, 50, 50);
+        //banktellerstation4.setColor(Color.gray);
+        //banktellerstation4.fillRect(500, 100, 50, 50);
         
         //g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 50, gui);
         

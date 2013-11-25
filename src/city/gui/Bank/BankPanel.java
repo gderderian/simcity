@@ -59,11 +59,8 @@ public class BankPanel extends JPanel {
 		bankmanager.setPerson(person2);
 		gui.animationPanel.addGui(g2);
 		bankmanager.setGui(g2);
-        
-		
-		
+        	
         person2.addRole(bankmanager, true);
-    	
         PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
         person3.startThread();
         
@@ -90,11 +87,9 @@ public class BankPanel extends JPanel {
 		g.setArrivedAtBank();
 		gui.animationPanel.addGui(g);
 		bankcustomers.add(bcr);
-
-       
 		
         
-		bcr.gui.goToBankTellerStation(3);
+		//bcr.gui.goToBankTellerStation(3);
 		/*
 		try {
 			bcr.atBankStation.acquire();
@@ -105,7 +100,7 @@ public class BankPanel extends JPanel {
 		}
 		*/
 		
-		bcr.gui.leaveBank();
+		//bcr.gui.leaveBank();
 		
 		
         //bcr.gui.setWaitingPosition(250, 50);
@@ -205,7 +200,6 @@ public class BankPanel extends JPanel {
     		bcrnew.gui.setWaitingPosition(x, 350);
     		x += 30;
     		bankcustomers.add(bcrnew);
-    		
     		bankmanager.msgCustomerArrivedAtBank(bcrnew);
     		
     		//c.startThread();

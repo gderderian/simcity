@@ -13,6 +13,7 @@ import java.util.concurrent.Semaphore;
 
 
 
+
 import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
@@ -159,7 +160,15 @@ public boolean pickAndExecuteAnAction() {
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;
                                                 //customer.customer.msg(bankteller.bankstationnumber);
-                                                
+                                                customer.customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
+                                                try {
+                                        			customer.customer.atBankStation.acquire();
+                                        			//atLobby.acquire();
+                                        		} catch (InterruptedException e) {
+                                        			// TODO Auto-generated catch block
+                                        			e.printStackTrace();
+                                        		}
+                                                //Do("open account");
                                                 customer.customer.msgOpenAccount();
                                                 return true;
                                         }
