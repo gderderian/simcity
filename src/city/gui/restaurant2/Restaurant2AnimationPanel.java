@@ -64,7 +64,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, getWidth(), getHeight());
-        
+
         //Here is the table
         int tables = 4;
         
