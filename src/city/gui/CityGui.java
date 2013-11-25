@@ -194,7 +194,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		if(building.equals("City")){
 			for(BuildingPanel bp : buildingPanels) {
 				bp.setVisible(false);
-				bp.setEnabled(false);
 			}
 			animationPanel.setVisible(true);
 			animationPanel.setEnabled(true);
