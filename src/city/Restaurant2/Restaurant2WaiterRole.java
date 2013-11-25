@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Menu;
@@ -49,6 +51,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	private Semaphore atDest = new Semaphore(0,true);
 	
 	private Restaurant2WaiterGui gui;
+	ActivityTag tag = ActivityTag.RESTAURANT2WAITER;
 	
 	public Restaurant2WaiterRole(String n, PersonAgent p){
 		super();
@@ -97,7 +100,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	//MESSAGES
 	public void msgPleaseSeatCustomer(Restaurant2Customer c, int table, Restaurant2HostRole h){
 		boolean returningCustomer = false;
-		print("Received msg seat customer");
+		log("Received msg seat customer");
 		host = h;
 		synchronized(customers){
 			for(MyCustomer mc : customers){
@@ -137,12 +140,12 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	public void msgReadyToOrder(Restaurant2Customer cust){
-		print("recieved msg ready to order");
+		log("recieved msg ready to order");
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == cust){
 					mc.s = CustomerState.askedToOrder;
-					//print(mc.c.getName() + " has asked to order.");
+					//log(mc.c.getName() + " has asked to order.");
 				}
 			}
 		}
@@ -150,7 +153,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	public void msgHereIsMyChoice(Restaurant2Customer cust, String ch){
-		print("Sending order");
+		log("Sending order");
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == cust){
@@ -163,7 +166,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 
 	public void msgOrderIsReady(String choice, int table, Restaurant2Cook c){
-		print("Recieved msg OrderIsReady");
+		log("Recieved msg OrderIsReady");
 		orders.add(new Order(choice, table));
 		person.stateChanged();
 	}
@@ -182,18 +185,18 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	public void msgPermissionToTakeBreak(boolean takeBreak){
 		if(takeBreak){
 			state = WaiterState.yesBreak;
-			print("Reieved msg can take break.");
+			log("Reieved msg can take break.");
 		}
 		else{
 			state = WaiterState.deniedBreak;
-			print("Recieved msg can NOT take break");
+			log("Recieved msg can NOT take break");
 		}
 		person.stateChanged();
 	}
 	
 	//Don't need additional state here now, may need it later when customer can decide to leave.
 	public void msgOutOfFood(String food, int table){
-		print("Recieved msgOutOfFood");
+		log("Recieved msgOutOfFood");
 		outOf = food;
 		for(MyCustomer mc : customers){
 			if(mc.table == table){
@@ -214,14 +217,14 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	public void msgBreakOver(){
-		print("Coming back from break.");
+		log("Coming back from break.");
 		state = WaiterState.noBreak;
 		host.msgBackFromBreak(this);
 		person.stateChanged();
 	}
 	
 	public void msgHereIsCheck(Restaurant2Customer customer, String food, double p){
-		print("Recieved check for customer " + customer.getName());
+		log("Recieved check for customer " + customer.getName());
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == customer){
@@ -233,7 +236,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	public void msgGetCheck(Restaurant2Customer c){
-		print("Recieved msg get check");
+		log("Recieved msg get check");
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == c){
@@ -307,7 +310,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		synchronized(customers){
 			for(MyCustomer c : customers){
 				if(c.s == CustomerState.reorder){
-					print("Requesting reorder from customer");
+					log("Requesting reorder from customer");
 					Reorder(c);
 					c.s = CustomerState.ordering;
 					return true;
@@ -346,7 +349,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 				}
 			}
 			if(state == WaiterState.yesBreak){
-				print("Taking break.");
+				log("Taking break.");
 				takeBreak();
 				state = WaiterState.onBreak;
 				return true;
@@ -385,7 +388,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	private void DoSeatCustomer(Restaurant2Customer customer, int table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
-		print("Seating " + customer + " at table " + table);
+		log("Seating " + customer + " at table " + table);
 		gui.DoGoToTable(customer, table);
 	}
 	
@@ -439,7 +442,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		print("Reached table");
+		log("Reached table");
 		goToHome();
 		c.c.msgHereIsYourCheck(c.choice, c.price, cashier);
 		//goToHome();
@@ -523,6 +526,12 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	public Restaurant2WaiterGui getGui(){
 		return gui;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
 	}
 	
 

@@ -1,6 +1,8 @@
 package city.Restaurant4;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import city.gui.restaurant4.RestaurantGui4;
 import city.gui.restaurant4.WaiterGui4;
@@ -10,6 +12,8 @@ import city.Restaurant4.CashierRole4;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
+import test.mock.LoggedEvent;
 
 public class WaiterRole4 extends Role implements Waiter4 {
 	private String name;
@@ -40,6 +44,8 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	//Implement waiter gui
 	public WaiterGui4 waiterGui = null;
 	public RestaurantGui4 gui;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT4WAITER;
 
 	
 	public WaiterRole4(String name, RestaurantGui4 gui, PersonAgent p) {
@@ -149,13 +155,13 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	public void msgBreakApproved(){
-		print("YES! i get to take my break now");
+		log("YES! i get to take my break now");
 		bs= breakState.goOnBreak;
 		p.stateChanged();
 	}
 	
 	public void msgBreakDenied(){
-		print("I really wish i could have taken my break :(");
+		log("I really wish i could have taken my break :(");
 		bs= breakState.deniedBreak;
 		p.stateChanged();
 	}
@@ -167,7 +173,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	public void msgHereIsBill(double amount, Customer4 c){
-		print("msgHereIsBill");
+		log("msgHereIsBill");
 		MyCustomer mc= find(c);
 		mc.amountOwed= amount;
 		mc.s= customerState.readyForBill;
@@ -220,56 +226,56 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 		for( MyCustomer customer : customers){
 			if(customer.s == customerState.foodDone){
-				print("Delivering " + customer.choice + " to the cutomer!");
+				log("Delivering " + customer.choice + " to the cutomer!");
 				deliverFood(customer);
 				return true;
 			}
 		}
 		for( MyCustomer customer : customers){
 			if(customer.s == customerState.ordered){
-				print("Sending order to cook.");
+				log("Sending order to cook.");
 				sendOrderToCook(customer);
 				return true;
 			}
 		}
 		for( MyCustomer customer : customers){
 			if(customer.s == customerState.waiting){
-				print("Time to seat this waiting customer");
+				log("Time to seat this waiting customer");
 				seatCustomer(customer);
 				return true;
 			}
 		}
 		for( MyCustomer customer : customers){
 			if(customer.s == customerState.askedToOrder){
-				print("Taking order.");
+				log("Taking order.");
 				takeOrder(customer);
 				return true;
 			}
 		}
 		for( MyCustomer customer: customers){
 			if(customer.s == customerState.reOrder){
-				print("Whoops, we are all out of " + customer.choice + ", please re-order!");
+				log("Whoops, we are all out of " + customer.choice + ", please re-order!");
 				reOrder(customer, customer.choice);
 				return true;
 			}
 		}
 		for( MyCustomer customer : customers){
 			if(customer.s == customerState.doneEating){
-				print("This table is empty now");
+				log("This table is empty now");
 				updateHost(customer);
 				return true;
 			}
 		}
 		for( MyCustomer customer : customers){
 			if(customer.s == customerState.askedForBill){
-				print("This customer is ready for the bill, I should tell the cashier");
+				log("This customer is ready for the bill, I should tell the cashier");
 				tellCashier(customer);
 				return true;
 			}
 		}
 		for ( MyCustomer customer : customers){
 			if(customer.s == customerState.readyForBill){
-				print("I should give this customer the bill now.");
+				log("I should give this customer the bill now.");
 				giveBill(customer);
 				return true;
 			}
@@ -285,13 +291,13 @@ public class WaiterRole4 extends Role implements Waiter4 {
 				}
 			}
 			if(goodTime){
-				print("Can I please take a break now?");
+				log("Can I please take a break now?");
 				askHostForBreak();
 			}
 			return true;
 		}
 		if(bs == breakState.goOnBreak){
-			print("Time to take my break!");
+			log("Time to take my break!");
 			goOnBreak();
 			return true;
 		}
@@ -340,7 +346,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		firstRun= false;
 		if(name.equals("OnBreak")){
 			bs= breakState.wantToGoOnBreak;
-			print("breakState: " + bs);
+			log("breakState: " + bs);
 		}
 		p.stateChanged();
 	}
@@ -425,13 +431,13 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	private void askHostForBreak(){
-		print("Asking for break now");
+		log("Asking for break now");
 		host.msgWantToGoOnBreak(this);
 		bs= breakState.pending;
 	}
 	
 	private void goOnBreak(){
-		print("Initiating break!");
+		log("Initiating break!");
 		bs= breakState.onBreak;
 		gui.setWaiterEnabled(this, true);
 		waiterGui.doGoBack();
@@ -546,4 +552,9 @@ public class WaiterRole4 extends Role implements Waiter4 {
 			return amount;
 		}
 	}	
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 }

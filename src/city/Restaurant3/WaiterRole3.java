@@ -1,11 +1,17 @@
 package city.Restaurant3;
 
 import Role.Role;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
 import javax.swing.Timer;
+
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import city.gui.Restaurant3.WaiterGui3;
 
@@ -40,6 +46,8 @@ public class WaiterRole3 extends Role {
 	AgentEvent event = AgentEvent.none;
 	
 	PersonAgent person;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT3WAITER;
 	
 	public WaiterRole3(String name, int startX, int startY, PersonAgent p) {
 		super();
@@ -542,6 +550,11 @@ public class WaiterRole3 extends Role {
 	
 	public boolean isOnBreak() {
 		return onBreak;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 	
 }

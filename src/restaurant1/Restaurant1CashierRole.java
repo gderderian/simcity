@@ -1,11 +1,14 @@
 package restaurant1;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 import restaurant1.interfaces.Restaurant1Customer;
 import restaurant1.interfaces.Restaurant1Market;
 import restaurant1.interfaces.Restaurant1Waiter;
 import restaurant1.test.mock.Restaurant1EventLog;
+import test.mock.LoggedEvent;
 
 import java.util.*;
 
@@ -33,6 +36,8 @@ public class Restaurant1CashierRole extends Role {
 
 	PersonAgent person;
 	
+	ActivityTag tag = ActivityTag.RESTAURANT1CASHIER;
+	
 	public Restaurant1CashierRole(String name, PersonAgent p) {
 		super();
 		building = "rest1";
@@ -54,7 +59,7 @@ public class Restaurant1CashierRole extends Role {
 		synchronized(customersWhoOweMoney) {
 			for(MyCustomer mc : customersWhoOweMoney) {
 				if(mc.c == c) {
-					print("Well, look who's back! This customer will have to repay their previous bill of " + mc.amountOwed + " as well.");
+					log("Well, look who's back! This customer will have to repay their previous bill of " + mc.amountOwed + " as well.");
 					check.amount += mc.amountOwed;
 				}
 			}
@@ -131,7 +136,7 @@ public class Restaurant1CashierRole extends Role {
 	// Actions
 
 	private void giveCheckToWaiter(MyCheck c) {
-		print("The check for " + c.c.cust + " is ready!");
+		log("The check for " + c.c.cust + " is ready!");
 		c.w.msgHereIsCheck(c.c);
 		c.state = checkState.givenToWaiter;
 	}
@@ -139,13 +144,13 @@ public class Restaurant1CashierRole extends Role {
 	private void giveChange(MyCheck c) {
 		this.money += c.c.amount;
 		double change = c.amountPaid - c.c.amount;
-		print("Here is your change of $" + change);
+		log("Here is your change of $" + change);
 		c.c.cust.msgHereIsChange(change);
 		c.state = checkState.finished;
 	}
 	
 	private void addCustomerToOweList(MyCheck c) {
-		print("You still owe $" + c.c.amount + "! You'll have to pay it back next time!");
+		log("You still owe $" + c.c.amount + "! You'll have to pay it back next time!");
 		synchronized(customersWhoOweMoney) {
 			for(MyCustomer mc : customersWhoOweMoney) { //If customer is already on the "owe money" list, add the money to the amount they owe
 				if(mc.c == c.c.cust) {
@@ -161,11 +166,11 @@ public class Restaurant1CashierRole extends Role {
 	
 	private void payBill(MarketBill mb) {
 		if(money > mb.amountOwed) {
-			print("Here is my payment of $" + mb.amountOwed + " for the recent shipment!");
+			log("Here is my payment of $" + mb.amountOwed + " for the recent shipment!");
 			mb.m.msgHereIsPayment(this, mb.amountOwed);
 			money -= mb.amountOwed;
 		} else {
-			print("Thanks for the food, but I can't pay for it!");
+			log("Thanks for the food, but I can't pay for it!");
 			mb.m.msgCannotPayBill(this, mb.amountOwed);
 		}
 		
@@ -207,5 +212,10 @@ public class Restaurant1CashierRole extends Role {
 			this.m = m;
 			this.amountOwed = amount;
 		}
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }

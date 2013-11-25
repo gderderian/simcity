@@ -17,6 +17,8 @@ import tomtesting.interfaces.Restaurant5Waiter;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 
 /**
@@ -70,6 +72,8 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	public enum AgentEvent 
 	{none, gotHungry, goToWaitingArea, followHost, seated, lookingAtMenu, readyToOrder, waitingForWaiter, ordering, reordering, doneOrdering, gotFood, doneEating, readyToPay, waitingToPay, receivedCheck, goToCashier, donePaying, washDishes, doneLeaving, doneLeavingWithoutEating, noMoneyLeave};
 	AgentEvent event = AgentEvent.none;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT5CUSTOMER;
 
 	/**
 	 * Constructor for CustomerAgent class
@@ -133,13 +137,13 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	// Messages
 
 	public void gotHungry() {
-		print("I'm hungry");
+		log("I'm hungry");
 		event = AgentEvent.gotHungry;
 		person.stateChanged();
 	}
 	
 	public void msgGoToWaitingArea(int xcoordinateofwaitingspot, int ycoordinateofwaitingspot) {
-		//print("I'm going to waiting spot");
+		//log("I'm going to waiting spot");
 		event = AgentEvent.goToWaitingArea;
 		this.xcoordinateofwaitingspot = xcoordinateofwaitingspot;
 		this.ycoordinateofwaitingspot = ycoordinateofwaitingspot;
@@ -147,7 +151,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	}
 
 	public void msgSitAtTable(int table) {
-		print("Received msgSitAtTable");
+		log("Received msgSitAtTable");
 		event = AgentEvent.followHost;
 		this.table = table;
 		person.stateChanged();
@@ -177,7 +181,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	
 	public void msgFoodIsOut(Restaurant5Waiter waiter, String order) {
 		event = AgentEvent.reordering;
-		print("waiter state" + state);
+		log("waiter state" + state);
 		person.stateChanged();
 	}
 	
@@ -185,8 +189,8 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		mycheck = new Restaurant5Check(checkfromwaiter.customer, checkfromwaiter.total, checkfromwaiter.assignedtable);
 		mycheck.amountcustomerpaid = currentmoney;
 		event = AgentEvent.receivedCheck;
-		print("total: $" + mycheck.total + " table: " + mycheck.assignedtable);		
-		print("received check from the waiter");
+		log("total: $" + mycheck.total + " table: " + mycheck.assignedtable);		
+		log("received check from the waiter");
 		person.stateChanged();
 	}
 	
@@ -208,7 +212,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	public void msgDontHaveMoneyPayBackLater( int paybackmoney) {
 		currentmoney = 0;
 		this.paybackmoney = paybackmoney;
-		print("has to pay back this much: $" + this.paybackmoney);
+		log("has to pay back this much: $" + this.paybackmoney);
 		event = AgentEvent.doneLeaving;
 		person.stateChanged();
 	}
@@ -219,7 +223,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	}
 	
 	public void msgRestaurantFullLeave() {
-		print("restaurant is full so I'm leaving");
+		log("restaurant is full so I'm leaving");
 		state = AgentState.DoingNothing;
 		person.stateChanged();
 	}
@@ -275,7 +279,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	    
 	    if(state == AgentState.WaitingForFood && event == AgentEvent.reordering)
 	    {
-	    	print("reordering");
+	    	log("reordering");
 	    	readytoorder = false;
 	    	ordered = true;
 	    	reorder(this.choice, this.table);
@@ -289,7 +293,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	    	state = AgentState.WaitingForFood;
 	    	readytoorder = false;
 	    	ordered = true;
-	    	print("" + this.name + "i'm telling order");
+	    	log("" + this.name + "i'm telling order");
 	    	TellOrder(Customersorder, table);
 	    	return true;
 	    	
@@ -399,7 +403,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		timerforordering.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-			//print("ordering, cookie=" + cookie);
+			//log("ordering, cookie=" + cookie);
 			event = AgentEvent.readyToOrder;
 			if(menu.m.get("chicken") > currentmoney && menu.m.get("burrito") > currentmoney && menu.m.get("pizza") >currentmoney && !name.equals("scumbag"))
 			{
@@ -433,7 +437,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		
 		if(this.name.equals("cheap"))
 		{
-			print("i'm cheap so I'm getting the cheapest food: chicken");
+			log("i'm cheap so I'm getting the cheapest food: chicken");
 			Customersorder = "chicken";
 			choice = Customersorder;
 		}
@@ -444,17 +448,17 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 			if(i == 0)
 			{
 				Customersorder = "chicken"; /*menu.m.get("chicken");*/
-				print("" + name + " got chicken");
+				log("" + name + " got chicken");
 			}
 			else if(i == 1)
 			{
 				Customersorder = "burrito"; /*menu.m.get("burrito");*/
-				print("" + name + " got burrito");
+				log("" + name + " got burrito");
 			}
 			else if(i == 2)
 			{
 				Customersorder = "pizza"; /*menu.m.get("pizza");*/
-				print("" + name + " got pizza");
+				log("" + name + " got pizza");
 			}
 			choice = Customersorder;
 		}
@@ -468,25 +472,25 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
     	//readytoorder = true;
     	//start here
 		
-		print("reorder");
+		log("reorder");
 		if(previousorder == "chicken")
 		{
 			menu.m.remove("chicken");
-			print("chicken removed");
+			log("chicken removed");
 			
 		}
 		
 		else if(previousorder == "burrito")
 		{
 			menu.m.remove("burrito");
-			print("burrito removed");
+			log("burrito removed");
 			
 		}
 		
 		else if(previousorder == "pizza")
 		{
 			menu.m.remove("pizza");
-			print("pizza removed"); 
+			log("pizza removed"); 
 			
 		}
 		
@@ -494,11 +498,11 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
     	Random r = new Random();
     	//int i = r.nextInt(menu.m.size()); 
     	//do while loop
-    	//print("this is hash map size" + menu.m.size());
+    	//log("this is hash map size" + menu.m.size());
     	
     	if(menu.m.size() == 0)
     	{
-    		//print("im in the if statement where the customer leaves");
+    		//log("im in the if statement where the customer leaves");
         	state = AgentState.Leaving;
         	event = AgentEvent.doneLeavingWithoutEating;
         	ordered = false;
@@ -568,7 +572,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 			Object cookie = 1;
 			public void run() {
 				eating = false;
-				print("Done eating" /*cookie=" + cookie*/);
+				log("Done eating" /*cookie=" + cookie*/);
 				event = AgentEvent.doneEating;
 				person.stateChanged();
 			}
@@ -579,11 +583,11 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	private void lookingAtCheck() {
 		Do("Looking at check");
 		readyforcheck = false;
-		print("mycheck: amount to pay $" + mycheck.total);
+		log("mycheck: amount to pay $" + mycheck.total);
 		timerforordering.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-			//print("ordering, cookie=" + cookie);
+			//log("ordering, cookie=" + cookie);
 			event = AgentEvent.goToCashier;
 			person.stateChanged();
 			}
@@ -612,7 +616,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 			
 			//currentmoney -= paybackmoney;
 			//mycheck.amountcustomerpaid += paybackmoney;
-			print("I'm paying the cahsier back from last time so " + "current total: $" + mycheck.total + " plus payback money: $" + paybackmoney);
+			log("I'm paying the cahsier back from last time so " + "current total: $" + mycheck.total + " plus payback money: $" + paybackmoney);
 			//paybackmoney = 0;
 			
 		}
@@ -655,7 +659,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	
 	private void leaveTableNoMoney() {
 		
-		print(" I don't have enough money");
+		log(" I don't have enough money");
 		customerGui.DoExitRestaurant();
 		try {
 			atLobby.acquire();
@@ -743,7 +747,10 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 
 	
 
-
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 	
 
 	

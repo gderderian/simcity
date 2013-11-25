@@ -7,9 +7,12 @@ import city.gui.PersonGui;
 //import restaurant.CustomerAgent.AgentEvent;
 //import restaurant.CustomerAgent.AgentState;
 import city.gui.Restaurant5.Restaurant5CookGui;
+import test.mock.LoggedEvent;
 import tomtesting.interfaces.Restaurant5Cook;
 import tomtesting.interfaces.Restaurant5Market;
 import tomtesting.interfaces.Restaurant5Waiter;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 import astar.AStarTraversal;
 
@@ -71,6 +74,8 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	Restaurant5MarketRole market3;
 	Restaurant5CashierRole cashier;
 	
+	ActivityTag tag = ActivityTag.RESTAURANT5COOK;
+	
 	
 	public Restaurant5CookRole(String name, PersonAgent person) {
 		super();
@@ -120,9 +125,9 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	//After receiving message from the waiter start cooking
 	public void msgReceviedOrderFromWaiter(Restaurant5Waiter waiter, String order, int table) {
 		
-		print("Received order: " + order + " from waiter: " + waiter.getName());
+		log("Received order: " + order + " from waiter: " + waiter.getName());
 		cookingorders.add( new cookingorder(waiter, order, table));
-		print("order added to the cooking list");
+		log("order added to the cooking list");
 		person.stateChanged();
 	}
 	
@@ -169,7 +174,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 	public void msgReceivedSuppliesFromMarket(String order, Restaurant5Market market) {
 		
-		print("" + order +" is restocked!");
+		log("" + order +" is restocked!");
 		if(order.equals("chicken"))
 		{
 			callchickenmarket = false;
@@ -184,7 +189,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			callpizzamarket = false;
 		}
 		inventoryoffood.put(order, 3);
-		print("current amount of " + order + ": " + inventoryoffood.get(order));
+		log("current amount of " + order + ": " + inventoryoffood.get(order));
 		checksfrommarket.add( new checkfrommarket(order, market));
 		tellcashiertopayforsupplies = true;
 		person.stateChanged();
@@ -193,7 +198,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 		
 	public void msgSupplyIsOut(String order, Restaurant5Market market) {
-		//print("supply of " + order + " is out!");
+		//log("supply of " + order + " is out!");
 		if(order.equals("chicken"))
 		{
 			callchickenmarket = false;
@@ -372,7 +377,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 	if(inventoryoffood.get(currentorder.order) == 0)
 	{
-			print("food is out");
+			log("food is out");
 			currentorder.waiter.msgFoodIsOut(currentorder.order, currentorder.assignedtablenumber);
 			cooking = false;
 	}
@@ -384,12 +389,12 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			if(order == "chicken") {
 			
 			inventoryoffood.put("chicken", inventoryoffood.get("chicken") - 1);	
-			print("inventory of chicken " + inventoryoffood.get("chicken"));
+			log("inventory of chicken " + inventoryoffood.get("chicken"));
 			 //currentorder.state = cookingorderstate.pending;
 			timerforcooking.schedule(new TimerTask() {
 			//Object cookie = 1;
 			public void run() {
-			    print("done cooking");
+			    log("done cooking");
 			    msgDoneCooking(currentorder);
 			    person.stateChanged();
 			}
@@ -401,13 +406,13 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		else if(order == "pizza") {
 			
 			inventoryoffood.put("pizza", inventoryoffood.get("pizza") - 1);	
-			print("inventory of pizza " + inventoryoffood.get("pizza"));
+			log("inventory of pizza " + inventoryoffood.get("pizza"));
 			// currentorder.state = cookingorderstate.pending;
 			timerforcooking.schedule(new TimerTask() {
 				//Object cookie = 1;
 				public void run() {
 				   
-				    print("done cooking");
+				    log("done cooking");
 				    msgDoneCooking(currentorder);
 				    person.stateChanged();
 				}
@@ -419,14 +424,14 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		else if(order == "burrito") {
 			
 			inventoryoffood.put("burrito", inventoryoffood.get("burrito") - 1);	
-			print("inventory of burrito " + inventoryoffood.get("burrito"));
+			log("inventory of burrito " + inventoryoffood.get("burrito"));
 			//currentorder.state = cookingorderstate.pending;
 			timerforcooking.schedule(new TimerTask() {
 				//Object cookie = 1;
 				public void run() {
 				   // cooking = false;
 				    //donecooking = true;
-				    print("done cooking");
+				    log("done cooking");
 				    msgDoneCooking(currentorder);
 				    person.stateChanged();
 				}
@@ -439,7 +444,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	}
 	
 	public void tellWaiterFoodIsReady(Restaurant5Waiter waiter, String order, int table) {
-		print("waiter: " + waiter.getName() + " bring " + order + " to table: " + table);
+		log("waiter: " + waiter.getName() + " bring " + order + " to table: " + table);
 		waiter.msgFoodIsReady(order, table);
 	}
 	
@@ -513,7 +518,10 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		
 	}
 
-
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 
 
 

@@ -1,6 +1,8 @@
 package city.Restaurant5;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 
 
@@ -9,6 +11,7 @@ import agent.Agent;
 
 import city.PersonAgent;
 import city.gui.Restaurant5.Restaurant5WaiterGui;
+import test.mock.LoggedEvent;
 import tomtesting.interfaces.Restaurant5Customer;
 import tomtesting.interfaces.Restaurant5Market;
 import tomtesting.interfaces.Restaurant5Waiter;
@@ -57,6 +60,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	public boolean foodout = false;
 	PersonAgent person;
 	
+	ActivityTag tag = ActivityTag.RESTAURANT5WAITER;
 	
 	//public boolean atkitchencurrently = false;
 	
@@ -116,10 +120,10 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	{
 		synchronized(customers){
 		
-		print("customer " + customer.getName() + " is ready to order");
+		log("customer " + customer.getName() + " is ready to order");
 		for(mycustomer findcustomer: customers) {
 			if(findcustomer.customer == customer) {
-				//print("searching customer");
+				//log("searching customer");
 				findcustomer.state = customerstate.ReadyToOrder; 
 				person.stateChanged();
 				return; 
@@ -135,10 +139,10 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	{
 		synchronized(customers){
 			
-		print("customer " + customer.getName() + " is ready to pay");
+		log("customer " + customer.getName() + " is ready to pay");
 		for(mycustomer findcustomer: customers) {
 			if(findcustomer.customer == customer) {
-				//print("searching customer");
+				//log("searching customer");
 				findcustomer.state = customerstate.ReadyToPay; 
 				person.stateChanged();
 				return; 
@@ -151,9 +155,9 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	
 	public void msgGiveOrder(String order, int table)
 	{
-		print("Received order! " + order);
+		log("Received order! " + order);
 		orders.add(new orders(order, table));
-		print("order added to the list");
+		log("order added to the list");
 		synchronized(customers)
 		{
 			
@@ -162,7 +166,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			{
 				customer.state = customerstate.Ordered;
 				if(customer.state == customerstate.Ordered){
-					//print("Ordered.");
+					//log("Ordered.");
 				}
 				customer.choice = order;
 				person.stateChanged();
@@ -177,7 +181,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	}
 	
 	public void msgFoodIsOut(String order, int table) {
-		print("msgFoodIsOut");
+		log("msgFoodIsOut");
 		
 		synchronized(customers)
 		{
@@ -199,7 +203,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	public void msgFoodIsReady(String order, int table) {
 
-		print("msgfoodisready");
+		log("msgfoodisready");
 		synchronized(customers){
 		
 		for(mycustomer givefoodtocustomer: customers) {
@@ -216,7 +220,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	
 	public void msgCheckIsReady(Restaurant5Check check) {
 		
-		print("msgcheckisready");
+		log("msgcheckisready");
 		
 		synchronized(customers){
 		
@@ -241,10 +245,10 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	{
 		
 		synchronized(customers){
-		print("customer " + customerleft.getName() + " is leaving without eating");
+		log("customer " + customerleft.getName() + " is leaving without eating");
 		for(mycustomer findcustomer: customers) {
 			if(findcustomer.customer == customerleft) {
-				//print("searching customer");
+				//log("searching customer");
 				findcustomer.state = customerstate.LeavingWithoutEating; 
 				person.stateChanged();
 				return; 
@@ -255,7 +259,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 }
 
 	public void msgCustomerIsGone(Restaurant5Customer customer) {
-		print("removing customer");
+		log("removing customer");
 		synchronized(customers){
 		
 		for(mycustomer removecustomer: customers) {
@@ -336,19 +340,19 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 							atlobbycurrently = false;
 							DoGoToTable(customer.table);
 							//Do("i have attable permit " + atTable.availablePermits());
-							print("moving to table");
+							log("moving to table");
 							
 							try {
 			
-							print("" + atTable.availablePermits());
+							log("" + atTable.availablePermits());
 							atTable.acquire();
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							print("at table");
+							log("at table");
 							//Do("i have attable permit " + atTable.availablePermits());
-							//print("" + waiterGui.AtTheTable());
+							//log("" + waiterGui.AtTheTable());
 							//if(waiterGui.AtTheTable() == true)
 							//{
 								//Do("im at the table");
@@ -373,7 +377,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					if(customer.state == customerstate.Ordered)
 					{
 						foodout = false;
-						print("bring order to cook");
+						log("bring order to cook");
 						BringOrderToCook(customer);
 						customer.state = customerstate.WaitingForFood;
 						return true;
@@ -382,7 +386,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 				/*
 				Dogobacktolobby();
 				atlobbycurrently=false;
-				//print("NUMBER OF PERMITS = " + atLobby.availablePermits());
+				//log("NUMBER OF PERMITS = " + atLobby.availablePermits());
 				try {
 					atLobby.acquire();
 					//atLobby.acquire();
@@ -405,7 +409,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					if(customer.state == customerstate.Reorder && atlobbycurrently == true)
 					{
 						foodout = true; 
-						print("food is out");
+						log("food is out");
 						TellCustomerFoodIsOut(customer.choice, customer.table);
 						return true;
 						
@@ -416,7 +420,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					
 					if(customer.state == customerstate.FoodReady /*&& atlobbycurrently == true*/)
 					{	
-						//print("bring food!!!");
+						//log("bring food!!!");
 						String order = customer.choice ;
 						currentfood = order;
 						BringFoodToCustomer(order, customer.table);	
@@ -443,14 +447,14 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						
 								//try {
 									
-								//print("" + atTable.availablePermits());
+								//log("" + atTable.availablePermits());
 								//atTable.acquire();
 								//} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									//e.printStackTrace();
 								//}
 								
-								//print("" + waiterGui.AtTheTable());
+								//log("" + waiterGui.AtTheTable());
 								//if(waiterGui.AtTheTable() == true)
 							//{
 									//Do("im at the table");
@@ -474,7 +478,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					
 					if(customer.state == customerstate.CheckReady && atlobbycurrently == true)
 					{
-						//print("bring check!!!");
+						//log("bring check!!!");
 						for(Restaurant5Check findcheck: checks)
 						{
 							if(findcheck.customer == customer)
@@ -502,14 +506,14 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					
 							try {
 								
-							//print("" + atTable.availablePermits());
+							//log("" + atTable.availablePermits());
 							atTable.acquire();
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							
-//							print("" + waiterGui.AtTheTable());
+//							log("" + waiterGui.AtTheTable());
 //							if(waiterGui.AtTheTable() == true)
 //							{
 								//Do("im at the table");
@@ -552,12 +556,12 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					if(customer.state == customerstate.LeavingWithoutEating)
 					{
 						foodout = false;
-						//print("customer left so follow him");
+						//log("customer left so follow him");
 						atlobbycurrently = true;	
 						Dogobacktolobby();
 						customers.remove(customer);
 						host.msgCustomerleftTable(customer.customer);
-						print("" + state);
+						log("" + state);
 						return true;
 					}
 				//}
@@ -568,7 +572,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 					
 					if(customer.state == customerstate.Leaving)
 					{
-						//print("" + customer.customer.getName() + "removed");
+						//log("" + customer.customer.getName() + "removed");
 						host.msgCustomerleftTable(customer.customer);
 						customers.remove(customer);
 						return true;
@@ -642,12 +646,12 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	private void DoSeatCustomer(Restaurant5CustomerRole customer, int table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
-		print("Seating " + customer + " at " + table);
+		log("Seating " + customer + " at " + table);
 		waiterGui.DoBringToTable(customer, table); 
 	}
 
 	private void DoGoToTable(int table) {
-		print("Going to table:" + table);
+		log("Going to table:" + table);
 		waiterGui.DoGoToTable(table);
 	}
 
@@ -684,7 +688,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 		
 		Dogobacktolobby();
 		atlobbycurrently=false;
-		//print("NUMBER OF PERMITS = " + atLobby.availablePermits());
+		//log("NUMBER OF PERMITS = " + atLobby.availablePermits());
 		try {
 			atLobby.acquire();
 			//atLobby.acquire();
@@ -702,7 +706,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	{
 		Dogobacktolobby();
 		atlobbycurrently=false;
-		//print("NUMBER OF PERMITS = " + atLobby.availablePermits());
+		//log("NUMBER OF PERMITS = " + atLobby.availablePermits());
 		try {
 			atLobby.acquire();
 			//atLobby.acquire();
@@ -716,13 +720,13 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	
 	// this part is tricky
 	private void TellCustomerFoodIsOut(String order, int table) {
-		print("Tell customer that the food is out");
+		log("Tell customer that the food is out");
 		//DoGoToTable(table);
 	
 		
 		for (mycustomer customer : customers) {	
 			if(customer.table == table) {
-				//print("find customer " + customer.customer.getName());
+				//log("find customer " + customer.customer.getName());
 				this.state = AgentState.FoodIsOut;
 				DoGoToTable(table);
 				try {
@@ -750,14 +754,14 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 		
 		//this is the new code 
 		
-		print("bringing " + order + " to table " + table);
+		log("bringing " + order + " to table " + table);
 	
 		
 		for (mycustomer customer : customers) {
 			
 			if(customer.table == table) {
 				
-				//print("bring to table:" + table);
+				//log("bring to table:" + table);
 				
 				Dogotokitchen();
 				try {
@@ -796,13 +800,13 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	}
 	
 	public void BringCheckToCustomer(Restaurant5Check returncustomercheck, int table) {
-		print("bringing check: " + returncustomercheck.total + " to table " + table);
+		log("bringing check: " + returncustomercheck.total + " to table " + table);
 		
 		for (mycustomer customer : customers) {
 			
 			if(customer.table == table) {
 				
-				//print("bring to table:" + table);
+				//log("bring to table:" + table);
 				this.state = AgentState.BringingCheck;
 				DoGoToTable(table);
 				try {
@@ -839,7 +843,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	
 	private void Dogobacktolobby(){
 
-		//print("going back to lobby");
+		//log("going back to lobby");
 		waiterGui.DoLeaveCustomer();
 		state = AgentState.DoingNothing;
 		host.msgWaiterBackInLobby(this);
@@ -922,6 +926,10 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	}
 
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 
 }
 

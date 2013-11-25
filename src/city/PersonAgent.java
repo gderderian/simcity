@@ -23,6 +23,8 @@ import city.transportation.CarAgent;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 import astar.AStarNode;
 import astar.AStarTraversal;
@@ -103,7 +105,7 @@ public class PersonAgent extends Agent implements Person{
     Position originalPosition;
     
 	PersonGui gui;
-	
+	ActivityTag tag = ActivityTag.PERSON;
 
 	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map, House h){
 		super();
@@ -114,7 +116,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		
 		if(house != null) {
-			print(house.getName());
+			log(house.getName());
 			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		} else {
 			currentPosition = new Position(20, 18);
@@ -252,7 +254,7 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public void msgImHungry(){	//sent from GUI ?
 		events.add("GotHungry");
-		print("Recieved msgImHungry");
+		log("Recieved msgImHungry");
 		log.add(new LoggedEvent("Recieved message Im Hungry"));
 		stateChanged();
 	}
@@ -307,7 +309,7 @@ public class PersonAgent extends Agent implements Person{
 	public void msgFridgeFull() {
 		// TODO Auto-generated method stub
 		//This is a non-norm, will fill in later
-		print("Recieved message fridge full");
+		log("Recieved message fridge full");
 		log.add(new LoggedEvent("Recieved message fridge full"));
 		
 	}
@@ -609,7 +611,7 @@ public class PersonAgent extends Agent implements Person{
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
-			print("I'm going to eat " + food + " in my house.");
+			log("I'm going to eat " + food + " in my house.");
 			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
@@ -634,7 +636,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void goToRestaurant(){
-		print("Going to go to a restaurant");
+		log("Going to go to a restaurant");
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
 		String restName = null;
 		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
@@ -646,7 +648,7 @@ public class PersonAgent extends Agent implements Person{
 					r.setActive();
 					role = (Restaurant2CustomerRole) r;
 					restName = role.getBuilding();
-					print("Found role to set active");
+					log("Found role to set active");
 				}
 			}
 		}
@@ -666,13 +668,13 @@ public class PersonAgent extends Agent implements Person{
 		    gui.setInvisible();
 		}
 		Restaurant2 test = cityMap.restaurant2;
-		print("I want food!");
+		log("I want food!");
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
 		((Restaurant2CustomerRole)role).setGuiActive();
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){
-		print("Telling landlord that appliance " + a.type + " is broken");
+		log("Telling landlord that appliance " + a.type + " is broken");
 		landlord.msgFixAppliance(this, a.type);
 		a.state = ApplianceState.beingFixed;
 	}
@@ -860,7 +862,7 @@ public class PersonAgent extends Agent implements Person{
 		    //System.out.println("[Gaut] " + guiWaiter.getName() + " got permit for " + tmpPath.toString());
 		    currentPosition.release(aStar.getGrid());
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
-		    //print("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
+		    //log("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
 		    gui.moveTo(130 + (currentPosition.getX() * 30), 70 + (currentPosition.getY() * 30));
 		    
 		    //Give animation time to move to square.
@@ -1036,5 +1038,11 @@ public class PersonAgent extends Agent implements Person{
 			role = r;
 			location = l;
 		}
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
 	}
 }
