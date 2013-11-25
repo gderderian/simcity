@@ -201,6 +201,33 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	/*
+	 * MESSAGES FROM HOMEOWNER ANMIATION
+	 */
+	public void msgAnimationAtTable(){
+		
+	}
+
+    public void msgAnimationAtFridge(){
+    	
+    }
+
+    public void msgAnimationAtStove(){
+    	
+    }
+    
+    public void msgAnimationAtOven(){
+    	
+    }
+    
+    public void msgAnimationAtMicrowave(){
+    	
+    }
+
+    public void msgAnimationAtBed(){
+    	
+    }
+	
+	/*
 	 * MESSAGES
 	 */
 	public void msgImHungry(){	//sent from GUI ?
