@@ -61,6 +61,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
         addMouseListener(this);
 
+        /*This can no longer go here! 
         Cook = new Restaurant1CookRole("CookRole", personCook);
         cookGui = new Restaurant1CookGui(Cook);
         Cook.setGui(cookGui);
@@ -84,6 +85,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
         guis.add(cookGui);
         guis.add(waiterGui);
         guis.add(cashierGui);
+        */
     	
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
