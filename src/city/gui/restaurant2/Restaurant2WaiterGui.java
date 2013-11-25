@@ -20,8 +20,8 @@ public class Restaurant2WaiterGui implements Gui{
     
     private final int HOMEX, HOMEY;
 
-    private final int WINDOWX = 600;
-    private final int WINDOWY = 600 - 20;
+    private final int WINDOWX = 900;
+    private final int WINDOWY = 750 - 20;
     private final int TABLEDIM = 50;
     private final int TABLESPACING = WINDOWY/10;
     private final int TABLE1Y = TABLESPACING - 20;
@@ -31,7 +31,7 @@ public class Restaurant2WaiterGui implements Gui{
     private final int TABLEX = WINDOWX/2 - TABLEDIM/2 + 20;
     private final int KITCHENY = WINDOWY/2 - 20;		//goes to the counter of the kitchen
     private final int KITCHENX = WINDOWX - 145;
-
+    private final int WINDOWXSTART = 400;
     
     public final int XBREAK = 400;
     public final int YBREAK = -10;

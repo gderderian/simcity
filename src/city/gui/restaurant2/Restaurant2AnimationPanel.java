@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -25,10 +26,13 @@ import city.gui.CityGui;
 import city.gui.Gui;
 import city.gui.PersonGui;
 
-public class Restaurant2AnimationPanel extends BuildingPanel implements MouseListener {
+public class Restaurant2AnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
+	
+    private static final int TIMER_INTERVAL = 15;
+    private Timer timer;
 	
 	private final int WINDOWX = 900;
-    private final int WINDOWY = 700;
+    private final int WINDOWY = 750;
     private final int TABLEDIM = 50;
     private final int TABLE1Y = WINDOWY/10;
     private final int TABLEX = WINDOWX/2 - TABLEDIM/2;
@@ -92,8 +96,11 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         guis.add(cookGui);
         guis.add(waiterGui);
         
+        timer = new Timer(TIMER_INTERVAL, this);
+        timer.start();
+        
 	}
-
+	
     private List<Gui> guis = new ArrayList<Gui>();
 
 	public void actionPerformed(ActionEvent e) {
@@ -171,8 +178,8 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
     
     public void addGui(PersonGui gui) {
         guis.add(gui);
-        System.out.println("Person added to rest2 gui");
-        System.out.println("After add: " + guis.size());
+        //System.out.println("Person added to rest2 gui");
+        //System.out.println("After add: " + guis.size());
     }
     
     public void addGui(Restaurant2CustomerGui g){

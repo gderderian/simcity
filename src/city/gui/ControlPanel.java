@@ -56,7 +56,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JButton populateCity = new JButton("Populate City");
-    private JLabel timeDisplay = new JLabel("8:15am  -  Day 1  -  Week 1");
+    private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
     
     private Timer timer = new Timer();
     
@@ -308,7 +308,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
         else if(e.getSource() == populateCity){
         	populateCity();
-        	populateCity.setVisible(false);
+        	populateCity.setEnabled(false);
         }
     }
 
