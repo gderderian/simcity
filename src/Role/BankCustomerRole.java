@@ -34,7 +34,7 @@ public class BankCustomerRole extends Role{
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
                 this.person = setperson;
-                //this.name = setperson.getName();
+                this.name = setperson.getName();
                 //stateChanged();
         
         }
@@ -42,24 +42,20 @@ public class BankCustomerRole extends Role{
         
         public void msgAssignMeBankTeller(BankTellerRole assignbankteller)
         {
-        		if(assignbankteller == null)
-        		{
-        		Do("its set to null");
-        		}
-        		//Do("assigned to " + assignbankteller.person.getName());
+        
                 mybankteller = assignbankteller;
                 stationnumber = mybankteller.stationnumber;
-               
-                //animation state change
-                bankcustomerstate = state.gotobankteller; 
-                //
-               // Do("" + bankcustomerstate);
-                //Do("assigned to " + assignbankteller.person.getName());
-                Do("customer message");
-                System.out.println("customer message2");
-                Do("" + person.getName());
-                person.stateChanged();
-       
+                //bankcustomerstate = state.gotobankteller; 
+                Do("i'm in the message of customer");
+                Do("current customer state is : " + bankcustomerstate);
+                //person.stateChanged();      
+        }
+        
+        public void msgGoToBankTellerStation()
+        {
+        	bankcustomerstate = state.gotobankteller;
+        	person.stateChanged();
+        	
         }
         
         
@@ -181,14 +177,26 @@ public class BankCustomerRole extends Role{
 
         public boolean pickAndExecuteAnAction() 
         {
+        	
+        		Do(" I'm in the bank customer scheduler");
                 
         		if(bankcustomerstate == state.gotobankteller)
         		{
         			
         			Do("gui is going to bank teller station");
         			guiGoToBankTellerStation(stationnumber);
-        			
         			bankcustomerstate = state.waiting;
+        			if(bankaccountnumber == 0)
+        			{
+        				bankcustomerstate = state.openaccount;
+        			}
+        			else if(amountofcustomermoney >= 50)
+        			{
+        				bankcustomerstate = state.deposit;
+        			}
+        			
+        			
+        			
         			return true;
         		}
         	

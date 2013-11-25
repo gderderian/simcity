@@ -318,14 +318,38 @@ public class ControlPanel extends JPanel implements ActionListener{
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
             House house = houses.get(houseAssignmentNumber);
-            if(houseAssignmentNumber == 27){
-            	houseAssignmentNumber = 26;
+            if(houseAssignmentNumber == 47){
+            	houseAssignmentNumber = 46;
             }
             else{
                 houseAssignmentNumber++;
             }
             
             cityGui.addPerson(name, aStarTraversal, job, cityMap, house);
+        	System.out.println("Adding person " + name + " with job " + job);
+
+            Dimension paneSize = pane.getSize();
+            Dimension buttonSize = new Dimension((paneSize.width - 20),
+                    (int) (paneSize.height / 7));
+            button.setPreferredSize(buttonSize);
+            button.setMinimumSize(buttonSize);
+            button.setMaximumSize(buttonSize);
+            button.addActionListener(this);
+            list.add(button);
+            view.add(button);
+            isHungry.setEnabled(false);
+            validate();
+        }
+    }
+    
+    public void addPersonNoHouse(String name, String job) {
+        if (name != null) {
+            JButton button = new JButton(name);
+            button.setBackground(Color.white);
+            
+            AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
+            
+            cityGui.addPerson(name, aStarTraversal, job, cityMap, null);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
@@ -418,7 +442,11 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[21][1].release(100); //bank1
       	sidewalkGrid[0][12].release(100); //bank2
       	sidewalkGrid[21][4].release(100); //apart1
+      	sidewalkGrid[21][3].release(20); //these two lines open up spots if multiple people are leaving apartment
+      	sidewalkGrid[21][5].release(20);
       	sidewalkGrid[1][18].release(100); //apart2
+      	sidewalkGrid[0][18].release(20); //these two lines open up spots if multiple people are leaving apartment
+      	sidewalkGrid[2][18].release(20);
       	sidewalkGrid[21][8].release(100); //stop0
       	sidewalkGrid[11][0].release(100); //stop1
       	sidewalkGrid[0][8].release(100); //stop2
@@ -474,11 +502,13 @@ public class ControlPanel extends JPanel implements ActionListener{
     	for(int i = 0; i < 26; i++) {
     		houses.add(new House("house" + Integer.toString(i + 1)));
     	}
+    	for(int i = 0; i < 10; i++) {
+    		houses.add(new Apartment("apart1", i));
+    	}
+    	for(int i = 0; i < 10; i++) {
+    		houses.add(new Apartment("apart2", i));
+    	}
     	System.out.println("Created houses.");
-    	//Apartment apart1 = new Apartment("apart1", 1);
-    	//houses.add(apart1);
-    	//Apartment apart2 = new Apartment("apart2", 2);
-    	//houses.add(apart2);
     }
     
     public void populateCity(){
@@ -490,13 +520,17 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000	);
     	
-		addPerson("host", "Restaurant2 Host");
-		addPerson("cashier", "Restaurant2 Cashier");
-		addPerson("cook", "Restaurant2 Cook");
+		addPersonNoHouse("host", "Restaurant2 Host");
+		addPersonNoHouse("cashier", "Restaurant2 Cashier");
+		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
 		addPerson("RestaurantTest", "No job");
 		
-		//addPerson("rest1test", "Restaurant1 Customer");
+		/*addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Host");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		addPerson("rest1test", "Restaurant1 Customer");*/
 		
     }
     
