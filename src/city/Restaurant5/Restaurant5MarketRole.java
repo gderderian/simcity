@@ -1,10 +1,9 @@
 package city.Restaurant5;
 
-import restaurant.CustomerAgent.AgentEvent;
-import restaurant.gui.CookGui;
+
 import tomtesting.interfaces.Restaurant5Cook;
 import tomtesting.interfaces.Restaurant5Market;
-import restaurant.test.mock.EventLog;
+//import restaurant.test.mock.EventLog;
 import Role.Role;
 import agent.Agent;
 import test.mock.EventLog;
@@ -19,6 +18,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import city.PersonAgent;
+import city.gui.Restaurant5.Restaurant5CookGui;
+
 /**
  * Restaurant Market Agent
  */
@@ -30,7 +32,8 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 	Timer timerforcooking = new Timer();
 	private String name;
 	private String type;
-	public Restaurant5CookGui CookGui = null;
+	private PersonAgent person;
+	//public Restaurant5CookGui CookGui = null;
 	int packingtimeforchicken = 3;
 	int packingtimeforburrito = 3;
 	int packingtimeforpizza = 3;
@@ -43,10 +46,11 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 
 	public Object log = new EventLog();
 	
-	public Restaurant5MarketRole(String type) {
+	public Restaurant5MarketRole(String type, PersonAgent person) {
 		super();
 		this.name = type;
 		this.type = type;
+		this.person = person;
 		//inventoryofsupplies.put(this.type, 0);
 		inventoryofsupplies.put("chicken", 3);
 		inventoryofsupplies.put("burrito", 3);
@@ -61,13 +65,13 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 		Do(" " + name +": Received order: " + order + " from cook");
 		supplyorders.add( new supplyorders(cook,order));
 		print("supply order added to the list");
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgReceivedCheckFromCashier(int total) {
 		
 		Do("Received $" + total + " from cashier");
-		stateChanged();
+		person.stateChanged();
 		
 	}
 	
@@ -76,7 +80,7 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 	 */
 	
 	
-	protected boolean pickAndExecuteAnAction() {		
+	public boolean pickAndExecuteAnAction() {		
 		
 		//if done cooking order, tell the waiter that the food is ready
 		if(donepacking == true) {
@@ -99,14 +103,7 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 	// Actions
 	//utilities
 
-	public void setGui(Restaurant5CookGui gui) {
-		CookGui = gui;
-	}
 
-	public Restaurant5CookGui getGui() {
-		return CookGui;
-	}
-	
 	public void packingOrder(supplyorders currentorder) {
 		//each order has different cooking time
 	
@@ -134,7 +131,7 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 			    packing = false;
 			    donepacking = true;
 			    print("done packing");
-			    stateChanged();
+			    person.stateChanged();
 			}
 			},
 			packingtimeforchicken * 1000);//how long to wait before running task
@@ -151,7 +148,7 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 				    packing = false;
 				    donepacking = true;
 				    print("done packing");
-				    stateChanged();
+				    person.stateChanged();
 				}
 				},
 				packingtimeforpizza * 1000);//how long to wait before running task
@@ -168,7 +165,7 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 				    packing = false;
 				    donepacking = true;
 				    print("done packing");
-				    stateChanged();
+				    person.stateChanged();
 				}
 				},
 				packingtimeforburrito * 1000);//how long to wait before running tas	
