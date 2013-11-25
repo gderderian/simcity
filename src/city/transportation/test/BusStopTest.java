@@ -24,7 +24,7 @@ public class BusStopTest extends TestCase {
 		super.setUp();
 		people = new ArrayList<PersonAgent>();
 		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
-			people.add(new PersonAgent("person", null, null));
+			people.add(new PersonAgent("person", null, null, null));
 		}
 		bus1 = new MockBus();
 		bus2 = new MockBus();

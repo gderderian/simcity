@@ -1,6 +1,7 @@
 package city.transportation;
 
 import interfaces.Car;
+import interfaces.Person;
 
 import java.util.concurrent.Semaphore;
 
@@ -14,7 +15,7 @@ public class CarAgent extends Vehicle implements Car {
 	public CarEvent event = CarEvent.none;
 	public CarState state = CarState.parked;
 	
-	public PersonAgent owner = null; //Car owner
+	public Person owner = null; //Car owner
 	
 	public String destination = null;
 	
@@ -30,14 +31,14 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	//Messages
-	public void msgDriveTo(PersonAgent p, String dest) {
+	public void msgDriveTo(Person p, String dest) {
 		owner = p;
 		event = CarEvent.driving;
 		destination = dest;
 		stateChanged();
 	}
 	
-	public void msgParkCar(PersonAgent p) {
+	public void msgParkCar(Person p) {
 		event = CarEvent.parking;
 		destination = null;
 		stateChanged();
@@ -84,14 +85,13 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	private void tellOwnerWeHaveArrived() {
-		//Uncomment when method is implemented within person
 		owner.msgArrived(this);
 	}
 	
 	private void parkCar() {
 		//gui.DoParkCar();
 		
-		print("parking");
+		print("Parking...");
 		/*try {
 			guiFinished.acquire();
 		} catch (InterruptedException e) {

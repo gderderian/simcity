@@ -26,7 +26,7 @@ public class BusTest extends TestCase {
 		super.setUp();
 		people = new ArrayList<Person>();
 		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
-			people.add(new MockTransportationPerson());
+			people.add(new MockTransportationPerson("person" + Integer.toString(i)));
 		}
 		bus = new BusAgent(null);
 		

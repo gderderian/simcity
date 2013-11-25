@@ -227,6 +227,11 @@ public class BusAgent extends Vehicle implements Bus {
 	}
 	
 	private void GoToStop(int stop) {
+		if(aStar == null) {
+			print("Moving to stop #" + stop);
+			return;
+		}
+		
 		switch(stop) { //Moves to a corner before going to next stop - makes paths as straight as possible
 		case 0:
 			guiMoveFromCurrentPositionTo(new Position(18, 15));
