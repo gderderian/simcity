@@ -53,8 +53,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		foods.put("Salad", new Food("Salad", 5, 1));
 		//each food starts off with low inventory
 		
-		//startCheck = true;
-		startCheck = false;
+		startCheck = true;
+		//startCheck = false;
 	}
 	
 	public void addRestaurant2Market(Market m){
