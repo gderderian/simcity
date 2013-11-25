@@ -30,13 +30,13 @@ public class Restaurant1CustomerGui implements Restaurant1Gui{
 	private enum customerState { waiting, wantsToOrder, ordered, eating, doneEating };
 	private customerState state = customerState.waiting;
 
-	public Restaurant1CustomerGui(Restaurant1CustomerRole c, Restaurant1RestaurantGui gui){
+	public Restaurant1CustomerGui(Restaurant1CustomerRole c){
 		agent = c;
 		xPos = -2 * WIDTH;
 		yPos = -2 * HEIGHT;
 		xDestination = -2 * WIDTH;
 		yDestination = -2 * HEIGHT;
-		this.gui = gui;
+		//this.gui = gui;
 		
         // Initial mapping of table locations!
         tableLocations.put(new Integer(1), new Dimension(200, 200));

@@ -505,7 +505,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("waiter", "Restaurant2 Waiter");*/
 		addPerson("RestaurantTest", "Restaurant2 Customer");
 		
-		//addPerson("rest1test", "Restaurant1 Customer");
+		addPerson("rest1test", "Restaurant1 Customer");
 		
     }
     

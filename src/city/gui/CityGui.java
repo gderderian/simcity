@@ -6,7 +6,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import restaurant1.Restaurant1CustomerRole;
+import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
+import restaurant1.gui.Restaurant1CustomerGui;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.Bank.BankAnimationPanel;
@@ -286,7 +289,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		
 		if(name.equals("rest1test")) {
-			newPerson.msgImHungry();
+			//newPerson.msgImHungry();
 		}
 	}
 
@@ -321,6 +324,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
 			restaurant2.addGui(customerGui);
 			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
+			p.addFirstJob(waiterRole, "rest2");
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
+		}
+		if(i == 2) {
+			Restaurant1CustomerRole customerRole = new Restaurant1CustomerRole(p.getName(), p);
+			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
+			restaurant1.addGui(customerGui);
+			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest2");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
