@@ -33,9 +33,10 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
 	
 	private final int WINDOWX = 900;
     private final int WINDOWY = 750;
-    private final int TABLEDIM = 50;
+    private final int TABLEDIM = 70;
+    private final int TABLESPACE = 50;
     private final int TABLE1Y = WINDOWY/10;
-    private final int TABLEX = WINDOWX/2 - TABLEDIM/2;
+    private final int TABLEX = WINDOWX/2 - TABLESPACE/2;
     private final int KITCHENX = WINDOWX - 50;	//based off of the refrigerator
     private final int KITCHENY = WINDOWY/2 - 35;	//based off of the refrigerator
     private final int STOVEX = KITCHENX - 75;
@@ -44,7 +45,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     Restaurant2 restaurant;
     
     //People for testing
-    
+    /*
     PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
     PersonAgent personCashier = new PersonAgent("Cashier");
@@ -58,6 +59,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     Restaurant2CookGui cookGui;
     Restaurant2CustomerGui customerGui;
     Restaurant2WaiterGui waiterGui;
+    */
 	
 	public Restaurant2AnimationPanel(Restaurant2 r){
 		System.out.println("Animation panel created");
@@ -71,7 +73,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         
         restaurant = r;
         
-        
+        /*
         Cook = new Restaurant2CookRole("CookRole", personCook);
         cookGui = new Restaurant2CookGui(Cook);
         Cook.setGui(cookGui);
@@ -95,6 +97,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         
         guis.add(cookGui);
         guis.add(waiterGui);
+        */
         
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
@@ -110,8 +113,6 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         
-        System.out.println(guis.size());
-
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, getWidth(), getHeight());
@@ -137,20 +138,20 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         g2.fillRect(STOVEX, STOVEY, TABLEDIM*2, TABLEDIM/2);
         g2.setColor(Color.LIGHT_GRAY);
         for(int i = 0; i < 4; i++){
-            g2.fillOval(STOVEX + 4 + (i*25), STOVEY + 3, TABLEDIM/3, TABLEDIM/3);
+            g2.fillOval(STOVEX + 4 + (i*25), STOVEY + 3, TABLESPACE/3, TABLESPACE/3);
         }
         g2.setColor(Color.BLACK);
         for(int i = 0; i < 4; i++){
-            g2.fillOval(STOVEX + 6 + (i*25), STOVEY + 5, TABLEDIM/4, TABLEDIM/4);
+            g2.fillOval(STOVEX + 6 + (i*25), STOVEY + 5, TABLESPACE/4, TABLESPACE/4);
         }
         g2.setColor(Color.LIGHT_GRAY);
         for(int i = 0; i < 4; i++){
-            g2.fillOval(STOVEX + 8 + (i*25), STOVEY + 7, TABLEDIM/6, TABLEDIM/6);
+            g2.fillOval(STOVEX + 8 + (i*25), STOVEY + 7, TABLESPACE/6, TABLESPACE/6);
         }
         
         //Kitchen pickup counter
         g2.setColor(Color.DARK_GRAY);
-        g2.fillRect(STOVEX, KITCHENY - 15, TABLEDIM/2, TABLEDIM);
+        g2.fillRect(STOVEX, KITCHENY - 20, TABLEDIM/2, TABLEDIM);
         g2.fillRect(STOVEX, KITCHENY -30, TABLEDIM*2, TABLEDIM/2);
         
         //Kitchen Sign
@@ -176,13 +177,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         }
     }
     
-    public void addGui(PersonGui gui) {
-        guis.add(gui);
-        //System.out.println("Person added to rest2 gui");
-        //System.out.println("After add: " + guis.size());
-    }
-    
-    public void addGui(Restaurant2CustomerGui g){
+    public void addGui(Gui g){
     	guis.add(g);
     }
 /*
