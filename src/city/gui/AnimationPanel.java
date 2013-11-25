@@ -130,10 +130,22 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView(0, 4);
 		} else if((x >= 780) && (x <= 850) && (y >= 120) && (y <= 150)){
 			cityGui.changeView(0, 5);
-		}
-
-		 if((x >= 150) && (x <= 180) && (y >= 0) && (y <= 60)){
-			cityGui.changeView(0, 14);
+		} else if((x >= 690) && (x <= 720) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 6);
+		} else if((x >= 630) && (x <= 660) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 7);
+		} else if((x >= 570) && (x <= 600) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 8);
+		} else if((x >= 510) && (x <= 540) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 9);
+		} else if((x >= 390) && (x <= 420) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 10);
+		} else if((x >= 330) && (x <= 360) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 11);
+		} else if((x >= 210) && (x <= 240) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 12);
+		} else if((x >= 150) && (x <= 180) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 13);
 		}
 		
 		
