@@ -32,6 +32,8 @@ import city.gui.restaurant2.Restaurant2AnimationPanel;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.transportation.BusAgent;
 import city.transportation.Vehicle;
+import city.Restaurant3.*;
+import city.gui.Restaurant3.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -52,14 +54,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 		// Restaurant 1 (Trevor)
 		Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
-	
+
 		// Restaurant 2 (Holly)
 		Restaurant2 rest2 = new Restaurant2();
 		Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
 		
 		// Restaurant 3 (Grant)
 		//Restaurant3 rest3 = new Restaurant3();
-		//Restaurant3AnimationPanel restaurant3 = new Restaurant3AnimationPanel();
+		AnimationPanel3 restaurant3 = new AnimationPanel3();
 		
 		// Restaurant 4 (Justine)
 		AnimationPanel4 restaurant4 = new AnimationPanel4();
