@@ -82,8 +82,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
-    private String[] jobs = {"[Please select a job]", "No job", "Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
-    		"Market Manager", "Market Worker", "Landlord"
+    private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord", 
+    		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
+    		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
+    		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 Waiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
+    		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
     private JComboBox jobField = new JComboBox(jobs);
     private Map<String, Role> jobRoles = new HashMap<String, Role>();
@@ -271,10 +274,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         });
 
         addPersonB.addActionListener(this);
-        
+    	addPerson.add(Box.createVerticalStrut(10));
         addPerson.add(addPersonB, flow);
+    	addPerson.add(Box.createVerticalStrut(10));
         
-        addPerson.add(new JLabel("Help messages:"));
         errorDisplay.setEditable(false);
         addPerson.add(errorDisplay, flow);
 

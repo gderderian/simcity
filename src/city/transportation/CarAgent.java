@@ -5,8 +5,9 @@ import interfaces.Person;
 
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import astar.AStarTraversal;
-
 import city.PersonAgent;
 import city.transportation.BusAgent.BusEvent;
 
@@ -21,6 +22,10 @@ public class CarAgent extends Vehicle implements Car {
 	
 	public enum CarEvent { none, driving, arriving, parking };
 	public enum CarState { parked, driving, arrived };
+	
+	String name = "Car";
+	
+	ActivityTag tag = ActivityTag.CAR;
 	
 	public CarAgent(AStarTraversal aStar) {
 		super(aStar);
@@ -73,7 +78,7 @@ public class CarAgent extends Vehicle implements Car {
 	private void driveToDestination() {
 		//gui.DoDriveTo(destination);
 		
-		print("Driving to " + destination);
+		log("Driving to " + destination);
 		/*try {
 			guiFinished.acquire();
 		} catch (InterruptedException e) {
@@ -91,7 +96,7 @@ public class CarAgent extends Vehicle implements Car {
 	private void parkCar() {
 		//gui.DoParkCar();
 		
-		print("Parking...");
+		log("Parking...");
 		/*try {
 			guiFinished.acquire();
 		} catch (InterruptedException e) {
@@ -100,5 +105,10 @@ public class CarAgent extends Vehicle implements Car {
 		}*/
 		
 		event = CarEvent.none;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }

@@ -7,9 +7,10 @@ import interfaces.Person;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import astar.AStarTraversal;
 import astar.Position;
-
 import city.PersonAgent;
 
 public class BusAgent extends Vehicle implements Bus {
@@ -19,6 +20,10 @@ public class BusAgent extends Vehicle implements Bus {
 	private Map<Integer, Position> stopPositions = new HashMap<Integer, Position>();
 	public double money;
 	double fare;
+	
+	ActivityTag tag = ActivityTag.BUS;
+	
+	String name = "Bus";
 	
 	Timer timer = new Timer();
 	
@@ -153,7 +158,7 @@ public class BusAgent extends Vehicle implements Bus {
 
 	//Actions
 	private void TellPassengersWeAreAtStop() {
-		print("We have arrived at stop #" + currentStop);
+		log("We have arrived at stop #" + currentStop);
 		for(Passenger p : passengers) {
 			p.p.msgArrivedAtStop(currentStop);
 		}
@@ -168,20 +173,20 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void PickUpPassengers() {
 		int numSpots = capacity - passengers.size();
-		print("I can pick up " + numSpots + " people.");
+		log("I can pick up " + numSpots + " people.");
 		busStops.get(currentStop).msgICanPickUp(this, numSpots);
 	}
 	
 	private void AskPassengersForFare() {
 		if(allPassengersPaid()) {
-			print("Everyone has paid!");
+			log("Everyone has paid!");
 			event = BusEvent.everyonePaid;
 			stateChanged();
 		}
 		
 		for(Passenger p : passengers) {
 			if(!p.paidFare) {
-				print("Requesting fare from new passenger");
+				log("Requesting fare from new passenger");
 				p.p.msgPleasePayFare(this, fare);
 			}
 		}
@@ -197,7 +202,7 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void DriveToNextStop() {
 		
-		print("Driving to stop #" + (currentStop + 1));
+		log("Driving to stop #" + (currentStop + 1));
 		GoToStop((currentStop + 1) % 4);
 
 		event = BusEvent.arrivedAtStop;
@@ -228,7 +233,7 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void GoToStop(int stop) {
 		if(aStar == null) {
-			print("Moving to stop #" + stop);
+			log("Moving to stop #" + stop);
 			return;
 		}
 		
@@ -248,6 +253,11 @@ public class BusAgent extends Vehicle implements Bus {
 		}
 		
 		guiMoveFromCurrentPositionTo(stopPositions.get(stop));
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }
  
