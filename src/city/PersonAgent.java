@@ -20,6 +20,7 @@ import city.gui.PersonGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
+import Role.BankCustomerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.Role;
@@ -627,6 +628,39 @@ public class PersonAgent extends Agent implements Person{
 			//TODO finish this
 			bank = cityMap.getClosestBank();
 		}
+		
+		
+		String restName = null;
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof BankCustomerRole){
+					r.setActive();
+					role = (BankCustomerRole) r;
+					restName = role.getBuilding();
+					print("Found role to set active");
+				}
+			}
+		}
+		
+		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+			String destination = restName;
+			takeCar(destination);
+		}
+		else if(takeBus){	//take bus
+			int stop = cityMap.getClosestBusStop(restName);
+			BusRide ride = new BusRide(stop);
+		}
+		else{
+			//This is walking
+			DoGoTo(restName);
+		    gui.setInvisible();
+		}
+		city.CityMap.Bank test = cityMap.bank;
+		print("I'm going to bank!");
+		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+		((BankCustomerRole)role).setGuiActive();
+		
 	}
 	
 	public void goToRestaurant(){
@@ -666,6 +700,16 @@ public class PersonAgent extends Agent implements Person{
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
 		((Restaurant2CustomerRole)role).setGuiActive();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void notifyLandlordBroken(MyAppliance a){
 		print("Telling landlord that appliance " + a.type + " is broken");

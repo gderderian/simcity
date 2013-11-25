@@ -25,16 +25,17 @@ public class BankCustomerRole extends Role{
         public BankCustomerRoleGui gui;
         PersonAgent person;
         String name;
+        BankManagerRole bankmanager;
         public EventLog log = new EventLog();
         
         
-        public BankCustomerRole(double setamountofcustomermoney, PersonAgent setperson)
+        public BankCustomerRole(double setamountofcustomermoney/*, PersonAgent setperson*/)
         {
                 
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
-                this.person = setperson;
-                this.name = setperson.getName();
+                //this.person = setperson;
+                //this.name = setperson.getName();
                 //stateChanged();
         
         }
@@ -45,19 +46,11 @@ public class BankCustomerRole extends Role{
         
                 mybankteller = assignbankteller;
                 stationnumber = mybankteller.stationnumber;
-                //bankcustomerstate = state.gotobankteller; 
+                bankcustomerstate = state.gotobankteller; 
                 Do("i'm in the message of customer");
                 Do("current customer state is : " + bankcustomerstate);
-                //person.stateChanged();      
+                person.stateChanged();      
         }
-        
-        public void msgGoToBankTellerStation()
-        {
-        	bankcustomerstate = state.gotobankteller;
-        	person.stateChanged();
-        	
-        }
-        
         
         public void msgWithDrawFund(double withdrawal)
         {
@@ -298,6 +291,18 @@ public class BankCustomerRole extends Role{
         	return this.name;
         }
         
+        public void setPerson(PersonAgent person)
+        {
+        	this.person = person;
+        	this.name = person.getName();
+        	
+        }
+        
+        public void setManager(BankManagerRole bankmanager)
+        {
+        	this.bankmanager = bankmanager;
+        }
+        
         public void guiGoToBankTellerStation(int stationnumber)
 		{
 			gui.goToBankTellerStation(stationnumber);
@@ -323,7 +328,12 @@ public class BankCustomerRole extends Role{
         	
         }
         
-        
+
+    	public void setGuiActive() {
+    		//customerGui.DoEnterRestaurant();
+    		
+    		gui.setPresent(true);
+    	}
         
         
 }

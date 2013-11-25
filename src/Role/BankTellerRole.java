@@ -270,6 +270,7 @@ public class BankTellerRole extends Role {
         
 		public void setPerson(PersonAgent setperson) {
 			this.person = setperson;
+			this.name = person.getName();
 		}
 		
 		public void guiGoToBankTellerStation(int stationnumber)

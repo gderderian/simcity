@@ -23,7 +23,7 @@ public class BankManagerRole extends Role{
         //public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
         public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft};
         public enum customerstate {waiting, beingserved, leaving};
-        String name;
+        public String name;
         public Semaphore accessingaccount = new Semaphore(0,true);
         public Semaphore atBankStation = new Semaphore(0,true);
         
@@ -43,7 +43,6 @@ public class BankManagerRole extends Role{
         {
                 super();
                 this.bank = setbank;
-                //this.name = name;
 
         }
 
@@ -144,10 +143,9 @@ public boolean pickAndExecuteAnAction() {
                                                 bankteller.bankteller.msgAssignMeCustomer(customer.customer);
                                                 Do("assign bankteller to customer:" + customer.customer.person.getName());
                                                 customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
-                      
+                     
                                                 //customer.customer.pickAndExecuteAnAction();
-                                                //animation stuff
-                                                
+                                                //animation stuff     
                                                 //
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;

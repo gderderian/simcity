@@ -740,10 +740,6 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		// TODO Auto-generated method stub
 		return ycoordinate;
 	}
-
-	
-
-
 	
 
 	

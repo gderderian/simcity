@@ -45,8 +45,10 @@ public class BankTest2 extends TestCase {
                 
                 bankmanager = new BankManagerRole(bank);
                 bankmanager.setPerson(person1);
-                bankcustomer = new BankCustomerRole(50, person2);
-                bankcustomer2 = new BankCustomerRole(50, person3);
+                bankcustomer = new BankCustomerRole(50);
+                bankcustomer.setPerson(person2);
+                bankcustomer2 = new BankCustomerRole(50);
+                bankcustomer2.setPerson(person3);
                 bankteller = new BankTellerRole(bankmanager);
                 bankteller.setPerson(person4);
                 bankteller2 = new BankTellerRole(bankmanager);
@@ -58,7 +60,7 @@ public class BankTest2 extends TestCase {
                 //intitial set up
                 bankmanager.msgBankTellerArrivedAtBank(bankteller);
                 bankmanager.msgBankTellerArrivedAtBank(bankteller2);
-                assertEquals("CashierAgent should have an empty event log before the Cashier's HereIsCheck is called. Instead, the Cashier's event log reads: "
+                assertEquals("BankTellerRole should have an empty event log: "
                         + bankteller.log.toString(), 0, bankteller.log.size());
                 assertTrue(bankmanager.pickAndExecuteAnAction());
                 assertTrue(" " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("bankstationassigned"));
@@ -74,7 +76,7 @@ public class BankTest2 extends TestCase {
                 assertTrue(bankmanager.pickAndExecuteAnAction());
                 assertTrue(" " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("banktellerassigned"));
                 assertEquals(bankteller.currentcustomer, bankcustomer);        
-             
+
                 bankmanager.pickAndExecuteAnAction();
                 assertTrue(" " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("banktellerassigned"));
                 assertEquals(bankteller2.currentcustomer, bankcustomer2);        

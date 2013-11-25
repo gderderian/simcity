@@ -88,6 +88,7 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
         personWaiter.startThread();
         Host.addwaiter(Waiter);
         
+        
         guis.add(cookGui);
         guis.add(waiterGui);
     	
