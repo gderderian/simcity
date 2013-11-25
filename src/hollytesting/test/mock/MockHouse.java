@@ -7,9 +7,8 @@ import test.mock.LoggedEvent;
 import test.mock.Mock;
 import city.Food;
 import city.PersonAgent;
-import interfaces.House;
 
-public class MockHouse extends Mock implements House{
+public class MockHouse extends Mock{
         
         public EventLog log = new EventLog();
         PersonAgent person;

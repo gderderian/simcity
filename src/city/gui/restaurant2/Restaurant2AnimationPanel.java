@@ -11,20 +11,11 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import astar.AStarTraversal;
-import city.PersonAgent;
 import city.Restaurant2.Restaurant2;
-import city.Restaurant2.Restaurant2CashierRole;
-import city.Restaurant2.Restaurant2CookRole;
-import city.Restaurant2.Restaurant2HostRole;
-import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.BuildingPanel;
-import city.gui.CityGui;
 import city.gui.Gui;
-import city.gui.PersonGui;
 
 public class Restaurant2AnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
 	
@@ -43,23 +34,6 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     private final int STOVEY = KITCHENY + 60;
     
     Restaurant2 restaurant;
-    
-    //People for testing
-    /*
-    PersonAgent personCook = new PersonAgent("Cook");
-    PersonAgent personHost = new PersonAgent("Host");
-    PersonAgent personCashier = new PersonAgent("Cashier");
-    PersonAgent personWaiter = new PersonAgent("Waiter");
-    Restaurant2CookRole Cook;
-    Restaurant2CashierRole Cashier;
-    Restaurant2WaiterRole Waiter;
-    Restaurant2HostRole Host;
-    
-    //
-    Restaurant2CookGui cookGui;
-    Restaurant2CustomerGui customerGui;
-    Restaurant2WaiterGui waiterGui;
-    */
 	
 	public Restaurant2AnimationPanel(Restaurant2 r){
 		System.out.println("Animation panel created");
@@ -72,32 +46,6 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         addMouseListener(this);
         
         restaurant = r;
-        
-        /*
-        Cook = new Restaurant2CookRole("CookRole", personCook);
-        cookGui = new Restaurant2CookGui(Cook);
-        Cook.setGui(cookGui);
-        Cashier = new Restaurant2CashierRole("CashierRole", personCashier);
-        Waiter = new Restaurant2WaiterRole("WaiterRole", personWaiter);
-        waiterGui = new Restaurant2WaiterGui(Waiter, personWaiter.getName(), cityGui, 1);
-        Waiter.setGui(waiterGui);
-        Host = new Restaurant2HostRole("HostRole", personHost);
-        
-        restaurant.setHost(Host);
-        
-        personCook.addRole(Cook, true);
-        personCook.startThread();
-        personHost.addRole(Host, true);
-        personHost.startThread();
-        personCashier.addRole(Cashier, true);
-        personCashier.startThread();
-        personWaiter.addRole(Waiter, true);
-        personWaiter.startThread();
-        Host.addWaiters(Waiter);
-        
-        guis.add(cookGui);
-        guis.add(waiterGui);
-        */
         
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();

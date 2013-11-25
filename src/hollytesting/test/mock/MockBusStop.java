@@ -8,14 +8,16 @@ import test.mock.LoggedEvent;
 import test.mock.Mock;
 import city.PersonAgent;
 import city.transportation.BusAgent;
+import interfaces.Bus;
 import interfaces.BusStop;
+import interfaces.Person;
 
 public class MockBusStop extends Mock implements BusStop{
         
         public EventLog log = new EventLog();
         PersonAgent person;
         MockBusAgent bus;
-        List<PersonAgent> people = new ArrayList<PersonAgent>();
+        List<Person> people = new ArrayList<Person>();
 
         public MockBusStop(String name, PersonAgent p, MockBusAgent b) {
                 super(name);
@@ -25,14 +27,14 @@ public class MockBusStop extends Mock implements BusStop{
         }
 
         @Override
-        public void msgWaitingForBus(PersonAgent p) {
-                log.add(new LoggedEvent("Recieved message waiting for bus from person " + p.getName()));
+        public void msgWaitingForBus(Person p) {
+                log.add(new LoggedEvent("Recieved message waiting for bus from person "));
                 person.msgBusIsHere(bus);
                 bus.msgPeopleBoarding(people);
         }
 
 		@Override
-		public void msgICanPickUp(BusAgent b, int people) {
+		public void msgICanPickUp(Bus b, int people) {
 			// TODO Auto-generated method stub
 			
 		}

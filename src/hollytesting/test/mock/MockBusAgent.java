@@ -7,6 +7,7 @@ import test.mock.LoggedEvent;
 import test.mock.Mock;
 import city.PersonAgent;
 import interfaces.Bus;
+import interfaces.Person;
 
 public class MockBusAgent extends Mock implements Bus {
         
@@ -14,21 +15,6 @@ public class MockBusAgent extends Mock implements Bus {
 
         public MockBusAgent(String name) {
                 super(name);
-        }
-
-        @Override
-        public void msgPeopleBoarding(List<PersonAgent> people) {
-                log.add(new LoggedEvent("Recieved list of people boarding the bus."));
-        }
-
-        @Override
-        public void msgHereIsFare(PersonAgent pa, double money) {
-                log.add(new LoggedEvent("Recieved fare of " + money + " from person " + pa.getName()));
-        }
-
-        @Override
-        public void msgImGettingOff(PersonAgent pa) {
-                log.add(new LoggedEvent("Person " + pa.getName() + " is getting off the bus."));
         }
 
         @Override
@@ -40,5 +26,23 @@ public class MockBusAgent extends Mock implements Bus {
         public void msgGuiFinished() {
                 //dont need this
         }
+
+		@Override
+		public void msgHereIsFare(Person pa, double money) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgImGettingOff(Person pa) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgPeopleBoarding(List<Person> people) {
+			// TODO Auto-generated method stub
+			
+		}
 
 }
