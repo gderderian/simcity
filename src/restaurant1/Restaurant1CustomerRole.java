@@ -509,5 +509,9 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	public Restaurant1CustomerGui getGui() {
 		return customerGui;
 	}
+
+	public String buildingName() {
+		return "rest1";
+	}
 }
 
