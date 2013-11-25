@@ -1,14 +1,10 @@
 package city.gui.Bank;
 
-
-
-
 import java.awt.*;
-
-
+import city.gui.Gui;
 import Role.BankManagerRole;
 
-public class BankManagerRoleGui implements Gui {
+public class BankManagerRoleGui implements Gui{
 
 
     private BankManagerRole role = null;

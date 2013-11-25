@@ -1,10 +1,10 @@
 package city.gui.restaurant4;
 
 import city.Restaurant4.CustomerRole4;
-
+import city.gui.Gui;
 import java.awt.*;
 
-public class CustomerGui4 implements Gui4{
+public class CustomerGui4 implements Gui{
 	
 	private CustomerRole4 agent = null;
 	private boolean isPresent = false;

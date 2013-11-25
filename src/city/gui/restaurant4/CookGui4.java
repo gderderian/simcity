@@ -1,12 +1,12 @@
 package city.gui.restaurant4;
 
 import city.Restaurant4.CookRole4;
-
+import city.gui.Gui;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-public class CookGui4 implements Gui4 {
+public class CookGui4 implements Gui {
 	CookRole4 agent;
 
     private int xPos = 400, yPos = 500;//default cook position

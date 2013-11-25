@@ -160,7 +160,7 @@ public class BusAgent extends Vehicle implements Bus {
 
 	//Actions
 	private void TellPassengersWeAreAtStop() {
-		log("We have arrived at stop #" + currentStop);
+		print("We have arrived at stop #" + currentStop);
 		for(Passenger p : passengers) {
 			p.p.msgArrivedAtStop(currentStop);
 		}
@@ -175,20 +175,20 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void PickUpPassengers() {
 		int numSpots = capacity - passengers.size();
-		log("I can pick up " + numSpots + " people.");
+		print("I can pick up " + numSpots + " people.");
 		busStops.get(currentStop).msgICanPickUp(this, numSpots);
 	}
 	
 	private void AskPassengersForFare() {
 		if(allPassengersPaid()) {
-			log("Everyone has paid!");
+			print("Everyone has paid!");
 			event = BusEvent.everyonePaid;
 			stateChanged();
 		}
 		
 		for(Passenger p : passengers) {
 			if(!p.paidFare) {
-				log("Requesting fare from new passenger");
+				print("Requesting fare from new passenger");
 				p.p.msgPleasePayFare(this, fare);
 			}
 		}
@@ -204,7 +204,7 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void DriveToNextStop() {
 		
-		log("Driving to stop #" + (currentStop + 1));
+		print("Driving to stop #" + (currentStop + 1));
 		GoToStop((currentStop + 1) % 4);
 
 		event = BusEvent.arrivedAtStop;
@@ -235,7 +235,7 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void GoToStop(int stop) {
 		if(aStar == null) {
-			log("Moving to stop #" + stop);
+			print("Moving to stop #" + stop);
 			return;
 		}
 		

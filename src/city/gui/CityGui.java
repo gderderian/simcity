@@ -314,7 +314,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		people.add(newPerson);
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
-		if(job.equals("No job")){
+		if(job.equals("No job") || job.equals("Restaurant2 Waiter")){
 			animationPanel.addGui(g);
 		}
 		guis.add(g);
@@ -322,8 +322,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		newPerson.startThread();
 
-		if(name.equals("RestaurantTest")){
-			newPerson.msgImHungry();
+		if(name.equals("rest2Test")){
+			//newPerson.msgImHungry();
 		}
 		
 		if(name.equals("rest1test")) {
@@ -386,7 +386,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		if(!job.equals("No job")){
 			Role r = Role.getNewRole(job, p, this, restaurant2);
 			p.addFirstJob(r, "rest2");
-			p.addRole(r, true);
+			if(r instanceof Restaurant2WaiterRole)
+				p.addRole(r, false);
+			else
+				p.addRole(r, true);
+			
 			if(r instanceof Restaurant2HostRole){
 				rest2.setHost((Restaurant2HostRole)r);
 			}

@@ -1,5 +1,6 @@
 package restaurant1.gui;
 
+import city.gui.Gui;
 import javax.swing.*;
 
 import restaurant1.Restaurant1CashierRole;
@@ -163,25 +164,9 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
 	}
 
-    public void addGui(Restaurant1CustomerGui gui) {
+    public void addGui(Restaurant1Gui gui) {
         guis.add(gui);
     }
-
-    public void addGui(Restaurant1HostGui gui) {
-        guis.add(gui);
-    }
-
-	public void addGui(Restaurant1WaiterGui gui) {
-		guis.add(gui);
-	}
-	
-	public void addGui(Restaurant1CookGui gui) {
-		guis.add(gui);
-	}
-	
-	public void addGui(Restaurant1CashierGui gui) {
-		guis.add(gui);
-	}
 	
 	public int getTimerInterval() {
 		return TIMER_INTERVAL;
@@ -211,5 +196,11 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
 	public void mouseReleased(MouseEvent e) {
 		//Nothing
+	}
+
+	@Override
+	public void addGui(Gui g) {
+		// TODO Auto-generated method stub
+		
 	}
 }

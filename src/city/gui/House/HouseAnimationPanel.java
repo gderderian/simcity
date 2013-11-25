@@ -108,7 +108,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 
         }
     
-    public void addGui(PersonGui gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
     }
 
@@ -149,4 +149,5 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 // TODO Auto-generated method stub
                 
         }
+
 }

@@ -1,6 +1,6 @@
 package city.gui.restaurant4;
 
-
+import city.gui.Gui;
 import city.Restaurant4.CustomerRole4;
 import city.Restaurant4.WaiterRole4;
 
@@ -9,7 +9,7 @@ import java.awt.*;
 import justinetesting.interfaces.Customer4;
 
 
-public class WaiterGui4 implements Gui4 {
+public class WaiterGui4 implements Gui{
 	
     private WaiterRole4 agent = null;
 

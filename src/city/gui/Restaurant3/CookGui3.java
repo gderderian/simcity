@@ -2,10 +2,11 @@ package city.gui.Restaurant3;
 
 import java.awt.*;
 import java.util.ArrayList;
+import city.gui.Gui;
 
 import city.Restaurant3.CookRole3;
 
-public class CookGui3 implements Gui3 {
+public class CookGui3 implements Gui {
 
     private CookRole3 agent = null;
 

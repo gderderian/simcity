@@ -2,6 +2,7 @@ package city.gui.Bank;
 
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
+import city.gui.Gui;
 
 import java.awt.*;
 
@@ -9,7 +10,7 @@ import javax.swing.ImageIcon;
 
 import city.Bank;
 
-public class BankTellerRoleGui implements Gui {
+public class BankTellerRoleGui implements Gui{
 
     private BankTellerRole role = null;
     private int xPos = 250, yPos = -20;//default waiter position

@@ -1,12 +1,12 @@
 package city.gui.restaurant4;
 
-
+import city.gui.Gui;
 import city.Restaurant4.CustomerRole4;
 import city.Restaurant4.HostRole4;
 
 import java.awt.*;
 
-public class HostGui4 implements Gui4 {
+public class HostGui4 implements Gui {
 
     //private HostAgent agent = null;
 
