@@ -42,8 +42,8 @@ public class PersonGui implements Gui {
 	public PersonGui(PersonAgent p){
 		agent = p;
 		
-		xPos = p.getXPosition();
-		yPos = p.getYPosition();
+		xPos = 130 + p.getXPosition() * 30 ;
+		yPos = 70 + p.getYPosition() * 30;
 		xDest = xPos;
 		yDest = yPos;
 	}
