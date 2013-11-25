@@ -58,32 +58,32 @@ public class CustomerGui4 implements Gui4{
 		g.fillRect(getxPos(), getyPos(), customerDimensions, customerDimensions);
 		if(agent.getState() == "eating"){
 			g.setColor(Color.BLACK);
-			if(agent.getChoice() == "Steak"){
-				g.drawString("Steak", getxPos(), getyPos() + foodDisplacement);
+			if(agent.getChoice() == "Eggs"){
+				g.drawString("Eggs", getxPos(), getyPos() + foodDisplacement);
 			}
-			else if(agent.getChoice() == "Chicken"){
-				g.drawString("Chicken", getxPos(), getyPos() + foodDisplacement);
+			else if(agent.getChoice() == "Waffels"){
+				g.drawString("Waffels", getxPos(), getyPos() + foodDisplacement);
 			}
-			else if(agent.getChoice() == "Salad"){
-				g.drawString("Salad", getxPos(), getyPos() + foodDisplacement);
+			else if(agent.getChoice() == "Pancakes"){
+				g.drawString("Pancakes", getxPos(), getyPos() + foodDisplacement);
 			}
-			else if(agent.getChoice() == "Pizza"){
-				g.drawString("Pizza", getxPos(), getyPos() + foodDisplacement);
+			else if(agent.getChoice() == "Bacon"){
+				g.drawString("Bacon", getxPos(), getyPos() + foodDisplacement);
 			}
 		}
 		else if(agent.getState() == "deciding"){
 			g.setColor(Color.GRAY);
-			if(agent.getChoice() == "Steak"){
-				g.drawString("Steak?", getxPos(), getyPos() + foodDisplacement);
+			if(agent.getChoice() == "Eggs"){
+				g.drawString("Eggs?", getxPos(), getyPos() + foodDisplacement);
 			}
-			else if(agent.getChoice() == "Chicken"){
-				g.drawString("Chicken?", getxPos(), getyPos() + foodDisplacement);
+			else if(agent.getChoice() == "Waffels"){
+				g.drawString("Waffels?", getxPos(), getyPos() + foodDisplacement);
 			}
-			else if(agent.getChoice() == "Salad"){
-				g.drawString("Salad?", getxPos(), getyPos() + foodDisplacement);
+			else if(agent.getChoice() == "Pancakes"){
+				g.drawString("Pancakes?", getxPos(), getyPos() + foodDisplacement);
 			}
-			else if(agent.getChoice() == "Pizza"){
-				g.drawString("Pizza?", getxPos(), getyPos() + foodDisplacement);
+			else if(agent.getChoice() == "Bacon"){
+				g.drawString("Bacon?", getxPos(), getyPos() + foodDisplacement);
 			}
 		}
 		

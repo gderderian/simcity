@@ -291,20 +291,20 @@ public class CustomerRole4 extends Role implements Customer4 {
 	}
 	
 	private void order(){
-		if(name.equals("Steak")){
-			choice= "Steak";
+		if(name.equals("Eggs")){
+			choice= "Eggs";
 		}
-		else if(name.equals("Chicken")){
-			choice= "Chicken";
+		else if(name.equals("Waffels")){
+			choice= "Waffles";
 		}
-		else if(name.equals("Salad")){
-			choice= "Salad";
+		else if(name.equals("Pancakes")){
+			choice= "Pancakes";
 		}
-		else if(name.equals("Pizza")){
-			choice= "Pizza";
+		else if(name.equals("Bacon")){
+			choice= "Bacon";
 		}
 		else if(name.equals("cheapestItem")){
-			choice= "Salad";
+			choice= "Bacon";
 		}
 		else if(name.equals("noMoneyL")){
 			leaveTable();
