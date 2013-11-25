@@ -197,11 +197,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void changeView(String building){
-		if(building.equals("Restaurant2")){
-			animationPanel.setVisible(false);
-			add(restaurant2, BorderLayout.EAST);
-			restaurant2.setVisible(true);
-		}
 		if(building.equals("City")){
 			for(BuildingPanel bp : buildingPanels) {
 				bp.setVisible(false);
@@ -209,46 +204,64 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			animationPanel.setVisible(true);
 			animationPanel.setEnabled(true);
 			add(animationPanel, BorderLayout.EAST);
-		}       
+			return;
+		}  
+		
+		controlPanel.enableBackToCity(); //If not switching to city, enable "Change back to city view" button
+		
+		if(building.equals("Restaurant2")){
+			animationPanel.setVisible(false);
+			add(restaurant2, BorderLayout.EAST);
+			restaurant2.setVisible(true);
+			return;
+		}     
 		if(building.equals("Restaurant1")){
 			animationPanel.setVisible(false);
 			add(restaurant1, BorderLayout.EAST);
 			restaurant1.setVisible(true);
+			return;
 		}
 		if(building.equals("Restaurant4")){
 			animationPanel.setVisible(false);
 			add(restaurant4, BorderLayout.EAST);
 			restaurant4.setVisible(true);
+			return;
 		}
 		if(building.equals("Market1")){
 			animationPanel.setVisible(false);
 			add(market1Animation, BorderLayout.EAST);
 			market1Animation.setVisible(true);
+			return;
 		}
 		if(building.equals("Market2")){
 			animationPanel.setVisible(false);
 			add(market2Animation, BorderLayout.EAST);
 			market2Animation.setVisible(true);
+			return;
 		}
 		if(building.equals("Market3")){
 			animationPanel.setVisible(false);
 			add(market3Animation, BorderLayout.EAST);
 			market3Animation.setVisible(true);
+			return;
 		}
 		if(building.equals("Bank1")){
 			animationPanel.setVisible(false);
 			add(bank1Animation, BorderLayout.EAST);
 			bank1Animation.setVisible(true);
+			return;
 		}
 		if(building.equals("Apartment1")){
 			animationPanel.setVisible(false);
 			add(apt1, BorderLayout.EAST);
 			apt1.setVisible(true);
+			return;
 		}
 		if(building.equals("Apartment2")){
 			animationPanel.setVisible(false);
 			add(apt2, BorderLayout.EAST);
 			apt2.setVisible(true);
+			return;
 		}
 	}
 
@@ -264,6 +277,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				apt1List.get(i).setVisible(false);
 			add(apt1List.get(num), BorderLayout.EAST);
 			apt1List.get(num).setVisible(true);
+			return;
 		}
 		if(building == 2){
 			apt2.setVisible(false);
@@ -271,6 +285,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				apt2List.get(i).setVisible(false);
 			add(apt2List.get(num), BorderLayout.EAST);
 			apt2List.get(num).setVisible(true);
+			return;
 		}
 	}
 
@@ -368,6 +383,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				rest2.setCashier((Restaurant2CashierRole) r);
 			}
 		}
+	}
+	
+	public void backToCityView() {
+		changeView("City");
 	}
 
 	private void addBuildingPanel(BuildingPanel bp) {
