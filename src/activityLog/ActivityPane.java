@@ -17,7 +17,8 @@ public class ActivityPane extends JScrollPane {
 	List<activity> activities = Collections.synchronizedList(new ArrayList<activity>());
 	List<activity> newActivities = Collections.synchronizedList(new ArrayList<activity>());
 	private JTextPane textPane;
-	Style defaultStyle;
+	Style commentStyle;
+	Style nameStyle;
 	StyledDocument styledDoc;
 	
 	public ActivityPane(){
@@ -26,8 +27,11 @@ public class ActivityPane extends JScrollPane {
 		textPane.setEditable(false);
 		this.setViewportView(textPane);
 		styledDoc = textPane.getStyledDocument();
-		defaultStyle = styledDoc.addStyle("DefaultStyle", null);
-		StyleConstants.setForeground(defaultStyle, Color.black);
+		commentStyle = styledDoc.addStyle("CommentStyle", null);
+		nameStyle = styledDoc.addStyle("NameStyle", null);
+		StyleConstants.setForeground(commentStyle, Color.black);
+		StyleConstants.setForeground(nameStyle, Color.black);
+		StyleConstants.setBold(nameStyle, true);
 		ActivityLog.setPane(this);
 	}
 	
@@ -41,7 +45,8 @@ public class ActivityPane extends JScrollPane {
 			for(activity a : newActivities){
 				try{
 					int endPosition = textPane.getDocument().getEndPosition().getOffset();
-					textPane.getStyledDocument().insertString(endPosition, a.getName() + ": " + a.getMessage() + "\n", defaultStyle);
+					textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
+					textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
 				}
 				catch (BadLocationException e){
 					e.printStackTrace();

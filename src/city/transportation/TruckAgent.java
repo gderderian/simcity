@@ -3,6 +3,8 @@ package city.transportation;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import astar.AStarTraversal;
 import city.MarketOrder;
 import city.PersonAgent;
@@ -12,6 +14,10 @@ public class TruckAgent extends Vehicle {
         //MarketAgent market; //Market that this truck reports to
         
         public List <MyMarketOrder> orders = new ArrayList<MyMarketOrder>();
+        
+        String name = "Truck";
+        
+        ActivityTag tag = ActivityTag.TRUCK;
         
         class MyMarketOrder {
                 MarketOrder o;
@@ -83,4 +89,9 @@ public class TruckAgent extends Vehicle {
         public int getOrderNum(){
         	return orders.size();
         }
+        
+    	private void log(String msg){
+    		print(msg);
+            ActivityLog.getInstance().logActivity(tag, msg, name);
+    	}
 }

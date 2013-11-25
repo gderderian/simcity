@@ -7,7 +7,8 @@ import interfaces.Person;
 import java.util.*;
 
 import city.PersonAgent;
-
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 
 public class BusStopAgent extends Agent implements BusStop {
@@ -17,6 +18,10 @@ public class BusStopAgent extends Agent implements BusStop {
 	public List<MyBus> buses = new ArrayList<MyBus>();
 	
 	int number;
+	
+	String name = "BusStop" + number;
+	
+	ActivityTag tag = ActivityTag.BUSSTOP;
 	
 	class MyBus {
 		Bus b;
@@ -56,7 +61,7 @@ public class BusStopAgent extends Agent implements BusStop {
 	//Actions
 	private void sendPassengersToBus(MyBus b) {
 		if(peopleWaiting.isEmpty()) {
-			print("Sorry, no passengers waiting for bus!");
+			log("Sorry, no passengers waiting for bus!");
 			b.b.msgPeopleBoarding(null);
 			buses.remove(b);
 			return;
@@ -72,9 +77,14 @@ public class BusStopAgent extends Agent implements BusStop {
 			i++;
 		}
 		
-		print("Here are " + newPassengers.size() + " passengers!");
+		log("Here are " + newPassengers.size() + " passengers!");
 		b.b.msgPeopleBoarding(newPassengers);
 		buses.remove(b);
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 
 }
