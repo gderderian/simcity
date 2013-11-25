@@ -127,14 +127,6 @@ public class PersonGui implements Gui {
 		return isPresent;
 	}
 	
-	public void goToRestaurant(int restaurantNum){
-		//TODO: finish this function
-		
-		if(restaurantNum == 2){
-			restaurant2panel.addGui(this);
-		}
-	}
-	
 	public void setInvisible(){
 		isPresent = false;
 		System.out.println("Setting invisible");

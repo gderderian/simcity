@@ -40,6 +40,9 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
   	
     public AnimationPanel4() {
     	setSize(WINDOWX, WINDOWY);
+    	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
+		setMaximumSize(new Dimension(WINDOWX, WINDOWY));
+		setMinimumSize(new Dimension(WINDOWX, WINDOWY));
         setVisible(true);
  
         addMouseListener(this);

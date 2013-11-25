@@ -20,7 +20,8 @@ public class PersonAgentHousingTest extends TestCase {
         
         public void testGettingFoodNormal(){
                 
-                person.setHouse(house);
+        	//TODO fix this for the test
+                //person.setHouse(house);
                 //Check the fridge in the house for chicken
                 assertEquals("Persons meals list shouldn't have any meals in it", person.meals.size(), 0);
                 house.checkFridge("Chicken");
