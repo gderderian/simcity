@@ -1,13 +1,17 @@
 package city.Restaurant5;
 import Role.Role;
+import city.CityMap;
+import city.House;
+import city.PersonAgent;
+import city.gui.PersonGui;
 //import restaurant.CustomerAgent.AgentEvent;
 //import restaurant.CustomerAgent.AgentState;
-import city.gui.Restaurant5CookGui;
-
+import city.gui.Restaurant5.Restaurant5CookGui;
 import tomtesting.interfaces.Restaurant5Cook;
 import tomtesting.interfaces.Restaurant5Market;
 import tomtesting.interfaces.Restaurant5Waiter;
 import agent.Agent;
+import astar.AStarTraversal;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -59,24 +63,49 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 	boolean tellcashiertopayforsupplies = false;
 	
+	PersonAgent person;
+	
 	Map<String, Integer> inventoryoffood = new HashMap<String, Integer>();
 	Restaurant5MarketRole market1;
 	Restaurant5MarketRole market2;
-	Restaurant5MarketRolemarket3;
+	Restaurant5MarketRole market3;
 	Restaurant5CashierRole cashier;
 	
 	
-	public Restaurant5CookRole(String name) {
+	public Restaurant5CookRole(String name, PersonAgent person) {
 		super();
 		this.name = name;
+		this.person = person;
 		this.state = cookstate.doingnothing;
 		inventoryoffood.put("chicken", 5);
 		inventoryoffood.put("burrito", 5);
 		inventoryoffood.put("pizza", 5);
 		
-	    market1 = new Restaurant5MarketRole("market1");
-		market2 = new Restaurant5MarketRole("market2");
-		market3 = new Restaurant5MarketRole("market3");
+		AStarTraversal aStarTraversal = null;
+		
+		CityMap citymap = new CityMap();
+		House house = new House("house1");
+		
+		PersonAgent person1 = new PersonAgent("steve", aStarTraversal, citymap, house);
+    	PersonGui person1gui = new PersonGui(person1);
+    	person1.setGui(person1gui);
+        person1.startThread();
+		
+        PersonAgent person2= new PersonAgent("steve", aStarTraversal, citymap, house);
+    	PersonGui person2gui = new PersonGui(person2);
+    	person2.setGui(person2gui);
+        person2.startThread();
+		
+        PersonAgent person3= new PersonAgent("steve", aStarTraversal, citymap, house);
+    	PersonGui person3gui = new PersonGui(person3);
+    	person3.setGui(person3gui);
+        person3.startThread();
+        
+        
+        
+	    market1 = new Restaurant5MarketRole("market1", person1);
+		market2 = new Restaurant5MarketRole("market2", person2);
+		market3 = new Restaurant5MarketRole("market3", person3);
 		
 		
 	}
@@ -93,7 +122,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		print("Received order: " + order + " from waiter: " + waiter.getName());
 		cookingorders.add( new cookingorder(waiter, order, table));
 		print("order added to the cooking list");
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgDoneCooking(cookingorder setcookingorder) {
@@ -106,7 +135,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			if(findcookingorder == setcookingorder)
 			{
 				findcookingorder.state = cookingorderstate.donecooking;
-				stateChanged();
+				person.stateChanged();
 			}
 			
 		}
@@ -125,7 +154,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			if(checkcookingorder.waiter == waiter && checkcookingorder.order.equals(order) && checkcookingorder.assignedtablenumber == table)
 			{
 				checkcookingorder.state = cookingorderstate.pickedupbywaiter;
-				stateChanged();
+				person.stateChanged();
 			}
 		
 		}
@@ -157,7 +186,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		print("current amount of " + order + ": " + inventoryoffood.get(order));
 		checksfrommarket.add( new checkfrommarket(order, market));
 		tellcashiertopayforsupplies = true;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	
@@ -182,7 +211,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 				findmarket.suppliesoffood.put(order, false);
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 
@@ -191,7 +220,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		inventoryoffood.put("chicken", 0);
 		inventoryoffood.put("burrito", 0);
 		inventoryoffood.put("pizza", 0);
-		stateChanged();
+		person.stateChanged();
 		
 	}
 	
@@ -202,7 +231,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	 */
 	
 	
-	protected boolean pickAndExecuteAnAction() {		
+	public boolean pickAndExecuteAnAction() {		
 		
 	
 		/*
@@ -361,7 +390,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			public void run() {
 			    print("done cooking");
 			    msgDoneCooking(currentorder);
-			    stateChanged();
+			    person.stateChanged();
 			}
 			},
 			cookingtimeforchicken * 1000);//how long to wait before running task
@@ -379,7 +408,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 				   
 				    print("done cooking");
 				    msgDoneCooking(currentorder);
-				    stateChanged();
+				    person.stateChanged();
 				}
 				},
 				cookingtimeforpizza * 1000);//how long to wait before running task
@@ -398,7 +427,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 				    //donecooking = true;
 				    print("done cooking");
 				    msgDoneCooking(currentorder);
-				    stateChanged();
+				    person.stateChanged();
 				}
 				},
 				cookingtimeforburrito * 1000);//how long to wait before running tas	
@@ -458,7 +487,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		Restaurant5Market market;
 		String order;
 		int ordertotal;
-		Restaurant5Menu menu = new Menu();
+		Restaurant5Menu menu = new Restaurant5Menu();
 		
 		public checkfrommarket(String order , Restaurant5Market market) {
 			this.order = order;

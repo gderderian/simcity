@@ -14,6 +14,7 @@ import tomtesting.interfaces.Restaurant5Market;
 import tomtesting.interfaces.Restaurant5Waiter;
 import tomtesting.interfaces.Restaurant5Cashier;
 import Role.Role;
+import city.PersonAgent;
 import city.gui.Restaurant5.Restaurant5CookGui;
 //import Restaurant5Check;
 
@@ -43,16 +44,17 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	public boolean checkforcustomer = false;
 	boolean paymarket = false;
 	
+	PersonAgent person;
 	int currentmoney = 100;
     Restaurant5Check currentcheckforwaiter;
     Restaurant5Check currentcheckforcustomer;
-	
     Restaurant5Menu menu = new Restaurant5Menu();
      
 	
-	public Restaurant5CashierRole(String name) {
+	public Restaurant5CashierRole(String name, PersonAgent person) {
 		super();
 		this.name = name;
+		this.person = person;
 	}
 
 	// Messages
@@ -64,7 +66,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 		checksforcustomer.add(checkfromcustomer);
 		print("new check added to the list");
 		checkforcustomer = true;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgMakeCheckForWaiter(Restaurant5Customer customer, String choice, int table , Restaurant5Waiter waiter) {
@@ -77,7 +79,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 		checksforwaiter.add(newcheck);
 		print("new check added to the list");
 		checkforwaiter = true; 
-		stateChanged();
+		person.stateChanged();
 	
 	}
 	
@@ -98,7 +100,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 		}
 		
 		
-		stateChanged();
+		person.stateChanged();
 	}
 
 
@@ -189,7 +191,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 			    calculating = false;
 			    donecalculating = true;   
 			    print("done calculating");
-			    stateChanged();
+			    person.stateChanged();
 			}
 			},
 			calculatingtime * 1000);//how long to wait before running task
@@ -205,7 +207,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 			    makingcheck = false;
 			    donemakingcheck = true;   
 			    print("done making check");
-			    stateChanged();
+			    person.stateChanged();
 			}
 			},
 			calculatingtime * 1000);//how long to wait before running task
@@ -253,11 +255,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 		
 	}
 
-	@Override
-	public void msgReceviedCheckFromCustomer(Check checkfromcustomer) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	
 

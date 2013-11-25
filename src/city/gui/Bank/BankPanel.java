@@ -14,6 +14,7 @@ import java.awt.event.*;
 import java.util.Vector;
 
 import city.PersonAgent;
+import city.gui.PersonGui;
 
 /**
 * Panel in frame that contains all the restaurant information,
@@ -50,6 +51,8 @@ public class BankPanel extends JPanel {
         
     	this.gui = gui;
     	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
+    	PersonGui person2gui = new PersonGui(person2);
+    	person2.setGui(person2gui);
         person2.startThread();
     	//BankManagerRole bmr = new BankManagerRole(bank);	
 		BankManagerRoleGui g2 = new BankManagerRoleGui(bankmanager, gui);

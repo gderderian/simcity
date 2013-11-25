@@ -88,7 +88,7 @@ public class Restaurant5AnimationPanel extends JPanel implements ActionListener 
         }
     }
 
-    public void addGui(CustomerGui gui) {
+    public void addGui(Restaurant5CustomerGui gui) {
         guis.add(gui);
     }
 
@@ -96,7 +96,7 @@ public class Restaurant5AnimationPanel extends JPanel implements ActionListener 
         guis.add(gui);
     }
     
-    public void addGui(WaiterGui gui) {
+    public void addGui(Restaurant5WaiterGui gui) {
     	guis.add(gui);
     }
     

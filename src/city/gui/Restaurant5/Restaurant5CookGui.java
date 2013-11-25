@@ -1,6 +1,10 @@
 package city.gui.Restaurant5;
 
+import city.Restaurant5.*;
+import city.Restaurant5.Restaurant5CookRole.cookingorder;
+import city.Restaurant5.Restaurant5CookRole.cookstate;
 
+/*
 import restaurant.CookAgent.cookingorder;
 import restaurant.CookAgent.cookingorderstate;
 import restaurant.CookAgent.cookstate;
@@ -10,16 +14,18 @@ import restaurant.CustomerAgent;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.interfaces.Waiter;
-
+*/
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
+import tomtesting.interfaces.Restaurant5Waiter;
+
 public class Restaurant5CookGui implements Gui {
 
-    private CookAgent agent = null;
-    RestaurantGui gui;
+    private Restaurant5CookRole agent = null;
+    Restaurant5Gui gui;
     private int xPos = 440, yPos = 50;//default waiter position
     private int xDestination = 440, yDestination = 50;//default start position
     public List<ordergui> orderguis = Collections.synchronizedList(new ArrayList<ordergui>());
@@ -29,7 +35,7 @@ public class Restaurant5CookGui implements Gui {
     
     //private int[] counterypos = {
     
-    public Restaurant5CookGui(CookAgent agent, RestaurantGui gui) {
+    public Restaurant5CookGui(Restaurant5CookRole agent, Restaurant5Gui gui) {
         this.agent = agent;
         this.gui = gui;
         //orderguis.add(new ordergui(460, 80));
