@@ -11,6 +11,7 @@ import city.Restaurant5.Restaurant5CookRole;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
 import city.Restaurant5.Restaurant5WaiterRole;
+import city.gui.BuildingPanel;
 import city.gui.PersonGui;
 import city.gui.Bank.BankManagerRoleGui;
 
@@ -22,64 +23,32 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class Restaurant5Panel extends JPanel {
+public class Restaurant5Panel extends BuildingPanel implements MouseListener {
 
     //Host, cook, waiters and customers
-  
+	
+	
+	
     private Vector<Restaurant5CustomerRole> customers = new Vector<Restaurant5CustomerRole>();
     private Vector<Restaurant5WaiterRole> waiters = new Vector<Restaurant5WaiterRole>();
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+   // private ListPanel customerPanel = new ListPanel(this, "Customers");
+    //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
 	private AStarTraversal aStarTraversal;
 	private CityMap citymap = new CityMap();
 	private House house = new House("house1");
 	private Restaurant5Gui gui;
-	 
-    PersonAgent person1 = new PersonAgent("cook", aStarTraversal, citymap, house);
-	PersonGui person1gui = new PersonGui(person1);
-	person1.setGui(person1gui);
-    person1.startThread();
-    
-    PersonAgent person2 = new PersonAgent("cook", aStarTraversal, citymap, house);
-	PersonGui person2gui = new PersonGui(person2);
-	person2.setGui(person2gui);
-    person2.startThread();
-    
-	
-    Restaurant5CookRole cook = new Restaurant5CookRole("cook", person1);	
-	BankManagerRoleGui g2 = new BankManagerRoleGui(bankmanager, gui);
-	bankmanager.setPerson(person2);
-    
-    //reference to main gui
-    private Restaurant5CookGui cookGui = new Restaurant5CookGui(cook, gui);
+
     int waiterposcounter = 30;
     public Restaurant5Panel(Restaurant5Gui gui) {
         
     	this.gui = gui;
-        host.setGui(hostGui);
-        gui.animationPanel.addGui(hostGui);
-        host.startThread();    
-        //this.addPerson("Cooks", "cook bily", false);
-        cook.setGui(cookGui);
-        gui.animationPanel.addGui(cookGui);
-        cook.addMarket(market1);
-        cook.addMarket(market2);
-        cook.addMarket(market3);
-        cook.addCashier(cashier);
-        //cook.addMarket(backupchickenmarket);
-        
-        cook.startThread();
-        cashier.startThread();
-        market1.startThread();
-        market2.startThread();
-        market3.startThread();
   
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
-        group.add(customerPanel);
-        group.add(waiterPanel);
+        //group.add(customerPanel);
+        //group.add(waiterPanel);
         initRestLabel();
         add(restLabel);
         add(group);
@@ -265,6 +234,36 @@ public class Restaurant5Panel extends JPanel {
     	
     	
     }
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
     
     
 }

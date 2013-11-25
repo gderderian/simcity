@@ -116,6 +116,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		addBuildingPanel(bank1Animation);
 		addBuildingPanel(market1Animation);
+		addBuildingPanel(market2Animation);
+		addBuildingPanel(market3Animation);
 
 		add(animationPanel, BorderLayout.EAST);
 
@@ -222,6 +224,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			animationPanel.setVisible(false);
 			add(market1Animation, BorderLayout.EAST);
 			market1Animation.setVisible(true);
+		}
+		if(building.equals("Market2")){
+			animationPanel.setVisible(false);
+			add(market2Animation, BorderLayout.EAST);
+			market2Animation.setVisible(true);
+		}
+		if(building.equals("Market3")){
+			animationPanel.setVisible(false);
+			add(market3Animation, BorderLayout.EAST);
+			market3Animation.setVisible(true);
 		}
 		if(building.equals("Bank1")){
 			animationPanel.setVisible(false);

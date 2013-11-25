@@ -24,7 +24,7 @@ public class BankTellerRoleGui implements Gui {
 	private Command command=Command.noCommand;
 	
 	//ImageIcon icon = new ImageIcon("images/bankteller.png");
-	public Image imgofbankteller = new ImageIcon("images/bankteller.png").getImage();
+	public Image imgofbankteller = new ImageIcon("images/basic_person.png").getImage();
 
     public BankTellerRoleGui(BankTellerRole setrole, BankGui setgui) {
         this.role = setrole;
