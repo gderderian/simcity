@@ -24,7 +24,7 @@ public class CarTest2 extends TestCase {
 		destination2 = "TEST DESTINATION #2";
 	}	
 
-	/* This tests a person driving their car to one destination, and then driving to a second destination */
+	/* This tests a CarAgent in a scenario with a person driving their car to one destination, and then driving to a second destination */
 	public void testCarDriving() {		
 		assertTrue(car.capacity == 1); //Checks that car has appropriate capacity
 		

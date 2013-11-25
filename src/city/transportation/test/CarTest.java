@@ -22,7 +22,7 @@ public class CarTest extends TestCase {
 		destination = "TEST DESTINATION";
 	}	
 
-	/* This tests a person driving their car from one place to another */
+	/* This tests a CarAgent in a scenario with a person driving their car from one place to another */
 	public void testCarDriving() {		
 		assertTrue(car.capacity == 1); //Checks that car has appropriate capacity
 		

@@ -17,15 +17,15 @@ public class BusAgent extends Vehicle implements Bus {
 	public int currentStop;
 	public List<BusStop> busStops = new ArrayList<BusStop>();
 	private Map<Integer, Position> stopPositions = new HashMap<Integer, Position>();
-	double money;
+	public double money;
 	double fare;
 	
 	Timer timer = new Timer();
 	
 	public List<Passenger> passengers = new ArrayList<Passenger>();
 	
-	class Passenger {
-		Person p;
+	public class Passenger {
+		public Person p;
 		boolean wantsOff = false;
 		boolean paidFare = false;
 
