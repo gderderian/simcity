@@ -69,9 +69,11 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         
         
         Cook = new Restaurant2CookRole("CookRole", personCook);
+        cookGui = new Restaurant2CookGui(Cook);
         Cook.setGui(cookGui);
         Cashier = new Restaurant2CashierRole("CashierRole", personCashier);
         Waiter = new Restaurant2WaiterRole("WaiterRole", personWaiter);
+        waiterGui = new Restaurant2WaiterGui(Waiter, personWaiter.getName(), cityGui, 1);
         Waiter.setGui(waiterGui);
         Host = new Restaurant2HostRole("HostRole", personHost);
         
@@ -87,6 +89,8 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         personWaiter.startThread();
         Host.addWaiters(Waiter);
         
+        guis.add(cookGui);
+        guis.add(waiterGui);
         
 	}
 

@@ -464,5 +464,6 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 	public void setGuiActive() {
 		customerGui.DoEnterRestaurant();
+		customerGui.setPresent(true);
 	}
 }

@@ -87,10 +87,6 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		waiterNum = n;
 	}
 	
-	public void setType(String t){
-		
-	}
-	
 	/*
 	public void setPerson(PersonAgent p){
 		person = p;
