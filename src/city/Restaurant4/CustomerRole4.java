@@ -57,6 +57,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 	 */
 	public CustomerRole4(String name, PersonAgent p){
 		super();
+		building = "rest4";
 		this.name = name;
 		this.p= p;
 		if(name.equals("cheapestItem")){

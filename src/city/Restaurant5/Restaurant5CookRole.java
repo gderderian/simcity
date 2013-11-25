@@ -74,6 +74,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 	public Restaurant5CookRole(String name, PersonAgent person) {
 		super();
+		building = "rest5";
 		this.name = name;
 		this.person = person;
 		this.state = cookstate.doingnothing;

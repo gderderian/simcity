@@ -35,6 +35,7 @@ public class Restaurant1CashierRole extends Role {
 	
 	public Restaurant1CashierRole(String name, PersonAgent p) {
 		super();
+		building = "rest1";
 		
 		person = p;
 		

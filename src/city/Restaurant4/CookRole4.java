@@ -40,6 +40,7 @@ public class CookRole4 extends Role implements Cook4 {
 
 	public CookRole4(String name, PersonAgent p) {
 		super();
+		building = "rest4";
 		this.name= name;
 		this.p= p;
 		foods= new ArrayList<Food>();

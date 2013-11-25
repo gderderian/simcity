@@ -26,6 +26,7 @@ public class HostRole4 extends Role {
 
 	public HostRole4(String name, PersonAgent p) {
 		super();
+		building = "rest4";
 		this.name = name;
 		this.p= p;
 		

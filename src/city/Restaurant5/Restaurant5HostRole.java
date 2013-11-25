@@ -50,6 +50,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	int occupiedtablecounter = 0;
 	public Restaurant5HostRole(String name, PersonAgent person) {
 		super();
+		building = "rest5";
 
 		this.name = name;
 		this.person = person;

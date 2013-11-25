@@ -37,6 +37,7 @@ public class Restaurant1HostRole extends Role {
 
 	public Restaurant1HostRole(String name, PersonAgent p) {
 		super();
+		building = "rest1";
 
 		this.name = name;
 		person = p;

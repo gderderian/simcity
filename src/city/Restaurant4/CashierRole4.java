@@ -28,6 +28,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 
 	public CashierRole4(String name, PersonAgent p) {
 		super();
+		building = "rest4";
 		this.name= name;
 		this.p= p;
 	}
