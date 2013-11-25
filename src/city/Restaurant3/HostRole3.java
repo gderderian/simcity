@@ -1,32 +1,33 @@
-package restaurant;
+package city.Restaurant3;
 
-import agent.Agent;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Customer;
-
+import Role.Role;
 import java.util.*;
+import city.PersonAgent;
+import city.gui.Restaurant3.WaiterGui3;
 
 /**
  * Restaurant Host Agent
  */
-public class HostAgent extends Agent {
+public class HostRole3 extends Role {
 	
 	static final int NTABLES = 4;
 	
-	//public List<CustomerAgent> waitingCustomers;
+	//public List<CustomerRole3> waitingCustomers;
 	public List<MyCustomer> waitingCustomers;
 	
 	//public List<MyWaiter> myWaiters;
 	public List<MyWaiter> myWaiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
-	// public Collection<Table> tables;
-	public List<Table> tables = Collections.synchronizedList(new ArrayList<Table>());
+	// public Collection<Table3> tables;
+	public List<Table3> tables = Collections.synchronizedList(new ArrayList<Table3>());
 
 	private String name;
-	public WaiterGui hostGui = null;
+	public WaiterGui3 hostGui = null;
 	String carryingOrderText = "";
 	
-	public HostAgent(String name) {
+	PersonAgent person;
+	
+	public HostRole3(String name, PersonAgent p) {
 		
 		super();
 		this.name = name;
@@ -35,7 +36,7 @@ public class HostAgent extends Agent {
 		waitingCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 		
 		// Generate all new tables
-		//tables = new ArrayList<Table>(NTABLES);
+		//tables = new ArrayList<Table3>(NTABLES);
 		int tableRoot = (int)Math.sqrt(NTABLES);
 		int startingCoord = 150;
 		int tableDistance = 125;
@@ -45,32 +46,34 @@ public class HostAgent extends Agent {
 				int tableNum = tableRoot * i + j + 1;
 				int tableX = startingCoord + i*tableDistance;
 				int tableY = startingCoord + j*tableDistance;
-				tables.add(new Table(tableNum, tableX, tableY));
+				tables.add(new Table3(tableNum, tableX, tableY));
 			}
 		}
+		
+		person = p;
 		
 	}
 	
 	// Messages
-	public void msgIWantFood(CustomerAgent cust, int locX, int locY) {
+	public void msgIWantFood(CustomerRole3 cust, int locX, int locY) {
 		Do("Received message msgIWantFood from customer " + cust.getCustomerName() + ".");
 		waitingCustomers.add(new MyCustomer(cust, locX, locY));
-		stateChanged();
+		person.stateChanged();
 	}
 
-	public void msgLeavingTable(Customer customer) {
-		Do("Received message msgLeavingTable from customer " + customer.getCustomerName() + ".");
+	public void msgLeavingTable(CustomerRole3 customer) {
+		Do("Received message msgLeavingTable3 from customer " + customer.getCustomerName() + ".");
 		synchronized(tables){
-			for (Table table : tables) {
+			for (Table3 table : tables) {
 				if (table.getOccupant() == customer) {
 					table.setUnoccupied();
-					stateChanged();
+					person.stateChanged();
 				}
 			}
 		}
 	}
 	
-	public void wantBreak(WaiterAgent w){
+	public void wantBreak(WaiterRole3 w){
 		Do("Received request to go on break from waiter " + w.getName() + ".");
 		synchronized(myWaiters){
 			for (MyWaiter waiter : myWaiters) {
@@ -79,10 +82,10 @@ public class HostAgent extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void decrementCustomer(WaiterAgent w){
+	public void decrementCustomer(WaiterRole3 w){
 		Do("Received notification one customer left the restaurant.");
 		synchronized(myWaiters){
 			for (MyWaiter waiter : myWaiters) {
@@ -91,10 +94,10 @@ public class HostAgent extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void returnedFromBreak(WaiterAgent w){
+	public void returnedFromBreak(WaiterRole3 w){
 		Do("Notified that waiter " + w.getName() + " has now returned from break.");
 		synchronized(myWaiters){
 			for (MyWaiter waiter : myWaiters) {
@@ -103,10 +106,10 @@ public class HostAgent extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void imLeaving(CustomerAgent c){
+	public void imLeaving(CustomerRole3 c){
 		synchronized(waitingCustomers){
 			for (MyCustomer customer : waitingCustomers) {
 				if (customer.customer.equals(c)){
@@ -115,12 +118,12 @@ public class HostAgent extends Agent {
 				}
 			}
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 
 	// Scheduler
-	protected boolean pickAndExecuteAnAction() {
-		if (!waitingCustomers.isEmpty() && checkAllTablesOccupied() == true) { // Ask customer if they want to stay when full
+	public boolean pickAndExecuteAnAction() {
+		if (!waitingCustomers.isEmpty() && checkAllTable3sOccupied() == true) { // Ask customer if they want to stay when full
 			try {
 				if (waitingCustomers.get(0).state.equals(CustomerState.none)){ // If they haven't been notified restaurant is full, notify them
 						waitingCustomers.get(0).customer.restaurantFull();
@@ -134,7 +137,7 @@ public class HostAgent extends Agent {
 			return true;
 		}
 		synchronized(tables){
-			for (Table table : tables) {
+			for (Table3 table : tables) {
 				if (!table.isOccupied()) {
 					if (!waitingCustomers.isEmpty()) {
 						seatCustomer(waitingCustomers.get(0).customer, table, waitingCustomers.get(0).locX, waitingCustomers.get(0).locY);
@@ -155,7 +158,7 @@ public class HostAgent extends Agent {
 	}
 
 	// Actions
-	private void seatCustomer(CustomerAgent customer, Table table, int X, int Y) {
+	private void seatCustomer(CustomerRole3 customer, Table3 table, int X, int Y) {
 		// Find waiter and notify them
 		//Do("Seating customer " + customer.getCustomerName() + " at table #" + table.tableNumber + ".");
 		if (myWaiters.size() != 0) {
@@ -204,18 +207,18 @@ public class HostAgent extends Agent {
 		return name;
 	}
 	
-	public void addWaiter(WaiterAgent w){
+	public void addWaiter(WaiterRole3 w){
 		MyWaiter waiter = new MyWaiter();
 		waiter.waiter = w;
 		waiter.name = w.getName();
 		myWaiters.add(waiter);
 	}
 	
-	public void setGui(WaiterGui gui) {
+	public void setGui(WaiterGui3 gui) {
 		hostGui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public WaiterGui3 getGui() {
 		return hostGui;
 	}
 	
@@ -223,7 +226,7 @@ public class HostAgent extends Agent {
     	carryingOrderText = carryText;
     }
     
-    public Collection<Table> getTables(){
+    public Collection<Table3> getTables(){
     	return tables;
     }
     
@@ -232,7 +235,7 @@ public class HostAgent extends Agent {
 	{none, wantBreak, onBreak};
 	
 	class MyWaiter {
-		WaiterAgent waiter;
+		WaiterRole3 waiter;
 		String name;
 		int numCustomers;
 		WaiterState state;
@@ -263,10 +266,10 @@ public class HostAgent extends Agent {
 		return onBreakNow;
 	}
 	
-	public boolean checkAllTablesOccupied() {
+	public boolean checkAllTable3sOccupied() {
 		int totalOccupied = 0;
 		synchronized(tables){
-			for (Table table : tables) {
+			for (Table3 table : tables) {
 				if (table.isOccupied()) {
 					totalOccupied++;
 				}
@@ -283,12 +286,12 @@ public class HostAgent extends Agent {
 	{none, notifiedFull};
 	
 	class MyCustomer {
-		CustomerAgent customer;
+		CustomerRole3 customer;
 		CustomerState state;
 		int locX;
 		int locY;
 		
-		MyCustomer(CustomerAgent c, int X, int Y){
+		MyCustomer(CustomerRole3 c, int X, int Y){
 			customer = c;
 			state = CustomerState.none;
 			locX = X;

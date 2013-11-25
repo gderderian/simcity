@@ -1,13 +1,11 @@
-package restaurant;
+package city.Restaurant3;
 
-import restaurant.gui.CustomerGui;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
-import restaurant.test.mock.EventLog;
-import agent.Agent;
+import Role.Role;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
+import city.PersonAgent;
+import city.gui.Restaurant3.CustomerGui3;
 import java.util.concurrent.Semaphore;
 import java.util.Random;
 
@@ -15,7 +13,7 @@ import java.util.Random;
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer {
+public class CustomerRole3 extends Role {
 	
 	static final int DEFAULT_HUNGER_LEVEL = 3500;
 	static final int DEFAULT_SIT_TIME = 5000;
@@ -27,20 +25,20 @@ public class CustomerAgent extends Agent implements Customer {
 	private int hungerLevel = DEFAULT_HUNGER_LEVEL;
 	Timer eatingTimer;
 	Timer choosingTimer;
-	private CustomerGui customerGui;
+	private CustomerGui3 customerGui;
 	private double money;
 	private double needToPay;
 	private int orderAttempts;
 	
-	private Waiter assignedWaiter;
-	private Menu myMenu;
-	private HostAgent host;
-	public CashierAgent cashier;
+	private WaiterRole3 assignedWaiter;
+	private Menu3 myMenu;
+	private HostRole3 host;
+	public CashierRole3 cashier;
 	private boolean madeStayDecision = false;
 	int homeX;
 	int homeY;
 
-	public EventLog log;
+	public test.mock.EventLog evtLog;
 
 	public enum AgentState
 	{DoingNothing, WaitingForSeat, BeingSeated, Seated, Ordering, WaitingForFood, Eating, Leaving, Choosing, CalledWaiter, RequestedCheck, Paying, restaurantFull, CantPay};
@@ -52,7 +50,9 @@ public class CustomerAgent extends Agent implements Customer {
 	
 	private Semaphore isAnimating = new Semaphore(0,true);
 
-	public CustomerAgent(String name, int startX, int startY){
+	PersonAgent person;
+	
+	public CustomerRole3(String name, int startX, int startY, PersonAgent p){
 		
 		super();
 		this.name = name;
@@ -60,7 +60,7 @@ public class CustomerAgent extends Agent implements Customer {
 		needToPay = 0;
 		orderAttempts = 0;
 
-		log = new EventLog();
+		evtLog = new test.mock.EventLog();
 		
 		// Hack to set amount of money based on customer's name
 		if (name.equals("reallycheap")){
@@ -81,19 +81,21 @@ public class CustomerAgent extends Agent implements Customer {
 				new ActionListener() { public void actionPerformed(ActionEvent evt) {
 					choice = pickRandomItemWithinCost();
 					event = AgentEvent.wantWaiter;
-					stateChanged();
+					person.stateChanged();
 		      }
 		});
 		eatingTimer = new Timer(DEFAULT_HUNGER_LEVEL,
 				new ActionListener() { public void actionPerformed(ActionEvent evt) {
 					state = AgentState.DoingNothing;
 					event = AgentEvent.doneEating;
-					stateChanged();
+					person.stateChanged();
 		      }
 		});
 		
 		homeX = startX;
 		homeY = startY;
+		
+		person = p;
 		
 	}
 
@@ -101,65 +103,65 @@ public class CustomerAgent extends Agent implements Customer {
 	public void gotHungry() {
 		print("I'm hungry.");
 		event = AgentEvent.gotHungry;
-		stateChanged();
+		person.stateChanged();
 	}
 
-	public void msgSitAtTable(Menu m, Waiter w) {
+	public void msgSitAtTable(Menu3 m, WaiterRole3 w) {
 		print("Received msgSitAtTable.");
 		myMenu = m;
 		assignedWaiter = w;
 		event = AgentEvent.followHost;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgWhatDoYouWant() {
 		print("Received msgWhatDoYouWant.");
 		event = AgentEvent.doneChoosing;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void hereIsOrder(String choice) {
 		print("Received food choice " + choice + ".");
 		state = AgentState.Eating;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAnimationFinishedGoToSeat() {
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		Do("Done leaving restaurant.");
 		event = AgentEvent.doneLeaving;
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void repickFood(Menu newMenu) {
+	public void repickFood(Menu3 newMenu) {
 		Do("Need to repick my food choice.");
 		myMenu = newMenu;
 		state = AgentState.BeingSeated;
 		event = AgentEvent.seated;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void dispenseChange(double newMoney) {
 		money = newMoney;
 		Do("Received change back, my new money amount is $" + newMoney + ".");
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void hereIsCheck(double amountDue) {
 		Do("Customer needs to pay $" + amountDue);
 		needToPay = amountDue;
 		event = AgentEvent.receivedCheck;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void goToCorner() {
 		Do("I ordered something that I now can't afford to pay for. I'm going in the corner and will stay there forever.");
 		state = AgentState.CantPay;
 		event = AgentEvent.notPaid;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void restaurantFull(){
@@ -168,11 +170,11 @@ public class CustomerAgent extends Agent implements Customer {
 			state = AgentState.restaurantFull;
 		//}
 		//Do("State: " + state + " - Event: " + event);
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	// Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry){
 			state = AgentState.WaitingForSeat;
 			goToRestaurant();
@@ -415,7 +417,7 @@ public class CustomerAgent extends Agent implements Customer {
 		return name;
 	}
 	
-	public HostAgent getHost() {
+	public HostRole3 getHost() {
 		return host;
 	}
 	
@@ -431,15 +433,15 @@ public class CustomerAgent extends Agent implements Customer {
 		return "customer " + getName();
 	}
 
-	public void setGui(CustomerGui g) {
+	public void setGui(CustomerGui3 g) {
 		customerGui = g;
 	}
 
-	public CustomerGui getGui() {
+	public CustomerGui3 getGui() {
 		return customerGui;
 	}
 	
-	public void setHost(HostAgent host) {
+	public void setHost(HostRole3 host) {
 		this.host = host;
 	}
 
@@ -447,11 +449,11 @@ public class CustomerAgent extends Agent implements Customer {
 		return name;
 	}
 	
-	public void assignWaiter(WaiterAgent w) {
+	public void assignWaiter(WaiterRole3 w) {
 		assignedWaiter = w;
 	}
 	
-	public void setCashier(CashierAgent c) {
+	public void setCashier(CashierRole3 c) {
 		cashier = c;
 	}
 	

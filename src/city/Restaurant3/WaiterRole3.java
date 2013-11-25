@@ -1,37 +1,35 @@
-package restaurant;
+package city.Restaurant3;
 
-import agent.Agent;
-import restaurant.gui.WaiterGui;
-import restaurant.test.mock.EventLog;
+import Role.Role;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import javax.swing.Timer;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import city.PersonAgent;
+import city.gui.Restaurant3.WaiterGui3;
 
 /**
  * Restaurant Waiter Agent
  */
-public class WaiterAgent extends Agent implements Waiter {
+public class WaiterRole3 extends Role {
 	
 	static final int DEFAULT_BREAK_TIME = 15000;
 	
 	public List<MyCustomer> myCustomers; // Uses try/catch
-	public HostAgent myHost;
-	public CookAgent myCook;
+	public HostRole3 myHost;
+	public CookRole3 myCook;
 	private String name;
-	public CashierAgent myCashier;
+	public CashierRole3 myCashier;
 	private boolean onBreak;
 	public int homeX = 230;
 	public int homeY = 230;
 	
-	private WaiterGui waiterGui;
+	private WaiterGui3 waiterGui;
 	private Semaphore isAnimating = new Semaphore(0,true);
 	Timer breakTimer;
 	
-	public EventLog log;
+	public test.mock.EventLog evtLog;
 	
 	public enum AgentState
 	{DoingNothing, wantBreak, onBreak};
@@ -41,13 +39,15 @@ public class WaiterAgent extends Agent implements Waiter {
 	{none, breakRequested, breakApproved, breakRejected};
 	AgentEvent event = AgentEvent.none;
 	
-	public WaiterAgent(String name, int startX, int startY) {
+	PersonAgent person;
+	
+	public WaiterRole3(String name, int startX, int startY, PersonAgent p) {
 		super();
 		this.name = name;
 		myCustomers = new ArrayList<MyCustomer>();
 		onBreak = false;
 		
-		log = new EventLog();
+		evtLog = new test.mock.EventLog();
 		
 		breakTimer = new Timer(DEFAULT_BREAK_TIME,
 				new ActionListener() { public void actionPerformed(ActionEvent evt) {
@@ -57,17 +57,18 @@ public class WaiterAgent extends Agent implements Waiter {
 					state = AgentState.DoingNothing;
 					event = AgentEvent.none;
 					onBreak = true;
-					stateChanged();
+					person.stateChanged();
 		      }
 		});
 		
 		homeX = startX;
 		homeY = startY;
+		person = p;
 		
 	}
 	
 	// Messages
-	public void doneEating(Customer c) {
+	public void doneEating(CustomerRole3 c) {
 		Do("Received message from customer " + c.getCustomerName() + " that they are done eating.");
 		try {
 			for (MyCustomer cust : myCustomers) {
@@ -76,9 +77,9 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException doneEatingComod) {
-			stateChanged();
+			person.stateChanged();
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 
 	public void hereIsFood(int tableNum, String choice) {
@@ -90,22 +91,22 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException hereIsFoodComod) {
-			stateChanged();
+			person.stateChanged();
 		}	
-		stateChanged();
+		person.stateChanged();
 	}
 
-	public void msgSeatCustomer(Customer c, int tableNum, HostAgent h, int customerX, int customerY) {
+	public void msgSeatCustomer(CustomerRole3 c, int tableNum, HostRole3 h, int customerX, int customerY) {
 		Do("Received message to seat customer " + c.getCustomerName() + " at table #" + tableNum + ".");
 		myHost = h;
 		MyCustomer customer = new MyCustomer(customerX, customerY);
 		customer.customer = c;
 		customer.tableNum = tableNum;
 		myCustomers.add(customer);
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void readyToOrder(Customer c) {
+	public void readyToOrder(CustomerRole3 c) {
 		Do("Customer " + c.getName() + " is now ready to order.");
 		try {
 			for (MyCustomer cust : myCustomers) {
@@ -114,12 +115,12 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException readyToOrderComod) {
-			stateChanged();
+			person.stateChanged();
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void hereIsMyChoice(String choice, Customer c) {
+	public void hereIsMyChoice(String choice, CustomerRole3 c) {
 		Do("Received choice " + choice + " from customer " + c.getCustomerName() + ".");
 		try {
 			for (MyCustomer cust : myCustomers) {
@@ -129,12 +130,12 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException hereIsMyChoiceComod) {
-			stateChanged();
+			person.stateChanged();
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void ImDone(Customer c) {
+	public void ImDone(CustomerRole3 c) {
 		Do("Customer " + c.getCustomerName() + " has finished eating.");
 		try {
 			for (MyCustomer cust : myCustomers) {
@@ -143,9 +144,9 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException ImDoneComod) {
-			stateChanged();
+			person.stateChanged();
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void needNewChoice(int tableNum, String choice) {
@@ -157,9 +158,9 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException needNewChoiceComod) {
-			stateChanged();
+			person.stateChanged();
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void breakApproved(){
@@ -167,7 +168,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		state = AgentState.onBreak;
 		event = AgentEvent.breakApproved;
 		onBreak = true;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void breakRejected(){
@@ -175,17 +176,17 @@ public class WaiterAgent extends Agent implements Waiter {
 		onBreak = false;
 		state = AgentState.wantBreak;
 		event = AgentEvent.breakRejected;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	public void requestBreak(){
 		Do("Requesting break from host.");
 		state = AgentState.wantBreak;
 		event = AgentEvent.none;
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void hereIsCheck(Customer c, double checkAmount){
+	public void hereIsCheck(CustomerRole3 c, double checkAmount){
 		Do("Accepting check from customer " + c.getCustomerName() + " in the amount of $" + checkAmount + ".");
 		try {
 			for (MyCustomer cust : myCustomers) {
@@ -195,12 +196,12 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException hereIsCheckComod) {
-			stateChanged();
+			person.stateChanged();
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 	
-	public void readyForCheck(Customer c){
+	public void readyForCheck(CustomerRole3 c){
 		Do("Customer " + c.getCustomerName() + " is ready for and wants their check.");
 		try {
 			for (MyCustomer cust : myCustomers) {
@@ -209,13 +210,13 @@ public class WaiterAgent extends Agent implements Waiter {
 				}
 			}
 		} catch (ConcurrentModificationException readyForCheckComod) {
-			stateChanged();
+			person.stateChanged();
 		}
-		stateChanged();
+		person.stateChanged();
 	}
 
 	// Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		try {
 			if (state == AgentState.wantBreak && event == AgentEvent.none){
 				requestBreakFromHost();
@@ -324,11 +325,11 @@ public class WaiterAgent extends Agent implements Waiter {
 			e.printStackTrace();
 		}
 		
-		c.customer.msgSitAtTable(new Menu(), this);
+		c.customer.msgSitAtTable(new Menu3(), this);
 		
 		int destX = 0, destY = 0;
 		
-		for (Table t : myHost.getTables()) {
+		for (Table3 t : myHost.getTables()) {
 			if (c.tableNum == t.tableNumber){
 				destX = t.tableX;
 				destY = t.tableY;
@@ -417,7 +418,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	private void repickFood(MyCustomer c){
-		Menu newMenu = new Menu();
+		Menu3 newMenu = new Menu3();
 		newMenu.removeItem(c.choice);
 		Do("Telling customer " + c.customer.getCustomerName() + " they need to repick an item because their previous choice is not in stock (according to the cook).");
 		c.customer.repickFood(newMenu);
@@ -467,7 +468,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	{Waiting, Seated, ReadyToOrder, Ordering, OrderedWaiting, WaitingForFood, FoodReady, Eating, Done, NeedNewChoice, wantCheck, waitingForCheck, payingCheck, needCheckDelivered};
 	
 	public class MyCustomer {
-		Customer customer;
+		CustomerRole3 customer;
 		int tableNum;
 		String choice;
 		CustomerState state;
@@ -493,7 +494,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		isAnimating.release();
 	}
 	
-	public boolean hasCustomer(Customer c){
+	public boolean hasCustomer(CustomerRole3 c){
 		for (MyCustomer cust : myCustomers) {
 			if (cust.customer.equals(c)){
 				return true;
@@ -511,15 +512,15 @@ public class WaiterAgent extends Agent implements Waiter {
 		return name;
 	}
 	
-	public Menu getMenu(){
-		return new Menu();
+	public Menu3 getMenu(){
+		return new Menu3();
 	}
 	
-	public void setGui(WaiterGui g){
+	public void setGui(WaiterGui3 g){
 		waiterGui = g;
 	}
 	
-	public void setHost(HostAgent h){
+	public void setHost(HostRole3 h){
 		myHost = h;
 	}
 	
@@ -527,15 +528,15 @@ public class WaiterAgent extends Agent implements Waiter {
 		return myCustomers.size();
 	}
 	
-	public void setCook(CookAgent cook){
+	public void setCook(CookRole3 cook){
 		myCook = cook;
 	}
 	
-	public void setCashier(CashierAgent cashier){
+	public void setCashier(CashierRole3 cashier){
 		myCashier = cashier;
 	}
 	
-	public WaiterGui getGui() {
+	public WaiterGui3 getGui() {
 		return waiterGui;
 	}
 	

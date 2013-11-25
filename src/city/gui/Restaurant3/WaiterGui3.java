@@ -1,16 +1,14 @@
-package restaurant.gui;
+package city.gui.Restaurant3;
 
-
-import restaurant.CustomerAgent;
-import restaurant.WaiterAgent;
+import city.Restaurant3.*;
 
 import java.awt.*;
 
-public class WaiterGui implements Gui {
+public class WaiterGui3 implements Gui3 {
 
-    private WaiterAgent agent = null;
+    private WaiterRole3 agent = null;
 
-	RestaurantGui gui;
+	RestaurantGui3 gui;
     
     private int xPos = 230, yPos = 230;
     public int xDestination = 230, yDestination = 230, host_tableX, host_tableY;
@@ -25,20 +23,20 @@ public class WaiterGui implements Gui {
 	boolean isOnBreak;
 	int index = 0;
     
-    public WaiterGui(WaiterAgent a) {
+    public WaiterGui3(WaiterRole3 a) {
     	agent = a;
     	carryingOrderText = "";
     	isOnBreak = false;
     }
     
-    public WaiterGui(WaiterAgent a, RestaurantGui g) {
+    public WaiterGui3(WaiterRole3 a, RestaurantGui3 g) {
     	agent = a;
     	gui = g;
     	carryingOrderText = "";
     	isOnBreak = false;
     }
     
-    public WaiterGui(WaiterAgent a, RestaurantGui g, int startX, int startY, int indexNum) {
+    public WaiterGui3(WaiterRole3 a, RestaurantGui3 g, int startX, int startY, int indexNum) {
     	agent = a;
     	gui = g;
     	xPos = startX;
@@ -95,7 +93,7 @@ public class WaiterGui implements Gui {
 		agent.releaseSemaphore();
 	}
     
-    public void DoBringToTable(CustomerAgent customer, int tableX, int tableY) {
+    public void DoBringToTable(CustomerRole3 customer, int tableX, int tableY) {
         xDestination = tableX + 20;
         yDestination = tableY - 20;
         host_tableX = tableX;

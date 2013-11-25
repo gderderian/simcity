@@ -1,14 +1,12 @@
-package restaurant.gui;
-
-import restaurant.CustomerAgent;
-import restaurant.WaiterAgent;
-
-
-
+package city.gui.Restaurant3;
 
 //import javax.swing.Image;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import city.Restaurant3.CustomerRole3;
+import city.Restaurant3.WaiterRole3;
+import city.gui.Restaurant3.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,10 +16,10 @@ import java.io.IOException;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class RestaurantGui extends JFrame implements ActionListener {
+public class RestaurantGui3 extends JFrame implements ActionListener {
 
-	AnimationPanel animationPanel = new AnimationPanel();
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+	AnimationPanel3 animationPanel = new AnimationPanel3();
+    private RestaurantPanel3 restPanel = new RestaurantPanel3(this);
     
     /* infoPanel holds information about the clicked customer, if there is one */
     private JPanel infoPanel;
@@ -51,7 +49,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public RestaurantGui() {
+    public RestaurantGui3() {
     	
         int WINDOWX = 1000;
         int WINDOWY = 550;
@@ -119,23 +117,25 @@ public class RestaurantGui extends JFrame implements ActionListener {
     public void updateInfoPanel(Object person) {
         stateCB.setVisible(true);
         currentPerson = person;
-
-        if(person instanceof WaiterAgent){
-        	WaiterAgent waiter = (WaiterAgent) person;
+        /*
+        if(person instanceof WaiterRole3){
+        	WaiterRole3 waiter = (WaiterRole3) person;
         	stateCB.setText("On break?");
         	stateCB.setSelected(waiter.getGui().isOnBreak());
         	stateCB.setEnabled(!waiter.getGui().isOnBreak());
         	infoLabel.setText("<html>Waiter Name: " + waiter.getName() + "</html>");
         }
         
-        if (person instanceof CustomerAgent) {
-            CustomerAgent customer = (CustomerAgent) person;
+        if (person instanceof CustomerRole3) {
+        	CustomerRole3 customer = (CustomerRole3) person;
             stateCB.setText("Hungry?");
             stateCB.setSelected(customer.getGui().isHungry());
             stateCB.setEnabled(!customer.getGui().isHungry());
             infoLabel.setText("<html>Customer Name: " + customer.getName() + "</html>");
         }
         infoPanel.validate();
+    	*/
+    
     }
     
     /**
@@ -144,14 +144,17 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * For v3, it will propose a break for the waiter.
      */
     public void actionPerformed(ActionEvent e) {
+    	
+    	/*
+    	
         if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerAgent) {
-                CustomerAgent c = (CustomerAgent) currentPerson;
+            if (currentPerson instanceof CustomerRole3) {
+            	CustomerRole3 c = (CustomerRole3) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
-            if (currentPerson instanceof WaiterAgent) {
-            	WaiterAgent w = (WaiterAgent) currentPerson;
+            if (currentPerson instanceof WaiterRole3) {
+            	WaiterRole3 w = (WaiterRole3) currentPerson;
             	w.getGui().setRequestBreak();
             	stateCB.setEnabled(false);
             }
@@ -167,6 +170,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         	}
         	
         }
+        */
+        
     }
     
     /**
@@ -175,9 +180,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
-        if (currentPerson instanceof CustomerAgent) {
-            CustomerAgent cust = (CustomerAgent) currentPerson;
+    public void setCustomerEnabled(CustomerRole3 c) {
+        if (currentPerson instanceof CustomerRole3) {
+            CustomerRole3 cust = (CustomerRole3) currentPerson;
             if (c.equals(cust)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);
@@ -191,9 +196,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCbEnabled(WaiterAgent w) {
-        if (currentPerson instanceof WaiterAgent) {
-        	WaiterAgent waiter = (WaiterAgent) currentPerson;
+    public void setCbEnabled(WaiterRole3 w) {
+        if (currentPerson instanceof WaiterRole3) {
+        	WaiterRole3 waiter = (WaiterRole3) currentPerson;
             if (w.equals(waiter)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);
@@ -205,7 +210,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Main routine to get gui started
      */
     public static void main(String[] args) {
-        RestaurantGui gui = new RestaurantGui();
+        RestaurantGui3 gui = new RestaurantGui3();
         gui.setTitle("Grant's csci201 Restaurant - v2.2");
         gui.setVisible(true);
         gui.setResizable(false);

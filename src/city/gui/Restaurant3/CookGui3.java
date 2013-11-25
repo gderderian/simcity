@@ -1,15 +1,15 @@
-package restaurant.gui;
-
-import restaurant.CookAgent;
+package city.gui.Restaurant3;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CookGui implements Gui {
+import city.Restaurant3.CookRole3;
 
-    private CookAgent agent = null;
+public class CookGui3 implements Gui3 {
 
-	RestaurantGui gui;
+    private CookRole3 agent = null;
+
+	RestaurantGui3 gui;
     
     private int xPos = 230, yPos = 445;
     public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
@@ -25,14 +25,14 @@ public class CookGui implements Gui {
 	public ArrayList<String> platingFood;
 	public ArrayList<String> cookingFood;
 	
-    public CookGui(CookAgent a) {
+    public CookGui3(CookRole3 a) {
     	agent = a;
     	carryingOrderText = "";
 		platingFood = new ArrayList<String>();
 		cookingFood = new ArrayList<String>();
     }
     
-    public CookGui(CookAgent a, RestaurantGui g) {
+    public CookGui3(CookRole3 a, RestaurantGui3 g) {
     	agent = a;
     	gui = g;
     	carryingOrderText = "";
@@ -40,7 +40,7 @@ public class CookGui implements Gui {
 		cookingFood = new ArrayList<String>();
     }
     
-    public CookGui(CookAgent a, RestaurantGui g, int startX, int startY, int indexNum) {
+    public CookGui3(CookRole3 a, RestaurantGui3 g, int startX, int startY, int indexNum) {
     	agent = a;
     	gui = g;
     	xPos = startX;

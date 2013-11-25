@@ -1,14 +1,18 @@
-package restaurant.gui;
+package city.gui.Restaurant3;
 
 import javax.swing.*;
+
+import city.gui.BuildingPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class AnimationPanel3 extends BuildingPanel implements ActionListener, MouseListener {
 
     private final int WINDOWX = 500;
     private final int WINDOWY = 550;
@@ -19,12 +23,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int SCREEN_RECT_X_COORD = 0;
     private final int SCREEN_RECT_Y_COORD = 0;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui3> guis = new ArrayList<Gui3>();
     
 	Timer timer = new Timer(MAIN_TIMER, this);
 	private boolean timerIsRunning = false;
     
-    public AnimationPanel() {
+    public AnimationPanel3() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
     	timer.start();
@@ -99,13 +103,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.ORANGE);
         g2.fillRect(275, 275, TABLE_X, TABLE_Y); // Table location set by host
         
-        for(Gui gui : guis) {
+        for(Gui3 gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(Gui gui : guis) {
+        for(Gui3 gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
@@ -113,16 +117,46 @@ public class AnimationPanel extends JPanel implements ActionListener {
         
     }
 
-    public void addGui(CustomerGui gui) {
+    public void addGui(CustomerGui3 gui) {
         guis.add(gui);
     }
 
-    public void addGui(WaiterGui gui) {
+    public void addGui(WaiterGui3 gui) {
         guis.add(gui);
     }
     
-    public void addGui(CookGui gui) {
+    public void addGui(CookGui3 gui) {
         guis.add(gui);
     }
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
