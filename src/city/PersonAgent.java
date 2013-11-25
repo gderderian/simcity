@@ -16,9 +16,11 @@ import java.util.concurrent.Semaphore;
 import test.mock.EventLog;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
+import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.BuildingPanel;
 import city.gui.Gui;
 import city.gui.PersonGui;
+import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
@@ -36,7 +38,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	//DATA
 	String name;
-	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
+	public List<String> events;
 	public List<String> foodsToEat = new ArrayList<String>();
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
@@ -133,6 +135,8 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		events = Collections.synchronizedList(new ArrayList<String>());
 
 	}
 	
@@ -199,6 +203,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void addFirstJob(Role r, String location, BuildingPanel b){
 		myJob = new Job(r, location, b);
+		roles.add(r);
 	}
 	
 	public void changeJob(Role r, String location){
@@ -274,7 +279,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("Its time for me to go to work");
 		}
-		else if(t > 14000 && t < 16000 && name.equals("rest2Test")){
+		else if(t > 17000 && t < 19000 && name.equals("rest2Test")){
 			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
@@ -675,6 +680,7 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				if(r instanceof Restaurant2CustomerRole){
+					
 					r.setActive();
 					role = (Restaurant2CustomerRole) r;
 					restName = role.getBuilding();
@@ -1045,9 +1051,21 @@ public class PersonAgent extends Agent implements Person{
 			synchronized(roles){
 				for(Role temp : roles){
 					if(temp.getBuilding().equals(location)){
-						building.addGui(temp.getGui());
-						jobGui = temp.getGui();
-						jobGui.setPresent(false);
+						if(r instanceof Restaurant2CustomerRole){
+							//do nothing
+						}
+						else if(r instanceof Restaurant2WaiterRole){
+							log("There is a waiter role in here");
+							jobGui = temp.getGui();
+							building.addGui(jobGui);
+							break;
+						}
+						else{
+							//jobGui = temp.getGui();
+							//building.addGui(jobGui);
+							//break;
+						}
+						//jobGui.setPresent(false);
 					}
 				}
 			}
@@ -1057,6 +1075,9 @@ public class PersonAgent extends Agent implements Person{
 			role.setActive();
 			workState = WorkState.atWork;
 			jobGui.setPresent(true);
+			if(jobGui instanceof Restaurant2CustomerGui){
+				log("This is a customer gui");
+			}
 		}
 		
 		public void endJob(){

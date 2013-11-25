@@ -119,15 +119,5 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     public void addGui(Gui g){
     	guis.add(g);
     }
-/*
-    public void addGui(Restaurant2WaiterGui gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(Restaurant2CookGui gui){
-    	guis.add(gui);
-    }
-
-*/
 
 }

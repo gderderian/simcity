@@ -113,10 +113,7 @@ public class Restaurant2CookGui implements Gui{
 	}
 	
 	public void setPresent(boolean t) {
-		if(t)
-			isPresent = true;
-		else
-			isPresent = false;
+		isPresent = t;
 	}
 
 

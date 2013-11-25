@@ -379,7 +379,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 	private void personFactory(PersonAgent p, String job) {
 		Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
-		Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
+		Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, p.getName(), 1);
+		customerGui.setPresent(false);
 		restaurant2.addGui(customerGui);
 		customerRole.setGui(customerGui);
 		p.addRole(customerRole, false);
@@ -388,22 +389,20 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			if(job.contains("Restaurant2")){
 				p.addFirstJob(r, "rest2", restaurant2);
 			}
-			if(r instanceof Restaurant2WaiterRole)
-				p.addRole(r, false);
-			else
-				p.addRole(r, true);
-			
 			if(r instanceof Restaurant2HostRole){
 				rest2.setHost((Restaurant2HostRole)r);
+				p.setRoleActive(r, true);
 			}
 			else if(r instanceof Restaurant2WaiterRole){
 				rest2.addWaiters((Restaurant2WaiterRole) r);
 			}
 			else if(r instanceof Restaurant2CookRole){
 				rest2.setCook((Restaurant2CookRole) r);
+				p.setRoleActive(r, true);
 			}
 			else if(r instanceof Restaurant2CashierRole){
 				rest2.setCashier((Restaurant2CashierRole) r);
+				p.setRoleActive(r, true);
 			}
 		}
 	}
