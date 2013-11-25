@@ -48,17 +48,34 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	ControlPanel controlPanel = new ControlPanel();
 
-	//Add all new animation panels for buildings here!!!
-	Restaurant2 rest2 = new Restaurant2();
-	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
-	Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
-	AnimationPanel4 restaurant4 = new AnimationPanel4();
+	// Restaurants
+	
+		// Restaurant 1 (Trevor)
+		Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
+	
+		// Restaurant 2 (Holly)
+		Restaurant2 rest2 = new Restaurant2();
+		Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
+		
+		// Restaurant 3 (Grant)
+		//Restaurant3 rest3 = new Restaurant3();
+		//Restaurant3AnimationPanel restaurant3 = new Restaurant3AnimationPanel();
+		
+		// Restaurant 4 (Justine)
+		AnimationPanel4 restaurant4 = new AnimationPanel4();
+		
+		// Restaurant 5 (Tom)
+		
 
+	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
 	MarketAnimationPanel market2Animation = new MarketAnimationPanel(this);
 	MarketAnimationPanel market3Animation = new MarketAnimationPanel(this);
+	
+	// Bank Animation Panels
 	BankAnimationPanel bank1Animation = new BankAnimationPanel(this);
 	
+	// Apartment Animation Panels
 	ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
@@ -66,10 +83,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 	//HouseAnimationPanel house1= new HouseAnimationPanel();
 	ArrayList<HouseAnimationPanel> houses = new ArrayList<HouseAnimationPanel>();
-	//End of animation panel creation!
 	
+	// Master list of city buildings
 	List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
-
 
 	private JPanel infoPanel;
 
