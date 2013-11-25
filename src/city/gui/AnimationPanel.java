@@ -100,7 +100,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		int x = e.getX();
 		int y = e.getY();
 		
-		//Restaurant 2
+		//Restaurants
 		if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180)){
 			cityGui.changeView("Restaurant2");
 		} else if((x >= 720) && (x <= 780) && (y >= 0) && (y <= 60)) {
@@ -115,6 +115,10 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView("Bank1");
 		}  else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
 			cityGui.changeView("Restaurant4");
+		}  else if((x >= 360) && (x <= 420) && (y >= 275) && (y <= 330)){
+			cityGui.changeView("Market2");
+		}  else if((x >= 780) && (x <= 840) && (y >= 395) && (y <= 455)){
+			cityGui.changeView("Market3");
 		}
 		
 		//Houses
