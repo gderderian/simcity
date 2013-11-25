@@ -20,6 +20,7 @@ import city.gui.PersonGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
+import city.transportation.TruckAgent;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
@@ -393,7 +394,7 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 	
-	public void msgHereIsYourOrder(MarketOrder order){		//order for groceries
+	public void msgHereIsYourOrder(TruckAgent truck, MarketOrder order){		//order for groceries
 		recievedOrders.add(order);
 		stateChanged();
 	}
