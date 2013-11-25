@@ -154,14 +154,10 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 		// This draws a rectangular "Restaurant V2" sign
 		g2.setColor(Color.BLACK);
 		g2.fillRect(250,  5, 250, 40); // Size and position of restaurant sign border
-		g2.fillRect(20, 20, 44, 24);
 		g2.setColor(Color.WHITE);
 		g2.fillRect(252, 7, 246, 36); // Size and position of restaurant sign
-		g2.fillRect(22, 22, 40, 20);
 		
 		g2.setColor(Color.BLACK);
-		g2.setFont(new Font("Verdana", Font.BOLD, 14));
-		g2.drawString("Back", 24, 36);
 		g2.setFont(new Font("Verdana", Font.BOLD, 24));
 		g2.drawString("  Restaurant 1!", 265, 35); // Position of text on restaurant sign
 
@@ -214,10 +210,6 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		if((x >= 20) && (x <= 64) && (y >= 20) && (y <= 44)) {
-			changeBackToCity();
-		}
+		//Nothing
 	}
 }
