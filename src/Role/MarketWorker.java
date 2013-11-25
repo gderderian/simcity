@@ -2,6 +2,9 @@ package Role;
 
 import java.util.*;
 
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
@@ -17,6 +20,9 @@ public class MarketWorker extends Role {
 	int numWorkingOrders;
 	private ArrayList<PickableOrder> pickOrders;
 	PersonAgent p;
+	
+	String name = p.getName();
+	ActivityTag tag = ActivityTag.MARKETWORKER;
 	
 	public enum orderPickState {pending, picking, done};
 	
@@ -76,5 +82,9 @@ public class MarketWorker extends Role {
 		pickOrders.remove(o);
 	}
 	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 	
 }

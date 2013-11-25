@@ -4,6 +4,9 @@ import Role.Role;
 
 import java.util.*;
 
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import justinetesting.interfaces.Cashier4;
 import justinetesting.interfaces.Customer4;
@@ -25,6 +28,8 @@ public class CashierRole4 extends Role implements Cashier4 {
 	public EventLog4 log= new EventLog4();
 	double cash= 100.00;
 	
+	ActivityTag tag = ActivityTag.RESTAURANT4CASHIER;
+	
 
 	public CashierRole4(String name, PersonAgent p) {
 		super();
@@ -40,7 +45,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 	
 	// MESSAGES 
 	public void msgImStealingEveryCent(){
-		print("One of the waiters robbed us!");
+		log("One of the waiters robbed us!");
 		cash= 0.0;
 	}
 	
@@ -61,7 +66,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 		else{
 			b.bs= billState.payNextTime;
 		}
-		print("The restaruant now has: $" + cash);
+		log("The restaruant now has: $" + cash);
 		p.stateChanged();
 	}
 	
@@ -79,7 +84,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 		synchronized(marketBills){
 			for(MarketBill mb : marketBills){
 				if(mb.mbs == marketBillState.pending){
-					print("I should send the market their money for this delivery now.");
+					log("I should send the market their money for this delivery now.");
 					sendMoney(mb);
 					return true;
 				}
@@ -88,7 +93,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 		synchronized(bills){
 			for(Bill bill : getBills()){
 				if(bill.bs == billState.pending){
-					print("I should give the waiter this bill, it's ready for the customer");
+					log("I should give the waiter this bill, it's ready for the customer");
 					sendCheck(bill);
 					return true;
 				}
@@ -97,7 +102,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 		synchronized(bills){
 			for(Bill bill : getBills()){
 				if(bill.bs == billState.paid || bill.bs == billState.payNextTime){
-					print("This customer is all set to go now!");
+					log("This customer is all set to go now!");
 					tellCustomer(bill);
 					return true;
 				}
@@ -109,7 +114,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 	
 	// ACTIONS
 	private void goToBank(){
-		print("Seems like there isn't enough money to pay this market bill, I'll have to go to the bank and withdraw more");
+		log("Seems like there isn't enough money to pay this market bill, I'll have to go to the bank and withdraw more");
 		cash += 500;
 	}
 	
@@ -130,11 +135,11 @@ public class CashierRole4 extends Role implements Cashier4 {
 	
 	private void tellCustomer(Bill b){
 		if(b.bs == billState.paid){
-			print("The customer had enough money to pay!");
+			log("The customer had enough money to pay!");
 			b.c.msgHereIsChange(true);
 		}
 		else if(b.bs == billState.payNextTime){
-			print("The customer didn't have enought money this time, make sure to pay next time");
+			log("The customer didn't have enought money this time, make sure to pay next time");
 			b.c.msgHereIsChange(false);
 		}
 		b.bs= billState.done;
@@ -151,7 +156,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 			cash -= mb.amount;
 			mb.m.msgHereIsMoney(mb.amount);
 		}
-			print("The restaruant now has: $" + cash);
+			log("The restaruant now has: $" + cash);
 			marketBills.remove(mb);
 			p.stateChanged();
 	}
@@ -209,6 +214,11 @@ public class CashierRole4 extends Role implements Cashier4 {
 			this.amount= amount;
 			mbs= marketBillState.pending;
 		}
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 	
 }

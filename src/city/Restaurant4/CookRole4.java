@@ -5,6 +5,9 @@ import Role.Role;
 
 import java.util.*;
 
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import justinetesting.interfaces.Cook4;
 import justinetesting.interfaces.Customer4;
 import justinetesting.interfaces.Waiter4;
@@ -34,6 +37,8 @@ public class CookRole4 extends Role implements Cook4 {
 	public int id= 0;
 	Map<String, Integer> delivery= new HashMap<String, Integer>();
 	boolean successful;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT4COOK;
 	
 	// Implement cook gui
 	public CookGui4 cookGui = null;
@@ -91,8 +96,8 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 	
 	public void msgHereIsDelivery(int e, int w, int p, int b, boolean successful){
-		print("Recieved delivery, let's check it out!");
-		print("EGGS: " + e + "  WAFFELS: " + w + "  PANCAKES: " + p + "  BACON: " + b);
+		log("Recieved delivery, let's check it out!");
+		log("EGGS: " + e + "  WAFFELS: " + w + "  PANCAKES: " + p + "  BACON: " + b);
 		delivery.put("Eggs", e);
 		delivery.put("Waffels", w);
 		delivery.put("Pancakes", p);
@@ -121,7 +126,7 @@ public class CookRole4 extends Role implements Cook4 {
 			synchronized(orders){ 
 				for(Order order : orders){
 					if(order.s == orderState.done){
-						print("Order up!");
+						log("Order up!");
 						plateIt(order);
 						return true;
 					}
@@ -130,7 +135,7 @@ public class CookRole4 extends Role implements Cook4 {
 			synchronized(orders){
 				for(Order order : orders){
 					if(order.s == orderState.pending){
-						print("I should cook this food.");
+						log("I should cook this food.");
 						order.s= orderState.cooking;
 						cookIt(order);
 						return true;
@@ -139,12 +144,12 @@ public class CookRole4 extends Role implements Cook4 {
 			}
 		}
 		if(o.ms == marketState.checkForRestock){
-			print("Looking through inventory to calcualte order to send to market");
+			log("Looking through inventory to calcualte order to send to market");
 			calculateOrder();
 			return true;
 		}
 		if(o.ms == marketState.ready || o.ms == marketState.partiallyFullfilled){
-			print("Sending order to the market now.");
+			log("Sending order to the market now.");
 			sendOrder();
 			return true;
 		}
@@ -166,7 +171,7 @@ public class CookRole4 extends Role implements Cook4 {
 				return i;
 			}
 		}
-		print("COULDNT FIND THE RIGHT ORDER, WHOOPS");
+		log("COULDNT FIND THE RIGHT ORDER, WHOOPS");
 		return -1;
 	}
 	
@@ -240,28 +245,28 @@ public class CookRole4 extends Role implements Cook4 {
 		for(Food food : foods){
 			if(food.type == "Eggs"){
 				if(food.currAmount <= food.low){
-					print("Eggs are low, I need to restock!");
+					log("Eggs are low, I need to restock!");
 					int e= food.capacity - food.currAmount;
 					o.add("Eggs", e);
 				}
 			}
 			if(food.type == "Waffels"){
 				if(food.currAmount <= food.low){
-					print("Waffels are low, I need to restock!");
+					log("Waffels are low, I need to restock!");
 					int w= food.capacity - food.currAmount;
 					o.add("Waffels", w);
 				}
 			}
 			if(food.type == "Pancakes"){
 				if(food.currAmount <= food.low){
-					print("Pancakes are low, I need to restock!");
+					log("Pancakes are low, I need to restock!");
 					int p= food.capacity - food.currAmount;
 					o.add("Pancakes", p);
 				}
 			}
 			if(food.type == "Bacon"){
 				if(food.currAmount <= food.low){
-					print("Bacon is low, I need to restock!");
+					log("Bacon is low, I need to restock!");
 					int b= food.capacity - food.currAmount;
 					o.add("Bacon", b);
 				}
@@ -272,13 +277,13 @@ public class CookRole4 extends Role implements Cook4 {
 	public void restock(){
 		for(Food food : foods){
 			food.currAmount += delivery.get(food.type);
-			print("Restocked " + food.type + ": " + food.currAmount);
+			log("Restocked " + food.type + ": " + food.currAmount);
 			for(Waiter4 w : waiters){
 				w.msgRestocked(food.type);
 			}
 		}
 		if(successful){
-			print("Oh good, I got everything I needed!");
+			log("Oh good, I got everything I needed!");
 			o.eggs= 0;
 			o.waffels= 0;
 			o.pancakes= 0;
@@ -290,7 +295,7 @@ public class CookRole4 extends Role implements Cook4 {
 			o.ms= marketState.none;
 		}
 		else{
-			print("Oh no, I'm missing a few items! I should ask another market this time");
+			log("Oh no, I'm missing a few items! I should ask another market this time");
 			if(delivery.get("Eggs") < o.eggs){
 				o.add("Eggs", (o.eggs - delivery.get("Eggs")));
 			}
@@ -444,4 +449,9 @@ public class CookRole4 extends Role implements Cook4 {
 			}
 		}
 	}*/
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 }

@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
@@ -41,6 +43,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	PersonAgent person;
 	
 	Restaurant2 restaurant;
+	ActivityTag tag = ActivityTag.RESTAURANT1HOST;
 
 	public Restaurant2HostRole(String name, PersonAgent p) {
 		super();
@@ -85,7 +88,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 
 	public void msgIWantFood(Restaurant2Customer cust) {
 		boolean alreadyExists = false;
-		print("Customer is hungry");
+		log("Customer is hungry");
 		log.add(new LoggedEvent("Customer is hungry"));
 		synchronized(customers){
 			for(MyCustomer mc : customers){
@@ -97,7 +100,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		}
 		if(!alreadyExists){
 			customers.add(new MyCustomer(cust));
-			print("Adding customer");
+			log("Adding customer");
 		}
 		int tcount = 0;
 		synchronized(tables){
@@ -189,7 +192,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 					if(!waiters.isEmpty()){
 						for(MyCustomer mc : customers){
 							if(mc.cs == CustomerState.hungry){
-								print("going to seat customer");
+								log("going to seat customer");
 								seatCustomer(mc, table);//the action
 								return true;//return true to the abstract agent to reinvoke the scheduler.
 							}
@@ -238,7 +241,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	// Actions
 
 	private void seatCustomer(MyCustomer customer, Table table) {
-		print("Seating customer.");
+		log("Seating customer.");
 		log.add(new LoggedEvent("Now seating customer"));
 		if(waiters.size() != 0){
 			MyWaiter w = waiters.get(waiterNum-1);
@@ -251,7 +254,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 				}
 				w = waiters.get(waiterNum-1);
 			}
-			print("Current waiter: " + w.w.getName());
+			log("Current waiter: " + w.w.getName());
 			w.w.msgPleaseSeatCustomer(customer.c, table.tableNumber, this);
 			customer.cs = CustomerState.seated;
 			table.setOccupant(customer.c);
@@ -265,7 +268,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	}
 	
 	private void NotifyTablesFull(MyCustomer mc){
-		print(mc.c.getName() + ", tables are all full.");
+		log(mc.c.getName() + ", tables are all full.");
 		mc.c.msgTablesAreFull();
 	}
 	
@@ -274,7 +277,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 			System.out.println(w.w.getName() + ": " + w.ws);
 		}
 		if(waiters.size() <= 1){	//if only one waiter, request denied
-			print("Waiter " + waiter.w.getName() + " can NOT take a break.");
+			log("Waiter " + waiter.w.getName() + " can NOT take a break.");
 			waiter.w.msgPermissionToTakeBreak(false);
 			waiter.ws = WaiterState.normal;
 			return;
@@ -282,14 +285,14 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		synchronized(waiters){
 			for(MyWaiter w : waiters){	//if another waiter has already requested a break or is on break, request denied
 				if(w != waiter && (w.ws == WaiterState.breakRequested || w.ws == WaiterState.assessing || w.ws == WaiterState.onBreak)){
-					print("Waiter " + waiter.w.getName() + " can NOT take a break.");
+					log("Waiter " + waiter.w.getName() + " can NOT take a break.");
 					waiter.w.msgPermissionToTakeBreak(false);
 					waiter.ws = WaiterState.normal;
 					return;
 				}
 			}
 		}
-		print("Waiter " + waiter.w.getName() + " can take a break.");
+		log("Waiter " + waiter.w.getName() + " can take a break.");
 		waiter.w.msgPermissionToTakeBreak(true);
 		waiter.ws = WaiterState.onBreak;
 		return;
@@ -341,6 +344,12 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		public String toString() {
 			return "table " + tableNumber;
 		}
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
 	}
 	
 }

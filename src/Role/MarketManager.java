@@ -2,6 +2,9 @@ package Role;
 
 import java.util.*;
 
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
@@ -23,6 +26,8 @@ public class MarketManager extends Role {
 	public enum deliveryType {inPerson, truckOrder};
 	
 	public enum itemType {food, car};
+	
+	ActivityTag tag = ActivityTag.MARKETMANAGER;
 
 	PersonAgent p;
 	
@@ -167,6 +172,11 @@ public class MarketManager extends Role {
 	private void billRecipient(myMarketOrder o){
 		// o.order.getRecipient().msgMarketBill(); // Need to discuss with Holly on how to bill people
 		o.state = orderState.billed;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 
 }

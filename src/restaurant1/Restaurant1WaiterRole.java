@@ -1,9 +1,12 @@
 package restaurant1;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 import restaurant1.gui.Restaurant1WaiterGui;
 import restaurant1.interfaces.Restaurant1Waiter;
+import test.mock.LoggedEvent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -46,6 +49,8 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 	private waiterEvent event = waiterEvent.none;
 	
 	public Restaurant1WaiterGui waiterGui = null;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT1WAITER;
 
 	public Restaurant1WaiterRole(String name, PersonAgent p) {
 		super();
@@ -101,7 +106,7 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 			if(mc.c == c) {
 				mc.s = customerState.ordered;
 				mc.choice = choice;
-				print("One " + choice + ", coming right up!");
+				log("One " + choice + ", coming right up!");
 			}
 			person.stateChanged();
 		}
@@ -151,7 +156,7 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 	}
 	
 	public void msgSorryNoBreakNow() {
-		print("No break?! This is inhumane!");
+		log("No break?! This is inhumane!");
 		breakStatus = breakState.none;
 		person.stateChanged();
 	}
@@ -279,7 +284,7 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 			e.printStackTrace();
 		}
 		
-		print("Welcome to Restaurant V2.1! Here is your seat.");
+		log("Welcome to Restaurant V2.1! Here is your seat.");
 		
 		try {
 			customerAtTable.acquire();
@@ -300,12 +305,12 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 		}
 		
 		c.s = customerState.askedForOrder;
-		print("Taking order from: " + c.c.getName());
+		log("Taking order from: " + c.c.getName());
 		c.c.msgWhatDoYouWant();
 	}
 
 	private void removeChoice(MyCustomer c) {		
-		print("Sorry, we're out of " + c.choice + ".");
+		log("Sorry, we're out of " + c.choice + ".");
 		c.c.msgRemoveFromMenu(c.choice);
 	}
 	
@@ -320,19 +325,19 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 		
 		c.s = customerState.askedForOrder;
 		
-		print("Taking order from: " + c.c.getName());
+		log("Taking order from: " + c.c.getName());
 		c.c.msgPleaseReorder();
 	}
 	
 	private void sendOrderToCook(MyCustomer c) {
-		print("Sending " + c.c.getName() + "'s order of " + c.choice + " to cook wirelessly. Isn't technology great?");
+		log("Sending " + c.c.getName() + "'s order of " + c.choice + " to cook wirelessly. Isn't technology great?");
 		
 		c.s = customerState.orderSentToCook;
 		cook.msgHereIsOrder(this, c.choice, c.table);
 	}
 	
 	private void bringFoodToCustomer(MyCustomer c) {
-		print("Getting food from cook.");
+		log("Getting food from cook.");
 		waiterGui.DoGoToCook();
 		
 		try {
@@ -346,7 +351,7 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 		waiterGui.deliveringFood(c.choice);
 		waiterGui.DoGoToTable(c.table);
 		
-		print("Bringing food to table " + c.table);
+		log("Bringing food to table " + c.table);
 		
 		try {
 			atDestination.acquire();
@@ -354,24 +359,24 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 			e.printStackTrace();
 		}
 		
-		print("Here is your " + c.choice + ".");
+		log("Here is your " + c.choice + ".");
 		c.s = customerState.served;
 		waiterGui.foodDelivered();
 		c.c.msgHereIsYourFood(c.choice);
 
 		cashier.msgProduceCheck(this, c.c, c.choice);
-		print("Cashier, can you prepare a check for this customer?");
+		log("Cashier, can you prepare a check for this customer?");
 	}
 	
 	private void tellHostCustomerIsDone(MyCustomer c) {
 		c.s = customerState.leftRestaurant;
 		host.msgTableIsFree(c.table, this);
-		print("Table " + c.table + " is free!");
+		log("Table " + c.table + " is free!");
 		c.table = 0; // Customer is no longer at one of the 4 tables
 	}
 	
 	private void askForBreak() {
-		print("Could I please have a break?!");
+		log("Could I please have a break?!");
 		host.msgIWantABreak(this);
 		breakStatus = breakState.askedForBreak;
 	}
@@ -391,7 +396,7 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 		waiterGui.msgBreakFinished();
 		event = waiterEvent.backToWork;
 		breakStatus = breakState.none;
-		print("Alright, break time is over. Back to work!");
+		log("Alright, break time is over. Back to work!");
 		host.msgImDoneWithMyBreak(this);
 	}
 	
@@ -414,14 +419,14 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 			e.printStackTrace();
 		}	
 		
-		print("Here is your check!");
+		log("Here is your check!");
 		c.c.msgHereIsYourBill(c.check);
 		c.s = customerState.checkGiven;
 	}
 
 	// The animation DoXYZ() routines
 	private void DoSeatCustomer(Restaurant1CustomerRole customer, int table) {
-		print("Seating " + customer + " at " + table);
+		log("Seating " + customer + " at " + table);
 		waiterGui.DoBringToTable(customer, table);
 	}
 	
@@ -470,5 +475,10 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 			this.table = table;
 			this.s = state;
 		}
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }

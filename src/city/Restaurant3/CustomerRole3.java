@@ -1,11 +1,18 @@
 package city.Restaurant3;
 
 import Role.Role;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Timer;
+
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import city.gui.Restaurant3.CustomerGui3;
+
 import java.util.concurrent.Semaphore;
 import java.util.Random;
 
@@ -51,6 +58,8 @@ public class CustomerRole3 extends Role {
 	private Semaphore isAnimating = new Semaphore(0,true);
 
 	PersonAgent person;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT3CUSTOMER;
 	
 	public CustomerRole3(String name, int startX, int startY, PersonAgent p){
 		
@@ -101,13 +110,13 @@ public class CustomerRole3 extends Role {
 
 	// Messages
 	public void gotHungry() {
-		print("I'm hungry.");
+		log("I'm hungry.");
 		event = AgentEvent.gotHungry;
 		person.stateChanged();
 	}
 
 	public void msgSitAtTable(Menu3 m, WaiterRole3 w) {
-		print("Received msgSitAtTable.");
+		log("Received msgSitAtTable.");
 		myMenu = m;
 		assignedWaiter = w;
 		event = AgentEvent.followHost;
@@ -115,13 +124,13 @@ public class CustomerRole3 extends Role {
 	}
 	
 	public void msgWhatDoYouWant() {
-		print("Received msgWhatDoYouWant.");
+		log("Received msgWhatDoYouWant.");
 		event = AgentEvent.doneChoosing;
 		person.stateChanged();
 	}
 	
 	public void hereIsOrder(String choice) {
-		print("Received food choice " + choice + ".");
+		log("Received food choice " + choice + ".");
 		state = AgentState.Eating;
 		person.stateChanged();
 	}
@@ -490,6 +499,11 @@ public class CustomerRole3 extends Role {
 	
 	public void releaseSemaphore(){
 		isAnimating.release();
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 	
 }

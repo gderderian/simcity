@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 //import tomtesting.interfaces.Check;
@@ -49,6 +51,8 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
     Restaurant5Check currentcheckforwaiter;
     Restaurant5Check currentcheckforcustomer;
     Restaurant5Menu menu = new Restaurant5Menu();
+    
+    ActivityTag tag = ActivityTag.RESTAURANT5CASHIER;
      
 	
 	public Restaurant5CashierRole(String name, PersonAgent person) {
@@ -63,9 +67,9 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	public void msgReceviedCheckFromCustomer(Restaurant5Check checkfromcustomer ) {
 		
 		log.add(new LoggedEvent("Received ReadyToPay"));
-		print("Received check from " + checkfromcustomer.customer.getName());
+		log("Received check from " + checkfromcustomer.customer.getName());
 		checksforcustomer.add(checkfromcustomer);
-		print("new check added to the list");
+		log("new check added to the list");
 		checkforcustomer = true;
 		person.stateChanged();
 	}
@@ -73,12 +77,12 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	public void msgMakeCheckForWaiter(Restaurant5Customer customer, String choice, int table , Restaurant5Waiter waiter) {
 		
 		log.add(new LoggedEvent("Received request from waiter"));
-		print("Received request for check from " + waiter.getName());
+		log("Received request for check from " + waiter.getName());
 		int total = menu.m.get(choice);
 		Restaurant5Check newcheck = new Restaurant5Check(customer, total, table);
 		newcheck.setwaiter(waiter);
 		checksforwaiter.add(newcheck);
-		print("new check added to the list");
+		log("new check added to the list");
 		checkforwaiter = true; 
 		person.stateChanged();
 	
@@ -184,14 +188,14 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	public void calculatingCheck(Restaurant5Check currentcheck) {
 		// calculates subtotal
 		 int subtotal = currentcheck.amountcustomerpaid - currentcheck.total; 
-		 //print("subtotal calculated " + subtotal);
+		 //log("subtotal calculated " + subtotal);
 		 currentcheck.setsubtotal(subtotal);
 			timerforcalculating.schedule(new TimerTask() {
 			//Object cookie = 1;
 			public void run() {
 			    calculating = false;
 			    donecalculating = true;   
-			    print("done calculating");
+			    log("done calculating");
 			    person.stateChanged();
 			}
 			},
@@ -201,13 +205,13 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	
 	public void makingCheck(Restaurant5Check currentcheck) {
 		// calculates subtotal
-		 print("total is $" + currentcheck.total);
+		 log("total is $" + currentcheck.total);
 			timerforcalculating.schedule(new TimerTask() {
 			//Object cookie = 1;
 			public void run() {
 			    makingcheck = false;
 			    donemakingcheck = true;   
-			    print("done making check");
+			    log("done making check");
 			    person.stateChanged();
 			}
 			},
@@ -219,12 +223,12 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	public void returnMoneyToCustomer(Restaurant5Check customercheck) {
 		
 		
-		print("Here is your subtotal $" + customercheck.subtotal + " customer: " + customercheck.customer.getName());
+		log("Here is your subtotal $" + customercheck.subtotal + " customer: " + customercheck.customer.getName());
 		if(customercheck.subtotal >= 0) {
 		customercheck.customer.msgReceivedMoneyFromCashier(customercheck.subtotal);
 		}
 		else {
-		print("customer has to pay back later");
+		log("customer has to pay back later");
 		int paybackmoney = customercheck.subtotal *= -1; 
 		customercheck.customer.msgDontHaveMoneyPayBackLater(paybackmoney);
 		//customercheck.customer.msgDontHaveMoneyWashDishes();
@@ -233,7 +237,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	}
 	
 	public void tellWaiterCheckIsReady(Restaurant5Check check) {
-		print("check is ready");
+		log("check is ready");
 		check.waiter.msgCheckIsReady(check);
 	}
 
@@ -257,7 +261,11 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	}
 
 
-	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
+	}
 	
 
 

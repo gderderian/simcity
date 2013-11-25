@@ -2,8 +2,11 @@ package restaurant1;
 
 import Role.MarketManager;
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 import restaurant1.gui.Restaurant1CookGui;
+import test.mock.LoggedEvent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -46,6 +49,8 @@ public class Restaurant1CookRole extends Role {
 	private Semaphore atDestination = new Semaphore(0, true); // For gui movements
 	
 	public Restaurant1CookGui cookGui = null;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT1COOK;
 
 	public Restaurant1CookRole(String name, PersonAgent p) {
 		super();
@@ -100,13 +105,13 @@ public class Restaurant1CookRole extends Role {
 				
 				Food tempFood = foods.get(type);
 				tempFood.state = foodOrderingState.notYetOrdered;
-				print("Received delivery of " + amount + " units of " + type);
+				log("Received delivery of " + amount + " units of " + type);
 				tempFood.amount += amount;
 		}
 	}
 	
 	public void msgHereIsBill(MarketManager m, double amount) {
-		print("Received a bill! What do I do?!");
+		log("Received a bill! What do I do?!");
 	}
 	
 	public void msgRecheckInventory() {
@@ -192,7 +197,7 @@ public class Restaurant1CookRole extends Role {
 		}
 		
 		if(thisFood.amount == 0) {
-			print("We're all out of " + o.choice + "!");
+			log("We're all out of " + o.choice + "!");
 			
 			o.w.msgOutOf(o.choice, o.table);
 			
@@ -212,7 +217,7 @@ public class Restaurant1CookRole extends Role {
 
 		cookGui.msgNewOrder(o.choice, o.orderNumber);
 		
-		print("Cooking up an order of " + o.choice + "!");
+		log("Cooking up an order of " + o.choice + "!");
 		
 		DoGoToGrill();
 		try {
@@ -244,7 +249,7 @@ public class Restaurant1CookRole extends Role {
 		cookGui.msgOrderBeingCarried(o.orderNumber);
 		
 		o.s = orderState.finished;
-		print(o.choice + " done cooking, time to plate it!");
+		log(o.choice + " done cooking, time to plate it!");
 		
 		DoGoToCounter();
 		try {
@@ -263,7 +268,7 @@ public class Restaurant1CookRole extends Role {
 	}
 	
 	private void initialInventoryCheck() {
-		print("Checking initial inventory levels.");
+		log("Checking initial inventory levels.");
 		Food steak = foods.get("steak");
 		Food chicken = foods.get("chicken");
 		Food fish = foods.get("fish");
@@ -271,7 +276,7 @@ public class Restaurant1CookRole extends Role {
 		if((steak.amount < steak.low) || (chicken.amount < chicken.low) || (fish.amount < fish.low)) {
 			orderMoreFood();
 		} else {
-			print("All foods are in stock! We're ready to go!");
+			log("All foods are in stock! We're ready to go!");
 		}
 		restaurantOpening = false;
 	}
@@ -303,7 +308,7 @@ public class Restaurant1CookRole extends Role {
 		
 		MarketOrder newOrder = new MarketOrder(orderList, "rest1", this.person);
 		
-		print("Sending order for more food to the market!");
+		log("Sending order for more food to the market!");
 		market.msgHereIsOrder(newOrder);
 	}
 	
@@ -360,5 +365,11 @@ public class Restaurant1CookRole extends Role {
 			state = foodOrderingState.notYetOrdered;
 		}
 	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+	
 }
 

@@ -1,12 +1,15 @@
 package city.Restaurant3;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 
 import java.util.*;
 
 import city.PersonAgent;
 import test.mock.EventLog;
+import test.mock.LoggedEvent;
 
 /**
  * Restaurant Cashier Agent
@@ -21,6 +24,8 @@ public class CashierRole3 extends Role {
 	public double myMoney;
 	
 	PersonAgent person;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT3CASHIER;
 	
 	public CashierRole3(String name, PersonAgent p) {
 		super();
@@ -196,6 +201,12 @@ public class CashierRole3 extends Role {
 	// Accessors
 	public String getName() {
 		return name;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
 	}
 
 }

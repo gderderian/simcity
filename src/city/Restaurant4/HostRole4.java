@@ -1,11 +1,14 @@
 package city.Restaurant4;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import city.gui.restaurant4.HostGui4;
 
 import java.util.*;
 
+import test.mock.LoggedEvent;
 import justinetesting.interfaces.Customer4;
 import justinetesting.interfaces.Waiter4;
 
@@ -23,6 +26,8 @@ public class HostRole4 extends Role {
 	private String name;
 	public HostGui4 hostGui = null;
 	private boolean closed= false;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT4HOST;
 
 	public HostRole4(String name, PersonAgent p) {
 		super();
@@ -103,7 +108,7 @@ public class HostRole4 extends Role {
 	}
 
 	public void msgWantToGoOnBreak(Waiter4 w){
-		print("A waiter wants to take a break, let me see if I should accept or deny...");
+		log("A waiter wants to take a break, let me see if I should accept or deny...");
 		MyWaiter waiter= find(w);
 		boolean okay= true;
 		if(waiters.size() > 1){
@@ -123,7 +128,7 @@ public class HostRole4 extends Role {
 	}
 	
 	public void msgReadyToWork(Waiter4 w){
-		print("Oh good, a waiter is coming off break");
+		log("Oh good, a waiter is coming off break");
 		MyWaiter waiter= find(w);
 		waiter.ws= WaiterState.reset;
 		p.stateChanged();
@@ -151,7 +156,7 @@ public class HostRole4 extends Role {
 			if (!table.isOccupied()) {
 				synchronized(waitingToSit){
 					if (!waitingToSit.isEmpty() && !waiters.isEmpty()) {
-						print("Please seat this waiting customer!");
+						log("Please seat this waiting customer!");
 						synchronized(waitingToSit){
 							delegateToWaiter(waitingToSit.get(0), table);//the action
 						}
@@ -206,7 +211,7 @@ public class HostRole4 extends Role {
 				seatCust= waiters.get(i+1);
 			}
 			else if((waiters.get(i).numCustomers < numCust)){
-				print("WaiterState: " + waiters.get(i).ws);
+				log("WaiterState: " + waiters.get(i).ws);
 				numCust= waiters.get(i).numCustomers;
 				seatCust= waiters.get(i);
 			}
@@ -225,14 +230,14 @@ public class HostRole4 extends Role {
 	}
 	
 	public void approveBreak(MyWaiter w){
-		print("Yes of course you can take a break, good job today!");
+		log("Yes of course you can take a break, good job today!");
 		w.ws= WaiterState.onBreak;
 		w.w.msgBreakApproved();
 		p.stateChanged();
 	}
 	
 	public void denyBreak(MyWaiter w){
-		print("Sorry, you have to keep working, ask for a break again later!");
+		log("Sorry, you have to keep working, ask for a break again later!");
 		w.w.msgBreakDenied();
 		w.ws= WaiterState.reset;
 		p.stateChanged();
@@ -289,6 +294,11 @@ public class HostRole4 extends Role {
 		public int getTableNumber(){
 			return tableNumber;
 		}
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }
 

@@ -1,8 +1,11 @@
 package restaurant1;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 import restaurant1.gui.Restaurant1HostGui;
+import test.mock.LoggedEvent;
 
 import java.util.*;
 
@@ -34,6 +37,8 @@ public class Restaurant1HostRole extends Role {
 	private int waitingSpot = 0; //Keeps track of where new customers should wait.
 	
 	public Restaurant1HostGui hostGui = null;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT1HOST;
 
 	public Restaurant1HostRole(String name, PersonAgent p) {
 		super();
@@ -67,14 +72,14 @@ public class Restaurant1HostRole extends Role {
 				if(mc.c == c) {
 					mc.waiting = true;
 					mc.toldRestaurantIsFull = false;
-					print("Welcome to Restaurant V2.2, " + c.getName() + "!");
+					log("Welcome to Restaurant V2.2, " + c.getName() + "!");
 					person.stateChanged();
 					return;
 				}
 			}
 		}
 		customers.add(new MyCustomer(c));
-		print("Welcome to Restaurant V2.2, " + c.getName() + "!");
+		log("Welcome to Restaurant V2.2, " + c.getName() + "!");
 		person.stateChanged();
 	}
 	
@@ -196,7 +201,7 @@ public class Restaurant1HostRole extends Role {
 		}
 
 		leastBusyWaiter.w.msgPleaseSeatCustomer(this, mc.c, table.tableNumber);
-		print(leastBusyWaiter.w.getName() + ", could you please seat customer " + mc.c.getName() + "?");
+		log(leastBusyWaiter.w.getName() + ", could you please seat customer " + mc.c.getName() + "?");
 		leastBusyWaiter.numCustomers++; // Assigned a new customer to the least busy waiter
 		mc.waiting = false;
 		table.occupied = true;
@@ -205,19 +210,19 @@ public class Restaurant1HostRole extends Role {
 	private void giveWaiterABreak(MyWaiter w) {
 		w.iWantABreak = false;
 		if(waiters.size() == 1 || numberOfWorkingWaiters == 1) {
-			print("Sorry, there's no one else to cover for you!");
+			log("Sorry, there's no one else to cover for you!");
 			w.w.msgSorryNoBreakNow();
 			return;
 		}
 				
 		w.w.msgFinishUpAndTakeABreak();
-		print("Alright, " + w.w.getName() + ", finish up and take a break.");
+		log("Alright, " + w.w.getName() + ", finish up and take a break.");
 		w.state = waiterState.onBreak;
 		numberOfWorkingWaiters--;
 	}
 	
 	private void tellCustomerRestaurantIsFull(MyCustomer c) {
-		print("The restaurant is currently full. Feel free to wait for an opening or leave!");
+		log("The restaurant is currently full. Feel free to wait for an opening or leave!");
 		c.toldRestaurantIsFull = true;
 		c.c.msgRestaurantFull(waitingSpot);
 		waitingSpot = (waitingSpot + 1) % 15;
@@ -273,5 +278,9 @@ public class Restaurant1HostRole extends Role {
 			this.waiting = true;
 			this.toldRestaurantIsFull = false; //This gives customer a chance to leave if restaurant is full
 		}
+	}
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }

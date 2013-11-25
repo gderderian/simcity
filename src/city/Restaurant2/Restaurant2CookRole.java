@@ -13,6 +13,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.Market;
 import city.MarketOrder;
 import city.OrderItem;
@@ -39,6 +42,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	PersonAgent person;
 	
 	Restaurant2CookGui gui;
+	ActivityTag tag = ActivityTag.RESTAURANT2COOK;
 		
 	public Restaurant2CookRole(String n, PersonAgent p){
 		super();
@@ -78,13 +82,13 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	//MESSAGES
 	
 	public void msgHereIsOrder(Restaurant2Waiter w, String choice, int table){
-		print("Recieved order msg.");
+		log("Recieved order msg.");
 		orders.add(new Order(w, choice, table));
 		person.stateChanged();
 	}
 	
 	public void msgFoodDone(Order o){ //msg sent from the timer when it finishes
-		print("Food is done cooking.");
+		log("Food is done cooking.");
 		o.setState(OrderState.done);
 		person.stateChanged();
 	}
@@ -96,7 +100,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	}
 	
 	public void msgHereIsYourOrder(MarketOrder goodOrder){
-		print("Recieved msg here is shipment");
+		log("Recieved msg here is shipment");
 		shipmentOrders.add(new ShipmentOrder(goodOrder, ShipmentState.arrived));
 		person.stateChanged();
 	}
@@ -230,7 +234,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		if(temp.inventory == 0){
 			o.setState(OrderState.sent);
 			o.w.msgOutOfFood(o.choice, o.table);
-			print("We're out of " + o.choice);
+			log("We're out of " + o.choice);
 		}
 		else{
 			foods.get(o.choice).inventory--;
@@ -242,7 +246,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	//TODO change this to market order
 	private void sendShipmentOrder(ShipmentOrder s){
-		print("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.orders.size());
+		log("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.orders.size());
 		Market m = markets.get(marketNumber);
 		m.mktManager.msgHereIsOrder(s.order);
 		if(marketNumber == (markets.size()-1)){
@@ -330,6 +334,11 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	public String getName() {
 		return name;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 
 
