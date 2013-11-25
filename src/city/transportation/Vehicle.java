@@ -33,6 +33,8 @@ public abstract class Vehicle extends Agent {
 
 	
 	void moveTo(int x, int y) {
+		if(aStar == null)
+			System.out.println("Vehicle moving to " + x + ", " + y + ".");
 		Position p = new Position(x, y);
 		
 		if(currentPosition.distance(p) > 16) {
