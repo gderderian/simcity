@@ -34,6 +34,7 @@ import javax.swing.JTextField;
 import city.Apartment;
 import city.CityMap;
 import city.House;
+import activityLog.ActivityPane;
 import astar.AStarTraversal;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -55,6 +56,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel worldControls = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
+    //private JPanel activityLog = new JPanel();
+    private ActivityPane activityPane = new ActivityPane();
     private JButton populateCity = new JButton("Populate City");
     private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
     
@@ -123,12 +126,15 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         setupWorldControls();
         
+        setupActivityLog();
+        
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
         worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
         worldControls.setAlignmentX(Component.CENTER_ALIGNMENT);
         controlPane.addTab("World", worldControls);
         controlPane.addTab("People", personControls);
+        controlPane.addTab("Activity Log", activityPane);
         add(controlPane);
         
         List<String> stopLocations0 = new ArrayList<String>();
@@ -170,6 +176,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public CityMap getCityMap() {
     	return cityMap;
+    }
+    
+    private void setupActivityLog(){
+    	
     }
     
     private void setupWorldControls(){
