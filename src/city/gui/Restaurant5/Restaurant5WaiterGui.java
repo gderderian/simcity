@@ -5,12 +5,12 @@ import tomtesting.interfaces.Restaurant5Customer;
 import tomtesting.interfaces.Restaurant5Waiter;
 import tomtesting.interfaces.Restaurant5Host;
 import tomtesting.interfaces.Restaurant5Cook;
-
 import city.PersonAgent;
 //import restaurant.HostAgent;
 //import restaurant.WaiterAgent;
 //import restaurant.CustomerAgent;
 import city.Restaurant5.*;
+import city.Restaurant5.Restaurant5WaiterRole.AgentState;
 
 import java.awt.*;
 
@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
 //import restaurant.CookAgent;
 public class Restaurant5WaiterGui implements Gui {
 
-	private Restaurant5Waiter  agent = null;
+	private Restaurant5WaiterRole  agent = null;
 	Restaurant5Gui gui; 
 	private boolean isPresent = false;
 	private boolean onBreak = false;
@@ -161,7 +161,7 @@ public class Restaurant5WaiterGui implements Gui {
 		yDestination = ycoordinate; 
 	}
 
-	public void DoBringToTable(CustomerAgent customer, int table) {
+	public void DoBringToTable(Restaurant5CustomerRole customer, int table) {
 		xDestination = xcoordinatesoftables[table - 1] + 20;
 		yDestination = ycoordinatesoftables[table - 1] - 20;
 		xTable = xcoordinatesoftables[table - 1];

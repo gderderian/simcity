@@ -11,6 +11,8 @@ import restaurant.MarketAgent;
 
 import javax.swing.*;
 
+import city.Restaurant5.Restaurant5HostRole;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -22,13 +24,7 @@ import java.util.Vector;
 public class Restaurant5Panel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Sarah");
-    private HostGui hostGui = new HostGui(host); 
-    private CookAgent cook = new CookAgent("Cook");
-    private CashierAgent cashier = new CashierAgent("bobby");
-    private MarketAgent market1 = new MarketAgent("market1");
-    private MarketAgent market2 = new MarketAgent("market2");
-    private MarketAgent market3 = new MarketAgent("market3");
+  
     private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
     private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
     private JPanel restLabel = new JPanel();
@@ -38,7 +34,7 @@ public class Restaurant5Panel extends JPanel {
     private RestaurantGui gui; //reference to main gui
     private CookGui cookGui = new CookGui(cook, gui);
     int waiterposcounter = 30;
-    public Restaurant5Panel(RestaurantGui gui) {
+    public Restaurant5Panel(Restaurant5Gui gui) {
         
     	this.gui = gui;
         host.setGui(hostGui);

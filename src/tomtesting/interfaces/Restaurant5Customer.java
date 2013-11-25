@@ -9,7 +9,6 @@ import city.gui.Restaurant5.Restaurant5CustomerGui;
 //import restaurant.WaiterAgent;
 //import restaurant.CustomerAgent.AgentEvent;
 //import restaurant.CustomerAgent.AgentState;
-import restaurant.gui.CustomerGui;
 
 public interface Restaurant5Customer {
 	//public CustomerAgent(String name);
