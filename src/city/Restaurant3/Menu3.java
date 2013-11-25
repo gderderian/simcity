@@ -1,15 +1,15 @@
-package restaurant;
+package city.Restaurant3;
 
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.Set;
 import java.util.*;
 
-public class Menu {
+public class Menu3 {
 	
 	public Hashtable<String, Double> itemList;
 	
-	public Menu(){
+	public Menu3(){
 		itemList = new Hashtable<String, Double>();
 		itemList.put("Chicken", 7.95);
 		itemList.put("Mac & Cheese", 5.95);

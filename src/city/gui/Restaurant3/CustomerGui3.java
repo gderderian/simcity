@@ -1,15 +1,16 @@
-package restaurant.gui;
+package city.gui.Restaurant3;
 
-import restaurant.CustomerAgent;
 import java.awt.*;
 
-public class CustomerGui implements Gui{
+import city.Restaurant3.CustomerRole3;
 
-	private CustomerAgent agent = null;
+public class CustomerGui3 implements Gui3{
+
+	private CustomerRole3 agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	RestaurantGui gui;
+	RestaurantGui3 gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -33,7 +34,7 @@ public class CustomerGui implements Gui{
 	
 	Color color = Color.GREEN;
 	
-	public CustomerGui(CustomerAgent c, RestaurantGui gui, int customerX, int customerY, int customerIndex){
+	public CustomerGui3(CustomerRole3 c, RestaurantGui3 gui, int customerX, int customerY, int customerIndex){
 		agent = c;
 		xPos = HIDDEN_X;
 		yPos = HIDDEN_Y;

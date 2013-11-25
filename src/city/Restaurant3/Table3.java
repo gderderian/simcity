@@ -1,24 +1,24 @@
-package restaurant;
+package city.Restaurant3;
 
-public class Table {
+public class Table3 {
 	
 	int tableNumber;
 	public int tableX;
 	public int tableY;
-	CustomerAgent occupiedBy;
+	CustomerRole3 occupiedBy;
 	
-	Table(int tableNumber) {
+	Table3(int tableNumber) {
 		this.tableNumber = tableNumber;
 	}
 	
-	Table(int tableNumber, int newTableX, int newTableY) {
+	Table3(int tableNumber, int newTableX, int newTableY) {
 		this.tableNumber = tableNumber;
 		this.tableX = newTableX;
 		this.tableY = newTableY;
 	}
 
 	// Accessors
-	void setOccupant(CustomerAgent cust) {
+	void setOccupant(CustomerRole3 cust) {
 		occupiedBy = cust;
 	}
 
@@ -26,7 +26,7 @@ public class Table {
 		occupiedBy = null;
 	}
 
-	CustomerAgent getOccupant() {
+	CustomerRole3 getOccupant() {
 		return occupiedBy;
 	}
 
