@@ -26,7 +26,8 @@ public abstract class Role {
     	isActive = false;
     	inUse = false;
     }
-
+    
+    
     /**
      * Agents must implement this scheduler to perform any actions appropriate for the
      * current state.  Will be called whenever a state change has occurred,

@@ -191,6 +191,11 @@ public class Restaurant2CustomerGui implements Gui{
 	public void setEnabled(){
 		//gui.setEnabled(agent);
 	}
+
+	public void DoEnterRestaurant() {
+        xDestination = HOMEX;
+        yDestination = HOMEY;
+	}
 	
 
 

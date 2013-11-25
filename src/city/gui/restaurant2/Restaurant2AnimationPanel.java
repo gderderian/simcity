@@ -40,6 +40,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
     Restaurant2 restaurant;
     
     //People for testing
+    
     PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
     PersonAgent personCashier = new PersonAgent("Cashier");
@@ -66,9 +67,14 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         
         restaurant = r;
         
+        
         Cook = new Restaurant2CookRole("CookRole", personCook);
+        cookGui = new Restaurant2CookGui(Cook);
+        Cook.setGui(cookGui);
         Cashier = new Restaurant2CashierRole("CashierRole", personCashier);
         Waiter = new Restaurant2WaiterRole("WaiterRole", personWaiter);
+        waiterGui = new Restaurant2WaiterGui(Waiter, personWaiter.getName(), cityGui, 1);
+        Waiter.setGui(waiterGui);
         Host = new Restaurant2HostRole("HostRole", personHost);
         
         restaurant.setHost(Host);
@@ -82,6 +88,9 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         personWaiter.addRole(Waiter, true);
         personWaiter.startThread();
         Host.addWaiters(Waiter);
+        
+        guis.add(cookGui);
+        guis.add(waiterGui);
         
 	}
 
@@ -165,6 +174,10 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         System.out.println("Person added to rest2 gui");
         System.out.println("After add: " + guis.size());
     }
+    
+    public void addGui(Restaurant2CustomerGui g){
+    	guis.add(g);
+    }
 /*
     public void addGui(Restaurant2WaiterGui gui) {
         guis.add(gui);
@@ -197,11 +210,6 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
 		if((x >= 30) && (x <= 90) && (y >= 30) && (y <= 50)){
 			changeBackToCity();
 		}
-	}
-
-	public void addGui(Restaurant2CustomerGui customerGui2) {
-		guis.add(customerGui2);
-		
 	}
 
 }

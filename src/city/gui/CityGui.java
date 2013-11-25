@@ -261,14 +261,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
 		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
+		
+		personFactory(newPerson, 1);
 
 		//TODO finish the job thing
-		Role r = Role.getNewRole(job, newPerson);
-
+		//Role r = Role.getNewRole(job, newPerson);
+		/*
 		if(r != null){
 			//Add location to this
 			newPerson.addFirstJob(r, "Unknown");
 		}
+		*/
 		people.add(newPerson);
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
@@ -312,15 +315,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 	}   
 	
-	private PersonAgent personFactory(PersonAgent p, int i) {
+	private void personFactory(PersonAgent p, int i) {
 		if(i == 1) {
 			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
 			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
 			restaurant2.addGui(customerGui);
 			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
-			
+			p.addFirstJob(waiterRole, "rest2");
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
 		}
-		return null;
 	}
 
 	private void addBuildingPanel(BuildingPanel bp) {
