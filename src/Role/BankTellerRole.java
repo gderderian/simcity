@@ -57,7 +57,7 @@ public class BankTellerRole extends Role {
 
                 public void msgOpenAccount() 
                 {
-                        
+                        Do("msgopenaccount");
                         log.add(new LoggedEvent("msgOpenAccount"));
                         banktellerstate = state.openaccount;
                         person.stateChanged();
@@ -115,7 +115,7 @@ public class BankTellerRole extends Role {
         	
                 if(banktellerstate == state.openaccount)
                 {
-                        
+                    Do("customer is opening account");
                     bankmanager.bank.accounts.add(new account(currentcustomer, bankmanager.bank.uniqueaccountnumber));
                     currentcustomeraccountnumber = bankmanager.bank.uniqueaccountnumber;
                     currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);

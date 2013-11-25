@@ -12,8 +12,8 @@ import city.Bank;
 public class BankTellerRoleGui implements Gui {
 
     private BankTellerRole role = null;
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = 100, yDestination = 100;//default start position
+    private int xPos = 250, yPos = -20;//default waiter position
+    private int xDestination = 0, yDestination = 0;//default start position
 	private BankGui gui;
 
     int initialxc = 200;
@@ -24,7 +24,7 @@ public class BankTellerRoleGui implements Gui {
 	private Command command=Command.noCommand;
 	
 	//ImageIcon icon = new ImageIcon("images/bankteller.png");
-	public Image imgofbankteller = new ImageIcon("images/basic_person.png").getImage();
+	public Image imgofbankteller = new ImageIcon("images/person_flat1.png").getImage();
 
     public BankTellerRoleGui(BankTellerRole setrole, BankGui setgui) {
         this.role = setrole;
@@ -54,7 +54,7 @@ public class BankTellerRoleGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-    	g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 50, gui);
+    	g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 40, gui);
     	//g.setColor(Color.MAGENTA);
         //g.fillRect(xPos, yPos, 20, 20);
     }

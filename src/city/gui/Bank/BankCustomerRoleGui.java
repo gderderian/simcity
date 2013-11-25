@@ -31,12 +31,13 @@ public class BankCustomerRoleGui implements Gui{
 	private int yhomepos;
 	private int xcoordinatesofstations[] = new int [4];
 	private int ycoordinatesofstations[] = new int [4];
-
+	public Image imgofbankcustomer = new ImageIcon("images/person_flat1.png").getImage();
+	
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
 		this.role = setrole;		
 
 		xPos = 0;
-		yPos = 100;
+		yPos = 250;
 		//xDestination = 40;
 		//yDestination = 40;
 		//maitreD = m;
@@ -106,9 +107,9 @@ public class BankCustomerRoleGui implements Gui{
 		}
 
 	public void draw(Graphics2D g) {
-		
-		g.setColor(Color.BLUE);
-		g.fillRect(xPos, yPos, 20, 20);
+		g.drawImage(imgofbankcustomer,xPos, yPos + 90, 50, 40, gui);
+		//g.setColor(Color.BLUE);
+		//g.fillRect(xPos, yPos, 20, 20);
 		
 	}
 
