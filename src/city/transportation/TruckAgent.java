@@ -1,5 +1,7 @@
 package city.transportation;
 
+import interfaces.MarketManager;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -11,7 +13,7 @@ import city.PersonAgent;
 
 public class TruckAgent extends Vehicle {
         //Data
-        //MarketAgent market; //Market that this truck reports to
+        MarketManager market; //Market that this truck reports to
         
         public List <MyMarketOrder> orders = new ArrayList<MyMarketOrder>();
         
@@ -77,13 +79,13 @@ public class TruckAgent extends Vehicle {
 
         //Actions
         private void DeliverOrder(MyMarketOrder o) {
-                //gui.DoDriveTo(o.o.destination);
-                //o.o.recipient.msgHereIsDelivery(o.o);
-                //gui.DoDriveToMarket();
+                //DoDriveTo(o.o.destination);
+                o.o.getRecipient().msgHereIsYourOrder(o.o);
+                //DoDriveToMarket();
         }
         
         private void ReportToMarket(MyMarketOrder o) {
-                //market.msgFinishedDelivery(o.o);
+                market.msgFinishedDelivery(o.o);
                 orders.remove(o);
         }
         
