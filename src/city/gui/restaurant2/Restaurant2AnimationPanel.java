@@ -28,7 +28,7 @@ import city.gui.PersonGui;
 public class Restaurant2AnimationPanel extends BuildingPanel implements MouseListener {
 	
 	private final int WINDOWX = 900;
-    private final int WINDOWY = 700;
+    private final int WINDOWY = 750;
     private final int TABLEDIM = 50;
     private final int TABLE1Y = WINDOWY/10;
     private final int TABLEX = WINDOWX/2 - TABLEDIM/2;
