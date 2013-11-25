@@ -23,8 +23,10 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
     private static int tablelength = 250;
     private static int tablespacing = 50;
     
+    public Image imgoftable = new ImageIcon("images/table.png").getImage();
     public Image imgofcouch = new ImageIcon("images/sofaforbank.jpg").getImage();
-    public Image imgofbankfloor = new ImageIcon("images/bankfloor.jpg").getImage();
+    public Image imgofbankfloor = new ImageIcon("images/bankfloor2.jpg").getImage();
+    
     private Image bufferImage;
     private Dimension bufferSize;
     private CityGui citygui;
@@ -49,7 +51,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
 	
 	
     public void paintComponent(Graphics g) {
-        g.drawImage(imgofbankfloor, 0,0,this);
+    	g.drawImage(imgofbankfloor, 0,0,this);
     	Graphics2D g2 = (Graphics2D)g;
         Graphics2D banktellerstation1 = (Graphics2D)g;
         Graphics2D banktellerstation2 = (Graphics2D)g;
@@ -60,9 +62,10 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         Graphics2D waitingarea = (Graphics2D)g;
         
         //Clear the screen by painting a rectangle the size of the frame
-        g2.setColor(getBackground());
-        g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+        //g2.setColor(getBackground());
+        //g2.fillRect(0, 0, this.getWidth(), this.getHeight());
        
+        g.drawImage(imgoftable, 200, 100, 50, 50, this);
         g.drawImage(imgofcouch, 50, 300, 400, 100, this);
         // g.drawImage(imgofcouch, 200, 300, 100, 100, this);
         //g.drawImage(imgofcouch, 350, 300, 100, 100, this);

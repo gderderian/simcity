@@ -6,7 +6,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import restaurant1.Restaurant1CustomerRole;
+import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
+import restaurant1.gui.Restaurant1CustomerGui;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
@@ -50,6 +53,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	AnimationPanel4 restaurant4 = new AnimationPanel4();
 
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
+	MarketAnimationPanel market2Animation = new MarketAnimationPanel(this);
+	MarketAnimationPanel market3Animation = new MarketAnimationPanel(this);
 	BankAnimationPanel bank1Animation = new BankAnimationPanel(this);
 	
 	ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
@@ -281,7 +286,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		
 		if(name.equals("rest1test")) {
-			newPerson.msgImHungry();
+			//newPerson.msgImHungry();
 		}
 	}
 
@@ -320,6 +325,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
+		if(i == 2) {
+			Restaurant1CustomerRole customerRole = new Restaurant1CustomerRole(p.getName(), p);
+			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
+			restaurant1.addGui(customerGui);
+			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
+			p.addFirstJob(waiterRole, "rest2");
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
+		}
 	}
 	
 	private void personFactory(PersonAgent p, String job) {
@@ -341,7 +355,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	private void addBuildingPanel(BuildingPanel bp) {
 		bp.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
 		buildingPanels.add(bp);
-		bp.setCityGui(this);        	
+		bp.setCityGui(this);
 	}
 
 }

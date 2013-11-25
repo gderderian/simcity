@@ -492,10 +492,10 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		
 		Menu(){
 			foods= new ArrayList<Food>();
-			foods.add(new Food("Steak"));
-			foods.add(new Food("Chicken"));
-			foods.add(new Food("Salad"));
-			foods.add(new Food("Pizza"));
+			foods.add(new Food("Eggs"));
+			foods.add(new Food("Waffels"));
+			foods.add(new Food("Pancakes"));
+			foods.add(new Food("Bacon"));
 		}
 		
 		public String select(int num){
@@ -527,16 +527,16 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		Food(String type){
 			this.type= type;
 			inStock= true;
-			if(type == "Steak"){
+			if(type == "Eggs"){
 				amount= 15.99;
 			}
-			else if(type == "Chicken"){
+			else if(type == "Waffles"){
 				amount= 10.99;
 			}
-			else if(type == "Salad"){
+			else if(type == "Pancakes"){
 				amount= 5.99;
 			}
-			else if(type == "Pizza"){
+			else if(type == "Bacon"){
 				amount= 8.99;
 			}
 		}

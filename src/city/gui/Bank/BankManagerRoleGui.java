@@ -13,7 +13,7 @@ public class BankManagerRoleGui implements Gui {
 
     private BankManagerRole role = null;
     private int xPos = 20, yPos = 20;//default waiter position
-    private int xDestination = 100, yDestination = 100;//default start position
+    private int xDestination = 100, yDestination = 200;//default start position
 
 	private BankGui gui;
 	private enum Command {noCommand, gotobankmanageroffice, leavebank, arrived};
