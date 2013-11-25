@@ -308,7 +308,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
         else if(e.getSource() == populateCity){
         	populateCity();
-        	populateCity.setVisible(false);
+        	populateCity.setEnabled(false);
         }
     }
 
