@@ -17,7 +17,7 @@ import city.Restaurant2.Restaurant2;
 import city.gui.BuildingPanel;
 import city.gui.Gui;
 
-public class Restaurant2AnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
+public class Restaurant2AnimationPanel extends BuildingPanel implements ActionListener{
 	
     private static final int TIMER_INTERVAL = 15;
     private Timer timer;
@@ -42,9 +42,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     	setMaximumSize(new Dimension(WINDOWX, WINDOWY));
     	setMinimumSize(new Dimension(WINDOWX, WINDOWY));
         setVisible(false);
-        
-        addMouseListener(this);
-        
+                
         restaurant = r;
         
         timer = new Timer(TIMER_INTERVAL, this);
@@ -103,14 +101,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         g2.fillRect(STOVEX, KITCHENY -30, TABLEDIM*2, TABLEDIM/2);
         
         //Kitchen Sign
-        g2.drawString("KITCHEN", KITCHENX - 50, KITCHENY - 40);
-        
-        //BACK BUTTON
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(30, 30, 60, 20);
-        g2.setColor(Color.BLACK);
-        g2.drawString("CITY VIEW", 30, 45);
-        
+        g2.drawString("KITCHEN", KITCHENX - 50, KITCHENY - 40);        
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -138,28 +129,5 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     }
 
 */
-	public void mouseClicked(MouseEvent e) {
-		//do nothing
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		//do nothing
-	}
-
-	public void mouseExited(MouseEvent e) {
-		//do nothing
-	}
-
-	public void mousePressed(MouseEvent e) {
-		//do nothing
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		if((x >= 30) && (x <= 90) && (y >= 30) && (y <= 50)){
-			changeBackToCity();
-		}
-	}
 
 }
