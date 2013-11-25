@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -189,10 +190,14 @@ public class ControlPanel extends JPanel implements ActionListener{
     	backToCity.addActionListener(this);
     	backToCity.setEnabled(false);
     	
+    	//This add(Box) function creates a space on the JPanel - using it here for spacing the buttons out to look nice
+    	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(backToCity);
     	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(populateCity);
     	populateCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
