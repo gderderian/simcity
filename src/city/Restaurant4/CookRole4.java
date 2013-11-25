@@ -95,7 +95,7 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 	}
 	
-	public void msgHereIsDelivery(int e, int w, int p, int b, boolean successful){
+	/*public void msgHereIsDelivery(int e, int w, int p, int b, boolean successful){
 		log("Recieved delivery, let's check it out!");
 		log("EGGS: " + e + "  WAFFELS: " + w + "  PANCAKES: " + p + "  BACON: " + b);
 		delivery.put("Eggs", e);
@@ -105,9 +105,25 @@ public class CookRole4 extends Role implements Cook4 {
 		this.successful= successful;
 		o.ms= marketState.fulfilled;
 		this.p.stateChanged();
+	} */
+	 
+	public void msgHereIsYourOrder(MarketOrder mo){
+		List<OrderItem> order = mo.getOrders();
+		for(int i=0; i<order.size(); i++){
+			if(order.get(i).type.equals("Eggs")){
+				delivery.put("Eggs", 1);
+			} else if (order.get(i).type.equals("Waffels")){
+				delivery.put("Waffels", 1);
+			} else if(order.get(i).type.equals("Pancakes")){
+				delivery.put("Pancakes", 1);
+			} else if(order.get(i).type.equals("Bacon")){
+				delivery.put("Bacon", 1);
+			}
+		}
+		successful= true;
+		o.ms= marketState.fulfilled;
+		this.p.stateChanged();
 	}
-	
-	
 	
 	/*public void msgOutOfItem(Market4 m, String type){
 		for(MyMarket market : markets){
@@ -310,6 +326,7 @@ public class CookRole4 extends Role implements Cook4 {
 			}
 			o.ms= marketState.partiallyFullfilled;
 		}
+		
 		p.stateChanged();
 	}
 	
@@ -385,12 +402,12 @@ public class CookRole4 extends Role implements Cook4 {
 		String type;
 		private int cookingTime;
 		private int currAmount;
-		private final int capacity= 5;
-		private final int low= 2;
+		private final int capacity= 15;
+		private final int low= 3;
 		
 		Food(String type){
 			this.type= type;
-			currAmount= 3;
+			currAmount= 10;
 			if(type == "Eggs"){
 				cookingTime= eggTime;
 			}
