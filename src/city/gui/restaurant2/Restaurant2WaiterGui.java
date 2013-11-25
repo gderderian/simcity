@@ -70,11 +70,8 @@ public class Restaurant2WaiterGui implements Gui{
         else if(waiterNum < 17) HOMEX = 120;
         else HOMEX = 0;
         
-        //xDestination = HOMEX;
-        //yDestination = HOMEY;
-        
-        xDestination = 500;
-        yDestination = 500;
+        xDestination = HOMEX;
+        yDestination = HOMEY;
         
         onBreak = false;
         restGui = g;
