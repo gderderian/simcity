@@ -38,12 +38,11 @@ public class BankCustomerRole extends Role{
                 //this.name = setperson.getName();
                 //stateChanged();
         
-        }
-        
+        } 
         
         public void msgAssignMeBankTeller(BankTellerRole assignbankteller)
         {
-        
+     
                 mybankteller = assignbankteller;
                 stationnumber = mybankteller.stationnumber;
                 bankcustomerstate = state.gotobankteller; 
@@ -63,6 +62,7 @@ public class BankCustomerRole extends Role{
         
         public void msgOpenAccount()
         {
+        	
         		Do("msgOpenAccount");
                 //log.add(new LoggedEvent("msgOpenAccount")
                 bankcustomerstate = state.openaccount;
