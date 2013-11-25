@@ -1,6 +1,7 @@
 package city.Restaurant4;
 
 import Role.Role;
+import city.PersonAgent;
 import city.gui.restaurant4.HostGui4;
 
 import java.util.*;
@@ -12,6 +13,7 @@ import justinetesting.interfaces.Waiter4;
  * Restaurant Host Agent
  */
 public class HostRole4 extends Role {
+	PersonAgent p;
 	static final int NTABLES = 4;//a global for the number of tables.
 	public List<Customer4> waitingToSit = Collections.synchronizedList(new ArrayList<Customer4>());
 	public List<Customer4> line = Collections.synchronizedList(new ArrayList<Customer4>());
@@ -22,9 +24,10 @@ public class HostRole4 extends Role {
 	public HostGui4 hostGui = null;
 	private boolean closed= false;
 
-	public HostRole4(String name) {
+	public HostRole4(String name, PersonAgent p) {
 		super();
 		this.name = name;
+		this.p= p;
 		
 		// make the tables
 		tables = new ArrayList<Table>(NTABLES);
@@ -54,7 +57,7 @@ public class HostRole4 extends Role {
 	public void addWaiter(Waiter4 waiter){
 		waiters.add(new MyWaiter(waiter));
 		waiter.msgNumber(waiters.size());
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	
@@ -62,12 +65,12 @@ public class HostRole4 extends Role {
 	public void msgIWantFood(Customer4 c) {
 		waitingToSit.add(c);
 		line.add(c);
-		stateChanged();
+		p.stateChanged();
 	}
 
 	public void msgSeatingCustomer(Customer4 c){
 		line.remove(c);
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgLeavingRest(Customer4 c){
@@ -76,7 +79,7 @@ public class HostRole4 extends Role {
 				if(cust == c){
 					waitingToSit.remove(cust);
 					line.remove(cust);
-					stateChanged();
+					p.stateChanged();
 					return;
 				}
 			}
@@ -87,7 +90,7 @@ public class HostRole4 extends Role {
 		for (Table table : tables) {
 			if (table.getOccupant() == c) {
 				table.setUnoccupied();
-				stateChanged();
+				p.stateChanged();
 			}
 		}
 		for (MyWaiter waiter : waiters){
@@ -95,7 +98,7 @@ public class HostRole4 extends Role {
 				waiter.numCustomers--;
 			}
 		}
-		stateChanged();
+		p.stateChanged();
 	}
 
 	public void msgWantToGoOnBreak(Waiter4 w){
@@ -110,24 +113,24 @@ public class HostRole4 extends Role {
 			}
 			if(okay){
 				waiter.ws= WaiterState.goingOnBreak;
-				stateChanged();
+				p.stateChanged();
 				return;
 			}
 		}
 		waiter.ws= WaiterState.denied;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgReadyToWork(Waiter4 w){
 		print("Oh good, a waiter is coming off break");
 		MyWaiter waiter= find(w);
 		waiter.ws= WaiterState.reset;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgRestClosed(){
 		closed= true;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	
@@ -224,14 +227,14 @@ public class HostRole4 extends Role {
 		print("Yes of course you can take a break, good job today!");
 		w.ws= WaiterState.onBreak;
 		w.w.msgBreakApproved();
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void denyBreak(MyWaiter w){
 		print("Sorry, you have to keep working, ask for a break again later!");
 		w.w.msgBreakDenied();
 		w.ws= WaiterState.reset;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	// UTILITIES

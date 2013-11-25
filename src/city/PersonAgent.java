@@ -380,8 +380,6 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
-		DoGoTo(house.getName());
 
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -591,8 +589,18 @@ public class PersonAgent extends Agent implements Person{
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
-		Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
-		addRole(customer, true);
+		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
+		//addRole(customer, true);
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof Restaurant2CustomerRole){
+					r.setActive();
+					role = (Restaurant2CustomerRole) r;
+					print("Found role to set active");
+				}
+			}
+		}
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
@@ -609,7 +617,9 @@ public class PersonAgent extends Agent implements Person{
 		    gui.setInvisible();
 		}
 		Restaurant2 test = cityMap.restaurant2;
-		cityMap.restaurant2.getHost().msgIWantFood(customer);
+		print("I want food!");
+		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
+		((Restaurant2CustomerRole)role).setGuiActive();
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){

@@ -1,11 +1,15 @@
 package restaurant1;
 
+import Role.MarketManager;
+import Role.Role;
 import agent.Agent;
 import restaurant1.gui.Restaurant1CookGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.MarketOrder;
+import city.OrderItem;
 import city.PersonAgent;
 
 /**
@@ -15,12 +19,11 @@ import city.PersonAgent;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class Restaurant1CookRole extends Agent {
+public class Restaurant1CookRole extends Role {
 	
 	public List<Order> orders = new ArrayList<Order>();
-	
-	private List<Restaurant1MarketRole> markets = Collections.synchronizedList(new ArrayList<Restaurant1MarketRole>());
-	int marketChooser = 0; //This will allow the cook to try a different market if one market runs out of a food
+
+	private MarketManager market;
 	
 	public enum orderState { pending, cooking, cooked, pickedUp, finished };
 	
@@ -50,9 +53,9 @@ public class Restaurant1CookRole extends Agent {
 		person = p;
 		
 				// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
-		foods.put("steak", new Food("steak", 8, 6, 5, 8));
-		foods.put("fish", new Food("fish", 6, 6, 5, 8));
-		foods.put("chicken", new Food("chicken", 4, 6, 5, 8));
+		foods.put("steak", new Food("steak", 8, 100, 5, 8));
+		foods.put("fish", new Food("fish", 6, 100, 5, 8));
+		foods.put("chicken", new Food("chicken", 4, 100, 5, 8));
 		
 		this.name = name;
 	}
@@ -87,47 +90,22 @@ public class Restaurant1CookRole extends Agent {
 		person.stateChanged();
 	}
 	
-	public void msgWeWillDeliver(Restaurant1MarketRole m, List<Restaurant1FoodOrder> orders) { //Market will notify the cook how much they are able to deliver
-		synchronized(orders) {
-			for(int i = 0; i < orders.size(); i++) {
-				Restaurant1FoodOrder tempOrder = orders.get(i);
-				Food thisFood = foods.get(tempOrder.foodType);
-				if(tempOrder.amount < (thisFood.capacity - thisFood.amount)) {	
-					thisFood.state = foodOrderingState.notYetOrdered;
-					needToReorder = true;
-				}
-				else {
-					thisFood.state = foodOrderingState.ordered;
-				}
-			}
+	public void msgHereIsYourOrder(MarketManager m, MarketOrder o) {
+		List<OrderItem> orderItems = o.getOrders();
+		for(int i = 0; i < orderItems.size(); i++) {
+				OrderItem tempOrder = orderItems.get(i);
+				String type = tempOrder.getName();
+				int amount = tempOrder.getQuantity();
+				
+				Food tempFood = foods.get(type);
+				tempFood.state = foodOrderingState.notYetOrdered;
+				print("Received delivery of " + amount + " units of " + type);
+				tempFood.amount += amount;
 		}
-		person.stateChanged();
 	}
 	
-	public void msgCannotFulfillOrder(List<Restaurant1FoodOrder> orders) {
-		marketChooser = (marketChooser + 1) % markets.size(); //Start ordering from a different market.
-		synchronized(orders) {
-			for(int i = 0; i < orders.size(); i++) {
-				Restaurant1FoodOrder tempOrder = orders.get(i);
-				Food tempFood = foods.get(tempOrder.foodType);
-				tempFood.state = foodOrderingState.notYetOrdered;
-			}
-		}
-		person.stateChanged();
-	}
-	
-	public void msgFoodDelivery(Restaurant1MarketRole m, List<Restaurant1FoodOrder> orders) { //Actual delivery of food
-		synchronized(orders) {
-			for(int i = 0; i < orders.size(); i++) {
-
-				Restaurant1FoodOrder tempOrder = orders.get(i);
-				Food tempFood = foods.get(tempOrder.foodType);
-				tempFood.state = foodOrderingState.notYetOrdered;
-				print("Received delivery of " + tempOrder.amount + " units of " + tempOrder.foodType);
-				tempFood.amount += tempOrder.amount;
-			}
-		}
-		person.stateChanged();
+	public void msgHereIsBill(MarketManager m, double amount) {
+		print("Received a bill! What do I do?!");
 	}
 	
 	public void msgRecheckInventory() {
@@ -152,14 +130,14 @@ public class Restaurant1CookRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(restaurantOpening) {
 			initialInventoryCheck();
 			return true;
 		}
 		
 		if(needToReorder) {
-			reorderFood();
+			//reorderFood();
 			needToReorder = false;
 			return true;
 		}
@@ -254,12 +232,6 @@ public class Restaurant1CookRole extends Agent {
 							}
 						}, cookTime	);
 	}
-	
-	private void reorderFood() {
-		marketChooser = (marketChooser + 1) % markets.size(); //Start ordering from a different market.
-		
-		orderMoreFood();
-	}
 
 	private void plateIt(Order o) {
 		DoGoToGrill();
@@ -304,23 +276,23 @@ public class Restaurant1CookRole extends Agent {
 	}
 	
 	private void orderMoreFood() {
-		List<Restaurant1FoodOrder> orderList = Collections.synchronizedList(new ArrayList<Restaurant1FoodOrder>());
+		List<OrderItem> orderList = Collections.synchronizedList(new ArrayList<OrderItem>());
 		
 		Food temp = foods.get("steak");
 		if(temp.amount < temp.low && temp.state == foodOrderingState.notYetOrdered) {
-			orderList.add(new Restaurant1FoodOrder(temp.type, temp.capacity - temp.amount));
+			orderList.add(new OrderItem(temp.type, temp.capacity - temp.amount));
 			temp.state = foodOrderingState.ordered;
 		}
 		
 		temp = foods.get("chicken");
 		if(temp.amount < temp.low && temp.state == foodOrderingState.notYetOrdered) {
-			orderList.add(new Restaurant1FoodOrder(temp.type, temp.capacity - temp.amount));
+			orderList.add(new OrderItem(temp.type, temp.capacity - temp.amount));
 			temp.state = foodOrderingState.ordered;
 		}
 		
 		temp = foods.get("fish");
 		if(temp.amount < temp.low && temp.state == foodOrderingState.notYetOrdered) {
-			orderList.add(new Restaurant1FoodOrder(temp.type, temp.capacity - temp.amount));
+			orderList.add(new OrderItem(temp.type, temp.capacity - temp.amount));
 			temp.state = foodOrderingState.ordered;
 		}
 		
@@ -328,8 +300,10 @@ public class Restaurant1CookRole extends Agent {
 			return;
 		}
 		
+		MarketOrder newOrder = new MarketOrder(orderList, "rest1", this.person);
+		
 		print("Sending order for more food to the market!");
-		markets.get(marketChooser).msgFoodOrder(this, orderList);
+		market.msgHereIsOrder(newOrder);
 	}
 	
 	private void DoGoToHome() {
@@ -348,20 +322,8 @@ public class Restaurant1CookRole extends Agent {
 		cookGui.DoGoToCounter();
 	}
 	
-	public void clearSteak() {
-		foods.get("steak").amount = 0;
-	}
-	
-	public void clearFish() {
-		foods.get("fish").amount = 0;
-	}
-	
-	public void clearChicken() {
-		foods.get("chicken").amount = 0;
-	}
-	
-	public void addMarket(Restaurant1MarketRole m) {
-		markets.add(m);
+	public void addMarket(MarketManager m) {
+		market = m;
 	}
 
 	private class Order {

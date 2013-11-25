@@ -123,7 +123,7 @@ public boolean pickAndExecuteAnAction() {
 								if(!findfreebankstation.isOccupied())
 								{
 									Do("assign bankteller  to station");
-									log.add(new LoggedEvent("bankstationassigned"));
+									log.add(new LoggedEvent("bankteller assigned to station " + findfreebankstation.stationnumber));
 									findfreebankstation.setBankTeller(newbankteller.bankteller);
 									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
 									//animation stuff

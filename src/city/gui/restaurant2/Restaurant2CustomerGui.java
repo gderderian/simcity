@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import city.Restaurant2.Restaurant2CustomerRole;
-import city.gui.CityGui;
 import city.gui.Gui;
 
 public class Restaurant2CustomerGui implements Gui{
@@ -18,7 +17,6 @@ public class Restaurant2CustomerGui implements Gui{
 	private boolean doneEating = false;
 
 	//private HostAgent host;
-	CityGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -31,8 +29,8 @@ public class Restaurant2CustomerGui implements Gui{
 	
 	int customerNum;
 
-    private final int WINDOWX = 600;
-    private final int WINDOWY = 600 - 20;
+    private final int WINDOWX = 900;
+    private final int WINDOWY = 750 - 20;
     private final int TABLEDIM = 50;
     private final int TABLE1Y = WINDOWY/10;
     private final int TABLEX = WINDOWX/2 - TABLEDIM/2;
@@ -46,11 +44,10 @@ public class Restaurant2CustomerGui implements Gui{
 	
 	boolean foodDone = false;
 
-	public Restaurant2CustomerGui(Restaurant2CustomerRole c, CityGui gui, String n, int i){
+	public Restaurant2CustomerGui(Restaurant2CustomerRole c, String n, int i){
 		agent = c;
 		xPos = 0;
 		yPos = WINDOWY/2;
-		this.gui = gui;
 		
 		name = n;
 		
@@ -193,6 +190,11 @@ public class Restaurant2CustomerGui implements Gui{
 	//TODO: FIX THIS
 	public void setEnabled(){
 		//gui.setEnabled(agent);
+	}
+
+	public void DoEnterRestaurant() {
+        xDestination = HOMEX;
+        yDestination = HOMEY;
 	}
 	
 

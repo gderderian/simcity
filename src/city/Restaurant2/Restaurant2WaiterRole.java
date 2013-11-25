@@ -96,7 +96,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	//MESSAGES
 	public void msgPleaseSeatCustomer(Restaurant2Customer c, int table){
 		boolean returningCustomer = false;
-		print("Recieved msg seat customer");
+		print("Received msg seat customer");
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == c){
@@ -254,9 +254,10 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 			state = WaiterState.noBreak;
 			return true;
 		}
-		if(customers.isEmpty()){
+		//Scheduler will automatically be called when new customer is added.
+		/*if(customers.isEmpty()){
 			return true;
-		}
+		}*/
 		synchronized(customers){
 			for(MyCustomer c : customers){
 				if(c.s == CustomerState.waiting){

@@ -1,5 +1,6 @@
 package restaurant1;
 
+import Role.Role;
 import agent.Agent;
 import restaurant1.gui.Restaurant1HostGui;
 
@@ -14,7 +15,7 @@ import city.PersonAgent;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class Restaurant1HostRole extends Agent {
+public class Restaurant1HostRole extends Role {
 	static final int NTABLES = 4;//a global for the number of tables.
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	
@@ -133,7 +134,7 @@ public class Restaurant1HostRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		synchronized(waiters) {
 			for(MyWaiter w : waiters) {
 				if (w.iWantABreak) {

@@ -1,13 +1,16 @@
 package city.Restaurant4;
 
 import Role.Role;
+
 import java.util.*;
 
+import city.PersonAgent;
 import justinetesting.interfaces.Market4;
 
 public class MarketRole4 extends Role implements Market4 {
 	String name;
 	CookRole4 cook;
+	PersonAgent p;
 	Timer timer= new Timer();
 	List<Food> foods;
 	List<Order> orders;
@@ -17,9 +20,10 @@ public class MarketRole4 extends Role implements Market4 {
 	CashierRole4 cashier;
 	Map<String, Double> cost= new HashMap<String, Double>();
 
-	public MarketRole4(String name) {
+	public MarketRole4(String name, PersonAgent p) {
 		super();
 		this.name= name;
+		this.p= p;
 		foods= Collections.synchronizedList(new ArrayList<Food>());
 		orders= Collections.synchronizedList(new ArrayList<Order>());
 		foods.add(new Food("Steak"));
@@ -45,14 +49,14 @@ public class MarketRole4 extends Role implements Market4 {
 	public void msgHereIsOrder(CookRole4 c, int st, int ch, int s, int p){
 		cook= c;
 		orders.add(new Order(c, st, ch, s, p));
-		stateChanged();
+		this.p.stateChanged();
 	}
 	
 	public void msgHereIsMoney(double amount){
 		print("Received money for the delivery, business is going great!");
 		money += amount;
 		amount= 0;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 
@@ -107,7 +111,7 @@ public class MarketRole4 extends Role implements Market4 {
 			}
 		}
 		tellCook(o);
-		stateChanged();
+		p.stateChanged();
 	}
 
 	public void tellCook(final Order o){
@@ -130,7 +134,7 @@ public class MarketRole4 extends Role implements Market4 {
 					amount += (o.p - o.foodAmount.get("Pizza")) * cost.get("Pizza");
 				}
 				o.s= orderState.done;
-				stateChanged();
+				p.stateChanged();
 			}}, 7000);	
 	}
 	
@@ -141,7 +145,7 @@ public class MarketRole4 extends Role implements Market4 {
 	public void sendBill(Order o){
 		cashier.msgHereIsBill(this, amount);
 		orders.remove(o);
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	

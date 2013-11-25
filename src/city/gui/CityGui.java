@@ -7,6 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import restaurant1.gui.Restaurant1AnimationPanel;
+import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.Bank.BankAnimationPanel;
 import city.gui.House.ApartmentAnimationPanel;
@@ -22,6 +23,7 @@ import city.House;
 import city.Market;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
+import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.transportation.BusAgent;
 import city.transportation.Vehicle;
 
@@ -53,6 +55,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
 	ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
+	
+	//HouseAnimationPanel house1= new HouseAnimationPanel();
+	ArrayList<HouseAnimationPanel> houses = new ArrayList<HouseAnimationPanel>();
 	//End of animation panel creation!
 	
 	List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
@@ -98,10 +103,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.addRest2ToCityMap(rest2);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
-		
+
+		addBuildingPanel(restaurant4);
+
 		addBuildingPanel(bank1Animation);
-
-
 		addBuildingPanel(market1Animation);
 
 		add(animationPanel, BorderLayout.EAST);
@@ -110,14 +115,23 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(apt1);
 		for(int i=0; i<10; i++){
 			apt1List.add(new HouseAnimationPanel());
+			addBuildingPanel(apt1List.get(i));
 			buildingPanels.add(apt1List.get(i));
 		}
 		//Set up and populate apartment 2
 		addBuildingPanel(apt2);
 		for(int i=0; i<10; i++){
 			apt2List.add(new HouseAnimationPanel());
+			addBuildingPanel(apt2List.get(i));
 			buildingPanels.add(apt2List.get(i));
 		}
+		
+		//Set up all of the houses
+		for(int i=0; i<26; i++){
+			houses.add(new HouseAnimationPanel());
+			addBuildingPanel(houses.get(i));
+		}
+		//addBuildingPanel(house1);
 		//End of adding building panels!
 
 		Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
@@ -137,10 +151,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	}
 
-	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm) {
+	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
 			person.msgTimeUpdate(timeOfDay);
 		}
+		controlPanel.setTimeDisplay(displayTime);
 	}
 
 	public void addGui(Gui g){
@@ -180,7 +195,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		if(building.equals("City")){
 			for(BuildingPanel bp : buildingPanels) {
 				bp.setVisible(false);
-				bp.setEnabled(false);
 			}
 			animationPanel.setVisible(true);
 			animationPanel.setEnabled(true);
@@ -191,16 +205,20 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(restaurant1, BorderLayout.EAST);
 			restaurant1.setVisible(true);
 		}
-		if(building.equals("Bank1")) {
+		if(building.equals("Restaurant4")){
 			animationPanel.setVisible(false);
-			add(bank1Animation, BorderLayout.EAST);
-			bank1Animation.setVisible(true);
+			add(restaurant4, BorderLayout.EAST);
+			restaurant4.setVisible(true);
 		}
-		
 		if(building.equals("Market1")){
 			animationPanel.setVisible(false);
 			add(market1Animation, BorderLayout.EAST);
 			market1Animation.setVisible(true);
+		}
+		if(building.equals("Bank1")){
+			animationPanel.setVisible(false);
+			add(bank1Animation, BorderLayout.EAST);
+			bank1Animation.setVisible(true);
 		}
 		if(building.equals("Apartment1")){
 			animationPanel.setVisible(false);
@@ -212,9 +230,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(apt2, BorderLayout.EAST);
 			apt2.setVisible(true);
 		}
+		/*if(building.equals("House1")){
+			animationPanel.setVisible(false);
+			add(house1, BorderLayout.EAST);
+			house1.setVisible(true);
+		}*/
 	}
 
 	public void changeView(int building, int num){
+		if(building == 0) {
+			animationPanel.setVisible(false);
+			add(houses.get(num), BorderLayout.EAST);
+			houses.get(num).setVisible(true);
+		}
 		if(building == 1) {
 			apt1.setVisible(false);
 			for(int i = 0; i < 10; i++)
@@ -233,24 +261,31 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
 		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
+		
+		personFactory(newPerson, 1);
 
 		//TODO finish the job thing
-		Role r = Role.getNewRole(job, newPerson);
-
+		//Role r = Role.getNewRole(job, newPerson);
+		/*
 		if(r != null){
 			//Add location to this
 			newPerson.addFirstJob(r, "Unknown");
 		}
+		*/
 		people.add(newPerson);
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 		guis.add(g);
 		animationPanel.addGui(g);
 		g.addAnimationPanel(restaurant2);
-
+		
 		newPerson.startThread();
 
 		if(name.equals("RestaurantTest")){
+			newPerson.msgImHungry();
+		}
+		
+		if(name.equals("rest1test")) {
 			newPerson.msgImHungry();
 		}
 	}
@@ -279,6 +314,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			newBus.startThread();   
 		}
 	}   
+	
+	private void personFactory(PersonAgent p, int i) {
+		if(i == 1) {
+			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
+			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
+			restaurant2.addGui(customerGui);
+			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
+			p.addFirstJob(waiterRole, "rest2");
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
+		}
+	}
 
 	private void addBuildingPanel(BuildingPanel bp) {
 		bp.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));

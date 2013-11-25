@@ -3,6 +3,7 @@ package restaurant1;
 import restaurant1.gui.Restaurant1CustomerGui;
 import restaurant1.interfaces.Restaurant1Customer;
 import agent.Agent;
+import Role.Role;
 
 import java.util.Random;
 import java.util.Timer;
@@ -14,7 +15,7 @@ import city.PersonAgent;
 /**
  * Restaurant customer agent.
  */
-public class Restaurant1CustomerRole extends Agent implements Restaurant1Customer {
+public class Restaurant1CustomerRole extends Role implements Restaurant1Customer {
 	private String name;
 	private String choice;
 	private double money;
@@ -211,7 +212,7 @@ public class Restaurant1CustomerRole extends Agent implements Restaurant1Custome
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 		
 		if(goingInside) {
@@ -419,7 +420,7 @@ public class Restaurant1CustomerRole extends Agent implements Restaurant1Custome
 				event = AgentEvent.doneEating;
 				GuiDoneEating();
 				//isHungry = false;
-				stateChanged();
+				person.stateChanged();
 			}
 		}, hungerLevel * 1000);//how long to wait before running task
 	}

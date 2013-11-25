@@ -13,9 +13,10 @@ public class LandlordGui {
     private int dimensions= 20;
     private int movement= 20;
 
-    public static int xTable = 100;
-    public static int xTableNew;
-    public static final int yTable = 250;
+    private static final int xStove = 525;
+    private static final int xOven = 580;
+    private static final int xMicrowave = 635;
+    private static final int yAppliance = 30;
 
     public LandlordGui(LandlordRole landlord){
         this.landlord = landlord;
@@ -32,11 +33,18 @@ public class LandlordGui {
         else if (yPos > yDestination)
             yPos--;
 
+        //Check if reached any destination yet
         if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xTableNew + movement) & (yDestination == yTable - movement)) {
-           System.out.println("xTable: " + xTableNew);
+        		& (xDestination == xStove + movement) & (yDestination == yAppliance - movement)) {
+            landlord.msgAnimationAtStove();
+        } else if (xPos == xDestination && yPos == yDestination
+        		& (xDestination == xOven + movement) & (yDestination == yAppliance - movement)) {
+            landlord.msgAnimationAtOven();
+        } else if (xPos == xDestination && yPos == yDestination
+        		& (xDestination == xMicrowave + movement) & (yDestination == yAppliance - movement)) {
+            landlord.msgAnimationAtMicrowave();
         }
-    }
+    } 
 
     public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);

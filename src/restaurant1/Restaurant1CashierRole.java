@@ -1,5 +1,6 @@
 package restaurant1;
 
+import Role.Role;
 import agent.Agent;
 import restaurant1.interfaces.Restaurant1Customer;
 import restaurant1.interfaces.Restaurant1Market;
@@ -10,7 +11,7 @@ import java.util.*;
 
 import city.PersonAgent;
 
-public class Restaurant1CashierRole extends Agent {
+public class Restaurant1CashierRole extends Role {
 	
 	public Restaurant1EventLog log; //Log for keeping track of events while unit testing cashier
 	

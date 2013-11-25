@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -25,10 +26,13 @@ import city.gui.CityGui;
 import city.gui.Gui;
 import city.gui.PersonGui;
 
-public class Restaurant2AnimationPanel extends BuildingPanel implements MouseListener {
+public class Restaurant2AnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
+	
+    private static final int TIMER_INTERVAL = 15;
+    private Timer timer;
 	
 	private final int WINDOWX = 900;
-    private final int WINDOWY = 700;
+    private final int WINDOWY = 750;
     private final int TABLEDIM = 50;
     private final int TABLE1Y = WINDOWY/10;
     private final int TABLEX = WINDOWX/2 - TABLEDIM/2;
@@ -40,6 +44,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
     Restaurant2 restaurant;
     
     //People for testing
+    
     PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
     PersonAgent personCashier = new PersonAgent("Cashier");
@@ -48,6 +53,11 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
     Restaurant2CashierRole Cashier;
     Restaurant2WaiterRole Waiter;
     Restaurant2HostRole Host;
+    
+    //
+    Restaurant2CookGui cookGui;
+    Restaurant2CustomerGui customerGui;
+    Restaurant2WaiterGui waiterGui;
 	
 	public Restaurant2AnimationPanel(Restaurant2 r){
 		System.out.println("Animation panel created");
@@ -61,9 +71,14 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         
         restaurant = r;
         
+        
         Cook = new Restaurant2CookRole("CookRole", personCook);
+        cookGui = new Restaurant2CookGui(Cook);
+        Cook.setGui(cookGui);
         Cashier = new Restaurant2CashierRole("CashierRole", personCashier);
         Waiter = new Restaurant2WaiterRole("WaiterRole", personWaiter);
+        waiterGui = new Restaurant2WaiterGui(Waiter, personWaiter.getName(), cityGui, 1);
+        Waiter.setGui(waiterGui);
         Host = new Restaurant2HostRole("HostRole", personHost);
         
         restaurant.setHost(Host);
@@ -75,11 +90,17 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
         personCashier.addRole(Cashier, true);
         personCashier.startThread();
         personWaiter.addRole(Waiter, true);
-        //personWaiter.startThread();
+        personWaiter.startThread();
         Host.addWaiters(Waiter);
         
+        guis.add(cookGui);
+        guis.add(waiterGui);
+        
+        timer = new Timer(TIMER_INTERVAL, this);
+        timer.start();
+        
 	}
-
+	
     private List<Gui> guis = new ArrayList<Gui>();
 
 	public void actionPerformed(ActionEvent e) {
@@ -157,8 +178,12 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
     
     public void addGui(PersonGui gui) {
         guis.add(gui);
-        System.out.println("Person added to rest2 gui");
-        System.out.println("After add: " + guis.size());
+        //System.out.println("Person added to rest2 gui");
+        //System.out.println("After add: " + guis.size());
+    }
+    
+    public void addGui(Restaurant2CustomerGui g){
+    	guis.add(g);
     }
 /*
     public void addGui(Restaurant2WaiterGui gui) {

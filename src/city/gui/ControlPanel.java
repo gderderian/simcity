@@ -3,6 +3,7 @@ package city.gui;
 import interfaces.BusStop;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -55,6 +56,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JButton populateCity = new JButton("Populate City");
+    private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
     
     private Timer timer = new Timer();
     
@@ -142,6 +144,8 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
+        worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
+        worldControls.setAlignmentX(Component.CENTER_ALIGNMENT);
         controlPane.addTab("World", worldControls);
         controlPane.addTab("People", personControls);
         add(controlPane);
@@ -188,9 +192,13 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void setupWorldControls(){
+    	
     	populateCity.addActionListener(this);
     	
     	worldControls.add(populateCity);
+    	populateCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(timeDisplay);
+    	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
     
     private void addPersonSection(){
@@ -300,7 +308,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
         else if(e.getSource() == populateCity){
         	populateCity();
-        	populateCity.setVisible(false);
+        	populateCity.setEnabled(false);
         }
     }
 
@@ -474,8 +482,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private void createHouses() {
     	for(int i = 0; i < 26; i++) {
     		houses.add(new House("house" + Integer.toString(i + 1)));
-    		System.out.println("Created houses.");
     	}
+    	System.out.println("Created houses.");
     	//Apartment apart1 = new Apartment("apart1", 1);
     	//houses.add(apart1);
     	//Apartment apart2 = new Apartment("apart2", 2);
@@ -483,6 +491,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     public void populateCity(){
+    	//Add two buses at an interval
     	addVehicle("bus");
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -490,7 +499,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000	);
     	
-    	
+		/*addPerson("host", "Restaurant2 Host");
+		addPerson("cashier", "Restaurant2 Cashier");
+		addPerson("cook", "Restaurant2 Cook");
+		addPerson("waiter", "Restaurant2 Waiter");*/
+		addPerson("RestaurantTest", "Restaurant2 Customer");
+		
+		//addPerson("rest1test", "Restaurant1 Customer");
+		
+    }
+    
+    public void setTimeDisplay(String timeToDisplay){
+    	timeDisplay.setText(timeToDisplay);
     }
 
 }

@@ -1,17 +1,18 @@
 package city.gui.Restaurant5;
 
-import restaurant.CustomerAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.CookAgent;
-import restaurant.WaiterAgent.mycustomer;
-import restaurant.MarketAgent;
-import restaurant.CashierAgent;
-import restaurant.MarketAgent;
 
 import javax.swing.*;
 
+import astar.AStarTraversal;
+import city.CityMap;
+import city.House;
+import city.PersonAgent;
+import city.Restaurant5.Restaurant5CookRole;
+import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
+import city.Restaurant5.Restaurant5WaiterRole;
+import city.gui.PersonGui;
+import city.gui.Bank.BankManagerRoleGui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -25,14 +26,34 @@ public class Restaurant5Panel extends JPanel {
 
     //Host, cook, waiters and customers
   
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    private Vector<Restaurant5CustomerRole> customers = new Vector<Restaurant5CustomerRole>();
+    private Vector<Restaurant5WaiterRole> waiters = new Vector<Restaurant5WaiterRole>();
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
-    private RestaurantGui gui; //reference to main gui
-    private CookGui cookGui = new CookGui(cook, gui);
+	private AStarTraversal aStarTraversal;
+	private CityMap citymap = new CityMap();
+	private House house = new House("house1");
+	private Restaurant5Gui gui;
+	 
+    PersonAgent person1 = new PersonAgent("cook", aStarTraversal, citymap, house);
+	PersonGui person1gui = new PersonGui(person1);
+	person1.setGui(person1gui);
+    person1.startThread();
+    
+    PersonAgent person2 = new PersonAgent("cook", aStarTraversal, citymap, house);
+	PersonGui person2gui = new PersonGui(person2);
+	person2.setGui(person2gui);
+    person2.startThread();
+    
+	
+    Restaurant5CookRole cook = new Restaurant5CookRole("cook", person1);	
+	BankManagerRoleGui g2 = new BankManagerRoleGui(bankmanager, gui);
+	bankmanager.setPerson(person2);
+    
+    //reference to main gui
+    private Restaurant5CookGui cookGui = new Restaurant5CookGui(cook, gui);
     int waiterposcounter = 30;
     public Restaurant5Panel(Restaurant5Gui gui) {
         
@@ -73,7 +94,7 @@ public class Restaurant5Panel extends JPanel {
         JLabel label = new JLabel();
         restLabel.setLayout(new BorderLayout());
         label.setText(
-                "<html><h3><u>Tonight's Host</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Chicken</td><td>$2</td></tr><tr><td>Burrito</td><td>$3</td></tr><tr><td>Pizza</td><td>$4</td></tr><tr><td></td><td></td></tr></table><br></html>");
+                "<html><h3><u>Tonight's Host</u></h3><table><tr><td>host:</td><td>" + /*host.getName()*/  "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Chicken</td><td>$2</td></tr><tr><td>Burrito</td><td>$3</td></tr><tr><td>Pizza</td><td>$4</td></tr><tr><td></td><td></td></tr></table><br></html>");
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
         restLabel.add(label, BorderLayout.CENTER);
         restLabel.add(new JLabel("               "), BorderLayout.EAST);
@@ -93,19 +114,23 @@ public class Restaurant5Panel extends JPanel {
 
         if (type.equals("Customers")) {
 
-            for (int i = 0; i < customers.size(); i++) {
+            /*
+        	for (int i = 0; i < customers.size(); i++) {
                 CustomerAgent temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
+            */
         
         }
         else if(type.equals("Waiters")) {
-    		for (int i = 0; i < waiters.size(); i++) {
+    		/*
+        	for (int i = 0; i < waiters.size(); i++) {
                 WaiterAgent temp = waiters.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
+            */
     	}
         
         
@@ -125,6 +150,7 @@ public class Restaurant5Panel extends JPanel {
     	//creating new customer agents
     	if (type.equals("Customers")) {
     		
+    		/*
     		CustomerAgent c = new CustomerAgent(name);	
     		CustomerGui g = new CustomerGui(c, gui, host);
     		g.setHomePosition(12, 20 + customers.size() * 25);
@@ -139,11 +165,12 @@ public class Restaurant5Panel extends JPanel {
     		c.setGui(g);
     		customers.add(c);
     		c.startThread();
+    		*/
     	
     	}
     	//creating new waiter agents
     	else if(type.equals(("Waiters"))) {
-    		
+    		/*
     		//WaiterGui waiterGui = new WaiterGui(waiter, host, );
     		WaiterAgent w = new WaiterAgent(name,host,cook,cashier);	
     		WaiterGui wg = new WaiterGui(w, gui,host);
@@ -156,23 +183,27 @@ public class Restaurant5Panel extends JPanel {
     		host.addwaiter(w);
     		w.startThread();
     		//waiterposcounter += 15;
+    		 
+    		 */
     		
     	
     	}
     	//creating new cook agent
     	else if(type.equals(("Cooks"))) {
-    		
+    		/*
     		CookAgent c = new CookAgent(name);
     		CookGui cg = new CookGui(c,gui);
     		//gui.animationPanel.addGui(cg);
     		c.setGui(cg);
-    		c.startThread();	
+    		c.startThread();
+    		*/	
     	
     	}
     }
     
     //back-end implementation of the pause button
     public void pauseagents() {
+    	/*
     	host.pause();
     	cook.pause();
     	 cashier.pause();
@@ -186,10 +217,12 @@ public class Restaurant5Panel extends JPanel {
     	for(WaiterAgent pausewaiter: waiters) {
     		pausewaiter.pause();
     	}
+    	*/
     }
     
     //back-end implementation of the restart button
     public void restartagents() {
+    	/*
     	host.restart();
     	cook.restart();
     	 cashier.restart();
@@ -203,34 +236,34 @@ public class Restaurant5Panel extends JPanel {
     	for(WaiterAgent pausewaiter: waiters) {
     		pausewaiter.restart();
     	}
+    	*/
     }
     
     public void waitergoonbreak() {
  
-    	host.msgWaiterWantBreak(waiters.get(1));
+    	//host.msgWaiterWantBreak(waiters.get(1));
     
     }
     
     public void waitercomebackfrombreak() {
     	
-    	host.msgWaiterComeBackFromBreak(waiters.get(1));
+    	//host.msgWaiterComeBackFromBreak(waiters.get(1));
     
     }
     
     public void depletecooksupply() {
     	
-    	cook.msgDepleteCookSupply();
     	
     }
     
     public void depletemarket1supply() {
     	
-    	market1.depletemarketsupply();
+ 
     }
     
     public void depletemarket2supply() {
     	
-    	market2.depletemarketsupply();
+    	
     }
     
     

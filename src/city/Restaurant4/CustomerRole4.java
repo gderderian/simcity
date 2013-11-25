@@ -1,5 +1,6 @@
 package city.Restaurant4;
 
+import city.PersonAgent;
 import city.Restaurant4.HostRole4;
 import city.Restaurant4.WaiterRole4;
 import city.Restaurant4.WaiterRole4.Menu;
@@ -20,6 +21,7 @@ import java.util.Random;
 public class CustomerRole4 extends Role implements Customer4 {
 	private String name;
 	private String choice;
+	PersonAgent p;
 	private Menu menu;
 	private int hungerLevel = 10;        // determines length of meal
 	private int xDest;
@@ -53,9 +55,10 @@ public class CustomerRole4 extends Role implements Customer4 {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerRole4(String name){
+	public CustomerRole4(String name, PersonAgent p){
 		super();
 		this.name = name;
+		this.p= p;
 		if(name.equals("cheapestItem")){
 			cashOnHand= 5.99;
 		}
@@ -102,7 +105,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 	// MESSAGES
 	public void gotHungry() {//from animation
 		event= AgentEvent.gotHungry;
-		stateChanged();
+		p.stateChanged();
 	}
 
 	public void msgPositionInLine(int spot){
@@ -118,29 +121,29 @@ public class CustomerRole4 extends Role implements Customer4 {
 		this.waiter= waiter;
 		this.menu= menu;
 		event= AgentEvent.followHost;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgRestaurantFull(){
 		event= AgentEvent.fullRest;
-		stateChanged();
+		p.stateChanged();
 	}
 
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
 		event= AgentEvent.atTable;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgWhatDoWant(){
 		event= AgentEvent.askedToOrder;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgWhatDoWant(String choice){
 		state= AgentState.askingToOrder;
 		event= AgentEvent.reOrder;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgHereIsFood(String choice){
@@ -153,13 +156,13 @@ public class CustomerRole4 extends Role implements Customer4 {
 		}
 		state= AgentState.deciding;
 		event= AgentEvent.gotFood;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgHereIsBill(double amount){
 		amountOwed= amount;
 		event= AgentEvent.gotBill;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgHereIsChange(boolean finished){
@@ -168,7 +171,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 			amountOwedNextTime= amountOwed;
 		}
 		event= AgentEvent.gotChange;
-		stateChanged();
+		p.stateChanged();
 	}
 	
 	public void msgRestClosed(){
@@ -179,7 +182,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 		//from animation
 		event= AgentEvent.doneLeaving;
 		state= AgentState.none;
-		stateChanged();
+		p.stateChanged();
 	}
 
 	/**
@@ -270,7 +273,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 			customerGui.DoExitRestaurant();
 			state= AgentState.gone;
 			event= AgentEvent.none;
-			stateChanged();
+			p.stateChanged();
 			return;
 		}
 		print("The line isn't too long, I'll wait until a table is avaliable");
@@ -337,7 +340,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 		timer.schedule(new TimerTask() {
 			public void run() {
 				event= AgentEvent.doneEating;
-				stateChanged();
+				p.stateChanged();
 			}
 		},
 		getHungerLevel() * timeToEat); //how long to wait before running task

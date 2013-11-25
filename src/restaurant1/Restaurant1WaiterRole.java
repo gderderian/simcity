@@ -1,5 +1,6 @@
 package restaurant1;
 
+import Role.Role;
 import agent.Agent;
 import restaurant1.gui.Restaurant1WaiterGui;
 import restaurant1.interfaces.Restaurant1Waiter;
@@ -16,7 +17,7 @@ import city.PersonAgent;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
+public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	
 	private static enum customerState { waiting, seated, readyToOrder, 
@@ -177,7 +178,7 @@ public class Restaurant1WaiterRole extends Agent implements Restaurant1Waiter {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		try {
 			

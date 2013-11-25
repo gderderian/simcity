@@ -270,24 +270,6 @@ public class Restaurant1RestaurantGui extends JFrame implements ActionListener, 
         	resumeButton.setEnabled(false);
         	pauseButton.setEnabled(true);
         }
-        if(e.getSource() == emptyMarket1) {
-        	restPanel.emptyMarket1();
-        }
-        if(e.getSource() == emptyMarket2) {
-        	restPanel.emptyMarket2();
-        }
-        if(e.getSource() == emptyMarket3) {
-        	restPanel.emptyMarket3();
-        }
-        if(e.getSource() == clearCook) {
-        	restPanel.noMoreSteak();
-        	restPanel.noMoreFish();
-        	restPanel.noMoreChicken();
-        }
-        if(e.getSource() == recheckInventory){
-        	restPanel.recheckInventory();
-        	recheckInventory.setEnabled(false);
-        }
     }
     
     public void stateChanged(ChangeEvent e) {

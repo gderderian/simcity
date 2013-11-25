@@ -107,6 +107,10 @@ public class CityMap {
 		busStops.add((BusStopAgent) busStop);
 	}
 	
+	public BusStopAgent getBusStop(int num) {
+		return busStops.get(num);
+	}
+	
 	public void addStopDestinations(int number, List<String> destinations) {
 		nearbyDestinations.put(number, destinations);
 	}

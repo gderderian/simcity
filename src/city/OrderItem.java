@@ -10,4 +10,14 @@ public class OrderItem {
 		quantity = q;
 	}
 
+	
+	public int getQuantity() {
+		return quantity;
+	}
+	public String getType() {
+		return type;
+	}
+	public String getName() {
+		return name;
+	}
 }

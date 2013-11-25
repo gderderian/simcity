@@ -14,8 +14,8 @@ public class Restaurant2CookGui implements Gui{
 	private int yDest;
 	private int yPos;
 	private int xPos;
-    private final int WINDOWX = 600;
-    private final int WINDOWY = 600 - 20; //the - 20 to account for the border, etc.
+    private final int WINDOWX = 900;
+    private final int WINDOWY = 750 - 20; //the - 20 to account for the border, etc.
     private final int KITCHENX = WINDOWX - 50;	//based off of the refrigerator
     private final int KITCHENY = WINDOWY/2 - 35;	//based off of the refrigerator
     private final int STOVEX = KITCHENX - 65;

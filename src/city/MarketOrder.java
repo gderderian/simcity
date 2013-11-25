@@ -28,5 +28,9 @@ public class MarketOrder {
 	public PersonAgent getRecipient(){
 		return recipient;
 	}
+	
+	public List<OrderItem> getOrders() {
+		return orders;
+	}
 
 }

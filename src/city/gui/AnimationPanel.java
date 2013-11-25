@@ -111,9 +111,65 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView("Apartment1");
 		} else if((x >= 120) && (x <= 210) && (y >= 635) && (y <= 695)){
 			cityGui.changeView("Apartment2");
-		}
-		else if((x >= 780) && (x <= 850) && (y >= 60) && (y <= 120)){
+		} else if((x >= 780) && (x <= 850) && (y >= 60) && (y <= 120)){
 			cityGui.changeView("Bank1");
+		}  else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
+			cityGui.changeView("Restaurant4");
+		}
+		
+		//Houses
+		if ((x >= 780) && (x <= 850) && (y >= 570) && (y <= 600)){
+			cityGui.changeView(0, 0);
+		} else if ((x >= 780) && (x <= 850) && (y >= 510) && (y <= 540)){
+			cityGui.changeView(0, 1);
+		} else if ((x >= 780) && (x <= 850) && (y >= 450) && (y <= 480)){
+			cityGui.changeView(0, 2);
+		} else if ((x >= 780) && (x <= 850) && (y >= 370) && (y <= 390)){
+			cityGui.changeView(0, 3);
+		} else if ((x >= 780) && (x <= 850) && (y >= 240) && (y <= 270)){
+			cityGui.changeView(0, 4);
+		} else if((x >= 780) && (x <= 850) && (y >= 120) && (y <= 150)){
+			cityGui.changeView(0, 5);
+		} else if((x >= 690) && (x <= 720) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 6);
+		} else if((x >= 630) && (x <= 660) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 7);
+		} else if((x >= 570) && (x <= 600) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 8);
+		} else if((x >= 510) && (x <= 540) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 9);
+		} else if((x >= 390) && (x <= 420) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 10);
+		} else if((x >= 330) && (x <= 360) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 11);
+		} else if((x >= 210) && (x <= 240) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 12);
+		} else if((x >= 150) && (x <= 180) && (y >= 0) && (y <= 60)){
+			cityGui.changeView(0, 13);
+		} else if((x >= 60) && (x <= 120) && (y >= 60) && (y <= 90)){
+			cityGui.changeView(0, 14);
+		} else if((x >= 60) && (x <= 120) && (y >= 180) && (y <= 210)){
+			cityGui.changeView(0, 15);
+		} else if((x >= 60) && (x <= 120) && (y >= 240) && (y <= 270)){
+			cityGui.changeView(0, 16);
+		} else if((x >= 60) && (x <= 120) && (y >= 360) && (y <= 390)){
+			cityGui.changeView(0, 17);
+		} else if((x >= 60) && (x <= 120) && (y >= 480) && (y <= 510)){
+			cityGui.changeView(0, 18);
+		} else if((x >= 60) && (x <= 120) && (y >= 540) && (y <= 570)){
+			cityGui.changeView(0, 19);
+		} else if((x >= 210) && (x <= 240) && (y >= 635) && (y <= 695)){
+			cityGui.changeView(0, 20);
+		} else if((x >= 270) && (x <= 300) && (y >= 635) && (y <= 695)){
+			cityGui.changeView(0, 21);
+		} else if((x >= 450) && (x <= 480) && (y >= 635) && (y <= 695)){
+			cityGui.changeView(0, 22);
+		} else if((x >= 480) && (x <= 510) && (y >= 270) && (y <= 340)){
+			cityGui.changeView(0, 23);
+		} else if((x >= 420) && (x <= 450) && (y >= 270) && (y <= 340)){
+			cityGui.changeView(0, 24);
+		} else if((x >= 330) && (x <= 360) && (y >= 270) && (y <= 340)){
+			cityGui.changeView(0, 25);
 		}
 		
 	}

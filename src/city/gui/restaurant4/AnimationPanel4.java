@@ -2,6 +2,7 @@ package city.gui.restaurant4;
 
 import javax.swing.*;
 
+import city.gui.BuildingPanel;
 import city.gui.CityGui;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel4 extends JPanel implements ActionListener, MouseListener {
+public class AnimationPanel4 extends BuildingPanel implements ActionListener, MouseListener {
 
     private static final int NTABLES= 4;
 	private static final int xPosTable= 100;
@@ -32,8 +33,6 @@ public class AnimationPanel4 extends JPanel implements ActionListener, MouseList
     private final int PLATEY= 450;
     private final int NXSTATIONS= 5;
     private final int NYSTATIONS= 3;
-    private CityGui cityGui;
-    
 
     private List<Gui4> guis = new ArrayList<Gui4>();
 
@@ -41,8 +40,13 @@ public class AnimationPanel4 extends JPanel implements ActionListener, MouseList
   	
     public AnimationPanel4() {
     	setSize(WINDOWX, WINDOWY);
+    	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
+		setMaximumSize(new Dimension(WINDOWX, WINDOWY));
+		setMinimumSize(new Dimension(WINDOWX, WINDOWY));
         setVisible(true);
  
+        addMouseListener(this);
+        
     	Timer timer = new Timer(TIMER, this );
     	timer.start();
     }
@@ -59,10 +63,10 @@ public class AnimationPanel4 extends JPanel implements ActionListener, MouseList
         g2.fillRect(SCREENX, SCREENY, WINDOWX, WINDOWY);
 
         //Back to city map
-        g2.setColor(Color.RED);
-        g2.fillRect(700, 100, 100, 50);
+        g2.setColor(Color.CYAN);
+        g2.fillRect(700, 65, 100, 30);
         g2.setColor(Color.BLACK);
-        g2.drawString("City Map", 720, 120);
+        g2.drawString("Exit to City", 715, 80);
         
         //Here is the table
         for(int i=0; i<NTABLES; i++){
@@ -136,8 +140,8 @@ public class AnimationPanel4 extends JPanel implements ActionListener, MouseList
 		int clickedX= e.getX();
 		int clickedY= e.getY();
 		
-		if((clickedX > 700) && (clickedX < 800) && (clickedY > 100) && (clickedY < 150)){
-			cityGui.changeView("City");
+		if((clickedX > 700) && (clickedX < 800) && (clickedY > 75) && (clickedY < 105)){
+			changeBackToCity();
 		}
 		
 	}
