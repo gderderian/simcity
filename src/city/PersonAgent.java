@@ -763,6 +763,15 @@ public class PersonAgent extends Agent implements Person{
 		meals.remove(m);
 	}
 	
+	//Animation code below!
+	public int getXPosition() {
+		return currentPosition.getX();
+	}
+	
+	public int getYPosition() {
+		return currentPosition.getY();
+	}
+	
 	void moveTo(int x, int y) {
 		Position p = new Position(x, y);
 		
