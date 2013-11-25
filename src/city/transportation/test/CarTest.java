@@ -19,10 +19,11 @@ public class CarTest extends TestCase {
 		super.setUp();
 		owner = new MockTransportationPerson("owner");
 		car = new CarAgent(null);
+		car.thisIsATest(); //Disables activity log capability(used in city control panel)
 		destination = "TEST DESTINATION";
 	}	
 
-	/* This tests a person driving their car from one place to another */
+	/* This tests a CarAgent in a scenario with a person driving their car from one place to another */
 	public void testCarDriving() {		
 		assertTrue(car.capacity == 1); //Checks that car has appropriate capacity
 		

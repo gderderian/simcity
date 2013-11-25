@@ -19,6 +19,8 @@ public class BusStopAgent extends Agent implements BusStop {
 	
 	int number;
 	
+	private boolean test = false;
+	
 	String name = "BusStop" + number;
 	
 	ActivityTag tag = ActivityTag.BUSSTOP;
@@ -84,7 +86,11 @@ public class BusStopAgent extends Agent implements BusStop {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 
+	public void thisIsATest() {
+		test = true;
+	}
 }

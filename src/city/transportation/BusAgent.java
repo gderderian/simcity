@@ -18,8 +18,12 @@ public class BusAgent extends Vehicle implements Bus {
 	public int currentStop;
 	public List<BusStop> busStops = new ArrayList<BusStop>();
 	private Map<Integer, Position> stopPositions = new HashMap<Integer, Position>();
-	double money;
+	public double money;
 	double fare;
+	
+	private boolean test = false;
+	
+	ActivityTag tag = ActivityTag.BUS;
 	
 	String name = "Bus";
 	
@@ -27,10 +31,8 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	public List<Passenger> passengers = new ArrayList<Passenger>();
 	
-	ActivityTag tag = ActivityTag.BUS;
-	
-	class Passenger {
-		Person p;
+	public class Passenger {
+		public Person p;
 		boolean wantsOff = false;
 		boolean paidFare = false;
 
@@ -257,8 +259,12 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 	
+	public void thisIsATest() {
+		test = true;
+	}
 }
  

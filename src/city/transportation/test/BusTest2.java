@@ -12,7 +12,7 @@ import city.transportation.mock.MockBusStop;
 import city.transportation.mock.MockTransportationPerson;
 import interfaces.Person;
 
-public class BusTest extends TestCase {
+public class BusTest2 extends TestCase {
 	//instantiated in setUp()
 	List<Person> people;
 	BusAgent bus;
@@ -29,7 +29,7 @@ public class BusTest extends TestCase {
 			people.add(new MockTransportationPerson("person" + Integer.toString(i)));
 		}
 		bus = new BusAgent(null);
-		bus.thisIsATest(); //This disables activity log capability - only needed for actual city
+		bus.thisIsATest(); //Running as a test - disables activity log capability(for city control panel)
 		
 		bus.money = 0; //Take away all of bus's money for testing purposes
 		
@@ -45,8 +45,7 @@ public class BusTest extends TestCase {
 		bus.busStops.add(stop4);
 	}	
 
-	/* This is a comprehensive test for a BusAgent making the circuit around the city, 
-	 * checking in at each bus stop along the way, and picking up passengers */
+	/* This is a simpler BusAgent test to make sure bus doesn't exceed its capacity of passengers */
 	public void testBusDriving() {		
 		
 		//Preconditions
@@ -146,11 +145,6 @@ public class BusTest extends TestCase {
 			assertTrue(mtp.log.getLastLoggedEvent().getMessage() == "Got message: Arrived at stop");
 		}
 		
-		//First 5 passengers want to get off
-		for(int i = 0; i < 5; i++) {
-			bus.msgImGettingOff(people.get(i));
-		}
-		
 		try { //Wait for bus to complete its time waiting at stop
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -158,12 +152,11 @@ public class BusTest extends TestCase {
 			e.printStackTrace();
 		}
 		
-		for(int i = 0; i < 6; i++) //Call scheduler 6 times - 5 people getting off + 1 state change
-			bus.pickAndExecuteAnAction();
+		bus.pickAndExecuteAnAction();
 
 		//Postconditions
 		assertTrue(bus.currentStop == 1); //Still at stop #1 - still have to pick up new passengers
-		assertEquals(bus.passengers.size(), 5); //5 passengers left
+		assertEquals(bus.passengers.size(), 10); //5 passengers left
 		assertTrue(bus.event == BusEvent.pickingUpPassengers);
 		assertTrue(bus.state == BusState.pickingUpPassengers);
 		
@@ -171,7 +164,7 @@ public class BusTest extends TestCase {
 		bus.msgPeopleBoarding(null); //no new passengers ready to board
 
 		//Postconditions
-		assertEquals(bus.passengers.size(), 5);
+		assertEquals(bus.passengers.size(), 10);
 		assertTrue(bus.event == BusEvent.boarded);
 		assertTrue(bus.state == BusState.pickingUpPassengers);
 
@@ -179,7 +172,7 @@ public class BusTest extends TestCase {
 		bus.pickAndExecuteAnAction();
 
 		//Postconditions
-		assertEquals(bus.passengers.size(), 5);
+		assertEquals(bus.passengers.size(), 10);
 		assertTrue(bus.state == BusState.askingForFare);
 		assertTrue(bus.event == BusEvent.everyonePaid);
 		
@@ -187,44 +180,7 @@ public class BusTest extends TestCase {
 		bus.pickAndExecuteAnAction(); //Asks for fare from all new passengers, but there are none
 		
 		//Postconditions
-		assertEquals(bus.passengers.size(), 5);
-		assertTrue(bus.event == BusEvent.arrivedAtStop);
-		assertTrue(bus.state == BusState.driving);
-		
-		//Scheduler
-		bus.pickAndExecuteAnAction();
-		
-		//Should have notified all passengers that bus is at stop - confirm here
-		for(int i = 0; i < bus.passengers.size(); i++) { 
-			MockTransportationPerson mtp = (MockTransportationPerson) bus.passengers.get(i).p;
-			assertTrue(mtp.log.getLastLoggedEvent().getMessage() == "Got message: Arrived at stop");
-		}
-		
-		//Postconditions
-		assertTrue(bus.currentStop == 2); //Now at stop #2
-		assertTrue(bus.state == BusState.atStop);
-		assertTrue(bus.event == BusEvent.arrivedAtStop);
-		
-		//All 5 passengers want to get off
-		for(int i = 5; i < 10; i++) {
-			bus.msgImGettingOff(people.get(i));
-		}
-		try { //Wait for bus to complete its time waiting at stop
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		for(int i = 0; i < 6; i++) //Call scheduler 6 times - 5 people getting off + 1 state change
-			bus.pickAndExecuteAnAction();
-
-		//Postconditions
-		assertTrue(bus.currentStop == 2);
-		assertEquals(bus.passengers.size(), 0); //All passengers gone
-		assertTrue(bus.event == BusEvent.pickingUpPassengers);
-		assertTrue(bus.state == BusState.pickingUpPassengers);
-		
-		//Everyone has unloaded and bus is ready to pick up new passengers!
+		assertEquals(bus.passengers.size(), 10); //Still 10 passengers
+		assertTrue(bus.event == BusEvent.arrivedAtStop); //Bus arrives at next stop, ready to continue!
 	}
 }
