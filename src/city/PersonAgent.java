@@ -596,7 +596,7 @@ public class PersonAgent extends Agent implements Person{
 			for(Role r : roles){
 				if(r instanceof Restaurant2CustomerRole){
 					r.setActive();
-					role = r;
+					role = (Restaurant2CustomerRole) r;
 					print("Found role to set active");
 				}
 			}
@@ -619,6 +619,7 @@ public class PersonAgent extends Agent implements Person{
 		Restaurant2 test = cityMap.restaurant2;
 		print("I want food!");
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
+		((Restaurant2CustomerRole)role).setGuiActive();
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){

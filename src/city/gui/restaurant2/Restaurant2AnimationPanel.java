@@ -208,9 +208,4 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements MouseLis
 		}
 	}
 
-	public void addGui(Restaurant2CustomerGui customerGui2) {
-		guis.add(customerGui2);
-		
-	}
-
 }

@@ -460,4 +460,9 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	public int getTableNum(){
 		return tableNumber;
 	}
+
+
+	public void setGuiActive() {
+		customerGui.DoEnterRestaurant();
+	}
 }

@@ -307,7 +307,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	private void personFactory(PersonAgent p, int i) {
 		if(i == 1) {
 			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
-			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, this, "cust", 1);
+			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
 			restaurant2.addGui(customerGui);
 			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest2");
