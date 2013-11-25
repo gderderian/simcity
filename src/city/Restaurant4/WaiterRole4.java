@@ -44,6 +44,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	
 	public WaiterRole4(String name, RestaurantGui4 gui, PersonAgent p) {
 		super();
+		building = "rest4";
 		this.name= name;
 		this.p= p;
 		this.gui= gui;

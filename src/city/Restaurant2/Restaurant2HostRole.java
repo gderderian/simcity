@@ -44,6 +44,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 
 	public Restaurant2HostRole(String name, PersonAgent p) {
 		super();
+		building = "rest2";
 		
 		waiterNum = 1;
 		person = p;

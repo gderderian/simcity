@@ -42,6 +42,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		
 	public Restaurant2CookRole(String n, PersonAgent p){
 		super();
+		building = "rest2";
 		
 		marketNumber = 0;
 		person = p;

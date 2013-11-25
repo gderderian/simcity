@@ -32,6 +32,7 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	
 	public Restaurant2CashierRole(String n, PersonAgent p){
 		super();
+		building = "rest2";
 		
 		name = n;
 		person = p;

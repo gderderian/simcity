@@ -69,6 +69,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	public Restaurant5WaiterRole(String name, Restaurant5HostRole host, Restaurant5CookRole cook, Restaurant5Cashier cashier, PersonAgent person) {
 		super();
+		building = "rest5";
 
 		this.name = name;
 		this.host = host;

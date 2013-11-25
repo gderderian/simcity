@@ -1,43 +1,47 @@
-package restaurant;
+package city.Restaurant3;
 
-import agent.Agent;
+import Role.Role;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurant.gui.CookGui;
-import restaurant.test.mock.EventLog;
+import city.PersonAgent;
+import city.gui.Restaurant3.*;
 
 import javax.swing.Timer;
+
+import test.mock.EventLog;
 
 
 /**
  * Restaurant Cook Agent
  */
-public class CookAgent extends Agent {
+public class CookRole3 extends Role {
 	
 	// Variable Declarations
 	private String name;
 	private List<Order> currentOrders;
-	private List<MarketAgent> myMarkets;
+	//private List<MarketAgent> myMarkets;
 	public Hashtable<String, FoodItem> allFood;
 	private static final int REORDER_THRESHOLD = 2; // Once a food item has this many of itself left, a reorder request will automatically be placed
 	private static final int MARKETS_NUM = 2;
 
 	private Semaphore isAnimating = new Semaphore(0,true);
-	private CookGui cookGui;
+	private CookGui3 cookGui;
 	
 	public EventLog log;
 	
-	public CookAgent(String name) {
+	PersonAgent person;
+	
+	public CookRole3(String name, PersonAgent p) {
 
 		super();
 		this.name = name;
 		
 		currentOrders = Collections.synchronizedList(new ArrayList<Order>());
-		myMarkets = Collections.synchronizedList(new ArrayList<MarketAgent>());
+		//myMarkets = Collections.synchronizedList(new ArrayList<MarketAgent>());
 		
 		log = new EventLog();
 		
@@ -49,10 +53,12 @@ public class CookAgent extends Agent {
 		allFood.put("Pasta", new FoodItem("Pasta", 6000, 3));
 		allFood.put("Cobbler", new FoodItem("Cobbler", 5000, 3));
 		
+		person = p;
+		
 	}
 	
 	// Messages
-	public void hereIsOrder(String choice, WaiterAgent waiter, int tableNum) {
+	public void hereIsOrder(String choice, WaiterRole3 waiter, int tableNum) {
 		Do("Cook has received an order of " + choice + " for table #" + tableNum + " via waiter " + waiter.getName() + ".");
 		// Determine if there is enough inventory of this item to fulfill this order
 		if (allFood.get(choice).quantity >= 1) { // Able to fulfill order, dock one from that item's inventory
@@ -61,7 +67,7 @@ public class CookAgent extends Agent {
 			o.requestingWaiter = waiter;
 			o.recipTable = tableNum;
 			currentOrders.add(o);
-			stateChanged();
+			person.stateChanged();
 		} else { // Unable to fulfill order, create it and have it marked as bounce back
 			Order o = new Order();
 			o.foodItem = choice;
@@ -69,7 +75,7 @@ public class CookAgent extends Agent {
 			o.recipTable = tableNum;
 			o.status = orderStatus.bounceBack;
 			currentOrders.add(o);
-			stateChanged();
+			person.stateChanged();
 		}
 	}
 	
@@ -83,17 +89,17 @@ public class CookAgent extends Agent {
 		int newFoodQuantity  = currentFoodQuantity + quantity;
 		f.quantity = newFoodQuantity;
 		f.reorderSent = false;
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	
 	public void pickedUpFood(String foodChoice){
 		cookGui.platingFood.remove(foodChoice);
-		stateChanged();
+		person.stateChanged();
 	}
 	
 	// Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if (!currentOrders.isEmpty()) {
 			try {
 				for (Order order : currentOrders) {
@@ -176,7 +182,7 @@ public class CookAgent extends Agent {
 		allFood.get(o.foodItem).decrementQuantity(); // After preparing this order, there is one less of this item available
 		if (allFood.get(o.foodItem).quantity <= REORDER_THRESHOLD && allFood.get(o.foodItem).reorderSent == false){
 			int orderQuantity = allFood.get(o.foodItem).maxCapacity - allFood.get(o.foodItem).quantity;
-			myMarkets.get(allFood.get(o.foodItem).searchMarket).orderFood(this, o.foodItem, orderQuantity);
+			//myMarkets.get(allFood.get(o.foodItem).searchMarket).orderFood(this, o.foodItem, orderQuantity);
 			allFood.get(o.foodItem).requestedQuantity = orderQuantity;
 		}
 		
@@ -264,9 +270,9 @@ public class CookAgent extends Agent {
 		currentOrders.remove(o);
 	}
 	
-	public void addMarket(MarketAgent m){
-		myMarkets.add(m);
-	}
+	//public void addMarket(MarketAgent m){
+	//	myMarkets.add(m);
+	//}
 	
 	public class FoodItem {
 		
@@ -304,11 +310,11 @@ public class CookAgent extends Agent {
 		
 		String foodItem;
 		int recipTable;
-		WaiterAgent requestingWaiter;
+		WaiterRole3 requestingWaiter;
 		Timer foodTimer;
 		orderStatus status;
 		
-		public Order(WaiterAgent w){
+		public Order(WaiterRole3 w){
 			requestingWaiter = w;
 			status = orderStatus.waiting;
 		}
@@ -317,7 +323,7 @@ public class CookAgent extends Agent {
 			status = orderStatus.waiting;
 		}
 		
-		public Order(CustomerAgent c, WaiterAgent w, String foodChoice){
+		public Order(CustomerRole3 c, WaiterRole3 w, String foodChoice){
 			requestingWaiter = w;
 			foodItem = foodChoice;
 			status = orderStatus.waiting;
@@ -335,7 +341,7 @@ public class CookAgent extends Agent {
 			return foodItem;
 		}
 		
-		public WaiterAgent getWaiter(){
+		public WaiterRole3 getWaiter(){
 			return requestingWaiter;
 		}
 		
@@ -360,7 +366,7 @@ public class CookAgent extends Agent {
 		return currentOrders;
 	}
 	
-	public void setGui(CookGui cg) {
+	public void setGui(CookGui3 cg) {
 		cookGui = cg;
 	}
 

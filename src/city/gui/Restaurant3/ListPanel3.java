@@ -1,4 +1,4 @@
-package restaurant.gui;
+package city.gui.Restaurant3;
 
 import javax.swing.*;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and waiters
  */
-public class ListPanel extends JPanel implements ActionListener, KeyListener {
+public class ListPanel3 extends JPanel implements ActionListener, KeyListener {
 
     public JScrollPane pane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -19,7 +19,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
     private JPanel view = new JPanel();
     private List<JButton> list = new ArrayList<JButton>();
 
-    private RestaurantPanel restPanel;
+    private RestaurantPanel3 restPanel;
     private String type;
     
     private JPanel addPersonPanel;
@@ -39,7 +39,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public ListPanel3(RestaurantPanel3 rp, String type) {
     	
         restPanel = rp;
         this.type = type;

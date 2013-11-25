@@ -1,17 +1,16 @@
-package restaurant;
+package city.Restaurant3;
 
-import agent.Agent;
+import Role.Role;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.Timer;
-import restaurant.interfaces.Market;
-import restaurant.test.mock.EventLog;
+import test.mock.EventLog;
 
 /**
  * Restaurant Market Agent
  */
-public class MarketAgent extends Agent implements Market {
+public class MarketRole3 extends Role {
 	
 	// Variable Declarations
 	private String name;
@@ -19,19 +18,19 @@ public class MarketAgent extends Agent implements Market {
 	public Hashtable<String, Integer> inventoryCount;
 	private static final int DEFAULT_ORDER_FULFILL_TIME = 25000; // All market orders take a default of twenty-five seconds to fulfill
 	private double myMoney;
-	private CashierAgent cashier;
-	private Menu myMenu;
+	private CashierRole3 cashier;
+	private Menu3 myMenu;
 
 	public EventLog log;
 	
-	public MarketAgent(String name, CashierAgent c) {
+	public MarketRole3(String name, CashierRole3 c) {
 
 		super();
 		this.name = name;
 		currentMarketOrders = new ArrayList<MarketOrder>();
 		myMoney = 5;
 		cashier = c;
-		myMenu = new Menu();
+		myMenu = new Menu3();
 		
 		log = new EventLog();
 		
@@ -47,7 +46,7 @@ public class MarketAgent extends Agent implements Market {
 	}
 	
 	// Messages
-	public void orderFood(CookAgent c, String foodToMarketOrder, int quantity) {
+	public void orderFood(CookRole3 c, String foodToMarketOrder, int quantity) {
 		// Create and add order into queue to be fulfilled by market
 		Do("Received order from cook for " + quantity + " " + foodToMarketOrder + "(s).");
 		MarketOrder o = new MarketOrder();
@@ -55,13 +54,13 @@ public class MarketAgent extends Agent implements Market {
 		o.requestingCook = c;
 		o.quantityRequested = quantity;
 		currentMarketOrders.add(o);
-		stateChanged();
+	//	stateChanged();
 	}
 	
-	public void acceptCashierPayment(CashierAgent c, double amountPaid) {
+	public void acceptCashierPayment(CashierRole3 c, double amountPaid) {
 		// Add what the cashier paid to my money
 		myMoney = myMoney + amountPaid;
-		stateChanged();
+	//	stateChanged();
 	}
 
 	// Scheduler
@@ -122,12 +121,12 @@ public class MarketAgent extends Agent implements Market {
 		
 		public String foodItem;
 		public int quantityRequested;
-		CookAgent requestingCook;
+		CookRole3 requestingCook;
 		Timer foodTimer;
 		public orderStatus status;
 		int deliverableQuantity;
 		
-		public MarketOrder(CookAgent c){
+		public MarketOrder(CookRole3 c){
 			requestingCook = c;
 			status = orderStatus.waiting;
 			deliverableQuantity = 0;
@@ -149,7 +148,7 @@ public class MarketAgent extends Agent implements Market {
 			return foodItem;
 		}
 		
-		public CookAgent getCook(){
+		public CookRole3 getCook(){
 			return requestingCook;
 		}
 		
@@ -158,7 +157,7 @@ public class MarketAgent extends Agent implements Market {
 					new ActionListener() { public void actionPerformed(ActionEvent event) {
 			          status = orderStatus.ready; // Mark as ready only after set amount of time to fulfill order has compelted
 			          foodTimer.stop();
-			          stateChanged();
+			         // stateChanged();
 			      }
 			});
 			foodTimer.start();

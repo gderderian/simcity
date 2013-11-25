@@ -49,6 +49,7 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 
 	public Restaurant1WaiterRole(String name, PersonAgent p) {
 		super();
+		building = "rest1";
 
 		this.state = waiterState.working;
 		this.name = name;

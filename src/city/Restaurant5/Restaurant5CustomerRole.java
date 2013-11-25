@@ -79,6 +79,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	 */
 	public Restaurant5CustomerRole(String name, PersonAgent person){
 		super();
+		building = "rest5";
 		
 		
 		if(name.equals("cheap"))

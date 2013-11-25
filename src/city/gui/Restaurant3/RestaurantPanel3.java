@@ -1,11 +1,6 @@
-package restaurant.gui;
+package city.gui.Restaurant3;
 
-import restaurant.CustomerAgent;
-import restaurant.CookAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.MarketAgent;
-import restaurant.CashierAgent;
+import city.Restaurant3.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
@@ -15,26 +10,29 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
+public class RestaurantPanel3 extends JPanel {
 
 	// Declare lists to store agents with multiple instances
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiterList = new Vector<WaiterAgent>();
+    private Vector<CustomerRole3> customers = new Vector<CustomerRole3>();
+    private Vector<WaiterRole3> waiterList = new Vector<WaiterRole3>();
 	
     // Instantiate cook, host, and three markets
-    private HostAgent host = new HostAgent("Sarah");
-    private CookAgent cook = new CookAgent("Jeff");
-    private CashierAgent cashier = new CashierAgent("Bob");
-    private MarketAgent market1 = new MarketAgent("Ralphs", cashier);
-    private MarketAgent market2 = new MarketAgent("Vons", cashier);
-    private MarketAgent market3 = new MarketAgent("Albertsons", cashier);
+   // private HostAgent host = new HostAgent("Sarah");
+   // private CookRole3 cook = new CookRole3("Jeff");
+   // private CashierRole3 cashier = new CashierRole3("Bob");
+    
+    /*
+    private MarketAgent3 market1 = new MarketAgent3("Ralphs", cashier);
+    private MarketAgent3 market2 = new MarketAgent3("Vons", cashier);
+    private MarketAgent3 market3 = new MarketAgent3("Albertsons", cashier);
+    */
     
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private ListPanel3 customerPanel = new ListPanel3(this, "Customers");
+    private ListPanel3 waiterPanel = new ListPanel3(this, "Waiters");
     private JPanel group = new JPanel();
 
-    private RestaurantGui gui;
+    private RestaurantGui3 gui;
 
     private static final int REST_PANEL_ROWS = 1;
     private static final int REST_PANEL_COLS = 2;
@@ -43,10 +41,11 @@ public class RestaurantPanel extends JPanel {
     private static final int Y_DIM = 550;
     private static final int THIRD = 3;
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public RestaurantPanel3(RestaurantGui3 gui) {
     	
         this.gui = gui;
 
+        /*
         host.startThread();
         cook.startThread();
         cashier.startThread();
@@ -57,10 +56,11 @@ public class RestaurantPanel extends JPanel {
         cook.addMarket(market1);
         cook.addMarket(market2);
         cook.addMarket(market3);
+        */
         
-        CookGui cg = new CookGui(cook, gui);
-        cook.setGui(cg);
-        gui.animationPanel.addGui(cg);
+        //CookGui3 cg = new CookGui3(cook, gui);
+        //cook.setGui(cg);
+       // gui.animationPanel.addGui(cg);
 
         setLayout(new GridLayout(REST_PANEL_ROWS, REST_PANEL_COLS, REST_PANEL_SPACE, REST_PANEL_SPACE));
         group.setLayout(new GridLayout(REST_PANEL_ROWS, REST_PANEL_COLS, REST_PANEL_SPACE, REST_PANEL_SPACE));
@@ -93,20 +93,20 @@ public class RestaurantPanel extends JPanel {
     public void toggleTimer(){
     	
     	// Pause waiter agents
-    	for(WaiterAgent waiter : waiterList){
-    		waiter.toggleAgentPause();
+    	for(WaiterRole3 waiter : waiterList){
+    		//waiter.toggleAgentPause();
     	}
     	
     	// Pause customer agents
-    	for(CustomerAgent customer : customers){
-    		customer.toggleAgentPause();
+    	for(CustomerRole3 customer : customers){
+    		//customer.toggleAgentPause();
     	}
     	
     	// Pause cook
-    	cook.toggleAgentPause();
+    	//cook.toggleAgentPause();
     	
     	// Pause host
-    	host.toggleAgentPause();
+    	//host.toggleAgentPause();
     	
     	gui.animationPanel.toggleTimer();
     	
@@ -118,10 +118,12 @@ public class RestaurantPanel extends JPanel {
      */
     private void initRestLabel() {
     	
+    	/*
+    	
         JLabel label = new JLabel();
         restLabel.setLayout(new BorderLayout());
         
-        restaurant.Menu restMenu = new restaurant.Menu();
+        restaurant3.Menu restMenu = new restaurant3.Menu();
         
         String mainIntro = 	"<html><h3><u>Tonight's Staff</u></h3>";
         String mainHeaderHost = "<table><tr><td>Host:</td><td>" + host.getName() + "</td></tr></table>";
@@ -138,6 +140,9 @@ public class RestaurantPanel extends JPanel {
         restLabel.add(label, BorderLayout.CENTER);
         restLabel.add(new JLabel("          "), BorderLayout.EAST);
         restLabel.add(new JLabel("          "), BorderLayout.WEST);
+        
+        */
+        
     }
 
     /**
@@ -152,13 +157,13 @@ public class RestaurantPanel extends JPanel {
 
         if (type.equals("Customers")) {
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+                CustomerRole3 temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
         } else if (type.equals("Waiters")){
         	for (int i = 0; i < waiterList.size(); i++) {
-                WaiterAgent temp = waiterList.get(i);
+                WaiterRole3 temp = waiterList.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -174,6 +179,8 @@ public class RestaurantPanel extends JPanel {
      */
     public void addPerson(String type, String name, boolean isHungry) {
     	
+    	
+    	/*
     	if (type.equals("Customers")) {
     		
     		int customerIndex = customers.size();
@@ -201,7 +208,7 @@ public class RestaurantPanel extends JPanel {
     		int waiterX = 250 + (waiterIndex / 4) * 25;
     		int waiterY = 20 + (waiterIndex % 4) * 25;
     		
-    		WaiterAgent w = new WaiterAgent(name, waiterX, waiterY);
+    		WaiterRole3 w = new WaiterRole3(name, waiterX, waiterY);
     		WaiterGui g = new WaiterGui(w, gui, waiterX, waiterY, waiterIndex);
     		
     		gui.animationPanel.addGui(g);
@@ -216,6 +223,11 @@ public class RestaurantPanel extends JPanel {
     		host.addWaiter(w);
     		
     	}
+    	
+    */	
+    	
     }
+    
+    
 
 }

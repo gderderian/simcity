@@ -64,6 +64,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	 */
 	public Restaurant2CustomerRole(String name, PersonAgent p){
 		super();
+		building = "rest2";
 		this.name = name;
 		person = p;
 		tableNumber = -1;
@@ -83,6 +84,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	public Restaurant2CustomerRole(PersonAgent p){
 		super();
+		building = "rest2";
 		//this.name = name;
 		tableNumber = -1;
 		person = p;

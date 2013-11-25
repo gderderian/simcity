@@ -57,6 +57,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	 */
 	public Restaurant1CustomerRole(String name, PersonAgent p){
 		super();
+		building = "rest1";
 		
 		this.name = name;
 		
@@ -508,6 +509,10 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 
 	public Restaurant1CustomerGui getGui() {
 		return customerGui;
+	}
+
+	public String buildingName() {
+		return "rest1";
 	}
 }
 

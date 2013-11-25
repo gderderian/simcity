@@ -26,6 +26,8 @@ public abstract class Role {
 
 	public boolean isActive;
 	public boolean inUse;
+	
+	protected String building;
 
     protected Role() {
     	isActive = false;
@@ -49,6 +51,10 @@ public abstract class Role {
      */
     protected String getName() {
         return StringUtil.shortName(this);
+    }
+    
+    public String getBuilding() {
+    	return building;
     }
 
     /**

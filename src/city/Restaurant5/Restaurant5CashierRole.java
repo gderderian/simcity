@@ -53,6 +53,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	
 	public Restaurant5CashierRole(String name, PersonAgent person) {
 		super();
+		building = "rest5";
 		this.name = name;
 		this.person = person;
 	}

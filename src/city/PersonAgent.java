@@ -632,6 +632,7 @@ public class PersonAgent extends Agent implements Person{
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
 		log.add(new LoggedEvent("Decided to go to a restaurant"));
+		String restName = null;
 		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
 		//addRole(customer, true);
 		Role role = null;
@@ -640,6 +641,7 @@ public class PersonAgent extends Agent implements Person{
 				if(r instanceof Restaurant2CustomerRole){
 					r.setActive();
 					role = (Restaurant2CustomerRole) r;
+					restName = role.getBuilding();
 					print("Found role to set active");
 				}
 			}
@@ -647,16 +649,16 @@ public class PersonAgent extends Agent implements Person{
 		
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
-			String destination = "rest2";
+			String destination = restName;
 			takeCar(destination);
 		}
 		else if(takeBus){	//take bus
-			int stop = cityMap.getClosestBusStop("rest2");
+			int stop = cityMap.getClosestBusStop(restName);
 			BusRide ride = new BusRide(stop);
 		}
 		else{
 			//This is walking
-			DoGoTo("rest2");
+			DoGoTo(restName);
 		    gui.setInvisible();
 		}
 		Restaurant2 test = cityMap.restaurant2;
