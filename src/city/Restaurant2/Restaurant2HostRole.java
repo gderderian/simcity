@@ -182,7 +182,6 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		print("Inside host state pick and execute");
 		try{
 			for (Table table : tables) {
 				if (!table.isOccupied()) {
@@ -252,7 +251,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 				w = waiters.get(waiterNum-1);
 			}
 			print("Current waiter: " + w.w.getName());
-			w.w.msgPleaseSeatCustomer(customer.c, table.tableNumber);
+			w.w.msgPleaseSeatCustomer(customer.c, table.tableNumber, this);
 			customer.cs = CustomerState.seated;
 			table.setOccupant(customer.c);
 			if(waiterNum == waiters.size()){

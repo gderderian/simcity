@@ -10,6 +10,8 @@ import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
 import restaurant1.gui.Restaurant1CustomerGui;
+import city.Restaurant2.Restaurant2CashierRole;
+import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
@@ -342,13 +344,22 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant2.addGui(customerGui);
 		customerRole.setGui(customerGui);
 		p.addRole(customerRole, false);
-		Role r = Role.getNewRole(job, p, this, restaurant2);
-		p.addFirstJob(r, "rest2");
-		if(r instanceof Restaurant2HostRole){
-			rest2.setHost((Restaurant2HostRole)r);
-		}
-		else if(r instanceof Restaurant2WaiterRole){
-			rest2.addWaiters((Restaurant2WaiterRole) r);
+		if(!job.equals("No job")){
+			Role r = Role.getNewRole(job, p, this, restaurant2);
+			p.addFirstJob(r, "rest2");
+			p.addRole(r, true);
+			if(r instanceof Restaurant2HostRole){
+				rest2.setHost((Restaurant2HostRole)r);
+			}
+			else if(r instanceof Restaurant2WaiterRole){
+				rest2.addWaiters((Restaurant2WaiterRole) r);
+			}
+			else if(r instanceof Restaurant2CookRole){
+				rest2.setCook((Restaurant2CookRole) r);
+			}
+			else if(r instanceof Restaurant2CashierRole){
+				rest2.setCashier((Restaurant2CashierRole) r);
+			}
 		}
 	}
 

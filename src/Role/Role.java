@@ -114,11 +114,13 @@ public abstract class Role {
 		else if(type.equals("Restaurant2 Cook")){
 			Restaurant2CookRole role = new Restaurant2CookRole(p.getName(), p);
 			Restaurant2CookGui gui = new Restaurant2CookGui(role);
+			role.setGui(gui);
 			rest2anim.addGui(gui);
 			return role;
 		}
 		else if(type.equals("Restaurant2 Cashier")){
-			return new Restaurant2CashierRole(p.getName(), p);
+			Restaurant2CashierRole role = new Restaurant2CashierRole(p.getName(), p);
+			return role;
 		}
 		/*
 		else if(type.equals("Restaurant2 Customer")){

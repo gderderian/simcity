@@ -82,15 +82,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     };
     private JComboBox jobField = new JComboBox(jobs);
     private Map<String, Role> jobRoles = new HashMap<String, Role>();
-    //All the roles for the map
-    Restaurant2WaiterRole rest2Waiter;
-    Restaurant2CookRole rest2Cook;
-    Restaurant2HostRole rest2Host;
-    BankManagerRole bankManager;
-    BankTellerRole bankTeller;
-    MarketManager marketManager;
-    MarketWorker marketWorker;
-    LandlordRole landlord;
     
     int houseAssignmentNumber = 0;
     
@@ -122,16 +113,6 @@ public class ControlPanel extends JPanel implements ActionListener{
      * @param type indicates if this is for customers or waiters
      */
     public ControlPanel() {
-    	
-    	//Adding jobs to jobRoles map
-    	jobRoles.put("Restaurant2 Waiter", rest2Waiter);
-    	jobRoles.put("Restaurant2Cook", rest2Cook);
-    	jobRoles.put("Rest2Host", rest2Host);
-    	jobRoles.put("Bank Manager", bankManager);
-    	jobRoles.put("Bank Teller", bankTeller);
-    	jobRoles.put("Market Manager", marketManager);
-    	jobRoles.put("Market Worker", marketWorker);
-    	jobRoles.put("Landlord", landlord);
     	
         view.setLayout(new FlowLayout());
         setLayout(new BoxLayout((Container) this, BoxLayout.PAGE_AXIS));

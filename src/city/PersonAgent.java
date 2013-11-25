@@ -111,6 +111,7 @@ public class PersonAgent extends Agent implements Person{
 		name = n;
 		this.house = h;
 		this.aStar = aStarTraversal;
+				
 		currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
@@ -171,6 +172,19 @@ public class PersonAgent extends Agent implements Person{
 		roles.add(r);
 		if(active){
 			r.setActive();
+		}
+	}
+	
+	public void setRoleActive(Role r, boolean active){
+		synchronized(roles){
+			for(Role role : roles){
+				if(role == r){
+					if(active)
+						role.setActive();
+					else
+						role.setInactive();
+				}
+			}
 		}
 	}
 	
@@ -407,7 +421,7 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-
+		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){

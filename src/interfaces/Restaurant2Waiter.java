@@ -1,12 +1,13 @@
 package interfaces;
 
+import city.Restaurant2.Restaurant2HostRole;
 import test.mock.*;
 
 public interface Restaurant2Waiter {
 	
 	EventLog log = new EventLog();
 	
-	void msgPleaseSeatCustomer(Restaurant2Customer c, int table);
+	void msgPleaseSeatCustomer(Restaurant2Customer c, int table, Restaurant2HostRole h);
 	
 	void msgReadyToBeSeated(Restaurant2Customer c);
 	

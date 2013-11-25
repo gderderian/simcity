@@ -94,9 +94,10 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	
 	//MESSAGES
-	public void msgPleaseSeatCustomer(Restaurant2Customer c, int table){
+	public void msgPleaseSeatCustomer(Restaurant2Customer c, int table, Restaurant2HostRole h){
 		boolean returningCustomer = false;
 		print("Received msg seat customer");
+		host = h;
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == c){
