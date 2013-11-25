@@ -20,6 +20,7 @@ public class CarTest2 extends TestCase {
 		super.setUp();
 		owner = new MockTransportationPerson("owner");
 		car = new CarAgent(null);
+		car.thisIsATest(); //Disables activity log capability(used in city control panel)
 		destination = "TEST DESTINATION";
 		destination2 = "TEST DESTINATION #2";
 	}	

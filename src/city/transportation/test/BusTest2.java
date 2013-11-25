@@ -29,6 +29,7 @@ public class BusTest2 extends TestCase {
 			people.add(new MockTransportationPerson("person" + Integer.toString(i)));
 		}
 		bus = new BusAgent(null);
+		bus.thisIsATest(); //Running as a test - disables activity log capability(for city control panel)
 		
 		bus.money = 0; //Take away all of bus's money for testing purposes
 		

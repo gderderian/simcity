@@ -21,6 +21,8 @@ public class BusAgent extends Vehicle implements Bus {
 	public double money;
 	double fare;
 	
+	private boolean test = false;
+	
 	ActivityTag tag = ActivityTag.BUS;
 	
 	String name = "Bus";
@@ -257,7 +259,12 @@ public class BusAgent extends Vehicle implements Bus {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+	
+	public void thisIsATest() {
+		test = true;
 	}
 }
  

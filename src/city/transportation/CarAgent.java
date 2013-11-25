@@ -25,6 +25,8 @@ public class CarAgent extends Vehicle implements Car {
 	
 	String name = "Car";
 	
+	private boolean test = false;
+	
 	ActivityTag tag = ActivityTag.CAR;
 	
 	public CarAgent(AStarTraversal aStar) {
@@ -109,6 +111,11 @@ public class CarAgent extends Vehicle implements Car {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+	
+	public void thisIsATest() {
+		test = true;
 	}
 }

@@ -17,6 +17,8 @@ public class TruckAgent extends Vehicle {
         
         String name = "Truck";
         
+        private boolean test = false;
+        
         ActivityTag tag = ActivityTag.TRUCK;
         
         class MyMarketOrder {
@@ -92,6 +94,11 @@ public class TruckAgent extends Vehicle {
         
     	private void log(String msg){
     		print(msg);
-            ActivityLog.getInstance().logActivity(tag, msg, name);
+    		if(!test)
+    			ActivityLog.getInstance().logActivity(tag, msg, name);
+    	}
+    	
+    	public void thisIsATest() {
+    		test = true;
     	}
 }

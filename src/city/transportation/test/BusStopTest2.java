@@ -11,10 +11,11 @@ import city.transportation.BusAgent.BusState;
 import city.transportation.BusStopAgent;
 import city.transportation.mock.MockBus;
 import city.transportation.mock.MockBusStop;
+import city.transportation.mock.MockTransportationPerson;
 
-public class BusStopTest extends TestCase {
+public class BusStopTest2 extends TestCase {
 	//instantiated in setUp()
-	List<PersonAgent> people;
+	List<MockTransportationPerson> people;
 	BusStopAgent stop;
 	MockBus bus1;
 	MockBus bus2;
@@ -22,9 +23,9 @@ public class BusStopTest extends TestCase {
 
 	public void setUp() throws Exception {
 		super.setUp();
-		people = new ArrayList<PersonAgent>();
-		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
-			people.add(new PersonAgent("person", null, null, null));
+		people = new ArrayList<MockTransportationPerson>();
+		for(int i = 0; i < 20; i++) { //Adds 10 people to the list.
+			people.add(new MockTransportationPerson("person" + Integer.toString(i)));
 		}
 		bus1 = new MockBus();
 		bus2 = new MockBus();
