@@ -636,7 +636,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
-			goToRestaurant();
+			goToRestaurant1();
 		}
 	}
 	
@@ -656,7 +656,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
-	public void goToRestaurant(){
+	public void goToRestaurant1(){
 		log("Going to go to a restaurant");
 		String restName = null;
 		if(name.equals("rest2Test")) restName = "rest2";

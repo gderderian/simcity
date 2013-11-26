@@ -9,6 +9,7 @@ import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
 
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -50,7 +51,6 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         
     	this.gui = gui;
-    	
     	
     	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
     	PersonGui person2gui = new PersonGui(person2);
@@ -284,7 +284,6 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g6);
 		btr.setGui(g6);
 		banktellers.add(btr);
-		
 		bankmanager.msgBankTellerArrivedAtBank(btr);
     	
     	

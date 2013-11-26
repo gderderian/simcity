@@ -107,7 +107,10 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView("Restaurant2");
 		} else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
 			cityGui.changeView("Restaurant4");
+		} else if((x >= 510) && (x <=570) && (y >= 240) && (y <= 300)) {
+			cityGui.changeView("Restaurant5");
 		}
+		
 			
 		// Markets (3)
 		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60)) {
@@ -183,7 +186,8 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView(0, 24);
 		} else if((x >= 330) && (x <= 360) && (y >= 270) && (y <= 340)){
 			cityGui.changeView(0, 25);
-		}
+		} 
+		
 		
 	}
 

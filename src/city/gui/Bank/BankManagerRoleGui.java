@@ -7,10 +7,10 @@ import java.awt.*;
 
 import javax.swing.ImageIcon;
 
+import city.gui.Gui;
 import Role.BankManagerRole;
 
 public class BankManagerRoleGui implements Gui {
-
 
     private BankManagerRole role = null;
     private int xPos = 20, yPos = 20;//default waiter position
@@ -26,7 +26,6 @@ public class BankManagerRoleGui implements Gui {
     public BankManagerRoleGui(BankManagerRole setrole, BankGui gui) {
         this.role = setrole;
         this.gui = gui;
-
     }
 
     public void updatePosition() {
@@ -75,4 +74,10 @@ public class BankManagerRoleGui implements Gui {
     public int getYPos() {
         return yPos;
     }
+
+	@Override
+	public void setPresent(boolean t) {
+		// TODO Auto-generated method stub
+		
+	}
 }

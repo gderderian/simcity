@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
+import city.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -100,15 +101,17 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         
         //Here is the table
         //got rid of the magic numbers
-/*
- * This function gets moved to updatePos() below so it's called even when the panel isnt shown
- * 
+
+// * This function gets moved to updatePos() below so it's called even when the panel isnt shown
+ //* 
+        //System.out.println("NUMBER OF GUIS ="+guis.size());
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-*/
+
+   
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -126,7 +129,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
     }
  
     public void addGui(BankTellerRoleGui gui) {
-    	guis.add(gui);
+    	guis.add((Gui) gui);
     }
 
 	@Override
@@ -162,8 +165,6 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
 		// TODO Auto-generated method stub
 		
 	}
-<<<<<<< HEAD
-=======
 
 	@Override
 	public void updatePos() {
@@ -174,5 +175,10 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         }
 	}
 
->>>>>>> origin/master
+	@Override
+	public void addGui(city.gui.Gui g) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
