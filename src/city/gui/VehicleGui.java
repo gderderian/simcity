@@ -49,6 +49,12 @@ public class VehicleGui implements Gui {
 
 	@Override
 	public void updatePosition() {
+        if(xPos == xDest && yPos == yDest && moving) {
+        	v.msgGuiFinished();
+        	moving = false;
+        	return;
+        }
+        
         if (xPos < xDest) {
             xPos++;
         	icon = movingRight;
@@ -63,11 +69,6 @@ public class VehicleGui implements Gui {
         } else if (yPos > yDest) {
             yPos--;
             icon = movingUp;
-        }
-        
-        if(xPos == xDest && yPos == yDest && moving) {
-        	v.msgGuiFinished();
-        	moving = false;
         }
 	}
 	

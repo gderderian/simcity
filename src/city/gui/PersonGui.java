@@ -49,7 +49,14 @@ public class PersonGui implements Gui {
 	}
 	
 	@Override
-	public void updatePosition() {
+	public void updatePosition() {     
+		
+        if(xPos == xDest && yPos == yDest && moving) {
+        	agent.msgAtDestination();
+        	moving = false;
+        	return;
+        }
+        
 		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
         if (xPos < xDest) {
             xPos++;
@@ -96,11 +103,6 @@ public class PersonGui implements Gui {
         		icon = up3;
         	else if(icon != up2)
         		icon = up2;
-        }
-        
-        if(xPos == xDest && yPos == yDest && moving) {
-        	agent.msgAtDestination();
-        	moving = false;
         }
 	}
 	
