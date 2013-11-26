@@ -415,7 +415,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
 			restaurant1.addGui(customerGui);
 			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest2");
+			p.addFirstJob(waiterRole, "rest1");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
@@ -444,32 +444,62 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 	
 	private void personFactory(PersonAgent p, String job) {
-		Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
-		Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, p.getName(), 1);
-		customerGui.setPresent(false);
-		restaurant2.addGui(customerGui);
-		customerRole.setGui(customerGui);
-		p.addRole(customerRole, false);
+		/* Creating customer role for eating at restaurant1 */
+		Restaurant1CustomerRole customerRole1 = new Restaurant1CustomerRole(p.getName(), p);
+		Restaurant1CustomerGui customerGui1 = new Restaurant1CustomerGui(customerRole1);
+		customerGui1.setPresent(false);
+		restaurant1.addGui(customerGui1);
+		customerRole1.setGui(customerGui1);
+		p.addRole(customerRole1, false);		
+		
+		/* Creating customer role for eating at restaurant1 */
+		Restaurant2CustomerRole customerRole2 = new Restaurant2CustomerRole(p);
+		Restaurant2CustomerGui customerGui2 = new Restaurant2CustomerGui(customerRole2, p.getName(), 1);
+		customerGui2.setPresent(false);
+		restaurant2.addGui(customerGui2);
+		customerRole2.setGui(customerGui2);
+		p.addRole(customerRole2, false);
+		
+		/* Now, create a job role */
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
 			if(job.contains("Restaurant2")){
 				p.addFirstJob(r, "rest2");
+				if(r instanceof Restaurant2HostRole){
+					rest2.setHost((Restaurant2HostRole)r);
+					p.setRoleActive(r, true);
+				}
+				else if(r instanceof Restaurant2WaiterRole){
+					rest2.addWaiters((Restaurant2WaiterRole) r);
+				}
+				else if(r instanceof Restaurant2CookRole){
+					rest2.setCook((Restaurant2CookRole) r);
+					p.setRoleActive(r, true);
+				}
+				else if(r instanceof Restaurant2CashierRole){
+					rest2.setCashier((Restaurant2CashierRole) r);
+					p.setRoleActive(r, true);
+				}
 			}
-			if(r instanceof Restaurant2HostRole){
-				rest2.setHost((Restaurant2HostRole)r);
-				p.setRoleActive(r);
+			else if(job.contains("Restaurant1")) {
+				p.addFirstJob(r, "rest1");
+				if(r instanceof Restaurant1HostRole) {
+					rest1.setHost((Restaurant1HostRole)r);
+					p.setRoleActive(r, true);
+				}
+				else if(r instanceof Restaurant1WaiterRole){
+					rest1.addWaiters((Restaurant1WaiterRole) r);
+				}
+				else if(r instanceof Restaurant1CookRole){
+					rest1.setCook((Restaurant1CookRole) r);
+					p.setRoleActive(r, true);
+				}
+				else if(r instanceof Restaurant1CashierRole){
+					rest1.setCashier((Restaurant1CashierRole) r);
+					p.setRoleActive(r, true);
+				}
 			}
-			else if(r instanceof Restaurant2WaiterRole){
-				rest2.addWaiters((Restaurant2WaiterRole) r);
-			}
-			else if(r instanceof Restaurant2CookRole){
-				rest2.setCook((Restaurant2CookRole) r);
-				p.setRoleActive(r);
-			}
-			else if(r instanceof Restaurant2CashierRole){
-				rest2.setCashier((Restaurant2CashierRole) r);
-				p.setRoleActive(r);
-			}
+			
 		}
 	}
 	
