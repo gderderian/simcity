@@ -636,7 +636,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
-			goToRestaurant();
+			goToRestaurant1();
 		}
 	}
 	
@@ -656,7 +656,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
-	public void goToRestaurant(){
+	public void goToRestaurant1(){
 		log("Going to go to a restaurant");
 		String restName = null;
 		if(name.equals("rest2Test")) restName = "rest2";
@@ -676,7 +676,39 @@ public class PersonAgent extends Agent implements Person{
 			//This is walking
 			DoGoTo(restName);
 		}
+		
+		city.CityMap.Bank test = cityMap.bank;
+		print("I'm going to bank!");
+		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+		((BankCustomerRole)role).setGuiActive();
+		if(firstTimeAtBank == true)
+		{
+			((BankCustomerRole)role).msgOpenAccount();
+		}
+		else if(wallet > 100)
+		{
+			moneyToDeposit = wallet/2;
+			wallet -= moneyToDeposit;
+			((BankCustomerRole)role).msgDepositIntoAccount(moneyToDeposit);
+		}
+		else if(wallet <= 20)
+		{
+			double moneyToWithdraw;
+			moneyToWithdraw = wallet * 2;
+			((BankCustomerRole)role).msgWithDrawFund(moneyToWithdraw);		
+		}
+		
+	}
+	
+	public void goToRestaurant(){
+		print("Going to go to a restaurant");
+		log.add(new LoggedEvent("Decided to go to a restaurant"));
+		String restName = null;
+		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
+		//addRole(customer, true);
+
 	    gui.setInvisible();
+
 		Role role = null;
 		synchronized(roles){
 			for(Role r : roles){

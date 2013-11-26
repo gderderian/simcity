@@ -27,6 +27,7 @@ public class CityMap {
 	List<String> restaurants = new ArrayList<String>();
 	
 	Restaurant2 restaurant2;
+	Bank bank;
 	
 	public CityMap() {
 		//Restaurant locations
@@ -154,6 +155,10 @@ public class CityMap {
 		public Bank(BankManagerRole m, String n){
 			manager = m;
 			name = n;
+		}
+		
+		public BankManagerRole getBankManager() {
+			return manager;
 		}
 	}
 	
