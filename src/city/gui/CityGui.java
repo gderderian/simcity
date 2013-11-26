@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import restaurant1.Restaurant1;
 import restaurant1.Restaurant1CashierRole;
 import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1CustomerRole;
@@ -70,7 +71,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	// Restaurants
 	
 		// Restaurant 1 (Trevor)
-		Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
+    	Restaurant1 rest1 = new Restaurant1();
+		Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel(rest1);
 
 		// Restaurant 2 (Holly)
 		Restaurant2 rest2 = new Restaurant2();
@@ -200,7 +202,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		add(controlPanel, BorderLayout.WEST);
 
 		masterClock = new CityClock(this);
-		//masterClock.startTime();
+		//masterClock.startTime(); //Started by populateCity button in ControlPanel
 		
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
@@ -366,24 +368,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 		
-		if(job.equals("No Job")){
-			animationPanel.addGui(g);
-		}
-		if(job.equals("No job") || job.equals("Restaurant2 Waiter")){
-			animationPanel.addGui(g);
-		}
+		animationPanel.addGui(g);
+		
 		guis.add(g);
-		g.addAnimationPanel(restaurant2);
 		
 		newPerson.startThread();
-
-		if(name.equals("rest2Test")){
-			//newPerson.msgImHungry();
-		}
-		
-		if(name.equals("rest1test")) {
-			//newPerson.msgImHungry();
-		}
 	}
 
 	public void enableComeBack(Restaurant2Waiter agent) {
@@ -468,18 +457,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			}
 			if(r instanceof Restaurant2HostRole){
 				rest2.setHost((Restaurant2HostRole)r);
-				p.setRoleActive(r, true);
+				p.setRoleActive(r);
 			}
 			else if(r instanceof Restaurant2WaiterRole){
 				rest2.addWaiters((Restaurant2WaiterRole) r);
 			}
 			else if(r instanceof Restaurant2CookRole){
 				rest2.setCook((Restaurant2CookRole) r);
-				p.setRoleActive(r, true);
+				p.setRoleActive(r);
 			}
 			else if(r instanceof Restaurant2CashierRole){
 				rest2.setCashier((Restaurant2CashierRole) r);
-				p.setRoleActive(r, true);
+				p.setRoleActive(r);
 			}
 		}
 	}

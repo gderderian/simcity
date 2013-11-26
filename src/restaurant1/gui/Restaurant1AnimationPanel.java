@@ -3,6 +3,7 @@ package restaurant1.gui;
 import city.gui.Gui;
 import javax.swing.*;
 
+import restaurant1.Restaurant1;
 import restaurant1.Restaurant1CashierRole;
 import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1HostRole;
@@ -35,6 +36,8 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
     private List<Gui> guis = new ArrayList<Gui>();
     
+    Restaurant1 restaurant;
+    
     PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
     PersonAgent personCashier = new PersonAgent("Cashier");
@@ -52,7 +55,9 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
     private Timer timer;
 
     //Additions for SimCity    
-    public Restaurant1AnimationPanel() {
+    public Restaurant1AnimationPanel(Restaurant1 rest) {
+    	restaurant = rest;
+    	
     	setSize(WINDOWX, WINDOWY);
     	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
     	setMaximumSize(new Dimension(WINDOWX, WINDOWY));

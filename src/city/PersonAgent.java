@@ -191,14 +191,21 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
-	public void setRoleActive(Role r, boolean active){
+	public void setRoleActive(Role r){
 		synchronized(roles){
 			for(Role role : roles){
 				if(role == r){
-					if(active)
-						role.setActive();
-					else
-						role.setInactive();
+					role.setActive();
+				}
+			}
+		}
+	}
+	
+	public void setRoleInactive(Role r){
+		synchronized(roles){
+			for(Role role : roles){
+				if(role == r){
+					role.setInactive();
 				}
 			}
 		}
@@ -608,9 +615,10 @@ public class PersonAgent extends Agent implements Person{
 	public void goHome(){
 		if(!atHome){
 			log("Going home");
-			DoGoTo(house.getName());
-			house.h.addGui(homeGui);
-			homeGui.goToBed();
+			if(house != null){
+				DoGoTo(house.getName());
+				house.h.addGui(homeGui);
+			}
 			atHome= true;
 		}
 	}
