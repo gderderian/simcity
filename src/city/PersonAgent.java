@@ -874,6 +874,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	void DoGoTo(String location) {
 		atHome= false;
+		house.h.notInHouse(homeGui);
 		
 		gui.setVisible();
 		int x = cityMap.getX(location);
