@@ -18,7 +18,6 @@ public class CityMap {
 
 	//References to 4 bus stops
 	List<BusStopAgent> busStops = new ArrayList<BusStopAgent>();
-	//List<Bank> banks = new ArrayList<Bank>();
 	
 	//We may just keep a list of Restaurants, Banks, Markets, and BusStops here instead.
 	//Depends how the gui ends up working...
@@ -224,13 +223,7 @@ public class CityMap {
 		public BankManagerRole getBankManager() {
 			return manager;
 		}
-	}
-	
-	/*public String getClosestBank(){
-		return banks.get(0).name;
-	}*/
-	
-	
+	}	
 	
 	public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;
