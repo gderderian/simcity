@@ -24,7 +24,7 @@ import city.PersonAgent;
 //is proceeded as he wishes.
 public class Restaurant1CookRole extends Role {
 	
-	public List<Order> orders = new ArrayList<Order>();
+	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 
 	private MarketManager market;
 	

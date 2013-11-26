@@ -15,7 +15,7 @@ import Role.Role;
 public class LandlordRole extends Role implements Landlord {
 	//DATA
 	double earnings= 0.0;
-	public List<MyTenant> tenants= new ArrayList<MyTenant>();
+	public List<MyTenant> tenants= Collections.synchronizedList(new ArrayList<MyTenant>());
 	public EventLog log= new EventLog();
 	String name;
 	PersonAgent p;
@@ -39,11 +39,13 @@ public class LandlordRole extends Role implements Landlord {
 	public void msgEndOfDay(){	
 		log.add(new LoggedEvent("Recieved msgEndOfDay, all tenants now should have rent due"));
 		log("Recieved msgEndOfDay, all tenants now should have rent due");
-		for(MyTenant t : tenants){
-			t.numOutstandingPayments++;
-			t.newPayment= true;
-			if(t.numOutstandingPayments > 0){
-				t.paymentsUpToDate= false;
+		synchronized(tenants){
+			for(MyTenant t : tenants){
+				t.numOutstandingPayments++;
+				t.newPayment= true;
+				if(t.numOutstandingPayments > 0){
+					t.paymentsUpToDate= false;
+				}
 			}
 		}
 		this.p.stateChanged();
@@ -52,11 +54,13 @@ public class LandlordRole extends Role implements Landlord {
 	public void msgHereIsMyRent(Person p, double amount){ // for the normative scenario, assuming tenant always pays correct amount for rent
 		log.add(new LoggedEvent("Recieved msgHereIsMyRent from tenant, tenant should now have no outstanding payments due"));
 		earnings += amount;
-		for(MyTenant t : tenants){
-			if(t.tenant.equals(p)){
-				t.numOutstandingPayments--;
-				if(t.numOutstandingPayments <= 0){
-					t.paymentsUpToDate= true;
+		synchronized(tenants){
+			for(MyTenant t : tenants){
+				if(t.tenant.equals(p)){
+					t.numOutstandingPayments--;
+					if(t.numOutstandingPayments <= 0){
+						t.paymentsUpToDate= true;
+					}
 				}
 			}
 		}
@@ -65,9 +69,11 @@ public class LandlordRole extends Role implements Landlord {
 
 	public void msgFixAppliance(Person p, String a){
 		log.add(new LoggedEvent("Recieved msgFixAppliance from tenant, tenant should now have " + a + " in needsMaintenance"));
-		for(MyTenant t : tenants){
-			if(t.tenant.equals(p)){
-				t.needsMaintenance.add(a);
+		synchronized(tenants){
+			for(MyTenant t : tenants){
+				if(t.tenant.equals(p)){
+					t.needsMaintenance.add(a);
+				}
 			}
 		}
 		this.p.stateChanged();
@@ -89,17 +95,21 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
-		for(MyTenant t : tenants){
-			if(t.newPayment == true){// t.paymentsUpToDate == false){
-				collectRent(t);
-				return true;
+		synchronized(tenants){
+			for(MyTenant t : tenants){
+				if(t.newPayment == true){// t.paymentsUpToDate == false){
+					collectRent(t);
+					return true;
+				}
 			}
 		}
-		for(MyTenant t : tenants){
-			synchronized(t.needsMaintenance){
-				for(String appliance : t.needsMaintenance){
-						fixAppliance(t);
-						return true;
+		synchronized(tenants){
+			for(MyTenant t : tenants){
+				synchronized(t.needsMaintenance){
+					for(String appliance : t.needsMaintenance){
+							fixAppliance(t);
+							return true;
+					}
 				}
 			}
 		}

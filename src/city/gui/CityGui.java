@@ -63,7 +63,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
 		
 		// Restaurant 3 (Grant)
-		Restaurant3 rest3 = new Restaurant3();
+		//Restaurant3 rest3 = new Restaurant3();
 		AnimationPanel3 restaurant3 = new AnimationPanel3();
 		
 		// Restaurant 4 (Justine)
@@ -383,6 +383,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			restaurant1.addGui(customerGui);
 			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest2", restaurant2);
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
+		}
+		if(i == 3) { // Restaurant 3 (Grant) Testing
+			CustomerRole3 customerRole = new CustomerRole3(p.getName(), 50,50, p);
+			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, 50, 50, 0); // GUI should be passed into 2nd agmt
+			restaurant3.addGui(customerGui);
+			WaiterRole3 waiterRole = new WaiterRole3("waiter", 50, 50,p);
+			p.addFirstJob(waiterRole, "rest3", restaurant3);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
