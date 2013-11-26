@@ -603,7 +603,8 @@ public class PersonAgent extends Agent implements Person{
 					anyActive = true;
 			}
 			if(!atHome && !anyActive){
-				goHome();
+				if(house != null)
+					goHome();
 			}
 		}
 
