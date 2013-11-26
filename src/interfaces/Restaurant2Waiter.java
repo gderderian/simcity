@@ -37,6 +37,8 @@ public interface Restaurant2Waiter {
 	public void msgGetCheck(Restaurant2Customer c);
 	
 	public void setAtStand(boolean b);
+	
+	public void msgAtStand();
 
 	String getName();
 

@@ -528,6 +528,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     	System.out.println("Created houses.");
     }
     
+    public List<House> getHouses(){
+    	return houses; 
+    }
+    
     public void populateCity(){
     	//Add two buses at an interval
     	addVehicle("bus");
@@ -542,6 +546,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
 		addPerson("rest2Test", "No job");
+		
+		addPerson("joe", "No Job");
 		
 		/*addPersonNoHouse("host1", "Restaurant1 Host");
 		addPersonNoHouse("cashier1", "Restaurant1 Host");

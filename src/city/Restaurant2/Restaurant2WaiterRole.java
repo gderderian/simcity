@@ -49,6 +49,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	boolean deliveringFood;
 	
 	private Semaphore atDest = new Semaphore(0,true);
+	private Semaphore AtStand = new Semaphore(0, true);
 	
 	private Restaurant2WaiterGui waiterGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2WAITER;
@@ -213,6 +214,11 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		person.stateChanged();
 	}
 	
+	public void msgAtStand(){
+		AtStand.release();
+		person.stateChanged();
+	}
+	
 	public void msgBreakRequested(){
 		state = WaiterState.requestBreak;
 		person.stateChanged();
@@ -251,6 +257,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction() {
+		//log("Waiter scheduler");
 		if(state == WaiterState.requestBreak){
 			requestBreak();
 			state = WaiterState.breakRequested;
@@ -268,26 +275,26 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		synchronized(customers){
 			for(MyCustomer c : customers){
 				if(c.s == CustomerState.waiting){
-					if(atStand){
+					//if(atStand){
 						PromptCustomer(c);
 						c.s = CustomerState.prompted;
 						return true;
-					}
-					else
-						return true;
+					//}
+					//else
+					//	return true;
 				}
 			}
 		}
 		synchronized(customers){
 			for(MyCustomer c : customers){
 				if(c.s == CustomerState.proceed){
-					if(atStand){
+					//if(atStand){
 						SeatCustomer(c);
 						c.s = CustomerState.seated;
 						return true;
-					}
-					else
-						return true;
+					//}
+					//else
+					//	return true;
 				}
 			}
 		}
@@ -370,6 +377,13 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	void PromptCustomer(MyCustomer mc){
+		/*
+		try {
+			AtStand.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
+		log("Prompting customer");
 		Menu m = new Menu();
 		//Do("Seating customer at table " + mc.table);
 		mc.c.msgFollowMeToTable(this, m, mc.table, waiterNum);
@@ -377,7 +391,12 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	void SeatCustomer(MyCustomer mc){
-		log.add(new LoggedEvent("Seating customer"));
+		/*try {
+			AtStand.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
+		log("Seating customer");
 		DoSeatCustomer(mc.c, mc.table);
 		try {
 			atDest.acquire();

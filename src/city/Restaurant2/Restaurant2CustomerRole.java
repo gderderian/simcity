@@ -146,7 +146,6 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 	public void msgFollowMeToTable(Restaurant2Waiter w, Menu m, int num, int waiterNum) {
 		log("Received msgSitAtTable");
-		log.add(new LoggedEvent("Recieved message follow waiter to table"));
 		event = AgentEvent.followWaiter;
 		setWaiter(w, waiterNum);
 		menu = m;
@@ -298,9 +297,9 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 			waiter.msgLeavingNoMoney(this);
 		}
 		else{
-			SitDown(tableNum);
-			waiter.msgReadyToBeSeated(this);
 			log.add(new LoggedEvent("I'm ready to be seated"));
+			waiter.msgReadyToBeSeated(this);
+			SitDown(tableNum);
 		}
 	}
 
