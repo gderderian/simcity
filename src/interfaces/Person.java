@@ -41,7 +41,7 @@ public interface Person {
 	
 	public abstract void msgRentDue(Landlord r, double rate);
 	
-	public abstract void msgHereIsYourOrder(Car car);
+	public abstract void msgHereIsYourOrder(MarketOrder order);
 	
 	public abstract void msgHereIsYourOrder(TruckAgent truck, MarketOrder order);
 }
