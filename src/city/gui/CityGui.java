@@ -376,6 +376,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
+		if(i == 3) { // Restaurant 3 (Grant) Testing
+			CustomerRole3 customerRole = new CustomerRole3(p.getName(), 50,50, p);
+			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, 50, 50, 0); // GUI should be passed into 2nd agmt
+			restaurant3.addGui(customerGui);
+			WaiterRole3 waiterRole = new WaiterRole3("waiter", 50, 50,p);
+			p.addFirstJob(waiterRole, "rest3", restaurant3);
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
+		}
 	}
 	
 	private void personFactory(PersonAgent p, String job) {
