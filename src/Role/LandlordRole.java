@@ -38,9 +38,9 @@ public class LandlordRole extends Role implements Landlord {
 	//MESSAGES
 	public void msgEndOfDay(){	
 		log.add(new LoggedEvent("Recieved msgEndOfDay, all tenants now should have rent due"));
-		log("Recieved msgEndOfDay, all tenants now should have rent due");
 		synchronized(tenants){
 			for(MyTenant t : tenants){
+				System.out.println("Tenant: " + t);
 				t.numOutstandingPayments++;
 				t.newPayment= true;
 				if(t.numOutstandingPayments > 0){
