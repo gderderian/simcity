@@ -31,7 +31,9 @@ import astar.AStarTraversal;
 import city.Restaurant2.Restaurant2;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
+import city.gui.restaurant4.CookGui4;
 import city.gui.restaurant4.CustomerGui4;
+import city.gui.restaurant4.WaiterGui4;
 import city.CityMap;
 import city.House;
 import city.Market;
@@ -633,10 +635,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		else if(type.equals("Restaurant4 Cook")){
 			CookRole4 role= new CookRole4(p.getName(), p);
+			CookGui4 gui = new CookGui4(role);
+			role.setGui(gui);
+			restaurant4.addGui(gui);
+			gui.setPresent(true);
 			return role;
 		}
 		else if(type.equals("Restaurant4 Waiter")){
 			WaiterRole4 role= new WaiterRole4(p.getName(), p); 
+			WaiterGui4 gui = new WaiterGui4(role);
+			role.setGui(gui);
+			restaurant4.addGui(gui);
+			gui.setPresent(false);
 			return role;
 		}
 		else return null;
