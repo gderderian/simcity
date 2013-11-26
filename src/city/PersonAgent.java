@@ -176,7 +176,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void msgAtDestination() {
-		log("semaphore released by gui");
 		atDestination.release();
 	}
 	
@@ -290,7 +289,20 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("Its time for me to go to work");
 		}
+		else if(t > 4000 && t < 7020 && name.equals("waiter1")){
+			synchronized(events){
+				events.add("GoToWork");
+			}
+			log("Its time for me to go to work");
+		}
 		else if(t > 17000 && t < 19000 && name.equals("rest2Test")){
+			log("The time right now is " + t);
+			synchronized(events){
+				events.add("GotHungry");
+			}
+			log("It's time for me to eat something");
+		}
+		else if(t > 17000 && t < 19000 && name.equals("rest1Test")){
 			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
@@ -945,7 +957,6 @@ public class PersonAgent extends Agent implements Person{
 		    
 		    //Give animation time to move to square.
 
-		    log("moving");
 		    try {
 				atDestination.acquire();
 			} catch (InterruptedException e) {
