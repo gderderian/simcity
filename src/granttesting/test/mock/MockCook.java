@@ -9,8 +9,11 @@ import interfaces.Cook;
 
 public class MockCook extends Mock implements Cook {
 
+	public EventLog log;
+	
 	public MockCook(String name) {
 		super(name);
+		log = new EventLog();
 	}
 	
 }

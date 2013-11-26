@@ -1,16 +1,24 @@
 package granttesting.test.mock;
 
-import java.util.List;
+import Role.MarketManager;
 import test.mock.EventLog;
-import test.mock.LoggedEvent;
 import test.mock.Mock;
-import city.PersonAgent;
-import interfaces.Cook;
+import city.MarketOrder;
+import interfaces.MarketWorker;
 
-public class MockMarketWorker extends Mock implements Cook {
+public class MockMarketWorker extends Mock implements MarketWorker {
 
+	public EventLog log;
+	
 	public MockMarketWorker(String name) {
-		super(name);
+		super("");
+		log = new EventLog();
+	}
+
+	@Override
+	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

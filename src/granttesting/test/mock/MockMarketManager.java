@@ -2,14 +2,16 @@ package granttesting.test.mock;
 
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
+import test.mock.Mock;
 import city.MarketOrder;
 import interfaces.MarketManager;
 
-public class MockMarketManager implements MarketManager {
+public class MockMarketManager extends Mock implements MarketManager {
 	
 	public EventLog log;
 	
 	public MockMarketManager() {
+		super("MockMarketManager");
 		log = new EventLog();
 	}
 
