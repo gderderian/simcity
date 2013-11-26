@@ -128,6 +128,10 @@ public class BankTellerRole extends Role {
 
                 if(banktellerstate == state.depositintoaccount)
                 {
+                		
+                		synchronized(bankmanager.bank.accounts)
+                		{
+                		
                         for(account findaccount: bankmanager.bank.accounts)
                         {
                                 if(findaccount.accountnumber == currentcustomeraccountnumber)
@@ -140,13 +144,22 @@ public class BankTellerRole extends Role {
                                         break;
                                 }
                         }
+                        
+                		}
+                		
                         banktellerstate = state.doingnothing;
                         return true;
+                        
+                		
                 }
 
                 if(banktellerstate == state.withdrawfromaccount)
                 {
-                        for(account findaccount: bankmanager.bank.accounts)
+                       
+                	synchronized(bankmanager.bank.accounts)
+            		{
+                	
+                		for(account findaccount: bankmanager.bank.accounts)
                         {
                                 if(findaccount.accountnumber == currentcustomeraccountnumber)
                                 {        
@@ -163,6 +176,9 @@ public class BankTellerRole extends Role {
                                         
                                 }
                         }
+                		
+                		
+            		}
                         banktellerstate = state.doingnothing;
                         return true;
                 }
@@ -170,7 +186,11 @@ public class BankTellerRole extends Role {
 
                 if(banktellerstate == state.getloan)
                 {
-                        for(account findaccount: bankmanager.bank.accounts)
+                       
+                	synchronized(bankmanager.bank.accounts)
+            		{
+                		
+                		for(account findaccount: bankmanager.bank.accounts)
                         {
                                 if(findaccount.accountnumber == currentcustomeraccountnumber)
                                 {        
@@ -189,6 +209,8 @@ public class BankTellerRole extends Role {
                         
                                 }
                         }
+            		
+            		}
                         banktellerstate = state.doingnothing;
                         return true;
                         
@@ -218,7 +240,11 @@ public class BankTellerRole extends Role {
                 
                 if(banktellerstate == state.paybackloan)
                 {
-                        for(account findaccount: bankmanager.bank.accounts)
+                        
+                	synchronized(bankmanager.bank.accounts)
+            		{
+                		
+                		for(account findaccount: bankmanager.bank.accounts)
                         {
                                 if(findaccount.accountnumber == currentcustomeraccountnumber)
                                 {        
@@ -243,6 +269,8 @@ public class BankTellerRole extends Role {
                         
                                 }
                         }
+                		
+            		}
                         
                 }
                 

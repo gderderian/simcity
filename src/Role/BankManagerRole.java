@@ -81,8 +81,10 @@ public void msgCustomerLeft(BankCustomerRole leavingcustomer, BankTellerRole ban
 
 public void msgBankTellerFree(BankTellerRole bankteller)
 {
-                
-                for(mybankteller freebankteller: banktellers)
+		synchronized(banktellers)
+		{
+               
+				for(mybankteller freebankteller: banktellers)
                 {
                 	
                         if(freebankteller.bankteller == bankteller)
@@ -93,6 +95,7 @@ public void msgBankTellerFree(BankTellerRole bankteller)
                         }
                 }
                 person.stateChanged();
+		}
 }
 
 
@@ -104,11 +107,18 @@ public boolean pickAndExecuteAnAction() {
 
 					
 					Do("im in the scheduler");
-					Do("" + banktellers.size());
+					//Do("" + banktellers.size());
+					
+				synchronized(banktellers)
+            	{
+					
 					for(mybankteller newbankteller: banktellers)
 					{
 						if(newbankteller.state == banktellerstate.arrived)
 						{
+							
+							synchronized(bank.bankstations)
+							{
 							
 							for(Bank.bankstation findfreebankstation : bank.bankstations)
 							{
@@ -126,16 +136,28 @@ public boolean pickAndExecuteAnAction() {
 								}
 							
 							}
+							
+							}
 						
 						}
 						
 					}
-		
+				
+            	}
+				
+				
+				synchronized(customers)
+				{
+				
                 for(mycustomer customer: customers)
                 {
                         if(customer.state == customerstate.waiting)
                         {
-                                for(mybankteller bankteller: banktellers)
+                                
+                        		synchronized(banktellers)
+                        		{
+                        	
+                        		for(mybankteller bankteller: banktellers)
                                 {
                                         if(bankteller.state == banktellerstate.free)
                                         {
@@ -143,31 +165,14 @@ public boolean pickAndExecuteAnAction() {
                                                 bankteller.bankteller.msgAssignMeCustomer(customer.customer);
                                                 Do("assign bankteller to customer:" + customer.customer.person.getName());
                                                 customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
-                     
-                                                //customer.customer.pickAndExecuteAnAction();
-                                                //animation stuff     
-                                                //
                                                 customer.state = customerstate.beingserved;
                                                 bankteller.state = banktellerstate.busy;
-                                                //customer.customer.msg(bankteller.bankstationnumber);
-                                                //customer.customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
-                                                
-                                                /*customer.customer.gui.leaveBank();
-                                                
-                                                try {
-                                        			customer.customer.atBankStation.acquire();
-                                        			//atLobby.acquire();
-                                        		} catch (InterruptedException e) {
-                                        			// TODO Auto-generated catch block
-                                        			e.printStackTrace();
-                                        		}
-                                                //Do("open account");
-                                                customer.customer.msgOpenAccount();
-                                                */
-                                                
+                                                //customer.customer.msgOpenAccount();
                                                 return true;
                                         }
                                 }
+                        		
+                        		}
 
                         
                         }
@@ -181,10 +186,16 @@ public boolean pickAndExecuteAnAction() {
 
                 }
                 
+				}
+                
                 if(state == bankmanagerstate.calculateloan)
                 {
                         //this is a very simple loan calculation system with some limits
-                        for(account findaccountwithloan: bank.accounts)
+                        
+                		synchronized(bank.accounts)
+                		{
+                	
+                		for(account findaccountwithloan: bank.accounts)
                         {
                                 if(findaccountwithloan.loan > 0)
                                 {
@@ -192,8 +203,13 @@ public boolean pickAndExecuteAnAction() {
                                         findaccountwithloan.interestrate *= .05;
                                 }
                         }
+                		
+                		}
                         
                         //this is my new design for loan system
+                		synchronized(bank.accounts)
+                		{
+                		
                         for(account findaccountwithloan: bank.accounts)
                         {
                                 if(findaccountwithloan.loans.size() !=0)
@@ -203,6 +219,7 @@ public boolean pickAndExecuteAnAction() {
                                 
                         }
                         
+                		}
                         
                         state = bankmanagerstate.doingnothing;
                         
@@ -211,6 +228,9 @@ public boolean pickAndExecuteAnAction() {
                 
                 if(state == bankmanagerstate.customerleft)
                 {
+                		
+                		synchronized(customers)
+                		{
                 
                         for(mycustomer leavingcustomer: customers)
                         {
@@ -224,6 +244,11 @@ public boolean pickAndExecuteAnAction() {
                                 
                         }
                         
+                		}
+                		
+                		synchronized(banktellers)
+                		{
+                        
                         for(mybankteller freebankteller: banktellers)
                         {
                                 if(freebankteller.bankteller == this.freebankteller)
@@ -233,6 +258,8 @@ public boolean pickAndExecuteAnAction() {
                                 
                                 }
                         }
+                        
+                		}
                         
                         return true;
                         

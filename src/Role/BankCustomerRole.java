@@ -34,6 +34,7 @@ public class BankCustomerRole extends Role{
                 
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
+                bankaccountnumber = 0;
                 //this.person = setperson;
                 //this.name = setperson.getName();
                 //stateChanged();
@@ -63,7 +64,7 @@ public class BankCustomerRole extends Role{
         public void msgOpenAccount()
         {
         	
-        		Do("msgOpenAccount");
+        		//Do("msgOpenAccount");
                 //log.add(new LoggedEvent("msgOpenAccount")
                 bankcustomerstate = state.openaccount;
                 person.stateChanged();
@@ -196,6 +197,7 @@ public class BankCustomerRole extends Role{
         	
                 if(bankcustomerstate == state.openaccount)
                 {
+                		Do("i'm opening account");
                         mybankteller.msgOpenAccount();
                         bankcustomerstate = state.waiting;
                         return true;

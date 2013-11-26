@@ -60,6 +60,7 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         Graphics2D banktellerstation4 = (Graphics2D)g;
       
         
+        Graphics2D wall = (Graphics2D)g;
         Graphics2D waitingarea = (Graphics2D)g;
         Graphics2D backtocityviewbutton = (Graphics2D)g;
         
@@ -77,8 +78,11 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         //g.drawImage(imgofcouch, 350, 300, 100, 100, this);
         //g.drawImage(imgofcouch, 500, 300, 100, 100, this);
 
-        waitingarea.setColor(Color.gray);
-        waitingarea.fillRect(160, 0, 20, 180);
+        wall.setColor(Color.gray);
+        wall.fillRect(160, 0, 20, 180);
+        
+        waitingarea.setColor(Color.white);
+        waitingarea.fillRect(180, 470, 700, 10);
         
         backtocityviewbutton.setColor(Color.red);
         backtocityviewbutton.fillRect(20, 20,20, 20);

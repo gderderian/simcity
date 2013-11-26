@@ -660,6 +660,22 @@ public class PersonAgent extends Agent implements Person{
 		print("I'm going to bank!");
 		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
 		((BankCustomerRole)role).setGuiActive();
+		if(firstTimeAtBank == true)
+		{
+			((BankCustomerRole)role).msgOpenAccount();
+		}
+		else if(wallet > 100)
+		{
+			moneyToDeposit = wallet/2;
+			wallet -= moneyToDeposit;
+			((BankCustomerRole)role).msgDepositIntoAccount(moneyToDeposit);
+		}
+		else if(wallet <= 20)
+		{
+			double moneyToWithdraw;
+			moneyToWithdraw = wallet * 2;
+			((BankCustomerRole)role).msgWithDrawFund(moneyToWithdraw);		
+		}
 		
 	}
 	

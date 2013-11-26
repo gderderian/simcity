@@ -65,42 +65,23 @@ public class BankPanel extends JPanel {
         person2.addRole(bankmanager, true);
         PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
         person3.startThread();
-        
-        /*
-        BankTellerRole btr = new BankTellerRole(bmr);	
-		BankTellerRoleGui g3 = new BankTellerRoleGui(btr, gui);
-		btr.setPerson(person3);
-		//g3.setHomePosition(12, 20 + bankcustomers.size() * 25);
-		person3.addRole(btr, true);
-		//g3.setArrivedAtBank();
-		gui.animationPanel.addGui(g3);
-		btr.setGui(g3);
+
+        PersonAgent person6 = new PersonAgent("boobbyy", aStarTraversal, citymap, house);
+        PersonGui person6gui = new PersonGui(person6);
+        person6.setGui(person6gui);
+        person6.startThread();
+		
+    	BankTellerRole btr = new BankTellerRole(bankmanager);	
+		BankTellerRoleGui g6 = new BankTellerRoleGui(btr, gui);
+		btr.setPerson(person6);
+		person6.addRole(btr, true);
+		gui.animationPanel.addGui(g6);
+		btr.setGui(g6);
 		banktellers.add(btr);
-        */
-	
+		
+		bankmanager.msgBankTellerArrivedAtBank(btr);
         
-		
-       
-		//bcr.gui.goToBankTellerStation(3);
-		/*
-		try {
-			bcr.atBankStation.acquire();
-			//atLobby.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		
-		//bcr.gui.leaveBank();
-		
-		
-        //bcr.gui.setWaitingPosition(250, 50);
         
-        //bcr.gui.goToBankTellerStation(2);
-        
-        //bcr.msgOpenAccount();
-        //bcr.msgOpenAccount();
         
         
         
