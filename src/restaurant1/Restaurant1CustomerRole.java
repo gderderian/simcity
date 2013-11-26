@@ -524,5 +524,10 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
+
+	public void setGuiActive() {
+		customerGui.DoEnterRestaurant();
+		customerGui.setPresent(true);		
+	}
 }
 

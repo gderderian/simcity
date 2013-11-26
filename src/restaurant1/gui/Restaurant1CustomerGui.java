@@ -186,6 +186,13 @@ public class Restaurant1CustomerGui implements Gui{
 		state = customerState.waiting;
 	}
 	
+	public void DoEnterRestaurant() {
+	        xPos = -2 * HEIGHT;
+	        yPos = -2 * WIDTH;
+	        xDestination = xPos;
+	        yDestination = yPos;
+	}
+	
 	public void DoExitRestaurant() {
 		// These coordinates are the initial off-screen coordinates
 		xDestination = -2 * WIDTH;

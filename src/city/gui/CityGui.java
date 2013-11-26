@@ -152,6 +152,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant2.setBackground(new Color(150, 20, 60));
 		addBuildingPanel(restaurant2);
 		controlPanel.addRest2ToCityMap(rest2);
+		
+		controlPanel.addRest1ToCityMap(rest1);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
 
@@ -487,7 +489,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			else if(job.contains("Restaurant1")) {
 				p.addFirstJob(r, "rest1");
 				if(r instanceof Restaurant1HostRole) {
-					rest1.setHost((Restaurant1HostRole)r);
+					rest1.setHost((Restaurant1HostRole) r);
 					p.setRoleActive(r);
 				}
 				else if(r instanceof Restaurant1WaiterRole){
@@ -545,7 +547,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Restaurant2 Customer")){
-			Restaurant2CustomerRole role = new Restaurant1CustomerRole(p.getName(), p);
+			Restaurant2CustomerRole role = new Restaurant2CustomerRole(p.getName(), p);
 			//Restaurant2CustomerGui gui = new Restaurant2CustomerGui(role, p.getName(), 1);
 			return role;
 		}
