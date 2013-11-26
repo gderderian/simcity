@@ -1,5 +1,6 @@
 package city;
 
+import restaurant1.Restaurant1CustomerRole;
 import test.mock.LoggedEvent;
 import interfaces.Bus;
 import interfaces.Car;
@@ -177,7 +178,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void msgAtDestination() {
-		log("semaphore released by gui");
 		atDestination.release();
 	}
 	
@@ -291,7 +291,13 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("Its time for me to go to work");
 		}
-		else if(t > 17000 && t < 19000 && name.equals("rest2Test")){
+		else if(t > 4000 && t < 7020 && name.equals("waiter1")){
+			synchronized(events){
+				events.add("GoToWork");
+			}
+			log("Its time for me to go to work");
+		}
+		else if(t > 17000 && t < 19000 && (name.equals("rest2Test") || name.equals("rest1Test"))){
 			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
@@ -708,9 +714,6 @@ public class PersonAgent extends Agent implements Person{
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
 		String restName = null;
-		if(name.equals("rest2Test")) restName = "rest2";
-		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
-		//addRole(customer, true);
 		Role role = null;
 		synchronized(roles){
 			for(Role r : roles){
@@ -726,6 +729,13 @@ public class PersonAgent extends Agent implements Person{
 					role = (CustomerRole4) r;
 					restName = role.getBuilding();
 					log("Found role to set active");
+				}
+				else if(r instanceof Restaurant1CustomerRole) {
+					
+					r.setActive();
+					role = (Restaurant1CustomerRole) r;
+					restName = role.getBuilding();
+					log("Set Restaurant1CustomerRole active");
 				}
 			}
 		}
@@ -744,15 +754,19 @@ public class PersonAgent extends Agent implements Person{
 
 		
 		log("I want food!");
-		if(name.equals("rest2Test")){
+		if(role instanceof Restaurant2CustomerRole) {
 			cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
 			((Restaurant2CustomerRole)role).setGuiActive();
 		}
-		else if(name.equals("rest4Test")){
+		else if(role instanceof Restaurant1CustomerRole) {
+			((Restaurant1CustomerRole) role).setHost(cityMap.restaurant1.getHost());
+			cityMap.restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) role);
+			((Restaurant1CustomerRole)role).setGuiActive();
+		}
+		else if(role instanceof CustomerRole4) {
 			cityMap.restaurant4.getHost().msgIWantFood((CustomerRole4) role);
 			((Restaurant2CustomerRole)role).setGuiActive();
 		}
-		
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){
@@ -968,7 +982,6 @@ public class PersonAgent extends Agent implements Person{
 		    
 		    //Give animation time to move to square.
 
-		    log("moving");
 		    try {
 				atDestination.acquire();
 			} catch (InterruptedException e) {

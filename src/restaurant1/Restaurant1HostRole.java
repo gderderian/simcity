@@ -36,8 +36,6 @@ public class Restaurant1HostRole extends Role {
 	
 	private int waitingSpot = 0; //Keeps track of where new customers should wait.
 	
-	public Restaurant1HostGui hostGui = null;
-	
 	ActivityTag tag = ActivityTag.RESTAURANT1HOST;
 
 	public Restaurant1HostRole(String name, PersonAgent p) {

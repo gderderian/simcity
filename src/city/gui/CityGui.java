@@ -16,6 +16,7 @@ import restaurant1.gui.Restaurant1AnimationPanel;
 import restaurant1.gui.Restaurant1CashierGui;
 import restaurant1.gui.Restaurant1CookGui;
 import restaurant1.gui.Restaurant1CustomerGui;
+import restaurant1.gui.Restaurant1WaiterGui;
 import city.Restaurant2.Restaurant2CashierRole;
 import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2CustomerRole;
@@ -160,6 +161,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(restaurant2);
 		controlPanel.addRest2ToCityMap(rest2);
 		controlPanel.addRest4ToCityMap(rest4);
+		controlPanel.addRest1ToCityMap(rest1);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
 
@@ -503,7 +505,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			else if(job.contains("Restaurant1")) {
 				p.addFirstJob(r, "rest1");
 				if(r instanceof Restaurant1HostRole) {
-					rest1.setHost((Restaurant1HostRole)r);
+					rest1.setHost((Restaurant1HostRole) r);
 					p.setRoleActive(r);
 				}
 				else if(r instanceof Restaurant1WaiterRole){
@@ -590,6 +592,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		else if(type.equals("Restaurant1 Waiter")){
 			Restaurant1WaiterRole role = new Restaurant1WaiterRole(p.getName(), p);
+			Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
+			role.setGui(gui);
+			restaurant1.addGui(gui);
+			gui.setPresent(false);
 			return role;
 		}
 		else if(type.equals("Restaurant1 Cook")){
@@ -607,7 +613,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		else if(type.equals("Restaurant1 Cashier")){
 			Restaurant1CashierRole role = new Restaurant1CashierRole(p.getName(), p);
 			Restaurant1CashierGui gui = new Restaurant1CashierGui(role);
-			restaurant2.addGui(gui);
+			restaurant1.addGui(gui);
 			gui.setPresent(true);
 			return role;
 		}
