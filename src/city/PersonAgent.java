@@ -469,6 +469,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("GoToWork")){
 					goToWork();
+					return true;
 				}
 			}
 		}
@@ -476,6 +477,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("WorkDone")){
 					leaveWork();
+					return true;
 				}
 			}
 		}
