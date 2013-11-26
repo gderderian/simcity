@@ -127,6 +127,8 @@ public class PersonAgent extends Agent implements Person{
 		} else {
 			currentPosition = new Position(20, 18);
 		}
+		
+		
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
@@ -442,6 +444,10 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(name.equals("joe")){
+			goHome();
+		}
+		
 		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -580,8 +586,16 @@ public class PersonAgent extends Agent implements Person{
 		return false;
 	}
 	
-	
+	boolean doOnce= true;
 	//ACTIONS
+	public void goHome(){
+		if(doOnce){
+			log("Going home");
+			house.h.addGui(gui);
+			//DoGoTo(house.getName());
+		}
+		doOnce= false;
+	}
 	
 	public void goToWork(){
 		log("Going to work");

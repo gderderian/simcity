@@ -4,13 +4,14 @@ import interfaces.Person;
 
 import java.util.*;
 
+import city.gui.House.HouseAnimationPanel;
 import test.mock.*;
 
 public class House {
 	//DATA
 	public Person owner;
 	String houseName;
-	//private HomeOwnerRole homeowner;
+	HouseAnimationPanel h;
 	protected Timer cook= new Timer();
 	public Appliance fridge= new Appliance("Fridge");
 	private Appliance microwave= new Appliance("Microwave");
@@ -37,6 +38,10 @@ public class House {
 		owner= p;
 		//owner= new HomeOwnerRole(this);
 		//owner.addRole(homeowner, true);
+	}
+	
+	public void setHouseAnimationPanel(HouseAnimationPanel p){
+		h= p;
 	}
 	
 	
