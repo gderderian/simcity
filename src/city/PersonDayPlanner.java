@@ -7,11 +7,6 @@ public class PersonDayPlanner {
 	String amPm; // String "am" or "pm" to represent first or second half of a day
 	String eventLocation; // String that holds the location of where this action is supposed to take place, "market1"
 	String roleAtLocation; // To be implemented later. Will contain what they are supposed to do at that location,
-	// possibly the name of a specific role as a string or even an enum of potential actions.
-	
-
-
-
-
+	// 						  possibly the name of a specific role as a string or even an enum of potential actions.
 
 }
