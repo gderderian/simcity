@@ -64,6 +64,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
     private static final int TIMER_INTERVAL = 15;
     private Timer timer;
+    
+    private CityClock masterClock;
 
 	// Restaurants
 	
@@ -197,12 +199,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		//add(infoPanel, BorderLayout.WEST);
 		add(controlPanel, BorderLayout.WEST);
 
-		CityClock masterClock = new CityClock(this);
-		masterClock.startTime();
+		masterClock = new CityClock(this);
+		//masterClock.startTime();
 		
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
         
+	}
+	
+	public void startMasterClock() {
+		masterClock.startTime();
 	}
 
 

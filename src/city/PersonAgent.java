@@ -865,7 +865,7 @@ public class PersonAgent extends Agent implements Person{
 		DoGoTo("stop" + Integer.toString(startingBusStop));
 		busStop = cityMap.getBusStop(startingBusStop);
 		busStop.msgWaitingForBus(this);			
-		gui.setVisible(); //Person will stand outside bus stop*/
+		gui.setVisible(); /*Person will stand outside bus stop*/
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
