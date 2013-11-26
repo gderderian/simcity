@@ -8,8 +8,6 @@ import java.util.concurrent.Semaphore;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import astar.AStarTraversal;
-import city.PersonAgent;
-import city.transportation.BusAgent.BusEvent;
 
 public class CarAgent extends Vehicle implements Car {
 	//Data
