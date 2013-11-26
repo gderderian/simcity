@@ -180,16 +180,16 @@ public class CashierRole4 extends Role implements Cashier4 {
 			this.c= c2;
 			this.choice= choice;
 			bs= billState.pending;
-			if(choice == "Steak"){
+			if(choice == "Eggs"){
 				setAmount(15.99);
 			}
-			else if(choice == "Chicken"){
+			else if(choice == "Waffels"){
 				setAmount(10.99);
 			}
-			else if(choice == "Salad"){
+			else if(choice == "Pancakes"){
 				setAmount(5.99);
 			}
-			else if(choice == "Pizza"){
+			else if(choice == "Bacon"){
 				setAmount(8.99);
 			}
 		}

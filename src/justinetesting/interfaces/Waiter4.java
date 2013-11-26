@@ -1,8 +1,12 @@
 package justinetesting.interfaces;
 
+import city.Restaurant4.CashierRole4;
+
 
 public interface Waiter4 {
 
+	public CashierRole4 getCashier();
+	
 	public abstract void msgNumber(int num);
 	
 	public abstract void msgPleaseSeatCustomer(Customer4 c, int tableNum);

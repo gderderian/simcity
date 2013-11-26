@@ -12,8 +12,8 @@ import city.gui.Gui;
 public class HomeOwnerGui implements Gui {
 	PersonAgent person;
 	
-	private int xPos = 100, yPos = 100;//default waiter position
-    private int xDestination = 100, yDestination = 100;//default start position
+	private int xPos = 50, yPos = 50;//default position
+    private int xDestination = 50, yDestination = 50;//default position
     private int dimensions= 20;
     private int movement= 20;
     
@@ -23,13 +23,15 @@ public class HomeOwnerGui implements Gui {
     private static final int xStove = 525;
     private static final int xOven = 580;
     private static final int xMicrowave = 635;
-    private static final int xBed = 100;
-    private static final int yBed = 500;
+    private static final int xBed = 150;
+    private static final int yBed = 550;
     private static final int yAppliance = 30;
     
     private int movementCounter = 0;
 	private final int iconSwitch = 10; //Rate at which icons switch during movement
     
+	private boolean goingToBed= false;
+	
     ImageIcon icon = new ImageIcon("images/person_up1.png");
     
     ImageIcon up1 = new ImageIcon("images/person_up1.png");
@@ -117,6 +119,7 @@ public class HomeOwnerGui implements Gui {
         } else if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xBed + movement) & (yDestination == yBed - movement)) {
             person.msgAnimationAtBed();
+            goingToBed= false;
         }
         
    }
@@ -150,9 +153,12 @@ public class HomeOwnerGui implements Gui {
     }
 
     public void goToBed(){
-    	xDestination= xBed;
-    	yDestination= yBed;
-    	System.out.println("Going to bed");
+    	if(!goingToBed){
+    		xDestination= xBed;
+    		yDestination= yBed;
+    		goingToBed= true;
+    		System.out.println("Going to bed");
+    	}
     }
     
     

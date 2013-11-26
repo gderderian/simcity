@@ -145,7 +145,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
 
 		@Override
 		public void updatePos() {
-	        for(Gui gui : guis) {
+			for(Gui gui : guis) {
 	            if (gui.isPresent()) {
 	                gui.updatePosition();
 	            }
