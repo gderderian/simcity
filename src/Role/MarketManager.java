@@ -17,9 +17,9 @@ public class MarketManager extends Role {
 	// Data
 	private String name;
 	private double marketMoney;
-	private ArrayList<myMarketWorker> myWorkers;
+	public ArrayList<myMarketWorker> myWorkers;
 	public ArrayList<myMarketOrder> myOrders;
-	private ArrayList<TruckAgent> marketTrucks;
+	public ArrayList<TruckAgent> marketTrucks;
 	public Hashtable<String, MarketItem> marketStock;
 
 	public enum orderState {pendingWorkerAssignment, assignedToWorker, pickedReady, givenToTruck, pendingBilling, billed, done};
@@ -32,15 +32,24 @@ public class MarketManager extends Role {
 	PersonAgent p;
 	
 	public MarketManager(String initialName, PersonAgent person){
+		
 		name = initialName;
 		p = person;
+		
+		// List initialization
 		myOrders = new ArrayList<myMarketOrder>();
+		myWorkers = new ArrayList<myMarketWorker>();
+		marketTrucks = new ArrayList<TruckAgent>();
+		marketStock = new Hashtable<String, MarketItem>();
+		
+		// Sample market stock
 		marketStock = new Hashtable<String, MarketItem>();
 		marketStock.put("Pasta", new MarketItem("Pasta", 5, itemType.food));
 		marketStock.put("Pizza", new MarketItem("Pizza", 5, itemType.food));
 		marketStock.put("Chicken", new MarketItem("Chicken", 5, itemType.food));
 		marketStock.put("Honda Accord", new MarketItem("Honda Accord", 5, itemType.car));
 		marketStock.put("Honda Civic", new MarketItem("Honda Accord", 5, itemType.car));
+		
 	}
 	
 	public class myMarketOrder {
@@ -104,6 +113,12 @@ public class MarketManager extends Role {
 		selectedMarketOrder.state = orderState.pendingBilling;
 		p.stateChanged();
 	}
+	
+	public void msgAcceptPayment(double incomingPayment){
+		marketMoney = incomingPayment + marketMoney;
+		p.stateChanged();
+	}
+	
 	// Scheduler
 	public boolean pickAndExecuteAnAction(){
 		if (!myOrders.isEmpty()) {
