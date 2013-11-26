@@ -312,6 +312,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
         else if(e.getSource() == populateCity){
         	populateCity();
+        	cityGui.startMasterClock();
         	populateCity.setEnabled(false);
         }
         else if(e.getSource() == backToCity) {
