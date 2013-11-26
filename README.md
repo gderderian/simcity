@@ -1,3 +1,4 @@
+
 CS201 Team 16 SimCity Project
 ======
 
@@ -30,7 +31,11 @@ CS201 Team 16 SimCity Project
   	+ Main CityGUI images/design
   	+ restaurant1
 
-Each one of our team's members contributed to the various GUI files within our program in order to ensure that each building was properly integrated into the main city layout. Additionally, we worked together in order to handle the overall successful integration of our own restaurant projects and individual buildings. Testing was conducted on a per-building or per-role basis within the testing folders named either per-person (i.e. "granttesting") or per single building unit (i.e. "BankTest").
+The initial design of the new SimCity components (markets, banks, GUI and layout, transporation, housing, etc.) was conceived through the collective work of all team members through various meetings we held several times per week for several hours. From there, specific assignments were distributed to each team member as noted above. Although one person took ownership of each major component, all team members contributed to each other's designs and final code.
+
+Each one of our team's members contributed to the various GUI files within our program in order to ensure that each building was properly integrated into the main city layout. Additionally, we worked together in order to handle the overall successful integration of our own restaurant projects and individual buildings we were each responsible for.
+
+Testing was conducted on a per-building or per-role basis within the testing folders named either per-person (i.e. "granttesting") or per single building unit (i.e. "BankTest").
 
 ### Compile Instructions (v1)
 To compile and run our SimCity, clone this GitHub repo into a new directory on your local computer. Then, follow these instructios:
