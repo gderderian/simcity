@@ -107,14 +107,13 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 			cityGui.changeView("Restaurant1");
 		} else if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180)){
 			cityGui.changeView("Restaurant2");
-		} else if((x >= 510) && (x <= 570) && (y >= 275) && (y <= 330)){
+		} else if((x >= 60) && (x <= 120) && (y >= 570) && (y <= 630)) {
 			cityGui.changeView("Restaurant3");
 		} else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
 			cityGui.changeView("Restaurant4");
-		} else if((x >= 510) && (x <=570) && (y >= 240) && (y <= 300)) {
+		} else if((x >= 510) && (x <= 570) && (y >= 275) && (y <= 330)){
 			cityGui.changeView("Restaurant5");
 		}
-		
 			
 		// Markets (3)
 		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60)) {
