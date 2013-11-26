@@ -23,7 +23,8 @@ import city.gui.PersonGui;
 
 public class HouseAnimationPanel extends BuildingPanel implements ActionListener, MouseListener {
     private static final int WINDOWX = 900;
-    private static final int WINDOWY = 700;
+    private static final int WINDOWY = 900;
+    private final int TIMER = 8;
     
     private List<Gui> guis = new ArrayList<Gui>();
     
@@ -50,6 +51,9 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         setVisible(true);
         
         addMouseListener(this);
+        
+        Timer timer = new Timer(TIMER, this );
+    	timer.start();
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -87,15 +91,6 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         //This is the santa hat
         g.drawImage(santaHat, 100, 510, 30, 30, this);
 
-        /*
-         * This gets moved to updatePos() below to get called when the panel is not visible
-         * 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);

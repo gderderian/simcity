@@ -32,7 +32,7 @@ public class HomeOwnerGui implements Gui {
     
 	private boolean goingToBed= false;
 	
-    ImageIcon icon = new ImageIcon("images/person_up1.png");
+    ImageIcon icon = new ImageIcon("images/person_flat1.png");
     
     ImageIcon up1 = new ImageIcon("images/person_up1.png");
 	ImageIcon up2 = new ImageIcon("images/person_up2.png");
