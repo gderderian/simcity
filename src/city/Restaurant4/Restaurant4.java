@@ -33,6 +33,7 @@ public class Restaurant4 {
 	public void addWaiters(WaiterRole4 w){
 		waiters.add(w);
 		host.addWaiter(w);
+		System.out.println("THE COOK SHOULD NOT BE NULL: " + cook);
 		w.setCook(cook);
 		w.setCashier(cashier);
 		w.setHost(host);
@@ -40,7 +41,6 @@ public class Restaurant4 {
 	
 	public void setCook(CookRole4 c){
 		cook = c;
-		System.out.println("THE cook SHOULD NOT BE NULL: " + cook);
 	}
 	
 	public void setCashier(CashierRole4 c){

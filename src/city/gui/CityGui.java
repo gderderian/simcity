@@ -528,11 +528,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					rest4.setHost((HostRole4)r);
 					p.setRoleActive(r);
 				}
-				else if(r instanceof Restaurant1CookRole){
+				else if(r instanceof CookRole4){
 					rest4.setCook((CookRole4) r);
 					p.setRoleActive(r);
 				}
-				else if(r instanceof Restaurant1CashierRole){
+				else if(r instanceof CashierRole4){
 					rest4.setCashier((CashierRole4) r);
 					p.setRoleActive(r);
 				}

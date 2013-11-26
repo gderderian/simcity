@@ -109,6 +109,7 @@ public class CustomerGui4 implements Gui{
 		setxDestination(xTable);
 		setyDestination(yTable);
 		command = Command.GoToSeat;
+		System.out.println("DO GO TO SEAT CUSTOMER");
 	}
 
 	public void DoExitRestaurant() {

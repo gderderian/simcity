@@ -129,10 +129,12 @@ public class CustomerRole4 extends Role implements Customer4 {
 	}
 	
 	public void msgSitAtTable(int xTable, int yTable, Waiter4 waiter, Menu menu) {
+		log("Time to sit down!");
 		xDest= xTable;
 		yDest= yTable;
 		this.waiter= waiter;
 		this.menu= menu;
+		state= AgentState.waitingAtRest;
 		event= AgentEvent.followHost;
 		p.stateChanged();
 	}
@@ -378,8 +380,8 @@ public class CustomerRole4 extends Role implements Customer4 {
 			amountOwedNextTime= 0;
 			payNextTime= false;
 		}
-		log("Now I have $" + cashOnHand );
-		cashier.msgHereIsMoney(this, amount);
+		log("Now I have $" + cashOnHand);
+		//cashier.msgHereIsMoney(this, amount);
 	}
 	
 	private void goToBank(){
