@@ -750,7 +750,7 @@ public class PersonAgent extends Agent implements Person{
 						r.setActive();
 						role = (Restaurant2CustomerRole) r;
 						restName = role.getBuilding();
-						log("Set Restaurant1CustomerRole active");
+						log("Set Restaurant2CustomerRole active");
 					}
 				}
 			}
@@ -777,7 +777,7 @@ public class PersonAgent extends Agent implements Person{
 						r.setActive();
 						role = (CustomerRole4) r;
 						restName = role.getBuilding();
-						log("Set Restaurant1CustomerRole active");
+						log("Set CustomerRole4 active");
 					}
 				}
 			}

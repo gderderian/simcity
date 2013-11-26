@@ -69,8 +69,10 @@ public class HostRole4 extends Role {
 	
 	// MESSAGES
 	public void msgIWantFood(Customer4 c) {
+		log("A new customer is here and wants to be seated");
 		waitingToSit.add(c);
 		line.add(c);
+		log("waitingToSit: " + waitingToSit.size() + "    waiters: " + waiters.size());
 		p.stateChanged();
 	}
 

@@ -110,7 +110,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 	}
 	
 	public void setGuiActive() {
-		goToRestaurant();
+		//goToRestaurant();
 		customerGui.setPresent(true);
 	}
 	

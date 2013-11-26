@@ -19,7 +19,6 @@ public class Restaurant4 {
 	
 	public void setHost(HostRole4 h){
 		host = h;
-		System.out.println("THE HOST SHOULD NOT BE NULL: " + host);
 	}
 	
 	public HostRole4 getHost(){
@@ -32,8 +31,8 @@ public class Restaurant4 {
 	}
 	
 	public void addWaiters(WaiterRole4 w){
-		//waiters.add(w);
-		//host.addWaiter(w);
+		waiters.add(w);
+		host.addWaiter(w);
 		w.setCook(cook);
 		w.setCashier(cashier);
 	}

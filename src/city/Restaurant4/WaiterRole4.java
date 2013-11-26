@@ -97,6 +97,8 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	public void msgPleaseSeatCustomer(Customer4 c, int tableNum){
+		log("Oh good, a new customer to take care of...");
+		
 		customers.add(new MyCustomer(c, tableNum));
 		
 		MyCustomer mc= find(c);
@@ -324,6 +326,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	private void seatCustomer(MyCustomer c) {
+		log("I SHOULD BE MOVING, TOO LAZY THO");
 		xTable= xTable * c.tableNum;
 		if(ws != waiterState.atEntrance){
 			waiterGui.doGoToEntrance();	
