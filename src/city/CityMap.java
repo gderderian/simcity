@@ -7,6 +7,7 @@ import java.util.*;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
+import city.Restaurant3.Restaurant3;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -27,6 +28,7 @@ public class CityMap {
 	List<String> restaurants = new ArrayList<String>();
 	
 	Restaurant2 restaurant2;
+	Restaurant3 restaurant3;
 	
 	public CityMap() {
 		//Restaurant locations
@@ -84,6 +86,10 @@ public class CityMap {
 	
 	public void setRestaurant2(Restaurant2 r){
 		restaurant2 = r;
+	}
+	
+	public void setRestaurant3(Restaurant3 r){
+		restaurant3 = r;
 	}
 	
 	public int getX(String location) {

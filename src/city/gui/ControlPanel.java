@@ -44,6 +44,7 @@ import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
 import city.Restaurant2.*;
+import city.Restaurant3.Restaurant3;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 
@@ -169,6 +170,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addRest2ToCityMap(Restaurant2 r){
         cityMap.setRestaurant2(r);
+    }
+    
+    public void addRest2ToCityMap(Restaurant3 r){
+        cityMap.setRestaurant3(r);
     }
     
     public void setCityGui(CityGui c){
