@@ -44,4 +44,6 @@ public interface Person {
 	public abstract void msgHereIsYourOrder(MarketOrder order);
 	
 	public abstract void msgHereIsYourOrder(TruckAgent truck, MarketOrder order);
+
+	void msgHereIsYourOrder(Car car);
 }

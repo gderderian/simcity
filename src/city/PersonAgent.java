@@ -1123,4 +1123,11 @@ public class PersonAgent extends Agent implements Person{
         ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
 	}
+
+	@Override
+	public void msgHereIsYourOrder(MarketOrder order) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
