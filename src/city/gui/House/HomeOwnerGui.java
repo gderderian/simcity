@@ -126,7 +126,7 @@ public class HomeOwnerGui implements Gui {
 	}
     
     public void draw(Graphics2D g) {
-    	g.drawImage(icon.getImage(), xPos, yPos, animPanel);
+    	g.drawImage(up1.getImage(), xPos, yPos, 30, 44, animPanel);
     }
 
     public boolean isPresent() {
