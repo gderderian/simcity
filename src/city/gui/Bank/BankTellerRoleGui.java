@@ -58,6 +58,7 @@ public class BankTellerRoleGui implements Gui{
 
     public void draw(Graphics2D g) {
     	g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 40, gui);
+    	//System.out.print(" x pos" + xPos + "  y pos " + yPos);
     	//g.setColor(Color.MAGENTA);
         //g.fillRect(xPos, yPos, 20, 20);
     }
@@ -74,7 +75,7 @@ public class BankTellerRoleGui implements Gui{
 	}
 
     public void goToBankTellerStation(int bankstationnumber) {
-    	
+    	isPresent = true;
     	xDestination = xcoordinatesofstations[bankstationnumber - 1];
 		yDestination = ycoordinatesofstations[bankstationnumber - 1];
 		command = Command.gotobanktellerstation;

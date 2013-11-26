@@ -1,6 +1,7 @@
 package city;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import Role.BankTellerRole;
@@ -8,9 +9,10 @@ import Role.BankManagerRole;
 
 public class Bank {
 
+	
         BankManagerRole bankmanager;
-        public List<account> accounts = new ArrayList<account>();
-        public static List<bankstation> bankstations = new ArrayList<bankstation>();
+        public List<account> accounts = Collections.synchronizedList(new ArrayList<account>());
+        public static List<bankstation> bankstations = Collections.synchronizedList(new ArrayList<bankstation>());
         public static int uniqueaccountnumber = 0;
         int initialxcofbank = 200;
         int initialycofbank = 100;
@@ -35,7 +37,7 @@ public class Bank {
         public class bankstation {
         	
         	public int stationnumber;
-        	BankTellerRole bankteller;
+        	public BankTellerRole bankteller;
         	int xcoordinate;
         	int ycoordinate;
         	

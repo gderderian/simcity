@@ -745,12 +745,11 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		return ycoordinate;
 	}
 
-	
-
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
+
 	
 
 	

@@ -38,7 +38,9 @@ import city.gui.restaurant2.Restaurant2WaiterGui;
 import city.transportation.BusAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
+import city.Restaurant5.Restaurant5;
 import city.gui.Restaurant3.*;
+import city.gui.Restaurant5.Restaurant5AnimationPanel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -74,6 +76,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		// Restaurant 4 (Justine)
 		AnimationPanel4 restaurant4 = new AnimationPanel4();
 		
+		
+		Restaurant5 rest5 = new Restaurant5();
+		Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
 		// Restaurant 5 (Tom)
 		
 
@@ -144,6 +149,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(market1Animation);
 		addBuildingPanel(market2Animation);
 		addBuildingPanel(market3Animation);
+		
+		addBuildingPanel(restaurant3);
 
 		add(animationPanel, BorderLayout.EAST);
 
@@ -255,12 +262,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			restaurant1.setVisible(true);
 			return;
 		}
+		if(building.equals("Restaurant3")){
+			animationPanel.setVisible(false);
+			add(restaurant3, BorderLayout.EAST);
+			restaurant3.setVisible(true);
+			return;
+		}
 		if(building.equals("Restaurant4")){
 			animationPanel.setVisible(false);
 			add(restaurant4, BorderLayout.EAST);
 			restaurant4.setVisible(true);
 			return;
 		}
+		
 		if(building.equals("Market1")){
 			animationPanel.setVisible(false);
 			add(market1Animation, BorderLayout.EAST);

@@ -4,6 +4,7 @@ import Role.LandlordRole;
 import city.MarketOrder;
 import city.transportation.BusAgent;
 import city.transportation.CarAgent;
+import city.transportation.TruckAgent;
 import interfaces.Bus;
 import interfaces.Car;
 import interfaces.Landlord;
@@ -107,7 +108,7 @@ public class MockPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgHereIsYourOrder(MarketOrder order) {
+	public void msgHereIsYourOrder(TruckAgent truck, MarketOrder order) {
 		// TODO Auto-generated method stub
 		
 	}

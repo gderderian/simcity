@@ -97,6 +97,7 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 
 	//Sample code for clicking on animation panel
 	public void mouseReleased(MouseEvent e) {
+		
 		int x = e.getX();
 		int y = e.getY();
 		
@@ -105,9 +106,14 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView("Restaurant1");
 		} else if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180)){
 			cityGui.changeView("Restaurant2");
+		} else if((x >= 510) && (x <= 570) && (y >= 275) && (y <= 330)){
+			cityGui.changeView("Restaurant3");
 		} else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
 			cityGui.changeView("Restaurant4");
+		} else if((x >= 510) && (x <=570) && (y >= 240) && (y <= 300)) {
+			cityGui.changeView("Restaurant5");
 		}
+		
 			
 		// Markets (3)
 		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60)) {
@@ -183,7 +189,8 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 			cityGui.changeView(0, 24);
 		} else if((x >= 330) && (x <= 360) && (y >= 270) && (y <= 340)){
 			cityGui.changeView(0, 25);
-		}
+		} 
+		
 		
 	}
 
