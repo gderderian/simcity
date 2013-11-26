@@ -641,6 +641,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
+
 	public void goToBank(){
 		synchronized(events){
 			for(String e : events){
@@ -651,11 +652,54 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		String bank;
+		
+		
 		synchronized(bankEvents){
 			//TODO finish this
 			bank = cityMap.getClosestBank();
 		}
+		
+		
+		String restName = null;
+		if(name.equals("bankTest")) restName = "bank";
+		
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof BankCustomerRole){
+					
+					r.setActive();
+					role = (BankCustomerRole) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
+			}
+		}
+		
+		city.CityMap.Bank test = cityMap.bank;
+		//print("I'm going to bank!");
+		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+		((BankCustomerRole)role).setGuiActive();
+		if(firstTimeAtBank == true)
+		{
+			((BankCustomerRole)role).msgOpenAccount();
+		}
+		else if(wallet > 100)
+		{
+			moneyToDeposit = wallet/2;
+			wallet -= moneyToDeposit;
+			((BankCustomerRole)role).msgDepositIntoAccount(moneyToDeposit);
+		}
+		else if(wallet <= 20)
+		{
+			double moneyToWithdraw;
+			moneyToWithdraw = wallet * 2;
+			((BankCustomerRole)role).msgWithDrawFund(moneyToWithdraw);		
+		}
+			
+		
 	}
+	
 	
 	public void goToRestaurant1(){
 		log("Going to go to a restaurant");
@@ -681,40 +725,6 @@ public class PersonAgent extends Agent implements Person{
 		
 		gui.setInvisible();
 
-		Role role = null;
-		synchronized(roles){
-			for(Role r : roles){
-				if(r instanceof BankCustomerRole){
-					
-					r.setActive();
-					role = (BankCustomerRole) r;
-					restName = role.getBuilding();
-					log("Found role to set active");
-				}
-			}
-		}
-		
-
-		city.CityMap.Bank test = cityMap.bank;
-		print("I'm going to bank!");
-		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-		((BankCustomerRole)role).setGuiActive();
-		if(firstTimeAtBank == true)
-		{
-			((BankCustomerRole)role).msgOpenAccount();
-		}
-		else if(wallet > 100)
-		{
-			moneyToDeposit = wallet/2;
-			wallet -= moneyToDeposit;
-			((BankCustomerRole)role).msgDepositIntoAccount(moneyToDeposit);
-		}
-		else if(wallet <= 20)
-		{
-			double moneyToWithdraw;
-			moneyToWithdraw = wallet * 2;
-			((BankCustomerRole)role).msgWithDrawFund(moneyToWithdraw);		
-		}
 		
 	}
 	
