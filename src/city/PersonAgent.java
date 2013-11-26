@@ -610,6 +610,7 @@ public class PersonAgent extends Agent implements Person{
 			log("Going home");
 			DoGoTo(house.getName());
 			house.h.addGui(homeGui);
+			homeGui.goToBed();
 			atHome= true;
 		}
 	}
