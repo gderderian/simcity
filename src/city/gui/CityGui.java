@@ -467,36 +467,36 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				p.addFirstJob(r, "rest2");
 				if(r instanceof Restaurant2HostRole){
 					rest2.setHost((Restaurant2HostRole)r);
-					p.setRoleActive(r, true);
+					p.setRoleActive(r);
 				}
 				else if(r instanceof Restaurant2WaiterRole){
 					rest2.addWaiters((Restaurant2WaiterRole) r);
 				}
 				else if(r instanceof Restaurant2CookRole){
 					rest2.setCook((Restaurant2CookRole) r);
-					p.setRoleActive(r, true);
+					p.setRoleActive(r);
 				}
 				else if(r instanceof Restaurant2CashierRole){
 					rest2.setCashier((Restaurant2CashierRole) r);
-					p.setRoleActive(r, true);
+					p.setRoleActive(r);
 				}
 			}
 			else if(job.contains("Restaurant1")) {
 				p.addFirstJob(r, "rest1");
 				if(r instanceof Restaurant1HostRole) {
 					rest1.setHost((Restaurant1HostRole)r);
-					p.setRoleActive(r, true);
+					p.setRoleActive(r);
 				}
 				else if(r instanceof Restaurant1WaiterRole){
 					rest1.addWaiters((Restaurant1WaiterRole) r);
 				}
 				else if(r instanceof Restaurant1CookRole){
 					rest1.setCook((Restaurant1CookRole) r);
-					p.setRoleActive(r, true);
+					p.setRoleActive(r);
 				}
 				else if(r instanceof Restaurant1CashierRole){
 					rest1.setCashier((Restaurant1CashierRole) r);
-					p.setRoleActive(r, true);
+					p.setRoleActive(r);
 				}
 			}
 		}
