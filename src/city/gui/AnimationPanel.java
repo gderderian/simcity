@@ -65,13 +65,13 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
-		/*
-        for(Gui gui : guis) {
+		
+        /*for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
-        }
-*/
+        }*/
+
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
