@@ -20,6 +20,7 @@ import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.BuildingPanel;
 import city.gui.Gui;
 import city.gui.PersonGui;
+import city.gui.House.HomeOwnerGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
@@ -112,6 +113,7 @@ public class PersonAgent extends Agent implements Person{
     Position originalPosition;
     
 	PersonGui gui;
+	HomeOwnerGui homeGui;
 	ActivityTag tag = ActivityTag.PERSON;
 
 	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map, House h){
@@ -120,7 +122,7 @@ public class PersonAgent extends Agent implements Person{
 		name = n;
 		this.house = h;
 		this.aStar = aStarTraversal;
-		
+		homeGui= new HomeOwnerGui(this);
 		
 		if(house != null) {
 			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
@@ -173,6 +175,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void msgAtDestination() {
+		log("semaphore released by gui");
 		atDestination.release();
 	}
 	
@@ -211,6 +214,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void setHouse(House h){
 		house = h;
+		homeGui.setMainAnimationPanel(h.h);
 	}
 	
 	public void setJobLocation(String loc){
@@ -465,6 +469,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("GoToWork")){
 					goToWork();
+					return true;
 				}
 			}
 		}
@@ -472,6 +477,7 @@ public class PersonAgent extends Agent implements Person{
 			for(String e : events){
 				if(e.equals("WorkDone")){
 					leaveWork();
+					return true;
 				}
 			}
 		}
@@ -591,8 +597,8 @@ public class PersonAgent extends Agent implements Person{
 	public void goHome(){
 		if(doOnce){
 			log("Going home");
-			house.h.addGui(gui);
-			//DoGoTo(house.getName());
+			DoGoTo(house.getName());
+			house.h.addGui(homeGui);
 		}
 		doOnce= false;
 	}
@@ -915,6 +921,8 @@ public class PersonAgent extends Agent implements Person{
 		    gui.moveTo(130 + (tmpPath.getX() * 30), 70 + (tmpPath.getY() * 30));
 		    
 		    //Give animation time to move to square.
+
+		    log("moving");
 		    try {
 				atDestination.acquire();
 			} catch (InterruptedException e) {

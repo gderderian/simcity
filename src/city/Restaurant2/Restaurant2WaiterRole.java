@@ -288,11 +288,11 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		synchronized(customers){
 			for(MyCustomer c : customers){
 				if(c.s == CustomerState.proceed){
-					//if(atStand){
+					if(atStand){
 						SeatCustomer(c);
 						c.s = CustomerState.seated;
 						return true;
-					//}
+					}
 					//else
 					//	return true;
 				}
@@ -543,6 +543,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 
 	public void setAtStand(boolean b) {
 		atStand = b;
+		person.stateChanged();
 	}
 	
 	public Restaurant2WaiterGui getGui(){
