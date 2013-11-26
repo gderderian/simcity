@@ -54,6 +54,7 @@ public class PersonAgent extends Agent implements Person{
 	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
 	enum ApplianceState {broken, beingFixed, fixed};
 	LandlordRole landlord;
+	boolean atHome= false;
 	
 	//Transportation
 	CarAgent car;
@@ -448,9 +449,9 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		if(name.equals("joe")){
+		/*if(name.equals("joe")){
 			goHome();
-		}
+		}*/
 		
 		
 		//ROLES - i.e. job or customer
@@ -463,7 +464,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 			if (anytrue){
 				return anytrue;
-			}
+			} 
 		}
 		synchronized(events){
 			for(String e : events){
@@ -588,19 +589,29 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		
+		boolean anyActive= false;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r.isActive)
+					anyActive = true;
+			}
+			if(!atHome && !anyActive){
+				goHome();
+			}
+		}
+
 		return false;
 	}
 	
-	boolean doOnce= true;
+
 	//ACTIONS
 	public void goHome(){
-		if(doOnce){
+		if(!atHome){
 			log("Going home");
 			DoGoTo(house.getName());
 			house.h.addGui(homeGui);
+			atHome= true;
 		}
-		doOnce= false;
 	}
 	
 	public void goToWork(){
@@ -681,7 +692,18 @@ public class PersonAgent extends Agent implements Person{
 		if(name.equals("rest2Test")) restName = "rest2";
 		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
 		//addRole(customer, true);
-
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof Restaurant2CustomerRole){
+					
+					r.setActive();
+					role = (Restaurant2CustomerRole) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
+			}
+		}
 		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
 			String destination = restName;
@@ -695,18 +717,7 @@ public class PersonAgent extends Agent implements Person{
 		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
 		//addRole(customer, true);
 
-		Role role = null;
-		synchronized(roles){
-			for(Role r : roles){
-				if(r instanceof Restaurant2CustomerRole){
-					
-					r.setActive();
-					role = (Restaurant2CustomerRole) r;
-					restName = role.getBuilding();
-					log("Found role to set active");
-				}
-			}
-		}
+		
 		log("I want food!");
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
 		((Restaurant2CustomerRole)role).setGuiActive();
@@ -853,6 +864,8 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	void DoGoTo(String location) {
+		atHome= false;
+		
 		gui.setVisible();
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
