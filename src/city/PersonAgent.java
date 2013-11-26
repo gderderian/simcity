@@ -25,6 +25,7 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
+import Role.BankCustomerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.Role;
@@ -39,7 +40,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	//DATA
 	String name;
-	public List<String> events;
+	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
@@ -137,9 +138,7 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
-		
-		events = Collections.synchronizedList(new ArrayList<String>());
-
+	
 	}
 	
 	/*
@@ -670,6 +669,23 @@ public class PersonAgent extends Agent implements Person{
 			DoGoTo(restName);
 		}
 		
+		
+		gui.setInvisible();
+
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof BankCustomerRole){
+					
+					r.setActive();
+					role = (BankCustomerRole) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
+			}
+		}
+		
+
 		city.CityMap.Bank test = cityMap.bank;
 		print("I'm going to bank!");
 		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
@@ -1110,4 +1126,11 @@ public class PersonAgent extends Agent implements Person{
         ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
 	}
+
+	@Override
+	public void msgHereIsYourOrder(MarketOrder order) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

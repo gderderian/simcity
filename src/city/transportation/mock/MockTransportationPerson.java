@@ -111,4 +111,10 @@ public class MockTransportationPerson extends Mock implements Person {
 		log.add(new LoggedEvent("Received order from market truck"));		
 	}
 
+	@Override
+	public void msgHereIsYourOrder(MarketOrder order) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
