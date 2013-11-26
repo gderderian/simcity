@@ -381,7 +381,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 			payNextTime= false;
 		}
 		log("Now I have $" + cashOnHand);
-		waiter.getCashier().msgHereIsMoney(this, amount);
+		waiter.getCashier().msgHereIsMoney(this, amount); 
 	}
 	
 	private void goToBank(){

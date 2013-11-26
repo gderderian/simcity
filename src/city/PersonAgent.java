@@ -264,7 +264,7 @@ public class PersonAgent extends Agent implements Person{
     }
 
     public void msgAnimationAtBed(){
-    	
+    	log("IM AT MY BED, TIME TO GO TO SLEEP! ZZZzzzZZZzzz...");
     }
 	
 	/*
@@ -634,6 +634,7 @@ public class PersonAgent extends Agent implements Person{
 			if(house != null){
 				DoGoTo(house.getName());
 				house.h.addGui(homeGui);
+				homeGui.goToBed();
 			}
 			atHome= true;
 		}
