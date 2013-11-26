@@ -176,9 +176,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt2List.get(i));
 		}
 		
+		List<House> houseAgents= controlPanel.getHouses();
 		//Set up all of the houses
-		for(int i=0; i<26; i++){
-			houses.add(new HouseAnimationPanel());
+		for(int i=0; i<26; i++){ 
+			HouseAnimationPanel temp= new HouseAnimationPanel();
+			houseAgents.get(i).setHouseAnimationPanel(temp);
+			houses.add(temp);
 			addBuildingPanel(houses.get(i));
 		}
 		//addBuildingPanel(house1);
@@ -358,6 +361,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 		
+		if(job.equals("No Job")){
+			animationPanel.addGui(g);
+		}
 		if(job.equals("No job") || job.equals("Restaurant2 Waiter")){
 			animationPanel.addGui(g);
 		}

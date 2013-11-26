@@ -127,6 +127,8 @@ public class PersonAgent extends Agent implements Person{
 		} else {
 			currentPosition = new Position(20, 18);
 		}
+		
+		
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
         originalPosition = currentPosition;//save this for moving into
@@ -171,6 +173,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void msgAtDestination() {
+		log("semaphore released by gui");
 		atDestination.release();
 	}
 	
@@ -442,6 +445,10 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(name.equals("joe")){
+			goHome();
+		}
+		
 		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -580,8 +587,16 @@ public class PersonAgent extends Agent implements Person{
 		return false;
 	}
 	
-	
+	boolean doOnce= true;
 	//ACTIONS
+	public void goHome(){
+		if(doOnce){
+			log("Going home");
+			house.h.addGui(gui);
+			//DoGoTo(house.getName());
+		}
+		doOnce= false;
+	}
 	
 	public void goToWork(){
 		log("Going to work");
@@ -898,9 +913,10 @@ public class PersonAgent extends Agent implements Person{
 		    currentPosition.release(aStar.getGrid());
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
 		    //log("Moving to " + currentPosition.getX() + ", " + currentPosition.getY());
-		    gui.moveTo(130 + (currentPosition.getX() * 30), 70 + (currentPosition.getY() * 30));
+		    gui.moveTo(130 + (tmpPath.getX() * 30), 70 + (tmpPath.getY() * 30));
 		    
 		    //Give animation time to move to square.
+		    log("moving");
 		    try {
 				atDestination.acquire();
 			} catch (InterruptedException e) {
