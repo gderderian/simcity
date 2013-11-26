@@ -85,8 +85,8 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         waitingarea.setColor(Color.white);
         waitingarea.fillRect(180, 470, 700, 10);
         
-        backtocityviewbutton.setColor(Color.red);
-        backtocityviewbutton.fillRect(20, 20,20, 20);
+        //backtocityviewbutton.setColor(Color.red);
+        //backtocityviewbutton.fillRect(20, 20,20, 20);
         
         //banktellerstation1.setColor(Color.gray);
         //banktellerstation1.fillRect(200, 100, 50, 50);
