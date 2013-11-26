@@ -150,7 +150,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		addBuildingPanel(restaurant4);
 		addBuildingPanel(restaurant5);
-
 		addBuildingPanel(bank1Animation);
 		addBuildingPanel(market1Animation);
 		addBuildingPanel(market2Animation);

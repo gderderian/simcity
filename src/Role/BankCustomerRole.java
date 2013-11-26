@@ -190,8 +190,7 @@ public class BankCustomerRole extends Role{
         				bankcustomerstate = state.deposit;
         			}
         			
-        			
-        			
+        					
         			return true;
         		}
         	
