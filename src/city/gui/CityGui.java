@@ -437,7 +437,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant5CustomerGui customerGui = new Restaurant5CustomerGui(customerRole, restaurant5gui, hostrole);
 			restaurant5.addGui(customerGui);
 			Restaurant5WaiterRole waiterRole = new Restaurant5WaiterRole("waiter", null, null, null, p);
-			p.addFirstJob(waiterRole, "rest5", restaurant5);
+			p.addFirstJob(waiterRole, "rest5");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 			

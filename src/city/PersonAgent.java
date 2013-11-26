@@ -40,7 +40,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	//DATA
 	String name;
-	public List<String> events;
+	public List<String> events = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> foodsToEat = new ArrayList<String>();
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
@@ -137,9 +137,7 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
-		
-		events = Collections.synchronizedList(new ArrayList<String>());
-
+	
 	}
 	
 	/*
