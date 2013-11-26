@@ -200,7 +200,11 @@ public class Restaurant1CustomerGui implements Gui{
 		command = Command.LeaveRestaurant;
 	}
 	
-	public void msgWhatAreYourCoords(Restaurant1WaiterGui w) {
-		w.msgHereAreMyCoords(xPos, yPos);
+	public int getGuiX() {
+		return xPos;
+	}
+	
+	public int getGuiY() {
+		return yPos;
 	}
 }
