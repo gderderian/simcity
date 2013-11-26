@@ -52,6 +52,7 @@ public class Restaurant5CustomerGui implements Gui{
 		
 	}
 
+
 	public void updatePosition() {
 		
 		/*
