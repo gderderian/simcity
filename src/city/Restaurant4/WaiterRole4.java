@@ -81,6 +81,10 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 	} 
 	
+	public CashierRole4 getCashier(){
+		return cashier;
+	}
+	
 	public boolean isOnBreak(){
 		if (bs == breakState.onBreak || bs == breakState.pending || bs == breakState.goOnBreak || bs == breakState.wantToGoOnBreak){
 			return true;
