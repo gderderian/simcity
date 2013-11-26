@@ -9,13 +9,12 @@ import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
 import Role.Role;
-import Role.MarketManager.myMarketWorker;
 
 public class MarketWorker extends Role {
 	
 	// Data
 	int numWorkingOrders;
-	private ArrayList<PickableOrder> pickOrders;
+	private List<PickableOrder> pickOrders;
 	PersonAgent p;
 	
 	String name = p.getName();
@@ -24,6 +23,7 @@ public class MarketWorker extends Role {
 	public enum orderPickState {pending, picking, done};
 	
 	public class PickableOrder {
+		
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
 		MarketManager recipientManager;
 		orderPickState state;
@@ -33,8 +33,10 @@ public class MarketWorker extends Role {
 			order = incomingOrder;
 			state = orderPickState.pending;
 			recipientManager = initialSender;
-			for (OrderItem item : incomingOrder.orders){
-				itemPickStatus.put(item.name, false);
+			synchronized(incomingOrder.orders){
+				for (OrderItem item : incomingOrder.orders){
+					itemPickStatus.put(item.name, false);
+				}
 			}
 		}
 		
@@ -42,7 +44,7 @@ public class MarketWorker extends Role {
 	
 	MarketWorker(PersonAgent person){
 		p = person;
-		pickOrders = new ArrayList<PickableOrder>();
+		pickOrders = Collections.synchronizedList(new ArrayList<PickableOrder>());
 	}
 	
 	// Messages
@@ -54,15 +56,17 @@ public class MarketWorker extends Role {
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		if (!pickOrders.isEmpty()) {
-			for (PickableOrder o : pickOrders) {
-				if (o.state == orderPickState.pending){
-					pickSingleOrder(o);
-					return true;
-				}
-				if (o.state == orderPickState.done){
-					returnCompletedOrder(o);
-					return true;
+		synchronized(pickOrders){
+			if (!pickOrders.isEmpty()) {
+				for (PickableOrder o : pickOrders) {
+					if (o.state == orderPickState.pending){
+						pickSingleOrder(o);
+						return true;
+					}
+					if (o.state == orderPickState.done){
+						returnCompletedOrder(o);
+						return true;
+					}
 				}
 			}
 		}
