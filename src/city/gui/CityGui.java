@@ -39,8 +39,13 @@ import city.transportation.BusAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
 import city.Restaurant5.Restaurant5;
+import city.Restaurant5.Restaurant5CustomerRole;
+import city.Restaurant5.Restaurant5HostRole;
+import city.Restaurant5.Restaurant5WaiterRole;
 import city.gui.Restaurant3.*;
 import city.gui.Restaurant5.Restaurant5AnimationPanel;
+import city.gui.Restaurant5.Restaurant5CustomerGui;
+import city.gui.Restaurant5.Restaurant5Gui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -144,6 +149,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(restaurant1);
 
 		addBuildingPanel(restaurant4);
+		addBuildingPanel(restaurant5);
 
 		addBuildingPanel(bank1Animation);
 		addBuildingPanel(market1Animation);
@@ -274,6 +280,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			animationPanel.setVisible(false);
 			add(restaurant4, BorderLayout.EAST);
 			restaurant4.setVisible(true);
+			return;
+		}
+		if(building.equals("Restaurant5")) {
+			animationPanel.setVisible(false);
+			add(restaurant5, BorderLayout.EAST);
+			restaurant5.setVisible(true);
 			return;
 		}
 		
@@ -416,6 +428,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			p.addFirstJob(waiterRole, "rest3");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
+		}
+		
+		if(i == 5) {
+			Restaurant5HostRole hostrole = new Restaurant5HostRole("", p);
+			Restaurant5Gui restaurant5gui = new Restaurant5Gui();
+			Restaurant5CustomerRole customerRole = new Restaurant5CustomerRole(p.getName(), p);
+			Restaurant5CustomerGui customerGui = new Restaurant5CustomerGui(customerRole, restaurant5gui, hostrole);
+			restaurant5.addGui(customerGui);
+			Restaurant5WaiterRole waiterRole = new Restaurant5WaiterRole("waiter", null, null, null, p);
+			p.addFirstJob(waiterRole, "rest5", restaurant5);
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
+			
 		}
 	}
 	
