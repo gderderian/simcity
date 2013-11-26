@@ -13,7 +13,7 @@ CS201 Team 16 SimCity Project
   + Grant Derderian, Git/GitHub Expert
   	+ Market and associated roles (MarketWorker, MarketCustomer, MarketManager)
   	+ Global city timekeeping
-  	+ Program ocumentation design and Git upkeeping
+  	+ Program documentation design and Git upkeeping
   	+ restaurant3
   + Teryun (Tom) Lee
   	+ Master Bank class design
@@ -32,8 +32,6 @@ CS201 Team 16 SimCity Project
 
 Each one of our team's members contributed to the various GUI files within our program in order to ensure that each building was properly integrated into the main city layout. Additionally, we worked together in order to handle the overall successful integration of our own restaurant projects and individual buildings. Testing was conducted on a per-building or per-role basis within the testing folders named either per-person (i.e. "granttesting") or per single building unit (i.e. "BankTest").
 
-
-
 ### Compile Instructions (v1)
 To compile and run our SimCity, clone this GitHub repo into a new directory on your local computer. Then, follow these instructios:
 + Open the Eclipse IDE on your computer.
@@ -43,7 +41,7 @@ To compile and run our SimCity, clone this GitHub repo into a new directory on y
 
 __To run the program as a whole__, navigate to the `CityGui.java` file located within `src/city.gui`. Then, click the small arrow next to the green play button in the Eclipse toolbar and select `CityGui` from the dropdown list. The program will now run. To close it, click the red stop sign in Eclipse.
 
-__To test different buildings within the program__, navigate to any of the various test files located within the named project testing folders, such as `src/BankTest` or `src/city.transporation.test`. If you receive a message about JUnit not being in your build path, accept Eclipse's warning/suggestion to add it. If you don't see this, go to Project -> Properties in Eclipse's menu. Click on Java Build Path in the left menu, then on Libraries in the upper menu, and then on Add Library. Click JUnit, then select JUnit 3, and then click Finish. Click OK to exit the Project Settings dialog. With the `CashierText.java` file still open, click the small arrow next to the green play button in the Eclipse toolbar and select `CashierTest` from the dropdown list. The test will now run, showing you the results on the left.
+__To test different buildings within the program__, navigate to any of the various test files located within the named project testing folders, such as `src/BankTest` or `src/city.transporation.test`. If you receive a message about JUnit not being in your build path, accept Eclipse's warning/suggestion to add it. If you don't see this, go to Project -> Properties in Eclipse's menu. Click on Java Build Path in the left menu, then on Libraries in the upper menu, and then on Add Library. Click JUnit, then select JUnit 3, and then click Finish. Click OK to exit the Project Settings dialog. With your selected test file still open, click the small arrow next to the green play button in the Eclipse toolbar and select the name of the test you would like to run from the dropdown list. That test will now run, showing you the results on the left.
 
 ### Testing Scenarios
 
