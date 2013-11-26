@@ -447,6 +447,11 @@ public class PersonAgent extends Agent implements Person{
 	public boolean pickAndExecuteAnAction() {
 		
 		//ROLES - i.e. job or customer
+		if(this.name == "testBank")
+		goToBank();
+		
+		
+		
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
@@ -641,6 +646,8 @@ public class PersonAgent extends Agent implements Person{
 	
 
 	public void goToBank(){
+		
+		
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GoToBank")){
@@ -649,17 +656,11 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		String bank;
+		String bank = "bank1";
 		
-		
-		synchronized(bankEvents){
-			//TODO finish this
-			bank = cityMap.getClosestBank();
-		}
-		
-		
-		String restName = null;
-		if(name.equals("bankTest")) restName = "bank";
+				
+		String bankName = null;
+		if(name.equals("bankTest")) bankName = "bank";
 		
 		Role role = null;
 		synchronized(roles){
@@ -668,7 +669,7 @@ public class PersonAgent extends Agent implements Person{
 					
 					r.setActive();
 					role = (BankCustomerRole) r;
-					restName = role.getBuilding();
+					bankName = role.getBuilding();
 					log("Found role to set active");
 				}
 			}

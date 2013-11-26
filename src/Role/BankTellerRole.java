@@ -88,6 +88,7 @@ public class BankTellerRole extends Role {
 
 	public void msgPayBackLoan(double paybackloan)
 	{
+		
 		this.paybackloan = paybackloan;
 		banktellerstate = state.paybackloan;
 		person.stateChanged();
@@ -247,27 +248,37 @@ public class BankTellerRole extends Role {
 				{
 					if(findaccount.accountnumber == currentcustomeraccountnumber)
 					{        
+						
+						
+						
+						findaccount.loan -= paybackloan;
+						currentcustomer.msgLoanPaidBack(paybackloan, findaccount.loan);
+						
+						
+						// this is more advanced loan system.
 						double oldestloanamount;
 						double subtotal;
-
+						int i = 0;
 						//60, loan 1 = 20, loan 2 30;
 						do
 						{
-
-							oldestloanamount = findaccount.loans.get(0).loanamount;
+							Do("i'm in the do while");
+							oldestloanamount = findaccount.loans.get(i).loanamount;
 							subtotal = oldestloanamount - paybackloan;
 							if(subtotal <= 0)
 							{
-								findaccount.loans.remove(0);
-								currentcustomer.msgLoanPaid(findaccount.loans.get(0).loanamount,findaccount.loans.get(0).lendtime, findaccount.loans.get(0).interestrate);
+								currentcustomer.msgLoanPaid(findaccount.loans.get(i).loanamount,findaccount.loans.get(i).lendtime, findaccount.loans.get(i).interestrate);
+								findaccount.loans.remove(i);
+								
 							}
 							subtotal *= -1;
 							paybackloan = subtotal;        
-
-						}while(paybackloan == 0 || findaccount.loans.size() == 0);
+							i++;
+						}while(paybackloan != 0 || findaccount.loans.size() != 0);
 
 					}
 				}
+				return true;
 
 			}
 

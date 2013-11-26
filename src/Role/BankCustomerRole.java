@@ -154,19 +154,21 @@ public class BankCustomerRole extends Role{
 
         public void msgLoanBorrowed(double loan) 
         {
-                // TODO Auto-generated method stub
+        	//log.add(new LoggedEvent("msgLoanBorrowed"));  
+        	 amountofcustomermoney = loan;
                 
         }
         
         public void msgLoanPaidBack(double amountofloanpaidback, double amountofremainingloan)
         {
-                
+        	Do("msgLoanPaidBack");
+        	log.add(new LoggedEvent("msgLoanPaidBack"));
                 
         }
         
         public void msgLoanPaid(double loanamount, double lendtime,double interestrate) {
                 Do("Successfully paid off loan of:" + loanamount + " lendtime: " + lendtime +" days" + " interestrate: " + interestrate);
-                
+                log.add(new LoggedEvent("msgLoanPaidBack"));
         }
         
 

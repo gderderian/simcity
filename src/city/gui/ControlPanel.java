@@ -357,6 +357,10 @@ public class ControlPanel extends JPanel implements ActionListener{
             isHungry.setEnabled(false);
             validate();
         }
+        
+        
+        
+        
     }
     
     public void addPersonNoHouse(String name, String job) {
@@ -543,6 +547,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("waiter", "Restaurant2 Waiter");
 		addPerson("rest2Test", "No job");
 		
+		addPerson("bankTest", " No Job");
 		/*addPersonNoHouse("host1", "Restaurant1 Host");
 		addPersonNoHouse("cashier1", "Restaurant1 Host");
 		addPersonNoHouse("cook1", "Restaurant1 Cook");
