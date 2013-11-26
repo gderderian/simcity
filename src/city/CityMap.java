@@ -4,6 +4,8 @@ import interfaces.BusStop;
 
 import java.util.*;
 
+import restaurant1.Restaurant1;
+
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
@@ -25,6 +27,7 @@ public class CityMap {
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
+	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
 	Bank bank;
 	
@@ -130,7 +133,12 @@ public class CityMap {
 		nearbyDestinations.put(3, buildingList3);
 		
 		//Creating list of restaurants
+		restaurants.add("Restaurant1");
 		restaurants.add("Restaurant2");
+	}
+	
+	public void setRestaurant1(Restaurant1 r) {
+		restaurant1 = r;
 	}
 	
 	public void setRestaurant2(Restaurant2 r){

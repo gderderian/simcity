@@ -13,6 +13,8 @@ import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
 import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
+import restaurant1.gui.Restaurant1CashierGui;
+import restaurant1.gui.Restaurant1CookGui;
 import restaurant1.gui.Restaurant1CustomerGui;
 import city.Restaurant2.Restaurant2CashierRole;
 import city.Restaurant2.Restaurant2CookRole;
@@ -592,6 +594,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		else if(type.equals("Restaurant1 Cook")){
 			Restaurant1CookRole role = new Restaurant1CookRole(p.getName(), p);
+			Restaurant1CookGui gui = new Restaurant1CookGui(role);
+			role.setGui(gui);
+			restaurant1.addGui(gui);
+			gui.setPresent(true);
 			return role;
 		}
 		else if(type.equals("Restaurant1 Host")){
@@ -600,6 +606,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		else if(type.equals("Restaurant1 Cashier")){
 			Restaurant1CashierRole role = new Restaurant1CashierRole(p.getName(), p);
+			Restaurant1CashierGui gui = new Restaurant1CashierGui(role);
+			restaurant2.addGui(gui);
+			gui.setPresent(true);
 			return role;
 		}
 		else if(type.equals("Restaurant4 Customer")){
