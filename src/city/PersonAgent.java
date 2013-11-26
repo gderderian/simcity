@@ -750,7 +750,15 @@ public class PersonAgent extends Agent implements Person{
 	public void getOffBus(BusRide busride){
 		busride.bus.msgImGettingOff(this);
 		String thisStop = "stop" + Integer.toString(busStopToGetOffAt);
-		gui.teleport(cityMap.getX(thisStop) * 30 + 130, cityMap.getY(thisStop) * 30 + 70);
+		int x = cityMap.getX(thisStop);
+		int y = cityMap.getY(thisStop);
+		gui.teleport(x * 30 + 130, y * 30 + 70);
+	    currentPosition.release(aStar.getGrid());
+		currentPosition = new Position(x, y);
+		currentPosition.moveInto(aStar.getGrid());
+		
+		print("Now, go to final destination!");
+	    
 		busRides.remove(busride);
 		DoGoTo(destinationBuilding);		
 	}
@@ -834,37 +842,30 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	void moveTo(int x, int y) {
-		Position p = new Position(x, y);
-		
-		if(currentPosition.distance(p) > 16) {
-			int startingBusStop = cityMap.getClosestBusStop(p);
-		}
-		
+		Position p = new Position(x, y);		
 		guiMoveFromCurrentPositionTo(p);
 	}
 	
 	void DoGoTo(String location) {
-		destinationBuilding = "location";
 		gui.setVisible();
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
 		Position p = new Position(x, y);
 		
-		if(currentPosition.distance(p) < 20) {
+		//if(currentPosition.distance(p) < 20) {
 			moveTo(x, y);
 			gui.setInvisible();
 			return;
-		}
-		
+		/*}
+		destinationBuilding = location;
 		int startingBusStop = cityMap.getClosestBusStop(currentPosition);
 		int endingBusStop = cityMap.getClosestBusStop(location);
 		busStopToGetOffAt = endingBusStop;
 		DoGoTo("stop" + Integer.toString(startingBusStop));
 		busStop = cityMap.getBusStop(startingBusStop);
-		busStop.msgWaitingForBus(this);
-			
-		gui.setVisible();
+		busStop.msgWaitingForBus(this);			
+		gui.setVisible(); //Person will stand outside bus stop*/
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
