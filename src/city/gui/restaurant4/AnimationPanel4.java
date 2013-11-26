@@ -90,12 +90,15 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
         	g2.fillRect(PLATEX + (GRILLDIMENSIONS*i), PLATEY, GRILLDIMENSIONS, GRILLDIMENSIONS);
         }
         
+        /*
+         * This gets moved to updatePos below so it will be called even when the panel is not visible
+         *
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -143,6 +146,12 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updatePos() {
 		// TODO Auto-generated method stub
 		
 	}

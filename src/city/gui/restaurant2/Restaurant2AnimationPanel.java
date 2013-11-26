@@ -103,12 +103,13 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         //Kitchen Sign
         g2.drawString("KITCHEN", KITCHENX - 50, KITCHENY - 40);        
         
+        /* Moved to updatePos function below so it will be called when panel is invisible
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -118,6 +119,14 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     
     public void addGui(Gui g){
     	guis.add(g);
+    }
+    
+    public void updatePos(){
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
     }
 
 }

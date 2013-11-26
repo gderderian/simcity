@@ -49,6 +49,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	AnimationPanel animationPanel = new AnimationPanel();
 
 	ControlPanel controlPanel = new ControlPanel();
+	
+    private static final int TIMER_INTERVAL = 15;
+    private Timer timer;
 
 	// Restaurants
 	
@@ -176,8 +179,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		CityClock masterClock = new CityClock(this);
 		masterClock.startTime();
-
+		
+        timer = new Timer(TIMER_INTERVAL, this);
+        timer.start();
+        
 	}
+
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
@@ -195,7 +202,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		//if(e.getSource() == 
+		synchronized(buildingPanels){
+			for(BuildingPanel b : buildingPanels){
+				b.updatePos();
+			}
+		}
 	}
 
 	/**
@@ -372,6 +383,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			restaurant1.addGui(customerGui);
 			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest2", restaurant2);
+			customerRole.setGui(customerGui);
+			p.addRole(customerRole, false);
+		}
+		if(i == 3) { // Restaurant 3 (Grant) Testing
+			CustomerRole3 customerRole = new CustomerRole3(p.getName(), 50,50, p);
+			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, 50, 50, 0); // GUI should be passed into 2nd agmt
+			restaurant3.addGui(customerGui);
+			WaiterRole3 waiterRole = new WaiterRole3("waiter", 50, 50,p);
+			p.addFirstJob(waiterRole, "rest3", restaurant3);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}

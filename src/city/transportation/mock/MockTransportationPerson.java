@@ -4,6 +4,7 @@ import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import test.mock.Mock;
 import city.MarketOrder;
+import city.transportation.TruckAgent;
 import interfaces.Bus;
 import interfaces.Car;
 import interfaces.Landlord;
@@ -106,7 +107,7 @@ public class MockTransportationPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgHereIsYourOrder(MarketOrder order) {
+	public void msgHereIsYourOrder(TruckAgent truck, MarketOrder order) {
 		log.add(new LoggedEvent("Received order from market truck"));		
 	}
 

@@ -100,13 +100,15 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         
         //Here is the table
         //got rid of the magic numbers
-
+/*
+ * This function gets moved to updatePos() below so it's called even when the panel isnt shown
+ * 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -160,4 +162,17 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
 		// TODO Auto-generated method stub
 		
 	}
+<<<<<<< HEAD
+=======
+
+	@Override
+	public void updatePos() {
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+	}
+
+>>>>>>> origin/master
 }

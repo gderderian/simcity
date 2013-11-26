@@ -176,4 +176,13 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void updatePos() {
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+	}
 }
