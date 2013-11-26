@@ -468,18 +468,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			}
 			if(r instanceof Restaurant2HostRole){
 				rest2.setHost((Restaurant2HostRole)r);
-				p.setRoleActive(r, true);
+				p.setRoleActive(r);
 			}
 			else if(r instanceof Restaurant2WaiterRole){
 				rest2.addWaiters((Restaurant2WaiterRole) r);
 			}
 			else if(r instanceof Restaurant2CookRole){
 				rest2.setCook((Restaurant2CookRole) r);
-				p.setRoleActive(r, true);
+				p.setRoleActive(r);
 			}
 			else if(r instanceof Restaurant2CashierRole){
 				rest2.setCashier((Restaurant2CashierRole) r);
-				p.setRoleActive(r, true);
+				p.setRoleActive(r);
 			}
 		}
 	}
