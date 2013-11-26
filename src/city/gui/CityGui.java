@@ -39,6 +39,8 @@ import city.transportation.BusAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
 import city.Restaurant5.Restaurant5;
+import city.Restaurant5.Restaurant5CashierRole;
+import city.Restaurant5.Restaurant5CookRole;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
 import city.Restaurant5.Restaurant5WaiterRole;
@@ -538,6 +540,37 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant1CashierRole role = new Restaurant1CashierRole(p.getName(), p);
 			return role;
 		}
+		
+		else if(type.equals("Restaurant5 Customer")){
+			Restaurant5CustomerRole role = new Restaurant5CustomerRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant5 Waiter")){
+			Restaurant5HostRole hostrole = new Restaurant5HostRole(p.getName(), p);
+			Restaurant5CashierRole cashierrole = new Restaurant5CashierRole(p.getName(), p);
+			Restaurant5CookRole cookrole = new Restaurant5CookRole(p.getName(), p);
+			
+			Restaurant5WaiterRole role = new Restaurant5WaiterRole(p.getName(), hostrole, cookrole, cashierrole,p);
+			return role;
+		}
+		else if(type.equals("Restaurant1 Cook")){
+			Restaurant1CookRole role = new Restaurant1CookRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant5 Host")){
+			Restaurant5HostRole role = new Restaurant5HostRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant5 Cashier")){
+			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
+			return role;
+		}
+		
+		
+		
+		
+		
+		
 		else return null;
 	}
 

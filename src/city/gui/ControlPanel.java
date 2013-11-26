@@ -33,6 +33,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import city.Apartment;
+import city.Bank;
 import city.CityMap;
 import city.House;
 import activityLog.ActivityPane;
@@ -44,6 +45,7 @@ import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
 import city.Restaurant2.*;
+import city.Restaurant5.Restaurant5;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 
@@ -171,6 +173,14 @@ public class ControlPanel extends JPanel implements ActionListener{
         cityMap.setRestaurant2(r);
     }
     
+    public void addRest5ToCityMap(Restaurant5 r){
+    	cityMap.setRestaurant5(r);
+    }
+    
+    public void addBank1ToCityMap(Bank b) {
+    	cityMap.setBank1(b);
+    }
+       
     public void setCityGui(CityGui c){
     	cityGui = c;
     }
@@ -545,9 +555,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
 		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
-		addPerson("rest2Test", "No job");
-		
-		addPerson("bankTest", " No Job");
+		addPerson("rest2Test", "No job");	
+		addPersonNoHouse("bankTest", " No Job");
 		/*addPersonNoHouse("host1", "Restaurant1 Host");
 		addPersonNoHouse("cashier1", "Restaurant1 Host");
 		addPersonNoHouse("cook1", "Restaurant1 Cook");

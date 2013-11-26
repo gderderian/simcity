@@ -11,8 +11,8 @@ import Role.BankManagerRole;
 import Role.BankTellerRole;
 import city.PersonAgent;
 
-// this test is for two customers and two bank tellers I'm verifying whether the customers are being 
-//assigned to the correct bank tellers. 
+
+//This scenario tests one customer with a specific amount of loan: $10, paying off his loan.
 
 public class BankTest3 extends TestCase {
         
@@ -86,9 +86,7 @@ public class BankTest3 extends TestCase {
                 assertEquals("the loan is paid off there should be no more loans in the account",bank.accounts.get(0).loans.size(), 0);
                 assertTrue(" " + bankcustomer.log.getLastLoggedEvent().toString(), bankcustomer.log.containsString("msgLoanPaidBack"));
                 
-                    
-        
-                
+                                  
         }//end one normal customer scenario
 
 

@@ -20,12 +20,16 @@ import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.BuildingPanel;
 import city.gui.Gui;
 import city.gui.PersonGui;
+import city.gui.Bank.BankCustomerRoleGui;
+import city.gui.Bank.BankGui;
+import city.gui.Bank.BankManagerRoleGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
 import Role.BankCustomerRole;
+import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.Role;
@@ -447,7 +451,7 @@ public class PersonAgent extends Agent implements Person{
 	public boolean pickAndExecuteAnAction() {
 		
 		//ROLES - i.e. job or customer
-		if(this.name == "testBank")
+		if(this.name == "bankTest")
 		goToBank();
 		
 		
@@ -645,7 +649,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 
-	public void goToBank(){
+	public void goToBank() {
 		
 		
 		synchronized(events){
@@ -657,10 +661,9 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		String bank = "bank1";
-		
 				
 		String bankName = null;
-		if(name.equals("bankTest")) bankName = "bank";
+		if(name.equals("bankTest")) bankName = "bank1";
 		
 		Role role = null;
 		synchronized(roles){
@@ -675,10 +678,16 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		city.CityMap.Bank test = cityMap.bank;
+		//city.CityMap.Bank test = cityMap.bank1;
 		//print("I'm going to bank!");
-		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+		//cityMap.bank1.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+		
+		BankGui bankgui = new BankGui();
+		BankCustomerRoleGui gui = new BankCustomerRoleGui((BankCustomerRole)role, bankgui);
+		((BankCustomerRole)role).setGui(gui);
 		((BankCustomerRole)role).setGuiActive();
+		
+		
 		if(firstTimeAtBank == true)
 		{
 			((BankCustomerRole)role).msgOpenAccount();
@@ -751,7 +760,7 @@ public class PersonAgent extends Agent implements Person{
 		log("I want food!");
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
 		((Restaurant2CustomerRole)role).setGuiActive();
-	}
+	}                                 
 	
 	public void notifyLandlordBroken(MyAppliance a){
 		log("Telling landlord that appliance " + a.type + " is broken");

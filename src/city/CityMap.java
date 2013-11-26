@@ -7,6 +7,7 @@ import java.util.*;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
+import city.Restaurant5.Restaurant5;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -27,7 +28,8 @@ public class CityMap {
 	List<String> restaurants = new ArrayList<String>();
 	
 	Restaurant2 restaurant2;
-	Bank bank;
+	Bank bank1;
+	Restaurant5 restaurant5;
 	
 	public CityMap() {
 		//Restaurant locations
@@ -138,6 +140,15 @@ public class CityMap {
 		restaurant2 = r;
 	}
 	
+	
+	public void setRestaurant5(Restaurant5 r) {
+		restaurant5 = r;
+	}
+	
+	public void setBank1(Bank b) {
+		bank1 = b;
+	}
+	
 	public int getX(String location) {
 		return buildingLocations.get(location).getX();
 	}
@@ -198,25 +209,8 @@ public class CityMap {
 		
 	}
 	*/
-	
-	class Bank{
-		BankManagerRole manager;
-		String name;
-		
-		public Bank(BankManagerRole m, String n){
-			manager = m;
-			name = n;
-		}
-		
-		public BankManagerRole getBankManager() {
-			return manager;
-		}
-	}
-	
-	public String getClosestBank(){
-		return banks.get(0).name;
-	}
-	
+
+
 	
 	
 	public String getClosestPlaceFromHere(String here, String type){
