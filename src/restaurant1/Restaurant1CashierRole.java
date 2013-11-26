@@ -7,7 +7,7 @@ import agent.Agent;
 import restaurant1.interfaces.Restaurant1Customer;
 import restaurant1.interfaces.Restaurant1Market;
 import restaurant1.interfaces.Restaurant1Waiter;
-import restaurant1.test.mock.Restaurant1EventLog;
+import test.mock.EventLog;
 import test.mock.LoggedEvent;
 
 import java.util.*;
@@ -16,7 +16,7 @@ import city.PersonAgent;
 
 public class Restaurant1CashierRole extends Role {
 	
-	public Restaurant1EventLog log; //Log for keeping track of events while unit testing cashier
+	public EventLog log; //Log for keeping track of events while unit testing cashier
 	
 	public List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
 	
