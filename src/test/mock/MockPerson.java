@@ -119,4 +119,10 @@ public class MockPerson extends Mock implements Person {
 		
 	}
 
+	@Override
+	public void msgHereIsYourOrder(MarketOrder order) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -19,7 +19,7 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
     private static final int NTABLES= 4;
 	private static final int xPosTable= 100;
     private final int WINDOWX = 900;
-    private final int WINDOWY = 700;
+    private final int WINDOWY = 900;
     private final int TIMER = 8;
     private final int SCREENX = 0;
     private final int SCREENY = 0;
@@ -90,15 +90,6 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
         	g2.fillRect(PLATEX + (GRILLDIMENSIONS*i), PLATEY, GRILLDIMENSIONS, GRILLDIMENSIONS);
         }
         
-        /*
-         * This gets moved to updatePos below so it will be called even when the panel is not visible
-         *
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -153,6 +144,10 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
 	@Override
 	public void updatePos() {
 		// TODO Auto-generated method stub
-		
+		 for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
 	}
 }

@@ -18,7 +18,7 @@ public class MarketManager extends Role {
 	private String name;
 	private double marketMoney;
 	private ArrayList<myMarketWorker> myWorkers;
-	private ArrayList<myMarketOrder> myOrders;
+	public ArrayList<myMarketOrder> myOrders;
 	private ArrayList<TruckAgent> marketTrucks;
 	public Hashtable<String, MarketItem> marketStock;
 
@@ -31,9 +31,10 @@ public class MarketManager extends Role {
 
 	PersonAgent p;
 	
-	MarketManager(String initialName, PersonAgent person){
+	public MarketManager(String initialName, PersonAgent person){
 		name = initialName;
 		p = person;
+		myOrders = new ArrayList<myMarketOrder>();
 		marketStock = new Hashtable<String, MarketItem>();
 		marketStock.put("Pasta", new MarketItem("Pasta", 5, itemType.food));
 		marketStock.put("Pizza", new MarketItem("Pizza", 5, itemType.food));

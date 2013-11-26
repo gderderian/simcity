@@ -30,7 +30,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     //Functional things
     public Image bed = new ImageIcon("images/bed.png").getImage();
     public Image lamp = new ImageIcon("images/lamp.png").getImage();
-    public Image table = new ImageIcon("images/table.png").getImage();
+    public Image table = new ImageIcon("images/houseTable.png").getImage();
     public Image stove = new ImageIcon("images/stove.png").getImage();
     public Image oven = new ImageIcon("images/oven.png").getImage();
     public Image fridge = new ImageIcon("images/fridge.png").getImage();
@@ -62,13 +62,6 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY);
-                
-        
-        //This is the exit to the city
-        /*g2.setColor(Color.CYAN);
-        g2.fillRect(75, 0, 100, 30);
-        g2.setColor(Color.BLACK);
-        g2.drawString("Exit to City", 90, 15); */
         
         
         //This is the kitchen table
@@ -114,7 +107,10 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     public void addGui(Gui gui) {
         guis.add(gui);
     }
-
+    
+    public void notInHouse(Gui gui){
+    	guis.remove(gui);
+    }
     
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -132,12 +128,6 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         public void mouseReleased(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
-                
-                //Change to city
-                /*if((x >= 75) && (x <= 175) && (y >= 0) && (y <= 30)){
-                        System.out.println("Back to the city view, goodbye!");
-                        changeBackToCity(); 
-                }*/
                 
         }
 

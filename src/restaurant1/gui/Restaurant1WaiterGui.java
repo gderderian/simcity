@@ -142,7 +142,9 @@ public class Restaurant1WaiterGui implements Gui {
     }
     
     public void DoGoToCustomer(Restaurant1CustomerRole c) {
-    	c.customerGui.msgWhatAreYourCoords(this);
+    	xDestination = c.getGui().getGuiX() + 30;
+    	yDestination = c.getGui().getGuiY() + 30;
+    	moving = true;
     }
     
     public void msgHereAreMyCoords(int x, int y) {

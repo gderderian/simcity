@@ -40,7 +40,8 @@ public class WaiterGui4 implements Gui{
     }
 
     public void updatePosition() {
-        if (xPos < xDestination)
+    	
+    	if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
             xPos--;

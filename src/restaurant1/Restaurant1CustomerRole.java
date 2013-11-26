@@ -296,7 +296,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 
 	// Actions
 
-	private void goToRestaurant() {
+	public void goToRestaurant() {
 		log("Going to restaurant");
 		host.msgImHungry(this);//send our instance, so he can respond to us
 	}
@@ -312,7 +312,6 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	}
 	
 	private void readyToOrder() {
-		waiter.msgCustomerSatDown();
 		customerGui.clearOrder();
 		
 		timer.schedule(new TimerTask() {
@@ -523,6 +522,11 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	public void setGuiActive() {
+		customerGui.setPresent(true);	
+		customerGui.setHungry();
 	}
 }
 

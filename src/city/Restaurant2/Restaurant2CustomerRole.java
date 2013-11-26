@@ -146,7 +146,6 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 	public void msgFollowMeToTable(Restaurant2Waiter w, Menu m, int num, int waiterNum) {
 		log("Received msgSitAtTable");
-		log.add(new LoggedEvent("Recieved message follow waiter to table"));
 		event = AgentEvent.followWaiter;
 		setWaiter(w, waiterNum);
 		menu = m;
@@ -298,24 +297,23 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 			waiter.msgLeavingNoMoney(this);
 		}
 		else{
-			SitDown(tableNum);
-			waiter.msgReadyToBeSeated(this);
 			log.add(new LoggedEvent("I'm ready to be seated"));
+			customerGui.DoGoToWaiter(waiterNum);
+			try{
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			waiter.msgReadyToBeSeated(this);
+			SitDown(tableNum);
 		}
 	}
 
 	private void SitDown(int seatNumber) {
 		Do("Being seated. Going to table");
 		log.add(new LoggedEvent("Sitting down at table " + seatNumber));
-		customerGui.DoGoToWaiter(waiterNum);
-		try{
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		customerGui.DoGoToSeat(seatNumber);
 		state = AgentState.Seated;
-		
 		//Hack until the Customer GUI is updated to call the waiter
 		t.schedule(new TimerTask() {
 			public void run() {
@@ -434,6 +432,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		customerGui.DoExitRestaurant();
 		wallet = wallet + 20.00; //replenish their money supply
 		person.setGuiVisible();
+		person.setRoleInactive(this);
 	}
 
 	// Accessors, etc.

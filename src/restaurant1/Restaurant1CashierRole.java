@@ -3,13 +3,10 @@ package restaurant1;
 import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
-import agent.Agent;
 import restaurant1.interfaces.Restaurant1Customer;
 import restaurant1.interfaces.Restaurant1Market;
 import restaurant1.interfaces.Restaurant1Waiter;
 import test.mock.EventLog;
-import test.mock.LoggedEvent;
-
 import java.util.*;
 
 import city.PersonAgent;

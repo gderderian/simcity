@@ -4,10 +4,12 @@ import interfaces.BusStop;
 
 import java.util.*;
 
+import restaurant1.Restaurant1;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant5.Restaurant5;
+import city.Restaurant4.Restaurant4;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -19,7 +21,6 @@ public class CityMap {
 
 	//References to 4 bus stops
 	List<BusStopAgent> busStops = new ArrayList<BusStopAgent>();
-	List<Bank> banks = new ArrayList<Bank>();
 	
 	//We may just keep a list of Restaurants, Banks, Markets, and BusStops here instead.
 	//Depends how the gui ends up working...
@@ -27,9 +28,13 @@ public class CityMap {
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
+	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
 	Bank bank1;
 	Restaurant5 restaurant5;
+
+	Restaurant4 restaurant4;
+	Bank bank;
 	
 	public CityMap() {
 		//Restaurant locations
@@ -133,13 +138,18 @@ public class CityMap {
 		nearbyDestinations.put(3, buildingList3);
 		
 		//Creating list of restaurants
+		restaurants.add("Restaurant1");
 		restaurants.add("Restaurant2");
+		restaurants.add("Restaurant4");
+	}
+	
+	public void setRestaurant1(Restaurant1 r) {
+		restaurant1 = r;
 	}
 	
 	public void setRestaurant2(Restaurant2 r){
 		restaurant2 = r;
 	}
-	
 	
 	public void setRestaurant5(Restaurant5 r) {
 		restaurant5 = r;
@@ -147,6 +157,9 @@ public class CityMap {
 	
 	public void setBank1(Bank b) {
 		bank1 = b;
+	}
+	public void setRestaurant4(Restaurant4 r){
+		restaurant4= r;
 	}
 	
 	public int getX(String location) {
@@ -158,12 +171,25 @@ public class CityMap {
 	}
 	
 	public int getClosestBusStop(String destination) { //Returns number of bus stop closest to destination. Returns -1 if destination is not found
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			if(nearbyDestinations.get(i).contains(destination)) {
 				return i;
 			}
 		}
 		return -1;
+	}
+	
+	public int getClosestBusStop(Position p) {
+		int minStop = 0;
+		double distance = 1000;
+		for(int i = 0; i < 4; i++) {
+			double newDistance = buildingLocations.get("stop" + Integer.toString(i)).distance(p);
+			if(newDistance < distance) {
+				distance = newDistance;
+				minStop = i;
+			}
+		}
+		return minStop;
 	}
 	
 	public void addBusStop(BusStop busStop) {
@@ -210,8 +236,19 @@ public class CityMap {
 	}
 	*/
 
-
-	
+	class Bank{
+		BankManagerRole manager;
+		String name;
+		
+		public Bank(BankManagerRole m, String n){
+			manager = m;
+			name = n;
+		}
+		
+		public BankManagerRole getBankManager() {
+			return manager;
+		}
+	}	
 	
 	public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;

@@ -49,25 +49,30 @@ public class VehicleGui implements Gui {
 
 	@Override
 	public void updatePosition() {
+        if(xPos == xDest && yPos == yDest && moving) {
+        	v.msgGuiFinished();
+        	moving = false;
+        	return;
+        }
+        
         if (xPos < xDest) {
             xPos++;
+            moving = true;
         	icon = movingRight;
         } else if (xPos > xDest) {
             xPos--;
+            moving = true;
         	icon = movingLeft;
         }
 
         if (yPos < yDest) {
             yPos++;
+            moving = true;
             icon = movingDown;
         } else if (yPos > yDest) {
             yPos--;
+            moving = true;
             icon = movingUp;
-        }
-        
-        if(xPos == xDest && yPos == yDest && moving) {
-        	v.msgGuiFinished();
-        	moving = false;
         }
 	}
 	
@@ -78,8 +83,6 @@ public class VehicleGui implements Gui {
 	public void moveTo(int x, int y) {
 		xDest = x;
 		yDest = y;
-		
-		moving = true;
 	}
 	
 	public void draw(Graphics2D g) {

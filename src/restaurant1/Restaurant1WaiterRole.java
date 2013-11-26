@@ -40,7 +40,6 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 	PersonAgent person;
 	
 	private Semaphore atDestination = new Semaphore(0, true);
-	private Semaphore customerAtTable = new Semaphore(0, true);
 	
 	private enum waiterState { working, onBreak };
 	private waiterState state = waiterState.working;
@@ -175,11 +174,6 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 		atDestination.release();
 		person.stateChanged();
 	}
-	
-	public void msgCustomerSatDown() {
-		customerAtTable.release();
-		person.stateChanged();
-	}
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -285,12 +279,6 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 		}
 		
 		log("Welcome to Restaurant V2.1! Here is your seat.");
-		
-		try {
-			customerAtTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
 		c.s = customerState.seated;
 	}

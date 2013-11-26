@@ -54,6 +54,7 @@ public class ActivityPane extends JScrollPane {
 				}
 			}
 		}
+		textPane.setCaretPosition(textPane.getDocument().getLength());
 		newActivities.clear();
 	}
 	

@@ -32,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import restaurant1.Restaurant1;
 import city.Apartment;
 import city.Bank;
 import city.CityMap;
@@ -46,6 +47,7 @@ import Role.MarketWorker;
 import Role.Role;
 import city.Restaurant2.*;
 import city.Restaurant5.Restaurant5;
+import city.Restaurant4.Restaurant4;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 
@@ -181,6 +183,14 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityMap.setBank1(b);
     }
        
+    public void addRest1ToCityMap(Restaurant1 r) {
+    	cityMap.setRestaurant1(r);
+    }
+    
+    public void addRest4ToCityMap(Restaurant4 r) {
+    	cityMap.setRestaurant4(r);
+    }
+    
     public void setCityGui(CityGui c){
     	cityGui = c;
     }
@@ -322,6 +332,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
         else if(e.getSource() == populateCity){
         	populateCity();
+        	cityGui.startMasterClock();
         	populateCity.setEnabled(false);
         }
         else if(e.getSource() == backToCity) {
@@ -542,6 +553,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     	System.out.println("Created houses.");
     }
     
+    public List<House> getHouses(){
+    	return houses; 
+    }
+    
     public void populateCity(){
     	//Add two buses at an interval
     	addVehicle("bus");
@@ -555,14 +570,26 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
 		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
+
 		addPerson("rest2Test", "No job");	
 		addPersonNoHouse("bankTest", " No Job");
-		/*addPersonNoHouse("host1", "Restaurant1 Host");
+		addPersonNoHouse("host1", "Restaurant1 Host");
 		addPersonNoHouse("cashier1", "Restaurant1 Host");
+		addPerson("rest2Test", "No job");
+		
+		addPerson("joe", "No Job");
+		
+		addPersonNoHouse("host1", "Restaurant1 Host");
+		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
 		addPersonNoHouse("cook1", "Restaurant1 Cook");
 		addPerson("waiter1", "Restaurant1 Waiter");
-		addPerson("rest1test", "Restaurant1 Customer");*/
+		addPerson("rest1Test", "No job");
 		
+		addPersonNoHouse("host4", "Restaurant4 Host");
+		addPersonNoHouse("cashier4", "Restaurant4 Cashier");
+		addPersonNoHouse("cook4", "Restaurant4 Cook");
+		addPerson("waiter4", "Restaurant4 Waiter");
+		addPerson("rest4Test", "No job");
     }
     
     public void setTimeDisplay(String timeToDisplay){

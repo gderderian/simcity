@@ -58,7 +58,7 @@ public class Restaurant1CustomerGui implements Gui{
 			yPos--;
 			
 
-		if (xPos == xDestination && yPos == yDestination) {			
+		if (xPos == xDestination && yPos == yDestination) {	
 			if (command==Command.GoToSeat) {
 				agent.msgAnimationFinishedGoToSeat();
 			} 
@@ -138,6 +138,7 @@ public class Restaurant1CustomerGui implements Gui{
 	}
 
 	public void DoGoToSeat() {
+		System.out.println("GOING TO SEAT");
 		command = Command.GoToSeat;
 	}
 	
@@ -186,6 +187,13 @@ public class Restaurant1CustomerGui implements Gui{
 		state = customerState.waiting;
 	}
 	
+	public void DoEnterRestaurant() {
+	        xPos = -2 * HEIGHT;
+	        yPos = -2 * WIDTH;
+	        xDestination = xPos;
+	        yDestination = yPos;
+	}
+	
 	public void DoExitRestaurant() {
 		// These coordinates are the initial off-screen coordinates
 		xDestination = -2 * WIDTH;
@@ -193,7 +201,11 @@ public class Restaurant1CustomerGui implements Gui{
 		command = Command.LeaveRestaurant;
 	}
 	
-	public void msgWhatAreYourCoords(Restaurant1WaiterGui w) {
-		w.msgHereAreMyCoords(xPos, yPos);
+	public int getGuiX() {
+		return xPos;
+	}
+	
+	public int getGuiY() {
+		return yPos;
 	}
 }

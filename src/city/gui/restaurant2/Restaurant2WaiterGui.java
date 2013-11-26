@@ -37,7 +37,7 @@ public class Restaurant2WaiterGui implements Gui{
     public final int YBREAK = -10;
     
     public String name;
-    
+    public boolean atStand = false;
     private String foodChoice;
     
     private CityGui restGui;
@@ -97,10 +97,12 @@ public class Restaurant2WaiterGui implements Gui{
             	agent.msgAtDest();
             }
         }
-        if(xPos == HOMEX && yPos == HOMEY){
+        if(xPos == HOMEX && yPos == HOMEY && atStand == false){
+        	//System.out.println("AT HOME POSITIONNNNNNNNNNNN");
         	agent.setAtStand(true);
+        	//agent.msgAtStand();
         }
-        else if(xPos > 0 || yPos > 0){
+        else if((xPos != HOMEX || yPos != HOMEY) && atStand == true){
         	agent.setAtStand(false);
         }
  

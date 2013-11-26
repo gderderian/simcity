@@ -6,13 +6,17 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import restaurant1.Restaurant1;
 import restaurant1.Restaurant1CashierRole;
 import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
 import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
+import restaurant1.gui.Restaurant1CashierGui;
+import restaurant1.gui.Restaurant1CookGui;
 import restaurant1.gui.Restaurant1CustomerGui;
+import restaurant1.gui.Restaurant1WaiterGui;
 import city.Restaurant2.Restaurant2CashierRole;
 import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2CustomerRole;
@@ -27,6 +31,9 @@ import astar.AStarTraversal;
 import city.Restaurant2.Restaurant2;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
+import city.gui.restaurant4.CookGui4;
+import city.gui.restaurant4.CustomerGui4;
+import city.gui.restaurant4.WaiterGui4;
 import city.CityMap;
 import city.House;
 import city.Market;
@@ -38,6 +45,12 @@ import city.gui.restaurant2.Restaurant2WaiterGui;
 import city.transportation.BusAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
+import city.Restaurant4.CashierRole4;
+import city.Restaurant4.CookRole4;
+import city.Restaurant4.CustomerRole4;
+import city.Restaurant4.HostRole4;
+import city.Restaurant4.Restaurant4;
+import city.Restaurant4.WaiterRole4;
 import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CashierRole;
 import city.Restaurant5.Restaurant5CookRole;
@@ -66,11 +79,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
     private static final int TIMER_INTERVAL = 15;
     private Timer timer;
+    
+    private CityClock masterClock;
 
 	// Restaurants
 	
 		// Restaurant 1 (Trevor)
-		Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel();
+    	Restaurant1 rest1 = new Restaurant1();
+		Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel(rest1);
 
 		// Restaurant 2 (Holly)
 		Restaurant2 rest2 = new Restaurant2();
@@ -81,6 +97,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		AnimationPanel3 restaurant3 = new AnimationPanel3();
 		
 		// Restaurant 4 (Justine)
+		Restaurant4 rest4 = new Restaurant4();
 		AnimationPanel4 restaurant4 = new AnimationPanel4();
 		
 		
@@ -147,6 +164,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant2.setBackground(new Color(150, 20, 60));
 		addBuildingPanel(restaurant2);
 		controlPanel.addRest2ToCityMap(rest2);
+		controlPanel.addRest4ToCityMap(rest4);
+		controlPanel.addRest1ToCityMap(rest1);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
 
@@ -158,8 +177,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(market3Animation);
 		
 		addBuildingPanel(restaurant3);
-		
-		addBuildingPanel(animationPanel);
 
 		add(animationPanel, BorderLayout.EAST);
 
@@ -178,9 +195,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt2List.get(i));
 		}
 		
+		List<House> houseAgents= controlPanel.getHouses();
 		//Set up all of the houses
-		for(int i=0; i<26; i++){
-			houses.add(new HouseAnimationPanel());
+		for(int i=0; i<26; i++){ 
+			HouseAnimationPanel temp= new HouseAnimationPanel();
+			houseAgents.get(i).setHouseAnimationPanel(temp);
+			houses.add(temp);
 			addBuildingPanel(houses.get(i));
 		}
 		//addBuildingPanel(house1);
@@ -198,12 +218,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		//add(infoPanel, BorderLayout.WEST);
 		add(controlPanel, BorderLayout.WEST);
 
-		CityClock masterClock = new CityClock(this);
-		masterClock.startTime();
+		masterClock = new CityClock(this);
+		//masterClock.startTime(); //Started by populateCity button in ControlPanel
 		
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
         
+	}
+	
+	public void startMasterClock() {
+		masterClock.startTime();
 	}
 
 
@@ -223,6 +247,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		animationPanel.updatePos();
 		synchronized(buildingPanels){
 			for(BuildingPanel b : buildingPanels){
 				b.updatePos();
@@ -360,21 +385,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 		
-		if(job.equals("No job") || job.equals("Restaurant2 Waiter")){
-			animationPanel.addGui(g);
-		}
+		animationPanel.addGui(g);
+		
 		guis.add(g);
-		g.addAnimationPanel(restaurant2);
 		
 		newPerson.startThread();
-
-		if(name.equals("rest2Test")){
-			//newPerson.msgImHungry();
-		}
-		
-		if(name.equals("rest1test")) {
-			//newPerson.msgImHungry();
-		}
 	}
 
 	public void enableComeBack(Restaurant2Waiter agent) {
@@ -417,7 +432,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
 			restaurant1.addGui(customerGui);
 			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest2");
+			p.addFirstJob(waiterRole, "rest1");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
@@ -446,31 +461,86 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 	
 	private void personFactory(PersonAgent p, String job) {
-		Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
-		Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, p.getName(), 1);
-		customerGui.setPresent(false);
-		restaurant2.addGui(customerGui);
-		customerRole.setGui(customerGui);
-		p.addRole(customerRole, false);
+		/* Creating customer role for eating at restaurant1 */
+		Restaurant1CustomerRole customerRole1 = new Restaurant1CustomerRole(p.getName(), p);
+		Restaurant1CustomerGui customerGui1 = new Restaurant1CustomerGui(customerRole1);
+		customerRole1.setGui(customerGui1);
+		restaurant1.addGui(customerGui1);
+		customerGui1.setPresent(false);
+		p.addRole(customerRole1, false);		
+		
+		/* Creating customer role for eating at restaurant1 */
+		Restaurant2CustomerRole customerRole2 = new Restaurant2CustomerRole(p);
+		Restaurant2CustomerGui customerGui2 = new Restaurant2CustomerGui(customerRole2, p.getName(), 1);
+		customerGui2.setPresent(false);
+		restaurant2.addGui(customerGui2);
+		customerRole2.setGui(customerGui2);
+		p.addRole(customerRole2, false);
+		
+		/* Creating a customer role for eating at restaurant4 */
+		CustomerRole4 customerRole4= new CustomerRole4(p.getName(), p);
+		CustomerGui4 customerGui4= new CustomerGui4(customerRole4); 
+		customerGui4.setPresent(false);
+		restaurant4.addGui(customerGui4);
+		customerRole4.setGui(customerGui4);
+		p.addRole(customerRole4, false);
+		
+		/* Now, create a job role */
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
 			if(job.contains("Restaurant2")){
 				p.addFirstJob(r, "rest2");
+				if(r instanceof Restaurant2HostRole){
+					rest2.setHost((Restaurant2HostRole)r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof Restaurant2WaiterRole){
+					rest2.addWaiters((Restaurant2WaiterRole) r);
+				}
+				else if(r instanceof Restaurant2CookRole){
+					rest2.setCook((Restaurant2CookRole) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof Restaurant2CashierRole){
+					rest2.setCashier((Restaurant2CashierRole) r);
+					p.setRoleActive(r);
+				}
 			}
-			if(r instanceof Restaurant2HostRole){
-				rest2.setHost((Restaurant2HostRole)r);
-				p.setRoleActive(r, true);
+			else if(job.contains("Restaurant1")) {
+				p.addFirstJob(r, "rest1");
+				if(r instanceof Restaurant1HostRole) {
+					rest1.setHost((Restaurant1HostRole) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof Restaurant1WaiterRole){
+					rest1.addWaiters((Restaurant1WaiterRole) r);
+				}
+				else if(r instanceof Restaurant1CookRole){
+					rest1.setCook((Restaurant1CookRole) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof Restaurant1CashierRole){
+					rest1.setCashier((Restaurant1CashierRole) r);
+					p.setRoleActive(r);
+				}
 			}
-			else if(r instanceof Restaurant2WaiterRole){
-				rest2.addWaiters((Restaurant2WaiterRole) r);
-			}
-			else if(r instanceof Restaurant2CookRole){
-				rest2.setCook((Restaurant2CookRole) r);
-				p.setRoleActive(r, true);
-			}
-			else if(r instanceof Restaurant2CashierRole){
-				rest2.setCashier((Restaurant2CashierRole) r);
-				p.setRoleActive(r, true);
+			else if(job.contains("Restaurant4")) {
+				p.addFirstJob(r, "rest4");
+				if(r instanceof HostRole4) {
+					rest4.setHost((HostRole4)r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof CookRole4){
+					rest4.setCook((CookRole4) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof CashierRole4){
+					rest4.setCashier((CashierRole4) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof WaiterRole4){
+					rest4.addWaiters((WaiterRole4) r);
+				}
 			}
 		}
 	}
@@ -526,10 +596,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		else if(type.equals("Restaurant1 Waiter")){
 			Restaurant1WaiterRole role = new Restaurant1WaiterRole(p.getName(), p);
+			Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
+			gui.setHome(rest4.getWaiterListSize() * 40 + 200, 60);
+			role.setGui(gui);
+			restaurant1.addGui(gui);
+			gui.setPresent(false);
 			return role;
 		}
 		else if(type.equals("Restaurant1 Cook")){
 			Restaurant1CookRole role = new Restaurant1CookRole(p.getName(), p);
+			Restaurant1CookGui gui = new Restaurant1CookGui(role);
+			role.setGui(gui);
+			restaurant1.addGui(gui);
+			gui.setPresent(true);
 			return role;
 		}
 		else if(type.equals("Restaurant1 Host")){
@@ -538,6 +617,38 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		else if(type.equals("Restaurant1 Cashier")){
 			Restaurant1CashierRole role = new Restaurant1CashierRole(p.getName(), p);
+			Restaurant1CashierGui gui = new Restaurant1CashierGui(role);
+			restaurant1.addGui(gui);
+			gui.setPresent(true);
+			return role;
+		}
+		else if(type.equals("Restaurant4 Customer")){
+			CustomerRole4 role= new CustomerRole4(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant4 Host")){
+			HostRole4 role= new HostRole4(p.getName(), p);
+			System.out.println("Host shouldnt be null: " + role);
+			return role;
+		}
+		else if(type.equals("Restaurant4 Cashier")){
+			CashierRole4 role= new CashierRole4(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant4 Cook")){
+			CookRole4 role= new CookRole4(p.getName(), p);
+			CookGui4 gui = new CookGui4(role);
+			role.setGui(gui);
+			restaurant4.addGui(gui);
+			gui.setPresent(true);
+			return role;
+		}
+		else if(type.equals("Restaurant4 Waiter")){
+			WaiterRole4 role= new WaiterRole4(p.getName(), p); 
+			WaiterGui4 gui = new WaiterGui4(role);
+			role.setGui(gui);
+			restaurant4.addGui(gui);
+			gui.setPresent(false);
 			return role;
 		}
 		

@@ -23,6 +23,11 @@ public class MarketOrder {
 		recipient = p;
 	}
 	
+	public MarketOrder(List<OrderItem> orders, Person p){
+		this.orders = orders;
+		recipient = p;
+	}
+	
 	public void addOrder(OrderItem o){
 		orders.add(o);
 	}
