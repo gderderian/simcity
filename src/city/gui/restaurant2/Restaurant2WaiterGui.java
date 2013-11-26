@@ -97,12 +97,14 @@ public class Restaurant2WaiterGui implements Gui{
             	agent.msgAtDest();
             }
         }
-        if(xPos == HOMEX && yPos == HOMEY){
-        	agent.setAtStand(true);
+        if(xPos == HOMEX && yPos == HOMEY && xPos == xDestination && yPos == yDestination){
+        	//System.out.println("AT HOME POSITIONNNNNNNNNNNN");
+        	//agent.setAtStand(true);
+        	agent.msgAtStand();
         }
-        else if(xPos > 0 || yPos > 0){
-        	agent.setAtStand(false);
-        }
+        //else if(xPos != HOMEX || yPos != HOMEY){
+        //	agent.setAtStand(false);
+        //}
  
     }
 
