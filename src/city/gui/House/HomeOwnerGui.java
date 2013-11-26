@@ -149,7 +149,13 @@ public class HomeOwnerGui implements Gui {
     	yPos= y;
     }
 
-
+    public void goToBed(){
+    	xDestination= xBed;
+    	yDestination= yBed;
+    	System.out.println("Going to bed");
+    }
+    
+    
 	@Override
 	public void setPresent(boolean t) {
 		// TODO Auto-generated method stub

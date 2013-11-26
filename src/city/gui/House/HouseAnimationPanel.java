@@ -30,7 +30,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     //Functional things
     public Image bed = new ImageIcon("images/bed.png").getImage();
     public Image lamp = new ImageIcon("images/lamp.png").getImage();
-    public Image table = new ImageIcon("images/table.png").getImage();
+    public Image table = new ImageIcon("images/houseTable.png").getImage();
     public Image stove = new ImageIcon("images/stove.png").getImage();
     public Image oven = new ImageIcon("images/oven.png").getImage();
     public Image fridge = new ImageIcon("images/fridge.png").getImage();
