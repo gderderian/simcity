@@ -326,7 +326,6 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	private void seatCustomer(MyCustomer c) {
-		log("I SHOULD BE MOVING, TOO LAZY THO");
 		xTable= xTable * c.tableNum;
 		if(ws != waiterState.atEntrance){
 			waiterGui.doGoToEntrance();	
@@ -335,6 +334,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 			} catch (InterruptedException e){}
 		}
 		c.c.msgSitAtTable(xTable, yTable, this, menu);
+		//log("IS HOST NULL: " + host + "    OR IS CUSTOMER NULL: " + c.c);
 		host.msgSeatingCustomer(c.c);
 		waiterGui.doGoToTable(c.c, c.tableNum);
 		try {

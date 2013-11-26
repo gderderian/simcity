@@ -35,6 +35,7 @@ public class Restaurant4 {
 		host.addWaiter(w);
 		w.setCook(cook);
 		w.setCashier(cashier);
+		w.setHost(host);
 	}
 	
 	public void setCook(CookRole4 c){
