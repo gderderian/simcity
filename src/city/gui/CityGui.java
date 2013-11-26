@@ -151,6 +151,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(market3Animation);
 		
 		addBuildingPanel(restaurant3);
+		
+		addBuildingPanel(animationPanel);
 
 		add(animationPanel, BorderLayout.EAST);
 
@@ -344,6 +346,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		people.add(newPerson);
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
+		
 		if(job.equals("No job") || job.equals("Restaurant2 Waiter")){
 			animationPanel.addGui(g);
 		}

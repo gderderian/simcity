@@ -20,7 +20,7 @@ import restaurant1.gui.Restaurant1AnimationPanel;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2AnimationPanel;
 
-public class AnimationPanel extends JPanel implements MouseListener, ActionListener {
+public class AnimationPanel extends BuildingPanel implements MouseListener, ActionListener {
 
     private static final int WINDOWX = 1300;
     private static final int WINDOWY = 700;
@@ -65,12 +65,13 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
+		/*
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -194,7 +195,21 @@ public class AnimationPanel extends JPanel implements MouseListener, ActionListe
 		
 	}
 
+	/*
 	public void addGui(VehicleGui g) {
+		guis.add(g);
+	}
+	*/
+	public void updatePos(){
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+	}
+
+	@Override
+	public void addGui(Gui g) {
 		guis.add(g);
 	}
 }
