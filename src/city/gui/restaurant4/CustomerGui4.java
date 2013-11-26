@@ -104,7 +104,7 @@ public class CustomerGui4 implements Gui{
 	public void setPresent(boolean p) {
 		isPresent = p;
 	}
-
+	
 	public void DoGoToSeat(int seatnumber, int xTable, int yTable) {//later you will map seatnumber to table coordinates.
 		setxDestination(xTable);
 		setyDestination(yTable);

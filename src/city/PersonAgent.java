@@ -712,7 +712,90 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void goToRestaurant(){
-		print("Going to go to a restaurant");
+		if(name.equals("rest1Test")){
+			print("Going to go to a restaurant");
+			String restName = null;
+			Role role = null;
+			synchronized(roles){
+				for(Role r : roles){
+					if(r instanceof Restaurant1CustomerRole) {
+						r.setActive();
+						role = (Restaurant1CustomerRole) r;
+						restName = role.getBuilding();
+						log("Set Restaurant1CustomerRole active");
+					}
+				}
+			}
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+				String destination = restName;
+				takeCar(destination);
+			}
+			else{
+				//This is walking
+				DoGoTo(restName);
+			}
+			log.add(new LoggedEvent("Decided to go to a restaurant"));
+				((Restaurant1CustomerRole) role).setHost(cityMap.restaurant1.getHost());
+				((Restaurant1CustomerRole) role).goToRestaurant();
+				((Restaurant1CustomerRole)role).setGuiActive();
+		}
+		else if(name.equals("rest2Test")){
+			print("Going to go to a restaurant");
+			String restName = null;
+			Role role = null;
+			synchronized(roles){
+				for(Role r : roles){
+					if(r instanceof Restaurant2CustomerRole) {
+						r.setActive();
+						role = (Restaurant2CustomerRole) r;
+						restName = role.getBuilding();
+						log("Set Restaurant1CustomerRole active");
+					}
+				}
+			}
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+				String destination = restName;
+				takeCar(destination);
+			}
+			else{
+				//This is walking
+				DoGoTo(restName);
+			}
+			log.add(new LoggedEvent("Decided to go to a restaurant"));
+			cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
+			((Restaurant2CustomerRole)role).setGuiActive();		
+		}
+		else if(name.equals("rest4Test")){
+			print("Going to go to a restaurant");
+			String restName = null;
+			Role role = null;
+			synchronized(roles){
+				for(Role r : roles){
+					if(r instanceof CustomerRole4) {
+						r.setActive();
+						role = (CustomerRole4) r;
+						restName = role.getBuilding();
+						log("Set Restaurant1CustomerRole active");
+					}
+				}
+			}
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+				String destination = restName;
+				takeCar(destination);
+			}
+			else{
+				//This is walking
+				DoGoTo(restName);
+			}
+			log.add(new LoggedEvent("Decided to go to a restaurant"));
+			cityMap.restaurant4.getHost().msgIWantFood((CustomerRole4) role);
+			((CustomerRole4)role).setGuiActive();	
+		}
+		
+		/*print("Going to go to a restaurant");
 		String restName = null;
 		Role role = null;
 		synchronized(roles){
@@ -765,7 +848,7 @@ public class PersonAgent extends Agent implements Person{
 		else if(role instanceof CustomerRole4) {
 			cityMap.restaurant4.getHost().msgIWantFood((CustomerRole4) role);
 			((Restaurant2CustomerRole)role).setGuiActive();
-		}
+		}*/
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){
