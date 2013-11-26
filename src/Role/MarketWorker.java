@@ -9,12 +9,9 @@ import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
 import Role.Role;
+import Role.MarketManager.myMarketWorker;
 
 public class MarketWorker extends Role {
-	
-	MarketWorker(PersonAgent person){
-		p = person;
-	}
 	
 	// Data
 	int numWorkingOrders;
@@ -41,6 +38,11 @@ public class MarketWorker extends Role {
 			}
 		}
 		
+	}
+	
+	MarketWorker(PersonAgent person){
+		p = person;
+		pickOrders = new ArrayList<PickableOrder>();
 	}
 	
 	// Messages

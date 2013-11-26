@@ -17,9 +17,9 @@ public class MarketManager extends Role {
 	// Data
 	private String name;
 	private double marketMoney;
-	private ArrayList<myMarketWorker> myWorkers;
-	public ArrayList<myMarketOrder> myOrders;
-	private ArrayList<TruckAgent> marketTrucks;
+	public List<myMarketWorker> myWorkers;
+	public List<myMarketOrder> myOrders;
+	public List<TruckAgent> marketTrucks;
 	public Hashtable<String, MarketItem> marketStock;
 
 	public enum orderState {pendingWorkerAssignment, assignedToWorker, pickedReady, givenToTruck, pendingBilling, billed, done};
@@ -32,15 +32,24 @@ public class MarketManager extends Role {
 	PersonAgent p;
 	
 	public MarketManager(String initialName, PersonAgent person){
+		
 		name = initialName;
 		p = person;
-		myOrders = new ArrayList<myMarketOrder>();
+		
+		// List initialization
+		myOrders = Collections.synchronizedList(new ArrayList<myMarketOrder>());
+		myWorkers = Collections.synchronizedList(new ArrayList<myMarketWorker>());
+		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
+		marketStock = new Hashtable<String, MarketItem>();
+		
+		// Sample market stock
 		marketStock = new Hashtable<String, MarketItem>();
 		marketStock.put("Pasta", new MarketItem("Pasta", 5, itemType.food));
 		marketStock.put("Pizza", new MarketItem("Pizza", 5, itemType.food));
 		marketStock.put("Chicken", new MarketItem("Chicken", 5, itemType.food));
 		marketStock.put("Honda Accord", new MarketItem("Honda Accord", 5, itemType.car));
 		marketStock.put("Honda Civic", new MarketItem("Honda Accord", 5, itemType.car));
+		
 	}
 	
 	public class myMarketOrder {
@@ -70,7 +79,7 @@ public class MarketManager extends Role {
 		
 	}
 
-	private class myMarketWorker { // Used for internal stock-tracking within the market
+	public class myMarketWorker { // Used for internal stock-tracking within the market
 		public MarketWorker worker;
 		public int numWorkingOrders;
 	}
@@ -83,10 +92,12 @@ public class MarketManager extends Role {
 	}
 	public void msgOrderPicked(MarketOrder o){
 		myMarketOrder selectedMarketOrder = null;
-		for (myMarketOrder order : myOrders) {
-			if (order.order.equals(o)){
-				selectedMarketOrder = order;
-				return;
+		synchronized(myOrders){
+			for (myMarketOrder order : myOrders) {
+				if (order.order.equals(o)){
+					selectedMarketOrder = order;
+					return;
+				}
 			}
 		}
 		selectedMarketOrder.state = orderState.pickedReady;
@@ -95,32 +106,42 @@ public class MarketManager extends Role {
 	
 	public void msgFinishedDelivery(MarketOrder o){
 		myMarketOrder selectedMarketOrder = null;
-		for (myMarketOrder order : myOrders) {
-			if (order.order.equals(o)){
-				selectedMarketOrder = order;
-				return;
+		synchronized(myOrders){
+			for (myMarketOrder order : myOrders) {
+				if (order.order.equals(o)){
+					selectedMarketOrder = order;
+					return;
+				}
 			}
 		}
 		selectedMarketOrder.state = orderState.pendingBilling;
 		p.stateChanged();
 	}
+	
+	public void msgAcceptPayment(double incomingPayment){
+		marketMoney = incomingPayment + marketMoney;
+		p.stateChanged();
+	}
+	
 	// Scheduler
 	public boolean pickAndExecuteAnAction(){
-		if (!myOrders.isEmpty()) {
-			for (myMarketOrder order : myOrders) {
-				if (order.state == orderState.pendingWorkerAssignment){
-					makeWorkerPrepareOrder(order);
-					order.state = orderState.assignedToWorker;
-					return true;
-				}
-				if (order.state == orderState.pickedReady){
-					deliverOrder(order);
-					return true;
-				}
-				if (order.state == orderState.pendingBilling){
-					billRecipient(order);
-					order.state = orderState.billed;
-					return true;
+		synchronized(myOrders){
+			if (!myOrders.isEmpty()) {
+				for (myMarketOrder order : myOrders) {
+					if (order.state == orderState.pendingWorkerAssignment){
+						makeWorkerPrepareOrder(order);
+						order.state = orderState.assignedToWorker;
+						return true;
+					}
+					if (order.state == orderState.pickedReady){
+						deliverOrder(order);
+						return true;
+					}
+					if (order.state == orderState.pendingBilling){
+						billRecipient(order);
+						order.state = orderState.billed;
+						return true;
+					}
 				}
 			}
 		}
@@ -141,10 +162,12 @@ public class MarketManager extends Role {
 		if (myWorkers.size() != 0) {
 			int initOrders = myWorkers.get(0).numWorkingOrders;
 			myMarketWorker w_selected = null;
-			for (myMarketWorker w : myWorkers){
-				if (w.numWorkingOrders <= initOrders){
-					initOrders = w.numWorkingOrders;
-					w_selected = w;
+			synchronized(myWorkers){
+				for (myMarketWorker w : myWorkers){
+					if (w.numWorkingOrders <= initOrders){
+						initOrders = w.numWorkingOrders;
+						w_selected = w;
+					}
 				}
 			}
 			w_selected.worker.msgPrepareOrder(o.order, this);
@@ -159,10 +182,12 @@ public class MarketManager extends Role {
 		} else if (o.type == deliveryType.truckOrder){
 			int initOrders = marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
 			TruckAgent selectedTruck = null;
-			for (TruckAgent t : marketTrucks){
-				if (t.orders.size() <= initOrders){
-					initOrders = t.getOrderNum();
-					selectedTruck = t;
+			synchronized(marketTrucks){
+				for (TruckAgent t : marketTrucks){
+					if (t.orders.size() <= initOrders){
+						initOrders = t.getOrderNum();
+						selectedTruck = t;
+					}
 				}
 			}
 			selectedTruck.msgPleaseDeliver(o.order);
