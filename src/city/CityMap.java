@@ -141,6 +141,7 @@ public class CityMap {
 		restaurants.add("Restaurant1");
 		restaurants.add("Restaurant2");
 		restaurants.add("Restaurant4");
+		restaurants.add("Restaurant5");
 	}
 	
 	public void setRestaurant1(Restaurant1 r) {
@@ -236,19 +237,6 @@ public class CityMap {
 	}
 	*/
 
-	class Bank{
-		BankManagerRole manager;
-		String name;
-		
-		public Bank(BankManagerRole m, String n){
-			manager = m;
-			name = n;
-		}
-		
-		public BankManagerRole getBankManager() {
-			return manager;
-		}
-	}	
 	
 	public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;

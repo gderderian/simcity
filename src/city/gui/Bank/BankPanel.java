@@ -30,7 +30,7 @@ public class BankPanel extends JPanel {
 	PersonAgent person4;
 	PersonAgent person5;
 	PersonAgent person6;
-	House house = new House("house1");
+	House house = new House("house");
 	Bank bank = new Bank();
 	AStarTraversal aStarTraversal;
     CityMap citymap = new CityMap();
@@ -63,6 +63,7 @@ public class BankPanel extends JPanel {
 		bankmanager.setGui(g2);
         
         person2.addRole(bankmanager, true);
+     
         PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
         person3.startThread();
 

@@ -61,6 +61,7 @@ import city.gui.Restaurant3.*;
 import city.gui.Restaurant5.Restaurant5AnimationPanel;
 import city.gui.Restaurant5.Restaurant5CustomerGui;
 import city.gui.Restaurant5.Restaurant5Gui;
+import city.gui.Restaurant5.Restaurant5HostGui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -100,10 +101,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		Restaurant4 rest4 = new Restaurant4();
 		AnimationPanel4 restaurant4 = new AnimationPanel4();
 		
-		
+		// Restaurant 5 (Tom)
 		Restaurant5 rest5 = new Restaurant5();
 		Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
-		// Restaurant 5 (Tom)
+		
 		
 
 	// Market Animation Panels
@@ -485,6 +486,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		customerRole4.setGui(customerGui4);
 		p.addRole(customerRole4, false);
 		
+		//Creating a customer role for eating at restaurant5
+		Restaurant5CustomerRole customerRole5 = new Restaurant5CustomerRole( p.getName(),p);
+		Restaurant5Gui restaurant5gui = new Restaurant5Gui();
+		Restaurant5HostRole restaurant5host = new Restaurant5HostRole("", null);
+		Restaurant5CustomerGui customerGui5 = new Restaurant5CustomerGui(customerRole5, restaurant5gui, restaurant5host );
+		customerGui5.setPresent(false);
+		restaurant5.addGui(customerGui5);
+		customerRole5.setGui(customerGui5);
+		p.addRole(customerRole5, false);
+		
+		
+		
 		/* Now, create a job role */
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
@@ -542,9 +555,32 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					rest4.addWaiters((WaiterRole4) r);
 				}
 			}
+		
+		else if(job.contains("Restaurant5")) {
+			p.addFirstJob(r, "rest5");
+			if(r instanceof Restaurant5HostRole) {
+				rest5.setHost((Restaurant5HostRole)r);
+				p.setRoleActive(r);
+			}
+			else if(r instanceof Restaurant5CookRole){
+				rest5.setCook((Restaurant5CookRole) r);
+				p.setRoleActive(r);
+			}
+			else if(r instanceof Restaurant5CashierRole){
+				rest5.setCashier((Restaurant5CashierRole) r);
+				p.setRoleActive(r);
+			}
+			else if(r instanceof Restaurant5WaiterRole){
+				rest5.addWaiters((Restaurant5WaiterRole) r);
+			}
+		}
+			
 		}
 	}
-	
+		
+		
+		
+
 	public void backToCityView() {
 		changeView("City");
 	}
