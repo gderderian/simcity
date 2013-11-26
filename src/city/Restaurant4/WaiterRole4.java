@@ -48,12 +48,12 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	ActivityTag tag = ActivityTag.RESTAURANT4WAITER;
 
 	
-	public WaiterRole4(String name, RestaurantGui4 gui, PersonAgent p) {
+	public WaiterRole4(String name, /*RestaurantGui4 gui,*/ PersonAgent p) {
 		super();
 		building = "rest4";
 		this.name= name;
 		this.p= p;
-		this.gui= gui;
+		//this.gui= gui;
 		bs= breakState.none;
 		menu= new Menu();
 	}
@@ -439,7 +439,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	private void goOnBreak(){
 		log("Initiating break!");
 		bs= breakState.onBreak;
-		gui.setWaiterEnabled(this, true);
+		//gui.setWaiterEnabled(this, true);
 		waiterGui.doGoBack();
 		try{
 			atHome.acquire();
@@ -452,7 +452,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	private void readyToWork(){
-		gui.setWaiterEnabled(this, false);
+		//gui.setWaiterEnabled(this, false);
 		host.msgReadyToWork(this);
 		bs= null;
 	}

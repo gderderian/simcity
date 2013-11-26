@@ -9,7 +9,7 @@ public class CustomerGui4 implements Gui{
 	private CustomerRole4 agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
-	RestaurantGui4 gui;
+	//RestaurantGui4 gui;
 
 	private int xPos, yPos, customerDimensions;
 	private int xDestination, yDestination;
@@ -21,14 +21,14 @@ public class CustomerGui4 implements Gui{
 	private static final int foodDisplacement= 30;
 	private static final int movement= -40;
 
-	public CustomerGui4(CustomerRole4 c, RestaurantGui4 gui){
+	public CustomerGui4(CustomerRole4 c/*, RestaurantGui4 gui*/){
 		agent = c;
 		setxPos(20);
 		setyPos(40);
 		customerDimensions= 20;
 		setxDestination(20);
 		setyDestination(40);
-		this.gui = gui;
+		//this.gui = gui;
 	}
 
 	public void updatePosition() {
@@ -47,7 +47,7 @@ public class CustomerGui4 implements Gui{
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
+				//gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}
