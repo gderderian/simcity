@@ -297,6 +297,19 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to eat something");
 		}
+		else if(t > 4000 && t < 7020 && name.equals("waiter4")){
+			synchronized(events){
+				events.add("GoToWork");
+			}
+			log("Its time for me to go to work");
+		}
+		else if(t > 17000 && t < 19000 && name.equals("rest4Test")){
+			log("The time right now is " + t);
+			synchronized(events){
+				events.add("GotHungry");
+			}
+			log("It's time for me to eat something");
+		}
 		
 		stateChanged();
 	}
@@ -456,11 +469,6 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		/*if(name.equals("joe")){
-			goHome();
-		}*/
-		
-		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
@@ -1097,7 +1105,8 @@ public class PersonAgent extends Agent implements Person{
 		
 		public Job(Role r, String l){
 			role = r;
-			location = r.getBuilding();
+			//location = r.getBuilding();
+			location= l;
 			workStartTime = -1;
 			workEndTime = -1;
 			leaveForWork = -1;
