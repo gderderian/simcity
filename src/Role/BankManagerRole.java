@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import activityLog.ActivityLog;
-import activityLog.ActivityTag;
 import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
@@ -21,298 +19,318 @@ import city.PersonAgent;
 
 public class BankManagerRole extends Role{
 
-        public enum banktellerstate {arrived, free, busy};
-        //public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
-        public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft};
-        public enum customerstate {waiting, beingserved, leaving};
-        String name;
-        public Semaphore accessingaccount = new Semaphore(0,true);
-        public Semaphore atBankStation = new Semaphore(0,true);
-        
-        public List<mybankteller> banktellers = new ArrayList<mybankteller>();
-        public List<mycustomer> customers = new ArrayList<mycustomer>();
-        
-        bankmanagerstate state;
-        public Bank bank;
-        BankCustomerRole leavingcustomer;
-        BankTellerRole freebankteller;
-        PersonAgent person;
-        public EventLog log = new EventLog();
-        
-        ActivityTag tag = ActivityTag.BANKMANAGER;
+	public enum banktellerstate {arrived, free, busy};
+	//public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
+	public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft};
+	public enum customerstate {waiting, beingserved, leaving};
+	public String name;
+	public Semaphore accessingaccount = new Semaphore(0,true);
+	public Semaphore atBankStation = new Semaphore(0,true);
 
-        public BankManagerRole(Bank setbank)
-        {
-                super();
-                this.bank = setbank;
-                //this.name = name;
+	public List<mybankteller> banktellers = new ArrayList<mybankteller>();
+	public List<mycustomer> customers = new ArrayList<mycustomer>();
 
-        }
-
-        public void msgCustomerArrivedAtBank(BankCustomerRole newcustomer)
-        {
-                Do("new customer arrived");
-        		customers.add(new mycustomer(newcustomer));
-                person.stateChanged();
-        		
-        }
-
-        public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
-        {
-                Do("new bankteller arrived");
-        		banktellers.add(new mybankteller(newbankteller, this));
-        		Do("" + banktellers.size());
-                person.stateChanged();
-        }
-
-        public void msgCalculateLoan() {
-                state = bankmanagerstate.calculateloan;
-                person.stateChanged();
-                
-        }
+	bankmanagerstate state;
+	public Bank bank;
+	BankCustomerRole leavingcustomer;
+	BankTellerRole freebankteller;
+	PersonAgent person;
+	public EventLog log = new EventLog();
 
 
-public void msgCustomerLeft(BankCustomerRole leavingcustomer, BankTellerRole bankteller)
-{
-        log.add(new LoggedEvent("msgCustomerLeft"));
-        this.leavingcustomer = leavingcustomer;
-        this.freebankteller = bankteller;
-        state = bankmanagerstate.customerleft;
-        person.stateChanged();
-}
+
+	public BankManagerRole(Bank setbank)
+	{
+		super();
+		this.bank = setbank;
+
+	}
+
+	public void msgCustomerArrivedAtBank(BankCustomerRole newcustomer)
+	{
+		Do("new customer arrived");
+		customers.add(new mycustomer(newcustomer));
+		person.stateChanged();
+
+	}
+
+	public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
+	{
+		Do("new bankteller arrived");
+		banktellers.add(new mybankteller(newbankteller, this));
+		Do("" + banktellers.size());
+		person.stateChanged();
+	}
+
+	public void msgCalculateLoan() {
+		state = bankmanagerstate.calculateloan;
+		person.stateChanged();
+
+	}
 
 
-public void msgBankTellerFree(BankTellerRole bankteller)
-{
-                
-                for(mybankteller freebankteller: banktellers)
-                {
-                	
-                        if(freebankteller.bankteller == bankteller)
-                        {
-                                log.add(new LoggedEvent("msgBankTellerFree"));
-                                freebankteller.state = banktellerstate.free;
-                                break;
-                        }
-                }
-                person.stateChanged();
-}
+	public void msgCustomerLeft(BankCustomerRole leavingcustomer, BankTellerRole bankteller)
+	{
+		log.add(new LoggedEvent("msgCustomerLeft"));
+		this.leavingcustomer = leavingcustomer;
+		this.freebankteller = bankteller;
+		state = bankmanagerstate.customerleft;
+		person.stateChanged();
+	}
 
 
-        //Scheduler
-        //interest rate implementation
+	public void msgBankTellerFree(BankTellerRole bankteller)
+	{
+		synchronized(banktellers)
+		{
+
+			for(mybankteller freebankteller: banktellers)
+			{
+
+				if(freebankteller.bankteller == bankteller)
+				{
+					log.add(new LoggedEvent("msgBankTellerFree"));
+					freebankteller.state = banktellerstate.free;
+					break;
+				}
+			}
+			person.stateChanged();
+		}
+	}
 
 
-public boolean pickAndExecuteAnAction() {
+	//Scheduler
+	//interest rate implementation
 
-					
-					Do("im in the scheduler");
-					Do("" + banktellers.size());
-					for(mybankteller newbankteller: banktellers)
+
+	public boolean pickAndExecuteAnAction() {
+
+
+		Do("im in the scheduler");
+		//Do("" + banktellers.size());
+
+		synchronized(banktellers)
+		{
+
+			for(mybankteller newbankteller: banktellers)
+			{
+				if(newbankteller.state == banktellerstate.arrived)
+				{
+
+					synchronized(bank.bankstations)
 					{
-						if(newbankteller.state == banktellerstate.arrived)
-						{
-							
-							for(Bank.bankstation findfreebankstation : bank.bankstations)
-							{
-				
-								if(!findfreebankstation.isOccupied())
-								{
-									Do("assign bankteller  to station " + findfreebankstation.stationnumber);
-									log.add(new LoggedEvent("bankstationassigned"));
-									findfreebankstation.setBankTeller(newbankteller.bankteller);
-									newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
-									//animation stuff
-									newbankteller.bankteller.msgGoToBankTellerStation(findfreebankstation.stationnumber);
-									newbankteller.state = banktellerstate.free;
-									return true;
-								}
-							
-							}
-						
-						}
-						
-					}
-		
-                for(mycustomer customer: customers)
-                {
-                        if(customer.state == customerstate.waiting)
-                        {
-                                for(mybankteller bankteller: banktellers)
-                                {
-                                        if(bankteller.state == banktellerstate.free)
-                                        {
-                                                log.add(new LoggedEvent("banktellerassigned"));
-                                                bankteller.bankteller.msgAssignMeCustomer(customer.customer);
-                                                Do("assign bankteller to customer:" + customer.customer.person.getName());
-                                                customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
-                      
-                                                //customer.customer.pickAndExecuteAnAction();
-                                                //animation stuff
-                                                
-                                                //
-                                                customer.state = customerstate.beingserved;
-                                                bankteller.state = banktellerstate.busy;
-                                                //customer.customer.msg(bankteller.bankstationnumber);
-                                                //customer.customer.gui.goToBankTellerStation(bankteller.bankstationnumber);
-                                                
-                                                /*customer.customer.gui.leaveBank();
-                                                
-                                                try {
-                                        			customer.customer.atBankStation.acquire();
-                                        			//atLobby.acquire();
-                                        		} catch (InterruptedException e) {
-                                        			// TODO Auto-generated catch block
-                                        			e.printStackTrace();
-                                        		}
-                                                //Do("open account");
-                                                customer.customer.msgOpenAccount();
-                                                */
-                                                
-                                                return true;
-                                        }
-                                }
 
-                        
-                        }
-                        /*
+						for(Bank.bankstation findfreebankstation : bank.bankstations)
+						{
+
+							if(!findfreebankstation.isOccupied())
+							{
+								Do("assign bankteller  to station " + findfreebankstation.stationnumber);
+								log.add(new LoggedEvent("bankstationassigned"));
+								findfreebankstation.setBankTeller(newbankteller.bankteller);
+								newbankteller.setBankStationNumber(findfreebankstation.stationnumber);
+								//animation stuff
+								newbankteller.bankteller.msgGoToBankTellerStation(findfreebankstation.stationnumber);
+								newbankteller.state = banktellerstate.free;
+								return true;
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+
+		synchronized(customers)
+		{
+
+			for(mycustomer customer: customers)
+			{
+				if(customer.state == customerstate.waiting)
+				{
+
+					synchronized(banktellers)
+					{
+
+						for(mybankteller bankteller: banktellers)
+						{
+							if(bankteller.state == banktellerstate.free)
+							{
+								log.add(new LoggedEvent("banktellerassigned"));
+								bankteller.bankteller.msgAssignMeCustomer(customer.customer);
+								Do("assign bankteller to customer:" + customer.customer.person.getName());
+								customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
+								customer.state = customerstate.beingserved;
+								bankteller.state = banktellerstate.busy;
+								//customer.customer.msgOpenAccount();
+								return true;
+							}
+						}
+
+					}
+
+
+				}
+				/*
                         if(customer.state == customerstate.leaving)
                         {
                                 customers.remove(customer);
                                 return true;
                         }
-                        */
+				 */
 
-                }
-                
-                if(state == bankmanagerstate.calculateloan)
-                {
-                        //this is a very simple loan calculation system with some limits
-                        for(account findaccountwithloan: bank.accounts)
-                        {
-                                if(findaccountwithloan.loan > 0)
-                                {
-                                        findaccountwithloan.loan *= findaccountwithloan.interestrate;
-                                        findaccountwithloan.interestrate *= .05;
-                                }
-                        }
-                        
-                        //this is my new design for loan system
-                        for(account findaccountwithloan: bank.accounts)
-                        {
-                                if(findaccountwithloan.loans.size() !=0)
-                                {
-                                        findaccountwithloan.raiseinterestrateonloan();
-                                }
-                                
-                        }
-                        
-                        
-                        state = bankmanagerstate.doingnothing;
-                        
-                        return true;
-                }
-                
-                if(state == bankmanagerstate.customerleft)
-                {
-                
-                        for(mycustomer leavingcustomer: customers)
-                        {
-                                if(leavingcustomer.customer == this.leavingcustomer)
-                                {
-                                        customers.remove(leavingcustomer);
-                                        log.add(new LoggedEvent("customerremoved"));
-                                        return true;
-                                        
-                                }
-                                
-                        }
-                        
-                        for(mybankteller freebankteller: banktellers)
-                        {
-                                if(freebankteller.bankteller == this.freebankteller)
-                                {
-                                        freebankteller.state = banktellerstate.free;
-                                        log.add(new LoggedEvent("banktellerfree"));
-                                
-                                }
-                        }
-                        
-                        return true;
-                        
-                }
+			}
 
-                
-                
-                return false;
+		}
 
-        }
+		if(state == bankmanagerstate.calculateloan)
+		{
+			//this is a very simple loan calculation system with some limits
+
+			synchronized(bank.accounts)
+			{
+
+				for(account findaccountwithloan: bank.accounts)
+				{
+					if(findaccountwithloan.loan > 0)
+					{
+						findaccountwithloan.loan *= findaccountwithloan.interestrate;
+						findaccountwithloan.interestrate *= .05;
+					}
+				}
+
+			}
+
+			//this is my new design for loan system
+			synchronized(bank.accounts)
+			{
+
+				for(account findaccountwithloan: bank.accounts)
+				{
+					if(findaccountwithloan.loans.size() !=0)
+					{
+						findaccountwithloan.raiseinterestrateonloan();
+					}
+
+				}
+
+			}
+
+			state = bankmanagerstate.doingnothing;
+
+			return true;
+		}
+
+		if(state == bankmanagerstate.customerleft)
+		{
+
+			synchronized(customers)
+			{
+
+				for(mycustomer leavingcustomer: customers)
+				{
+					if(leavingcustomer.customer == this.leavingcustomer)
+					{
+						customers.remove(leavingcustomer);
+						log.add(new LoggedEvent("customerremoved"));
+						return true;
+
+					}
+
+				}
+
+			}
+
+			synchronized(banktellers)
+			{
+
+				for(mybankteller freebankteller: banktellers)
+				{
+					if(freebankteller.bankteller == this.freebankteller)
+					{
+						freebankteller.state = banktellerstate.free;
+						log.add(new LoggedEvent("banktellerfree"));
+
+					}
+				}
+
+			}
+
+			return true;
+
+		}
 
 
 
-        class mybankteller {
+		return false;
 
-                BankTellerRole bankteller;
-                banktellerstate state;
-                int bankstationnumber;
+	}
 
-                public mybankteller(BankTellerRole bt, BankManagerRole bm)
-                {
-                        bankteller = bt;
-                        bankteller.bankmanager = bm;
-                        state = banktellerstate.arrived;
-                   
-                }
-                
-                public void setBankStationNumber(int setbankstationnumber)
-                {
-                	this.bankstationnumber = setbankstationnumber;
-                }
-                
-                public int getBankStationNumber()
-                {
-                	return this.bankstationnumber;
-                }
 
-        }
 
-        class mycustomer {
+	class mybankteller {
 
-                BankCustomerRole customer;
-                customerstate state;
+		BankTellerRole bankteller;
+		banktellerstate state;
+		int bankstationnumber;
 
-                public mycustomer(BankCustomerRole c)
-                {
-                        this.customer = c;
-                        state = customerstate.waiting;
-                }
+		public mybankteller(BankTellerRole bt, BankManagerRole bm)
+		{
+			bankteller = bt;
+			bankteller.bankmanager = bm;
+			state = banktellerstate.arrived;
 
-        }
-        
-        
-        
-        //actions
-        
-       
+		}
 
-        public void setPerson(PersonAgent person)
-        {
-                this.person = person;
-                this.name = person.getName();
-        }
-        
-        public void setGui(BankManagerRoleGui bankmanagerGui) {
-                // TODO Auto-generated method stub
-                
-        }
-        
-    	private void log(String msg){
-    		print(msg);
-            ActivityLog.getInstance().logActivity(tag, msg, name);
-            log.add(new LoggedEvent(msg));
-    	}
-        
-       
+		public void setBankStationNumber(int setbankstationnumber)
+		{
+			this.bankstationnumber = setbankstationnumber;
+		}
+
+		public int getBankStationNumber()
+		{
+			return this.bankstationnumber;
+		}
+
+	}
+
+	class mycustomer {
+
+		BankCustomerRole customer;
+		customerstate state;
+
+		public mycustomer(BankCustomerRole c)
+		{
+			this.customer = c;
+			state = customerstate.waiting;
+		}
+
+	}
+
+
+
+	//actions
+
+
+
+	public void setPerson(PersonAgent person)
+	{
+		this.person = person;
+		this.name = person.getName();
+	}
+
+	public void setGui(BankManagerRoleGui bankmanagerGui) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+
 }
 
 

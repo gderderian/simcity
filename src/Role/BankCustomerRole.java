@@ -2,13 +2,11 @@ package Role;
 
 import java.util.concurrent.Semaphore;
 
-import activityLog.ActivityLog;
-import activityLog.ActivityTag;
+import city.gui.Gui;
 import city.gui.Bank.BankCustomerRoleGui;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.PersonAgent;
-import city.gui.Gui;
 
 public class BankCustomerRole extends Role{
 
@@ -28,39 +26,32 @@ public class BankCustomerRole extends Role{
         public BankCustomerRoleGui gui;
         PersonAgent person;
         String name;
+        BankManagerRole bankmanager;
         public EventLog log = new EventLog();
-        ActivityTag tag = ActivityTag.BANKCUSTOMER;
         
-        public BankCustomerRole(double setamountofcustomermoney, PersonAgent setperson)
+        
+        public BankCustomerRole(double setamountofcustomermoney/*, PersonAgent setperson*/)
         {
                 
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
-                this.person = setperson;
-                this.name = setperson.getName();
+                bankaccountnumber = 0;
+                //this.person = setperson;
+                //this.name = setperson.getName();
                 //stateChanged();
         
-        }
-        
+        } 
         
         public void msgAssignMeBankTeller(BankTellerRole assignbankteller)
         {
-        
+     
                 mybankteller = assignbankteller;
                 stationnumber = mybankteller.stationnumber;
-                //bankcustomerstate = state.gotobankteller; 
+                bankcustomerstate = state.gotobankteller; 
                 Do("i'm in the message of customer");
                 Do("current customer state is : " + bankcustomerstate);
-                //person.stateChanged();      
+                person.stateChanged();      
         }
-        
-        public void msgGoToBankTellerStation()
-        {
-        	bankcustomerstate = state.gotobankteller;
-        	person.stateChanged();
-        	
-        }
-        
         
         public void msgWithDrawFund(double withdrawal)
         {
@@ -73,7 +64,8 @@ public class BankCustomerRole extends Role{
         
         public void msgOpenAccount()
         {
-        		Do("msgOpenAccount");
+        	
+        		//Do("msgOpenAccount");
                 //log.add(new LoggedEvent("msgOpenAccount")
                 bankcustomerstate = state.openaccount;
                 person.stateChanged();
@@ -206,6 +198,7 @@ public class BankCustomerRole extends Role{
         	
                 if(bankcustomerstate == state.openaccount)
                 {
+                		Do("i'm opening account");
                         mybankteller.msgOpenAccount();
                         bankcustomerstate = state.waiting;
                         return true;
@@ -301,6 +294,18 @@ public class BankCustomerRole extends Role{
         	return this.name;
         }
         
+        public void setPerson(PersonAgent person)
+        {
+        	this.person = person;
+        	this.name = person.getName();
+        	
+        }
+        
+        public void setManager(BankManagerRole bankmanager)
+        {
+        	this.bankmanager = bankmanager;
+        }
+        
         public void guiGoToBankTellerStation(int stationnumber)
 		{
 			gui.goToBankTellerStation(stationnumber);
@@ -326,10 +331,11 @@ public class BankCustomerRole extends Role{
         	
         }
         
-    	private void log(String msg){
-    		print(msg);
-            ActivityLog.getInstance().logActivity(tag, msg, name);
-            log.add(new LoggedEvent(msg));
+
+    	public void setGuiActive() {
+    		//customerGui.DoEnterRestaurant();
+    		
+    		gui.setPresent(true);
     	}
         
         

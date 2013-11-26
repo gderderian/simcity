@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class AnimationPanel3 extends BuildingPanel implements ActionListener, MouseListener {
 
-    private final int WINDOWX = 500;
-    private final int WINDOWY = 550;
+    private final int WINDOWX = 900;
+    private final int WINDOWY = 750;
     
     private final int MAIN_TIMER = 15;
     private final int TABLE_X = 50;

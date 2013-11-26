@@ -1,7 +1,6 @@
 package city.gui.Bank;
 
 import Role.BankCustomerRole;
-import city.gui.Gui;
 import Role.BankManagerRole;
 
 import java.awt.*;
@@ -10,6 +9,7 @@ import javax.print.DocFlavor.URL;
 import javax.swing.ImageIcon;
 
 import city.Bank;
+import city.gui.Gui;
 
 public class BankCustomerRoleGui implements Gui{
 
@@ -56,7 +56,7 @@ public class BankCustomerRoleGui implements Gui{
 
 	public void updatePosition() 
 	{
-		
+	
 		/*
 		if(xPos == -40 && yPos == -40 && agent.goingtocashier == true){
 			agent.atLobby.release();

@@ -36,7 +36,8 @@ public class BankTest1 extends TestCase {
                 bank = new Bank();
                 bankmanager = new BankManagerRole(bank);
                 bankmanager.setPerson(person3);
-                bankcustomer = new BankCustomerRole(50, person2);
+                bankcustomer = new BankCustomerRole(50);
+                bankcustomer.setPerson(person2);
                 bankteller = new BankTellerRole(bankmanager);
                 bankteller.setPerson(person1);
         
@@ -50,18 +51,19 @@ public class BankTest1 extends TestCase {
                 bankmanager.msgCustomerArrivedAtBank(bankcustomer);
                 assertEquals("bank should have 1 banktellers in it.",bankmanager.banktellers.size(), 1);
                 assertEquals("bank should have 1 customer in it", bankmanager.customers.size(), 1);
-                assertEquals("CashierAgent should have an empty event log before the Cashier's HereIsCheck is called. Instead, the Cashier's event log reads: "
+                assertEquals("BankManagerRole should have an empty event log "
                                 + bankteller.log.toString(), 0, bankteller.log.size());
                 assertTrue("", bankmanager.pickAndExecuteAnAction());
-                assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
+                assertTrue("bankmanager should have logged /bankstationassigned/: " 
                                 + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("bankstationassigned"));
-               
+                assertEquals("Verify if the manager assigned the correct bankteller to the correct station", bankmanager.bank.bankstations.get(0).bankteller , bankteller);
+                
                 assertTrue("", bankmanager.pickAndExecuteAnAction());
                 //assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
-                              //  + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("bantellerassigned"));
+                             // + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("bantellerassigned"));
                
                 assertEquals("verify if the customer is assigned to correct bank teller", bankteller.currentcustomer, bankcustomer);
-                //bankteller.msgAssignMeCustomer(bankcustomer);
+    
                 bankteller.msgOpenAccount();
                 assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
                                 + bankteller.log.getLastLoggedEvent().toString(), bankteller.log.containsString("msgOpenAccount"));

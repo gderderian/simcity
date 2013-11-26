@@ -84,6 +84,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	}
 	
 	public void setGui(Restaurant2WaiterGui g){
+		System.out.println("Setting the waiter gui");
 		waiterGui = g;
 		gui = g;
 	}
