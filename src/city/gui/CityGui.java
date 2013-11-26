@@ -156,8 +156,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(market3Animation);
 		
 		addBuildingPanel(restaurant3);
-		
-		addBuildingPanel(animationPanel);
 
 		add(animationPanel, BorderLayout.EAST);
 
@@ -224,6 +222,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		animationPanel.updatePos();
 		synchronized(buildingPanels){
 			for(BuildingPanel b : buildingPanels){
 				b.updatePos();
