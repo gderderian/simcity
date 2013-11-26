@@ -142,8 +142,8 @@ public class Restaurant1WaiterGui implements Gui {
     }
     
     public void DoGoToCustomer(Restaurant1CustomerRole c) {
-    	xDestination = c.getGui().getGuiX();
-    	yDestination = c.getGui().getGuiY();
+    	xDestination = c.getGui().getGuiX() + 30;
+    	yDestination = c.getGui().getGuiY() + 30;
     	moving = true;
     }
     

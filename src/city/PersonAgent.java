@@ -725,7 +725,6 @@ public class PersonAgent extends Agent implements Person{
 					log("Found role to set active");
 				}
 				else if(r instanceof Restaurant1CustomerRole) {
-					
 					r.setActive();
 					role = (Restaurant1CustomerRole) r;
 					restName = role.getBuilding();
@@ -760,7 +759,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else if(role instanceof Restaurant1CustomerRole) {
 			((Restaurant1CustomerRole) role).setHost(cityMap.restaurant1.getHost());
-			cityMap.restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) role);
+			((Restaurant1CustomerRole) role).goToRestaurant();
 			((Restaurant1CustomerRole)role).setGuiActive();
 		}
 		else if(role instanceof CustomerRole4) {

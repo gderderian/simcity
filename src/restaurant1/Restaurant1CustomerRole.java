@@ -296,7 +296,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 
 	// Actions
 
-	private void goToRestaurant() {
+	public void goToRestaurant() {
 		log("Going to restaurant");
 		host.msgImHungry(this);//send our instance, so he can respond to us
 	}
@@ -312,7 +312,6 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	}
 	
 	private void readyToOrder() {
-		waiter.msgCustomerSatDown();
 		customerGui.clearOrder();
 		
 		timer.schedule(new TimerTask() {
@@ -526,8 +525,8 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	}
 
 	public void setGuiActive() {
-		customerGui.DoEnterRestaurant();
-		customerGui.setPresent(true);		
+		customerGui.setPresent(true);	
+		customerGui.setHungry();
 	}
 }
 

@@ -58,7 +58,7 @@ public class Restaurant1CustomerGui implements Gui{
 			yPos--;
 			
 
-		if (xPos == xDestination && yPos == yDestination) {			
+		if (xPos == xDestination && yPos == yDestination) {	
 			if (command==Command.GoToSeat) {
 				agent.msgAnimationFinishedGoToSeat();
 			} 
@@ -138,6 +138,7 @@ public class Restaurant1CustomerGui implements Gui{
 	}
 
 	public void DoGoToSeat() {
+		System.out.println("GOING TO SEAT");
 		command = Command.GoToSeat;
 	}
 	

@@ -46,5 +46,9 @@ public class Restaurant4 {
 	public void setCashier(CashierRole4 c){
 		cashier = c;
 	}
+
+	public int getWaiterListSize() {
+		return waiters.size();
+	}
 	
 }

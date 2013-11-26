@@ -593,6 +593,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		else if(type.equals("Restaurant1 Waiter")){
 			Restaurant1WaiterRole role = new Restaurant1WaiterRole(p.getName(), p);
 			Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
+			gui.setHome(rest4.getWaiterListSize() * 40 + 200, 60);
 			role.setGui(gui);
 			restaurant1.addGui(gui);
 			gui.setPresent(false);

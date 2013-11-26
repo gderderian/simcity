@@ -108,4 +108,8 @@ public abstract class Role {
     	return inUse;
     }
     
+    public boolean isActive() {
+    	return isActive;
+    }
+    
 }
