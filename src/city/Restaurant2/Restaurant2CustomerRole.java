@@ -298,6 +298,12 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		}
 		else{
 			log.add(new LoggedEvent("I'm ready to be seated"));
+			customerGui.DoGoToWaiter(waiterNum);
+			try{
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			waiter.msgReadyToBeSeated(this);
 			SitDown(tableNum);
 		}
@@ -306,15 +312,8 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private void SitDown(int seatNumber) {
 		Do("Being seated. Going to table");
 		log.add(new LoggedEvent("Sitting down at table " + seatNumber));
-		customerGui.DoGoToWaiter(waiterNum);
-		try{
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		customerGui.DoGoToSeat(seatNumber);
 		state = AgentState.Seated;
-		
 		//Hack until the Customer GUI is updated to call the waiter
 		t.schedule(new TimerTask() {
 			public void run() {

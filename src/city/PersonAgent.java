@@ -175,6 +175,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void msgAtDestination() {
+		log("semaphore released by gui");
 		atDestination.release();
 	}
 	
@@ -918,6 +919,8 @@ public class PersonAgent extends Agent implements Person{
 		    gui.moveTo(130 + (tmpPath.getX() * 30), 70 + (tmpPath.getY() * 30));
 		    
 		    //Give animation time to move to square.
+
+		    log("moving");
 		    try {
 				atDestination.acquire();
 			} catch (InterruptedException e) {
