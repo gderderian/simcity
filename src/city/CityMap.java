@@ -147,12 +147,25 @@ public class CityMap {
 	}
 	
 	public int getClosestBusStop(String destination) { //Returns number of bus stop closest to destination. Returns -1 if destination is not found
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			if(nearbyDestinations.get(i).contains(destination)) {
 				return i;
 			}
 		}
 		return -1;
+	}
+	
+	public int getClosestBusStop(Position p) {
+		int minStop = 0;
+		double distance = 1000;
+		for(int i = 0; i < 4; i++) {
+			double newDistance = buildingLocations.get("stop" + Integer.toString(i)).distance(p);
+			if(newDistance < distance) {
+				distance = newDistance;
+				minStop = i;
+			}
+		}
+		return minStop;
 	}
 	
 	public void addBusStop(BusStop busStop) {

@@ -55,11 +55,12 @@ public class PersonAgent extends Agent implements Person{
 	
 	//Transportation
 	CarAgent car;
-	String destination;
+	String destinationBuilding;
 	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
 	TransportationState transportationState;
 	CityMap cityMap;
 	BusStopAgent busStop;
+	int busStopToGetOffAt;
 	BusAgent bus;
 	public List<Car> cars = new ArrayList<Car>();
 	public List<BusRide> busRides = Collections.synchronizedList(new ArrayList<BusRide>());
@@ -97,13 +98,13 @@ public class PersonAgent extends Agent implements Person{
 	//Testing
 	public EventLog log = new EventLog();
 	public boolean goToRestaurantTest = false;
-	public boolean takeBus = false;
 	
 	//Job
 	public Job myJob;
 	public enum WorkState {notWorking, goToWork, atWork};
 	WorkState workState;
 	
+	String destination;
 	Semaphore atDestination = new Semaphore(0, true);
 	AStarTraversal aStar;
     Position currentPosition; 
@@ -168,10 +169,6 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void setGoToRestaurant(){	//for testing purposes
 		goToRestaurantTest = true;
-	}
-	
-	public void setTakeBus(){	//for testing purposes
-		takeBus = true;
 	}
 	
 	public void msgAtDestination() {
@@ -348,7 +345,7 @@ public class PersonAgent extends Agent implements Person{
 	public void msgArrivedAtStop(int stop) {
 		synchronized(busRides){
 			for(BusRide br : busRides){
-				if(br.busStop == stop){
+				if(busStopToGetOffAt == stop){
 					br.state = BusRideState.getOffBus;
 				}
 			}
@@ -668,10 +665,6 @@ public class PersonAgent extends Agent implements Person{
 			String destination = restName;
 			takeCar(destination);
 		}
-		else if(takeBus){	//take bus
-			int stop = cityMap.getClosestBusStop(restName);
-			BusRide ride = new BusRide(stop);
-		}
 		else{
 			//This is walking
 			DoGoTo(restName);
@@ -751,6 +744,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void getOnBus(BusRide ride){
+		gui.setInvisible();
 		ride.state = BusRideState.onBus;
 		log.add(new LoggedEvent("Getting on the bus"));
 	}
@@ -768,8 +762,10 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void getOffBus(BusRide busride){
 		busride.bus.msgImGettingOff(this);
-		//gui.doGetOffBus();
+		String thisStop = "stop" + Integer.toString(busStopToGetOffAt);
+		gui.teleport(cityMap.getX(thisStop), cityMap.getY(thisStop));
 		busRides.remove(busride);
+		DoGoTo(destinationBuilding);		
 	}
 	
 	public void getOutOfCar(CarRide ride){
@@ -798,17 +794,11 @@ public class PersonAgent extends Agent implements Person{
 		 */
 		if(cars.isEmpty()){
 			 String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
-			 takeBus(market);
 		}
 		else{
 			//takeCar(market);
 		}
 		
-	}
-	
-	public void takeBus(String dest){
-		//String stop = cityMap.getBusStop(destination);
-		//BusRide ride = new BusRide(stop);
 	}
 	
 	public void takeCar(String destination){
@@ -860,19 +850,34 @@ public class PersonAgent extends Agent implements Person{
 		Position p = new Position(x, y);
 		
 		if(currentPosition.distance(p) > 16) {
-			//Intermediate step?
+			int startingBusStop = cityMap.getClosestBusStop(p);
 		}
 		
 		guiMoveFromCurrentPositionTo(p);
 	}
 	
 	void DoGoTo(String location) {
+		destinationBuilding = "location";
 		gui.setVisible();
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
-	    moveTo(x, y);
-	    gui.setInvisible();
+		Position p = new Position(x, y);
+		
+		if(currentPosition.distance(p) < 20) {
+			moveTo(x, y);
+			gui.setInvisible();
+			return;
+		}
+		
+		int startingBusStop = cityMap.getClosestBusStop(currentPosition);
+		int endingBusStop = cityMap.getClosestBusStop(location);
+		busStopToGetOffAt = endingBusStop;
+		DoGoTo("stop" + Integer.toString(startingBusStop));
+		busStop = cityMap.getBusStop(startingBusStop);
+		busStop.msgWaitingForBus(this);
+			
+		gui.setVisible();
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
@@ -1015,7 +1020,6 @@ public class PersonAgent extends Agent implements Person{
 		public Bus bus;
 		public double fare;
 		public BusRideState state;
-		public int busStop;
 		
 		/*
 		 * TODO change this so the second constructor is used ONLY
@@ -1028,7 +1032,6 @@ public class PersonAgent extends Agent implements Person{
 		}
 		
 		public BusRide(int stop){
-			busStop = stop;
 			fare = 0;
 			state = BusRideState.initial;
 		}

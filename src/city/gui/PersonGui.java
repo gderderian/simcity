@@ -143,6 +143,14 @@ public class PersonGui implements Gui {
 		else
 			isPresent = false;
 	}
+
+	public void teleport(int x, int y) {
+		xPos = x;
+		yPos = y;
+		xDest = x;
+		yDest = y;
+		
+	}
 	
 	
 }
