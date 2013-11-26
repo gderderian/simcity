@@ -78,6 +78,57 @@ public class CityMap {
 		buildingLocations.put("house25", new Position(10,9));
 		buildingLocations.put("house26", new Position(10,7));
 		
+		//Adding list of nearby locations to each bus stop
+		List<String> buildingList0 = new ArrayList<String>();
+		buildingList0.add("house1");
+		buildingList0.add("house2");
+		buildingList0.add("house3");
+		buildingList0.add("mark1");
+		buildingList0.add("house4");
+		buildingList0.add("house5");
+		buildingList0.add("apart1");
+		buildingList0.add("house6");
+		buildingList0.add("bank1");
+		nearbyDestinations.put(0, buildingList0);
+		
+		List<String> buildingList1 = new ArrayList<String>();
+		buildingList1.add("rest1");
+		buildingList1.add("house7");
+		buildingList1.add("house8");
+		buildingList1.add("house9");
+		buildingList1.add("house10");
+		buildingList1.add("house11");
+		buildingList1.add("house12");
+		buildingList1.add("mark2");
+		buildingList1.add("house13");
+		buildingList1.add("house14");
+		nearbyDestinations.put(1, buildingList1);
+		
+		List<String> buildingList2 = new ArrayList<String>();
+		buildingList2.add("house15");
+		buildingList2.add("rest2");
+		buildingList2.add("house16");
+		buildingList2.add("house17");
+		buildingList2.add("house18");
+		buildingList2.add("house19");
+		buildingList2.add("house20");
+		buildingList2.add("bank2");
+		buildingList2.add("rest3");
+		nearbyDestinations.put(2, buildingList2);
+		
+		List<String> buildingList3 = new ArrayList<String>();
+		buildingList3.add("apart2");
+		buildingList3.add("house21");
+		buildingList3.add("house22");
+		buildingList3.add("rest4");
+		buildingList3.add("house23");
+		buildingList3.add("rest5");
+		buildingList3.add("house24");
+		buildingList3.add("house25");
+		buildingList3.add("mark3");
+		buildingList3.add("house26");
+		nearbyDestinations.put(3, buildingList3);
+		
 		//Creating list of restaurants
 		restaurants.add("Restaurant2");
 	}
