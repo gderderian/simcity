@@ -32,6 +32,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import restaurant1.Restaurant1;
+
 import city.Apartment;
 import city.CityMap;
 import city.House;
@@ -169,6 +171,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addRest2ToCityMap(Restaurant2 r){
         cityMap.setRestaurant2(r);
+    }
+    
+    public void addRest1ToCityMap(Restaurant1 r) {
+    	cityMap.setRestaurant1(r);
     }
     
     public void setCityGui(CityGui c){
