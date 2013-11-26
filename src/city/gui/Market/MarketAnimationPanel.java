@@ -76,12 +76,14 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
         g2.setColor(Color.ORANGE);
         g2.fillRect(200, 100, 55, 350); // Table location set by host
         
+        
+        /* This gets moved to the updatePos function below so its called even when the panel isnt visible
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -123,6 +125,15 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updatePos() {
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 	}
     
 }

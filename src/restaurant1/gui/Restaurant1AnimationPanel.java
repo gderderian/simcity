@@ -144,12 +144,14 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
         g.drawRect(689, 469, 61, 51);
         g.drawString("Fridge", 700, 495);
 		
+        /*
+         * This gets moved to updatePos below so that it will be called even when the panel is not visible
 		for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-		
+		*/
 		for(Gui gui : guis) {
 			gui.draw(g2);
 		}
@@ -198,5 +200,14 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
 	public void mouseReleased(MouseEvent e) {
 		//Nothing
+	}
+
+	@Override
+	public void updatePos() {
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 	}
 }

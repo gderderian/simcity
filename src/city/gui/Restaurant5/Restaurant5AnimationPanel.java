@@ -141,13 +141,14 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
         g2.setColor(Color.ORANGE);
         g2.fillRect(tablewidth, tablelength, tablespacing, tablespacing);//200 and 250 need to be table params
 
-
+/*
+ * This gets moved to updatePos below so it will be called even when the panel is not visible
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -191,5 +192,14 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updatePos() {
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 	}
 }

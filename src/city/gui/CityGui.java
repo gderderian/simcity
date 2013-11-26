@@ -49,6 +49,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	AnimationPanel animationPanel = new AnimationPanel();
 
 	ControlPanel controlPanel = new ControlPanel();
+	
+    private static final int TIMER_INTERVAL = 15;
+    private Timer timer;
 
 	// Restaurants
 	
@@ -176,8 +179,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		CityClock masterClock = new CityClock(this);
 		masterClock.startTime();
-
+		
+        timer = new Timer(TIMER_INTERVAL, this);
+        timer.start();
+        
 	}
+
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
@@ -195,7 +202,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		//if(e.getSource() == 
+		synchronized(buildingPanels){
+			for(BuildingPanel b : buildingPanels){
+				b.updatePos();
+			}
+		}
 	}
 
 	/**

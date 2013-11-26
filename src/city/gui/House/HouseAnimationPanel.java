@@ -93,13 +93,16 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
         g.drawImage(poinsettia, 525, 210, 25, 25, this);
         //This is the santa hat
         g.drawImage(santaHat, 100, 510, 30, 30, this);
-        
+
+        /*
+         * This gets moved to updatePos() below to get called when the panel is not visible
+         * 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -149,5 +152,14 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 // TODO Auto-generated method stub
                 
         }
+
+		@Override
+		public void updatePos() {
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
+		}
 
 }

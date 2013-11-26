@@ -103,12 +103,16 @@ public class AnimationPanel3 extends BuildingPanel implements ActionListener, Mo
         g2.setColor(Color.ORANGE);
         g2.fillRect(275, 275, TABLE_X, TABLE_Y); // Table location set by host
         
+        
+        /*
+         * This gets moved to updatePos below so it will be called even when the panel is invisible
+         *
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+*/
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
@@ -150,6 +154,15 @@ public class AnimationPanel3 extends BuildingPanel implements ActionListener, Mo
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updatePos() {
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 	}
     
 }

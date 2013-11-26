@@ -14,4 +14,6 @@ public abstract class BuildingPanel extends JPanel {
 	}
 	
 	public abstract void addGui(Gui g);
+	
+	public abstract void updatePos();
 }

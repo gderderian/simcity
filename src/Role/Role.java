@@ -108,7 +108,7 @@ public abstract class Role {
     	return inUse;
     }
     
-	public static Role getNewRole(String type, PersonAgent p, CityGui cityGui){
+	public static Role getNewRole(String type, PersonAgent p, CityGui cityGui){ //Restaurant2AnimationPanel rest2anim){
 		if(type.equals("Restaurant2 Waiter")){
 			//Creates role, gui for role
 			//Adds role to gui and gui to role
@@ -116,6 +116,7 @@ public abstract class Role {
 			Restaurant2WaiterRole role = new Restaurant2WaiterRole(p.getName(), p);
 			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), cityGui, 1);
 			role.setGui(gui);
+			//rest2anim.addGui(gui);
 			return role;
 		}
 		else if(type.equals("Restaurant2 Host")){

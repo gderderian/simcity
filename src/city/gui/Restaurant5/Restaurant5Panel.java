@@ -271,6 +271,12 @@ public class Restaurant5Panel extends BuildingPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void updatePos() {
+		// TODO Auto-generated method stub
+		
+	}
     
     
 }
