@@ -615,8 +615,10 @@ public class PersonAgent extends Agent implements Person{
 	public void goHome(){
 		if(!atHome){
 			log("Going home");
-			DoGoTo(house.getName());
-			house.h.addGui(homeGui);
+			if(house != null){
+				DoGoTo(house.getName());
+				house.h.addGui(homeGui);
+			}
 			atHome= true;
 		}
 	}
