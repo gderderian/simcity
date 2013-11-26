@@ -1,5 +1,6 @@
 package city.gui.Restaurant5;
 
+import city.gui.Gui;
 import javax.swing.*;
 
 import city.PersonAgent;
@@ -156,20 +157,8 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
         }
     }
 
-    public void addGui(Restaurant5CustomerGui gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
-    }
-
-    public void addGui(HostGui gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(Restaurant5WaiterGui gui) {
-    	guis.add(gui);
-    }
-    
-    public void addGui(Restaurant5CookGui gui) {
-    	guis.add(gui);
     }
 
 	@Override

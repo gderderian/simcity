@@ -2,6 +2,7 @@ package city.gui.Bank;
 
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
+import city.gui.Gui;
 
 import java.awt.*;
 
@@ -9,12 +10,14 @@ import javax.swing.ImageIcon;
 
 import city.Bank;
 
-public class BankTellerRoleGui implements Gui {
+public class BankTellerRoleGui implements Gui{
 
     private BankTellerRole role = null;
     private int xPos = 250, yPos = -20;//default waiter position
     private int xDestination = 0, yDestination = 0;//default start position
 	private BankGui gui;
+	
+	boolean isPresent;
 
     int initialxc = 200;
     private int xcoordinatesofstations[] = new int [4];
@@ -60,8 +63,15 @@ public class BankTellerRoleGui implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public void goToBankTellerStation(int bankstationnumber) {
     	

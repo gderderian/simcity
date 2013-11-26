@@ -257,7 +257,6 @@ public class Restaurant2CustomerGui implements Gui{
         xDestination = HOMEX;
         yDestination = HOMEY;
 	}
-	
 
 
 }

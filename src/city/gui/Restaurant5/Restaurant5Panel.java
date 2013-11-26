@@ -12,6 +12,7 @@ import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
 import city.Restaurant5.Restaurant5WaiterRole;
 import city.gui.BuildingPanel;
+import city.gui.Gui;
 import city.gui.PersonGui;
 import city.gui.Bank.BankManagerRoleGui;
 
@@ -261,6 +262,12 @@ public class Restaurant5Panel extends BuildingPanel implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addGui(Gui g) {
 		// TODO Auto-generated method stub
 		
 	}

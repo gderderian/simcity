@@ -7,12 +7,15 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import city.gui.Restaurant3.*;
 
 import javax.swing.Timer;
 
 import test.mock.EventLog;
+import test.mock.LoggedEvent;
 
 
 /**
@@ -34,6 +37,7 @@ public class CookRole3 extends Role {
 	public EventLog log;
 	
 	PersonAgent person;
+	ActivityTag tag = ActivityTag.RESTAURANT3COOK;
 	
 	public CookRole3(String name, PersonAgent p) {
 
@@ -368,6 +372,12 @@ public class CookRole3 extends Role {
 	
 	public void setGui(CookGui3 cg) {
 		cookGui = cg;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
 	}
 
 }

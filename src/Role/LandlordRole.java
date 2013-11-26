@@ -2,6 +2,8 @@ package Role;
 
 import interfaces.Landlord;
 import interfaces.Person;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 
 import java.util.*;
@@ -17,6 +19,8 @@ public class LandlordRole extends Role implements Landlord {
 	public EventLog log= new EventLog();
 	String name;
 	PersonAgent p;
+	
+	ActivityTag tag = ActivityTag.LANDLORD;
 	
 	public LandlordRole(String name, PersonAgent p){
 		super();
@@ -34,7 +38,7 @@ public class LandlordRole extends Role implements Landlord {
 	//MESSAGES
 	public void msgEndOfDay(){	
 		log.add(new LoggedEvent("Recieved msgEndOfDay, all tenants now should have rent due"));
-		print("Recieved msgEndOfDay, all tenants now should have rent due");
+		log("Recieved msgEndOfDay, all tenants now should have rent due");
 		for(MyTenant t : tenants){
 			t.numOutstandingPayments++;
 			t.newPayment= true;
@@ -134,5 +138,11 @@ public class LandlordRole extends Role implements Landlord {
 			tenant= p;
 			rate= 10.00;
 		}
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
 	}
 }

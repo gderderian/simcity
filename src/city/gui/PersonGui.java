@@ -135,6 +135,14 @@ public class PersonGui implements Gui {
 	public void setVisible(){
 		isPresent = true;
 	}
+
+	@Override
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 	
 	
 }

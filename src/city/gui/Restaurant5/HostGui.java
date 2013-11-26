@@ -1,6 +1,6 @@
 package city.gui.Restaurant5;
 
-
+import city.gui.Gui;
 import tomtesting.interfaces.*;
 
 import java.awt.*;
@@ -15,6 +15,8 @@ public class HostGui implements Gui {
 
     public static int xTable = 200;
     public static int yTable = 250;
+    
+    boolean isPresent = true;
 
     public HostGui(Restaurant5Host agent) {
         this.agent = agent;
@@ -39,8 +41,15 @@ public class HostGui implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public void DoBringToTable(Restaurant5Customer customer, int tablexcoordinate, int tableycoordinate) {
       

@@ -11,7 +11,7 @@ public class MarketCustomerRole extends Role {
 	}
 	
 	// Data
-	PersonAgent person; // GUI and entrace/exit purposes
+	PersonAgent person; // GUI and entrance/exit purposes
 	
 	// Messages
 	/*

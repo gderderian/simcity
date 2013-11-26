@@ -1,5 +1,6 @@
 package city.gui.Restaurant5;
 
+import city.gui.Gui;
 import city.Restaurant5.*;
 import city.Restaurant5.Restaurant5CookRole.cookingorder;
 import city.Restaurant5.Restaurant5CookRole.cookstate;
@@ -32,6 +33,8 @@ public class Restaurant5CookGui implements Gui {
     private int[] counterxpos = {345, 395, 445, 495};
     int counter = 10;
     int spotnumber = 0;
+    
+    boolean isPresent = true;
     
     //private int[] counterypos = {
     
@@ -230,8 +233,15 @@ public class Restaurant5CookGui implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public int getXPos() {
         return xPos;

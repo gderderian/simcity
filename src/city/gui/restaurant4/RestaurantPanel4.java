@@ -4,7 +4,6 @@ import city.Restaurant4.CashierRole4;
 import city.Restaurant4.CustomerRole4;
 import city.Restaurant4.HostRole4;
 import city.Restaurant4.CookRole4;
-import city.Restaurant4.MarketRole4;
 import city.Restaurant4.WaiterRole4;
 import Role.Role;
 

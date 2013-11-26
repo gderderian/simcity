@@ -1,5 +1,7 @@
 package city.Restaurant4;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import city.Restaurant4.HostRole4;
 import city.Restaurant4.WaiterRole4;
@@ -14,6 +16,8 @@ import Role.Role;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
+
+import test.mock.LoggedEvent;
 
 /**
  * Restaurant customer agent.
@@ -49,11 +53,13 @@ public class CustomerRole4 extends Role implements Customer4 {
 	public enum AgentEvent {none, gotHungry, fullRest, followHost, atTable, askedToOrder, reOrder, gotFood, doneEating, gotBill, gotChange, doneLeaving};
 	AgentEvent event= AgentEvent.none;
 	
+	ActivityTag tag = ActivityTag.RESTAURANT4CUSTOMER;
+	
 	/**
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param cookGui  reference to the customergui so the customer can send it messages
 	 */
 	public CustomerRole4(String name, PersonAgent p){
 		super();
@@ -149,11 +155,11 @@ public class CustomerRole4 extends Role implements Customer4 {
 	
 	public void msgHereIsFood(String choice){
 		if(choice.equals(this.choice)){
-			print("Yay, I got what I ordered!");
+			log("Yay, I got what I ordered!");
 			
 		}
 		else{
-			print("This is NOT what I asked for, I'm giving this place 0 stars on Yelp!");
+			log("This is NOT what I asked for, I'm giving this place 0 stars on Yelp!");
 		}
 		state= AgentState.deciding;
 		event= AgentEvent.gotFood;
@@ -197,62 +203,62 @@ public class CustomerRole4 extends Role implements Customer4 {
 			return false;
 		}
 		if(state == AgentState.none && event == AgentEvent.gotHungry){
-			print("I'm hungry, maybe I should go to a restaurant.");
+			log("I'm hungry, maybe I should go to a restaurant.");
 			state= AgentState.waitingAtRest;
 			goToRestaurant();
 			return true;
 		}
 		if(state == AgentState.waitingAtRest && event == AgentEvent.fullRest){
-			print("The restaurant is full right now, should I wait it out?");
+			log("The restaurant is full right now, should I wait it out?");
 			state= AgentState.decidingToStay;
 			decideIfStaying();
 			return true;
 		}
 		if(state == AgentState.waitingAtRest && event == AgentEvent.followHost){
-			print("I'm so glad im finally being seated!");
+			log("I'm so glad im finally being seated!");
 			state= AgentState.beingSeated;
 			sitDown();
 			return true;
 		}
 		if(state == AgentState.beingSeated && event == AgentEvent.atTable){
-			print("I'm ready to order now!");
+			log("I'm ready to order now!");
 			state= AgentState.askingToOrder;
 			askToOrder();
 			return true;
 		}
 		if(state == AgentState.askingToOrder && event == AgentEvent.askedToOrder){
-			print("Hmm... everything sounds so good, what should I choose?!");
+			log("Hmm... everything sounds so good, what should I choose?!");
 			state= AgentState.deciding;
 			order();
 			return true;
 		}
 		if(state == AgentState.askingToOrder && event == AgentEvent.reOrder){
-			print("Okay, let me pick something else...");
+			log("Okay, let me pick something else...");
 			state= AgentState.deciding;
 			reOrder();
 			return true;
 		}
 		if(state == AgentState.deciding && event == AgentEvent.gotFood){
-			print("That looks delicious, I can't wait to eat it!");
+			log("That looks delicious, I can't wait to eat it!");
 			state= AgentState.eating;
 			eatFood();
 			return true;
 		}
 		if(state == AgentState.eating && event == AgentEvent.doneEating){
-			print("I'm ready to pay for this delicious meal!");
+			log("I'm ready to pay for this delicious meal!");
 			state= AgentState.needBill;
 			askForBill();
 			return true;
 		}
 		if(state == AgentState.needBill && event == AgentEvent.gotBill){
-			print("I should take my money to the cashier.");
+			log("I should take my money to the cashier.");
 			state= AgentState.paying;
 			payBill();
 			leaveTable();
 			return true;
 		}
 		if(state == AgentState.paying && event == AgentEvent.gotChange){
-			print("Goodbye!");
+			log("Goodbye!");
 			state= AgentState.gone;
 			return true;
 		}
@@ -269,7 +275,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 		Random rand = new Random();
 		int num= rand.nextInt(randSelector);
 		if(num == 0){
-			print("I don't have time to wait for a table to free up, maybe next time I'll stay.");
+			log("I don't have time to wait for a table to free up, maybe next time I'll stay.");
 			host.msgLeavingRest(this);
 			customerGui.DoExitRestaurant();
 			state= AgentState.gone;
@@ -277,7 +283,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 			p.stateChanged();
 			return;
 		}
-		print("The line isn't too long, I'll wait until a table is avaliable");
+		log("The line isn't too long, I'll wait until a table is avaliable");
 		state= AgentState.waitingAtRest;
 		event= AgentEvent.gotHungry;
 	}
@@ -312,7 +318,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 			return;
 		}
 		else{
-			print("Not named after food :( I guess I'll just pick something randomly");
+			log("Not named after food :( I guess I'll just pick something randomly");
 			Random rand = new Random();
 			int num= rand.nextInt(randSelector);
 			choice = menu.select(num);
@@ -332,7 +338,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 			newChoice = menu.select(num);
 		}
 		choice= newChoice;
-		print("MY NEW CHOICE THAT I CHOOSE TO ORDER IS: " + choice);
+		log("MY NEW CHOICE THAT I CHOOSE TO ORDER IS: " + choice);
 		waiter.msgHereIsChoice(this, newChoice);
 	}
 	
@@ -366,7 +372,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 			amountOwedNextTime= 0;
 			payNextTime= false;
 		}
-		print("Now I have $" + cashOnHand );
+		log("Now I have $" + cashOnHand );
 		cashier.msgHereIsMoney(this, amount);
 	}
 	
@@ -403,6 +409,11 @@ public class CustomerRole4 extends Role implements Customer4 {
 
 	public CustomerGui4 getGui() {
 		return customerGui;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }
 

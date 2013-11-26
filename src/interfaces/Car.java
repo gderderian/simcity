@@ -4,8 +4,8 @@ import city.PersonAgent;
 
 public interface Car {
 	
-	public void msgDriveTo(PersonAgent p, String dest);
+	public void msgDriveTo(Person p, String dest);
 	
-	public void msgParkCar(PersonAgent p);
+	public void msgParkCar(Person p);
 
 }

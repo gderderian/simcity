@@ -1,5 +1,6 @@
 package restaurant1.gui;
 
+import city.gui.Gui;
 import restaurant1.Restaurant1CookRole;
 
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.util.List;
 
 /* NOTE: This code is not used in Restaurant V2 */
 
-public class Restaurant1CookGui implements Restaurant1Gui {
+public class Restaurant1CookGui implements Gui {
 	
 	private static final int XPOS = 700, YPOS = 350;
 	private final int FRIDGE_Y = 440;
@@ -16,6 +17,8 @@ public class Restaurant1CookGui implements Restaurant1Gui {
 	private final int COUNTER_X = 680, COUNTER_Y = 340;
 	
 	private boolean moving;
+	
+	boolean isPresent = true;
 	
     private Restaurant1CookRole agent = null;
 
@@ -90,8 +93,12 @@ public class Restaurant1CookGui implements Restaurant1Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean p) {
+		isPresent = p;
+	}
     
     public void drawOrderCooking(MyOrder o, Graphics2D g) {
     	int xLoc = 760;

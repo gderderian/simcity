@@ -1,10 +1,13 @@
 package city.Restaurant5;
 
 import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 //import restaurant.CustomerAgent.AgentState;
 
 
+import test.mock.LoggedEvent;
 import tomtesting.interfaces.Restaurant5Host;
 import tomtesting.interfaces.Restaurant5Customer;
 import tomtesting.interfaces.Restaurant5Waiter;
@@ -48,6 +51,9 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	int xcoordinateofwaitingspot = 25;
 	int ycoordinateofwaitingspot = 170;
 	int occupiedtablecounter = 0;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT5HOST;
+	
 	public Restaurant5HostRole(String name, PersonAgent person) {
 		super();
 		building = "rest5";
@@ -139,9 +145,9 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 		
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
-				print(cust + " leaving " + table);
+				log(cust + " leaving " + table);
 				table.setUnoccupied();
-				print("table " + table + " is set uoccupied");
+				log("table " + table + " is set uoccupied");
 				person.stateChanged();
 			}
 		}
@@ -168,7 +174,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 		
 		}
 		else {
-			print("there's only one waiter, you cannot put him on break!");
+			log("there's only one waiter, you cannot put him on break!");
 		}
 		
 	}
@@ -304,7 +310,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	private void DoSeatCustomer(Restaurant5Customer customer, Table table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
-		print("Seating " + customer + " at " + table);
+		log("Seating " + customer + " at " + table);
 		//hostGui.DoBringToTable(customer, table.gettablexcoordinate(), table.gettableycoordinate()); 
 	}
 	
@@ -316,7 +322,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	
 	private void Dogobacktolobby(){
 		
-		print("back in lobby");
+		log("back in lobby");
 		//hostGui.DoLeaveCustomer();
 	}
 
@@ -460,7 +466,10 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 		
 	//}
 
-	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 
 	
 }

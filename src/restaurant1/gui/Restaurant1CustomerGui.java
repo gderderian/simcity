@@ -1,5 +1,6 @@
 package restaurant1.gui;
 
+import city.gui.Gui;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
 
@@ -8,7 +9,7 @@ import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
 
-public class Restaurant1CustomerGui implements Restaurant1Gui{
+public class Restaurant1CustomerGui implements Gui{
 
 	private Restaurant1CustomerRole agent = null;
 	private boolean isPresent = false;

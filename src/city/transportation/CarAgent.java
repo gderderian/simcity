@@ -1,11 +1,13 @@
 package city.transportation;
 
 import interfaces.Car;
+import interfaces.Person;
 
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import astar.AStarTraversal;
-
 import city.PersonAgent;
 import city.transportation.BusAgent.BusEvent;
 
@@ -14,12 +16,18 @@ public class CarAgent extends Vehicle implements Car {
 	public CarEvent event = CarEvent.none;
 	public CarState state = CarState.parked;
 	
-	public PersonAgent owner = null; //Car owner
+	public Person owner = null; //Car owner
 	
 	public String destination = null;
 	
 	public enum CarEvent { none, driving, arriving, parking };
 	public enum CarState { parked, driving, arrived };
+	
+	String name = "Car";
+	
+	private boolean test = false;
+	
+	ActivityTag tag = ActivityTag.CAR;
 	
 	public CarAgent(AStarTraversal aStar) {
 		super(aStar);
@@ -30,14 +38,14 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	//Messages
-	public void msgDriveTo(PersonAgent p, String dest) {
+	public void msgDriveTo(Person p, String dest) {
 		owner = p;
 		event = CarEvent.driving;
 		destination = dest;
 		stateChanged();
 	}
 	
-	public void msgParkCar(PersonAgent p) {
+	public void msgParkCar(Person p) {
 		event = CarEvent.parking;
 		destination = null;
 		stateChanged();
@@ -72,7 +80,7 @@ public class CarAgent extends Vehicle implements Car {
 	private void driveToDestination() {
 		//gui.DoDriveTo(destination);
 		
-		print("Driving to " + destination);
+		log("Driving to " + destination);
 		/*try {
 			guiFinished.acquire();
 		} catch (InterruptedException e) {
@@ -84,14 +92,13 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	private void tellOwnerWeHaveArrived() {
-		//Uncomment when method is implemented within person
 		owner.msgArrived(this);
 	}
 	
 	private void parkCar() {
 		//gui.DoParkCar();
 		
-		print("parking");
+		log("Parking...");
 		/*try {
 			guiFinished.acquire();
 		} catch (InterruptedException e) {
@@ -100,5 +107,15 @@ public class CarAgent extends Vehicle implements Car {
 		}*/
 		
 		event = CarEvent.none;
+	}
+	
+	private void log(String msg){
+		print(msg);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+	
+	public void thisIsATest() {
+		test = true;
 	}
 }

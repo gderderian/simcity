@@ -11,101 +11,77 @@ import city.transportation.BusAgent.BusState;
 import city.transportation.BusStopAgent;
 import city.transportation.mock.MockBus;
 import city.transportation.mock.MockBusStop;
+import city.transportation.mock.MockTransportationPerson;
 
 public class BusStopTest extends TestCase {
 	//instantiated in setUp()
-	List<PersonAgent> people;
+	List<MockTransportationPerson> people;
 	BusStopAgent stop;
-	MockBus bus1;
-	MockBus bus2;
-	MockBus bus3;
+	MockBus bus;
 
 	public void setUp() throws Exception {
 		super.setUp();
-		people = new ArrayList<PersonAgent>();
-		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
-			people.add(new PersonAgent("person", null, null));
+		people = new ArrayList<MockTransportationPerson>();
+		for(int i = 0; i < 5; i++) { //Adds 10 people to the list.
+			people.add(new MockTransportationPerson("person" + Integer.toString(i)));
 		}
-		bus1 = new MockBus();
-		bus2 = new MockBus();
-		bus3 = new MockBus();
+		bus = new MockBus();
 		
 		stop = new BusStopAgent(0);
+		stop.thisIsATest(); //Turns off activity log(used in city control panel)
 		
 	}	
 
-	/* This tests three buses checking in at one bus stop, picking up people */
+	/* This tests a BusStopAgent with a single bus checking in twice, picking up some people, 
+	 * and then trying to pick up more when the bus stop is empty */
 	public void testBusDriving() {		
-		
 		//Preconditions
-		assertTrue(stop.peopleWaiting.size() == 0);
-		assertTrue(stop.buses.size() == 0);
-		
-		//10 people start waiting for bus
-		for(int i = 0; i < 10; i++) {
-			stop.msgWaitingForBus(people.get(i));
-		}
-		
-		//Postconditions
-		assertTrue(stop.peopleWaiting.size() == 10);
-		assertTrue(stop.buses.size() == 0);
-		
-		//Scheduler
-		stop.pickAndExecuteAnAction();
-		
-		//Nothing should have changed
-		assertTrue(stop.peopleWaiting.size() == 10);
-		assertTrue(stop.buses.size() == 0);
-		
-		//Message - bus can pick up 4 people
-		stop.msgICanPickUp(bus1, 4);
-		assertTrue(stop.buses.size() == 1);
-		
-		//Scheduler - should send 4 passengers to the bus
-		stop.pickAndExecuteAnAction();
+				assertTrue(stop.peopleWaiting.size() == 0);
+				assertTrue(stop.buses.size() == 0);
+				
+				//5 people start waiting for bus
+				for(int i = 0; i < 5; i++) {
+					stop.msgWaitingForBus(people.get(i));
+				}
+				
+				//Postconditions
+				assertTrue(stop.peopleWaiting.size() == 5); //Now 5 people are waiting for bus
+				assertTrue(stop.buses.size() == 0);
+				
+				//Scheduler
+				stop.pickAndExecuteAnAction();
+				
+				//Nothing should have changed
+				assertTrue(stop.peopleWaiting.size() == 5);
+				assertTrue(stop.buses.size() == 0);
+				
+				//Message - bus can pick up 5 people
+				stop.msgICanPickUp(bus, 5);
+				assertTrue(stop.buses.size() == 1); //One bus at stop
+				
+				//Scheduler - should tell all 5 people that their bus has arrived
+				stop.pickAndExecuteAnAction();
+				
+				//All 5 people should have gotten message from bus stop - confirm here
+				for(int i = 0; i < 5; i++) {
+					assertTrue(people.get(i).log.getLastLoggedEvent().getMessage() == "Got message: Bus is here");
+				}
+				
+				//Make sure bus received list of passengers
+				assertTrue(bus.log.getLastLoggedEvent().getMessage() == "Received list of boarding passengers from bus stop");
 
-		//Postconditions
-		assertTrue(stop.peopleWaiting.size() == 6);
-		assertTrue(stop.buses.size() == 0);
-		
-		//Message - bus can pick up 10 people (only 6 in list)
-		stop.msgICanPickUp(bus2, 10);
-		assertTrue(stop.buses.size() == 1);
-		
-		//Scheduler - should send 4 passengers to the bus
-		stop.pickAndExecuteAnAction();
-
-		//Postconditions
-		assertTrue(stop.peopleWaiting.size() == 0);
-		assertTrue(stop.buses.size() == 0);
-		
-		//10 people start waiting for bus
-		for(int i = 0; i < 10; i++) {
-			stop.msgWaitingForBus(people.get(i));
-		}
-		
-		//Messages from 2 buses
-		stop.msgICanPickUp(bus3, 6);
-		stop.msgICanPickUp(bus1, 5);
-		assertTrue(stop.buses.size() == 2);
-		
-		//2 calls of scheduler to send passengers to 2 buses
-		stop.pickAndExecuteAnAction();
-		stop.pickAndExecuteAnAction();
-		
-		//Postconditions
-		assertTrue(stop.peopleWaiting.size() == 0); //no one left waiting
-		assertTrue(stop.buses.size() == 0);
-		
-		//Message from bus
-		stop.msgICanPickUp(bus2, 4);
-		assertTrue(stop.buses.size() == 1);
-		
-		//Scheduler - should not send any passengers
-		stop.pickAndExecuteAnAction();
-		
-		//Postconditions
-		assertTrue(stop.peopleWaiting.size() == 0);
-		assertTrue(stop.buses.size() == 0);
+				//Postconditions
+				assertTrue(stop.peopleWaiting.size() == 0);
+				assertTrue(stop.buses.size() == 0);
+				
+				//Message - bus wants to pick up 5 more people, but bus stop is empty
+				stop.msgICanPickUp(bus, 5);
+				
+				//Scheduler - should message bus that no people are boarding
+				stop.pickAndExecuteAnAction();
+				
+				//Make sure bus receives correct message
+				assertTrue(bus.log.getLastLoggedEvent().getMessage() == "No one boarding from this bus stop");
+				
 	}
 }

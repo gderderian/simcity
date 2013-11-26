@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -34,6 +35,7 @@ import javax.swing.JTextField;
 import city.Apartment;
 import city.CityMap;
 import city.House;
+import activityLog.ActivityPane;
 import astar.AStarTraversal;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -55,6 +57,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel worldControls = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
+    //private JPanel activityLog = new JPanel();
+    private ActivityPane activityPane = new ActivityPane();
+    private JButton backToCity = new JButton("Switch back to city view");
     private JButton populateCity = new JButton("Populate City");
     private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
     
@@ -77,8 +82,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
-    private String[] jobs = {"[Please select a job]", "No job", "Restaurant2 Waiter", "Restaurant2 Cook", "Restaurant2 Host", "Bank Manager", "Bank Teller",
-    		"Market Manager", "Market Worker", "Landlord"
+    private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord", 
+    		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
+    		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
+    		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 Waiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
+    		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
     private JComboBox jobField = new JComboBox(jobs);
     private Map<String, Role> jobRoles = new HashMap<String, Role>();
@@ -123,12 +131,15 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         setupWorldControls();
         
+        setupActivityLog();
+        
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
         worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
         worldControls.setAlignmentX(Component.CENTER_ALIGNMENT);
         controlPane.addTab("World", worldControls);
         controlPane.addTab("People", personControls);
+        controlPane.addTab("Activity Log", activityPane);
         add(controlPane);
         
         List<String> stopLocations0 = new ArrayList<String>();
@@ -172,12 +183,24 @@ public class ControlPanel extends JPanel implements ActionListener{
     	return cityMap;
     }
     
+    private void setupActivityLog(){
+    	
+    }
+    
     private void setupWorldControls(){
     	
     	populateCity.addActionListener(this);
+    	backToCity.addActionListener(this);
+    	backToCity.setEnabled(false);
     	
+    	//This add(Box) function creates a space on the JPanel - using it here for spacing the buttons out to look nice
+    	worldControls.add(Box.createVerticalStrut(10));
+    	worldControls.add(backToCity);
+    	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(populateCity);
     	populateCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
@@ -251,10 +274,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         });
 
         addPersonB.addActionListener(this);
-        
+    	addPerson.add(Box.createVerticalStrut(10));
         addPerson.add(addPersonB, flow);
+    	addPerson.add(Box.createVerticalStrut(10));
         
-        addPerson.add(new JLabel("Help messages:"));
         errorDisplay.setEditable(false);
         addPerson.add(errorDisplay, flow);
 
@@ -291,6 +314,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         	populateCity();
         	populateCity.setEnabled(false);
         }
+        else if(e.getSource() == backToCity) {
+        	cityGui.backToCityView();
+        	backToCity.setEnabled(false);
+        }
     }
 
     /**
@@ -308,14 +335,38 @@ public class ControlPanel extends JPanel implements ActionListener{
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
             House house = houses.get(houseAssignmentNumber);
-            if(houseAssignmentNumber == 27){
-            	houseAssignmentNumber = 26;
+            if(houseAssignmentNumber == 47){
+            	houseAssignmentNumber = 46;
             }
             else{
                 houseAssignmentNumber++;
             }
             
             cityGui.addPerson(name, aStarTraversal, job, cityMap, house);
+        	System.out.println("Adding person " + name + " with job " + job);
+
+            Dimension paneSize = pane.getSize();
+            Dimension buttonSize = new Dimension((paneSize.width - 20),
+                    (int) (paneSize.height / 7));
+            button.setPreferredSize(buttonSize);
+            button.setMinimumSize(buttonSize);
+            button.setMaximumSize(buttonSize);
+            button.addActionListener(this);
+            list.add(button);
+            view.add(button);
+            isHungry.setEnabled(false);
+            validate();
+        }
+    }
+    
+    public void addPersonNoHouse(String name, String job) {
+        if (name != null) {
+            JButton button = new JButton(name);
+            button.setBackground(Color.white);
+            
+            AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
+            
+            cityGui.addPerson(name, aStarTraversal, job, cityMap, null);
         	System.out.println("Adding person " + name + " with job " + job);
 
             Dimension paneSize = pane.getSize();
@@ -408,7 +459,11 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[21][1].release(100); //bank1
       	sidewalkGrid[0][12].release(100); //bank2
       	sidewalkGrid[21][4].release(100); //apart1
+      	sidewalkGrid[21][3].release(20); //these two lines open up spots if multiple people are leaving apartment
+      	sidewalkGrid[21][5].release(20);
       	sidewalkGrid[1][18].release(100); //apart2
+      	sidewalkGrid[0][18].release(20); //these two lines open up spots if multiple people are leaving apartment
+      	sidewalkGrid[2][18].release(20);
       	sidewalkGrid[21][8].release(100); //stop0
       	sidewalkGrid[11][0].release(100); //stop1
       	sidewalkGrid[0][8].release(100); //stop2
@@ -464,11 +519,13 @@ public class ControlPanel extends JPanel implements ActionListener{
     	for(int i = 0; i < 26; i++) {
     		houses.add(new House("house" + Integer.toString(i + 1)));
     	}
+    	for(int i = 0; i < 10; i++) {
+    		houses.add(new Apartment("apart1", i));
+    	}
+    	for(int i = 0; i < 10; i++) {
+    		houses.add(new Apartment("apart2", i));
+    	}
     	System.out.println("Created houses.");
-    	//Apartment apart1 = new Apartment("apart1", 1);
-    	//houses.add(apart1);
-    	//Apartment apart2 = new Apartment("apart2", 2);
-    	//houses.add(apart2);
     }
     
     public void populateCity(){
@@ -480,18 +537,26 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000	);
     	
-		addPerson("host", "Restaurant2 Host");
-		addPerson("cashier", "Restaurant2 Cashier");
-		addPerson("cook", "Restaurant2 Cook");
+		addPersonNoHouse("host", "Restaurant2 Host");
+		addPersonNoHouse("cashier", "Restaurant2 Cashier");
+		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
-		addPerson("RestaurantTest", "No job");
+		addPerson("rest2Test", "No job");
 		
-		//addPerson("rest1test", "Restaurant1 Customer");
+		/*addPersonNoHouse("host1", "Restaurant1 Host");
+		addPersonNoHouse("cashier1", "Restaurant1 Host");
+		addPersonNoHouse("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		addPerson("rest1test", "Restaurant1 Customer");*/
 		
     }
     
     public void setTimeDisplay(String timeToDisplay){
     	timeDisplay.setText(timeToDisplay);
+    }
+    
+    public void enableBackToCity() {
+    	backToCity.setEnabled(true);
     }
 
 }

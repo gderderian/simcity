@@ -2,6 +2,7 @@ package Role;
 
 import java.util.concurrent.Semaphore;
 
+import city.gui.Gui;
 import city.gui.Bank.BankCustomerRoleGui;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
@@ -279,7 +280,7 @@ public class BankCustomerRole extends Role{
         }
 
 
-        public Object getGui() {
+        public Gui getGui() {
            
                 return this.gui;
         }

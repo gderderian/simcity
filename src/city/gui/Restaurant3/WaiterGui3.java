@@ -1,10 +1,10 @@
 package city.gui.Restaurant3;
 
 import city.Restaurant3.*;
-
+import city.gui.Gui;
 import java.awt.*;
 
-public class WaiterGui3 implements Gui3 {
+public class WaiterGui3 implements Gui {
 
     private WaiterRole3 agent = null;
 
@@ -18,6 +18,8 @@ public class WaiterGui3 implements Gui3 {
 
 	boolean isAnimating = false;
 	boolean hasDestination = false;
+	
+	boolean isPresent = true;
 	
 	String carryingOrderText = "";
 	boolean isOnBreak;
@@ -80,8 +82,15 @@ public class WaiterGui3 implements Gui3 {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
     
 	public void beginAnimate(){
 		isAnimating = true;

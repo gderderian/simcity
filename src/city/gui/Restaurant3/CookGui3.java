@@ -2,14 +2,17 @@ package city.gui.Restaurant3;
 
 import java.awt.*;
 import java.util.ArrayList;
+import city.gui.Gui;
 
 import city.Restaurant3.CookRole3;
 
-public class CookGui3 implements Gui3 {
+public class CookGui3 implements Gui {
 
     private CookRole3 agent = null;
 
 	RestaurantGui3 gui;
+	
+	boolean isPresent = true;
     
     private int xPos = 230, yPos = 445;
     public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
@@ -93,8 +96,15 @@ public class CookGui3 implements Gui3 {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
     
 	public void beginAnimate(){
 		isAnimating = true;

@@ -65,10 +65,10 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 
         
         //This is the exit to the city
-        g2.setColor(Color.CYAN);
+        /*g2.setColor(Color.CYAN);
         g2.fillRect(75, 0, 100, 30);
         g2.setColor(Color.BLACK);
-        g2.drawString("Exit to City", 90, 15);
+        g2.drawString("Exit to City", 90, 15); */
         
         
         //This is the kitchen table
@@ -108,7 +108,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 
         }
     
-    public void addGui(PersonGui gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
     }
 
@@ -131,10 +131,10 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 int y = e.getY();
                 
                 //Change to city
-                if((x >= 75) && (x <= 175) && (y >= 0) && (y <= 30)){
+                /*if((x >= 75) && (x <= 175) && (y >= 0) && (y <= 30)){
                         System.out.println("Back to the city view, goodbye!");
                         changeBackToCity(); 
-                }
+                }*/
                 
         }
 
@@ -149,4 +149,5 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
                 // TODO Auto-generated method stub
                 
         }
+
 }

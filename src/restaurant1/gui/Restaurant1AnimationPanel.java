@@ -1,5 +1,6 @@
 package restaurant1.gui;
 
+import city.gui.Gui;
 import javax.swing.*;
 
 import restaurant1.Restaurant1CashierRole;
@@ -32,7 +33,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
     private static final int WINDOWY = 750;
     private static final int TIMER_INTERVAL = 15;
 
-    private List<Restaurant1Gui> guis = new ArrayList<Restaurant1Gui>();
+    private List<Gui> guis = new ArrayList<Gui>();
     
     PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
@@ -60,6 +61,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 
         addMouseListener(this);
 
+        /*This can no longer go here! 
         Cook = new Restaurant1CookRole("CookRole", personCook);
         cookGui = new Restaurant1CookGui(Cook);
         Cook.setGui(cookGui);
@@ -83,6 +85,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
         guis.add(cookGui);
         guis.add(waiterGui);
         guis.add(cashierGui);
+        */
     	
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
@@ -141,51 +144,31 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
         g.drawRect(689, 469, 61, 51);
         g.drawString("Fridge", 700, 495);
 		
-		for(Restaurant1Gui gui : guis) {
+		for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 		
-		for(Restaurant1Gui gui : guis) {
+		for(Gui gui : guis) {
 			gui.draw(g2);
 		}
 		
 		// This draws a rectangular "Restaurant V2" sign
 		g2.setColor(Color.BLACK);
 		g2.fillRect(250,  5, 250, 40); // Size and position of restaurant sign border
-		g2.fillRect(20, 20, 44, 24);
 		g2.setColor(Color.WHITE);
 		g2.fillRect(252, 7, 246, 36); // Size and position of restaurant sign
-		g2.fillRect(22, 22, 40, 20);
 		
 		g2.setColor(Color.BLACK);
-		g2.setFont(new Font("Verdana", Font.BOLD, 14));
-		g2.drawString("Back", 24, 36);
 		g2.setFont(new Font("Verdana", Font.BOLD, 24));
 		g2.drawString("  Restaurant 1!", 265, 35); // Position of text on restaurant sign
 
 	}
 
-    public void addGui(Restaurant1CustomerGui gui) {
+    public void addGui(Gui gui) {
         guis.add(gui);
     }
-
-    public void addGui(Restaurant1HostGui gui) {
-        guis.add(gui);
-    }
-
-	public void addGui(Restaurant1WaiterGui gui) {
-		guis.add(gui);
-	}
-	
-	public void addGui(Restaurant1CookGui gui) {
-		guis.add(gui);
-	}
-	
-	public void addGui(Restaurant1CashierGui gui) {
-		guis.add(gui);
-	}
 	
 	public int getTimerInterval() {
 		return TIMER_INTERVAL;
@@ -214,10 +197,6 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		if((x >= 20) && (x <= 64) && (y >= 20) && (y <= 44)) {
-			changeBackToCity();
-		}
+		//Nothing
 	}
 }

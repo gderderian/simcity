@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
+import city.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -75,12 +76,6 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
         g2.setColor(Color.ORANGE);
         g2.fillRect(200, 100, 55, 350); // Table location set by host
         
-        // Return to city view button
-        g2.setColor(Color.ORANGE);
-        g2.fillRect(25, 30, 100, 25);
-        g2.setColor(Color.RED);
-        g2.drawString("Return to City", 30, 45);
-        
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
@@ -95,27 +90,10 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
         
     }
 
-    	/*
-    public void addGui(CustomerGui gui) {
+   
+    public void addGui(Gui gui) {
         guis.add(gui);
     }
-
-    public void addGui(WaiterGui gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(CookGui gui) {
-        guis.add(gui);
-    }
-    */
-    
-	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		if((x >= 25) && (x <= 125) && (y >= 30) && (y <= 55)) {
-			changeBackToCity();
-		}
-	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -137,6 +115,12 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,6 +1,7 @@
 package city.gui.Bank;
 
 import Role.BankCustomerRole;
+import city.gui.Gui;
 import Role.BankManagerRole;
 
 import java.awt.*;

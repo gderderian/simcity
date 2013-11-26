@@ -26,14 +26,17 @@ public class BusTest extends TestCase {
 		super.setUp();
 		people = new ArrayList<Person>();
 		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
-			people.add(new MockTransportationPerson());
+			people.add(new MockTransportationPerson("person" + Integer.toString(i)));
 		}
 		bus = new BusAgent(null);
+		bus.thisIsATest(); //This disables activity log capability - only needed for actual city
 		
-		stop1 = new MockBusStop();
-		stop2 = new MockBusStop();
-		stop3 = new MockBusStop();
-		stop4 = new MockBusStop();
+		bus.money = 0; //Take away all of bus's money for testing purposes
+		
+		stop1 = new MockBusStop(0);
+		stop2 = new MockBusStop(1);
+		stop3 = new MockBusStop(2);
+		stop4 = new MockBusStop(3);
 		
 		//Give bus reference to the 4 stops
 		bus.busStops.add(stop1);
@@ -42,29 +45,30 @@ public class BusTest extends TestCase {
 		bus.busStops.add(stop4);
 	}	
 
-	/* This tests the cashier receiving a single check request from a waiter which is then paid off by a customer */
+	/* This is a comprehensive test for a BusAgent making the circuit around the city, 
+	 * checking in at each bus stop along the way, and picking up passengers */
 	public void testBusDriving() {		
 		
 		//Preconditions
-		assertTrue(bus.capacity == 10);
-		assertTrue(bus.currentStop == 3);
-		assertEquals(bus.passengers.size(), 0);
+		assertTrue(bus.capacity == 10); //Making sure capacity is set correctly
+		assertTrue(bus.currentStop == 3); //Starts out at 3rd stop so that bus can immediately go to stop #0
+		assertEquals(bus.passengers.size(), 0); //So far, no passengers
 		assertTrue(bus.event == BusEvent.none);
 		assertTrue(bus.state == BusState.driving);
 		
 		//Scheduler
 		bus.pickAndExecuteAnAction();
+		bus.pickAndExecuteAnAction(); //stateChanged is called twice
 		
 		//Postconditions
-		assertTrue(bus.currentStop == 0);
-		assertEquals(bus.passengers.size(), 0);
 		assertTrue(bus.event == BusEvent.arrivedAtStop);
 		assertTrue(bus.state == BusState.atStop);
+		assertTrue(bus.currentStop == 0); //Now at stop 0
+		assertEquals(bus.passengers.size(), 0); //Still no passengers
 
-		try { //Wait for bus to complete its time waiting at stop
+		try { //Wait for bus to complete its time waiting at stop (~2.5 seconds)
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -80,8 +84,10 @@ public class BusTest extends TestCase {
 		//Message
 		bus.msgPeopleBoarding(people); //Message to be sent by current bus stop
 		
+		//Bus stop should now send a list of 10 people to board the bus
+		
 		//Postconditions
-		assertEquals(bus.passengers.size(), 10);
+		assertEquals(bus.passengers.size(), 10); //Now, there should be 10 passengers in the bus
 		assertTrue(bus.event == BusEvent.boarded);
 		assertTrue(bus.state == BusState.pickingUpPassengers);
 
@@ -90,21 +96,32 @@ public class BusTest extends TestCase {
 
 		//Postconditions
 		assertEquals(bus.passengers.size(), 10);
-		assertTrue(bus.state == BusState.askingForFare);
+		assertTrue(bus.state == BusState.askingForFare); //Now asking all passengers to pay fare
+		
+		//Check to make sure all passengers received the message to pay fare
+		for(int i = 0; i < bus.passengers.size(); i++) { 
+			MockTransportationPerson mtp = (MockTransportationPerson) bus.passengers.get(i).p;
+			assertTrue(mtp.log.getLastLoggedEvent().getMessage() == "Got message: Please pay fare");
+		}
+		
+		//No money paid yet
+		assertTrue(bus.money == 0); 
 		
 		//Paying fare from first 9 passengers
 		for(int i = 0; i < 9; i++) {
 			bus.msgHereIsFare(people.get(i), 3.00);
 		}
 		assertEquals(bus.passengers.size(), 10);
-		assertTrue(bus.state == BusState.askingForFare);
+		assertTrue(bus.state == BusState.askingForFare); //State/event should not change until everyone pays!
 		assertTrue(bus.event == BusEvent.boarded);
+		assertEquals(bus.money, 9 * 3.00); //money should now be 3.00 per person who paid
 		
-		//Last passenger paying fare
+		//Last passenger paying fare - now event changes
 		bus.msgHereIsFare(people.get(9), 3.00);
 		assertEquals(bus.passengers.size(), 10);
 		assertTrue(bus.state == BusState.askingForFare);
 		assertTrue(bus.event == BusEvent.everyonePaid);
+		assertEquals(bus.money, 10 * 3.00); //money should now be 3.00 for each of the 10 people
 		
 		//Scheduler
 		bus.pickAndExecuteAnAction();
@@ -118,10 +135,16 @@ public class BusTest extends TestCase {
 		bus.pickAndExecuteAnAction();
 		
 		//Postconditions
-		assertTrue(bus.currentStop == 1);
+		assertTrue(bus.currentStop == 1); //Now at stop #1
 		assertEquals(bus.passengers.size(), 10);
 		assertTrue(bus.event == BusEvent.arrivedAtStop);
 		assertTrue(bus.state == BusState.atStop);
+		
+		//Bus should have messaged everyone that bus arrived at stop - confirm here!
+		for(int i = 0; i < bus.passengers.size(); i++) { 
+			MockTransportationPerson mtp = (MockTransportationPerson) bus.passengers.get(i).p;
+			assertTrue(mtp.log.getLastLoggedEvent().getMessage() == "Got message: Arrived at stop");
+		}
 		
 		//First 5 passengers want to get off
 		for(int i = 0; i < 5; i++) {
@@ -139,13 +162,13 @@ public class BusTest extends TestCase {
 			bus.pickAndExecuteAnAction();
 
 		//Postconditions
-		assertTrue(bus.currentStop == 1);
-		assertEquals(bus.passengers.size(), 5);
+		assertTrue(bus.currentStop == 1); //Still at stop #1 - still have to pick up new passengers
+		assertEquals(bus.passengers.size(), 5); //5 passengers left
 		assertTrue(bus.event == BusEvent.pickingUpPassengers);
 		assertTrue(bus.state == BusState.pickingUpPassengers);
 		
 		//Message
-		bus.msgPeopleBoarding(null);
+		bus.msgPeopleBoarding(null); //no new passengers ready to board
 
 		//Postconditions
 		assertEquals(bus.passengers.size(), 5);
@@ -161,7 +184,7 @@ public class BusTest extends TestCase {
 		assertTrue(bus.event == BusEvent.everyonePaid);
 		
 		//Scheduler
-		bus.pickAndExecuteAnAction();
+		bus.pickAndExecuteAnAction(); //Asks for fare from all new passengers, but there are none
 		
 		//Postconditions
 		assertEquals(bus.passengers.size(), 5);
@@ -171,11 +194,18 @@ public class BusTest extends TestCase {
 		//Scheduler
 		bus.pickAndExecuteAnAction();
 		
+		//Should have notified all passengers that bus is at stop - confirm here
+		for(int i = 0; i < bus.passengers.size(); i++) { 
+			MockTransportationPerson mtp = (MockTransportationPerson) bus.passengers.get(i).p;
+			assertTrue(mtp.log.getLastLoggedEvent().getMessage() == "Got message: Arrived at stop");
+		}
+		
 		//Postconditions
+		assertTrue(bus.currentStop == 2); //Now at stop #2
 		assertTrue(bus.state == BusState.atStop);
 		assertTrue(bus.event == BusEvent.arrivedAtStop);
 		
-		//First 5 passengers want to get off
+		//All 5 passengers want to get off
 		for(int i = 5; i < 10; i++) {
 			bus.msgImGettingOff(people.get(i));
 		}
@@ -191,7 +221,7 @@ public class BusTest extends TestCase {
 
 		//Postconditions
 		assertTrue(bus.currentStop == 2);
-		assertEquals(bus.passengers.size(), 0);
+		assertEquals(bus.passengers.size(), 0); //All passengers gone
 		assertTrue(bus.event == BusEvent.pickingUpPassengers);
 		assertTrue(bus.state == BusState.pickingUpPassengers);
 		

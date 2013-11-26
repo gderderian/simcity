@@ -1,22 +1,24 @@
 package city;
 
+import interfaces.Person;
+
 import java.util.*;
 
 public class MarketOrder {
 	
 	public List<OrderItem> orders = new ArrayList<OrderItem>();
 	
-	String destination;
+	public String destination;
 	
-	PersonAgent recipient; //Should usually be a CookRole - may need to change later
+	Person recipient; //Should usually be a CookRole - may need to change later
 
-	public MarketOrder(List<OrderItem> orders, String dest, PersonAgent p) {
+	public MarketOrder(List<OrderItem> orders, String dest, Person p) {
 		this.orders = orders;
 		this.destination = dest;
 		this.recipient = p;
 	}
 	
-	public MarketOrder(String dest, PersonAgent p){
+	public MarketOrder(String dest, Person p){
 		destination = dest;
 		recipient = p;
 	}
@@ -25,7 +27,7 @@ public class MarketOrder {
 		orders.add(o);
 	}
 	
-	public PersonAgent getRecipient(){
+	public Person getRecipient(){
 		return recipient;
 	}
 	

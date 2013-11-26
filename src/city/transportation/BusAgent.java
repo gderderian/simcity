@@ -7,9 +7,10 @@ import interfaces.Person;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import astar.AStarTraversal;
 import astar.Position;
-
 import city.PersonAgent;
 
 public class BusAgent extends Vehicle implements Bus {
@@ -17,15 +18,21 @@ public class BusAgent extends Vehicle implements Bus {
 	public int currentStop;
 	public List<BusStop> busStops = new ArrayList<BusStop>();
 	private Map<Integer, Position> stopPositions = new HashMap<Integer, Position>();
-	double money;
+	public double money;
 	double fare;
+	
+	private boolean test = false;
+	
+	ActivityTag tag = ActivityTag.BUS;
+	
+	String name = "Bus";
 	
 	Timer timer = new Timer();
 	
 	public List<Passenger> passengers = new ArrayList<Passenger>();
 	
-	class Passenger {
-		Person p;
+	public class Passenger {
+		public Person p;
 		boolean wantsOff = false;
 		boolean paidFare = false;
 
@@ -227,6 +234,11 @@ public class BusAgent extends Vehicle implements Bus {
 	}
 	
 	private void GoToStop(int stop) {
+		if(aStar == null) {
+			print("Moving to stop #" + stop);
+			return;
+		}
+		
 		switch(stop) { //Moves to a corner before going to next stop - makes paths as straight as possible
 		case 0:
 			guiMoveFromCurrentPositionTo(new Position(18, 15));
@@ -243,6 +255,16 @@ public class BusAgent extends Vehicle implements Bus {
 		}
 		
 		guiMoveFromCurrentPositionTo(stopPositions.get(stop));
+	}
+	
+	private void log(String msg){
+		print(msg);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+	
+	public void thisIsATest() {
+		test = true;
 	}
 }
  

@@ -1,12 +1,12 @@
 package city.gui.restaurant4;
 
-
+import city.gui.Gui;
 import city.Restaurant4.CustomerRole4;
 import city.Restaurant4.HostRole4;
 
 import java.awt.*;
 
-public class HostGui4 implements Gui4 {
+public class HostGui4 implements Gui {
 
     //private HostAgent agent = null;
 
@@ -19,6 +19,8 @@ public class HostGui4 implements Gui4 {
     public static int xTable = 100;
     public static int xTableNew;
     public static final int yTable = 250;
+    
+    boolean isPresent = true;
 
     public HostGui4(HostRole4 agent) {
         //this.agent = agent;
@@ -47,8 +49,15 @@ public class HostGui4 implements Gui4 {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
 
     public void DoBringToTable(CustomerRole4 customer, int tableNumber) {
         xTableNew= xTable * tableNumber;

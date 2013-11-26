@@ -2,6 +2,9 @@ package restaurant1;
 
 import restaurant1.gui.Restaurant1CustomerGui;
 import restaurant1.interfaces.Restaurant1Customer;
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import agent.Agent;
 import Role.Role;
 
@@ -46,6 +49,8 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	AgentEvent event = AgentEvent.none;
 	
 	PersonAgent person;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT1CUSTOMER;
 
 	Random ranGenerator = new Random(); //Random number generator for money and choice
 	
@@ -53,7 +58,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param cookGui  reference to the customergui so the customer can send it messages
 	 */
 	public Restaurant1CustomerRole(String name, PersonAgent p){
 		super();
@@ -123,24 +128,24 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		
 		//Hacks to demonstrate working code. "patient" will always wait while "impatient" will leave
 		if(name.equals("patient")) {
-			print("I'm in no hurry, I'll wait around.");
+			log("I'm in no hurry, I'll wait around.");
 			goingInside = true;
 			person.stateChanged();
 			return;
 		}
 		if(name.equals("impatient")) {
-			print("I don't have time to wait around!");
+			log("I don't have time to wait around!");
 			event = AgentEvent.leaving;
 			person.stateChanged();
 			return;
 		}
 		
 		if(randomChoice == 0) {
-			print("I don't have time to wait around!");
+			log("I don't have time to wait around!");
 			event = AgentEvent.leaving;
 		}
 		else if(randomChoice > 0) {
-			print("I'm in no hurry, I'll wait around.");
+			log("I'm in no hurry, I'll wait around.");
 			goingInside = true;
 		}
 		person.stateChanged();
@@ -152,7 +157,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	}
 
 	public void msgGotHungry() {//from animation
-		print("I'm hungry");
+		log("I'm hungry");
 		event = AgentEvent.gotHungry;
 		person.stateChanged();
 	}
@@ -292,7 +297,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	// Actions
 
 	private void goToRestaurant() {
-		print("Going to restaurant");
+		log("Going to restaurant");
 		host.msgImHungry(this);//send our instance, so he can respond to us
 	}
 	
@@ -302,7 +307,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	}
 
 	private void sitDown() {
-		print("Being seated. Going to table");
+		log("Being seated. Going to table");
 		customerGui.DoGoToSeat();
 	}
 	
@@ -312,7 +317,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				print("I'm ready to order!");
+				log("I'm ready to order!");
 				callWaiter();
 			}
 		}, 3000	);
@@ -325,10 +330,10 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	
 	private void orderFood() {
 		if(menu.getChoice(choice).price < money) {
-			print("I would like an order of " + choice + " please!");
+			log("I would like an order of " + choice + " please!");
 
 			customerGui.orderedFood(choice);
-			print(choice + " please!");
+			log(choice + " please!");
 
 			waiter.msgHereIsMyChoice(this, choice);
 		}
@@ -337,25 +342,25 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 				if(menu.getChoice(i).price < money) {
 					choice = menu.getChoice(i).type;
 
-					print("I would like an order of " + choice + " please!");
+					log("I would like an order of " + choice + " please!");
 
 					customerGui.orderedFood(choice);
-					print(choice + " please!");
+					log(choice + " please!");
 
 					waiter.msgHereIsMyChoice(this, choice);
 					return;
 				}
 			}
 			if(name.equals("flake")) { //This customer will buy food he/she can't afford
-				print("I would like an order of " + choice + " please!");
+				log("I would like an order of " + choice + " please!");
 
 				customerGui.orderedFood(choice);
-				print(choice + " please!");
+				log(choice + " please!");
 
 				waiter.msgHereIsMyChoice(this, choice);
 			}
 			else {
-				print("Everything is too expensive, I'm going to leave.");
+				log("Everything is too expensive, I'm going to leave.");
 				
 				customerGui.doneEating();
 				waiter.msgImFinished(this);
@@ -370,25 +375,25 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 				if(menu.getChoice(i).price < money) {
 					choice = menu.getChoice(i).type;
 
-					print("I would like an order of " + choice + " please!");
+					log("I would like an order of " + choice + " please!");
 
 					customerGui.orderedFood(choice);
-					print(choice + " please!");
+					log(choice + " please!");
 
 					waiter.msgHereIsMyChoice(this, choice);
 					return;
 				}
 			}
 			if(name.equals("flake")) { //This customer will buy food he/she can't afford
-				print("I would like an order of " + choice + " please!");
+				log("I would like an order of " + choice + " please!");
 
 				customerGui.orderedFood(choice);
-				print(choice + " please!");
+				log(choice + " please!");
 
 				waiter.msgHereIsMyChoice(this, choice);
 			}
 			else { // Customer leaves if everything is too expensive
-				print("Everything is too expensive, I'm going to leave.");
+				log("Everything is too expensive, I'm going to leave.");
 				
 				customerGui.doneEating();
 				waiter.msgImFinished(this);
@@ -396,7 +401,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 			}
 		} 
 		else {
-			print("There's nothing left for me to order! I'm leaving!");
+			log("There's nothing left for me to order! I'm leaving!");
 
 			customerGui.doneEating();
 			waiter.msgImFinished(this);
@@ -405,7 +410,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	}
 
 	private void eatFood() {
-		print("Eating Food");
+		log("Eating Food");
 		customerGui.startedEating(choice);
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
@@ -417,7 +422,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		//anonymous inner class that has the public method run() in it.
 		timer.schedule(new TimerTask() {
 			public void run() {
-				print("Done eating!");
+				log("Done eating!");
 				event = AgentEvent.doneEating;
 				GuiDoneEating();
 				//isHungry = false;
@@ -436,12 +441,12 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 
 	private void leaveRestaurant() {
 		check = null;
-		print("I'm leaving! Goodbye!");
+		log("I'm leaving! Goodbye!");
 		customerGui.DoExitRestaurant();
 	}
 	
 	private void impatientLeaveRestaurant() {
-		print("I'm leaving! Goodbye!");
+		log("I'm leaving! Goodbye!");
 		host.msgImLeaving(this);
 		customerGui.DoExitRestaurant();
 	}
@@ -458,13 +463,13 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		}
 		
 		if(money > check.amount) {
-			print("Here is my payment of $" + money + ".");
+			log("Here is my payment of $" + money + ".");
 			check.cashier.msgPayBill(check, money);
 			money = 0.0;
 		}
 		else {
 			check.cashier.msgPayBill(check, money);
-			print("This is all I have. Take $" + money + ".");
+			log("This is all I have. Take $" + money + ".");
 			money = 0;
 			event = AgentEvent.leaving;
 		}
@@ -513,6 +518,11 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 
 	public String buildingName() {
 		return "rest1";
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 }
 

@@ -1,7 +1,12 @@
 package city.Restaurant3;
 
 import Role.Role;
+
 import java.util.*;
+
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import city.gui.Restaurant3.WaiterGui3;
 
@@ -26,6 +31,8 @@ public class HostRole3 extends Role {
 	String carryingOrderText = "";
 	
 	PersonAgent person;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT3HOST;
 	
 	public HostRole3(String name, PersonAgent p) {
 		
@@ -298,6 +305,11 @@ public class HostRole3 extends Role {
 			locY = Y;
 		}
 		
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 	
 }

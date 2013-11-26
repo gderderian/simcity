@@ -1,26 +1,29 @@
 package city.transportation.test;
 
+import test.mock.MockPerson;
 import city.PersonAgent;
 import city.transportation.CarAgent;
 import city.transportation.CarAgent.CarEvent;
 import city.transportation.CarAgent.CarState;
+import city.transportation.mock.MockTransportationPerson;
 
 import junit.framework.*;
 
 public class CarTest extends TestCase {
 	//instantiated in setUp()
-	PersonAgent carOwner;
+	MockTransportationPerson owner;
 	CarAgent car;
 	String destination;
 
 	public void setUp() throws Exception {
 		super.setUp();
-		carOwner = new PersonAgent("owner", null);
-		car = new CarAgent();
-		destination = "test destination";
+		owner = new MockTransportationPerson("owner");
+		car = new CarAgent(null);
+		car.thisIsATest(); //Disables activity log capability(used in city control panel)
+		destination = "TEST DESTINATION";
 	}	
 
-	/* This tests the cashier receiving a single check request from a waiter which is then paid off by a customer */
+	/* This tests a CarAgent in a scenario with a person driving their car from one place to another */
 	public void testCarDriving() {		
 		assertTrue(car.capacity == 1); //Checks that car has appropriate capacity
 		
@@ -31,13 +34,13 @@ public class CarTest extends TestCase {
 		assertTrue(car.owner == null);
 		
 		//Message
-		car.msgDriveTo(carOwner, destination);
+		car.msgDriveTo(owner, destination);
 		
 		//Postconditions
 		assertTrue(car.event == CarEvent.driving);
 		assertTrue(car.state == CarState.parked);
 		assertTrue(car.destination == destination);
-		assertTrue(car.owner == carOwner);
+		assertTrue(car.owner == owner);
 		
 		//Run scheduler
 		car.pickAndExecuteAnAction();
@@ -51,9 +54,10 @@ public class CarTest extends TestCase {
 		
 		//Postconditions
 		assertTrue(car.state == CarState.arrived);
+		assertTrue(owner.log.containsString("Got message: Car arrived")); //Confirm owner was sent the correct message
 		
 		//Message
-		car.msgParkCar(carOwner);
+		car.msgParkCar(owner);
 
 		//Postconditions
 		assertTrue(car.event == CarEvent.parking);
@@ -67,7 +71,7 @@ public class CarTest extends TestCase {
 		assertTrue(car.event == CarEvent.none);
 		assertTrue(car.state == CarState.parked);
 		assertTrue(car.destination == null);
-		assertTrue(car.owner == carOwner);
+		assertTrue(car.owner == owner);
 	}
 	
 }

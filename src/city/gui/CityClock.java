@@ -26,8 +26,8 @@ public class CityClock {
 		cityTime = new Timer(179999, // Start of day, 179999 (day is three minutes)
 				new ActionListener() { public void actionPerformed(ActionEvent event) {
 					// Timer is done, it is now a new day
-					if (day == 7){
-						day = 0;
+					if (day == 8){
+						day = 1;
 						week++;
 					} else {
 						day++;

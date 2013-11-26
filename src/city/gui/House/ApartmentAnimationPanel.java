@@ -8,17 +8,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JPanel;
 
 import city.gui.BuildingPanel;
 import city.gui.CityGui;
+import city.gui.Gui;
 
 public class ApartmentAnimationPanel extends BuildingPanel implements ActionListener, MouseListener{
 	private static final int WINDOWX = 900;
 	private static final int WINDOWY = 700;
 	private static final int NUM_APTS = 5;
 	private int aptBuilding;
+	
+	List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
 	public ApartmentAnimationPanel(int num) {
 		setSize(WINDOWX, WINDOWY);
@@ -35,6 +41,10 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 	public void actionPerformed(ActionEvent e) {
 		repaint();
 	}
+	
+	public void addGui(Gui g) {
+		guis.add(g);
+	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -47,10 +57,10 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 
 
 		//This is the door to the city
-		g2.setColor(Color.CYAN);
+		/*g2.setColor(Color.CYAN);
 		g2.fillRect(0, 0, 100, 30);
 		g2.setColor(Color.BLACK);
-		g2.drawString("Exit to City", 5, 20);
+		g2.drawString("Exit to City", 5, 20); */
 
 
 		//Show a layout of all of the rooms in the apartment
@@ -89,10 +99,10 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		int y = e.getY();
 
 		//Change to city
-		if((x >= 0) && (x <= 75) && (y >= 0) && (y <= 30)){
+		/*if((x >= 0) && (x <= 75) && (y >= 0) && (y <= 30)){
 			System.out.println("Back to the city view, goodbye!");
 			changeBackToCity();
-		}
+		}*/
 
 		//Change to apt 1
 		if((x >= 200) && (x <= 250) && (y >= 70) && (y <= 130)){

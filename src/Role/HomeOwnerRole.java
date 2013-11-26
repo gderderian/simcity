@@ -4,6 +4,8 @@ import interfaces.HomeOwner;
 
 import java.util.*;
 
+import test.mock.LoggedEvent;
+import activityLog.ActivityLog;
 import city.Food;
 import city.House;
 import city.PersonAgent;
@@ -82,4 +84,5 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	private void cookFood(){
 		house.checkFridge(choice);
 	}
+	
 } 

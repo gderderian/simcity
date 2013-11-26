@@ -1,5 +1,6 @@
 package city.gui.Restaurant5;
 
+import city.gui.Gui;
 import city.Restaurant5.*;
 
 import java.awt.*;

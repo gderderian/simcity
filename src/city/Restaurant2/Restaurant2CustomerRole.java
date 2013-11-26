@@ -9,6 +9,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Menu;
@@ -55,12 +57,14 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private Semaphore atDestination = new Semaphore(0,true);
 	
 	PersonAgent person;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT2CUSTOMER;
 
 	/**
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param cookGui  reference to the customergui so the customer can send it messages
 	 */
 	public Restaurant2CustomerRole(String name, PersonAgent p){
 		super();
@@ -126,7 +130,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	// Messages
 
 	public void gotHungry() {//from animation
-		print("I'm hungry");
+		log("I'm hungry");
 		event = AgentEvent.gotHungry;
 		person.stateChanged();
 	}
@@ -141,7 +145,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	}
 
 	public void msgFollowMeToTable(Restaurant2Waiter w, Menu m, int num, int waiterNum) {
-		print("Received msgSitAtTable");
+		log("Received msgSitAtTable");
 		log.add(new LoggedEvent("Recieved message follow waiter to table"));
 		event = AgentEvent.followWaiter;
 		setWaiter(w, waiterNum);
@@ -165,13 +169,13 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	public void ReadyToOrder(){
 		//from animation
-		print("Recieved msReadyToOrder");
+		log("Recieved msReadyToOrder");
 		event = AgentEvent.readyToOrder;
 		person.stateChanged();
 	}
 	
 	public void msgWhatDoYouWant(){
-		print("Recieved msg What Do You Want");
+		log("Recieved msg What Do You Want");
 		log.add(new LoggedEvent("Recieved message what do you want"));
 		event = AgentEvent.ordering;
 		person.stateChanged();
@@ -179,27 +183,27 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 	
 	public void msgHereIsYourFood(String food){
-		print("Recieved food " + food);
+		log("Recieved food " + food);
 		event = AgentEvent.recievedFood;
 		person.stateChanged();
 	}
 	
 	public void msgPleaseReorder(String m){
-		print("Recieved msg Reorder food");
+		log("Recieved msg Reorder food");
 		event = AgentEvent.reorder;
 		reMenu = menu.remove(m);
 		person.stateChanged();
 	}
 	
 	public void msgHereIsYourCheck(String food, double price, Restaurant2Cashier c){
-		print("Recieved msg here is your check");
+		log("Recieved msg here is your check");
 		event = AgentEvent.gotCheck;
 		cashier = c;
 		person.stateChanged();
 	}
 	
 	public void msgHereIsYourChange(double change){
-		print("Recieved change " + change);
+		log("Recieved change " + change);
 		event = AgentEvent.leaving;
 		wallet = wallet + change;
 		person.stateChanged();
@@ -274,12 +278,12 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private void tablesFull(){
 		if(this.getName().equals("full")){
 			host.msgNoTablesLeaving(this);
-			print("The restaurant is too full, I'm going to leave.");
+			log("The restaurant is too full, I'm going to leave.");
 			wallet = wallet - 20.00; //to counteract money replenish that happens when leaving
 			customerGui.setEnabled();
 		}
 		else{
-			print("That's okay, I'll wait.");
+			log("That's okay, I'll wait.");
 			host.msgIllStay(this);
 		}
 	}
@@ -290,7 +294,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 			waiter.msgReadyToBeSeated(this);
 		}
 		else if(!menu.doIHaveEnough(wallet)){
-			print("No thanks, I don't have enough money to pay");
+			log("No thanks, I don't have enough money to pay");
 			waiter.msgLeavingNoMoney(this);
 		}
 		else{
@@ -351,22 +355,22 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		}
 		else{
 			choice = menu.chooseFood();
-			//print("not recognizing name.");
+			//log("not recognizing name.");
 			//choice = "pizza";
 		}
-		print("I would like to order the " + choice);
+		log("I would like to order the " + choice);
 		waiter.msgHereIsMyChoice(this, choice);
 		customerGui.setFoodOrdered(choice);
 	}
 	
 	private void reOrderFood(){
-		print("Reordering food");
+		log("Reordering food");
 		Do("Ordering food");
 		if(this.getName().equals("reorderleave") || this.getName().equals("cheapest")){
 			String choice = reMenu.chooseFood();
 			if(reMenu.doIHaveEnoughFor(wallet, choice)){
 				//String choice = "Chicken";
-				print("I would like to order the " + choice);
+				log("I would like to order the " + choice);
 				waiter.msgHereIsMyChoice(this, choice);
 				customerGui.setFoodOrdered(choice);
 			}
@@ -378,7 +382,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		else{
 			String choice = reMenu.chooseFood();
 			//String choice = "Chicken";
-			print("I would like to order the " + choice);
+			log("I would like to order the " + choice);
 			waiter.msgHereIsMyChoice(this, choice);
 			customerGui.setFoodOrdered(choice);
 		}
@@ -398,7 +402,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-				print("Done eating, cookie=" + cookie);
+				log("Done eating, cookie=" + cookie);
 				event = AgentEvent.doneEating;
 				customerGui.setDoneEating();
 				//isHungry = false;
@@ -409,12 +413,12 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	}
 	
 	private void getCheck(){
-		print("Asking for the check");
+		log("Asking for the check");
 		waiter.msgGetCheck(this);
 	}
 	
 	private void payCheck(){
-		print("Going to go pay my check");
+		log("Going to go pay my check");
 		customerGui.DoGoToCashier();
 		try {
 			atDestination.acquire();
@@ -454,6 +458,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 	public void setGui(Restaurant2CustomerGui g) {
 		customerGui = g;
+		gui = g;
 	}
 
 	public Restaurant2CustomerGui getGui() {
@@ -469,4 +474,11 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		customerGui.DoEnterRestaurant();
 		customerGui.setPresent(true);
 	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+        log.add(new LoggedEvent(msg));
+	}
+	
 }

@@ -1,12 +1,12 @@
 package city.gui.restaurant4;
 
 import city.Restaurant4.CookRole4;
-
+import city.gui.Gui;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-public class CookGui4 implements Gui4 {
+public class CookGui4 implements Gui {
 	CookRole4 agent;
 
     private int xPos = 400, yPos = 500;//default cook position
@@ -15,6 +15,8 @@ public class CookGui4 implements Gui4 {
     private int movement= 20;
     ArrayList<MyGrillSpot> grillSpots = new ArrayList<MyGrillSpot>();
     ArrayList<MyPlateSpot> plateSpots = new ArrayList<MyPlateSpot>();
+    
+    boolean isPresent = true;
     
     public CookGui4(CookRole4 agent) {
         this.agent = agent;
@@ -52,8 +54,15 @@ public class CookGui4 implements Gui4 {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
+    
+	public void setPresent(boolean t) {
+		if(t)
+			isPresent = true;
+		else
+			isPresent = false;
+	}
     
     public MyGrillSpot findGrill(int id){
     	for(MyGrillSpot gs : grillSpots){
