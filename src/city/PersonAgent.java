@@ -25,6 +25,7 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
+import Role.BankCustomerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.Role;
@@ -677,6 +678,23 @@ public class PersonAgent extends Agent implements Person{
 			DoGoTo(restName);
 		}
 		
+		
+		gui.setInvisible();
+
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof BankCustomerRole){
+					
+					r.setActive();
+					role = (BankCustomerRole) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
+			}
+		}
+		
+
 		city.CityMap.Bank test = cityMap.bank;
 		print("I'm going to bank!");
 		cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
