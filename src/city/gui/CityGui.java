@@ -159,6 +159,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant2.setBackground(new Color(150, 20, 60));
 		addBuildingPanel(restaurant2);
 		controlPanel.addRest2ToCityMap(rest2);
+		controlPanel.addRest4ToCityMap(rest4);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
 
@@ -481,7 +482,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		/* Now, create a job role */
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
-			System.out.println("IS THE ROLE NULL? " + r);
 			if(job.contains("Restaurant2")){
 				p.addFirstJob(r, "rest2");
 				if(r instanceof Restaurant2HostRole){
