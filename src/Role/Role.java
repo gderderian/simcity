@@ -107,7 +107,7 @@ public abstract class Role {
     public boolean isInUse(){
     	return inUse;
     }
-    
+   /* 
 	public static Role getNewRole(String type, PersonAgent p, CityGui cityGui){ //Restaurant2AnimationPanel rest2anim){
 		if(type.equals("Restaurant2 Waiter")){
 			//Creates role, gui for role
@@ -161,5 +161,7 @@ public abstract class Role {
 		}
 		else return null;
 	}
+	
+	*/
     
 }

@@ -202,8 +202,8 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
-	public void addFirstJob(Role r, String location, BuildingPanel b){
-		myJob = new Job(r, location, b);
+	public void addFirstJob(Role r, String location){
+		myJob = new Job(r, location);
 		roles.add(r);
 	}
 	
@@ -274,7 +274,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		timeOfDay = t;
 		
-		if(t < 2020 && name.equals("waiter")){
+		if(t > 4000 && t < 7020 && name.equals("waiter")){
 			synchronized(events){
 				events.add("GoToWork");
 			}
@@ -1039,44 +1039,20 @@ public class PersonAgent extends Agent implements Person{
 		int workStartTime;
 		int leaveForWork;
 		int workEndTime;
-		BuildingPanel building;
-		Gui jobGui;
 		
-		public Job(Role r, String l, BuildingPanel b){
+		public Job(Role r, String l){
 			role = r;
 			location = r.getBuilding();
 			workStartTime = -1;
 			workEndTime = -1;
 			leaveForWork = -1;
-			building = b;
-			synchronized(roles){
-				for(Role temp : roles){
-					if(temp.getBuilding().equals(location)){
-						if(r instanceof Restaurant2CustomerRole){
-							//do nothing
-						}
-						else if(r instanceof Restaurant2WaiterRole){
-							log("There is a waiter role in here");
-							jobGui = temp.getGui();
-							building.addGui(jobGui);
-							break;
-						}
-						else{
-							//jobGui = temp.getGui();
-							//building.addGui(jobGui);
-							//break;
-						}
-						//jobGui.setPresent(false);
-					}
-				}
-			}
 		}
 		
 		public void startJob(){
 			role.setActive();
 			workState = WorkState.atWork;
-			jobGui.setPresent(true);
-			if(jobGui instanceof Restaurant2CustomerGui){
+			role.getGui().setPresent(true);
+			if(role.getGui() instanceof Restaurant2CustomerGui){
 				log("This is a customer gui");
 			}
 		}
@@ -1084,7 +1060,7 @@ public class PersonAgent extends Agent implements Person{
 		public void endJob(){
 			role.setInactive();
 			workState = WorkState.notWorking;
-			jobGui.setPresent(false);
+			role.getGui().setPresent(false);
 		}
 		
 		public void changeJob(Role r, String l){
