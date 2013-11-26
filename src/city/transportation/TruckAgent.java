@@ -83,7 +83,7 @@ public class TruckAgent extends Vehicle {
         	log("Going to " + o.o.destination);
         	//DoDriveTo(o.o.destination);
         	log("Delivering order from market to recipient");
-        	o.o.getRecipient().msgHereIsYourOrder(o.o);
+        	o.o.getRecipient().msgHereIsYourOrder(this, o.o);
         	o.delivered = true;
         	log("Returning to market");
         	//DoDriveToMarket();
