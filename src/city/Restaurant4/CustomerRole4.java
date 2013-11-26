@@ -109,6 +109,12 @@ public class CustomerRole4 extends Role implements Customer4 {
 		return choice;
 	}
 	
+	public void setGuiActive() {
+		goToRestaurant();
+		customerGui.setPresent(true);
+	}
+	
+	
 	// MESSAGES
 	public void gotHungry() {//from animation
 		event= AgentEvent.gotHungry;
