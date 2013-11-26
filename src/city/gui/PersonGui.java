@@ -60,6 +60,7 @@ public class PersonGui implements Gui {
 		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
         if (xPos < xDest) {
             xPos++;
+            moving = true;
             if(movementCounter < iconSwitch)
         		icon = flat1;
         	else if(movementCounter < iconSwitch * 2)
@@ -72,6 +73,7 @@ public class PersonGui implements Gui {
         
         else if (xPos > xDest) {
             xPos--;
+            moving = true;
         	if(movementCounter < iconSwitch && icon != flat1)
         		icon = flat1;
         	else if(movementCounter < iconSwitch * 2 && icon != flat2)
@@ -84,6 +86,7 @@ public class PersonGui implements Gui {
         
         if (yPos < yDest) {
             yPos++;
+            moving = true;
         	if(movementCounter < iconSwitch && icon != down1)
         		icon = down1;
         	else if(movementCounter < iconSwitch * 2 && icon != down2)
@@ -95,6 +98,7 @@ public class PersonGui implements Gui {
         }
         else if (yPos > yDest) {
             yPos--;
+            moving = true;
         	if(movementCounter < iconSwitch && icon != up1)
         		icon = up1;
         	else if(movementCounter < iconSwitch * 2 && icon != up2)
@@ -117,8 +121,6 @@ public class PersonGui implements Gui {
 	public void moveTo(int x, int y) {
 		xDest = x;
 		yDest = y;
-		
-		moving = true;
 	}
 	
 	public void draw(Graphics2D g) {
