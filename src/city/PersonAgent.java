@@ -724,18 +724,18 @@ public class PersonAgent extends Agent implements Person{
 					restName = role.getBuilding();
 					log("Found role to set active");
 				}
-				else if(r instanceof CustomerRole4){
-					r.setActive();
-					role = (CustomerRole4) r;
-					restName = role.getBuilding();
-					log("Found role to set active");
-				}
 				else if(r instanceof Restaurant1CustomerRole) {
 					
 					r.setActive();
 					role = (Restaurant1CustomerRole) r;
 					restName = role.getBuilding();
 					log("Set Restaurant1CustomerRole active");
+				}
+				else if(r instanceof CustomerRole4){
+					r.setActive();
+					role = (CustomerRole4) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
 				}
 			}
 		}

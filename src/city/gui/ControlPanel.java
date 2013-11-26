@@ -564,13 +564,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
 		addPersonNoHouse("cook1", "Restaurant1 Cook");
 		addPerson("waiter1", "Restaurant1 Waiter");
-		addPerson("rest1Test", "Restaurant1 Customer");
+		addPerson("rest1Test", "No job");
 		
-		addPersonNoHouse("host4", "Restaruant4 Host");
+		/*addPersonNoHouse("host4", "Restaurant4 Host");
 		addPersonNoHouse("cashier4", "Restaurant4 Cashier");
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
-		addPerson("rest4Test", "Restaurant4 Customer");
+		addPerson("rest4Test", "No job");*/
     }
     
     public void setTimeDisplay(String timeToDisplay){

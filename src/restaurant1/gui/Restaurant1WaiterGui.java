@@ -142,7 +142,6 @@ public class Restaurant1WaiterGui implements Gui {
     }
     
     public void DoGoToCustomer(Restaurant1CustomerRole c) {
-    	if(c.getGui() == null) System.out.println("WAAAAAAAAH");
     	xDestination = c.getGui().getGuiX();
     	yDestination = c.getGui().getGuiY();
     	moving = true;
