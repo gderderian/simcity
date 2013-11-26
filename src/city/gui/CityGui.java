@@ -499,7 +499,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					p.setRoleActive(r, true);
 				}
 			}
-			
 		}
 	}
 	
