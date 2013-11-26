@@ -5,10 +5,10 @@ import interfaces.BusStop;
 import java.util.*;
 
 import restaurant1.Restaurant1;
-
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
+import city.Restaurant4.Restaurant4;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -29,6 +29,7 @@ public class CityMap {
 	
 	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
+	Restaurant4 restaurant4;
 	Bank bank;
 	
 	public CityMap() {
@@ -135,6 +136,7 @@ public class CityMap {
 		//Creating list of restaurants
 		restaurants.add("Restaurant1");
 		restaurants.add("Restaurant2");
+		restaurants.add("Restaurant4");
 	}
 	
 	public void setRestaurant1(Restaurant1 r) {
@@ -143,6 +145,10 @@ public class CityMap {
 	
 	public void setRestaurant2(Restaurant2 r){
 		restaurant2 = r;
+	}
+	
+	public void setRestaurant4(Restaurant4 r){
+		restaurant4= r;
 	}
 	
 	public int getX(String location) {

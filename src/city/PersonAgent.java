@@ -18,6 +18,7 @@ import test.mock.EventLog;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.Restaurant4.CustomerRole4;
 import city.gui.BuildingPanel;
 import city.gui.Gui;
 import city.gui.PersonGui;
@@ -723,6 +724,12 @@ public class PersonAgent extends Agent implements Person{
 					restName = role.getBuilding();
 					log("Found role to set active");
 				}
+				else if(r instanceof CustomerRole4){
+					r.setActive();
+					role = (CustomerRole4) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
 				else if(r instanceof Restaurant1CustomerRole) {
 					
 					r.setActive();
@@ -755,6 +762,10 @@ public class PersonAgent extends Agent implements Person{
 			((Restaurant1CustomerRole) role).setHost(cityMap.restaurant1.getHost());
 			cityMap.restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) role);
 			((Restaurant1CustomerRole)role).setGuiActive();
+		}
+		else if(role instanceof CustomerRole4) {
+			cityMap.restaurant4.getHost().msgIWantFood((CustomerRole4) role);
+			((Restaurant2CustomerRole)role).setGuiActive();
 		}
 	}
 	
