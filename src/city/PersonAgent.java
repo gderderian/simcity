@@ -17,6 +17,7 @@ import test.mock.EventLog;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.Restaurant5.Restaurant5CustomerRole;
 import city.gui.BuildingPanel;
 import city.gui.Gui;
 import city.gui.PersonGui;
@@ -276,7 +277,6 @@ public class PersonAgent extends Agent implements Person{
 	public void msgTimeUpdate(int t){
 		
 		timeOfDay = t;
-		
 		if(t > 4000 && t < 7020 && name.equals("waiter")){
 			synchronized(events){
 				events.add("GoToWork");
@@ -451,8 +451,6 @@ public class PersonAgent extends Agent implements Person{
 	public boolean pickAndExecuteAnAction() {
 		
 		//ROLES - i.e. job or customer
-		if(this.name == "bankTest")
-		goToBank();
 		
 		
 		
@@ -644,13 +642,12 @@ public class PersonAgent extends Agent implements Person{
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
-			goToRestaurant1();
+			goToRestaurant();
 		}
 	}
 	
 
 	public void goToBank() {
-		
 		
 		synchronized(events){
 			for(String e : events){
@@ -660,8 +657,8 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		String bank = "bank1";
-				
+		
+		String bank = "bank1";	
 		String bankName = null;
 		if(name.equals("bankTest")) bankName = "bank1";
 		
@@ -678,14 +675,11 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		//city.CityMap.Bank test = cityMap.bank1;
-		//print("I'm going to bank!");
-		//cityMap.bank1.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-		
+
 		BankGui bankgui = new BankGui();
 		BankCustomerRoleGui gui = new BankCustomerRoleGui((BankCustomerRole)role, bankgui);
 		((BankCustomerRole)role).setGui(gui);
-		((BankCustomerRole)role).setGuiActive();
+		((BankCustomerRole)role).setGuiActive();		
 		
 		
 		if(firstTimeAtBank == true)
@@ -708,33 +702,6 @@ public class PersonAgent extends Agent implements Person{
 		
 	}
 	
-	
-	public void goToRestaurant1(){
-		log("Going to go to a restaurant");
-		String restName = null;
-		if(name.equals("rest2Test")) restName = "rest2";
-		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
-		//addRole(customer, true);
-
-		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
-		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
-			String destination = restName;
-			takeCar(destination);
-		}
-		else if(takeBus){	//take bus
-			int stop = cityMap.getClosestBusStop(restName);
-			BusRide ride = new BusRide(stop);
-		}
-		else{
-			//This is walking
-			DoGoTo(restName);
-		}
-		
-		
-		gui.setInvisible();
-
-		
-	}
 	
 	public void goToRestaurant(){
 		print("Going to go to a restaurant");
@@ -760,7 +727,8 @@ public class PersonAgent extends Agent implements Person{
 		log("I want food!");
 		cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
 		((Restaurant2CustomerRole)role).setGuiActive();
-	}                                 
+	}  
+	
 	
 	public void notifyLandlordBroken(MyAppliance a){
 		log("Telling landlord that appliance " + a.type + " is broken");

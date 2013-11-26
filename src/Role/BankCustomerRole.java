@@ -335,7 +335,6 @@ public class BankCustomerRole extends Role{
 
     	public void setGuiActive() {
     		//customerGui.DoEnterRestaurant();
-    		
     		gui.setPresent(true);
     	}
         
