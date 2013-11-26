@@ -57,17 +57,21 @@ public class VehicleGui implements Gui {
         
         if (xPos < xDest) {
             xPos++;
+            moving = true;
         	icon = movingRight;
         } else if (xPos > xDest) {
             xPos--;
+            moving = true;
         	icon = movingLeft;
         }
 
         if (yPos < yDest) {
             yPos++;
+            moving = true;
             icon = movingDown;
         } else if (yPos > yDest) {
             yPos--;
+            moving = true;
             icon = movingUp;
         }
 	}
@@ -79,8 +83,6 @@ public class VehicleGui implements Gui {
 	public void moveTo(int x, int y) {
 		xDest = x;
 		yDest = y;
-		
-		moving = true;
 	}
 	
 	public void draw(Graphics2D g) {
