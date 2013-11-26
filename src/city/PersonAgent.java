@@ -779,7 +779,7 @@ public class PersonAgent extends Agent implements Person{
 	public void getOffBus(BusRide busride){
 		busride.bus.msgImGettingOff(this);
 		String thisStop = "stop" + Integer.toString(busStopToGetOffAt);
-		gui.teleport(cityMap.getX(thisStop), cityMap.getY(thisStop));
+		gui.teleport(cityMap.getX(thisStop) * 30 + 130, cityMap.getY(thisStop) * 30 + 70);
 		busRides.remove(busride);
 		DoGoTo(destinationBuilding);		
 	}
