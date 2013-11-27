@@ -48,9 +48,10 @@ public abstract class Vehicle extends Agent {
 	}
 	
 	void DoGoTo(String location) {
-		Position p = cityMap.getParkingLocation(location);
-		
-		guiMoveFromCurrentPositionTo(p);
+		if(aStar != null) {
+			Position p = cityMap.getParkingLocation(location);
+			guiMoveFromCurrentPositionTo(p);
+		}
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
