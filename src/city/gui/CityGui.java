@@ -94,13 +94,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
 		
 		// Restaurant 3 (Grant)
-		//Restaurant3 rest3 = new Restaurant3();
+		Restaurant3 rest3 = new Restaurant3();
 		AnimationPanel3 restaurant3 = new AnimationPanel3();
 		
 		// Restaurant 4 (Justine)
 		Restaurant4 rest4 = new Restaurant4();
 		AnimationPanel4 restaurant4 = new AnimationPanel4();
-		
 		
 		Restaurant5 rest5 = new Restaurant5();
 		Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
@@ -542,6 +541,24 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 				else if(r instanceof Restaurant1CashierRole){
 					rest1.setCashier((Restaurant1CashierRole) r);
+					p.setRoleActive(r);
+				}
+			}
+			else if(job.contains("Restaurant3")) {
+				p.addFirstJob(r, "rest3");
+				if(r instanceof HostRole3) {
+					rest3.setHost((HostRole3) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof WaiterRole3){
+					rest3.addWaiters((WaiterRole3) r);
+				}
+				else if(r instanceof CookRole3){
+					rest3.setCook((CookRole3) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof CashierRole3){
+					rest3.setCashier((CashierRole3) r);
 					p.setRoleActive(r);
 				}
 			}
