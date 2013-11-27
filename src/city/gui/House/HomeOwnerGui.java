@@ -19,7 +19,7 @@ public class HomeOwnerGui implements Gui {
     
     private static final int xTable = 500;
     private static final int yTable = 200;
-    private static final int xFridge = 400;
+    private static final int xFridge = 500;
     private static final int xStove = 525;
     private static final int xOven = 580;
     private static final int xMicrowave = 635;
@@ -111,6 +111,7 @@ public class HomeOwnerGui implements Gui {
            goingToTable= false;
         } else if (xPos >= xFridge && yPos <= yAppliance && goingToFridge){
             person.msgAnimationAtFridge();
+            person.msgAtDestination();
             goingToFridge= false;
         } else if (xPos >= xStove && yPos <= yAppliance && goingToStove){
             person.msgAnimationAtStove();

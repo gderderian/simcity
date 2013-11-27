@@ -244,7 +244,7 @@ public class PersonAgent extends Agent implements Person{
 	 * MESSAGES FROM HOMEOWNER ANMIATION
 	 */
 	public void msgAnimationAtTable(){
-		
+		log("I'm at my table now");
 	}
 
     public void msgAnimationAtFridge(){
@@ -252,15 +252,15 @@ public class PersonAgent extends Agent implements Person{
     }
 
     public void msgAnimationAtStove(){
-    	
+    	log("I'm at the stove, cookin' time");
     }
     
     public void msgAnimationAtOven(){
-    	
+    	log("Hey oven! I'm standing near you now.");
     }
     
     public void msgAnimationAtMicrowave(){
-    	
+    	log("Whaddup my main microwave, guess who's standing right next to you? ME!");
     }
 
     public void msgAnimationAtBed(){
@@ -695,7 +695,12 @@ public class PersonAgent extends Agent implements Person{
 			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
 		else if(name.equals("joe")){
-			//cityMap.
+			homeGui.goToFridge();	
+			try{
+				atDestination.acquire();
+			} catch (InterruptedException e){}
+			log("reached my desitnaion");
+			homeGui.goToTable();
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{

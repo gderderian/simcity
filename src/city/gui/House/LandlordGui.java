@@ -8,11 +8,14 @@ import Role.LandlordRole;
 public class LandlordGui {
 	LandlordRole landlord;
 	
-	private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
+	private int xPos = 100, yPos = 100;//default waiter position
+    private int xDestination = 100, yDestination = 100;//default start position
     private int dimensions= 20;
-    private int movement= 20;
 
+	private boolean goingToStove= false;
+	private boolean goingToOven= false;
+	private boolean goingToMicrowave= false;
+    
     private static final int xStove = 525;
     private static final int xOven = 580;
     private static final int xMicrowave = 635;
@@ -34,15 +37,15 @@ public class LandlordGui {
             yPos--;
 
         //Check if reached any destination yet
-        if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xStove + movement) & (yDestination == yAppliance - movement)) {
+        if (xPos >= xStove && yPos <= yAppliance && goingToStove){
             landlord.msgAnimationAtStove();
-        } else if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xOven + movement) & (yDestination == yAppliance - movement)) {
+            goingToStove= false;
+        } else if (xPos >= xOven && yPos <= yAppliance && goingToOven){
             landlord.msgAnimationAtOven();
-        } else if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xMicrowave + movement) & (yDestination == yAppliance - movement)) {
+            goingToOven= false;
+        } else if (xPos >= xMicrowave && yPos <= yAppliance && goingToMicrowave){
             landlord.msgAnimationAtMicrowave();
+            goingToMicrowave= false;
         }
     } 
 
@@ -69,5 +72,29 @@ public class LandlordGui {
     
     public void setYPos(int y){
     	yPos= y;
+    }
+
+    public void goToOven(){
+    	if(!goingToOven){
+    		xDestination= xOven;
+    		yDestination= yAppliance;
+    		goingToOven= true;
+    	}
+    }
+
+    public void goToMicrowave(){
+    	if(!goingToMicrowave){
+    		xDestination= xMicrowave;
+    		yDestination= yAppliance;
+    		goingToMicrowave= true;
+    	}
+    }
+
+    public void goToStove(){
+    	if(!goingToStove){
+    		xDestination= xStove;
+    		yDestination= yAppliance;
+    		goingToStove= true;
+    	}
     }
 }
