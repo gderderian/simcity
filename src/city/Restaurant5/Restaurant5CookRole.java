@@ -91,30 +91,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		
 		CityMap citymap = new CityMap();
 		House house = new House("house1");
-		
-		/*
-		PersonAgent person1 = new PersonAgent("steve", aStarTraversal, citymap, house);
-    	PersonGui person1gui = new PersonGui(person1);
-    	person1.setGui(person1gui);
-        person1.startThread();
-		
-        PersonAgent person2= new PersonAgent("steve", aStarTraversal, citymap, house);
-    	PersonGui person2gui = new PersonGui(person2);
-    	person2.setGui(person2gui);
-        person2.startThread();
-		
-        PersonAgent person3= new PersonAgent("steve", aStarTraversal, citymap, house);
-    	PersonGui person3gui = new PersonGui(person3);
-    	person3.setGui(person3gui);
-        person3.startThread();
-        */
-        
-        
-	    //market1 = new Restaurant5MarketRole("market1", person1);
-		//market2 = new Restaurant5MarketRole("market2", person2);
-		//market3 = new Restaurant5MarketRole("market3", person3);
-		
-		
+				
 	}
 
 	public String getName() {
