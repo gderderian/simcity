@@ -64,8 +64,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton startScenario = new JButton("Start scenario!");
+    
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant4", "A* Animation", "Bus Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "A* Animation", "Bus Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -581,6 +582,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runRestaurant1Test();
 		else if(scenario.equals("Restaurant2"))
 			runRestaurant2Test();
+		else if (scenario.equals("Restaurant3"))
+			runRestaurant3Test();
 		else if(scenario.equals("Restaurant4"))
 			runRestaurant4Test();
 		else if(scenario.equals("A* Animation"))
@@ -675,6 +678,23 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
 		addPerson("rest2Test", "No job");
+
+    }
+    
+    public void runRestaurant3Test(){
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000);
+		
+		addPersonNoHouse("host", "Restaurant3 Host");
+		addPersonNoHouse("cashier", "Restaurant3 Cashier");
+		addPersonNoHouse("cook", "Restaurant3 Cook");
+		addPerson("waiter", "Restaurant3 Waiter");
+		addPerson("rest3Test", "No job");
 
     }
     
