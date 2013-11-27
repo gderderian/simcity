@@ -1,4 +1,3 @@
-
 CS201 Team 16 SimCity Project
 ======
 
@@ -54,4 +53,4 @@ More information on how to test the differnet elements in the program will be po
 
 ### Overall State of Program
 
-More information on what's working and not working will be posted here soon.
++ The PersonAgent needs to be redone so that there is an Event class which has an intent and a location. This is so that the person's actions and messages will be timed correctly when they take the bus or car. Right now, the Person's actions are based on the assumption that they can essentially be completed inside one method - there are semaphores within the DoGoTo method that take care of timing, but these get messed up when the person goes to the bus or takes the car. Instead, we now have a specific bus test which shows that the bus system is functional.
