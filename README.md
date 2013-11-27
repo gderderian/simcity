@@ -26,8 +26,8 @@ CS201 Team 16 SimCity Project
   	+ restaurant2
   + Trevor Reed, A* Expert
   	+ Global Transportation: buses, cars, market truck
-  	+ City GUI A*/Path Finding (including animation within the full city view)
-  	+ Main CityGUI images/design
+  	+ City GUI A*/Path Finding
+  	+ Main CityGUI animation and graphics
   	+ restaurant1
 
 The initial design of the new SimCity components (markets, banks, GUI and layout, transporation, housing, etc.) was conceived through the collective work of all team members through various meetings we held several times per week for several hours. From there, specific assignments were distributed to each team member as noted above. Although one person took ownership of each major component, all team members contributed to each other's designs and final code.
@@ -53,7 +53,7 @@ In the control panel, a specific scenario can be selected by the user and when "
 + Restaurant Scenarios - Workers/customers for a specific restaurant will go to their restaurant and do their normal actions there.
 + Full Scenario - This runs multiple restaurant tests at the same time.
 + Bus Scenario - This shows a person waiting for a bus and taking it to their final destination.
-+ Average Joe - A person is created within their house (bottom right house), they try to make food and see that their fridge is empty. They then try to go to the market to buy more food. Market workers are also created for this scenario.
++ Average Joe - A person is created within their house (bottom right house), they try to make food and see that their fridge is empty. They then try to go to the market to buy more food. Market workers are also created for this scenario, but the scenario does not go beyond placing the order.
 + A* Animation - This creates multiple vehicles and people moving around the city to display A* animation capabilities.
 
 ### Overall State of Program
@@ -68,3 +68,6 @@ In the control panel, a specific scenario can be selected by the user and when "
 
 #####Person Agent
 + The PersonAgent needs to be redone so that there is an Event class which has an intent and a location. This is so that the person's actions and messages will be timed correctly when they take the bus or car. Right now, the Person's actions are based on the assumption that they can essentially be completed inside one method - there are semaphores within the DoGoTo method that take care of timing, but these get messed up when the person goes to the bus or takes the car. Instead, we now have a specific bus test which shows that the bus system is functional.
+
+#####Housing
++ All houses and apartments are able to be clicked on and there is minimal gui functionality. The best scenario involving house gui components is the Average Joe scenario. There is no landlord gui capabilities at this time, however the landlord role is fully unit tested (rent collection and fixing appliances) as is the house (putting away groceries and cooking food).

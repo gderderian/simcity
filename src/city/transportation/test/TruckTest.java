@@ -27,7 +27,8 @@ public class TruckTest extends TestCase {
 		super.setUp();
 		recipient = new MockTransportationPerson("recipient");
 		market = new MockMarketManager();
-		truck = new TruckAgent(market, null);
+		truck = new TruckAgent(null, null);
+		truck.setMarketManager(market);
 		truck.thisIsATest(); //Disables activity log for test (used in city control panel)
 		
 		items = new ArrayList<OrderItem>();

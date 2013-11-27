@@ -1047,7 +1047,6 @@ public class PersonAgent extends Agent implements Person{
 		}
 		DoGoTo("mark1");
 		MarketOrder o= new MarketOrder(groceryList.get(0), this);
-    	log("IS THE MARKET MANAGER NULL? " + cityMap.market.mktManager);
     	cityMap.market.mktManager.msgHereIsOrder(o);
 		/*
 		 * TODO gui - go to market
@@ -1387,8 +1386,12 @@ public class PersonAgent extends Agent implements Person{
 
 	@Override
 	public void msgHereIsYourOrder(MarketOrder order) {
-		// TODO Auto-generated method stub
-		
+		log("Yay, I got my order back!");
+		List<OrderItem> o= order.orders;
+		Food f= new Food(o.get(0).type);
+		List<Food> groceries= new ArrayList<Food>();
+		groceries.add(f);
+		house.boughtGroceries(groceries);
 	}
 	
 }

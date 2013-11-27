@@ -48,6 +48,7 @@ public class MarketWorker extends Role {
 	
 	// Messages
 	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
+		log("A new order to process...");
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);
 		pickOrders.add(newPickableOrder);
 		p.stateChanged();
@@ -84,6 +85,7 @@ public class MarketWorker extends Role {
 	}
 	
 	private void returnCompletedOrder(PickableOrder o){
+		log("Well, this order is finished now!");
 		o.recipientManager.msgOrderPicked(o.order);
 		pickOrders.remove(o);
 	}

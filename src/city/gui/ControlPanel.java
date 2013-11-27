@@ -338,13 +338,14 @@ public class ControlPanel extends JPanel implements ActionListener{
         		errorDisplay.setText("Please enter a name for the person");
         	}
         }
+        /*
         else if(e.getSource() == scenarioSelect){
         	if(scenarioSelect.getSelectedIndex() == 0){
         		startScenario.setEnabled(false);
         	}
         	else
         		startScenario.setEnabled(true);
-        }
+        }*/
         else if(e.getSource() == startScenario){
         	if(scenarioSelect.getSelectedIndex() != 0){
             	populateCity((String)scenarioSelect.getSelectedItem());
