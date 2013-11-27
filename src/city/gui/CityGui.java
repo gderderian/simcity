@@ -720,5 +720,4 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		else return null;
 	}
-
 }

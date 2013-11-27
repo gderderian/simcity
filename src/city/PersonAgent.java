@@ -499,8 +499,7 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 		//ROLES - i.e. job or customer
-		
-		
+	
 		
 		boolean anytrue = false;
 		synchronized(roles){
@@ -1365,3 +1364,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 }
+
+
+
+
