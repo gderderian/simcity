@@ -64,7 +64,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton populateCity = new JButton("Populate City");
     private String[] scenarios = {"[Please choose a test to run]", "Full Test", "Regular Joe Test", "Restaurant1 Test",
-    		"Restaurant2 Test", "Restaurant4 Test", "A* Ainmation Test"
+    		"Restaurant2 Test", "Restaurant4 Test", "A* Animation Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
