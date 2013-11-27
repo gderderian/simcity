@@ -8,6 +8,7 @@ import restaurant1.Restaurant1;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
+import city.Restaurant5.Restaurant5;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -31,6 +32,7 @@ public class CityMap {
 	Restaurant2 restaurant2;
 	Restaurant3 restaurant3;
 	Restaurant4 restaurant4;
+	Restaurant5 restaurant5;
 	Bank bank;
 	Market market;
 	
@@ -169,6 +171,10 @@ public class CityMap {
 		restaurant4= r;
 	}
 	
+	public void seRestaurant5(Restaurant5 r){
+		restaurant5 =r;
+	}
+	
 	public void setMarket(Market m){
 		market= m;
 	}
@@ -250,20 +256,6 @@ public class CityMap {
 		
 	}
 	*/
-	
-	class Bank{
-		BankManagerRole manager;
-		String name;
-		
-		public Bank(BankManagerRole m, String n){
-			manager = m;
-			name = n;
-		}
-		
-		public BankManagerRole getBankManager() {
-			return manager;
-		}
-	}	
 	
 	public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;
