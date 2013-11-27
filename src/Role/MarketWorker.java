@@ -14,7 +14,7 @@ public class MarketWorker extends Role {
 	
 	// Data
 	int numWorkingOrders;
-	private List<PickableOrder> pickOrders;
+	public List<PickableOrder> pickOrders;
 	PersonAgent p;
 	ActivityTag tag = ActivityTag.MARKETWORKER;
 	
