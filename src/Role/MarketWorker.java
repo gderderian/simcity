@@ -24,7 +24,7 @@ public class MarketWorker extends Role {
 		
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
 		MarketManager recipientManager;
-		orderPickState state;
+		public orderPickState state;
 		Hashtable<String, Boolean> itemPickStatus; // Tracks the pick status of individual items in the market
 		
 		PickableOrder(MarketOrder incomingOrder, MarketManager initialSender){
@@ -60,6 +60,7 @@ public class MarketWorker extends Role {
 				for (PickableOrder o : pickOrders) {
 					if (o.state == orderPickState.pending){
 						pickSingleOrder(o);
+						o.state = orderPickState.picking;
 						return true;
 					}
 					if (o.state == orderPickState.done){
