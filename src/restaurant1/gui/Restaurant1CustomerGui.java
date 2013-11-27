@@ -21,7 +21,6 @@ public class Restaurant1CustomerGui implements Gui{
 	private final int CASHIER_X = 80, CASHIER_Y = 300;
 
 	private Restaurant1WaiterGui waiterGui;
-	Restaurant1RestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;

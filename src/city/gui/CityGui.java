@@ -75,7 +75,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	ControlPanel controlPanel = new ControlPanel();
 	
-    private static final int TIMER_INTERVAL = 15;
+    private static final int TIMER_INTERVAL = 30;
     private Timer timer;
     
     private CityClock masterClock;
