@@ -307,7 +307,6 @@ public class PersonAgent extends Agent implements Person{
 			log("Its time for me to go to work");
 		}
 		else if(t > 17000 && t < 19000 && (name.equals("rest2Test") || name.equals("rest1Test"))){
-			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
 			}
@@ -320,7 +319,6 @@ public class PersonAgent extends Agent implements Person{
 			log("Its time for me to go to work");
 		}
 		else if(t > 17000 && t < 19000 && name.equals("rest4Test")){
-			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
 			}
@@ -340,7 +338,6 @@ public class PersonAgent extends Agent implements Person{
 			log("It's time for me to eat something");
 		}		
 		else if(t > 17000 && t < 19000 && name.equals("joe")){
-			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
 			}
@@ -386,7 +383,6 @@ public class PersonAgent extends Agent implements Person{
 		// TODO Auto-generated method stub
 		//This is a non-norm, will fill in later
 		log("Recieved message fridge full");
-		log.add(new LoggedEvent("Recieved message fridge full"));
 		
 	}
 
@@ -429,7 +425,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void msgBusIsHere(Bus b) { //Sent from bus stop
-		log.add(new LoggedEvent("Recieved message bus is here"));
+		log("Recieved message bus is here");
 		synchronized(events){
 			events.add("BusIsHere");
 		}
