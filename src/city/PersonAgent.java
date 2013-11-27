@@ -682,7 +682,7 @@ public class PersonAgent extends Agent implements Person{
 				DoGoTo(house.getName());
 				house.getAnimationPanel().addGui(homeGui);
 				homeGui.goToBed();
-			}
+			}	
 			atHome= true;
 		}
 	}
@@ -697,7 +697,6 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		log("MY JOB. LOCATION: " + myJob.location);
 		DoGoTo(myJob.location);
 		//Semaphore stuff
 		//TODO how to announce that the person is there for work
@@ -743,11 +742,15 @@ public class PersonAgent extends Agent implements Person{
         	int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
+			groceryList.add(food);
 			homeGui.goToExit(); 
         	try{
                 atDestination.acquire();
         	} catch (InterruptedException e){}
-        	DoGoTo("mark1");
+        	/*MarketOrder o= new MarketOrder(food, this);
+        	log("IS THE MARKET MANAGER NULL? " + cityMap.market.mktManager);
+        	cityMap.market.mktManager.msgHereIsOrder(o);
+        	DoGoTo("mark1");*/
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
@@ -939,14 +942,17 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		
+		DoGoTo("mark1");
+		MarketOrder o= new MarketOrder(groceryList.get(0), this);
+    	log("IS THE MARKET MANAGER NULL? " + cityMap.market.mktManager);
+    	cityMap.market.mktManager.msgHereIsOrder(o);
 		/*
 		 * TODO gui - go to market
 		 * NOT walking, because there will be groceries to carry
 		 */
 		if(cars.isEmpty()){
-			 String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
-			 DoGoTo(market);	//may need to force bus travel
+			 //String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
+			 //DoGoTo(market);	//may need to force bus travel
 		}
 		else{
 			//takeCar(market);
@@ -1229,7 +1235,9 @@ public class PersonAgent extends Agent implements Person{
 		public void startJob(){
 			role.setActive();
 			workState = WorkState.atWork;
-			role.getGui().setPresent(true);
+			if(role.getGui() != null){
+				role.getGui().setPresent(true);
+			}
 			if(role.getGui() instanceof Restaurant2CustomerGui){
 				log("This is a customer gui");
 			}

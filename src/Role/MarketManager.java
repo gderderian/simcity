@@ -93,6 +93,7 @@ public class MarketManager extends Role {
 	
 	// Messages
 	public void msgHereIsOrder(MarketOrder o){
+		log("Recieved order from " + o.getRecipient().getName());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.inPerson);
 		myOrders.add(mo);
 		p.stateChanged();
