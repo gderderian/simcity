@@ -6,8 +6,7 @@ import java.util.*;
 
 import restaurant1.Restaurant1;
 import city.Restaurant2.Restaurant2;
-import city.Restaurant2.Restaurant2CustomerRole;
-import city.Restaurant2.Restaurant2HostRole;
+import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
@@ -30,6 +29,7 @@ public class CityMap {
 	
 	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
+	Restaurant3 restaurant3;
 	Restaurant4 restaurant4;
 	Bank bank;
 	Market market;
@@ -149,6 +149,7 @@ public class CityMap {
 		//Creating list of restaurants
 		restaurants.add("Restaurant1");
 		restaurants.add("Restaurant2");
+		restaurants.add("Restaurant3");
 		restaurants.add("Restaurant4");
 	}
 	
@@ -158,6 +159,10 @@ public class CityMap {
 	
 	public void setRestaurant2(Restaurant2 r){
 		restaurant2 = r;
+	}
+	
+	public void setRestaurant3(Restaurant3 r){
+		restaurant3 = r;
 	}
 	
 	public void setRestaurant4(Restaurant4 r){
