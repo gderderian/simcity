@@ -38,7 +38,7 @@ public class Restaurant1 {
 	}
 	
 	public void addWaiters(Restaurant1WaiterRole w){
-		//waiters.add(w);
+		waiters.add(w);
 		host.addWaiter(w);
 		w.setCook(cook);
 		w.setCashier(cashier);
