@@ -32,6 +32,10 @@ public class HomeOwnerGui implements Gui {
     
 	private boolean goingToBed= false;
 	private boolean goingToFridge= false;
+	private boolean goingToStove= false;
+	private boolean goingToOven= false;
+	private boolean goingToMicrowave= false;
+	private boolean goingToTable= false;
 	
     ImageIcon icon = new ImageIcon("images/person_flat1.png");
     
@@ -102,21 +106,21 @@ public class HomeOwnerGui implements Gui {
         }
 
         //Check if reached any destination yet
-        if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xTable + movement) & (yDestination == yTable - movement)) {
+        if (xPos >= xTable && yPos <= yTable && goingToTable){
            person.msgAnimationAtTable(); 
+           goingToTable= false;
         } else if (xPos >= xFridge && yPos <= yAppliance && goingToFridge){
             person.msgAnimationAtFridge();
             goingToFridge= false;
-        } else if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xStove + movement) & (yDestination == yAppliance - movement)) {
+        } else if (xPos >= xStove && yPos <= yAppliance && goingToStove){
             person.msgAnimationAtStove();
-        } else if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xOven + movement) & (yDestination == yAppliance - movement)) {
+            goingToStove= false;
+        } else if (xPos >= xOven && yPos <= yAppliance && goingToOven){
             person.msgAnimationAtOven();
-        } else if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xMicrowave + movement) & (yDestination == yAppliance - movement)) {
+            goingToOven= false;
+        } else if (xPos >= xMicrowave && yPos <= yAppliance && goingToMicrowave){
             person.msgAnimationAtMicrowave();
+            goingToMicrowave= false;
         } else if (xPos >= xBed && yPos >= yBed && goingToBed){
         	person.msgAnimationAtBed();
         	goingToBed= false;
@@ -165,7 +169,38 @@ public class HomeOwnerGui implements Gui {
     		xDestination= xFridge;
     		yDestination= yAppliance;
     		goingToFridge= true;
-    		
+    	}
+    }
+    
+    public void goToOven(){
+    	if(!goingToOven){
+    		xDestination= xOven;
+    		yDestination= yAppliance;
+    		goingToOven= true;
+    	}
+    }
+    
+    public void goToMicrowave(){
+    	if(!goingToMicrowave){
+    		xDestination= xMicrowave;
+    		yDestination= yAppliance;
+    		goingToMicrowave= true;
+    	}
+    }
+    
+    public void goToStove(){
+    	if(!goingToStove){
+    		xDestination= xStove;
+    		yDestination= yAppliance;
+    		goingToStove= true;
+    	}
+    }
+    
+    public void goToTable(){
+    	if(!goingToTable){
+    		xDestination= xTable;
+    		yDestination= yTable;
+    		goingToTable= true;
     	}
     }
     
