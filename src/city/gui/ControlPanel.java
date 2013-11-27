@@ -394,6 +394,7 @@ public class ControlPanel extends JPanel implements ActionListener{
             list.add(button);
             view.add(button);
             
+            
             isHungry.setEnabled(false);
             validate();
         }

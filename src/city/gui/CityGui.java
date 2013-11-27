@@ -480,6 +480,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			p.addRole(customerRole, false);
 			
 			
+			
+			
 		}
 	}
 	

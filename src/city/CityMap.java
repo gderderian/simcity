@@ -156,6 +156,9 @@ public class CityMap {
 	}
 	
 	
+	
+	
+	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
 	}
