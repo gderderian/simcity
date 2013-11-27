@@ -389,6 +389,7 @@ public class PersonAgent extends Agent implements Person{
 	public void msgApplianceBrokeCantCook() {
 		synchronized(meals){
 			for(MyMeal m : meals){
+		
 				
 			}
 		}
@@ -836,6 +837,7 @@ public class PersonAgent extends Agent implements Person{
 						r.setActive();
 						role = (Restaurant5CustomerRole) r;
 						restName = role.getBuilding();
+						restName = "rest5";
 						log("Set CustomerRole5 active");
 					}
 				}

@@ -56,7 +56,7 @@ public class BankTellerRole extends Role {
 
 	public void msgOpenAccount() 
 	{
-		Do("msgopenaccount");
+		Do("customer wants to open an account");
 		log.add(new LoggedEvent("msgOpenAccount"));
 		banktellerstate = state.openaccount;
 		person.stateChanged();
@@ -64,7 +64,7 @@ public class BankTellerRole extends Role {
 
 	public void msgDepositIntoAccount(double deposit)
 	{
-		log.add(new LoggedEvent("msgDepositIntoAccount"));
+		log.add(new LoggedEvent("customer wants to deposit into his account"));
 		this.deposit = deposit;
 		banktellerstate = state.depositintoaccount;
 		person.stateChanged();
@@ -72,7 +72,7 @@ public class BankTellerRole extends Role {
 
 	public void msgWithdrawFromAccount(double withdrawal)
 	{
-		log.add(new LoggedEvent("msgWithdrawFromAccount"));
+		log.add(new LoggedEvent("customer wants to withdraw from his account"));
 		this.withdrawal = withdrawal;
 		banktellerstate = state.withdrawfromaccount;
 		person.stateChanged();
@@ -81,6 +81,7 @@ public class BankTellerRole extends Role {
 	public void msgGetLoan(double loan)
 	{
 		log.add(new LoggedEvent("msgGetLoan"));
+		Do("customer wants to get loan");
 		this.loan = loan;
 		banktellerstate = state.getloan;
 		person.stateChanged();
@@ -89,6 +90,7 @@ public class BankTellerRole extends Role {
 	public void msgPayBackLoan(double paybackloan)
 	{
 		
+		Do("customer wants to pay back his loan");
 		this.paybackloan = paybackloan;
 		banktellerstate = state.paybackloan;
 		person.stateChanged();
@@ -105,7 +107,7 @@ public class BankTellerRole extends Role {
 	public boolean pickAndExecuteAnAction() {
 
 
-		Do("i'm in the bankteller scheduler");
+		//Do("i'm in the bankteller scheduler");
 
 		if(banktellerstate == state.gotobanktellerstation)
 		{
@@ -262,7 +264,7 @@ public class BankTellerRole extends Role {
 						//60, loan 1 = 20, loan 2 30;
 						do
 						{
-							Do("i'm in the do while");
+							//Do("i'm in the do while");
 							oldestloanamount = findaccount.loans.get(i).loanamount;
 							subtotal = oldestloanamount - paybackloan;
 							if(subtotal <= 0)
