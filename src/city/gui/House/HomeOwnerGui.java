@@ -25,12 +25,13 @@ public class HomeOwnerGui implements Gui {
     private static final int xMicrowave = 635;
     private static final int xBed = 150;
     private static final int yBed = 550;
-    private static final int yAppliance = 30;
+    private static final int yAppliance = 50;
     
     private int movementCounter = 0;
 	private final int iconSwitch = 10; //Rate at which icons switch during movement
     
 	private boolean goingToBed= false;
+	private boolean goingToFridge= false;
 	
     ImageIcon icon = new ImageIcon("images/person_flat1.png");
     
@@ -104,9 +105,9 @@ public class HomeOwnerGui implements Gui {
         if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xTable + movement) & (yDestination == yTable - movement)) {
            person.msgAnimationAtTable(); 
-        } else if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xFridge + movement) & (yDestination == yAppliance - movement)) {
+        } else if (xPos >= xFridge && yPos <= yAppliance && goingToFridge){
             person.msgAnimationAtFridge();
+            goingToFridge= false;
         } else if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xStove + movement) & (yDestination == yAppliance - movement)) {
             person.msgAnimationAtStove();
@@ -116,10 +117,9 @@ public class HomeOwnerGui implements Gui {
         } else if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xMicrowave + movement) & (yDestination == yAppliance - movement)) {
             person.msgAnimationAtMicrowave();
-        } else if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xBed + movement) & (yDestination == yBed - movement)) {
-            person.msgAnimationAtBed();
-            goingToBed= false;
+        } else if (xPos >= xBed && yPos >= yBed && goingToBed){
+        	person.msgAnimationAtBed();
+        	goingToBed= false;
         }
         
    }
@@ -157,7 +157,15 @@ public class HomeOwnerGui implements Gui {
     		xDestination= xBed;
     		yDestination= yBed;
     		goingToBed= true;
-    		System.out.println("Going to bed");
+    	}
+    }
+    
+    public void goToFridge(){
+    	if(!goingToFridge){
+    		xDestination= xFridge;
+    		yDestination= yAppliance;
+    		goingToFridge= true;
+    		
     	}
     }
     

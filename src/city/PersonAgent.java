@@ -145,7 +145,7 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
-	
+		
 	}
 	
 	/*
@@ -248,7 +248,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
     public void msgAnimationAtFridge(){
-    	
+    	log("Yes! I made it to the fridge! FOOD FOOD FOOD");
     }
 
     public void msgAnimationAtStove(){
@@ -264,7 +264,7 @@ public class PersonAgent extends Agent implements Person{
     }
 
     public void msgAnimationAtBed(){
-    	log("IM AT MY BED, TIME TO GO TO SLEEP! ZZZzzzZZZzzz...");
+    	log("I'm at my bed, time to go to sleep! ZZZzzzZZZzzz...");
     }
 	
 	/*
@@ -311,6 +311,13 @@ public class PersonAgent extends Agent implements Person{
 			log("Its time for me to go to work");
 		}
 		else if(t > 17000 && t < 19000 && name.equals("rest4Test")){
+			log("The time right now is " + t);
+			synchronized(events){
+				events.add("GotHungry");
+			}
+			log("It's time for me to eat something");
+		}
+		else if(t > 17000 && t < 19000 && name.equals("joe")){
 			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
@@ -686,6 +693,9 @@ public class PersonAgent extends Agent implements Person{
 			house.checkFridge(food);
 			log("I'm going to eat " + food + " in my house.");
 			log.add(new LoggedEvent("Decided to eat something from my house."));
+		}
+		else if(name.equals("joe")){
+			//cityMap.
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
