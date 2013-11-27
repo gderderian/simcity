@@ -19,8 +19,25 @@ public class Restaurant1CustomerGui implements Gui{
 
 	private static final int WIDTH = 30, HEIGHT = 30;
 	private final int CASHIER_X = 80, CASHIER_Y = 300;
+	
+	private Restaurant1AnimationPanel animPanel;
 
 	private Restaurant1WaiterGui waiterGui;
+	
+	ImageIcon up1 = new ImageIcon("images/person_up1.png");
+	ImageIcon up2 = new ImageIcon("images/person_up2.png");
+	ImageIcon up3 = new ImageIcon("images/person_up3.png");
+	ImageIcon down1 = new ImageIcon("images/person_down1.png");
+	ImageIcon down2 = new ImageIcon("images/person_down2.png");
+	ImageIcon down3 = new ImageIcon("images/person_down3.png");
+	ImageIcon flat1 = new ImageIcon("images/person_flat1.png");
+	ImageIcon flat2 = new ImageIcon("images/person_flat2.png");
+	ImageIcon flat3 = new ImageIcon("images/person_flat3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = new ImageIcon("images/person_up1.png");
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -36,7 +53,6 @@ public class Restaurant1CustomerGui implements Gui{
 		yPos = -2 * HEIGHT;
 		xDestination = -2 * WIDTH;
 		yDestination = -2 * HEIGHT;
-		//this.gui = gui;
 		
         // Initial mapping of table locations!
         tableLocations.put(new Integer(1), new Dimension(200, 200));
@@ -46,15 +62,53 @@ public class Restaurant1CustomerGui implements Gui{
 	}
 
 	public void updatePosition() {
-		if (xPos < xDestination)
-			xPos++;
-		else if (xPos > xDestination)
-			xPos--;
-
-		if (yPos < yDestination)
-			yPos++;
-		else if (yPos > yDestination)
-			yPos--;
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+        if (xPos < xDestination) {
+            xPos++;
+            if(movementCounter < iconSwitch)
+        		icon = flat1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = flat2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = flat3;
+        	else
+        		icon = flat2;
+        }
+        
+        else if (xPos > xDestination) {
+            xPos--;
+        	if(movementCounter < iconSwitch && icon != flat1)
+        		icon = flat1;
+        	else if(movementCounter < iconSwitch * 2 && icon != flat2)
+        		icon = flat2;
+        	else if(movementCounter < iconSwitch * 3 && icon != flat3)
+        		icon = flat3;
+        	else if(icon != flat2)
+        		icon = flat2;
+        }
+        
+        if (yPos < yDestination) {
+            yPos++;
+        	if(movementCounter < iconSwitch && icon != down1)
+        		icon = down1;
+        	else if(movementCounter < iconSwitch * 2 && icon != down2)
+        		icon = down2;
+        	else if(movementCounter < iconSwitch * 3 && icon != down3)
+        		icon = down3;
+        	else if(icon != down2)
+        		icon = down2;
+        }
+        else if (yPos > yDestination) {
+            yPos--;
+        	if(movementCounter < iconSwitch && icon != up1)
+        		icon = up1;
+        	else if(movementCounter < iconSwitch * 2 && icon != up2)
+        		icon = up2;
+        	else if(movementCounter < iconSwitch * 3 && icon != up3)
+        		icon = up3;
+        	else if(icon != up2)
+        		icon = up2;
+        }
 			
 
 		if (xPos == xDestination && yPos == yDestination) {	
@@ -73,6 +127,7 @@ public class Restaurant1CustomerGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
+		/*
         g.setColor(Color.GREEN);
         g.fillRect(xPos, yPos, WIDTH, HEIGHT); // Position/size of customer gui
         
@@ -80,7 +135,9 @@ public class Restaurant1CustomerGui implements Gui{
         Font font = new Font("Arial", Font.BOLD, 20);
         g.setFont(font);
         g.setColor(Color.BLACK);
-        g.drawString("C", xPos + 8, yPos + 22);   
+        g.drawString("C", xPos + 8, yPos + 22); */
+		
+		g.drawImage(icon.getImage(), xPos, yPos, WIDTH, HEIGHT, animPanel);
         
         // Switch statement to determine if food needs to be displayed on the table
         switch(state) {
@@ -206,5 +263,9 @@ public class Restaurant1CustomerGui implements Gui{
 	
 	public int getGuiY() {
 		return yPos;
+	}
+	
+	public void setAnimationPanel() {
+		
 	}
 }

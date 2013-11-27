@@ -25,6 +25,7 @@ public class CityMap {
 	//Depends how the gui ends up working...
 	
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
+	Map<String, Position> parkingLocations = new HashMap<String, Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
 	Restaurant1 restaurant1;
@@ -81,6 +82,17 @@ public class CityMap {
 		buildingLocations.put("house24", new Position(12,9));
 		buildingLocations.put("house25", new Position(10,9));
 		buildingLocations.put("house26", new Position(10,7));
+
+		//Parking locations
+		parkingLocations.put("rest1", new Position(18,4));
+		parkingLocations.put("rest2", new Position(3,4));
+		parkingLocations.put("rest3", new Position(3,14));
+		parkingLocations.put("rest4", new Position(10,15));
+		parkingLocations.put("rest5", new Position(15,9));
+		//Market locations
+		parkingLocations.put("mark1", new Position(18,11));
+		parkingLocations.put("mark2", new Position(5,3));
+		parkingLocations.put("mark3", new Position(8,12));
 		
 		//Adding list of nearby locations to each bus stop
 		List<String> buildingList0 = new ArrayList<String>();
@@ -149,6 +161,10 @@ public class CityMap {
 	
 	public void setRestaurant4(Restaurant4 r){
 		restaurant4= r;
+	}
+	
+	public Position getParkingLocation(String location) {
+		return parkingLocations.get(location);
 	}
 	
 	public int getX(String location) {

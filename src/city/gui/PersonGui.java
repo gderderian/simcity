@@ -121,6 +121,8 @@ public class PersonGui implements Gui {
 	public void moveTo(int x, int y) {
 		xDest = x;
 		yDest = y;
+		
+		moving = true;
 	}
 	
 	public void draw(Graphics2D g) {

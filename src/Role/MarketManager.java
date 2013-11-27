@@ -216,5 +216,9 @@ public class MarketManager extends Role {
 		myMarketWorker newWorker = new myMarketWorker(w);
 		myWorkers.add(newWorker);
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 }
