@@ -37,7 +37,7 @@ public class PersonAgentRestaurantTest extends TestCase{
                 waiter = new Restaurant2WaiterRole("Waiter", waiterPerson);
                 cookPerson = new PersonAgent("cookPerson");
                 cook = new Restaurant2CookRole("Cook", cookPerson);
-                gui = new PersonGui(person);
+                //gui = new PersonGui(person);
                 cityMap.setRestaurant2(rest2);
         }
         

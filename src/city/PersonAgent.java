@@ -4,6 +4,7 @@ import restaurant1.Restaurant1CustomerRole;
 import test.mock.LoggedEvent;
 import interfaces.Bus;
 import interfaces.Car;
+import interfaces.HouseInterface;
 import interfaces.Landlord;
 import interfaces.Person;
 import interfaces.Restaurant2Customer;
@@ -50,12 +51,12 @@ public class PersonAgent extends Agent implements Person{
 	PersonState state;
 	
 	//House
-	House house;
+	public HouseInterface house;
 	public List<MyMeal> meals = Collections.synchronizedList(new ArrayList<MyMeal>());
 	public enum FoodState {initial, cooking, done};
 	List<MyAppliance> appliancesToFix = Collections.synchronizedList(new ArrayList<MyAppliance>());
 	enum ApplianceState {broken, beingFixed, fixed};
-	LandlordRole landlord;
+	public Landlord landlord;
 	boolean atHome= false;
 	
 	//Transportation
@@ -76,7 +77,7 @@ public class PersonAgent extends Agent implements Person{
 	//Money
 	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
-	double wallet;
+	public double wallet;
 	double moneyToDeposit;
 	
 	//Bank
@@ -119,7 +120,7 @@ public class PersonAgent extends Agent implements Person{
 	HomeOwnerGui homeGui;
 	ActivityTag tag = ActivityTag.PERSON;
 
-	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map, House h){
+	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map, HouseInterface h){
 		super();
 		
 		name = n;
@@ -133,6 +134,7 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition = new Position(20, 18);
 		}
 		
+		wallet = 1000;
 		
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
@@ -156,6 +158,8 @@ public class PersonAgent extends Agent implements Person{
 		super();
 		
 		name = n;
+		
+		wallet = 1000;
 		
 		//populate foods list -- need to make sure this matches up with market
 		foodsToEat.add("Chicken");
@@ -221,9 +225,9 @@ public class PersonAgent extends Agent implements Person{
 		myJob.changeJob(r, location);
 	}
 	
-	public void setHouse(House h){
+	public void setHouse(HouseInterface h){
 		house = h;
-		homeGui.setMainAnimationPanel(h.h);
+		homeGui.setMainAnimationPanel(h.getAnimationPanel());
 	}
 	
 	public void setJobLocation(String loc){
@@ -633,7 +637,7 @@ public class PersonAgent extends Agent implements Person{
 			log("Going home");
 			if(house != null){
 				DoGoTo(house.getName());
-				house.h.addGui(homeGui);
+				house.getAnimationPanel().addGui(homeGui);
 				homeGui.goToBed();
 			}
 			atHome= true;
@@ -859,16 +863,21 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void payBills(){
+		log.add(new LoggedEvent("Paying bill"));
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				if(b.payTo == landlord){
+				if(b.landlord == landlord){
 					if(wallet > b.amount){
+						log.add(new LoggedEvent("The bill I'm paying is my rent"));
 						landlord.msgHereIsMyRent(this, b.amount);
 						wallet -= b.amount;
+						billsToPay.remove(b);
+						return;
 					}
 					else{
 						synchronized(events){
 							events.add("GoToBank");
+							return;
 						}
 					}
 				}
@@ -994,7 +1003,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	void DoGoTo(String location) {
 		atHome= false;
-		house.h.notInHouse(homeGui);
+		house.getAnimationPanel().notInHouse(homeGui);
 		
 		gui.setVisible();
 		int x = cityMap.getX(location);
@@ -1110,11 +1119,11 @@ public class PersonAgent extends Agent implements Person{
 	
 	//CLASSES
 	
-	class Bill{
-		String type;
-		double amount;
-		Role payTo;
-		Landlord landlord;
+	public class Bill{
+		public String type;
+		public double amount;
+		public Role payTo;
+		public Landlord landlord;
 		
 		public Bill(String t, double a, Role r){
 			type = t;
@@ -1122,14 +1131,12 @@ public class PersonAgent extends Agent implements Person{
 			payTo = r;
 		}
 		
-		/*
-		 * Constructor for testing
-		 */
-		public Bill(String t, double a, Landlord r){
+		public Bill(String t, double a, Landlord l){
 			type = t;
 			amount = a;
-			landlord = r;
+			landlord = l;
 		}
+		
 		
 	}
 	

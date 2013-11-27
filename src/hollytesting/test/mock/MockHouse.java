@@ -1,5 +1,9 @@
 package hollytesting.test.mock;
 
+
+import interfaces.HouseInterface;
+import interfaces.Person;
+
 import java.util.*;
 
 import test.mock.EventLog;
@@ -7,11 +11,13 @@ import test.mock.LoggedEvent;
 import test.mock.Mock;
 import city.Food;
 import city.PersonAgent;
+import city.gui.House.HouseAnimationPanel;
 
-public class MockHouse extends Mock{
+public class MockHouse extends Mock implements HouseInterface{
         
         public EventLog log = new EventLog();
         PersonAgent person;
+		public HouseAnimationPanel h;
 
         public MockHouse(String name, PersonAgent p) {
                 super(name);
@@ -40,4 +46,22 @@ public class MockHouse extends Mock{
                 // TODO Auto-generated method stub
                 
         }
+
+		@Override
+		public void setOwner(Person p) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setHouseAnimationPanel(HouseAnimationPanel p) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public HouseAnimationPanel getAnimationPanel() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }
