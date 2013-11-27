@@ -20,6 +20,7 @@ import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.Restaurant4.CustomerRole4;
+import city.Restaurant5.Restaurant5CustomerRole;
 import city.gui.BuildingPanel;
 import city.gui.Gui;
 import city.gui.PersonGui;
@@ -306,7 +307,6 @@ public class PersonAgent extends Agent implements Person{
 			log("Its time for me to go to work");
 		}
 		else if(t > 17000 && t < 19000 && (name.equals("rest2Test") || name.equals("rest1Test"))){
-			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
 			}
@@ -319,14 +319,25 @@ public class PersonAgent extends Agent implements Person{
 			log("Its time for me to go to work");
 		}
 		else if(t > 17000 && t < 19000 && name.equals("rest4Test")){
-			log("The time right now is " + t);
 			synchronized(events){
 				events.add("GotHungry");
 			}
 			log("It's time for me to eat something");
 		}
-		else if(t > 17000 && t < 19000 && name.equals("joe")){
+		else if(t > 4000 && t < 7020 && name.equals("waiter5")){
+			synchronized(events){
+				events.add("GoToWork");
+			}
+			log("Its time for me to go to work");
+		}
+		else if(t > 17000 && t < 19000 && name.equals("rest5Test")){
 			log("The time right now is " + t);
+			synchronized(events){
+				events.add("GotHungry");
+			}
+			log("It's time for me to eat something");
+		}		
+		else if(t > 17000 && t < 19000 && name.equals("joe")){
 			synchronized(events){
 				events.add("GotHungry");
 			}
@@ -372,8 +383,12 @@ public class PersonAgent extends Agent implements Person{
 		// TODO Auto-generated method stub
 		//This is a non-norm, will fill in later
 		log("Recieved message fridge full");
+<<<<<<< HEAD
 		log.add(new LoggedEvent("Recieved message fridge full"));
 
+=======
+		
+>>>>>>> 45efe392f871810c0259bc7b63c7493e136dd4f2
 	}
 
 	public void msgSpaceInFridge(int spaceLeft) {
@@ -415,7 +430,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgBusIsHere(Bus b) { //Sent from bus stop
-		log.add(new LoggedEvent("Recieved message bus is here"));
+		log("Recieved message bus is here");
 		synchronized(events){
 			events.add("BusIsHere");
 		}
@@ -860,8 +875,39 @@ public class PersonAgent extends Agent implements Person{
 			log.add(new LoggedEvent("Decided to go to a restaurant"));
 			cityMap.restaurant4.getHost().msgIWantFood((CustomerRole4) role);
 			((CustomerRole4)role).setGuiActive();	
-		}
-
+		}		
+		else if(name.equals("rest5Test")){
+			print("Going to go to a restaurant 5");
+			String restName = null;
+			Role role = null;
+			synchronized(roles){
+				for(Role r : roles){
+					if(r instanceof Restaurant5CustomerRole) {
+						r.setActive();
+						role = (Restaurant5CustomerRole) r;
+						restName = role.getBuilding();
+						restName = "rest5";
+						log("Set CustomerRole5 active");
+					}
+				}
+				
+				
+				
+			}
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+				String destination = restName;
+				takeCar(destination);
+			}
+			else{
+				//This is walking
+				DoGoTo(restName);
+			}
+			log.add(new LoggedEvent("Decided to go to a restaurant5"));
+			cityMap.restaurant5.getHost().msgIWantFood((Restaurant5CustomerRole) role);
+			((Restaurant5CustomerRole)role).setGuiActive();	
+		 }
+        
 		/*print("Going to go to a restaurant");
 		String restName = null;
 		Role role = null;

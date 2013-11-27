@@ -1,5 +1,6 @@
 package justinetesting.test.mock;
 
+import city.Restaurant4.CashierRole4;
 import justinetesting.interfaces.Customer4;
 import justinetesting.interfaces.Waiter4;
 
@@ -117,6 +118,12 @@ public class MockWaiter4 extends Mock4 implements Waiter4 {
 	public void msgAtHome() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public CashierRole4 getCashier() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

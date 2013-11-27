@@ -66,7 +66,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton startScenario = new JButton("Start scenario!");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "A* Animation", "Bus Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "A* Animation", "Bus Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -338,13 +338,14 @@ public class ControlPanel extends JPanel implements ActionListener{
         		errorDisplay.setText("Please enter a name for the person");
         	}
         }
+        /*
         else if(e.getSource() == scenarioSelect){
         	if(scenarioSelect.getSelectedIndex() == 0){
         		startScenario.setEnabled(false);
         	}
         	else
         		startScenario.setEnabled(true);
-        }
+        }*/
         else if(e.getSource() == startScenario){
         	if(scenarioSelect.getSelectedIndex() != 0){
             	populateCity((String)scenarioSelect.getSelectedItem());
@@ -392,6 +393,8 @@ public class ControlPanel extends JPanel implements ActionListener{
             button.addActionListener(this);
             list.add(button);
             view.add(button);
+            
+            
             isHungry.setEnabled(false);
             validate();
         }
@@ -586,6 +589,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runRestaurant3Test();
 		else if(scenario.equals("Restaurant4"))
 			runRestaurant4Test();
+		else if(scenario.equals("Restaurant5"))
+			runRestaurant5Test();
 		else if(scenario.equals("A* Animation"))
 			runAnimationTest();
 		else if(scenario.equals("Bus Test"))
@@ -634,6 +639,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
 		addPerson("rest4Test", "No job");
+   
+		/*
+		addPersonNoHouse("host5", "Restaurant5 Host");
+		addPersonNoHouse("cashier5", "Restaurant5 Cashier");
+		addPersonNoHouse("cook5", "Restaurant5 Cook");
+		addPerson("waiter5", "Restaurant5 Waiter");
+		addPerson("rest5Test", "No job");
+	   */
+    
+    
     }
     
     public void runBusTest() {
@@ -714,6 +729,27 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest4Test", "No job");
 
     }
+    
+    public void runRestaurant5Test(){
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+		
+		addPersonNoHouse("host5", "Restaurant5 Host");
+		addPersonNoHouse("cashier5", "Restaurant5 Cashier");
+		addPersonNoHouse("cook5", "Restaurant5 Cook");
+		addPerson("waiter5", "Restaurant5 Waiter");
+		addPerson("rest5Test", "No job");
+		
+		
+    }
+    
+    
+    
     
     public void runRegularJoeTest(){
     	//Add two buses at an interval

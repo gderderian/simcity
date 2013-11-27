@@ -55,6 +55,8 @@ import city.Restaurant4.HostRole4;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant4.WaiterRole4;
 import city.Restaurant5.Restaurant5;
+import city.Restaurant5.Restaurant5CashierRole;
+import city.Restaurant5.Restaurant5CookRole;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
 import city.Restaurant5.Restaurant5WaiterRole;
@@ -94,13 +96,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
 		
 		// Restaurant 3 (Grant)
-		//Restaurant3 rest3 = new Restaurant3();
+		Restaurant3 rest3 = new Restaurant3();
 		AnimationPanel3 restaurant3 = new AnimationPanel3();
 		
 		// Restaurant 4 (Justine)
 		Restaurant4 rest4 = new Restaurant4();
 		AnimationPanel4 restaurant4 = new AnimationPanel4();
-		
 		
 		Restaurant5 rest5 = new Restaurant5();
 		Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
@@ -473,10 +474,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant5CustomerRole customerRole = new Restaurant5CustomerRole(p.getName(), p);
 			Restaurant5CustomerGui customerGui = new Restaurant5CustomerGui(customerRole, restaurant5gui, hostrole);
 			restaurant5.addGui(customerGui);
-			Restaurant5WaiterRole waiterRole = new Restaurant5WaiterRole("waiter", null, null, null, p);
+			Restaurant5WaiterRole waiterRole = new Restaurant5WaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest5");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
+			
+			
+			
 			
 		}
 	}
@@ -505,6 +509,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant4.addGui(customerGui4);
 		customerRole4.setGui(customerGui4);
 		p.addRole(customerRole4, false);
+		
+		//Creating a customer role for eating at restaurant5
+		Restaurant5CustomerRole customerRole5 = new Restaurant5CustomerRole( p.getName(),p);
+		Restaurant5Gui restaurant5gui = new Restaurant5Gui();
+		Restaurant5HostRole restaurant5host = new Restaurant5HostRole("", null);
+		Restaurant5CustomerGui customerGui5 = new Restaurant5CustomerGui(customerRole5, restaurant5gui, restaurant5host );
+		customerGui5.setPresent(false);
+		restaurant5.addGui(customerGui5);
+		customerRole5.setGui(customerGui5);
+		p.addRole(customerRole5, false);
+
+		
+		
 		
 		/* Now, create a job role */
 		if(!job.equals("No job")){
@@ -545,6 +562,24 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					p.setRoleActive(r);
 				}
 			}
+			else if(job.contains("Restaurant3")) {
+				p.addFirstJob(r, "rest3");
+				if(r instanceof HostRole3) {
+					rest3.setHost((HostRole3) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof WaiterRole3){
+					rest3.addWaiters((WaiterRole3) r);
+				}
+				else if(r instanceof CookRole3){
+					rest3.setCook((CookRole3) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof CashierRole3){
+					rest3.setCashier((CashierRole3) r);
+					p.setRoleActive(r);
+				}
+			}
 			else if(job.contains("Restaurant4")) {
 				p.addFirstJob(r, "rest4");
 				if(r instanceof HostRole4) {
@@ -563,6 +598,28 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					rest4.addWaiters((WaiterRole4) r);
 				}
 			}
+			
+			else if(job.contains("Restaurant5")) {
+				p.addFirstJob(r, "rest5");
+				if(r instanceof Restaurant5HostRole) {
+					rest5.setHost((Restaurant5HostRole)r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof Restaurant5CookRole){
+					rest5.setCook((Restaurant5CookRole) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof Restaurant5CashierRole){
+					rest5.setCashier((Restaurant5CashierRole) r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof Restaurant5WaiterRole){
+					rest5.addWaiters((Restaurant5WaiterRole) r);
+				}
+
+			}			
+			
+			
 			else if(job.contains("Market")) {
 				p.addFirstJob(r, "mark1");
 				System.out.println("SET ROLE ACTIVE: " + r);
@@ -716,6 +773,30 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			MarketWorker role= new MarketWorker(p); 
 			return role;
 		}
+				
+		else if(type.equals("Restaurant5 Customer")){
+			Restaurant5CustomerRole role = new Restaurant5CustomerRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant5 Waiter")){
+			Restaurant5WaiterRole role = new Restaurant5WaiterRole(p.getName(),p);
+			return role;
+		}
+		else if(type.equals("Restaurant5 Cook")){
+			Restaurant1CookRole role = new Restaurant1CookRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant5 Host")){
+			Restaurant5HostRole role = new Restaurant5HostRole(p.getName(), p);
+			return role;
+		}
+		else if(type.equals("Restaurant5 Cashier")){
+			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
+			return role;
+		}
+		
+		
+		
 		else return null;
 	}
 

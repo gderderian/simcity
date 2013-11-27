@@ -421,7 +421,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	private void goHome(){
-		Do("Going back to home position as there are no tasks for me to do right now.");
+		//Do("Going back to home position as there are no tasks for me to do right now.");
 		waiterGui.setDestination(homeX, homeY);
 	}
 	
