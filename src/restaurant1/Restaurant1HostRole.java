@@ -4,7 +4,6 @@ import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import agent.Agent;
-import restaurant1.gui.Restaurant1HostGui;
 import test.mock.LoggedEvent;
 
 import java.util.*;
@@ -229,14 +228,6 @@ public class Restaurant1HostRole extends Role {
 	// The animation DoXYZ() routines
 
 	//utilities
-
-	public void setGui(Restaurant1HostGui gui) {
-		hostGui = gui;
-	}
-
-	public Restaurant1HostGui getGui() {
-		return hostGui;
-	}
 
 	private class Table {
 		int tableNumber;
