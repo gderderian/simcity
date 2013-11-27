@@ -623,6 +623,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest2Test", "No job");
 		
 		addPerson("joe", "No Job");
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
 		
 		addPersonNoHouse("host1", "Restaurant1 Host");
 		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
