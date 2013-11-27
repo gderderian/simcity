@@ -65,9 +65,8 @@ public class Restaurant1CustomerGui implements Gui{
 				agent.msgAtDestination();
 			}
 			else if (command==Command.LeaveRestaurant) {
-				agent.msgAnimationDoneEatingFood();
+				agent.msgAnimationDoneLeaving();
 				isHungry = false;
-				//gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}
@@ -180,6 +179,7 @@ public class Restaurant1CustomerGui implements Gui{
 	
 	public void doneEating() {
 		state = customerState.doneEating;
+		agent.msgAnimationDoneEating();
 	}
 	
 	public void clearOrder() {

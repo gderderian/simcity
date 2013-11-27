@@ -34,7 +34,7 @@ public class PersonAgentTransportationTest extends TestCase {
                 assertTrue("Person should have record of recieving message bus is here", person.log.containsString("Recieved message bus is here"));
                 assertEquals("Person's list of busRides should have one BusRide in it.", person.busRides.size(), 1);
                 //Hack -- full bus capabilities not yet running in person
-                person.busRides.get(0).busStop = 1;
+                //person.busRides.get(0).busStop = 1;
                 person.pickAndExecuteAnAction();
                 assertTrue("Person should have a bus ride in it with the state onBus, but the state is " + person.busRides.get(0).state, 
                                 person.busRides.get(0).state == BusRideState.onBus);
