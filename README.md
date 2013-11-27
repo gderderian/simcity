@@ -26,8 +26,8 @@ CS201 Team 16 SimCity Project
   	+ restaurant2
   + Trevor Reed, A* Expert
   	+ Global Transportation: buses, cars, market truck
-  	+ City GUI A*/Path Finding (including animation & graphics within the full city view)
-  	+ Main CityGUI images/design
+  	+ City GUI A*/Path Finding
+  	+ Main CityGUI animation and graphics
   	+ restaurant1
 
 The initial design of the new SimCity components (markets, banks, GUI and layout, transporation, housing, etc.) was conceived through the collective work of all team members through various meetings we held several times per week for several hours. From there, specific assignments were distributed to each team member as noted above. Although one person took ownership of each major component, all team members contributed to each other's designs and final code.
