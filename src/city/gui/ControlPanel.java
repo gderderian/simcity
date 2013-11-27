@@ -63,7 +63,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     //private JPanel activityLog = new JPanel();
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
-    private JButton populateCity = new JButton("Populate City");
+    private JButton startScenario = new JButton("Start scenario!");
     private String[] scenarios = {"[Please choose a test to run]", "Full Test", "Regular Joe Test", "Restaurant1 Test",
     		"Restaurant2 Test", "Restaurant4 Test", "A* Animation Test", "Bus Test"
     };
@@ -206,7 +206,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private void setupWorldControls(){
     	
     	Dimension dropDownSize = new Dimension(WINDOWX, 30);
-    	populateCity.addActionListener(this);
+    	startScenario.addActionListener(this);
     	backToCity.addActionListener(this);
     	backToCity.setEnabled(false);
     	scenarioSelect.addActionListener(this);
@@ -223,8 +223,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     	worldControls.add(scenarioSelect);
     	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(Box.createVerticalStrut(10));
-    	worldControls.add(populateCity);
-    	populateCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(startScenario);
+    	startScenario.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -339,16 +339,16 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
         else if(e.getSource() == scenarioSelect){
         	if(scenarioSelect.getSelectedIndex() == 0){
-        		populateCity.setEnabled(false);
+        		startScenario.setEnabled(false);
         	}
         	else
-        		populateCity.setEnabled(true);
+        		startScenario.setEnabled(true);
         }
-        else if(e.getSource() == populateCity){
+        else if(e.getSource() == startScenario){
         	if(scenarioSelect.getSelectedIndex() != 0){
             	populateCity((String)scenarioSelect.getSelectedItem());
             	cityGui.startMasterClock();
-            	populateCity.setEnabled(false);
+            	startScenario.setEnabled(false);
         	}
         }
         else if(e.getSource() == backToCity) {
@@ -764,5 +764,4 @@ public class ControlPanel extends JPanel implements ActionListener{
     public void enableBackToCity() {
     	backToCity.setEnabled(true);
     }
-
 }
