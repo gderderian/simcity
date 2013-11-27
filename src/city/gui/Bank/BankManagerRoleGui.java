@@ -1,8 +1,4 @@
 package city.gui.Bank;
-
-
-
-
 import java.awt.*;
 
 import javax.swing.ImageIcon;

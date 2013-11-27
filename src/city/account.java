@@ -15,7 +15,7 @@ public class account {
 	BankCustomerRole customer;
 	public double loan;
 	public double interestrate;
-	public List<loan> loans; 
+	public List<loan> loans = new ArrayList<loan>(); 
 	double totalloan;
 
 	public account(BankCustomerRole customer, int assignaccountnumber)

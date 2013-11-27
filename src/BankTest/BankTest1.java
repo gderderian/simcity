@@ -112,7 +112,6 @@ public class BankTest1 extends TestCase {
                 assertTrue(" " + bankcustomer.log.getLastLoggedEvent().toString(), bankcustomer.log.containsString("successfullydeposittedintoaccount"));
                 assertEquals(bankcustomer.amountofcustomermoney, 0.0);
                 
-                
                 bankteller.msgWithdrawFromAccount(20);
                 assertTrue("Cashier should have logged \"Received ReadyToPay\" but didn't. His log reads instead: " 
                                 + bankteller.log.getLastLoggedEvent().toString(), bankteller.log.containsString("msgWithdrawFromAccount"));

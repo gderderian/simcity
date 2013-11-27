@@ -931,6 +931,21 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
         ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 
+	public void setCook(Restaurant5CookRole setcook) {
+		this.cook = setcook;
+		
+	}
+
+	public void setCashier(Restaurant5CashierRole setcashier) {
+		this.cashier = setcashier;
+		
+	}
+
+	public void setHost(Restaurant5HostRole sethost) {
+		this.host = sethost;
+		
+	}
+
 }
 
 

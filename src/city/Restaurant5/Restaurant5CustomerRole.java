@@ -750,6 +750,11 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
         ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
 
+	public void setGuiActive() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 	
