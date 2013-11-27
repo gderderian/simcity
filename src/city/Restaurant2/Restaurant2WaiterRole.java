@@ -54,6 +54,8 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	private Restaurant2WaiterGui waiterGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2WAITER;
 	
+	boolean test = false;
+	
 	public Restaurant2WaiterRole(String n, PersonAgent p){
 		super();
 		building = "rest2";
@@ -552,8 +554,13 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
+	}
+
+	public void setTesting(boolean b) {
+		test = b;
 	}
 	
 

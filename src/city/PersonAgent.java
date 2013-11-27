@@ -104,6 +104,7 @@ public class PersonAgent extends Agent implements Person{
 	//Testing
 	public EventLog log = new EventLog();
 	public boolean goToRestaurantTest = false;
+	public boolean test = false;
 	
 	//Job
 	public Job myJob;
@@ -769,7 +770,7 @@ public class PersonAgent extends Agent implements Person{
 				((Restaurant1CustomerRole)role).setGuiActive();
 		}
 		else if(name.equals("rest2Test")){
-			print("Going to go to a restaurant");
+			log("Going to go to a restaurant");
 			String restName = null;
 			Role role = null;
 			synchronized(roles){
@@ -1026,6 +1027,9 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	void DoGoTo(String location) {
+		if(test)
+			return;
+		
 		atHome= false;
 		house.getAnimationPanel().notInHouse(homeGui);
 		
@@ -1277,8 +1281,14 @@ public class PersonAgent extends Agent implements Person{
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test){
+	        ActivityLog.getInstance().logActivity(tag, msg, name);
+		}
         log.add(new LoggedEvent(msg));
+	}
+	
+	public void setTesting(boolean t){
+		test = true;
 	}
 
 	@Override

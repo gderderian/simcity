@@ -40,6 +40,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	private Semaphore atDestination = new Semaphore(0,true);
 	
 	PersonAgent person;
+	boolean test = false;
 	
 	Restaurant2CookGui cookGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2COOK;
@@ -339,7 +340,12 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	public void setTesting(boolean b) {
+		test = b;
 	}
 
 

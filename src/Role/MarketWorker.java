@@ -14,10 +14,8 @@ public class MarketWorker extends Role {
 	
 	// Data
 	int numWorkingOrders;
-	private List<PickableOrder> pickOrders;
+	public List<PickableOrder> pickOrders;
 	PersonAgent p;
-	
-	String name = p.getName();
 	ActivityTag tag = ActivityTag.MARKETWORKER;
 	
 	public enum orderPickState {pending, picking, done};
@@ -33,6 +31,7 @@ public class MarketWorker extends Role {
 			order = incomingOrder;
 			state = orderPickState.pending;
 			recipientManager = initialSender;
+			itemPickStatus = new Hashtable<String, Boolean>();
 			synchronized(incomingOrder.orders){
 				for (OrderItem item : incomingOrder.orders){
 					itemPickStatus.put(item.name, false);
@@ -42,7 +41,7 @@ public class MarketWorker extends Role {
 		
 	}
 	
-	MarketWorker(PersonAgent person){
+	public MarketWorker(PersonAgent person){
 		p = person;
 		pickOrders = Collections.synchronizedList(new ArrayList<PickableOrder>());
 	}
@@ -90,7 +89,7 @@ public class MarketWorker extends Role {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, getName());
 	}
 	
 }
