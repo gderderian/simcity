@@ -26,7 +26,7 @@ CS201 Team 16 SimCity Project
   	+ restaurant2
   + Trevor Reed, A* Expert
   	+ Global Transportation: buses, cars, market truck
-  	+ City GUI A*/Path Finding (including animation within the full city view)
+  	+ City GUI A*/Path Finding (including animation & graphics within the full city view)
   	+ Main CityGUI images/design
   	+ restaurant1
 

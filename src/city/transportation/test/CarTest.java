@@ -18,7 +18,7 @@ public class CarTest extends TestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		owner = new MockTransportationPerson("owner");
-		car = new CarAgent(null);
+		car = new CarAgent(null, null);
 		car.thisIsATest(); //Disables activity log capability(used in city control panel)
 		destination = "TEST DESTINATION";
 	}	

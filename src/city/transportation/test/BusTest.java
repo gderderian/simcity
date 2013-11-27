@@ -28,7 +28,7 @@ public class BusTest extends TestCase {
 		for(int i = 0; i < 10; i++) { //Adds 10 people to the list.
 			people.add(new MockTransportationPerson("person" + Integer.toString(i)));
 		}
-		bus = new BusAgent(null);
+		bus = new BusAgent(null, null);
 		bus.thisIsATest(); //This disables activity log capability - only needed for actual city
 		
 		bus.money = 0; //Take away all of bus's money for testing purposes
