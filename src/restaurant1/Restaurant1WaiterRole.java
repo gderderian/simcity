@@ -79,6 +79,9 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 	// Messages
 	
 	public void msgPleaseSeatCustomer(Restaurant1HostRole h, Restaurant1CustomerRole c, int table) {
+		
+		this.host = h;
+		
 		for(MyCustomer mc : customers) {
 			if(mc.c == c) {
 				mc.s = customerState.waiting;
