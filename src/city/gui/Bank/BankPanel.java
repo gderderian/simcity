@@ -52,7 +52,7 @@ public class BankPanel extends JPanel {
         
     	this.gui = gui;
     	
-    	/*PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
+    	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
     	PersonGui person2gui = new PersonGui(person2);
     	person2.setGui(person2gui);
         person2.startThread();
@@ -81,7 +81,7 @@ public class BankPanel extends JPanel {
 		btr.setGui(g6);
 		banktellers.add(btr);
 		
-		bankmanager.msgBankTellerArrivedAtBank(btr);*/
+		bankmanager.msgBankTellerArrivedAtBank(btr);
         
         
         
