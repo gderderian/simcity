@@ -171,6 +171,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.addRest2ToCityMap(rest2);
 		controlPanel.addRest4ToCityMap(rest4);
 		controlPanel.addRest1ToCityMap(rest1);
+		controlPanel.addMarketToCityMap(market);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
 
@@ -563,7 +564,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 			}
 			else if(job.contains("Market")) {
-				p.addFirstJob(r, "market");
+				p.addFirstJob(r, "mark1");
+				System.out.println("SET ROLE ACTIVE: " + r);
 				if(r instanceof MarketWorker){
 					market.addWorker((MarketWorker)r);
 					p.setRoleActive(r);
@@ -704,6 +706,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			role.setGui(gui);
 			restaurant3.addGui(gui);
 			gui.setPresent(false);
+			return role;
+		}
+		else if(type.equals("Market Manager")){
+			MarketManager role= new MarketManager(p.getName(), p); 
+			return role;
+		}
+		else if(type.equals("Market Worker")){
+			MarketWorker role= new MarketWorker(p); 
 			return role;
 		}
 		else return null;
