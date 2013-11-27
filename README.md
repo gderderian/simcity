@@ -71,3 +71,6 @@ In the control panel, a specific scenario can be selected by the user and when "
 
 #####Housing
 + All houses and apartments are able to be clicked on and there is minimal gui functionality. The best scenario involving house gui components is the Average Joe scenario. There is no landlord gui capabilities at this time, however the landlord role is fully unit tested (rent collection and fixing appliances) as is the house (putting away groceries and cooking food).
+
+#####Restaurants
++ All restaurants are integrated with the exception of some small GUI elements within Restaurants 3 and 5.
