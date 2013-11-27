@@ -379,12 +379,6 @@ public class PersonAgent extends Agent implements Person{
 		// TODO Auto-generated method stub
 		//This is a non-norm, will fill in later
 		log("Recieved message fridge full");
-<<<<<<< HEAD
-		log.add(new LoggedEvent("Recieved message fridge full"));
-
-=======
-		
->>>>>>> 45efe392f871810c0259bc7b63c7493e136dd4f2
 	}
 
 	public void msgSpaceInFridge(int spaceLeft) {
