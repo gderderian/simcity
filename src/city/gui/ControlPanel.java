@@ -64,8 +64,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton startScenario = new JButton("Start scenario!");
-    private String[] scenarios = {"[Please choose a test to run]", "Full Test", "Regular Joe Test", "Restaurant1 Test",
-    		"Restaurant2 Test", "Restaurant4 Test", "A* Animation Test", "Bus Test"
+    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
+    		"Restaurant2", "Restaurant4", "A* Animation", "Bus Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -573,17 +573,17 @@ public class ControlPanel extends JPanel implements ActionListener{
     	/*
     	 * This will call different functions based on which scenario was chosen
     	 */
-		if(scenario.equals("Full Test"))
+		if(scenario.equals("Full Scenario"))
 			runFullTest();
-		else if(scenario.equals("Regular Joe Test"))
+		else if(scenario.equals("Regular Joe"))
 			runRegularJoeTest();
-		else if(scenario.equals("Restaurant1 Test"))
+		else if(scenario.equals("Restaurant1"))
 			runRestaurant1Test();
-		else if(scenario.equals("Restaurant2 Test"))
+		else if(scenario.equals("Restaurant2"))
 			runRestaurant2Test();
-		else if(scenario.equals("Restaurant4 Test"))
+		else if(scenario.equals("Restaurant4"))
 			runRestaurant4Test();
-		else if(scenario.equals("A* Animation Test"))
+		else if(scenario.equals("A* Animation"))
 			runAnimationTest();
 		else if(scenario.equals("Bus Test"))
 				runBusTest();
