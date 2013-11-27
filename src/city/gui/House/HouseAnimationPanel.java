@@ -104,6 +104,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     }
     
     public void notInHouse(Gui gui){
+    	if(!guis.isEmpty())
     	guis.remove(gui);
     }
     
