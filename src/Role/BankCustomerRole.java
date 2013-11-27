@@ -48,8 +48,6 @@ public class BankCustomerRole extends Role{
                 mybankteller = assignbankteller;
                 stationnumber = mybankteller.stationnumber;
                 bankcustomerstate = state.gotobankteller; 
-                Do("i'm in the message of customer");
-                Do("current customer state is : " + bankcustomerstate);
                 person.stateChanged();      
         }
         
@@ -154,31 +152,32 @@ public class BankCustomerRole extends Role{
 
         public void msgLoanBorrowed(double loan) 
         {
-                // TODO Auto-generated method stub
+        	//log.add(new LoggedEvent("msgLoanBorrowed"));  
+        	 amountofcustomermoney = loan;
                 
         }
         
         public void msgLoanPaidBack(double amountofloanpaidback, double amountofremainingloan)
         {
-                
+
+        	log.add(new LoggedEvent("msgLoanPaidBack"));
                 
         }
         
         public void msgLoanPaid(double loanamount, double lendtime,double interestrate) {
-                Do("Successfully paid off loan of:" + loanamount + " lendtime: " + lendtime +" days" + " interestrate: " + interestrate);
-                
+                Do("Successfully paid off loan of: " + loanamount + " lendtime: " + lendtime +" days" + " interestrate: " + interestrate);
+                log.add(new LoggedEvent("msgLoanPaidBack"));
         }
         
 
         public boolean pickAndExecuteAnAction() 
         {
         	
-        		Do(" I'm in the bank customer scheduler");
                 
         		if(bankcustomerstate == state.gotobankteller)
         		{
         			
-        			Do("gui is going to bank teller station");
+        			Do("I'm going to bank teller station");
         			guiGoToBankTellerStation(stationnumber);
         			bankcustomerstate = state.waiting;
         			if(bankaccountnumber == 0)
@@ -197,7 +196,7 @@ public class BankCustomerRole extends Role{
         	
                 if(bankcustomerstate == state.openaccount)
                 {
-                		Do("i'm opening account");
+                		Do("i'm opening an account");
                         mybankteller.msgOpenAccount();
                         bankcustomerstate = state.waiting;
                         return true;
@@ -205,6 +204,7 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.deposit)
                 {
+                		Do("I'm depositing into my account");
                         mybankteller.msgDepositIntoAccount(this.deposit);
                         bankcustomerstate = state.waiting;
                         return true;
@@ -212,6 +212,7 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.withdraw)
                 {
+                		Do("I'm withdrawing from my account");
                         mybankteller.msgWithdrawFromAccount(this.withdrawal);
                         bankcustomerstate = state.waiting;
                         return true;
@@ -219,13 +220,15 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.getloan)
                 {
-                        mybankteller.msgGetLoan(this.loan);
+                       	Do("I'm getting loan");
+                		mybankteller.msgGetLoan(this.loan);
                         bankcustomerstate = state.waiting;
                         return true;                
                 }
                 
                 if(bankcustomerstate == state.paybackloan)
                 {
+                		Do("I'm paying back loan");
                         mybankteller.msgGetLoan(this.paybackloan);
                         bankcustomerstate = state.waiting;
                         return true;
@@ -233,7 +236,8 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.openaccountsuccessful)
                 {
-                        log.add(new LoggedEvent("receivedaccountnumber"));
+                       	Do("I recevied my account number: " + this.bankaccountnumber);
+                		log.add(new LoggedEvent("receivedaccountnumber"));
                         person.msgSetBankAccountNumber(this.bankaccountnumber);
                         bankcustomerstate = state.waiting;
                         return true;        
@@ -241,6 +245,7 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.depositintoaccountsuccessful)
                 {
+                		Do("I successfully deposited money into my account");
                         log.add(new LoggedEvent("successfullydeposittedintoaccount"));
                         this.amountofcustomermoney -= this.deposit;
                         person.msgBalanceAfterDepositingIntoAccount(this.amountofcustomermoney);
@@ -250,6 +255,7 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.withdrawfromaccountsuccessful)
                 {
+                		Do("I successfully withdrew money from my account");
                         log.add(new LoggedEvent("successfullywithdrewfromaccount"));
                         this.amountofcustomermoney += this.withdrawal;
                         person.msgBalanceAfterWithdrawingFromAccount(this.amountofcustomermoney);
@@ -259,6 +265,7 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.getloansuccessful)
                 {
+                		Do("I sucessfully received loan");
                         this.amountofcustomermoney += this.loan;
                         person.msgBalanceAfterGetitngLoanFromAccount(this.amountofcustomermoney);
                         bankcustomerstate = state.waiting;
@@ -267,6 +274,7 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.leave)
                 {
+                		Do("I'm leaving");
                         mybankteller.msgBankCustomerLeaving();
                         guiLeaveBank();
                         bankcustomerstate = state.waiting;
@@ -333,7 +341,6 @@ public class BankCustomerRole extends Role{
 
     	public void setGuiActive() {
     		//customerGui.DoEnterRestaurant();
-    		
     		gui.setPresent(true);
     	}
         

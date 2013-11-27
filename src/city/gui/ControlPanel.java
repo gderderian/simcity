@@ -63,6 +63,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton populateCity = new JButton("Populate City");
+    private String[] scenarios = {"[Please choose a test to run]", "Full Test", "Regular Joe Test", "Restaurant1 Test",
+    		"Restaurant2 Test", "Restaurant4 Test", "A* Animation Test"
+    };
+    private JComboBox scenarioSelect = new JComboBox(scenarios);
+
     private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
     
     private Timer timer = new Timer();
@@ -132,9 +137,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         addPersonSection();
         
         setupWorldControls();
-        
-        setupActivityLog();
-        
+                
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
         worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
@@ -166,7 +169,9 @@ public class ControlPanel extends JPanel implements ActionListener{
         //Creation of houses and apartments
         createHouses();
       	//Creation of bus stops
-        createBusStops();        
+        createBusStops();     
+                
+        scenarioSelect.setSelectedIndex(1);
     }
     
     public void addRest2ToCityMap(Restaurant2 r){
@@ -193,19 +198,24 @@ public class ControlPanel extends JPanel implements ActionListener{
     	return cityMap;
     }
     
-    private void setupActivityLog(){
-    	
-    }
-    
     private void setupWorldControls(){
     	
+    	Dimension dropDownSize = new Dimension(WINDOWX, 30);
     	populateCity.addActionListener(this);
     	backToCity.addActionListener(this);
     	backToCity.setEnabled(false);
+    	scenarioSelect.addActionListener(this);
+    	scenarioSelect.setPreferredSize(dropDownSize);
+    	scenarioSelect.setMaximumSize(dropDownSize);
     	
     	//This add(Box) function creates a space on the JPanel - using it here for spacing the buttons out to look nice
-    	worldControls.add(Box.createVerticalStrut(10));
+    	worldControls.add(Box.createVerticalStrut(5));
     	worldControls.add(backToCity);
+    	worldControls.add(Box.createVerticalStrut(10));
+    	JLabel title = new JLabel("Running a scenario: ");
+    	title.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(title);
+    	worldControls.add(scenarioSelect);
     	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(populateCity);
@@ -217,6 +227,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     private void addPersonSection(){
     	//personControls.add(new JLabel("<html><br><u>Add People</u><br></html>"));
+    	
+    	//addPerson.setAlignmentX(Component.CENTER_ALIGNMENT);
     	
     	personControls.setPreferredSize(panelDim);
     	
@@ -320,10 +332,19 @@ public class ControlPanel extends JPanel implements ActionListener{
         		errorDisplay.setText("Please enter a name for the person");
         	}
         }
+        else if(e.getSource() == scenarioSelect){
+        	if(scenarioSelect.getSelectedIndex() == 0){
+        		populateCity.setEnabled(false);
+        	}
+        	else
+        		populateCity.setEnabled(true);
+        }
         else if(e.getSource() == populateCity){
-        	populateCity();
-        	cityGui.startMasterClock();
-        	populateCity.setEnabled(false);
+        	if(scenarioSelect.getSelectedIndex() != 0){
+            	populateCity((String)scenarioSelect.getSelectedItem());
+            	cityGui.startMasterClock();
+            	populateCity.setEnabled(false);
+        	}
         }
         else if(e.getSource() == backToCity) {
         	cityGui.backToCityView();
@@ -543,7 +564,27 @@ public class ControlPanel extends JPanel implements ActionListener{
     	return houses; 
     }
     
-    public void populateCity(){
+    public void populateCity(String scenario){
+    	/*
+    	 * This will call different functions based on which scenario was chosen
+    	 */
+		if(scenario.equals("Full Test"))
+			runFullTest();
+		else if(scenario.equals("Regular Joe Test"))
+			runRegularJoeTest();
+		else if(scenario.equals("Restaurant1 Test"))
+			runRestaurant1Test();
+		else if(scenario.equals("Restaurant2 Test"))
+			runRestaurant2Test();
+		else if(scenario.equals("Restaurant4 Test"))
+			runRestaurant4Test();
+		else if(scenario.equals("A* Animation Test")){
+			//Trevor add this in
+		}
+    	
+    }
+    
+    public void runFullTest(){
     	//Add two buses at an interval
     	addVehicle("bus");
 		timer.schedule(new TimerTask() {
@@ -571,6 +612,70 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
 		addPerson("rest4Test", "No job");
+    }
+    
+    public void runRestaurant1Test(){
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+		
+		addPersonNoHouse("host1", "Restaurant1 Host");
+		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
+		addPersonNoHouse("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		addPerson("rest1Test", "No job");
+
+    }
+    
+    public void runRestaurant2Test(){
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+		
+		addPersonNoHouse("host", "Restaurant2 Host");
+		addPersonNoHouse("cashier", "Restaurant2 Cashier");
+		addPersonNoHouse("cook", "Restaurant2 Cook");
+		addPerson("waiter", "Restaurant2 Waiter");
+		addPerson("rest2Test", "No job");
+
+    }
+    
+    public void runRestaurant4Test(){
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+		
+		addPersonNoHouse("host4", "Restaurant4 Host");
+		addPersonNoHouse("cashier4", "Restaurant4 Cashier");
+		addPersonNoHouse("cook4", "Restaurant4 Cook");
+		addPerson("waiter4", "Restaurant4 Waiter");
+		addPerson("rest4Test", "No job");
+
+    }
+    
+    public void runRegularJoeTest(){
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+    	
+		addPerson("joe", "No Job");
+		
     }
     
     public void setTimeDisplay(String timeToDisplay){

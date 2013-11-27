@@ -3,17 +3,15 @@ package granttesting.test;
 import java.util.ArrayList;
 
 import Role.MarketManager;
-import Role.MarketManager.myMarketOrder;
 import Role.MarketManager.myMarketWorker;
 import Role.MarketManager.orderState;
 import Role.MarketWorker;
+import Role.MarketWorker.orderPickState;
 import granttesting.test.mock.MockCook;
-import granttesting.test.mock.MockMarketWorker;
 import junit.framework.TestCase;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
-import city.PersonAgent.FoodState;
 
 public class MarketTest extends TestCase{
         
@@ -92,12 +90,19 @@ public class MarketTest extends TestCase{
     	assertTrue("First order in the list should now be assigned to a worker", marketMgr.myOrders.get(0).state == orderState.assignedToWorker);
     	
     	// Market order should now be within the worker's pickOrder list
-    	//assertEquals("MarketWorker should have one order in their possession to pick", marketWorker.pickOrders.size(), 1);
+    	assertEquals("MarketWorker should have one order in their possession to pick", marketWorker.pickOrders.size(), 1);
     	
     	// Worker should now begin to do process their order
-    	//marketWorker.pickAndExecuteAnAction();
+    	marketWorker.pickAndExecuteAnAction();
     	
-    	// 
+    	// Worker should now have set their order status to processing
+    	assertTrue("Worker should have begun picking order", marketWorker.pickOrders.get(0).state == orderPickState.picking);
+    	
+    	// Worker should now see order as done and notify the manager that it's ready to go!
+    	marketWorker.pickAndExecuteAnAction();
+    	assertTrue("Worker should have finished picking order. Is instead " + marketWorker.pickOrders.get(0).state, marketWorker.pickOrders.get(0).state == orderPickState.done);
+    	
+    	
     	
     }  
 

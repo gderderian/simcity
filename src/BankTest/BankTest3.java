@@ -11,8 +11,8 @@ import Role.BankManagerRole;
 import Role.BankTellerRole;
 import city.PersonAgent;
 
-// this test is for two customers and two bank tellers I'm verifying whether the customers are being 
-//assigned to the correct bank tellers. 
+
+//This scenario tests one customer with a specific amount of loan: $10, paying off his loan.
 
 public class BankTest3 extends TestCase {
         
@@ -52,6 +52,9 @@ public class BankTest3 extends TestCase {
                 bankmanager.bank.accounts.add(new account(bankcustomer, 0));
                 bank.accounts.get(0).loan = 20;
                 
+                bank.accounts.get(0).addloan(10);
+                bank.accounts.get(0).loans.get(0).loanamount = 10;
+                
                 bankteller = new BankTellerRole(bankmanager);
                 bankteller.setPerson(person4);
           
@@ -63,11 +66,14 @@ public class BankTest3 extends TestCase {
                 bankmanager.msgBankTellerArrivedAtBank(bankteller);
                 assertEquals("BankTellerRole should have an empty event log: "
                         + bankteller.log.toString(), 0, bankteller.log.size());
+                assertEquals("BankCustomerRole should have an empty event log: "
+                        + bankcustomer.log.toString(), 0, bankcustomer.log.size());
+                
+                assertEquals("bank account wiht account number 0 should have one loan of $10",bank.accounts.get(0).loans.get(0).loanamount, 10.0);
+                
                 assertTrue(bankmanager.pickAndExecuteAnAction());
                 assertTrue(" " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("bankstationassigned")); 
-                assertEquals("bank should have 2 banktellers in it.",bankmanager.banktellers.size(), 1);        
-                //bankmanager.pickAndExecuteAnAction();
-                
+                assertEquals("bank should have 1 bankteller in it.",bankmanager.banktellers.size(), 1);        
                
                 bankmanager.msgCustomerArrivedAtBank(bankcustomer);
                 assertEquals("bank should have 1 bankcustomers in it.",bankmanager.customers.size(), 1);        
@@ -75,20 +81,12 @@ public class BankTest3 extends TestCase {
                 assertTrue(" " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("banktellerassigned"));
                 assertEquals(bankteller.currentcustomer, bankcustomer);        
                 bankteller.msgPayBackLoan(10);
+                
                 bankteller.pickAndExecuteAnAction();
-                System.out.println("" + bankmanager.bank.accounts.get(0).loan);
-                assertEquals("",bankmanager.bank.accounts.get(0).loan, 10);
+                assertEquals("the loan is paid off there should be no more loans in the account",bank.accounts.get(0).loans.size(), 0);
+                assertTrue(" " + bankcustomer.log.getLastLoggedEvent().toString(), bankcustomer.log.containsString("msgLoanPaidBack"));
                 
-                
-                //bankmanager.pickAndExecuteAnAction();
-                
-                
-                
-               
-                
-                
-        
-                
+                                  
         }//end one normal customer scenario
 
 

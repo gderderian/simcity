@@ -377,6 +377,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
 		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
+		if(h != null){
+			h.setOwner(newPerson);
+		}
 		
 		personFactory(newPerson, job);
 		

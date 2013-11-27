@@ -340,11 +340,13 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void msgItemInStock(String type) {
+		log("Yes! I have " + type + " in my fridge! I can't wait to eat!");
 		meals.add(new MyMeal(type));
 		stateChanged();
 	}
 
 	public void msgDontHaveItem(String food) {
+		log("Oh no! I don't have any " + food + " in my fridge, I'll add it to my grocery list.");
 		groceryList.add(food);
 		synchronized(events){
 			events.add("GoGroceryShopping");
@@ -705,8 +707,13 @@ public class PersonAgent extends Agent implements Person{
         	try{
                 atDestination.acquire();
         	} catch (InterruptedException e){}
-        	log("reached my desitnaion");
-        	homeGui.goToTable();
+        	int y = rand.nextInt(foodsToEat.size());
+			String food = foodsToEat.get(y);
+			house.checkFridge(food);
+			homeGui.goToTable();
+        	try{
+                atDestination.acquire();
+        	} catch (InterruptedException e){}
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
@@ -946,6 +953,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void goGroceryShopping(){
+		log("I'm headed out to the market to buy food now.");
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GoGroceryShopping")){

@@ -56,7 +56,7 @@ public class BankTellerRole extends Role {
 
 	public void msgOpenAccount() 
 	{
-		Do("msgopenaccount");
+		Do("customer wants to open an account");
 		log.add(new LoggedEvent("msgOpenAccount"));
 		banktellerstate = state.openaccount;
 		person.stateChanged();
@@ -64,6 +64,7 @@ public class BankTellerRole extends Role {
 
 	public void msgDepositIntoAccount(double deposit)
 	{
+		Do("customer wants to deposit into an account");
 		log.add(new LoggedEvent("msgDepositIntoAccount"));
 		this.deposit = deposit;
 		banktellerstate = state.depositintoaccount;
@@ -72,6 +73,7 @@ public class BankTellerRole extends Role {
 
 	public void msgWithdrawFromAccount(double withdrawal)
 	{
+		Do("customer wants to withdraw from his account");
 		log.add(new LoggedEvent("msgWithdrawFromAccount"));
 		this.withdrawal = withdrawal;
 		banktellerstate = state.withdrawfromaccount;
@@ -81,6 +83,7 @@ public class BankTellerRole extends Role {
 	public void msgGetLoan(double loan)
 	{
 		log.add(new LoggedEvent("msgGetLoan"));
+		Do("customer wants to get loan");
 		this.loan = loan;
 		banktellerstate = state.getloan;
 		person.stateChanged();
@@ -88,6 +91,8 @@ public class BankTellerRole extends Role {
 
 	public void msgPayBackLoan(double paybackloan)
 	{
+		
+		Do("customer wants to pay back his loan");
 		this.paybackloan = paybackloan;
 		banktellerstate = state.paybackloan;
 		person.stateChanged();
@@ -104,7 +109,7 @@ public class BankTellerRole extends Role {
 	public boolean pickAndExecuteAnAction() {
 
 
-		Do("i'm in the bankteller scheduler");
+		//Do("i'm in the bankteller scheduler");
 
 		if(banktellerstate == state.gotobanktellerstation)
 		{
@@ -247,27 +252,37 @@ public class BankTellerRole extends Role {
 				{
 					if(findaccount.accountnumber == currentcustomeraccountnumber)
 					{        
+						
+						
+						
+						findaccount.loan -= paybackloan;
+						currentcustomer.msgLoanPaidBack(paybackloan, findaccount.loan);
+						
+						
+						// this is more advanced loan system.
 						double oldestloanamount;
 						double subtotal;
-
+						int i = 0;
 						//60, loan 1 = 20, loan 2 30;
 						do
 						{
-
-							oldestloanamount = findaccount.loans.get(0).loanamount;
+							//Do("i'm in the do while");
+							oldestloanamount = findaccount.loans.get(i).loanamount;
 							subtotal = oldestloanamount - paybackloan;
 							if(subtotal <= 0)
 							{
-								findaccount.loans.remove(0);
-								currentcustomer.msgLoanPaid(findaccount.loans.get(0).loanamount,findaccount.loans.get(0).lendtime, findaccount.loans.get(0).interestrate);
+								currentcustomer.msgLoanPaid(findaccount.loans.get(i).loanamount,findaccount.loans.get(i).lendtime, findaccount.loans.get(i).interestrate);
+								findaccount.loans.remove(i);
+								
 							}
 							subtotal *= -1;
 							paybackloan = subtotal;        
-
-						}while(paybackloan == 0 || findaccount.loans.size() == 0);
+							i++;
+						}while(paybackloan != 0 || findaccount.loans.size() != 0);
 
 					}
 				}
+				return true;
 
 			}
 

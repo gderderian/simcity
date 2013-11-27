@@ -106,11 +106,12 @@ public class HomeOwnerGui implements Gui {
         }
 
         //Check if reached any destination yet
-        if (xPos >= xTable && yPos <= yTable && goingToTable){
+        if (xPos >= xTable && yPos >= yTable && goingToTable){
+           person.msgAtDestination();
            person.msgAnimationAtTable(); 
            goingToTable= false;
         } else if (xPos >= xFridge && yPos <= yAppliance && goingToFridge){
-            person.msgAnimationAtFridge();
+        	person.msgAnimationAtFridge();
             person.msgAtDestination();
             goingToFridge= false;
         } else if (xPos >= xStove && yPos <= yAppliance && goingToStove){
