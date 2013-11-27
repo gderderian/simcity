@@ -622,7 +622,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			
 			else if(job.contains("Market")) {
 				p.addFirstJob(r, "mark1");
-				System.out.println("SET ROLE ACTIVE: " + r);
 				if(r instanceof MarketWorker){
 					market.addWorker((MarketWorker)r);
 					p.setRoleActive(r);
@@ -745,7 +744,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		} else if (type.equals("Restaurant3 Host")){
 			HostRole3 role= new HostRole3(p.getName(), p);
-			System.out.println("Host should not be null: " + role);
 			return role;
 		} else if (type.equals("Restaurant3 Cashier")){
 			CashierRole3 role= new CashierRole3(p.getName(), p);
