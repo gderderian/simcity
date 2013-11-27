@@ -1,5 +1,6 @@
 package city;
 
+import interfaces.HouseInterface;
 import interfaces.Person;
 
 import java.util.*;
@@ -7,7 +8,7 @@ import java.util.*;
 import city.gui.House.HouseAnimationPanel;
 import test.mock.*;
 
-public class House {
+public class House implements HouseInterface{
 	//DATA
 	public Person owner;
 	String houseName;
@@ -34,18 +35,30 @@ public class House {
 	
 	
 	//SETTERS/GETTERS
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#setOwner(interfaces.Person)
+	 */
+	@Override
 	public void setOwner(Person p){
 		owner= p;
 		//owner= new HomeOwnerRole(this);
 		//owner.addRole(homeowner, true);
 	}
 	
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#setHouseAnimationPanel(city.gui.House.HouseAnimationPanel)
+	 */
+	@Override
 	public void setHouseAnimationPanel(HouseAnimationPanel p){
 		h= p;
 	}
 	
 	
 	//PUBLIC METHODS
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#boughtGroceries(java.util.List)
+	 */
+	@Override
 	public void boughtGroceries(List<Food> groceries){
 		log.add(new LoggedEvent("Received boughtGroceries from person, fridge should now have " + groceries.size() + " items."));
 		System.out.println("Received boughtGroceries from person, fridge should now have " + groceries.size() + " items.");
@@ -57,6 +70,10 @@ public class House {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#checkFridge(java.lang.String)
+	 */
+	@Override
 	public void checkFridge(String type){
 		log.add(new LoggedEvent("Recieved checkFridge from person, checking if there is any " + type + " in the fridge."));
 		System.out.println("Recieved checkFridge from person, checking if there is any " + type + " in the fridge.");
@@ -72,12 +89,20 @@ public class House {
 		owner.msgDontHaveItem(temp.food.type);	
 	}
 	
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#spaceInFridge()
+	 */
+	@Override
 	public void spaceInFridge(){
 		log.add(new LoggedEvent("Checking to see if there is any space left in the fridge."));
 		int spaceLeft= fridge.capacity - fridge.currentAmount;
 		owner.msgSpaceInFridge(spaceLeft);
 	}
 
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#cookFood(java.lang.String)
+	 */
+	@Override
 	public void cookFood(String type){
 		log.add(new LoggedEvent("Cooking " + type + "."));
 		final MyFood temp= new MyFood(type);
@@ -102,6 +127,10 @@ public class House {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#fixedAppliance(java.lang.String)
+	 */
+	@Override
 	public void fixedAppliance(String appliance){
 		log.add(new LoggedEvent("Recieved fixedAppliance from person, " + appliance + " is now fixed."));
 		for(Appliance a : cookingAppliances){
@@ -122,6 +151,10 @@ public class House {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see city.HouseInterface#getName()
+	 */
+	@Override
 	public String getName() {
 		return houseName;
 	}
@@ -195,5 +228,9 @@ public class House {
 			food= new Food(type); //assigned manually until we decide how to handle this
 			currentAmount= 0;
 		}
+	}
+
+	public HouseAnimationPanel getAnimationPanel() {
+		return h;
 	}
 }
