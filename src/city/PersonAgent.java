@@ -1044,12 +1044,10 @@ public class PersonAgent extends Agent implements Person{
 		 * NOT walking, because there will be groceries to carry
 		 */
 		/*if(cars.isEmpty()){
-<<<<<<< HEAD
 			 //String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
 			 //DoGoTo(market);	//may need to force bus travel
 =======
 			 String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
->>>>>>> 61d3cc1963ab1376e0dce349ff2184d34a502a06
 		}
 		else{
 			//takeCar(market);
