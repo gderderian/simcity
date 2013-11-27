@@ -47,9 +47,9 @@ __To run the program as a whole__, navigate to the `CityGui.java` file located w
 
 __To test different buildings within the program__, navigate to any of the various test files located within the named project testing folders, such as `src/BankTest` or `src/city.transporation.test`. If you receive a message about JUnit not being in your build path, accept Eclipse's warning/suggestion to add it. If you don't see this, go to Project -> Properties in Eclipse's menu. Click on Java Build Path in the left menu, then on Libraries in the upper menu, and then on Add Library. Click JUnit, then select JUnit 3, and then click Finish. Click OK to exit the Project Settings dialog. With your selected test file still open, click the small arrow next to the green play button in the Eclipse toolbar and select the name of the test you would like to run from the dropdown list. That test will now run, showing you the results on the left.
 
-### Testing Scenarios
+### Scenario Testing
 
-More information on how to test the differnet elements in the program will be posted here soon.
+Scenarios can be initiated through the World tab of the main control panel. From there, a specific scenario can be selected by the user and then, when it is executed, it will create people, send them to jobs, and perform other actions that directly model the specific selected scenario.
 
 ### Overall State of Program
 
