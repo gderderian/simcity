@@ -64,7 +64,8 @@ public class BankTellerRole extends Role {
 
 	public void msgDepositIntoAccount(double deposit)
 	{
-		log.add(new LoggedEvent("customer wants to deposit into his account"));
+		Do("customer wants to deposit into an account");
+		log.add(new LoggedEvent("msgDepositIntoAccount"));
 		this.deposit = deposit;
 		banktellerstate = state.depositintoaccount;
 		person.stateChanged();
@@ -72,7 +73,8 @@ public class BankTellerRole extends Role {
 
 	public void msgWithdrawFromAccount(double withdrawal)
 	{
-		log.add(new LoggedEvent("customer wants to withdraw from his account"));
+		Do("customer wants to withdraw from his account");
+		log.add(new LoggedEvent("msgWithdrawFromAccount"));
 		this.withdrawal = withdrawal;
 		banktellerstate = state.withdrawfromaccount;
 		person.stateChanged();
