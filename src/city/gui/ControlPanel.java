@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -60,6 +61,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel worldControls = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
+    private JLabel clickBuildings = new JLabel("Click on a building to see inside!");
     //private JPanel activityLog = new JPanel();
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
@@ -215,13 +217,17 @@ public class ControlPanel extends JPanel implements ActionListener{
     	scenarioSelect.setMaximumSize(dropDownSize);
     	
     	//This add(Box) function creates a space on the JPanel - using it here for spacing the buttons out to look nice
-    	worldControls.add(Box.createVerticalStrut(5));
+    	worldControls.add(Box.createVerticalStrut(10));
+    	clickBuildings.setFont(new Font("Trebuchet", Font.BOLD, 14));
+    	worldControls.add(clickBuildings);
+    	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(backToCity);
     	worldControls.add(Box.createVerticalStrut(10));
     	JLabel title = new JLabel("Running a scenario: ");
     	title.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(title);
     	worldControls.add(scenarioSelect);
+    	clickBuildings.setAlignmentX(Component.CENTER_ALIGNMENT);
     	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(startScenario);
