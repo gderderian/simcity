@@ -330,6 +330,12 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to eat something");
 		}
+		else if(t > 4000 && t < 7020 && (name.equals("marketManager") || name.equals("marketWorker"))){
+			synchronized(events){
+				events.add("GoToWork");
+			}
+			log("Its time for me to go to work");
+		}
 		
 		stateChanged();
 	}
@@ -517,8 +523,10 @@ public class PersonAgent extends Agent implements Person{
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
+				if(r != null){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
+				}
 				}
 			}
 			if (anytrue){
@@ -651,8 +659,10 @@ public class PersonAgent extends Agent implements Person{
 		boolean anyActive= false;
 		synchronized(roles){
 			for(Role r : roles){
+				if(r != null){
 				if(r.isActive)
 					anyActive = true;
+				}
 			}
 			if(!atHome && !anyActive){
 				if(house != null)
@@ -687,6 +697,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		log("MY JOB. LOCATION: " + myJob.location);
 		DoGoTo(myJob.location);
 		//Semaphore stuff
 		//TODO how to announce that the person is there for work
