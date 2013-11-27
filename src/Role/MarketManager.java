@@ -137,6 +137,7 @@ public class MarketManager extends Role {
 			if (!myOrders.isEmpty()) {
 				for (myMarketOrder order : myOrders) {
 					if (order.state == orderState.pendingWorkerAssignment){
+						log("I'll delegate this order to one of my workers");
 						makeWorkerPrepareOrder(order);
 						order.state = orderState.assignedToWorker;
 						return true;
@@ -185,6 +186,7 @@ public class MarketManager extends Role {
 	
 	private void deliverOrder(myMarketOrder o){
 		if (o.type == deliveryType.inPerson){
+			log("All done, here is your order");
 			o.order.getRecipient().msgHereIsYourOrder(o.order);
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
