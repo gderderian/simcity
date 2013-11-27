@@ -54,7 +54,7 @@ public class MarketManager extends Role {
 	
 	public class myMarketOrder {
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
-		orderState state;
+		public orderState state;
 		deliveryType type;
 		PersonAgent assignedWorker;
 		
@@ -80,8 +80,15 @@ public class MarketManager extends Role {
 	}
 
 	public class myMarketWorker { // Used for internal stock-tracking within the market
+		
 		public MarketWorker worker;
 		public int numWorkingOrders;
+		
+		public myMarketWorker(MarketWorker w){
+			worker = w;
+			numWorkingOrders = 0;
+		}
+		
 	}
 	
 	// Messages
@@ -203,6 +210,11 @@ public class MarketManager extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+	
+	public void addWorker(MarketWorker w){
+		myMarketWorker newWorker = new myMarketWorker(w);
+		myWorkers.add(newWorker);
 	}
 
 }
