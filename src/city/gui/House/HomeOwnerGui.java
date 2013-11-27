@@ -126,6 +126,8 @@ public class HomeOwnerGui implements Gui {
         } else if (xPos >= xBed && yPos >= yBed && goingToBed){
                 person.msgAnimationAtBed();
                 goingToBed= false;
+        } else if (xPos <= 0 && yPos <= 0 ){
+        	person.msgAtDestination();
         }
         
    }
@@ -206,6 +208,10 @@ public class HomeOwnerGui implements Gui {
             }
     }
     
+    public void goToExit(){
+    	xDestination= 0;
+    	yDestination= 0;
+    }
     
         @Override
         public void setPresent(boolean t) {

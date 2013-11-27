@@ -36,6 +36,7 @@ import restaurant1.Restaurant1;
 import city.Apartment;
 import city.CityMap;
 import city.House;
+import city.Market;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
 import Role.BankManagerRole;
@@ -184,6 +185,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addRest4ToCityMap(Restaurant4 r) {
     	cityMap.setRestaurant4(r);
+    }
+    
+    public void addMarketToCityMap(Market m) {
+    	cityMap.setMarket(m);
     }
     
     public void setCityGui(CityGui c){
@@ -637,7 +642,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000	);	
 		
-		addPerson("BusTest", "No Job");
+		addPerson("BusTest", "No job");
 	}
     
     public void runRestaurant1Test(){
@@ -701,6 +706,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);
     	
 		addPerson("joe", "No Job");
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
 		
     }
     
