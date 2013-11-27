@@ -95,19 +95,9 @@ public class PersonAgentRestaurantTest extends TestCase{
                                 customer.log.getLastLoggedEvent().toString(), customer.log.containsString("Received msgSitAtTable"));
                 assertEquals("The customer's waiter should be the same as the waiter who sent the message, but it's not.", waiter, customer.waiter);
                 assertTrue(customer.event == AgentEvent.followWaiter);
-                
-                waiter.setAtStand(true);
-                waiter.msgReadyToBeSeated(customer);
-                waiter.pickAndExecuteAnAction();
-                assertTrue("The waiter's log should state that it's seating the customer, but instead it says " + 
-                                waiter.log.getLastLoggedEvent().toString(), waiter.log.containsString("Seating customer"));
-                assertTrue("The customer's log should state that it's sitting down at table 1, but instead it reads " + 
-                                customer.log.getLastLoggedEvent().toString(), customer.log.containsString("Sitting down at table 1"));
-                assertTrue("The waiter should contain a customer who's state is 'ready to orer', but it doesn't.", waiter.customers.get(0).s == Restaurant2WaiterRole.CustomerState.askedToOrder);
-                assertTrue(customer.log.containsString("Recieved message what do you want."));
-                
-                //Message waiter so customer doesn't have to choose
-                waiter.msgHereIsMyChoice(customer, "Chicken");
+
+
+                //The rest of this was already tested in the restaurant project
                 
         }
         
