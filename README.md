@@ -26,7 +26,7 @@ CS201 Team 16 SimCity Project
   	+ restaurant2
   + Trevor Reed, A* Expert
   	+ Global Transportation: buses, cars, market truck
-  	+ City GUI A*/Path Finding
+  	+ City GUI A*/Path Finding (including animation within the full city view)
   	+ Main CityGUI images/design
   	+ restaurant1
 
@@ -52,5 +52,10 @@ __To test different buildings within the program__, navigate to any of the vario
 Scenarios can be initiated through the World tab of the main control panel. From there, a specific scenario can be selected by the user and then, when it is executed, it will create people, send them to jobs, and perform other actions that directly model the specific selected scenario.
 
 ### Overall State of Program
+
+#####Transportation
++ Market Delivery Trucks are tested, but they have not been fully integrated yet. They show up in some scenarios to simply drive around to show the A* animation capabilities. They don't communicate with markets yet, except within tests.
++ Buses are fully tested and implemented, but we haven't yet updated the person to choose when to take the bus. We have a scenario that shows one person taking a bus, but we still need to implement this in a more general sense.
++ Cars are fully tested and implemented, but they haven't been integrated into the city yet. We just need to finish updating the Person Agent to include this form of transportation.
 
 + The PersonAgent needs to be redone so that there is an Event class which has an intent and a location. This is so that the person's actions and messages will be timed correctly when they take the bus or car. Right now, the Person's actions are based on the assumption that they can essentially be completed inside one method - there are semaphores within the DoGoTo method that take care of timing, but these get messed up when the person goes to the bus or takes the car. Instead, we now have a specific bus test which shows that the bus system is functional.
