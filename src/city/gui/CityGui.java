@@ -479,6 +479,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 			
+			
 		}
 	}
 	

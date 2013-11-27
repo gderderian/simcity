@@ -891,6 +891,7 @@ public class PersonAgent extends Agent implements Person{
 						log("Set CustomerRole5 active");
 					}
 				}
+				
 			}
 			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
 			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this

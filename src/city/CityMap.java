@@ -155,6 +155,7 @@ public class CityMap {
 		restaurants.add("Restaurant4");
 	}
 	
+	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
 	}

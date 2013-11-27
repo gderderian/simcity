@@ -41,6 +41,7 @@ public class Restaurant5 {
 	public void setCashier(Restaurant5CashierRole c) {
 		cashier = c;
 		
+		
 	}
 
 	public void addWaiters(Restaurant5WaiterRole w) {
