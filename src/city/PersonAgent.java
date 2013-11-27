@@ -757,7 +757,6 @@ public class PersonAgent extends Agent implements Person{
 				takeCar(destination);
 			}
 			else{
-				//This is walking
 				DoGoTo(restName);
 			}
 			log.add(new LoggedEvent("Decided to go to a restaurant"));
@@ -980,18 +979,18 @@ public class PersonAgent extends Agent implements Person{
 
 		Position p = new Position(x, y);
 		
-		//if(currentPosition.distance(p) < 20) {
-			moveTo(x, y);
-			gui.setInvisible();
-			return;
-		/*}
+		moveTo(x, y);
+		gui.setInvisible();
+	}
+	
+	void DoBusTo(String location){
 		destinationBuilding = location;
 		int startingBusStop = cityMap.getClosestBusStop(currentPosition);
 		int endingBusStop = cityMap.getClosestBusStop(location);
 		busStopToGetOffAt = endingBusStop;
 		DoGoTo("stop" + Integer.toString(startingBusStop));
 		busStop = cityMap.getBusStop(startingBusStop);
-		busStop.msgWaitingForBus(this);			
+		busStop.msgWaitingForBus(this);
 		gui.setVisible(); /*Person will stand outside bus stop*/
 	}
 	
