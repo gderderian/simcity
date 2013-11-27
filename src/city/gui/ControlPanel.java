@@ -63,9 +63,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     //private JPanel activityLog = new JPanel();
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
-    private JButton populateCity = new JButton("Populate City");
-    private String[] scenarios = {"[Please choose a test to run]", "Full Test", "Regular Joe Test", "Restaurant1 Test",
-    		"Restaurant2 Test", "Restaurant4 Test", "A* Animation Test"
+    private JButton startScenario = new JButton("Start scenario!");
+    
+    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
+    		"Restaurant2", "Restaurant3", "Restaurant4", "A* Animation", "Bus Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -206,7 +207,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private void setupWorldControls(){
     	
     	Dimension dropDownSize = new Dimension(WINDOWX, 30);
-    	populateCity.addActionListener(this);
+    	startScenario.addActionListener(this);
     	backToCity.addActionListener(this);
     	backToCity.setEnabled(false);
     	scenarioSelect.addActionListener(this);
@@ -223,8 +224,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     	worldControls.add(scenarioSelect);
     	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(Box.createVerticalStrut(10));
-    	worldControls.add(populateCity);
-    	populateCity.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControls.add(startScenario);
+    	startScenario.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -339,16 +340,16 @@ public class ControlPanel extends JPanel implements ActionListener{
         }
         else if(e.getSource() == scenarioSelect){
         	if(scenarioSelect.getSelectedIndex() == 0){
-        		populateCity.setEnabled(false);
+        		startScenario.setEnabled(false);
         	}
         	else
-        		populateCity.setEnabled(true);
+        		startScenario.setEnabled(true);
         }
-        else if(e.getSource() == populateCity){
+        else if(e.getSource() == startScenario){
         	if(scenarioSelect.getSelectedIndex() != 0){
             	populateCity((String)scenarioSelect.getSelectedItem());
             	cityGui.startMasterClock();
-            	populateCity.setEnabled(false);
+            	startScenario.setEnabled(false);
         	}
         }
         else if(e.getSource() == backToCity) {
@@ -573,19 +574,22 @@ public class ControlPanel extends JPanel implements ActionListener{
     	/*
     	 * This will call different functions based on which scenario was chosen
     	 */
-		if(scenario.equals("Full Test"))
+		if(scenario.equals("Full Scenario"))
 			runFullTest();
-		else if(scenario.equals("Regular Joe Test"))
+		else if(scenario.equals("Regular Joe"))
 			runRegularJoeTest();
-		else if(scenario.equals("Restaurant1 Test"))
+		else if(scenario.equals("Restaurant1"))
 			runRestaurant1Test();
-		else if(scenario.equals("Restaurant2 Test"))
+		else if(scenario.equals("Restaurant2"))
 			runRestaurant2Test();
-		else if(scenario.equals("Restaurant4 Test"))
+		else if (scenario.equals("Restaurant3"))
+			runRestaurant3Test();
+		else if(scenario.equals("Restaurant4"))
 			runRestaurant4Test();
-		else if(scenario.equals("A* Animation Test")){
+		else if(scenario.equals("A* Animation"))
 			runAnimationTest();
-		}
+		else if(scenario.equals("Bus Test"))
+				runBusTest();
     	
     }
     
@@ -632,6 +636,17 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest4Test", "No job");
     }
     
+    public void runBusTest() {
+		//Add a bus and a person to take bus
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 8000	);	
+		
+		addPerson("BusTest", "No job");
+	}
+    
     public void runRestaurant1Test(){
     	//Add two buses at an interval
     	addVehicle("bus");
@@ -663,6 +678,23 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
 		addPerson("rest2Test", "No job");
+
+    }
+    
+    public void runRestaurant3Test(){
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000);
+		
+		addPersonNoHouse("host", "Restaurant3 Host");
+		addPersonNoHouse("cashier", "Restaurant3 Cashier");
+		addPersonNoHouse("cook", "Restaurant3 Cook");
+		addPerson("waiter", "Restaurant3 Waiter");
+		addPerson("rest3Test", "No job");
 
     }
     
@@ -752,5 +784,4 @@ public class ControlPanel extends JPanel implements ActionListener{
     public void enableBackToCity() {
     	backToCity.setEnabled(true);
     }
-
 }

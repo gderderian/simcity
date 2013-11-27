@@ -106,6 +106,8 @@ public class PersonAgent extends Agent implements Person{
 	public boolean goToRestaurantTest = false;
 	public boolean test = false;
 	
+	public boolean busTest = false;
+	
 	//Job
 	public Job myJob;
 	public enum WorkState {notWorking, goToWork, atWork};
@@ -285,7 +287,7 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 	
-	//TODO this is a test hack
+	//TODO fix this
 	
 	public void msgTimeUpdate(int t){
 		
@@ -330,12 +332,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to eat something");
 		}
-		else if(t > 4000 && t < 7020 && (name.equals("marketManager") || name.equals("marketWorker"))){
-			synchronized(events){
-				events.add("GoToWork");
-			}
-			log("Its time for me to go to work");
-		}
 		
 		stateChanged();
 	}
@@ -373,11 +369,11 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgFridgeFull() {
-		// TODO
+		// TODO Auto-generated method stub
 		//This is a non-norm, will fill in later
 		log("Recieved message fridge full");
 		log.add(new LoggedEvent("Recieved message fridge full"));
-		stateChanged();
+		
 	}
 
 	public void msgSpaceInFridge(int spaceLeft) {
@@ -385,13 +381,14 @@ public class PersonAgent extends Agent implements Person{
 		//Not sure what to do with this one - also non-norm, will assume for now that there is definitely space in fridge?
 	}
 
+	//TODO finish this function
 	public void msgApplianceBrokeCantCook() {
 		synchronized(meals){
 			for(MyMeal m : meals){
-				//TODO finish this function
+				
 			}
 		}
-		stateChanged();
+		
 	}
 	
 	//Messages from bus/bus stop
@@ -426,7 +423,9 @@ public class PersonAgent extends Agent implements Person{
 		busride.state = BusRideState.busIsHere;
 		busRides.add(busride);
 		stateChanged();
-
+		
+		//This will change to add bus to existing BusRide
+		//TODO add bus stop to this message so I can find the BusRide
 	}
 	
 	public void msgArrived(Car car) { //Sent from person's car
@@ -519,14 +518,18 @@ public class PersonAgent extends Agent implements Person{
 		}
 		/* End of animation test code */
 		
+		if(name == "BusTest" && !busTest) {
+			DoGoTo("rest2");
+			busTest = true;
+			return false;
+		}
+		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
-				if(r != null){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
-				}
 				}
 			}
 			if (anytrue){
@@ -659,12 +662,10 @@ public class PersonAgent extends Agent implements Person{
 		boolean anyActive= false;
 		synchronized(roles){
 			for(Role r : roles){
-				if(r != null){
 				if(r.isActive)
 					anyActive = true;
-				}
 			}
-			if(!atHome && !anyActive){
+			if(!atHome && !anyActive && !busTest){
 				if(house != null)
 					goHome();
 			}
@@ -792,7 +793,8 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 			}
-			if(!cars.isEmpty()){
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
 				String destination = restName;
 				takeCar(destination);
 			}
@@ -819,7 +821,8 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 			}
-			if(!cars.isEmpty()){
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
 				String destination = restName;
 				takeCar(destination);
 			}
@@ -829,7 +832,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log.add(new LoggedEvent("Decided to go to a restaurant"));
 			cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
-			((Restaurant2CustomerRole)role).setGuiActive();
+			((Restaurant2CustomerRole)role).setGuiActive();		
 		}
 		else if(name.equals("rest4Test")){
 			print("Going to go to a restaurant");
@@ -845,7 +848,8 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 			}
-			if(!cars.isEmpty()){
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
 				String destination = restName;
 				takeCar(destination);
 			}
@@ -858,6 +862,60 @@ public class PersonAgent extends Agent implements Person{
 			((CustomerRole4)role).setGuiActive();	
 		}
 		
+		/*print("Going to go to a restaurant");
+		String restName = null;
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				if(r instanceof Restaurant2CustomerRole){
+					
+					r.setActive();
+					role = (Restaurant2CustomerRole) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
+				else if(r instanceof Restaurant1CustomerRole) {
+					r.setActive();
+					role = (Restaurant1CustomerRole) r;
+					restName = role.getBuilding();
+					log("Set Restaurant1CustomerRole active");
+				}
+				else if(r instanceof CustomerRole4){
+					r.setActive();
+					role = (CustomerRole4) r;
+					restName = role.getBuilding();
+					log("Found role to set active");
+				}
+			}
+		}
+		//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+		if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+			String destination = restName;
+			takeCar(destination);
+		}
+		else{
+			//This is walking
+			DoGoTo(restName);
+		}
+		log.add(new LoggedEvent("Decided to go to a restaurant"));
+		//Restaurant2CustomerRole customer = cityMap.restaurant2.getNewCustomerRole(this);
+		//addRole(customer, true);
+
+		
+		log("I want food!");
+		if(role instanceof Restaurant2CustomerRole) {
+			cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
+			((Restaurant2CustomerRole)role).setGuiActive();
+		}
+		else if(role instanceof Restaurant1CustomerRole) {
+			((Restaurant1CustomerRole) role).setHost(cityMap.restaurant1.getHost());
+			((Restaurant1CustomerRole) role).goToRestaurant();
+			((Restaurant1CustomerRole)role).setGuiActive();
+		}
+		else if(role instanceof CustomerRole4) {
+			cityMap.restaurant4.getHost().msgIWantFood((CustomerRole4) role);
+			((Restaurant2CustomerRole)role).setGuiActive();
+		}*/
 	}
 	
 	public void notifyLandlordBroken(MyAppliance a){
@@ -950,13 +1008,17 @@ public class PersonAgent extends Agent implements Person{
 		 * TODO gui - go to market
 		 * NOT walking, because there will be groceries to carry
 		 */
-		if(cars.isEmpty()){
+		/*if(cars.isEmpty()){
+<<<<<<< HEAD
 			 //String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
 			 //DoGoTo(market);	//may need to force bus travel
+=======
+			 String market = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
+>>>>>>> 61d3cc1963ab1376e0dce349ff2184d34a502a06
 		}
 		else{
 			//takeCar(market);
-		}
+		}*/
 		
 	}
 	
@@ -1023,11 +1085,12 @@ public class PersonAgent extends Agent implements Person{
 
 		Position p = new Position(x, y);
 		
-		//if(currentPosition.distance(p) < 20) {
+		if(currentPosition.distance(p) < 20 && name != "BusStop") {
 			moveTo(x, y);
 			gui.setInvisible();
 			return;
-		/*}
+		}
+		
 		destinationBuilding = location;
 		int startingBusStop = cityMap.getClosestBusStop(currentPosition);
 		int endingBusStop = cityMap.getClosestBusStop(location);
@@ -1178,8 +1241,17 @@ public class PersonAgent extends Agent implements Person{
 		public double fare;
 		public BusRideState state;
 		
+		/*
+		 * TODO change this so the second constructor is used ONLY
+		 */
+		
 		public BusRide(Bus b){
 			bus = b;
+			fare = 0;
+			state = BusRideState.initial;
+		}
+		
+		public BusRide(int stop){
 			fare = 0;
 			state = BusRideState.initial;
 		}

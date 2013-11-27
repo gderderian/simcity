@@ -683,6 +683,30 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			restaurant4.addGui(gui);
 			gui.setPresent(false);
 			return role;
+		} else if (type.equals("Restaurant3 Customer")){
+			CustomerRole3 role= new CustomerRole3(p.getName(), 50, 50, p);
+			return role;
+		} else if (type.equals("Restaurant3 Host")){
+			HostRole3 role= new HostRole3(p.getName(), p);
+			System.out.println("Host should not be null: " + role);
+			return role;
+		} else if (type.equals("Restaurant3 Cashier")){
+			CashierRole3 role= new CashierRole3(p.getName(), p);
+			return role;
+		} else if (type.equals("Restaurant3 Cook")){
+			CookRole3 role= new CookRole3(p.getName(), p);
+			CookGui3 gui = new CookGui3(role);
+			role.setGui(gui);
+			restaurant3.addGui(gui);
+			gui.setPresent(true);
+			return role;
+		} else if (type.equals("Restaurant3 Waiter")){
+			WaiterRole3 role= new WaiterRole3(p.getName(), 50, 50, p); 
+			WaiterGui3 gui = new WaiterGui3(role);
+			role.setGui(gui);
+			restaurant3.addGui(gui);
+			gui.setPresent(false);
+			return role;
 		}
 		else if(type.equals("Market Manager")){
 			MarketManager role= new MarketManager(p.getName(), p); 
