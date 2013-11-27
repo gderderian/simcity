@@ -26,6 +26,8 @@ import city.gui.Bank.BankAnimationPanel;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.Market.MarketAnimationPanel;
+import Role.MarketManager;
+import Role.MarketWorker;
 import Role.Role;
 import astar.AStarTraversal;
 import city.Restaurant2.Restaurant2;
@@ -103,6 +105,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		Restaurant5 rest5 = new Restaurant5();
 		Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
 		// Restaurant 5 (Tom)
+	
+		
+   // Market
+	Market market= new Market();
 		
 
 	// Market Animation Panels
@@ -554,6 +560,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 				else if(r instanceof WaiterRole4){
 					rest4.addWaiters((WaiterRole4) r);
+				}
+			}
+			else if(job.contains("Market")) {
+				p.addFirstJob(r, "market");
+				if(r instanceof MarketWorker){
+					market.addWorker((MarketWorker)r);
+					p.setRoleActive(r);
+				}
+				else if(r instanceof MarketManager){
+					market.setManager((MarketManager)r);
+					p.setRoleActive(r);
 				}
 			}
 		}

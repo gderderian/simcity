@@ -36,6 +36,7 @@ import restaurant1.Restaurant1;
 import city.Apartment;
 import city.CityMap;
 import city.House;
+import city.Market;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
 import Role.BankManagerRole;
@@ -184,6 +185,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addRest4ToCityMap(Restaurant4 r) {
     	cityMap.setRestaurant4(r);
+    }
+    
+    public void addMarketToCityMap(Market m) {
+    	cityMap.setMarket(m);
     }
     
     public void setCityGui(CityGui c){
@@ -579,7 +584,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if(scenario.equals("Restaurant4 Test"))
 			runRestaurant4Test();
 		else if(scenario.equals("A* Animation Test")){
-			//Trevor add this in
+			runAnimationTest();
 		}
     	
     }
@@ -592,6 +597,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 				 addVehicle("bus");
 			}
 		}, 16000	);		
+		
+		//Add two trucks at an interval
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 5000	);
+
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 13000	);
     	
 		addPersonNoHouse("host", "Restaurant2 Host");
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
@@ -675,6 +693,55 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);
     	
 		addPerson("joe", "No Job");
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
+    }
+    
+    public void runAnimationTest() {
+    	
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+		
+		//Add two trucks at an interval
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 5000	);
+
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 13000	);
+		
+		//Adding 6 people to walk to different places and test A* animation
+			addPerson("aStarTest1", "No job");
+			timer.schedule(new TimerTask() {
+				public void run() {
+			addPerson("aStarTest1", "No job");
+				}
+			}, 4000	);
+			
+			addPerson("aStarTest3", "No job");
+			timer.schedule(new TimerTask() {
+				public void run() {
+			addPerson("aStarTest3", "No job");
+				}
+			}, 10000	);
+			
+			addPerson("aStarTest2", "No job");
+			timer.schedule(new TimerTask() {
+				public void run() {
+			addPerson("aStarTest2", "No job");
+				}
+			}, 20000	);
 		
     }
     

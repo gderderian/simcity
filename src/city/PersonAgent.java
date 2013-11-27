@@ -330,6 +330,12 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to eat something");
 		}
+		else if(t > 4000 && t < 7020 && (name.equals("marketManager") || name.equals("marketWorker"))){
+			synchronized(events){
+				events.add("GoToWork");
+			}
+			log("Its time for me to go to work");
+		}
 		
 		stateChanged();
 	}
@@ -488,12 +494,39 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
+		
+		/* This is only for our animation test which
+		 * displays A* animation capabilities!!
+		 */
+		if(name == "aStarTest1") {
+			DoGoTo("rest3");
+			DoGoTo("mark2");
+			DoGoTo("apart1");
+			goHome();
+			return false;
+		} else if(name == "aStarTest2") {
+			DoGoTo("rest1");
+			DoGoTo("rest2");
+			DoGoTo("bank2");
+			DoGoTo("stop3");
+			goHome();
+			return false;
+		} else if(name == "aStarTest3") {
+			DoGoTo("mark3");
+			DoGoTo("rest4");
+			goHome();
+			return false;
+		}
+		/* End of animation test code */
+		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
+				if(r != null){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
+				}
 				}
 			}
 			if (anytrue){
@@ -626,8 +659,10 @@ public class PersonAgent extends Agent implements Person{
 		boolean anyActive= false;
 		synchronized(roles){
 			for(Role r : roles){
+				if(r != null){
 				if(r.isActive)
 					anyActive = true;
+				}
 			}
 			if(!atHome && !anyActive){
 				if(house != null)
@@ -662,6 +697,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		log("MY JOB. LOCATION: " + myJob.location);
 		DoGoTo(myJob.location);
 		//Semaphore stuff
 		//TODO how to announce that the person is there for work
@@ -707,10 +743,11 @@ public class PersonAgent extends Agent implements Person{
         	int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
-			homeGui.goToTable();
+			homeGui.goToExit(); 
         	try{
                 atDestination.acquire();
         	} catch (InterruptedException e){}
+        	DoGoTo("mark1");
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
@@ -1014,7 +1051,7 @@ public class PersonAgent extends Agent implements Person{
 		    gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
 
 		    //Did not get lock. Lets make n attempts.
-		    while (!gotPermit && attempts < 10) {
+		    while (!gotPermit && attempts < 3) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
 
 			//Wait for 1sec and try again to get lock.
