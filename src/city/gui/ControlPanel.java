@@ -170,8 +170,8 @@ public class ControlPanel extends JPanel implements ActionListener{
         createHouses();
       	//Creation of bus stops
         createBusStops();     
-        
-        populateCity.setEnabled(false);
+                
+        scenarioSelect.setSelectedIndex(1);
     }
     
     public void addRest2ToCityMap(Restaurant2 r){
