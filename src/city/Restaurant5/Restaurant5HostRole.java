@@ -128,6 +128,8 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	// Messages
 
 	public void msgIWantFood(Restaurant5Customer cust) {
+		
+		Do("arrived at restaurant");
 		waitingCustomers.add(cust);
 		person.stateChanged();
 	}
