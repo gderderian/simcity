@@ -634,13 +634,12 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     public void runBusTest() {
-		//Add two buses at an interval
-		addVehicle("bus");
+		//Add a bus and a person to take bus
 		timer.schedule(new TimerTask() {
 			public void run() {
 				 addVehicle("bus");
 			}
-		}, 16000	);	
+		}, 8000	);	
 		
 		addPerson("BusTest", "No job");
 	}
