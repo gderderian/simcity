@@ -32,6 +32,7 @@ public class CityMap {
 	Restaurant2 restaurant2;
 	Restaurant4 restaurant4;
 	Bank bank;
+	Market market;
 	
 	public CityMap() {
 		//Restaurant locations
@@ -161,6 +162,10 @@ public class CityMap {
 	
 	public void setRestaurant4(Restaurant4 r){
 		restaurant4= r;
+	}
+	
+	public void setMarket(Market m){
+		market= m;
 	}
 	
 	public Position getParkingLocation(String location) {

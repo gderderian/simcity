@@ -710,10 +710,11 @@ public class PersonAgent extends Agent implements Person{
         	int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
-			homeGui.goToTable();
+			homeGui.goToExit(); 
         	try{
                 atDestination.acquire();
         	} catch (InterruptedException e){}
+        	DoGoTo("mark1");
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
