@@ -491,6 +491,31 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
+		
+		/* This is only for our animation test which
+		 * displays A* animation capabilities!!
+		 */
+		if(name == "aStarTest1") {
+			DoGoTo("rest3");
+			DoGoTo("mark2");
+			DoGoTo("apart1");
+			goHome();
+			return false;
+		} else if(name == "aStarTest2") {
+			DoGoTo("rest1");
+			DoGoTo("rest2");
+			DoGoTo("bank2");
+			DoGoTo("stop3");
+			goHome();
+			return false;
+		} else if(name == "aStarTest3") {
+			DoGoTo("mark3");
+			DoGoTo("rest4");
+			goHome();
+			return false;
+		}
+		/* End of animation test code */
+		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
@@ -1074,7 +1099,7 @@ public class PersonAgent extends Agent implements Person{
 		    gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
 
 		    //Did not get lock. Lets make n attempts.
-		    while (!gotPermit && attempts < 10) {
+		    while (!gotPermit && attempts < 3) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
 
 			//Wait for 1sec and try again to get lock.

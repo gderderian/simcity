@@ -579,7 +579,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if(scenario.equals("Restaurant4 Test"))
 			runRestaurant4Test();
 		else if(scenario.equals("A* Animation Test")){
-			//Trevor add this in
+			runAnimationTest();
 		}
     	
     }
@@ -592,6 +592,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 				 addVehicle("bus");
 			}
 		}, 16000	);		
+		
+		//Add two trucks at an interval
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 5000	);
+
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 13000	);
     	
 		addPersonNoHouse("host", "Restaurant2 Host");
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
@@ -675,6 +688,53 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);
     	
 		addPerson("joe", "No Job");
+		
+    }
+    
+    public void runAnimationTest() {
+    	
+    	//Add two buses at an interval
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+		
+		//Add two trucks at an interval
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 5000	);
+
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("truck");
+			}
+		}, 13000	);
+		
+		//Adding 6 people to walk to different places and test A* animation
+			addPerson("aStarTest1", "No job");
+			timer.schedule(new TimerTask() {
+				public void run() {
+			addPerson("aStarTest1", "No job");
+				}
+			}, 4000	);
+			
+			addPerson("aStarTest3", "No job");
+			timer.schedule(new TimerTask() {
+				public void run() {
+			addPerson("aStarTest3", "No job");
+				}
+			}, 10000	);
+			
+			addPerson("aStarTest2", "No job");
+			timer.schedule(new TimerTask() {
+				public void run() {
+			addPerson("aStarTest2", "No job");
+				}
+			}, 20000	);
 		
     }
     
