@@ -72,6 +72,7 @@ public class BankManagerRole extends Role{
 	public void msgCustomerLeft(BankCustomerRole leavingcustomer, BankTellerRole bankteller)
 	{
 		log.add(new LoggedEvent("msgCustomerLeft"));
+		Do("customer just left");
 		this.leavingcustomer = leavingcustomer;
 		this.freebankteller = bankteller;
 		state = bankmanagerstate.customerleft;
@@ -90,6 +91,7 @@ public class BankManagerRole extends Role{
 				if(freebankteller.bankteller == bankteller)
 				{
 					log.add(new LoggedEvent("msgBankTellerFree"));
+					Do("bankteller is free");
 					freebankteller.state = banktellerstate.free;
 					break;
 				}
@@ -106,7 +108,7 @@ public class BankManagerRole extends Role{
 	public boolean pickAndExecuteAnAction() {
 
 
-		Do("im in the scheduler");
+		//Do("im in the scheduler");
 		//Do("" + banktellers.size());
 
 		synchronized(banktellers)
@@ -163,7 +165,7 @@ public class BankManagerRole extends Role{
 							{
 								log.add(new LoggedEvent("banktellerassigned"));
 								bankteller.bankteller.msgAssignMeCustomer(customer.customer);
-								Do("assign bankteller to customer:" + customer.customer.person.getName());
+								Do("assign bankteller to customer: " + customer.customer.person.getName());
 								customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
 								customer.state = customerstate.beingserved;
 								bankteller.state = banktellerstate.busy;

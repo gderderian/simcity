@@ -5,7 +5,7 @@ import tomtesting.interfaces.*;
 
 import java.awt.*;
 
-public class HostGui implements Gui {
+public class Restaurant5HostGui implements Gui {
 
     private Restaurant5Host agent = null;
     private boolean returningtolobby = false;
@@ -18,7 +18,7 @@ public class HostGui implements Gui {
     
     boolean isPresent = true;
 
-    public HostGui(Restaurant5Host agent) {
+    public Restaurant5HostGui (Restaurant5Host agent) {
         this.agent = agent;
     }
 
