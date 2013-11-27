@@ -392,6 +392,8 @@ public class CustomerRole4 extends Role implements Customer4 {
 		Do("Leaving.");
 		waiter.msgDoneEating(this);
 		customerGui.DoExitRestaurant();
+		p.setGuiVisible();
+		p.setRoleInactive(this);
 	}
 
 	// Accessors, etc.
