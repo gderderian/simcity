@@ -550,7 +550,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			public void run() {
 				 addVehicle("bus");
 			}
-		}, 16000	);
+		}, 16000	);		
     	
 		addPersonNoHouse("host", "Restaurant2 Host");
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");

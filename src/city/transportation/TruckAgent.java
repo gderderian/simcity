@@ -8,6 +8,8 @@ import java.util.concurrent.Semaphore;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import astar.AStarTraversal;
+import astar.Position;
+import city.CityMap;
 import city.MarketOrder;
 import city.PersonAgent;
 
@@ -17,9 +19,9 @@ public class TruckAgent extends Vehicle {
 
 	public List <MyMarketOrder> orders = Collections.synchronizedList(new ArrayList<MyMarketOrder>());
 
-	String name = "Truck";
-
 	private boolean test = false;
+	
+	String name = "Truck";
 
 	ActivityTag tag = ActivityTag.TRUCK;
 
@@ -32,11 +34,14 @@ public class TruckAgent extends Vehicle {
 		}
 	}
 
-	public TruckAgent(MarketManager market, AStarTraversal aStarTraversal) {
-		super(aStarTraversal);
-		this.market = market;
+	public TruckAgent(AStarTraversal aStarTraversal, CityMap map) {
+		super(aStarTraversal, map);
 		capacity = 0;
 		guiFinished = new Semaphore(0, true);
+		
+		type = "truck";
+
+		currentPosition = new Position(17, 18);
 	}
 
 	//Messages
@@ -80,6 +85,8 @@ public class TruckAgent extends Vehicle {
 				}
 			}
 		}
+		
+		DriveAround(); //Demonstration of animation capabilities!
 
 		return false;
 	}
@@ -87,20 +94,40 @@ public class TruckAgent extends Vehicle {
 	//Actions
 	private void DeliverOrder(MyMarketOrder o) {
 		log("Going to " + o.o.destination);
-		//DoDriveTo(o.o.destination);
+		DoGoTo(o.o.destination);
 		log("Delivering order from market to recipient");
 		o.o.getRecipient().msgHereIsYourOrder(this, o.o);
 		o.delivered = true;
 		log("Returning to market");
-		//DoDriveToMarket();
+		//Hack - must change to specific restaurant
+		DoGoTo("mark1");
 	}
 
 	private void ReportToMarket(MyMarketOrder o) {
 		market.msgFinishedDelivery(o.o);
 		orders.remove(o);
 	}
+	
+	private void DriveAround() {
+		//Demonstration of animation capabilities - Driving loops around city.
+		while(true) {
+			guiMoveFromCurrentPositionTo(new Position(15, 6));
+			guiMoveFromCurrentPositionTo(new Position(6, 6));
+			guiMoveFromCurrentPositionTo(new Position(6, 12));
+			guiMoveFromCurrentPositionTo(new Position(15, 12));
+			
+			guiMoveFromCurrentPositionTo(new Position(16, 5));
+			guiMoveFromCurrentPositionTo(new Position(5, 5));
+			guiMoveFromCurrentPositionTo(new Position(5, 13));
+			guiMoveFromCurrentPositionTo(new Position(16, 13));
+		}
+	}
 
 	// Accessors
+	public void setMarketManager(MarketManager m) {
+		market = m;
+	}
+	
 	public int getOrderNum(){
 		return orders.size();
 	}

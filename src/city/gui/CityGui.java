@@ -43,6 +43,7 @@ import city.gui.restaurant2.Restaurant2CookGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.gui.restaurant2.Restaurant2WaiterGui;
 import city.transportation.BusAgent;
+import city.transportation.TruckAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
 import city.Restaurant4.CashierRole4;
@@ -402,7 +403,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void addVehicle(String type, AStarTraversal aStarTraversal) {
 		if(type == "bus") {
-			BusAgent newBus = new BusAgent(aStarTraversal);
+			BusAgent newBus = new BusAgent(aStarTraversal, controlPanel.getCityMap());
 			newBus.addBusStops(controlPanel.getBusStops());
 			vehicles.add(newBus);
 			VehicleGui g = new VehicleGui(newBus);
@@ -412,6 +413,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			g.setMainAnimationPanel(animationPanel);
 
 			newBus.startThread();   
+		}
+		
+		if(type == "truck") {
+			TruckAgent newTruck = new TruckAgent(aStarTraversal, controlPanel.getCityMap());
+			vehicles.add(newTruck);
+			VehicleGui g = new VehicleGui(newTruck);
+			newTruck.setGui(g);
+			guis.add(g);
+			animationPanel.addGui(g);
+			g.setMainAnimationPanel(animationPanel);
+			
+			newTruck.startThread();
 		}
 	}   
 	
