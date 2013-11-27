@@ -67,7 +67,7 @@ public class PersonAgent extends Agent implements Person{
 	TransportationState transportationState;
 	CityMap cityMap;
 	BusStopAgent busStop;
-	int busStopToGetOffAt;
+	public int busStopToGetOffAt;
 	BusAgent bus;
 	public List<Car> cars = new ArrayList<Car>();
 	public List<BusRide> busRides = Collections.synchronizedList(new ArrayList<BusRide>());
@@ -1010,6 +1010,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void getOffBus(BusRide busride){
 		busride.bus.msgImGettingOff(this);
+		log("Getting off the bus");
 		String thisStop = "stop" + Integer.toString(busStopToGetOffAt);
 		int x = cityMap.getX(thisStop);
 		int y = cityMap.getY(thisStop);
@@ -1283,6 +1284,7 @@ public class PersonAgent extends Agent implements Person{
 		public Bus bus;
 		public double fare;
 		public BusRideState state;
+		public int stop;
 		
 		/*
 		 * TODO change this so the second constructor is used ONLY
