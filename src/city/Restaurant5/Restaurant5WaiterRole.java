@@ -71,14 +71,11 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	public int xCoordinate;
 	public int yCoordinate;
 
-	public Restaurant5WaiterRole(String name, Restaurant5HostRole host, Restaurant5CookRole cook, Restaurant5Cashier cashier, PersonAgent person) {
+	public Restaurant5WaiterRole(String name, PersonAgent person) {
 		super();
 		building = "rest5";
 
 		this.name = name;
-		this.host = host;
-		this.cook = cook;
-		this.cashier = cashier;
 		this.person = person;
 
 	}

@@ -14,6 +14,7 @@ import Role.BankManagerRole;
 
 public class BankTest1 extends TestCase {
         
+	
         BankManagerRole bankmanager;
         BankTellerRole bankteller;
         BankCustomerRole bankcustomer;
