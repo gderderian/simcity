@@ -48,6 +48,7 @@ import Role.MarketWorker;
 import Role.Role;
 import city.Restaurant2.*;
 import city.Restaurant4.Restaurant4;
+import city.Restaurant5.Restaurant5;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 
@@ -68,7 +69,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton startScenario = new JButton("Start scenario!");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "A* Animation", "Bus Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "A* Animation", "Bus Test", "Bank Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -188,6 +189,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addRest4ToCityMap(Restaurant4 r) {
     	cityMap.setRestaurant4(r);
+    }
+    
+    public void addRest5ToCityMap(Restaurant5 r) {
+    	cityMap.seRestaurant5(r);
     }
     
     public void addMarketToCityMap(Market m) {
@@ -601,6 +606,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runAnimationTest();
 		else if(scenario.equals("Bus Test"))
 				runBusTest();
+		else if(scenario.equals("Bank Test"))
+				runBankTest();
     	
     }
     
@@ -756,6 +763,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 		
     }
     
+    public void runBankTest() {
+    	addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				 addVehicle("bus");
+			}
+		}, 16000	);
+		
+		addPersonNoHouse("bank manager", "Bank Manager");
+		addPersonNoHouse("bank teller", "Bank Teller");
+		addPerson("bankCustomerTest", "No job");
+    	
+    }
     
     
     

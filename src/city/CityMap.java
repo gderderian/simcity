@@ -153,6 +153,7 @@ public class CityMap {
 		restaurants.add("Restaurant2");
 		restaurants.add("Restaurant3");
 		restaurants.add("Restaurant4");
+		restaurants.add("Restaurant5");
 	}
 	
 	

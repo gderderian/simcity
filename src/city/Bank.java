@@ -33,6 +33,11 @@ public class Bank {
         {
                 return bankmanager;
         }
+        
+        public void setBankManager(BankManagerRole bm)
+        {
+        	bankmanager = bm;
+        }
               
         public class bankstation {
         	

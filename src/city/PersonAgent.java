@@ -28,6 +28,7 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
+import Role.BankCustomerRole;
 import Role.BankTellerRole;
 import Role.Role;
 import activityLog.ActivityLog;
@@ -775,8 +776,33 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		String bank;
-
-
+		if(name.equals("bankCustomerTest")){
+			print("Going to go to the bank");
+			String restName = null;
+			Role role = null;
+			synchronized(roles){
+				for(Role r : roles){
+					if(r instanceof BankCustomerRole) {
+						r.setActive();
+						role = (BankCustomerRole) r;
+						restName = role.getBuilding();
+						log("Set BankCustomerRole active");
+					}
+				}
+			}
+			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
+			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+				String destination = restName;
+				takeCar(destination);
+			}
+			else{
+				//This is walking
+				DoGoTo(restName);
+			}
+			log.add(new LoggedEvent("Decided to go to the bank"));
+			cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+			((BankCustomerRole)role).setGuiActive();		
+		}
 		synchronized(bankEvents){
 			//TODO finish this
 			//bank = cityMap.getClosestBank();
@@ -1274,12 +1300,10 @@ public class PersonAgent extends Agent implements Person{
 		public Bus bus;
 		public double fare;
 		public BusRideState state;
-<<<<<<< HEAD
+
 		public int stop;
 		
-=======
 
->>>>>>> dd1760d503e7f863b66c41afb51836669377a495
 		/*
 		 * TODO change this so the second constructor is used ONLY
 		 */

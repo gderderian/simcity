@@ -26,6 +26,8 @@ import city.gui.Bank.BankAnimationPanel;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.Market.MarketAnimationPanel;
+import Role.BankManagerRole;
+import Role.BankTellerRole;
 import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
@@ -36,6 +38,7 @@ import city.gui.restaurant4.AnimationPanel4;
 import city.gui.restaurant4.CookGui4;
 import city.gui.restaurant4.CustomerGui4;
 import city.gui.restaurant4.WaiterGui4;
+import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
@@ -62,8 +65,10 @@ import city.Restaurant5.Restaurant5HostRole;
 import city.Restaurant5.Restaurant5WaiterRole;
 import city.gui.Restaurant3.*;
 import city.gui.Restaurant5.Restaurant5AnimationPanel;
+import city.gui.Restaurant5.Restaurant5CookGui;
 import city.gui.Restaurant5.Restaurant5CustomerGui;
 import city.gui.Restaurant5.Restaurant5Gui;
+import city.gui.Restaurant5.Restaurant5WaiterGui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -116,6 +121,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
 	MarketAnimationPanel market2Animation = new MarketAnimationPanel(this);
 	MarketAnimationPanel market3Animation = new MarketAnimationPanel(this);
+	
+	// Bank
+	Bank bank = new Bank();
 	
 	// Bank Animation Panels
 	BankAnimationPanel bank1Animation = new BankAnimationPanel(this);
@@ -171,6 +179,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(restaurant2);
 		controlPanel.addRest2ToCityMap(rest2);
 		controlPanel.addRest4ToCityMap(rest4);
+		controlPanel.addRest5ToCityMap(rest5);
 		controlPanel.addRest1ToCityMap(rest1);
 		controlPanel.addMarketToCityMap(market);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
@@ -631,6 +640,20 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					p.setRoleActive(r);
 				}
 			}
+			
+			
+			else if(job.contains("Bank")) {
+				p.addFirstJob(r, "bank1");
+				if(r instanceof BankManagerRole) {
+					bank.setBankManager((BankManagerRole) r);
+					p.setRoleActive(r);
+				}
+				if(r instanceof BankTellerRole) {
+					bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) r);
+					p.setRoleActive(r);
+				}
+					
+			}
 		}
 	}
 	
@@ -778,10 +801,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		else if(type.equals("Restaurant5 Waiter")){
 			Restaurant5WaiterRole role = new Restaurant5WaiterRole(p.getName(),p);
+			Restaurant5HostRole hrole = new Restaurant5HostRole(p.getName(), p);
+			Restaurant5Gui rest5gui = new Restaurant5Gui();
+			Restaurant5WaiterGui gui = new Restaurant5WaiterGui(role, rest5gui, hrole);
+			role.setGui(gui);
+			restaurant5.addGui(gui);
 			return role;
 		}
 		else if(type.equals("Restaurant5 Cook")){
-			Restaurant1CookRole role = new Restaurant1CookRole(p.getName(), p);
+			Restaurant5CookRole role = new Restaurant5CookRole(p.getName(), p);
+			Restaurant5Gui rest5gui = new Restaurant5Gui();
+			Restaurant5CookGui gui = new Restaurant5CookGui(role, rest5gui);
+			role.setGui(gui);
+			restaurant5.addGui(gui);
 			return role;
 		}
 		else if(type.equals("Restaurant5 Host")){
