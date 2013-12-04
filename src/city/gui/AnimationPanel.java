@@ -1,6 +1,5 @@
 package city.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,13 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.Timer;
-
-import restaurant1.gui.Restaurant1AnimationPanel;
-
-import city.PersonAgent;
-import city.gui.restaurant2.Restaurant2AnimationPanel;
 
 public class AnimationPanel extends BuildingPanel implements MouseListener, ActionListener {
 

@@ -1,7 +1,5 @@
 package city.gui.restaurant2;
 
-import interfaces.Restaurant2Cook;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -14,16 +12,14 @@ public class Restaurant2CookGui implements Gui{
 	private int yDest;
 	private int yPos;
 	private int xPos;
-    private final int WINDOWX = 900;
-    private final int WINDOWY = 750 - 20; //the - 20 to account for the border, etc.
-    private final int KITCHENX = WINDOWX - 50;	//based off of the refrigerator
-    private final int KITCHENY = WINDOWY/2 - 35;	//based off of the refrigerator
-    private final int STOVEX = KITCHENX - 65;
-    private final int STOVEY = KITCHENY + 50;
-    private final int HOMEX = KITCHENX - 35;
-    private final int HOMEY = KITCHENY + 18;
-    private final int COUNTERX = WINDOWX - 115;
-    private final int COUNTERY = WINDOWY/2 - 20;
+    private final int REFRIGERATORX = 800;
+    private final int REFRIGERATORY = 350;
+    private final int STOVEX = 690;	//the farthest end of the stove
+    private final int STOVEY = 430;
+    private final int HOMEX = 770;
+    private final int HOMEY = 350;
+    private final int COUNTERX = 760;
+    private final int COUNTERY = 360;
 	
 	boolean foodCooking;
 	boolean foodDone;
@@ -50,7 +46,7 @@ public class Restaurant2CookGui implements Gui{
         else if (yPos > yDest)
             yPos--;
         
-        if(xPos == xDest  && yPos == yDest && ((yDest == KITCHENY && xDest == KITCHENX) || (yDest == STOVEY && xDest == STOVEX) || (yDest == COUNTERY && xDest == COUNTERX))){
+        if(xPos == xDest  && yPos == yDest && ((yDest == REFRIGERATORY && xDest == REFRIGERATORX) || (yDest == STOVEY && xDest == STOVEX) || (yDest == COUNTERY && xDest == COUNTERX))){
         	cook.atDest();
         }
 	}
@@ -58,16 +54,16 @@ public class Restaurant2CookGui implements Gui{
 	public void draw(Graphics2D g) {
         g.drawString("CHEF", xPos - 5, yPos - 5);
         g.setColor(Color.ORANGE);
-        g.fillRect(xPos, yPos, 20, 20);
+        g.fillRect(xPos, yPos, 25, 25);
         if(foodCooking){
 			g.setColor(Color.PINK);
-			g.fillOval(STOVEX - 7, STOVEY + 7, 16, 16);
+			g.fillOval(STOVEX - 7, STOVEY + 7, 20, 20);
         }
 		if(foodDone){
 			g.setColor(Color.WHITE);
-			g.fillOval(STOVEX - 10, KITCHENY + 10, 16, 16);
+			g.fillOval(STOVEX - 10, REFRIGERATORY + 10, 20, 20);
 			g.setColor(Color.BLACK);
-			g.fillOval(STOVEX - 8, KITCHENY + 12, 13, 13);
+			g.fillOval(STOVEX - 8, REFRIGERATORY + 12, 16, 16);
 		}
 	}
 
@@ -76,8 +72,8 @@ public class Restaurant2CookGui implements Gui{
 	}
 	
 	public void doStartCooking(){	//first move to the refrigerator
-		xDest = KITCHENX;
-		yDest = KITCHENY;
+		xDest = REFRIGERATORX;
+		yDest = REFRIGERATORY;
 	}
 	
 	public void doCookFood(){

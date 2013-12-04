@@ -47,8 +47,7 @@ public class Restaurant2CustomerGui implements Gui{
     private final int WINDOWX = 900;
     private final int WINDOWY = 750 - 20;
     private final int TABLEDIM = 50;
-    private final int TABLE1Y = WINDOWY/10;
-    private final int TABLEX = WINDOWX/2 - TABLEDIM/2;
+	public Map<Integer, Integer> TABLEX = new HashMap<Integer, Integer>();
 	public Map<Integer, Integer> TABLEY = new HashMap<Integer, Integer>();
 	
     private final int KITCHENY = WINDOWY/2 - 20;		//goes to the counter of the kitchen
@@ -70,11 +69,15 @@ public class Restaurant2CustomerGui implements Gui{
 		
 		customerNum = i;
 		
-		TABLEY.put(1, TABLE1Y);
-		TABLEY.put(2, TABLE1Y + 2*TABLE1Y);
-		TABLEY.put(3, TABLE1Y + 5*TABLE1Y);
-		TABLEY.put(4, TABLE1Y + 7*TABLE1Y);
+		TABLEY.put(1, 280);
+		TABLEY.put(2, 280);
+		TABLEY.put(3, 430);
+		TABLEY.put(4, 430);
 		
+		TABLEX.put(1, 190);
+		TABLEX.put(2, 460);
+		TABLEX.put(3, 190);
+		TABLEX.put(4, 460);
 		
         if(customerNum % 4 == 0) HOMEY = WINDOWY/2 + 140;
         else if(customerNum % 4 == 3) HOMEY = WINDOWY/2 + 100;
@@ -216,7 +219,7 @@ public class Restaurant2CustomerGui implements Gui{
 	}
 	
 	public void DoGoToSeat(int seatnumber) {//later you will map seatnumber to table coordinates.
-		xDestination = TABLEX;
+		xDestination = TABLEX.get(seatnumber);
 		yDestination = TABLEY.get(seatnumber);
 		command = Command.GoToSeat;
 	}
