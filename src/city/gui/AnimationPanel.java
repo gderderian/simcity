@@ -26,7 +26,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
     private static final int WINDOWY = 700;
     private static final int TIMER_INTERVAL = 15;
 
-	ImageIcon background = new ImageIcon("images/background.png");	
+	ImageIcon background = new ImageIcon("images/background2.png");	
 	
 	CityGui cityGui;
 	private List<Gui> guis = new ArrayList<Gui>();
