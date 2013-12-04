@@ -3,6 +3,7 @@ package city.transportation;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import city.CityMap;
 import city.gui.VehicleGui;
 
 import agent.Agent;
@@ -20,11 +21,14 @@ public abstract class Vehicle extends Agent {
 	AStarTraversal aStar;
 	Semaphore guiFinished;
 	
+	CityMap cityMap;
+	
 	VehicleGui gui;
 
-	protected Vehicle(AStarTraversal aStarTraversal) {
+	protected Vehicle(AStarTraversal aStarTraversal, CityMap map) {
 		super();
 		this.aStar = aStarTraversal;
+		cityMap = map;
 	}
 	
 	public void msgGuiFinished() {
@@ -43,20 +47,12 @@ public abstract class Vehicle extends Agent {
 		guiMoveFromCurrentPositionTo(p);
 	}
 	
-	/*void DoGoTo(String location) {
-		int x = cityMap.getX(location);
-		int y = cityMap.getY(location);
-
-	    gui.moveTo(130 + (currentPosition.getX() * 30), 70 + (currentPosition.getY() * 30));
-	    
-	    //Give animation time to move to square.
-	    try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	void DoGoTo(String location) {
+		if(aStar != null) {
+			Position p = cityMap.getParkingLocation(location);
+			guiMoveFromCurrentPositionTo(p);
 		}
-	}*/
+	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
 		//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());

@@ -42,6 +42,9 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	private int waiterNum;
 	PersonAgent person;
 	
+	//For testing
+	boolean test = false;
+	
 	Restaurant2 restaurant;
 	ActivityTag tag = ActivityTag.RESTAURANT1HOST;
 
@@ -348,8 +351,14 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test){
+	        ActivityLog.getInstance().logActivity(tag, msg, name);
+		}
         log.add(new LoggedEvent(msg));
+	}
+	
+	public void setTesting(boolean t){
+		test = t;
 	}
 	
 }

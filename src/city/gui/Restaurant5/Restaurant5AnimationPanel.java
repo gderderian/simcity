@@ -73,7 +73,7 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
        
         Host = new Restaurant5HostRole("HostRole", personHost);
         
-        Waiter = new Restaurant5WaiterRole("WaiterRole",Host, Cook, Cashier, personWaiter);
+        Waiter = new Restaurant5WaiterRole("WaiterRole", personWaiter);
         waiterGui = new Restaurant5WaiterGui(Waiter, null, Host);
         Waiter.setGui(waiterGui);
          

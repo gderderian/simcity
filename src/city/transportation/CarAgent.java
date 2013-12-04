@@ -5,6 +5,8 @@ import interfaces.Person;
 
 import java.util.concurrent.Semaphore;
 
+import city.CityMap;
+
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import astar.AStarTraversal;
@@ -27,8 +29,8 @@ public class CarAgent extends Vehicle implements Car {
 	
 	ActivityTag tag = ActivityTag.CAR;
 	
-	public CarAgent(AStarTraversal aStar) {
-		super(aStar);
+	public CarAgent(AStarTraversal aStar, CityMap map) {
+		super(aStar, map);
 		
 		capacity = 1;
 		type = "car";

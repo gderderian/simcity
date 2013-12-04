@@ -27,7 +27,6 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
     private static final int TIMER_INTERVAL = 15;
 
 	ImageIcon background = new ImageIcon("images/background.png");	
-	//Restaurant1AnimationPanel rest1AnimPanel = new Restaurant1AnimationPanel();
 	
 	CityGui cityGui;
 	private List<Gui> guis = new ArrayList<Gui>();
@@ -203,6 +202,9 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
+                if(gui instanceof VehicleGui) {
+                	gui.updatePosition();
+                }
             }
         }
 	}

@@ -9,44 +9,46 @@ import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
 import Role.Role;
-import Role.MarketManager.myMarketWorker;
 
 public class MarketWorker extends Role {
 	
 	// Data
 	int numWorkingOrders;
-	private ArrayList<PickableOrder> pickOrders;
+	public List<PickableOrder> pickOrders;
 	PersonAgent p;
-	
-	String name = p.getName();
 	ActivityTag tag = ActivityTag.MARKETWORKER;
 	
 	public enum orderPickState {pending, picking, done};
 	
 	public class PickableOrder {
+		
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
 		MarketManager recipientManager;
-		orderPickState state;
+		public orderPickState state;
 		Hashtable<String, Boolean> itemPickStatus; // Tracks the pick status of individual items in the market
 		
 		PickableOrder(MarketOrder incomingOrder, MarketManager initialSender){
 			order = incomingOrder;
 			state = orderPickState.pending;
 			recipientManager = initialSender;
-			for (OrderItem item : incomingOrder.orders){
-				itemPickStatus.put(item.name, false);
+			itemPickStatus = new Hashtable<String, Boolean>();
+			synchronized(incomingOrder.orders){
+				for (OrderItem item : incomingOrder.orders){
+					itemPickStatus.put(item.name, false);
+				}
 			}
 		}
 		
 	}
 	
-	MarketWorker(PersonAgent person){
+	public MarketWorker(PersonAgent person){
 		p = person;
-		pickOrders = new ArrayList<PickableOrder>();
+		pickOrders = Collections.synchronizedList(new ArrayList<PickableOrder>());
 	}
 	
 	// Messages
 	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
+		log("A new order to process...");
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);
 		pickOrders.add(newPickableOrder);
 		p.stateChanged();
@@ -54,15 +56,18 @@ public class MarketWorker extends Role {
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		if (!pickOrders.isEmpty()) {
-			for (PickableOrder o : pickOrders) {
-				if (o.state == orderPickState.pending){
-					pickSingleOrder(o);
-					return true;
-				}
-				if (o.state == orderPickState.done){
-					returnCompletedOrder(o);
-					return true;
+		synchronized(pickOrders){
+			if (!pickOrders.isEmpty()) {
+				for (PickableOrder o : pickOrders) {
+					if (o.state == orderPickState.pending){
+						pickSingleOrder(o);
+						o.state = orderPickState.picking;
+						return true;
+					}
+					if (o.state == orderPickState.done){
+						returnCompletedOrder(o);
+						return true;
+					}
 				}
 			}
 		}
@@ -80,13 +85,14 @@ public class MarketWorker extends Role {
 	}
 	
 	private void returnCompletedOrder(PickableOrder o){
+		log("Well, this order is finished now!");
 		o.recipientManager.msgOrderPicked(o.order);
 		pickOrders.remove(o);
 	}
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, getName());
 	}
 	
 }

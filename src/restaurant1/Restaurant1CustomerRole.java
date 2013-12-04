@@ -68,7 +68,7 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		
 		person = p;
 		
-		money = (double) ranGenerator.nextInt(60) + 10;
+		money = (double) ranGenerator.nextInt(60) + 100;
 		
 		if(name.equals("broke") || name.equals("flake")) {
 			money = 0.0;
@@ -205,8 +205,13 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		person.stateChanged();
 	}
 	
-	public void msgAnimationDoneEatingFood() {
+	public void msgAnimationDoneEating() {
 		event = AgentEvent.doneEating;
+		person.stateChanged();
+	}
+	
+	public void msgAnimationDoneLeaving() {
+		event = AgentEvent.leaving;
 		person.stateChanged();
 	}
 	
@@ -442,6 +447,9 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 		check = null;
 		log("I'm leaving! Goodbye!");
 		customerGui.DoExitRestaurant();
+		
+		person.setGuiVisible();
+		person.setRoleInactive(this);
 	}
 	
 	private void impatientLeaveRestaurant() {
@@ -470,7 +478,6 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 			check.cashier.msgPayBill(check, money);
 			log("This is all I have. Take $" + money + ".");
 			money = 0;
-			event = AgentEvent.leaving;
 		}
 	}
 

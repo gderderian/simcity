@@ -30,15 +30,19 @@ public class PersonAgentRestaurantTest extends TestCase{
         
         public void setUp() throws Exception{
                 super.setUp();                
-                person = new PersonAgent("Person");
+                person = new PersonAgent("rest2Test");	//named this so it will interact with restaurant2 workers
                 hostPerson = new PersonAgent("hostPerson");
-                host = new Restaurant2HostRole("Host", hostPerson);        
+                host = new Restaurant2HostRole("Host", hostPerson);     
+                host.setTesting(true);
                 waiterPerson = new PersonAgent("waiterPerson");
                 waiter = new Restaurant2WaiterRole("Waiter", waiterPerson);
+                waiter.setTesting(true);
                 cookPerson = new PersonAgent("cookPerson");
                 cook = new Restaurant2CookRole("Cook", cookPerson);
-                gui = new PersonGui(person);
+                cook.setTesting(true);
+                //gui = new PersonGui(person);
                 cityMap.setRestaurant2(rest2);
+                person.setTesting(true);
         }
         
         public void testPersonNormalRestaurant(){
@@ -55,12 +59,10 @@ public class PersonAgentRestaurantTest extends TestCase{
                 
                 assertTrue("Person should have logged an event that they recieved the 'I'm hungry' message, but it reads instead " +
                                 person.log.getLastLoggedEvent().toString(), person.log.containsString("Recieved message Im Hungry"));
-                assertTrue("Person's scheduler should have returned true to deal with the hungry message, but it didn't", person.pickAndExecuteAnAction());
-                assertTrue("Person should have logged an event that they are going to a restaurant, but instead it reads " + 
-                                person.log.getLastLoggedEvent().toString(), person.log.containsString("Decided to go to a restaurant"));
                 
                 //Add customer role
                 customer = new Restaurant2CustomerRole("Customer", person);
+                customer.setTesting(true);
                 person.addRole(customer, true);
                 assertEquals("Person should have one role in their roles list.", person.roles.size(), 1);
                 
@@ -90,24 +92,12 @@ public class PersonAgentRestaurantTest extends TestCase{
                 assertTrue("The waiter's event log should contain a log saying that he's prompting the customer to sit, but instead it reads " + 
                                 waiter.log.getLastLoggedEvent().toString(), waiter.log.containsString("Prompting customer to follow me to table"));
                 assertTrue("The customer's event log should contain an event that he recieved the follow me message, but instead it says " + 
-                                customer.log.getLastLoggedEvent().toString(), customer.log.containsString("Recieved message follow waiter to table"));
+                                customer.log.getLastLoggedEvent().toString(), customer.log.containsString("Received msgSitAtTable"));
                 assertEquals("The customer's waiter should be the same as the waiter who sent the message, but it's not.", waiter, customer.waiter);
                 assertTrue(customer.event == AgentEvent.followWaiter);
-                
-                //This code doesnt work because there's gui involved - need to either use mocks or not test for now
-/*                customer.pickAndExecuteAnAction();
-                assertTrue("The customer's event log should state that it's ready to be seated, but instead it says " + 
-                                customer.log.getLastLoggedEvent().toString(), customer.log.containsString("I'm ready to be seated"));
-                assertTrue("The waiter's log should state that it's seating the customer, but instead it says " + 
-                                waiter.log.getLastLoggedEvent().toString(), waiter.log.containsString("Seating customer"));
-                assertTrue("The customer's log should state that it's sitting down at table 1, but instead it reads " + 
-                                customer.log.getLastLoggedEvent().toString(), customer.log.containsString("Sitting down at table 1"));
-                assertTrue("The waiter should contain a customer who's state is 'ready to orer', but it doesn't.", waiter.customers.get(0).s == CustomerState.askedToOrder);
-                assertTrue(customer.log.containsString("Recieved message what do you want."));
-                
-                //Message waiter so customer doesn't have to choose
-                waiter.msgHereIsMyChoice(customer, "Chicken");
-                */
+
+
+                //The rest of this was already tested in the restaurant project
                 
         }
         

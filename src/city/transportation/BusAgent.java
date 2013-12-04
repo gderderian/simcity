@@ -7,6 +7,8 @@ import interfaces.Person;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.CityMap;
+
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import astar.AStarTraversal;
@@ -46,8 +48,8 @@ public class BusAgent extends Vehicle implements Bus {
 	public enum BusEvent { none, arrivedAtStop, pickingUpPassengers, boarded, everyonePaid };
 	public enum BusState { driving, atStop, pickingUpPassengers, askingForFare };
 
-	public BusAgent(AStarTraversal aStar) {
-		super(aStar);
+	public BusAgent(AStarTraversal aStar, CityMap map) {
+		super(aStar, map);
 
 		currentStop = 3;
 		capacity = 10;

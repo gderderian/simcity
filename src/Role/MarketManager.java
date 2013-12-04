@@ -54,7 +54,7 @@ public class MarketManager extends Role {
 	
 	public class myMarketOrder {
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
-		orderState state;
+		public orderState state;
 		deliveryType type;
 		PersonAgent assignedWorker;
 		
@@ -80,12 +80,20 @@ public class MarketManager extends Role {
 	}
 
 	public class myMarketWorker { // Used for internal stock-tracking within the market
+		
 		public MarketWorker worker;
 		public int numWorkingOrders;
+		
+		public myMarketWorker(MarketWorker w){
+			worker = w;
+			numWorkingOrders = 0;
+		}
+		
 	}
 	
 	// Messages
 	public void msgHereIsOrder(MarketOrder o){
+		log("Recieved order from " + o.getRecipient().getName());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.inPerson);
 		myOrders.add(mo);
 		p.stateChanged();
@@ -129,6 +137,7 @@ public class MarketManager extends Role {
 			if (!myOrders.isEmpty()) {
 				for (myMarketOrder order : myOrders) {
 					if (order.state == orderState.pendingWorkerAssignment){
+						log("I'll delegate this order to one of my workers");
 						makeWorkerPrepareOrder(order);
 						order.state = orderState.assignedToWorker;
 						return true;
@@ -177,6 +186,7 @@ public class MarketManager extends Role {
 	
 	private void deliverOrder(myMarketOrder o){
 		if (o.type == deliveryType.inPerson){
+			log("All done, here is your order");
 			o.order.getRecipient().msgHereIsYourOrder(o.order);
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
@@ -203,6 +213,15 @@ public class MarketManager extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+	
+	public void addWorker(MarketWorker w){
+		myMarketWorker newWorker = new myMarketWorker(w);
+		myWorkers.add(newWorker);
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 }

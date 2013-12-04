@@ -6,10 +6,9 @@ import java.util.*;
 
 import restaurant1.Restaurant1;
 import city.Restaurant2.Restaurant2;
-import city.Restaurant2.Restaurant2CustomerRole;
-import city.Restaurant2.Restaurant2HostRole;
-import city.Restaurant5.Restaurant5;
+import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
+import city.Restaurant5.Restaurant5;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -26,15 +25,16 @@ public class CityMap {
 	//Depends how the gui ends up working...
 	
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
+	Map<String, Position> parkingLocations = new HashMap<String, Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
 	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
-	Bank bank1;
-	Restaurant5 restaurant5;
-
+	Restaurant3 restaurant3;
 	Restaurant4 restaurant4;
+	Restaurant5 restaurant5;
 	Bank bank;
+	Market market;
 	
 	public CityMap() {
 		//Restaurant locations
@@ -85,6 +85,17 @@ public class CityMap {
 		buildingLocations.put("house24", new Position(12,9));
 		buildingLocations.put("house25", new Position(10,9));
 		buildingLocations.put("house26", new Position(10,7));
+
+		//Parking locations
+		parkingLocations.put("rest1", new Position(18,4));
+		parkingLocations.put("rest2", new Position(3,4));
+		parkingLocations.put("rest3", new Position(3,14));
+		parkingLocations.put("rest4", new Position(10,15));
+		parkingLocations.put("rest5", new Position(15,9));
+		//Market locations
+		parkingLocations.put("mark1", new Position(18,11));
+		parkingLocations.put("mark2", new Position(5,3));
+		parkingLocations.put("mark3", new Position(8,12));
 		
 		//Adding list of nearby locations to each bus stop
 		List<String> buildingList0 = new ArrayList<String>();
@@ -140,9 +151,14 @@ public class CityMap {
 		//Creating list of restaurants
 		restaurants.add("Restaurant1");
 		restaurants.add("Restaurant2");
+		restaurants.add("Restaurant3");
 		restaurants.add("Restaurant4");
 		restaurants.add("Restaurant5");
 	}
+	
+	
+	
+	
 	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
@@ -152,15 +168,24 @@ public class CityMap {
 		restaurant2 = r;
 	}
 	
-	public void setRestaurant5(Restaurant5 r) {
-		restaurant5 = r;
+	public void setRestaurant3(Restaurant3 r){
+		restaurant3 = r;
 	}
 	
-	public void setBank1(Bank b) {
-		bank1 = b;
-	}
 	public void setRestaurant4(Restaurant4 r){
 		restaurant4= r;
+	}
+	
+	public void seRestaurant5(Restaurant5 r){
+		restaurant5 =r;
+	}
+	
+	public void setMarket(Market m){
+		market= m;
+	}
+	
+	public Position getParkingLocation(String location) {
+		return parkingLocations.get(location);
 	}
 	
 	public int getX(String location) {
@@ -236,7 +261,6 @@ public class CityMap {
 		
 	}
 	*/
-
 	
 	public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;
@@ -273,4 +297,3 @@ public class CityMap {
 	}
 	
 }
-

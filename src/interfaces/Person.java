@@ -8,6 +8,8 @@ import city.transportation.TruckAgent;
 
 public interface Person {
 
+	public String getName();
+	
 	public abstract void msgImHungry();
 	
 	//From house

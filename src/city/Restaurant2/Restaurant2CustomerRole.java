@@ -57,7 +57,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private Semaphore atDestination = new Semaphore(0,true);
 	
 	PersonAgent person;
-	
+	boolean test = false;
 	ActivityTag tag = ActivityTag.RESTAURANT2CUSTOMER;
 
 	/**
@@ -476,8 +476,13 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
 	}
 	
+	
+	public void setTesting(boolean b){
+		test = b;
+	}
 }
