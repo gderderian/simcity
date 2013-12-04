@@ -1,6 +1,6 @@
 package city;
 
-public class PersonDayPlanner {
+public class PersonEvent {
 	
 	int startHour; // Positive integer representing the hour of day on the 12-hour clock, so 1-12
 	int startMinute; // Positive integer representing the minutes within an hour, so 0-59
