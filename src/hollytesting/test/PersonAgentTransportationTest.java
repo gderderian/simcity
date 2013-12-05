@@ -33,10 +33,9 @@ public class PersonAgentTransportationTest extends TestCase {
                  //               busStop.log.containsString("Recieved message waiting for bus from person Person"));
                 assertTrue("Person should have record of recieving message bus is here", person.log.containsString("Recieved message bus is here"));
                 assertEquals("Person's list of busRides should have one BusRide in it.", person.busRides.size(), 1);
-                person.busRides.get(0).stop = 1;
-                person.busStopToGetOffAt = 1;
+                person.busRides.get(0).finalStop = 1;
                 //Add this hack because using scheduler runs into gui null pointer problems
-                assertTrue("Person should have a bus ride with stop 1", person.busRides.get(0).stop == 1);
+                assertTrue("Person should have a bus ride with stop 1", person.busRides.get(0).finalStop == 1);
                 person.busRides.get(0).state = BusRideState.onBus;
                 assertTrue("Person should have a bus ride in it with the state onBus, but the state is " + person.busRides.get(0).state, 
                                 person.busRides.get(0).state == BusRideState.onBus);
