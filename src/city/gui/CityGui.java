@@ -90,6 +90,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
     
     private CityClock masterClock;
 
+
 	// Restaurants
 	
 		// Restaurant 1 (Trevor)
@@ -108,10 +109,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		Restaurant4 rest4 = new Restaurant4();
 		AnimationPanel4 restaurant4 = new AnimationPanel4();
 		
+		// Restaurant 5 (Tom)
 		Restaurant5 rest5 = new Restaurant5();
 		Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
-		// Restaurant 5 (Tom)
 	
+
 		
    // Market
 	Market market= new Market();
@@ -127,7 +129,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 	// Bank Animation Panels
 	BankAnimationPanel bank1Animation = new BankAnimationPanel(this);
-	
+
 	// Apartment Animation Panels
 	ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
@@ -159,6 +161,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	 */
 	public CityGui() {            
 		controlPanel.setCityGui(this);
+		System.out.println(0);
 
 		//testPerson.startThread();
 		//testPerson.setGui(testPersonGui);
@@ -173,24 +176,29 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		animationPanel.setCityGui(this);
 		animationPanel.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
 
+		System.out.println(1);
+		
 		//Add all building animation panels to the building panel list!
 		//This automatically sets dimensions and cityGui references
-		restaurant2.setBackground(new Color(150, 20, 60));
-		addBuildingPanel(restaurant2);
 		controlPanel.addRest2ToCityMap(rest2);
 		controlPanel.addRest4ToCityMap(rest4);
 		controlPanel.addRest5ToCityMap(rest5);
 		controlPanel.addRest1ToCityMap(rest1);
 		controlPanel.addMarketToCityMap(market);
+		
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
-
+		restaurant2.setBackground(new Color(150, 20, 60));
+		addBuildingPanel(restaurant2);
 		addBuildingPanel(restaurant4);
 		addBuildingPanel(restaurant5);
 		addBuildingPanel(bank1Animation);
 		addBuildingPanel(market1Animation);
 		addBuildingPanel(market2Animation);
 		addBuildingPanel(market3Animation);
+		
+
+		System.out.println(2);
 		
 		addBuildingPanel(restaurant3);
 
@@ -211,6 +219,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt2List.get(i));
 		}
 		
+
+		System.out.println(3);
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up all of the houses
 		for(int i=0; i<26; i++){ 
@@ -222,6 +232,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		//addBuildingPanel(house1);
 		//End of adding building panels!
 
+		System.out.println(4);
 		Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
 		infoPanel = new JPanel();
 		infoPanel.setPreferredSize(panelDim);
@@ -231,6 +242,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		infoPanel.setLayout(new FlowLayout());
 
+		System.out.println(5);
 		//add(infoPanel, BorderLayout.WEST);
 		add(controlPanel, BorderLayout.WEST);
 
@@ -487,10 +499,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			p.addFirstJob(waiterRole, "rest5");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
-			
-			
-			
-			
+				
 		}
 	}
 	
