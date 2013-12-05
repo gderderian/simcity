@@ -7,11 +7,14 @@ import restaurant1.interfaces.Restaurant1Customer;
 import restaurant1.interfaces.Restaurant1Market;
 import restaurant1.interfaces.Restaurant1Waiter;
 import test.mock.EventLog;
+
 import java.util.*;
 
 import city.PersonAgent;
 
 public class Restaurant1CashierRole extends Role {
+	
+	String roleName = "Restaurant1CashierRole";
 	
 	public EventLog log; //Log for keeping track of events while unit testing cashier
 	
@@ -214,5 +217,10 @@ public class Restaurant1CashierRole extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 }

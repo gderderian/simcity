@@ -16,6 +16,9 @@ import java.util.concurrent.Semaphore;
 import test.mock.LoggedEvent;
 
 public class WaiterRole4 extends Role implements Waiter4 {
+	
+	String roleName = "Restaurant4WaiterRole";
+	
 	private String name;
 	PersonAgent p;
 	private  Menu menu;
@@ -563,5 +566,10 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 }

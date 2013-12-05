@@ -28,6 +28,9 @@ import java.util.concurrent.Semaphore;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
+	
+	String roleName = "Restaurant5WaiterRole";
+	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -941,6 +944,11 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	public void setHost(Restaurant5HostRole sethost) {
 		this.host = sethost;
 		
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 
 }

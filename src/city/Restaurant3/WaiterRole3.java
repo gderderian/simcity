@@ -20,6 +20,8 @@ import city.gui.Restaurant3.WaiterGui3;
  */
 public class WaiterRole3 extends Role {
 	
+	String roleName = "Restaurant3WaiterRole";
+	
 	static final int DEFAULT_BREAK_TIME = 15000;
 	
 	public List<MyCustomer> myCustomers; // Uses try/catch
@@ -555,6 +557,11 @@ public class WaiterRole3 extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 	
 }

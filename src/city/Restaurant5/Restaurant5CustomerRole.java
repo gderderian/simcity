@@ -28,6 +28,7 @@ import agent.Agent;
 // this is the new updated file////
 public class Restaurant5CustomerRole extends Role implements Restaurant5Customer {
 	
+	String roleName = "Restaurant5CustomerRole";
 	
 	public String name;
 	private int hungerLevel = 10;// determines length of meal
@@ -753,6 +754,11 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	public void setGuiActive() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 
 	

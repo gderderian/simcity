@@ -1,16 +1,21 @@
 package city.Restaurant3;
 
 import Role.Role;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+
 import javax.swing.Timer;
+
 import test.mock.EventLog;
 
 /**
  * Restaurant Market Agent
  */
 public class MarketRole3 extends Role {
+	
+	String roleName = "Restaurant3MarketRole";
 	
 	// Variable Declarations
 	private String name;
@@ -163,6 +168,11 @@ public class MarketRole3 extends Role {
 			foodTimer.start();
 		}
 			
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 
 }

@@ -34,6 +34,8 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	private int waiterNum;
 	
+	String roleName = "Restaurant2WaiterRole";
+	
 	Timer timer = new Timer();
 	
 	enum WaiterState {noBreak, yesBreak, onBreak, requestBreak, breakRequested, deniedBreak};
@@ -561,6 +563,11 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 
 	public void setTesting(boolean b) {
 		test = b;
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 	
 

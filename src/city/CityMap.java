@@ -230,38 +230,6 @@ public class CityMap {
 		nearbyDestinations.put(number, destinations);
 	}
 	
-	//Classes which act as a "directory"
-	
-	/*
-	 * host role: (the role the customer messages when they get to the restaurant
-	 * customer role: the role the person takes on when he/she gets to the restaurant
-	 * Person must create a *new* instance of the customer role to enter the restaurant
-	 * Host Role can be addressed as is: there will only ever be one host at a time
-	 */
-	/*
-	class Restaurant2{		//HACKEY TODO: fix this maybe?
-		Restaurant2HostRole host;
-		Restaurant2CustomerRole customer;
-		String name;
-		
-		public Restaurant2(){
-			host = new Restaurant2HostRole("Sarah");
-			name = "Restaurant2";
-		}
-		public Role getHost(){
-			return host;
-		}
-		public Restaurant2CustomerRole getNewCustomerRole(){
-			customer = new Restaurant2CustomerRole();
-			return customer;
-		}
-		public String getName(){
-			return name;
-		}
-		
-	}
-	*/
-	
 	public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;
 		int housey = 0;
