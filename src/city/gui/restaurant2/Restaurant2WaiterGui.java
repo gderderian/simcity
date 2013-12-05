@@ -22,16 +22,16 @@ public class Restaurant2WaiterGui implements Gui{
 
     private final int WINDOWX = 900;
     private final int WINDOWY = 750 - 20;
-    private final int TABLEDIM = 50;
-    private final int TABLESPACING = WINDOWY/10;
-    private final int TABLE1Y = TABLESPACING - 20;
-    private final int TABLE2Y = TABLE1Y + TABLESPACING*2;
-    private final int TABLE3Y = TABLE1Y + TABLESPACING*5;
-    private final int TABLE4Y = TABLE1Y + TABLESPACING*7;
-    private final int TABLEX = WINDOWX/2 - TABLEDIM/2 + 20;
-    private final int KITCHENY = WINDOWY/2 - 20;		//goes to the counter of the kitchen
-    private final int KITCHENX = WINDOWX - 145;
-    private final int WINDOWXSTART = 400;
+    private final int TABLE1Y = 280;
+    private final int TABLE2Y = 280;
+    private final int TABLE3Y = 430;
+    private final int TABLE4Y = 430;
+    private final int TABLE1X = 200;
+    private final int TABLE3X = 200;
+    private final int TABLE2X = 470;
+    private final int TABLE4X = 470;
+    private final int KITCHENY = 350;		//goes to the counter of the kitchen
+    private final int KITCHENX = 675;
     
     public final int XBREAK = 400;
     public final int YBREAK = -10;
@@ -91,7 +91,8 @@ public class Restaurant2WaiterGui implements Gui{
             yPos--;
 
         if (xPos == xDestination && yPos == yDestination){
-        	if ((yPos == (TABLE1Y) || yPos == (TABLE2Y) || yPos == (TABLE3Y) || yPos == (TABLE4Y)) && xPos == (TABLEX)){
+        	if ((yPos == TABLE1Y && xPos == TABLE1X)|| (yPos == TABLE2Y && xPos == TABLE2X)
+        			|| (yPos == TABLE3Y && xPos == TABLE3X) || (yPos == TABLE4Y && xPos == TABLE4X)){
         		agent.msgAtDest();}
             if(xPos == KITCHENX && yPos == KITCHENY){
             	agent.msgAtDest();
@@ -134,17 +135,20 @@ public class Restaurant2WaiterGui implements Gui{
     public void DoGoToTable(Restaurant2Customer customer, int table) {
     	if(table == 1){
             yDestination = TABLE1Y;
+            xDestination = TABLE1X;
     	}
     	else if(table == 2){
             yDestination = TABLE2Y;
+            xDestination = TABLE2X;
     	}
     	else if(table == 3){
             yDestination = TABLE3Y;
+            xDestination = TABLE3X;
     	}
     	else{
     		yDestination = TABLE4Y;
+    		xDestination = TABLE4X;
     	}
-        xDestination = TABLEX;
     }
 
     public void DoLeaveCustomer() {
@@ -170,17 +174,20 @@ public class Restaurant2WaiterGui implements Gui{
     	foodChoice = choice;
     	if(table == 1){
     		yDestination = TABLE1Y;
+    		xDestination = TABLE1X;
     	}
     	else if(table == 2){
     		yDestination = TABLE2Y;
+    		xDestination = TABLE2X;
     	}
     	else if(table ==3){
     		yDestination = TABLE3Y;
+    		xDestination = TABLE3X;
     	}
     	else if(table == 4){
     		yDestination = TABLE4Y;
+    		xDestination = TABLE4X;
     	}
-    	xDestination = TABLEX;
     	
     }
     
