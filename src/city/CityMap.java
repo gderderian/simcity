@@ -44,7 +44,7 @@ public class CityMap {
 		buildingLocations.put("rest4", new Position(10,18));
 		buildingLocations.put("rest5", new Position(13,9));
 		//Market locations
-		buildingLocations.put("mark1", new Position(21,11));
+		buildingLocations.put("mark1", new Position(24,10));
 		buildingLocations.put("mark2", new Position(5,0));
 		buildingLocations.put("mark3", new Position(9,9));
 		//Bank locations
@@ -59,10 +59,10 @@ public class CityMap {
 		buildingLocations.put("stop2", new Position(0,8));
 		buildingLocations.put("stop3", new Position(18,7));
 		//House locations
-		buildingLocations.put("house1", new Position(21,17));
-		buildingLocations.put("house2", new Position(21,15));
-		buildingLocations.put("house3", new Position(21,13));
-		buildingLocations.put("house4", new Position(21,10));
+		buildingLocations.put("house1", new Position(21,20));
+		buildingLocations.put("house2", new Position(23,17));
+		buildingLocations.put("house3", new Position(24,17));
+		buildingLocations.put("house4", new Position(25,17));
 		buildingLocations.put("house5", new Position(21,6));
 		buildingLocations.put("house6", new Position(21,2));
 		buildingLocations.put("house7", new Position(19,0));
@@ -93,7 +93,7 @@ public class CityMap {
 		parkingLocations.put("rest4", new Position(10,15));
 		parkingLocations.put("rest5", new Position(15,9));
 		//Market locations
-		parkingLocations.put("mark1", new Position(18,11));
+		parkingLocations.put("mark1", new Position(24,12));
 		parkingLocations.put("mark2", new Position(5,3));
 		parkingLocations.put("mark3", new Position(8,12));
 		
