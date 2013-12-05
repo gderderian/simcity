@@ -12,6 +12,7 @@ public class Restaurant4 {
 	CookRole4 cook;
 	CustomerRole4 customer;
 	List<WaiterRole4> waiters;
+	SharedOrders4 orders= new SharedOrders4();
 	
 	public Restaurant4(){
 		waiters = Collections.synchronizedList(new ArrayList<WaiterRole4>());
@@ -36,10 +37,14 @@ public class Restaurant4 {
 		w.setCook(cook);
 		w.setCashier(cashier);
 		w.setHost(host);
+		if(w instanceof SharedDataWaiterRole4){
+			w.setOrders(orders);
+		}
 	}
 	
 	public void setCook(CookRole4 c){
 		cook = c;
+		c.setOrders(orders);
 	}
 	
 	public void setCashier(CashierRole4 c){

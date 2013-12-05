@@ -56,6 +56,7 @@ import city.Restaurant4.CookRole4;
 import city.Restaurant4.CustomerRole4;
 import city.Restaurant4.HostRole4;
 import city.Restaurant4.Restaurant4;
+import city.Restaurant4.SharedDataWaiterRole4;
 import city.Restaurant4.WaiterRole4;
 import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CashierRole;
@@ -765,7 +766,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Restaurant4 Waiter")){
-			WaiterRole4 role= new WaiterRole4(p.getName(), p); 
+			WaiterRole4 role= new SharedDataWaiterRole4(p.getName(), p); 
 			WaiterGui4 gui = new WaiterGui4(role);
 			role.setGui(gui);
 			restaurant4.addGui(gui);
