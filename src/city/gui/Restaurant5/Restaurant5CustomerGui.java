@@ -66,6 +66,8 @@ public class Restaurant5CustomerGui implements Gui{
 		//agent.ycoordinate = yPos;
 		
 		
+		//System.out.println("This is the customer coordinates x: " + xPos + " y: " + yPos);
+		
 		if(xPos == -20 && yPos == -20) {
 			agent.atLobby.release();
 		}
@@ -86,7 +88,8 @@ public class Restaurant5CustomerGui implements Gui{
 			yPos--;
 
 		if (xPos == xDestination && yPos == yDestination) {
-			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
+			if (command==Command.GoToSeat) 
+				agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
 				isHungry = false;
@@ -160,6 +163,8 @@ public class Restaurant5CustomerGui implements Gui{
 	public void DoGoToSeat(int seatnumber, int table) {//later you will map seatnumber to table coordinates.
 		xDestination = xcoordinatesoftables[table - 1];
 		yDestination = ycoordinatesoftables[table - 1];
+		//System.out.println("XDestination: " + xDestination);
+		//System.out.println("yDestination: " + yDestination);
 		command = Command.GoToSeat;
 	}
 	

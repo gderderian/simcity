@@ -51,7 +51,7 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         
     	this.gui = gui;
-    	
+    	/*
     	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
     	PersonGui person2gui = new PersonGui(person2);
     	person2.setGui(person2gui);
@@ -87,7 +87,7 @@ public class BankPanel extends JPanel {
         
         
         
-        
+        */
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
         group.add(bankcustomerPanel);

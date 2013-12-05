@@ -85,6 +85,7 @@ public class Restaurant5WaiterGui implements Gui {
 			agent.msgAtTable();	
 		}
 		
+		//System.out.println("x :" + xPos + "   " + "y: " + yPos);
 		
 
 		if(xPos == 20 && yPos == 20 && returningtolobby)
@@ -203,6 +204,8 @@ public class Restaurant5WaiterGui implements Gui {
 	}
 	
 	public void gotohomeposition() {
+		
+		System.out.print("go to home position");
 		xDestination = xhomepos;
 		yDestination = yhomepos;
 	}

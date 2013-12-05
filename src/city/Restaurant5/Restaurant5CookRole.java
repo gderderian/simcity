@@ -103,7 +103,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	//After receiving message from the waiter start cooking
 	public void msgReceviedOrderFromWaiter(Restaurant5Waiter waiter, String order, int table) {
 		
-		log("Received order: " + order + " from waiter: " + waiter.getName());
+		log("Received order: " + order + " from waiter: " + waiter.getName() + " for table " + table);
 		cookingorders.add( new cookingorder(waiter, order, table));
 		log("order added to the cooking list");
 		person.stateChanged();

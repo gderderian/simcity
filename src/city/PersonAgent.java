@@ -921,6 +921,9 @@ public class PersonAgent extends Agent implements Person{
 				DoGoTo(restName);
 			}
 			log.add(new LoggedEvent("Decided to go to a restaurant5"));
+			((Restaurant5CustomerRole) role).setHost(cityMap.restaurant5.getHost());
+			((Restaurant5CustomerRole) role).setCashier(cityMap.restaurant5.getCashier());
+			//((Restaurant5CustomerRole)role).gotHungry();
 			cityMap.restaurant5.getHost().msgIWantFood((Restaurant5CustomerRole) role);
 			((Restaurant5CustomerRole)role).setGuiActive();	
 		 }

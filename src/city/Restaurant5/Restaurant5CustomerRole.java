@@ -152,6 +152,9 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 
 	public void msgSitAtTable(int table) {
 		log("Received msgSitAtTable");
+		Do("I'm sitting at table" + table);
+		Do("state: " + state);
+		//state = AgentState.WaitingInRestaurant;
 		event = AgentEvent.followHost;
 		this.table = table;
 		person.stateChanged();
@@ -165,6 +168,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
+		Do("I'm seated at the table");
 		event = AgentEvent.seated;
 		person.stateChanged();
 	}
@@ -240,7 +244,10 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		//	CustomerAgent is a finite state machine
 		//customer gets hungry and goes to restaurant
 		
-		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ) {
+		Do("I'm in the scheduler");
+		
+		
+		if (state == AgentState.DoingNothing /*&& event == AgentEvent.gotHungry*/ ) {
 			state = AgentState.WaitingInRestaurant;
 			goToRestaurant();
 			
@@ -382,7 +389,7 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 
 	private void goToRestaurant() {
 		Do("Going to restaurant");
-		host.msgIWantFood(this);//send our instance, so he can respond to us
+		//host.msgIWantFood(this);//send our instance, so he can respond to us
 		customerGui.gotohomeposition();
 		if(this.name.equals("scumbag") && scumbagnexttime == true)
 			currentmoney = 10;
@@ -751,8 +758,8 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 	}
 
 	public void setGuiActive() {
-		// TODO Auto-generated method stub
-		
+		//customerGui.DoEnterRestaurant();
+		customerGui.setPresent(true);
 	}
 
 	

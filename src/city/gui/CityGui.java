@@ -23,9 +23,12 @@ import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.Bank.BankAnimationPanel;
+import city.gui.Bank.BankCustomerRoleGui;
+import city.gui.Bank.BankGui;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.Market.MarketAnimationPanel;
+import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.MarketManager;
@@ -182,6 +185,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.addRest5ToCityMap(rest5);
 		controlPanel.addRest1ToCityMap(rest1);
 		controlPanel.addMarketToCityMap(market);
+		controlPanel.addBankToCityMap(bank);
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
 
@@ -529,7 +533,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		customerRole5.setGui(customerGui5);
 		p.addRole(customerRole5, false);
 
-		
+		BankCustomerRole bankCustomerRole = new BankCustomerRole(p.wallet);
+		bankCustomerRole.setPerson(p);
+		BankGui bankgui = new BankGui();
+		BankCustomerRoleGui bankCustomerGui = new BankCustomerRoleGui(bankCustomerRole, bankgui); 
+		bankCustomerGui.setPresent(false);
+		bank1Animation.addGui(bankCustomerGui);
+		bankCustomerRole.setGui(bankCustomerGui);
+		p.addRole(bankCustomerRole, false);
 		
 		
 		/* Now, create a job role */
@@ -644,7 +655,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			
 			else if(job.contains("Bank")) {
 				p.addFirstJob(r, "bank1");
+				     
+				
 				if(r instanceof BankManagerRole) {
+					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager");
 					bank.setBankManager((BankManagerRole) r);
 					p.setRoleActive(r);
 				}

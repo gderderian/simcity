@@ -184,6 +184,10 @@ public class CityMap {
 		market= m;
 	}
 	
+	public void setBank(Bank b) {
+		bank = b;
+	}
+	
 	public Position getParkingLocation(String location) {
 		return parkingLocations.get(location);
 	}
