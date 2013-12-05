@@ -334,7 +334,7 @@ public class BankManagerRole extends Role{
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 

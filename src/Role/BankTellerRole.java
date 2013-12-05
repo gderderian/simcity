@@ -333,7 +333,7 @@ public class BankTellerRole extends Role {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 

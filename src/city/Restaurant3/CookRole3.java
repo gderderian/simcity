@@ -383,7 +383,7 @@ public class CookRole3 extends Role {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 

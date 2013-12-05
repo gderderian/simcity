@@ -30,7 +30,7 @@ public class MarketCustomerRole extends Role {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 	

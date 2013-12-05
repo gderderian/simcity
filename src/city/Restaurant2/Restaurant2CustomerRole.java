@@ -490,7 +490,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 
 	@Override
-	protected String getRoleName(){
+	public String getRoleName(){
 		return roleName;
 	}
 }

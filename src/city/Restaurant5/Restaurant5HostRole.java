@@ -477,7 +477,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 

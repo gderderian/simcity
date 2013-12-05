@@ -430,7 +430,7 @@ public class CustomerRole4 extends Role implements Customer4 {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 }

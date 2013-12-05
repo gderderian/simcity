@@ -37,7 +37,7 @@ public abstract class Role {
         return StringUtil.shortName(this);
     }
     
-    protected abstract String getRoleName();
+    public abstract String getRoleName();
     
     public String getBuilding() {
     	return building;

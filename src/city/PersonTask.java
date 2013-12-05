@@ -4,7 +4,7 @@ public class PersonTask {
 	
 	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, doneWithWork};
 	enum Transportation {undecided, walking, bus, car};
-	enum State {initial, inTransit, arrived, complete};
+	enum State {initial, processing, inTransit, arrived, complete};
 	/*
 	 * STATES explained
 	 * initial - before the person starts the task
