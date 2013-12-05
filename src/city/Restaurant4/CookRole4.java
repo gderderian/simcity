@@ -17,6 +17,9 @@ import city.PersonAgent;
 import city.gui.restaurant4.CookGui4;
 
 public class CookRole4 extends Role implements Cook4 {
+	
+	String roleName = "Restaurant4CookRole";
+	
 	String name;
 	WaiterRole4 waiter;
 	PersonAgent p;
@@ -418,5 +421,10 @@ public class CookRole4 extends Role implements Cook4 {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 }

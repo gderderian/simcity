@@ -101,19 +101,19 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 			cityGui.changeView("Restaurant2");
 		} else if((x >= 60) && (x <= 120) && (y >= 570) && (y <= 630)) {
 			cityGui.changeView("Restaurant3");
-		} else if((x >= 390) && (x <= 450) && (y >= 635) && (y <= 695)){
+		} else if((x >= 390) && (x <= 450) && (y >= 630) && (y <= 690)){
 			cityGui.changeView("Restaurant4");
-		} else if((x >= 510) && (x <= 570) && (y >= 275) && (y <= 330)){
+		} else if((x >= 510) && (x <= 570) && (y >= 270) && (y <= 330)){
 			cityGui.changeView("Restaurant5");
 		}
 			
 		// Markets (3)
 		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60)) {
-			cityGui.changeView("Market1");
-		}  else if((x >= 360) && (x <= 420) && (y >= 275) && (y <= 330)){
 			cityGui.changeView("Market2");
-		}  else if((x >= 780) && (x <= 840) && (y >= 395) && (y <= 455)){
+		}  else if((x >= 360) && (x <= 420) && (y >= 275) && (y <= 330)){
 			cityGui.changeView("Market3");
+		}  else if((x >= 840) && (x <= 900) && (y >= 300) && (y <= 360)){
+			cityGui.changeView("Market1");
 		}
 			
 		// Banks (2)
@@ -129,17 +129,17 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 		}
 		
 		// Houses (26)
-		if ((x >= 780) && (x <= 850) && (y >= 570) && (y <= 600)){
+		if ((x >= 780) && (x <= 840) && (y >= 660) && (y <= 690)){
 			cityGui.changeView(0, 0);
-		} else if ((x >= 780) && (x <= 850) && (y >= 510) && (y <= 540)){
+		} else if ((x >= 810) && (x <= 840) && (y >= 600) && (y <= 660)){
 			cityGui.changeView(0, 1);
-		} else if ((x >= 780) && (x <= 850) && (y >= 450) && (y <= 480)){
+		} else if ((x >= 840) && (x <= 870) && (y >= 600) && (y <= 660)){
 			cityGui.changeView(0, 2);
-		} else if ((x >= 780) && (x <= 850) && (y >= 370) && (y <= 390)){
+		} else if ((x >= 870) && (x <= 900) && (y >= 600) && (y <= 660)){
 			cityGui.changeView(0, 3);
-		} else if ((x >= 780) && (x <= 850) && (y >= 240) && (y <= 270)){
+		} else if ((x >= 780) && (x <= 840) && (y >= 240) && (y <= 270)){
 			cityGui.changeView(0, 4);
-		} else if((x >= 780) && (x <= 850) && (y >= 120) && (y <= 150)){
+		} else if((x >= 780) && (x <= 840) && (y >= 120) && (y <= 150)){
 			cityGui.changeView(0, 5);
 		} else if((x >= 690) && (x <= 720) && (y >= 0) && (y <= 60)){
 			cityGui.changeView(0, 6);

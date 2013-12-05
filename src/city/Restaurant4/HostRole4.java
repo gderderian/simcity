@@ -16,6 +16,9 @@ import justinetesting.interfaces.Waiter4;
  * Restaurant Host Agent
  */
 public class HostRole4 extends Role {
+	
+	String roleName = "Restaurant4HostRole";
+	
 	PersonAgent p;
 	static final int NTABLES = 4;//a global for the number of tables.
 	public List<Customer4> waitingToSit = Collections.synchronizedList(new ArrayList<Customer4>());
@@ -301,6 +304,11 @@ public class HostRole4 extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 }
 

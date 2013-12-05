@@ -22,6 +22,8 @@ import java.util.Random;
  */
 public class CustomerRole3 extends Role {
 	
+	String roleName = "Restaurant3CustomerRole";
+	
 	static final int DEFAULT_HUNGER_LEVEL = 3500;
 	static final int DEFAULT_SIT_TIME = 5000;
 	static final int DEFAULT_CHOOSE_TIME = 5000;
@@ -504,6 +506,11 @@ public class CustomerRole3 extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 	
 }

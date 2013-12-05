@@ -39,6 +39,8 @@ public class CookRole3 extends Role {
 	PersonAgent person;
 	ActivityTag tag = ActivityTag.RESTAURANT3COOK;
 	
+	String roleName = "Restaurant3CookRole";
+	
 	public CookRole3(String name, PersonAgent p) {
 
 		super();
@@ -378,6 +380,11 @@ public class CookRole3 extends Role {
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 
 }

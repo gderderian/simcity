@@ -13,6 +13,9 @@ import test.mock.LoggedEvent;
 import Role.Role;
 
 public class LandlordRole extends Role implements Landlord {
+	
+	String roleName = "LandlordRole";
+	
 	//DATA
 	double earnings= 0.0;
 	public List<MyTenant> tenants= Collections.synchronizedList(new ArrayList<MyTenant>());
@@ -154,5 +157,10 @@ public class LandlordRole extends Role implements Landlord {
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 }

@@ -12,6 +12,8 @@ import Role.Role;
 
 public class MarketWorker extends Role {
 	
+	String roleName = "MarketWorkerRole";
+	
 	// Data
 	int numWorkingOrders;
 	public List<PickableOrder> pickOrders;
@@ -93,6 +95,11 @@ public class MarketWorker extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, getName());
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 	
 }

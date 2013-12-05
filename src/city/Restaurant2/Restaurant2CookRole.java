@@ -37,6 +37,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	List<Market> markets = new ArrayList<Market>();
 	boolean startCheck;
 	
+	String roleName = "Restaurant2CookRole";
+	
 	private Semaphore atDestination = new Semaphore(0,true);
 	
 	PersonAgent person;
@@ -346,6 +348,11 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 
 	public void setTesting(boolean b) {
 		test = b;
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 
 

@@ -9,6 +9,8 @@ import test.mock.LoggedEvent;
 import city.PersonAgent;
 
 public class BankCustomerRole extends Role{
+	
+	String roleName = "BankCustomerRole";
 
         public enum state {arrived, waiting, inprogress, gotobankteller, openaccount, withdraw, deposit, leave, getloan, paybackloan, openaccountsuccessful, depositintoaccountsuccessful, withdrawfromaccountsuccessful, getloansuccessful};
         public int bankaccountnumber;
@@ -343,6 +345,11 @@ public class BankCustomerRole extends Role{
     		//customerGui.DoEnterRestaurant();
     		gui.setPresent(true);
     	}
+
+		@Override
+		protected String getRoleName() {
+			return roleName;
+		}
         
         
 }

@@ -13,6 +13,9 @@ import city.PersonAgent;
 
 //THIS ROLE IS NO LONGER NECCESSARY, ALL OF THIS FUNCTIONALITY SHOULD BE IN PERSONAGENT INSTEAD
 public class HomeOwnerRole extends Role implements HomeOwner {
+	
+	String roleName = "HomeOwnerRole";
+	
 	//DATA
 	PersonAgent landlord;
 	House house;
@@ -83,6 +86,11 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	//ACTIONS
 	private void cookFood(){
 		house.checkFridge(choice);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 	
 } 

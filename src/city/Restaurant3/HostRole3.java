@@ -15,6 +15,8 @@ import city.gui.Restaurant3.WaiterGui3;
  */
 public class HostRole3 extends Role {
 	
+	String roleName = "Restaurant3HostRole";
+	
 	static final int NTABLES = 4;
 	
 	//public List<CustomerRole3> waitingCustomers;
@@ -310,6 +312,11 @@ public class HostRole3 extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 	
 }

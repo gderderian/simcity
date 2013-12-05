@@ -30,6 +30,8 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	
 	PersonAgent person;
 	
+	String roleName = "Restaurant2CashierRole";
+	
 	public Restaurant2CashierRole(String n, PersonAgent p){
 		super();
 		building = "rest2";
@@ -205,6 +207,11 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 
 }

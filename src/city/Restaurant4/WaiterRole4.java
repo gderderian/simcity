@@ -16,10 +16,11 @@ import java.util.concurrent.Semaphore;
 import test.mock.LoggedEvent;
 
 public abstract class WaiterRole4 extends Role implements Waiter4 {
-	protected String name;
-	protected PersonAgent p;
-	protected  Menu menu;
 	protected SharedOrders4 orders;
+	String roleName = "Restaurant4WaiterRole";
+	private String name;
+	PersonAgent p;
+	private  Menu menu;
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public enum customerState{waiting, seated, askedToOrder, ordered, reOrder, foodDone, eating, doneEating, askedForBill, readyForBill, done, none};
 	public enum waiterState{atEntrance, atCook, atHome, atTable, onBreak};
@@ -548,5 +549,10 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 	protected void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 }

@@ -33,6 +33,8 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	enum WaiterState {normal, breakRequested, onBreak, assessing};
 	public EventLog log = new EventLog();
 	
+	String roleName = "Restaurant2HostRole";
+	
 	public List<MyWaiter> waiters = Collections.synchronizedList(new LinkedList<MyWaiter>());
 
 	private String name;
@@ -359,6 +361,11 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	
 	public void setTesting(boolean t){
 		test = t;
+	}
+
+	@Override
+	protected String getRoleName() {
+		return roleName;
 	}
 	
 }
