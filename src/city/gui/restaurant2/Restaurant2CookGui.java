@@ -3,6 +3,8 @@ package city.gui.restaurant2;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import javax.swing.ImageIcon;
+
 import city.Restaurant2.Restaurant2CookRole;
 import city.gui.Gui;
 
@@ -20,6 +22,9 @@ public class Restaurant2CookGui implements Gui{
     private final int HOMEY = 350;
     private final int COUNTERX = 760;
     private final int COUNTERY = 360;
+    
+    //ImageIcon icon = new ImageIcon("images/chef.png");	//Need to get this icon to work
+	Restaurant2AnimationPanel restaurant2panel;
 	
 	boolean foodCooking;
 	boolean foodDone;
@@ -52,9 +57,12 @@ public class Restaurant2CookGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
+		//g.drawImage(icon.getImage(), xPos, yPos, 25, 30, restaurant2panel);
         g.drawString("CHEF", xPos - 5, yPos - 5);
+        
         g.setColor(Color.ORANGE);
         g.fillRect(xPos, yPos, 25, 25);
+        
         if(foodCooking){
 			g.setColor(Color.PINK);
 			g.fillOval(STOVEX - 7, STOVEY + 7, 20, 20);

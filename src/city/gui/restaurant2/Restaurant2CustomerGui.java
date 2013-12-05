@@ -167,11 +167,6 @@ public class Restaurant2CustomerGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		/*
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, 20, 20);
-		g.setColor(Color.BLACK);
-		*/
 		g.drawImage(icon.getImage(), xPos, yPos, 26, 34, restaurant2panel);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 16));
 		g.drawString(name, xPos, yPos);
