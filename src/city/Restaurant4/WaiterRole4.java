@@ -15,27 +15,28 @@ import java.util.concurrent.Semaphore;
 
 import test.mock.LoggedEvent;
 
-public class WaiterRole4 extends Role implements Waiter4 {
-	private String name;
-	PersonAgent p;
-	private  Menu menu;
+public abstract class WaiterRole4 extends Role implements Waiter4 {
+	protected String name;
+	protected PersonAgent p;
+	protected  Menu menu;
+	protected SharedOrders4 orders;
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public enum customerState{waiting, seated, askedToOrder, ordered, reOrder, foodDone, eating, doneEating, askedForBill, readyForBill, done, none};
 	public enum waiterState{atEntrance, atCook, atHome, atTable, onBreak};
 	public enum breakState{none, wantToGoOnBreak, pending, deniedBreak, goOnBreak, onBreak, finishedBreak};
-	private breakState bs;
-	private waiterState ws= waiterState.atHome;
-	private Semaphore atTable = new Semaphore(0,true);
-	private Semaphore atCook = new Semaphore(0, true);
-	private Semaphore atEntrance= new Semaphore(0, true);
-	private Semaphore atHome= new Semaphore(0, true);
-	Timer breakTimeLeft= new Timer();
-	private boolean firstRun= true;
-	private boolean closeRest= false;
-	private static final int breakTime= 10000;
-	private static final int yTable= 250;
-	private static final int resetX= 100;
-	private int xTable= 100;
+	protected breakState bs;
+	protected waiterState ws= waiterState.atHome;
+	protected Semaphore atTable = new Semaphore(0,true);
+	protected Semaphore atCook = new Semaphore(0, true);
+	protected Semaphore atEntrance= new Semaphore(0, true);
+	protected Semaphore atHome= new Semaphore(0, true);
+	protected Timer breakTimeLeft= new Timer();
+	protected boolean firstRun= true;
+	protected boolean closeRest= false;
+	protected static final int breakTime= 10000;
+	protected static final int yTable= 250;
+	protected static final int resetX= 100;
+	protected int xTable= 100;
 	
 	HostRole4 host;
 	CookRole4 cook;
@@ -48,12 +49,11 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	ActivityTag tag = ActivityTag.RESTAURANT4WAITER;
 
 	
-	public WaiterRole4(String name, /*RestaurantGui4 gui,*/ PersonAgent p) {
+	public WaiterRole4(String name, PersonAgent p) {
 		super();
 		building = "rest4";
 		this.name= name;
 		this.p= p;
-		//this.gui= gui;
 		bs= breakState.none;
 		menu= new Menu();
 	}
@@ -83,6 +83,10 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	
 	public CashierRole4 getCashier(){
 		return cashier;
+	}
+	
+	public void setOrders(SharedOrders4 o){
+		orders= o;
 	}
 	
 	public boolean isOnBreak(){
@@ -319,7 +323,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 
 	
 	// ACTIONS
-	private MyCustomer find(Customer4 c){
+	protected MyCustomer find(Customer4 c){
 		MyCustomer temp= customers.get(0);  // initialize to the first customer to be updated in loop below
 		for(MyCustomer customer : customers){
 			if( c == customer.c){
@@ -329,7 +333,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		return temp; 
 	}
 	
-	private void seatCustomer(MyCustomer c) {
+	protected void seatCustomer(MyCustomer c) {
 		xTable= xTable * c.tableNum;
 		if(ws != waiterState.atEntrance){
 			waiterGui.doGoToEntrance();	
@@ -338,13 +342,11 @@ public class WaiterRole4 extends Role implements Waiter4 {
 			} catch (InterruptedException e){}
 		}
 		c.c.msgSitAtTable(xTable, yTable, this, menu);
-		//log("IS HOST NULL: " + host + "    OR IS CUSTOMER NULL: " + c.c);
 		host.msgSeatingCustomer(c.c);
 		waiterGui.doGoToTable(c.c, c.tableNum);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		c.s= customerState.seated;
@@ -358,12 +360,11 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		p.stateChanged();
 	}
 
-	private void takeOrder(MyCustomer c){
+	protected void takeOrder(MyCustomer c){
 		waiterGui.doGoToTable(c.c, c.tableNum);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		c.c.msgWhatDoWant();
@@ -371,12 +372,11 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		p.stateChanged();
 	}
 	
-	private void reOrder(MyCustomer c, String choice){
+	protected void reOrder(MyCustomer c, String choice){
 		waiterGui.doGoToTable(c.c, c.tableNum);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		c.c.msgWhatDoWant(choice);
@@ -384,25 +384,13 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		p.stateChanged();
 	}
 	
-	private void sendOrderToCook(MyCustomer c){
-		waiterGui.doGoToCook();
-		try {
-			atCook.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		cook.msgHereIsOrder(this, c.choice, c.c);
-		c.s= customerState.none;
-		p.stateChanged();
-	}
+	protected abstract void sendOrderToCook(MyCustomer c);
 	
-	private void deliverFood(MyCustomer c){
+	protected void deliverFood(MyCustomer c){
 		waiterGui.doGoToCook();
 		try {
 			atCook.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		waiterGui.doBringFood(c.tableNum, c.choice);
@@ -410,7 +398,6 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		c.c.msgHereIsFood(c.choice);
@@ -418,35 +405,34 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		p.stateChanged();
 	}
 	
-	private void updateHost(MyCustomer c){
+	protected void updateHost(MyCustomer c){
 		host.msgTableAvaliable(c.c);
 		c.s= customerState.done;
 		p.stateChanged();
 	}
 	
-	private void tellCashier(MyCustomer c){
+	protected void tellCashier(MyCustomer c){
 		cashier.msgComputeBill(this, c.c, c.choice);
 		c.s= customerState.none;
 		p.stateChanged();
 	}
 	
-	private void giveBill(MyCustomer c){
+	protected void giveBill(MyCustomer c){
 		c.c.msgHereIsBill(c.amountOwed);
 		c.s= customerState.none;
 		customers.remove(c.c);
 		p.stateChanged();
 	}
 	
-	private void askHostForBreak(){
+	protected void askHostForBreak(){
 		log("Asking for break now");
 		host.msgWantToGoOnBreak(this);
 		bs= breakState.pending;
 	}
 	
-	private void goOnBreak(){
+	protected void goOnBreak(){
 		log("Initiating break!");
 		bs= breakState.onBreak;
-		//gui.setWaiterEnabled(this, true);
 		waiterGui.doGoBack();
 		try{
 			atHome.acquire();
@@ -458,13 +444,12 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		p.stateChanged();
 	}
 	
-	private void readyToWork(){
-		//gui.setWaiterEnabled(this, false);
+	protected void readyToWork(){
 		host.msgReadyToWork(this);
 		bs= null;
 	}
 	
-	private void tellEveryoneToLeave(){
+	protected void tellEveryoneToLeave(){
 		for(MyCustomer c : customers){
 			c.c.msgRestClosed();
 		}
@@ -482,10 +467,10 @@ public class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	// CLASSES
-	private static class MyCustomer {
+	static class MyCustomer {
 		Customer4 c;
 		int tableNum;
-		private String choice;
+		String choice;
 		double amountOwed;
 		
 		customerState s;
@@ -560,7 +545,7 @@ public class WaiterRole4 extends Role implements Waiter4 {
 		}
 	}	
 	
-	private void log(String msg){
+	protected void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
 	}

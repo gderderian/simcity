@@ -25,8 +25,8 @@ public class CookRole4 extends Role implements Cook4 {
 	Order o= new Order();
 	List<Order> orders= Collections.synchronizedList(new ArrayList<Order>());;
 	ArrayList<Food> foods;
-	//ArrayList<MyMarket> markets;
 	MarketManager market;
+	SharedOrders4 sharedOrders;
 	public enum orderState {none, pending, cooking, outOfItem, done, finished};
 	public enum marketState{none, checkForRestock, ready, ordered, fulfilled, partiallyFullfilled, allMarketsOut};
 	static final int eggTime= 1500;
@@ -49,7 +49,6 @@ public class CookRole4 extends Role implements Cook4 {
 		this.name= name;
 		this.p= p;
 		foods= new ArrayList<Food>();
-		//markets= new ArrayList<MyMarket>();
 		foods.add(new Food("Eggs"));
 		foods.add(new Food("Waffels"));
 		foods.add(new Food("Pancakes"));
@@ -65,9 +64,13 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 	
 	public void addMarket(MarketManager m){
-		//markets.add(new MyMarket(m));
 		market= m;
 	}
+	
+	public void setOrders(SharedOrders4 o){
+		sharedOrders= o;
+	}
+	
 	
 	// MESSAGES 
 	public void msgHereIsOrder(Waiter4 w, String choice, Customer4 c){
@@ -95,17 +98,6 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 	}
 	
-	/*public void msgHereIsDelivery(int e, int w, int p, int b, boolean successful){
-		log("Recieved delivery, let's check it out!");
-		log("EGGS: " + e + "  WAFFELS: " + w + "  PANCAKES: " + p + "  BACON: " + b);
-		delivery.put("Eggs", e);
-		delivery.put("Waffels", w);
-		delivery.put("Pancakes", p);
-		delivery.put("Bacon", b);
-		this.successful= successful;
-		o.ms= marketState.fulfilled;
-		this.p.stateChanged();
-	} */
 	 
 	public void msgHereIsYourOrder(MarketOrder mo){
 		List<OrderItem> order = mo.getOrders();
@@ -125,19 +117,13 @@ public class CookRole4 extends Role implements Cook4 {
 		this.p.stateChanged();
 	}
 	
-	/*public void msgOutOfItem(Market4 m, String type){
-		for(MyMarket market : markets){
-			if(m == market.m){
-				market.outOf(type);
-			}
-		}
-	}*/
-	
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		//First check if there are any new shared data orders to be added to the cook's personal list
+		checkSharedOrders();
 		if(orders != null){
 			synchronized(orders){ 
 				for(Order order : orders){
@@ -191,6 +177,14 @@ public class CookRole4 extends Role implements Cook4 {
 		return -1;
 	}
 	
+	private void checkSharedOrders(){
+		Order o= sharedOrders.fillOrder();
+		while(o != null){
+			orders.add(o);
+			o= sharedOrders.fillOrder();
+		}
+	}
+	
 	private void plateIt(Order o){
 		cookGui.doPlating(o.choice, find(o), o.id);
 		o.w.msgOrderDone(o.choice, o.c);
@@ -238,21 +232,6 @@ public class CookRole4 extends Role implements Cook4 {
 		
 		MarketOrder order= new MarketOrder(orders, "Restaruant4", p);
 		market.msgHereIsOrder(order);
-		/*Random rand = new Random();
-		int num= rand.nextInt(randSelector);
-		if(num == 0 && !markets.get(0).out){
-			markets.get(0).m.msgHereIsOrder(this, o.steak, o.chicken, o.salad, o.pizza);
-		}
-		else if(num == 1 && !markets.get(1).out){
-			markets.get(1).m.msgHereIsOrder(this, o.steak, o.chicken, o.salad, o.pizza);
-		}
-		else if(num == 2 && !markets.get(2).out){
-			markets.get(2).m.msgHereIsOrder(this, o.steak, o.chicken, o.salad, o.pizza);
-		}
-		else{
-			o.ms= marketState.allMarketsOut;
-			return;
-		}*/
 		o.ms= marketState.ordered;
 		p.stateChanged();
 	}
@@ -360,7 +339,6 @@ public class CookRole4 extends Role implements Cook4 {
 		int bacon=0;
 		int id;
 		
-		
 		Order(Waiter4 w2, String choice, Customer4 c2, String state, int id){
 			this.w= w2;
 			this.choice= choice;
@@ -435,38 +413,8 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 	}	
 	
-	/*public class MyMarket{
-		boolean steak= true;
-		boolean chicken= true;
-		boolean salad= true;
-		boolean pizza= true;
-		boolean out= false;
-		MarketRole4 m;
-		
-		MyMarket(MarketRole4 m){
-			this.m= m;
-		}
-		
-		public void outOf(String type){
-			if(type.equals("Steak")){
-				steak= false;
-			}
-			else if(type.equals("Chicken")){
-				chicken= false;
-			}
-			else if(type.equals("Salad")){
-				salad= false;
-			}
-			else if(type.equals("Pizza")){
-				pizza= false;
-			}
-			
-			if(!steak && !chicken && !salad && !pizza){
-				out= true;
-			}
-		}
-	}*/
 	
+	//ACTIVITY LOG
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
