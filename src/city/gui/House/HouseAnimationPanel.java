@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -26,7 +27,7 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
     private static final int WINDOWY = 900;
     private final int TIMER = 8;
     
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     
     //Functional things
     public Image bed = new ImageIcon("images/bed.png").getImage();
@@ -141,11 +142,13 @@ public class HouseAnimationPanel extends BuildingPanel implements ActionListener
 
 		@Override
 		public void updatePos() {
-			for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
-	        }
+			synchronized(guis){
+				for(Gui gui : guis) {
+	            	if (gui.isPresent()) {
+	                	gui.updatePosition();
+	            	}
+	        	}
+			}
 		}
 
 }
