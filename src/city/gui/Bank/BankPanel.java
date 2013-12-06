@@ -64,14 +64,14 @@ public class BankPanel extends JPanel {
         
         person2.addRole(bankmanager, true);
      
-        PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
-        person3.startThread();
+       // PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
+        //person3.startThread();
 
         
-        PersonAgent person6 = new PersonAgent("boobbyy", aStarTraversal, citymap, house);
+        //PersonAgent person6 = new PersonAgent("boobbyy", aStarTraversal, citymap, house);
         PersonGui person6gui = new PersonGui(person6);
         person6.setGui(person6gui);
-        person6.startThread();
+        //person6.startThread();
 		
     	BankTellerRole btr = new BankTellerRole(bankmanager);	
 		BankTellerRoleGui g6 = new BankTellerRoleGui(btr, gui);
