@@ -519,10 +519,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		/* Creating customer role for eating at restaurant3 */
 		CustomerRole3 customerRole3 = new CustomerRole3(p.getName(), 5, 5, p);
-		//CustomerGui3 customerGui3 = new CustomerGui3(customerRole3);
-		//customerGui3.setPresent(false);
-		//restaurant3.addGui(customerGui3);
-		//customerRole3.setGui(customerGui2);
+		CustomerGui3 customerGui3 = new CustomerGui3(customerRole3, 5, 5, 5);
+		customerGui3.setPresent(false);
+		restaurant3.addGui(customerGui3);
+		customerRole3.setGui(customerGui3);
 		p.addRole(customerRole3, false);
 		
 		/* Creating a customer role for eating at restaurant4 */
