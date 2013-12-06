@@ -663,6 +663,7 @@ public class PersonAgent extends Agent implements Person{
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
+				log("The role name is " + task.role);
 				for(Role r : roles){
 					if(r.getRoleName().equals(task.role)){
 						r.setActive();
@@ -805,12 +806,16 @@ public class PersonAgent extends Agent implements Person{
 			log("Going to go to Restaurant " + num);
 			task.location = "rest" + num;
 			task.role = "Restaurant" + num + "CustomerRole";
+			log("The role is called " + task.role);
 			if(!cars.isEmpty()){
 				String destination = task.location;
 				takeCar(destination);
 			}
 			else{
 				DoGoTo(task.location, task);
+				if(task.transportation == Transportation.walking){
+					reachedDestination(task);
+				}
 			}
 		}
 
