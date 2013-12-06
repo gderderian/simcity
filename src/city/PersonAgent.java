@@ -455,12 +455,6 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		if(name == "BusTest" && !busTest) {
-			DoGoTo("rest2", null);
-			busTest = true;
-			return false;
-		}
-
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
@@ -881,17 +875,17 @@ public class PersonAgent extends Agent implements Person{
 		currentPosition.moveInto(aStar.getGrid());
 
 		print("Now, go to final destination!");
-		
+				
 		PersonTask temp = null;
 		synchronized(tasks){
 			for(PersonTask t : tasks){
-				if(t.location == busRide.destination){
+				if(t.location.equals(busRide.destination)){
 					temp = t;
 				}
 			}
 		}
 
-		DoGoTo(temp.location, temp);
+		DoGoTo(busRide.destination, temp);
 	}
 
 	public void getOutOfCar(CarRide ride){
@@ -985,14 +979,15 @@ public class PersonAgent extends Agent implements Person{
 		}
 		
 		atHome= false;
-		house.getAnimationPanel().notInHouse(homeGui);
+		if(house != null)
+			house.getAnimationPanel().notInHouse(homeGui);
 
 		gui.setVisible();
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
 
 		Position p = new Position(x, y);
-		if(currentPosition.distance(p) > 25) {		// && name == "BusTest"
+		if(currentPosition.distance(p) > 25) {	// || name.equals("BusTest")
 			if(task != null){
 				task.transportation = Transportation.bus;
 			}
