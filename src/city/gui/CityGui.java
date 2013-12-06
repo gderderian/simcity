@@ -162,7 +162,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	 */
 	public CityGui() {            
 		controlPanel.setCityGui(this);
-		System.out.println(0);
 
 		//testPerson.startThread();
 		//testPerson.setGui(testPersonGui);
@@ -176,8 +175,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		animationPanel.setCityGui(this);
 		animationPanel.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
-
-		System.out.println(1);
 		
 		//Add all building animation panels to the building panel list!
 		//This automatically sets dimensions and cityGui references
@@ -198,8 +195,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(market2Animation);
 		addBuildingPanel(market3Animation);
 		
-
-		System.out.println(2);
 		
 		addBuildingPanel(restaurant3);
 
@@ -220,8 +215,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt2List.get(i));
 		}
 		
-
-		System.out.println(3);
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up all of the houses
 		for(int i=0; i<26; i++){ 
@@ -233,7 +226,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		//addBuildingPanel(house1);
 		//End of adding building panels!
 
-		System.out.println(4);
 		Dimension panelDim = new Dimension(WINDOWX - ANIMATIONX, WINDOWY);
 		infoPanel = new JPanel();
 		infoPanel.setPreferredSize(panelDim);
@@ -243,7 +235,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		infoPanel.setLayout(new FlowLayout());
 
-		System.out.println(5);
 		//add(infoPanel, BorderLayout.WEST);
 		add(controlPanel, BorderLayout.WEST);
 
