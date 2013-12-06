@@ -504,7 +504,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 

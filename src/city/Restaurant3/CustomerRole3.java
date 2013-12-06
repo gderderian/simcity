@@ -319,7 +319,7 @@ public class CustomerRole3 extends Role {
 		choosingTimer.start();
 	}
 	
-	private void goToRestaurant() {
+	public void goToRestaurant() {
 		Do("Going to restaurant and telling host that I'm hungry. I currently have $" + money + ".");
 		customerGui.setDestination(homeX, homeY);
 		customerGui.beginAnimate();
@@ -509,7 +509,7 @@ public class CustomerRole3 extends Role {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 	

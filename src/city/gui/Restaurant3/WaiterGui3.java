@@ -10,7 +10,7 @@ public class WaiterGui3 implements Gui {
 
 	RestaurantGui3 gui;
     
-    private int xPos = 230, yPos = 230;
+    private int xPos = 230, yPos = 100;
     public int xDestination = 230, yDestination = 230, host_tableX, host_tableY;
     
     private static final int HOST_SIZE_X = 20;

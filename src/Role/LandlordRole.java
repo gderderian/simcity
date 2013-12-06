@@ -160,7 +160,7 @@ public class LandlordRole extends Role implements Landlord {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 }

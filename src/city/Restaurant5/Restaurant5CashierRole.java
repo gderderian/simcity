@@ -270,7 +270,7 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 	

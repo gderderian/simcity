@@ -552,7 +552,7 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 }

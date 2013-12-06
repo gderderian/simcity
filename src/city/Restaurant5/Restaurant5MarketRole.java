@@ -208,13 +208,9 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
-
-
-
-
 
 }
 
