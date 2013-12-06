@@ -504,7 +504,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		customerGui1.setPresent(false);
 		p.addRole(customerRole1, false);		
 		
-		/* Creating customer role for eating at restaurant1 */
+		/* Creating customer role for eating at restaurant2 */
 		Restaurant2CustomerRole customerRole2 = new Restaurant2CustomerRole(p);
 		Restaurant2CustomerGui customerGui2 = new Restaurant2CustomerGui(customerRole2, p.getName(), 1);
 		customerGui2.setPresent(false);
@@ -512,9 +512,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		customerRole2.setGui(customerGui2);
 		p.addRole(customerRole2, false);
 		
+		/* Creating customer role for eating at restaurant3 */
+		CustomerRole3 customerRole3 = new CustomerRole3(p.getName(), 5, 5, p);
+		//CustomerGui3 customerGui3 = new CustomerGui3(customerRole3);
+		//customerGui3.setPresent(false);
+		//restaurant3.addGui(customerGui3);
+		//customerRole3.setGui(customerGui2);
+		p.addRole(customerRole3, false);
+		
 		/* Creating a customer role for eating at restaurant4 */
-		CustomerRole4 customerRole4= new CustomerRole4(p.getName(), p);
-		CustomerGui4 customerGui4= new CustomerGui4(customerRole4); 
+		CustomerRole4 customerRole4 = new CustomerRole4(p.getName(), p);
+		CustomerGui4 customerGui4 = new CustomerGui4(customerRole4); 
 		customerGui4.setPresent(false);
 		restaurant4.addGui(customerGui4);
 		customerRole4.setGui(customerGui4);

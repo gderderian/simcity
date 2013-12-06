@@ -1026,13 +1026,14 @@ public class PersonAgent extends Agent implements Person{
 			busRide.destination = location;
 			DoGoTo("stop" + Integer.toString(startingBusStop), task);
 			busRide.busStopAgent = cityMap.getBusStop(startingBusStop);
-			//busStop = cityMap.getBusStop(startingBusStop);
 			busRide.busStopAgent.msgWaitingForBus(this);
 			gui.setVisible(); /*Person will stand outside bus stop*/
 			return;
 		}
-		if(task != null)
-			task.transportation = Transportation.walking;
+		if(task != null){
+			if(task.transportation != Transportation.bus && task.transportation != Transportation.car)
+				task.transportation = Transportation.walking;
+		}
 		moveTo(x, y);
 		if(task != null)
 			task.state = State.arrived;
