@@ -35,6 +35,7 @@ import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
 import city.Apartment;
+import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
@@ -181,6 +182,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addMarketToCityMap(Market m) {
     	cityMap.setMarket(m);
+    }
+    
+    public void addBankToCityMap(Bank b) {
+    	cityMap.setBank(b);
     }
     
     public void setCityGui(CityGui c){
@@ -665,7 +670,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
 		addPerson("rest5Test", "No job");
-	   */
+	    */
     
     
     }
@@ -763,6 +768,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
 		addPerson("rest5Test", "No job");
+	
+		
 		
 		
     }

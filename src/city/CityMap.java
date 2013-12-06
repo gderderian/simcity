@@ -15,6 +15,7 @@ import city.Restaurant3.CustomerRole3;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
+import city.Restaurant5.Restaurant5CustomerRole;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -180,6 +181,10 @@ public class CityMap {
 	
 	public void setMarket(Market m){
 		market= m;
+	}
+	
+	public void setBank(Bank b) {
+		bank = b;
 	}
 	
 	public Position getParkingLocation(String location) {

@@ -25,6 +25,8 @@ import city.Restaurant2.Restaurant2WaiterRole;
 import city.gui.Bank.BankAnimationPanel;
 import city.gui.Bank.BankCustomerRoleGui;
 import city.gui.Bank.BankGui;
+import city.gui.Bank.BankManagerRoleGui;
+import city.gui.Bank.BankTellerRoleGui;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.Market.MarketAnimationPanel;
@@ -186,12 +188,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.addRest5ToCityMap(rest5);
 		controlPanel.addRest1ToCityMap(rest1);
 		controlPanel.addMarketToCityMap(market);
+		controlPanel.addBankToCityMap(bank);
 		//controlPanel.addBankToCityMap(bank);
+
 		restaurant1.setBackground(Color.LIGHT_GRAY);
 		addBuildingPanel(restaurant1);
-
 		addBuildingPanel(restaurant4);
 		addBuildingPanel(restaurant5);
+
 		addBuildingPanel(bank1Animation);
 		addBuildingPanel(market1Animation);
 		addBuildingPanel(market2Animation);
@@ -679,9 +683,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			}
 			
 			
+			//I added this
 			else if(job.contains("Bank")) {
 				p.addFirstJob(r, "bank1");
-				     
+				 
 				if(r instanceof BankManagerRole) {
 					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager");
 					bank.setBankManager((BankManagerRole) r);
@@ -862,6 +867,30 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		else if(type.equals("Restaurant5 Cashier")){
 			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
 			return role;
+		}
+		
+		//I added this
+		else if(type.equals("Bank Manager")){
+			Bank bank = new Bank();
+			BankManagerRole role = new BankManagerRole(bank);
+			role.setPerson(p);
+			BankGui bankgui = new BankGui(); 
+			BankManagerRoleGui gui = new BankManagerRoleGui(role, bankgui);
+			role.setGui(gui);
+			bank1Animation.addGui(gui);
+			return role;
+		}
+		
+		//I added this
+		else if(type.equals("Bank Teller")) {
+			Bank bank = new Bank();
+			BankTellerRole role = new BankTellerRole(null);
+			role.setPerson(p);
+			BankGui bankgui = new BankGui(); 
+			BankTellerRoleGui gui = new BankTellerRoleGui(role, bankgui);
+			role.setGui(gui);
+			bank1Animation.addGui(gui);
+			return role;	
 		}
 		
 		

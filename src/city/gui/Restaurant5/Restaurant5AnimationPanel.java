@@ -50,8 +50,6 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     	addMouseListener(this);
     	
     	this.restaurant = restaurant;
-    	
-    	
    
     	Timer timer = new Timer(13, this );
     	timer.start();

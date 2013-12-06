@@ -784,12 +784,37 @@ public class PersonAgent extends Agent implements Person{
 			}
 			else{
 				DoGoTo(task.location, task);
-				if(task.transportation == Transportation.walking){
+
+			if(task.transportation == Transportation.walking){
 					reachedDestination(task);
 				}
-			}
-		}
 
+			}
+			
+			if(name.equals("rest5Test")){
+				print("Going to go to a restaurant 5");
+				String restName = null;
+				Role role = null;
+				synchronized(roles){
+					for(Role r : roles){
+						if(r instanceof Restaurant5CustomerRole) {
+							r.setActive();
+							role = (Restaurant5CustomerRole) r;
+							restName = role.getBuilding();
+							restName = "rest5";
+							log.add(new LoggedEvent("Decided to go to a restaurant5"));
+	                        ((Restaurant5CustomerRole) role).setHost(cityMap.restaurant5.getHost());
+	                        ((Restaurant5CustomerRole) role).setCashier(cityMap.restaurant5.getCashier());
+	                        if(task.transportation == Transportation.walking) {
+	        					reachedDestination(task);
+	        				}
+	                        log("Set CustomerRole5 active");
+						}
+					}
+				}
+			}
+		
+		}
 		else{
 		//Generalized function so we can get rid of the hacks
 		

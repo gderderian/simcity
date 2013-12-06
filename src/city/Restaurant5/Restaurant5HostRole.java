@@ -225,6 +225,8 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		
+		
 		synchronized(tables) 
 		{
 		
@@ -240,23 +242,13 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 							break;
 						if(waiter.busy == false && waiter.onbreak == false)
 						{
-							/*
-							for(WaitingSpot waitingspot : waitingspots) {
-								Do("im in the waitingspot foo loop");
-								if(waitingspot.occupied == true)
-								{
-									Do("I'm escorting the customer from the waitign area");
-									assignwaiter(waitingspot.customer, waiter.waiter, table);
-									waitingspot.occupied = false;
-									waiter.busy = true;
-									occupiedtablecounter += 1;
-								}
-							}
-							*/
 							waiter.busy = true;
 							if(!mywaiters.isEmpty()) {
+						    Do("!!!!!!!!!! 1st  waiting customer size " + waitingCustomers.size());
 						    assigncustomer = waitingCustomers.remove(0);	
 							assignwaiter(assigncustomer, waiter.waiter, table);
+							//why is this called twice?????
+							Do("!!!!!!!!!! waiting customer size " + waitingCustomers.size());
 							occupiedtablecounter += 1;
 							//DoSeatCustomerAtWaitingArea(assigncustomer, xcoordinateofwaitingspot, ycoordinateofwaitingspot);
 							
