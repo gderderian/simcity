@@ -135,7 +135,7 @@ public class PersonGui implements Gui {
 	
 	public void setInvisible(){
 		isPresent = false;
-		System.out.println("Setting invisible");
+		//System.out.println("Setting invisible");
 	}
 	
 	public void setVisible(){

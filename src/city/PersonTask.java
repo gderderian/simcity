@@ -1,17 +1,14 @@
 package city;
 
-import Role.Role;
-
 public class PersonTask {
 	
-	enum TaskType {gotHungry};
+	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, doneWithWork};
 	enum Transportation {undecided, walking, bus, car};
-	enum State {initial, inTransit, doneWithTransit, arrived, complete};
+	enum State {initial, processing, inTransit, arrived, complete};
 	/*
 	 * STATES explained
 	 * initial - before the person starts the task
 	 * inTransit - if a person is in the process of using transportation (other than walking), they are in this state
-	 * doneWithTransit - when the person is done taking their transportation
 	 * arrived - if the person has arrived at his/her destination, but has not completed the task
 	 * complete - once the person has completed the task, the task is in this state
 	 */

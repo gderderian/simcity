@@ -307,7 +307,7 @@ public class HostRole4 extends Role {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 }

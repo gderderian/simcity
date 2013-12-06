@@ -226,7 +226,7 @@ public class MarketManager extends Role {
 		return name;
 	}
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 

@@ -225,7 +225,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 	

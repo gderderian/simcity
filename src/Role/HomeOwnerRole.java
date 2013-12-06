@@ -89,7 +89,7 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	}
 
 	@Override
-	protected String getRoleName() {
+	public String getRoleName() {
 		return roleName;
 	}
 	

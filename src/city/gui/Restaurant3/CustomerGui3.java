@@ -35,12 +35,24 @@ public class CustomerGui3 implements Gui{
 	Color color = Color.GREEN;
 	
 	public CustomerGui3(CustomerRole3 c, RestaurantGui3 gui, int customerX, int customerY, int customerIndex){
+		
+		// No longer in use!
+		
 		agent = c;
 		xPos = HIDDEN_X;
 		yPos = HIDDEN_Y;
 		xDestination = customerX;
 		yDestination = customerY;
 		this.gui = gui;
+		index = customerIndex;
+	}
+	
+	public CustomerGui3(CustomerRole3 c, int customerX, int customerY, int customerIndex){
+		agent = c;
+		xPos = HIDDEN_X;
+		yPos = HIDDEN_Y;
+		xDestination = customerX;
+		yDestination = customerY;
 		index = customerIndex;
 	}
 	
@@ -77,7 +89,7 @@ public class CustomerGui3 implements Gui{
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
+				// gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}
@@ -142,7 +154,7 @@ public class CustomerGui3 implements Gui{
     }
     
     public void resetNotHungry() {
-		gui.setCustomerEnabled(agent);
+		//gui.setCustomerEnabled(agent);
     	isHungry = false;
     	setDestination(-40, -40);
     }

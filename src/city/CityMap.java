@@ -1,11 +1,16 @@
 package city;
 
 import interfaces.BusStop;
+import interfaces.Restaurant2Customer;
 
 import java.util.*;
 
+import justinetesting.interfaces.Customer4;
 import restaurant1.Restaurant1;
+import restaurant1.Restaurant1CustomerRole;
+import tomtesting.interfaces.Restaurant5Customer;
 import city.Restaurant2.Restaurant2;
+import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
@@ -262,6 +267,24 @@ public class CityMap {
 			}
 		}
 		return closestPlace;
+	}
+	
+	/*
+	 * This function takes a restaurant number and messages the host of that restaurant that the customer is hungry
+	 */
+	public void msgHostHungryAtRestaurant(int num, Role customer){
+		if(num == 1){
+			restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) customer);
+		}
+		if(num == 2){
+			restaurant2.getHost().msgIWantFood((Restaurant2Customer) customer);
+		}
+		if(num == 4){
+			restaurant4.getHost().msgIWantFood((Customer4) customer);
+		}
+		if(num == 5){
+			restaurant5.getHost().msgIWantFood((Restaurant5Customer) customer);
+		}
 	}
 	
 }
