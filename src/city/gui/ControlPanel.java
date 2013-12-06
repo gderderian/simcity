@@ -70,7 +70,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton startScenario = new JButton("Start scenario!");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "A* Animation", "Bus Test", "Bank Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bus Test", "Bank Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -374,8 +374,8 @@ public class ControlPanel extends JPanel implements ActionListener{
             AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
             
             House house = houses.get(houseAssignmentNumber);
-            if(houseAssignmentNumber == 47){
-            	houseAssignmentNumber = 46;
+            if(houseAssignmentNumber == 43){
+            	houseAssignmentNumber = 42;
             }
             else{
                 houseAssignmentNumber++;
@@ -504,25 +504,26 @@ public class ControlPanel extends JPanel implements ActionListener{
       	for(int i = 15; i < 19; i++) //Bottom crosswalk
       		for(int j = 16; j < 18; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
-      	for(int i = 13; i < 15; i++) //Left crosswalk
+      	for(int i = 19; i < 21; i++) //Right crosswalk
+      		for(int j = 12; j < 16; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	//These crosswalks are not used anymore.
+      	/*for(int i = 13; i < 15; i++) //Left crosswalk
       		for(int j = 12; j < 16; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
       	for(int i = 15; i < 19; i++) //Top crosswalk
       		for(int j = 10; j < 12; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];
-      	for(int i = 19; i < 21; i++) //Right crosswalk
-      		for(int j = 12; j < 16; j++)
-      			sidewalkGrid[i][j] = streetGrid[i][j];
+      			sidewalkGrid[i][j] = streetGrid[i][j];*/
       	
       	//Releasing many semaphores on building entrances so multiple guis can "go in" to buildings
       	sidewalkGrid[20][0].release(100); //rest1
       	sidewalkGrid[0][3].release(100); //rest2
       	sidewalkGrid[0][17].release(100); //rest3
       	sidewalkGrid[10][18].release(100); //rest4
-      	sidewalkGrid[13][9].release(100); //rest5
+      	sidewalkGrid[21][18].release(100); //rest5
       	sidewalkGrid[24][10].release(100); //mark1
       	sidewalkGrid[5][0].release(100); //mark2
-      	sidewalkGrid[9][9].release(100); //mark3
+      	sidewalkGrid[5][18].release(100); //mark3
       	sidewalkGrid[21][1].release(100); //bank1
       	sidewalkGrid[0][12].release(100); //bank2
       	sidewalkGrid[21][4].release(100); //apart1
@@ -541,7 +542,6 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[19][18].release(100);
 
       	sidewalkGrid[21][20].release(5); //opening up permits in front of people's houses
-      	sidewalkGrid[23][17].release(5);
       	sidewalkGrid[24][17].release(5);
       	sidewalkGrid[25][17].release(5);
       	sidewalkGrid[21][6].release(5);
@@ -561,12 +561,8 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[0][14].release(5);
       	sidewalkGrid[0][16].release(5);
       	sidewalkGrid[3][18].release(5);
-      	sidewalkGrid[5][18].release(5);
-      	sidewalkGrid[11][18].release(5);
-      	sidewalkGrid[12][9].release(5);
-      	sidewalkGrid[10][9].release(5);
-      	sidewalkGrid[10][7].release(5);
-      	
+      	sidewalkGrid[4][18].release(5);
+      	sidewalkGrid[11][18].release(5);      	
       	
       	streetGrid[18][18].release(100); //starting point for vehicles
       	
@@ -583,7 +579,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void createHouses() {
-    	for(int i = 0; i < 26; i++) {
+    	for(int i = 0; i < 22; i++) {
     		houses.add(new House("house" + Integer.toString(i + 1)));
     	}
     	for(int i = 0; i < 10; i++) {
@@ -617,8 +613,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runRestaurant4Test();
 		else if(scenario.equals("Restaurant5"))
 			runRestaurant5Test();
-		else if(scenario.equals("A* Animation"))
-			runAnimationTest();
 		else if(scenario.equals("Bus Test"))
 				runBusTest();
 		else if(scenario.equals("Bank Test"))
@@ -808,53 +802,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("joe", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		
-    }
-    
-    public void runAnimationTest() {
-    	
-    	//Add two buses at an interval
-    	addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				 addVehicle("bus");
-			}
-		}, 16000	);
-		
-		//Add two trucks at an interval
-		timer.schedule(new TimerTask() {
-			public void run() {
-				 addVehicle("truck");
-			}
-		}, 5000	);
-
-		timer.schedule(new TimerTask() {
-			public void run() {
-				 addVehicle("truck");
-			}
-		}, 13000	);
-		
-		//Adding 6 people to walk to different places and test A* animation
-			addPerson("aStarTest1", "No job");
-			timer.schedule(new TimerTask() {
-				public void run() {
-			addPerson("aStarTest1", "No job");
-				}
-			}, 4000	);
-			
-			addPerson("aStarTest3", "No job");
-			timer.schedule(new TimerTask() {
-				public void run() {
-			addPerson("aStarTest3", "No job");
-				}
-			}, 10000	);
-			
-			addPerson("aStarTest2", "No job");
-			timer.schedule(new TimerTask() {
-				public void run() {
-			addPerson("aStarTest2", "No job");
-				}
-			}, 20000	);
 		
     }
     

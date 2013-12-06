@@ -11,6 +11,7 @@ import restaurant1.Restaurant1CustomerRole;
 import tomtesting.interfaces.Restaurant5Customer;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
+import city.Restaurant3.CustomerRole3;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
@@ -48,11 +49,11 @@ public class CityMap {
 		buildingLocations.put("rest2", new Position(0,3));
 		buildingLocations.put("rest3", new Position(0,17));
 		buildingLocations.put("rest4", new Position(10,18));
-		buildingLocations.put("rest5", new Position(13,9));
+		buildingLocations.put("rest5", new Position(21,18));
 		//Market locations
 		buildingLocations.put("mark1", new Position(24,10));
 		buildingLocations.put("mark2", new Position(5,0));
-		buildingLocations.put("mark3", new Position(9,9));
+		buildingLocations.put("mark3", new Position(5,18));
 		//Bank locations
 		buildingLocations.put("bank1", new Position(21,1));
 		buildingLocations.put("bank2", new Position(0,12));
@@ -63,34 +64,30 @@ public class CityMap {
 		buildingLocations.put("stop0", new Position(21,8));
 		buildingLocations.put("stop1", new Position(11,0));
 		buildingLocations.put("stop2", new Position(0,8));
-		buildingLocations.put("stop3", new Position(18,7));
+		buildingLocations.put("stop3", new Position(7,18));
 		//House locations
 		buildingLocations.put("house1", new Position(21,20));
-		buildingLocations.put("house2", new Position(23,17));
-		buildingLocations.put("house3", new Position(24,17));
-		buildingLocations.put("house4", new Position(25,17));
-		buildingLocations.put("house5", new Position(21,6));
-		buildingLocations.put("house6", new Position(21,2));
-		buildingLocations.put("house7", new Position(19,0));
-		buildingLocations.put("house8", new Position(17,0));
-		buildingLocations.put("house9", new Position(15,0));
-		buildingLocations.put("house10", new Position(13,0));
-		buildingLocations.put("house11", new Position(9,0));
-		buildingLocations.put("house12", new Position(7,0));
-		buildingLocations.put("house13", new Position(3,0));
-		buildingLocations.put("house14", new Position(1,0));
-		buildingLocations.put("house15", new Position(0,0));
-		buildingLocations.put("house16", new Position(0,4));
-		buildingLocations.put("house17", new Position(0,6));
-		buildingLocations.put("house18", new Position(0,10));
-		buildingLocations.put("house19", new Position(0,14));
-		buildingLocations.put("house20", new Position(0,16));
-		buildingLocations.put("house21", new Position(3,18));
-		buildingLocations.put("house22", new Position(5,18));
-		buildingLocations.put("house23", new Position(11,18));
-		buildingLocations.put("house24", new Position(12,9));
-		buildingLocations.put("house25", new Position(10,9));
-		buildingLocations.put("house26", new Position(10,7));
+		buildingLocations.put("house2", new Position(24,17));
+		buildingLocations.put("house3", new Position(25,17));
+		buildingLocations.put("house4", new Position(21,6));
+		buildingLocations.put("house5", new Position(21,2));
+		buildingLocations.put("house6", new Position(19,0));
+		buildingLocations.put("house7", new Position(17,0));
+		buildingLocations.put("house8", new Position(15,0));
+		buildingLocations.put("house9", new Position(13,0));
+		buildingLocations.put("house10", new Position(9,0));
+		buildingLocations.put("house11", new Position(7,0));
+		buildingLocations.put("house12", new Position(3,0));
+		buildingLocations.put("house13", new Position(1,0));
+		buildingLocations.put("house14", new Position(0,0));
+		buildingLocations.put("house15", new Position(0,4));
+		buildingLocations.put("house16", new Position(0,6));
+		buildingLocations.put("house17", new Position(0,10));
+		buildingLocations.put("house18", new Position(0,14));
+		buildingLocations.put("house29", new Position(0,16));
+		buildingLocations.put("house20", new Position(3,18));
+		buildingLocations.put("house21", new Position(4,18));
+		buildingLocations.put("house22", new Position(11,18));
 
 		//Parking locations
 		parkingLocations.put("rest1", new Position(18,4));
@@ -105,7 +102,6 @@ public class CityMap {
 		
 		//Adding list of nearby locations to each bus stop
 		List<String> buildingList0 = new ArrayList<String>();
-		buildingList0.add("house1");
 		buildingList0.add("house2");
 		buildingList0.add("house3");
 		buildingList0.add("mark1");
@@ -146,12 +142,9 @@ public class CityMap {
 		buildingList3.add("house21");
 		buildingList3.add("house22");
 		buildingList3.add("rest4");
-		buildingList3.add("house23");
 		buildingList3.add("rest5");
-		buildingList3.add("house24");
-		buildingList3.add("house25");
 		buildingList3.add("mark3");
-		buildingList3.add("house26");
+		buildingList3.add("house1");
 		nearbyDestinations.put(3, buildingList3);
 		
 		//Creating list of restaurants
@@ -279,10 +272,16 @@ public class CityMap {
 	 */
 	public void msgHostHungryAtRestaurant(int num, Role customer){
 		if(num == 1){
-			restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) customer);
+			Restaurant1CustomerRole cust = (Restaurant1CustomerRole) customer;
+			cust.setHost(restaurant1.getHost());
+			cust.getGui().setHungry();
+			//restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) customer);
 		}
 		if(num == 2){
 			restaurant2.getHost().msgIWantFood((Restaurant2Customer) customer);
+		}
+		if(num == 3){
+			restaurant3.getHost().msgIWantFood((CustomerRole3) customer, 0, 0);
 		}
 		if(num == 4){
 			restaurant4.getHost().msgIWantFood((Customer4) customer);

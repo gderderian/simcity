@@ -49,45 +49,8 @@ public class BankPanel extends JPanel {
     
     int waiterposcounter = 30;
     public BankPanel(BankGui gui) {
-        
     	this.gui = gui;
-    	/*
-    	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);
-    	PersonGui person2gui = new PersonGui(person2);
-    	person2.setGui(person2gui);
-        person2.startThread();
-    	//BankManagerRole bmr = new BankManagerRole(bank);	
-		BankManagerRoleGui g2 = new BankManagerRoleGui(bankmanager, gui);
-		bankmanager.setPerson(person2);
-		gui.animationPanel.addGui(g2);
-		bankmanager.setGui(g2);
-        
-        person2.addRole(bankmanager, true);
-     
-        PersonAgent person3 = new PersonAgent("john", aStarTraversal, citymap, house);
-        person3.startThread();
 
-        
-        PersonAgent person6 = new PersonAgent("boobbyy", aStarTraversal, citymap, house);
-        PersonGui person6gui = new PersonGui(person6);
-        person6.setGui(person6gui);
-        person6.startThread();
-		
-    	BankTellerRole btr = new BankTellerRole(bankmanager);	
-		BankTellerRoleGui g6 = new BankTellerRoleGui(btr, gui);
-		btr.setPerson(person6);
-		person6.addRole(btr, true);
-		gui.animationPanel.addGui(g6);
-		btr.setGui(g6);
-		banktellers.add(btr);
-		
-		bankmanager.msgBankTellerArrivedAtBank(btr);
-        
-        
-        
-        
-        
-        */
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
         group.add(bankcustomerPanel);

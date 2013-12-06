@@ -37,21 +37,6 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     
     Restaurant5 restaurant;
     
-    PersonAgent personCook = new PersonAgent("Cook");
-    PersonAgent personHost = new PersonAgent("Host");
-    PersonAgent personCashier = new PersonAgent("Cashier");
-    PersonAgent personWaiter = new PersonAgent("Waiter");
-    Restaurant5CookRole Cook;
-    Restaurant5CashierRole Cashier;
-    Restaurant5WaiterRole Waiter;
-    Restaurant5HostRole Host;
-    
-    Restaurant5CookGui cookGui;
-    Restaurant5CustomerGui customerGui;
-    Restaurant5WaiterGui waiterGui;
-    
-   //Restaurant5Gui restaurant5gui = new Restaurant5Gui();
-    
     private Image bufferImage;
     private Dimension bufferSize;
 

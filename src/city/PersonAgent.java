@@ -137,6 +137,7 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		} else {
 			currentPosition = new Position(20, 18);
+			log("I don't have a house");
 		}
 
 		wallet = 1000;
@@ -454,30 +455,6 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		/* This is only for our animation test which
-		 * displays A* animation capabilities!!
-		 */
-		if(name == "aStarTest1") {
-			DoGoTo("rest3", null);
-			DoGoTo("mark2", null);
-			DoGoTo("apart1", null);
-			goHome();
-			return false;
-		} else if(name == "aStarTest2") {
-			DoGoTo("rest1", null);
-			DoGoTo("rest2", null);
-			DoGoTo("bank2", null);
-			DoGoTo("stop3", null);
-			goHome();
-			return false;
-		} else if(name == "aStarTest3") {
-			DoGoTo("mark3", null);
-			DoGoTo("rest4", null);
-			goHome();
-			return false;
-		}
-		/* End of animation test code */
-
 		if(name == "BusTest" && !busTest) {
 			DoGoTo("rest2", null);
 			busTest = true;
@@ -663,6 +640,7 @@ public class PersonAgent extends Agent implements Person{
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
+				log("The role name is " + task.role);
 				for(Role r : roles){
 					if(r.getRoleName().equals(task.role)){
 						r.setActive();
@@ -805,14 +783,18 @@ public class PersonAgent extends Agent implements Person{
 			log("Going to go to Restaurant " + num);
 			task.location = "rest" + num;
 			task.role = "Restaurant" + num + "CustomerRole";
+			log("The role is called " + task.role);
 			if(!cars.isEmpty()){
 				String destination = task.location;
 				takeCar(destination);
 			}
 			else{
 				DoGoTo(task.location, task);
-				
-				
+
+			if(task.transportation == Transportation.walking){
+					reachedDestination(task);
+				}
+
 			}
 			
 			if(name.equals("rest5Test")){
@@ -1035,7 +1017,7 @@ public class PersonAgent extends Agent implements Person{
 		int y = cityMap.getY(location);
 
 		Position p = new Position(x, y);
-		if(currentPosition.distance(p) > 20) {		// && name == "BusTest"
+		if(currentPosition.distance(p) > 25) {		// && name == "BusTest"
 			if(task != null){
 				task.transportation = Transportation.bus;
 			}
@@ -1046,13 +1028,14 @@ public class PersonAgent extends Agent implements Person{
 			busRide.destination = location;
 			DoGoTo("stop" + Integer.toString(startingBusStop), task);
 			busRide.busStopAgent = cityMap.getBusStop(startingBusStop);
-			//busStop = cityMap.getBusStop(startingBusStop);
 			busRide.busStopAgent.msgWaitingForBus(this);
 			gui.setVisible(); /*Person will stand outside bus stop*/
 			return;
 		}
-		if(task != null)
-			task.transportation = Transportation.walking;
+		if(task != null){
+			if(task.transportation != Transportation.bus && task.transportation != Transportation.car)
+				task.transportation = Transportation.walking;
+		}
 		moveTo(x, y);
 		if(task != null)
 			task.state = State.arrived;
