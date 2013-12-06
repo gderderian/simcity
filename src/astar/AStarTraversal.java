@@ -28,6 +28,7 @@ public class AStarTraversal extends GraphTraversal
 	Position p = (Position) state;
 	AStarNode n = new AStarNode(p);
 	n.setDistTravelled(0);
+	//Heuristic is here!
 	n.setApproxTotalDist(p.distance((Position)getEndingState()));
 	List<Position> path = new ArrayList<Position>();
 	path.add(p);
