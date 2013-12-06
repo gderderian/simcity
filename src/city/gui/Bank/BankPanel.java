@@ -30,7 +30,7 @@ public class BankPanel extends JPanel {
 	PersonAgent person4;
 	PersonAgent person5;
 	PersonAgent person6;
-	House house = new House("house");
+	House house = new House("house1");
 	Bank bank = new Bank();
 	AStarTraversal aStarTraversal;
     CityMap citymap = new CityMap();

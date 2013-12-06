@@ -4,6 +4,8 @@ import city.PersonAgent;
 import Role.Role;
 
 public class MarketCustomerRole extends Role {
+	
+	String roleName = "MarketCustomerRole";
 
 	// Constructor
 	MarketCustomerRole(PersonAgent p){
@@ -25,6 +27,11 @@ public class MarketCustomerRole extends Role {
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
 		return false;
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 	
 	// Actions

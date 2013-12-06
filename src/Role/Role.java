@@ -1,25 +1,7 @@
 package Role;
 
-import java.util.concurrent.Semaphore;
-
-import restaurant1.Restaurant1CashierRole;
-import restaurant1.Restaurant1CookRole;
-import restaurant1.Restaurant1CustomerRole;
-import restaurant1.Restaurant1HostRole;
-import restaurant1.Restaurant1WaiterRole;
 import agent.StringUtil;
-import city.PersonAgent;
-import city.Restaurant2.Restaurant2CashierRole;
-import city.Restaurant2.Restaurant2CookRole;
-import city.Restaurant2.Restaurant2CustomerRole;
-import city.Restaurant2.Restaurant2HostRole;
-import city.Restaurant2.Restaurant2WaiterRole;
-import city.gui.CityGui;
 import city.gui.Gui;
-import city.gui.restaurant2.Restaurant2AnimationPanel;
-import city.gui.restaurant2.Restaurant2CookGui;
-import city.gui.restaurant2.Restaurant2CustomerGui;
-import city.gui.restaurant2.Restaurant2WaiterGui;
 
 public abstract class Role {
 	
@@ -54,6 +36,8 @@ public abstract class Role {
     protected String getName() {
         return StringUtil.shortName(this);
     }
+    
+    public abstract String getRoleName();
     
     public String getBuilding() {
     	return building;

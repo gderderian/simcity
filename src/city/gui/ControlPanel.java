@@ -118,8 +118,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private List<BusStop> busStops = new ArrayList<BusStop>();
     
     //Size of astar semaphore grid
-    static int gridX = 21; //# of x-axis tiles
-    static int gridY = 18; //# of y-axis tiles
+    static int gridX = 25; //# of x-axis tiles
+    static int gridY = 20; //# of y-axis tiles
 
     //Semaphore grid for astar animation
     Semaphore[][] streetGrid = new Semaphore[gridX+1][gridY+1];
@@ -152,22 +152,6 @@ public class ControlPanel extends JPanel implements ActionListener{
         controlPane.addTab("People", personControls);
         controlPane.addTab("Activity Log", activityPane);
         add(controlPane);
-        
-        List<String> stopLocations0 = new ArrayList<String>();
-        List<String> stopLocations1 = new ArrayList<String>();
-        List<String> stopLocations2 = new ArrayList<String>();
-        List<String> stopLocations3 = new ArrayList<String>();
-        
-        //Add all nearby locations here
-        stopLocations0.add("building0");
-        stopLocations1.add("building1");
-        stopLocations2.add("building2");
-        stopLocations3.add("building3");
-        
-        cityMap.addStopDestinations(0, stopLocations0);
-        cityMap.addStopDestinations(0, stopLocations0);
-        cityMap.addStopDestinations(0, stopLocations0);
-        cityMap.addStopDestinations(0, stopLocations0);
         
         //Set up the grids of semaphores
         populateSemaphoreGrids();
@@ -471,36 +455,62 @@ public class ControlPanel extends JPanel implements ActionListener{
       			streetGrid[j][i].release();
       	}
       	
-      	for(int i = 15; i < 19; i++) //Crosswalk area
+      	for(int i = 15; i < 19; i++) //Extra portions of road in bottom right corner
       		for(int j = 16; j < 19; j++)
+      			streetGrid[i][j].release();
+      	for(int i =  19; i < 26; i++)
+      		for(int j = 12; j < 16; j++)
       			streetGrid[i][j].release();
       	
       	//Release sidewalk semaphores
-      	for(int i = 1; i < 21; i++) { //Top and bottom
+      	for(int i = 1; i < 21; i++) //Top sidewalk
       		for(int j = 1; j < 3; j++)
+      			sidewalkGrid[i][j].release();
+      		
+      	for(int i = 1; i < 15; i++) //Bottom sidewalk
+      		for(int j = 16; j < 18; j++)
+      			sidewalkGrid[i][j].release();
+      	
+      	for(int i = 3; i < 16; i++) //Left sidewalk
+      		for(int j = 1; j < 3; j++)
+      			sidewalkGrid[j][i].release();
+      	
+      	for(int i = 3; i < 12; i++) //Right sidewalk
+      		for(int j = 19; j < 21; j++)
+      			sidewalkGrid[j][i].release();
+      	
+      	for(int i = 21; i < 25; i++) { //Two rightmost chunks of sidewalk
+      		for(int j = 10; j < 12; j++) 
       			sidewalkGrid[i][j].release();
       		for(int j = 16; j < 18; j++)
       			sidewalkGrid[i][j].release();
       	}
-
-      	for(int i = 3; i < 16; i++) { //Left and right
-      		for(int j = 1; j < 3; j++)
-      			sidewalkGrid[j][i].release();
-      		for(int j = 19; j < 21; j++)
-      			sidewalkGrid[j][i].release();
-      	}
       	
-      	for(int i = 7; i < 15; i++)
+      	for(int i = 19; i < 22; i++) //Sidewalk below right crosswalk
+      		for(int j = 16; j < 21; j++)
+      			sidewalkGrid[i][j].release();
+      	
+      	for(int i = 13; i < 15; i++) //Sidewalk at bottom under left crosswalk
+      		for(int j = 19; j < 21; j++)
+      			sidewalkGrid[i][j].release();
+      		
+      	for(int i = 7; i < 15; i++) //Island sidewalk
       		for(int j = 10; j < 12; j++)
       			sidewalkGrid[i][j].release();
       	
       	//End of sidewalk grid releasing
       	
       	//Adding in crosswalks (shared semaphores between street grid and sidewalk grid)
-      	for(int i = 15; i < 19; i++) //Bottom right crosswalk
+      	for(int i = 15; i < 19; i++) //Bottom crosswalk
       		for(int j = 16; j < 18; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
-      	for(int i = 13; i < 15; i++) //Crosswalk to island
+      	for(int i = 13; i < 15; i++) //Left crosswalk
+      		for(int j = 12; j < 16; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	for(int i = 15; i < 19; i++) //Top crosswalk
+      		for(int j = 10; j < 12; j++)
+      			sidewalkGrid[i][j] = streetGrid[i][j];
+      	for(int i = 19; i < 21; i++) //Right crosswalk
       		for(int j = 12; j < 16; j++)
       			sidewalkGrid[i][j] = streetGrid[i][j];
       	
@@ -510,7 +520,7 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[0][17].release(100); //rest3
       	sidewalkGrid[10][18].release(100); //rest4
       	sidewalkGrid[13][9].release(100); //rest5
-      	sidewalkGrid[21][11].release(100); //mark1
+      	sidewalkGrid[24][10].release(100); //mark1
       	sidewalkGrid[5][0].release(100); //mark2
       	sidewalkGrid[9][9].release(100); //mark3
       	sidewalkGrid[21][1].release(100); //bank1
@@ -530,10 +540,10 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[21][18].release(100);
       	sidewalkGrid[19][18].release(100);
 
-      	sidewalkGrid[21][17].release(5); //opening up permits in front of people's houses
-      	sidewalkGrid[21][15].release(5);
-      	sidewalkGrid[21][13].release(5);
-      	sidewalkGrid[21][10].release(5);
+      	sidewalkGrid[21][20].release(5); //opening up permits in front of people's houses
+      	sidewalkGrid[23][17].release(5);
+      	sidewalkGrid[24][17].release(5);
+      	sidewalkGrid[25][17].release(5);
       	sidewalkGrid[21][6].release(5);
       	sidewalkGrid[21][2].release(5);
       	sidewalkGrid[19][0].release(5);
@@ -666,7 +676,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
 		addPerson("rest5Test", "No job");
-	   */
+	    */
     
     
     }

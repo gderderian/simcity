@@ -1,14 +1,20 @@
 package city;
 
 import interfaces.BusStop;
+import interfaces.Restaurant2Customer;
 
 import java.util.*;
 
+import justinetesting.interfaces.Customer4;
 import restaurant1.Restaurant1;
+import restaurant1.Restaurant1CustomerRole;
+import tomtesting.interfaces.Restaurant5Customer;
 import city.Restaurant2.Restaurant2;
+import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
+import city.Restaurant5.Restaurant5CustomerRole;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
 import Role.Role;
@@ -44,7 +50,7 @@ public class CityMap {
 		buildingLocations.put("rest4", new Position(10,18));
 		buildingLocations.put("rest5", new Position(13,9));
 		//Market locations
-		buildingLocations.put("mark1", new Position(21,11));
+		buildingLocations.put("mark1", new Position(24,10));
 		buildingLocations.put("mark2", new Position(5,0));
 		buildingLocations.put("mark3", new Position(9,9));
 		//Bank locations
@@ -59,10 +65,10 @@ public class CityMap {
 		buildingLocations.put("stop2", new Position(0,8));
 		buildingLocations.put("stop3", new Position(18,7));
 		//House locations
-		buildingLocations.put("house1", new Position(21,17));
-		buildingLocations.put("house2", new Position(21,15));
-		buildingLocations.put("house3", new Position(21,13));
-		buildingLocations.put("house4", new Position(21,10));
+		buildingLocations.put("house1", new Position(21,20));
+		buildingLocations.put("house2", new Position(23,17));
+		buildingLocations.put("house3", new Position(24,17));
+		buildingLocations.put("house4", new Position(25,17));
 		buildingLocations.put("house5", new Position(21,6));
 		buildingLocations.put("house6", new Position(21,2));
 		buildingLocations.put("house7", new Position(19,0));
@@ -93,7 +99,7 @@ public class CityMap {
 		parkingLocations.put("rest4", new Position(10,15));
 		parkingLocations.put("rest5", new Position(15,9));
 		//Market locations
-		parkingLocations.put("mark1", new Position(18,11));
+		parkingLocations.put("mark1", new Position(24,12));
 		parkingLocations.put("mark2", new Position(5,3));
 		parkingLocations.put("mark3", new Position(8,12));
 		
@@ -234,38 +240,6 @@ public class CityMap {
 		nearbyDestinations.put(number, destinations);
 	}
 	
-	//Classes which act as a "directory"
-	
-	/*
-	 * host role: (the role the customer messages when they get to the restaurant
-	 * customer role: the role the person takes on when he/she gets to the restaurant
-	 * Person must create a *new* instance of the customer role to enter the restaurant
-	 * Host Role can be addressed as is: there will only ever be one host at a time
-	 */
-	/*
-	class Restaurant2{		//HACKEY TODO: fix this maybe?
-		Restaurant2HostRole host;
-		Restaurant2CustomerRole customer;
-		String name;
-		
-		public Restaurant2(){
-			host = new Restaurant2HostRole("Sarah");
-			name = "Restaurant2";
-		}
-		public Role getHost(){
-			return host;
-		}
-		public Restaurant2CustomerRole getNewCustomerRole(){
-			customer = new Restaurant2CustomerRole();
-			return customer;
-		}
-		public String getName(){
-			return name;
-		}
-		
-	}
-	*/
-	
 	public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;
 		int housey = 0;
@@ -298,6 +272,24 @@ public class CityMap {
 			}
 		}
 		return closestPlace;
+	}
+	
+	/*
+	 * This function takes a restaurant number and messages the host of that restaurant that the customer is hungry
+	 */
+	public void msgHostHungryAtRestaurant(int num, Role customer){
+		if(num == 1){
+			restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) customer);
+		}
+		if(num == 2){
+			restaurant2.getHost().msgIWantFood((Restaurant2Customer) customer);
+		}
+		if(num == 4){
+			restaurant4.getHost().msgIWantFood((Customer4) customer);
+		}
+		if(num == 5){
+			restaurant5.getHost().msgIWantFood((Restaurant5Customer) customer);
+		}
 	}
 	
 }

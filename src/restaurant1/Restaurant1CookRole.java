@@ -24,6 +24,8 @@ import city.PersonAgent;
 //is proceeded as he wishes.
 public class Restaurant1CookRole extends Role {
 	
+	String roleName = "Restaurant1CookRole";
+	
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 
 	private MarketManager market;
@@ -369,6 +371,11 @@ public class Restaurant1CookRole extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 	
 }

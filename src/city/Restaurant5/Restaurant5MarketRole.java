@@ -27,6 +27,8 @@ import city.gui.Restaurant5.Restaurant5CookGui;
 
 public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 	
+	String roleName = "Restaurant5MarketRole";
+	
 	public List<supplyorders> supplyorders = Collections.synchronizedList(new ArrayList<supplyorders>());
 	
 	Timer timerforcooking = new Timer();
@@ -205,9 +207,10 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 		
 	}
 
-
-
-
+	@Override
+	public String getRoleName() {
+		return roleName;
+	}
 
 }
 

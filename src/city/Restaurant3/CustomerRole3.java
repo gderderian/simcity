@@ -22,6 +22,8 @@ import java.util.Random;
  */
 public class CustomerRole3 extends Role {
 	
+	String roleName = "Restaurant3CustomerRole";
+	
 	static final int DEFAULT_HUNGER_LEVEL = 3500;
 	static final int DEFAULT_SIT_TIME = 5000;
 	static final int DEFAULT_CHOOSE_TIME = 5000;
@@ -317,7 +319,7 @@ public class CustomerRole3 extends Role {
 		choosingTimer.start();
 	}
 	
-	private void goToRestaurant() {
+	public void goToRestaurant() {
 		Do("Going to restaurant and telling host that I'm hungry. I currently have $" + money + ".");
 		customerGui.setDestination(homeX, homeY);
 		customerGui.beginAnimate();
@@ -504,6 +506,11 @@ public class CustomerRole3 extends Role {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 	
 }

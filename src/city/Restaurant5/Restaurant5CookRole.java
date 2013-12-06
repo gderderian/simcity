@@ -36,6 +36,8 @@ import java.util.TimerTask;
 //is proceeded as he wishes.
 public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
+	String roleName = "Restaurant5CookRole";
+	
 	public List<cookingorder> cookingorders = Collections.synchronizedList(new ArrayList<cookingorder>());
 	public List<mymarket> markets = Collections.synchronizedList(new ArrayList<mymarket>()); 
 	public List<checkfrommarket> checksfrommarket = Collections.synchronizedList(new ArrayList<checkfrommarket>());
@@ -499,6 +501,11 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 
 

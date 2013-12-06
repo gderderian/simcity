@@ -23,6 +23,9 @@ import test.mock.LoggedEvent;
  * Restaurant customer agent.
  */
 public class CustomerRole4 extends Role implements Customer4 {
+	
+	String roleName = "Restaurant4CustomerRole";
+	
 	private String name;
 	private String choice;
 	PersonAgent p;
@@ -424,6 +427,11 @@ public class CustomerRole4 extends Role implements Customer4 {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 }
 

@@ -18,6 +18,8 @@ import test.mock.LoggedEvent;
 import city.PersonAgent;
 
 public class BankManagerRole extends Role{
+	
+	String roleName = "BankManagerRole";
 
 	public enum banktellerstate {arrived, free, busy};
 	//public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
@@ -329,6 +331,11 @@ public class BankManagerRole extends Role{
 	public void setGui(BankManagerRoleGui bankmanagerGui) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 
 

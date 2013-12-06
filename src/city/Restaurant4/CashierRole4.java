@@ -17,6 +17,9 @@ import justinetesting.test.mock.LoggedEvent4;
 
 
 public class CashierRole4 extends Role implements Cashier4 {
+	
+	String roleName = "Restaurant4CashierRole";
+		
 	WaiterRole4 waiter;
 	PersonAgent p;
 	String name;
@@ -219,6 +222,11 @@ public class CashierRole4 extends Role implements Cashier4 {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 	
 }

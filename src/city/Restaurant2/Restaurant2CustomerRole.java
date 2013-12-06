@@ -42,6 +42,8 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	String type;
 	
+	String roleName = "Restaurant2CustomerRole";
+	
 	public EventLog log = new EventLog();
 
 	//    private boolean isHungry = false; //hack for gui
@@ -484,5 +486,11 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	
 	public void setTesting(boolean b){
 		test = b;
+	}
+
+
+	@Override
+	public String getRoleName(){
+		return roleName;
 	}
 }

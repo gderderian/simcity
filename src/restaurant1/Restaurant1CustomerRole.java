@@ -19,6 +19,9 @@ import city.PersonAgent;
  * Restaurant customer agent.
  */
 public class Restaurant1CustomerRole extends Role implements Restaurant1Customer {
+	
+	String roleName = "Restaurant1CustomerRole";
+	
 	private String name;
 	private String choice;
 	private double money;
@@ -534,6 +537,11 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	public void setGuiActive() {
 		customerGui.setPresent(true);	
 		customerGui.setHungry();
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 }
 

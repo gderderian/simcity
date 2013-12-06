@@ -21,6 +21,9 @@ import city.PersonAgent;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
+	
+	String roleName = "Restaurant1WaiterRole";
+	
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	
 	private static enum customerState { waiting, seated, readyToOrder, 
@@ -471,5 +474,10 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 }

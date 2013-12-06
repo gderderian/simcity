@@ -6,11 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 import city.Restaurant2.Restaurant2;
@@ -27,11 +26,14 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     private final int TABLEDIM = 70;
     private final int TABLESPACE = 50;
     private final int TABLE1Y = WINDOWY/10;
-    private final int TABLEX = WINDOWX/2 - TABLESPACE/2;
+    private final int TABLE1X = 200;	//first column of tables
+    private final int TABLE2X = 470;	//second column of tables
     private final int KITCHENX = WINDOWX - 50;	//based off of the refrigerator
     private final int KITCHENY = WINDOWY/2 - 35;	//based off of the refrigerator
     private final int STOVEX = KITCHENX - 75;
     private final int STOVEY = KITCHENY + 60;
+    
+    ImageIcon background = new ImageIcon("images/restaurant2.png");
     
     Restaurant2 restaurant;
 	
@@ -59,10 +61,13 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         
+		g.drawImage(background.getImage(), 0, 0, this);
+        
         //Clear the screen by painting a rectangle the size of the frame
-        g2.setColor(getBackground());
-        g2.fillRect(0, 0, getWidth(), getHeight());
+        //g2.setColor(getBackground());
+        //g2.fillRect(0, 0, getWidth(), getHeight());
 
+		/*
         //Here is the table
         int tables = 4;
         

@@ -24,6 +24,7 @@ public class CashierRole3 extends Role {
 	public double myMoney;
 	
 	PersonAgent person;
+	String roleName = "Restaurant3CashierRole";
 	
 	ActivityTag tag = ActivityTag.RESTAURANT3CASHIER;
 	
@@ -207,6 +208,11 @@ public class CashierRole3 extends Role {
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 
 }

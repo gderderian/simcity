@@ -13,6 +13,8 @@ import Role.Role;
 
 
 public class MarketManager extends Role {
+	
+	String roleName = "MarketManagerRole";
 
 	// Data
 	private String name;
@@ -222,6 +224,10 @@ public class MarketManager extends Role {
 	
 	public String getName() {
 		return name;
+	}
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 
 }

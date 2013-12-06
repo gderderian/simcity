@@ -11,6 +11,7 @@ import city.PersonAgent;
 
 public class BankTellerRole extends Role {
 
+	String roleName = "BankTellerRole";
 
 	public BankCustomerRole currentcustomer;//since bank teller serves one customer at a time. no list is necessary
 	//BankTellerRole banktellerrole;
@@ -329,6 +330,11 @@ public class BankTellerRole extends Role {
 		}
 
 
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 
 

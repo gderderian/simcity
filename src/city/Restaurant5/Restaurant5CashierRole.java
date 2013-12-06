@@ -27,6 +27,8 @@ import city.gui.Restaurant5.Restaurant5CookGui;
 
 public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	
+	String roleName = "Restaurant5CashierRole";
+	
 	public List<Restaurant5Check> checksforwaiter = Collections.synchronizedList( new ArrayList<Restaurant5Check>());
 	public List<Restaurant5Check> checksforcustomer = Collections.synchronizedList(new ArrayList<Restaurant5Check>());
 	public List<checkformarket> checksformarket = Collections.synchronizedList(new ArrayList<checkformarket>());
@@ -265,6 +267,11 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
         log.add(new LoggedEvent(msg));
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 	
 

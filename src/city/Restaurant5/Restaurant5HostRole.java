@@ -25,6 +25,9 @@ import city.PersonAgent;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class Restaurant5HostRole extends Role implements Restaurant5Host {
+	
+	String roleName = "Restaurant5HostRole";
+	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	
@@ -463,6 +466,11 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 	private void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
+
+	@Override
+	public String getRoleName() {
+		return roleName;
 	}
 
 	
