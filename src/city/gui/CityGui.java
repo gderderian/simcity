@@ -404,15 +404,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			h.setOwner(newPerson);
 		}
 		
-		personFactory(newPerson, job);
-		
-		people.add(newPerson);
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 		
 		animationPanel.addGui(g);
 		
 		guis.add(g);
+		
+		personFactory(newPerson, job, g);
+		
+		people.add(newPerson);
 		
 		newPerson.startThread();
 	}
@@ -500,7 +501,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 	}
 	
-	private void personFactory(PersonAgent p, String job) {
+	private void personFactory(PersonAgent p, String job, PersonGui gui) {
 		/* Creating customer role for eating at restaurant1 */
 		Restaurant1CustomerRole customerRole1 = new Restaurant1CustomerRole(p.getName(), p);
 		Restaurant1CustomerGui customerGui1 = new Restaurant1CustomerGui(customerRole1);
@@ -561,6 +562,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				if(r instanceof Restaurant2HostRole){
 					rest2.setHost((Restaurant2HostRole)r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof Restaurant2WaiterRole){
 					rest2.addWaiters((Restaurant2WaiterRole) r);
@@ -568,10 +570,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				else if(r instanceof Restaurant2CookRole){
 					rest2.setCook((Restaurant2CookRole) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof Restaurant2CashierRole){
 					rest2.setCashier((Restaurant2CashierRole) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 			}
 			else if(job.contains("Restaurant1")) {
@@ -579,6 +583,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				if(r instanceof Restaurant1HostRole) {
 					rest1.setHost((Restaurant1HostRole) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof Restaurant1WaiterRole){
 					rest1.addWaiters((Restaurant1WaiterRole) r);
@@ -586,10 +591,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				else if(r instanceof Restaurant1CookRole){
 					rest1.setCook((Restaurant1CookRole) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof Restaurant1CashierRole){
 					rest1.setCashier((Restaurant1CashierRole) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 			}
 			else if(job.contains("Restaurant3")) {
@@ -597,6 +604,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				if(r instanceof HostRole3) {
 					rest3.setHost((HostRole3) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof WaiterRole3){
 					rest3.addWaiters((WaiterRole3) r);
@@ -604,10 +612,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				else if(r instanceof CookRole3){
 					rest3.setCook((CookRole3) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof CashierRole3){
 					rest3.setCashier((CashierRole3) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 			}
 			else if(job.contains("Restaurant4")) {
@@ -615,14 +625,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				if(r instanceof HostRole4) {
 					rest4.setHost((HostRole4)r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof CookRole4){
 					rest4.setCook((CookRole4) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof CashierRole4){
 					rest4.setCashier((CashierRole4) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof WaiterRole4){
 					rest4.addWaiters((WaiterRole4) r);
@@ -634,14 +647,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				if(r instanceof Restaurant5HostRole) {
 					rest5.setHost((Restaurant5HostRole)r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof Restaurant5CookRole){
 					rest5.setCook((Restaurant5CookRole) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof Restaurant5CashierRole){
 					rest5.setCashier((Restaurant5CashierRole) r);
 					p.setRoleActive(r);
+					gui.setInvisible();
 				}
 				else if(r instanceof Restaurant5WaiterRole){
 					rest5.addWaiters((Restaurant5WaiterRole) r);

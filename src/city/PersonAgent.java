@@ -137,6 +137,7 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		} else {
 			currentPosition = new Position(20, 18);
+			log("I don't have a house");
 		}
 
 		wallet = 1000;

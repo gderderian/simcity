@@ -11,6 +11,7 @@ import restaurant1.Restaurant1CustomerRole;
 import tomtesting.interfaces.Restaurant5Customer;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant2.Restaurant2CustomerRole;
+import city.Restaurant3.CustomerRole3;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
@@ -273,6 +274,9 @@ public class CityMap {
 		}
 		if(num == 2){
 			restaurant2.getHost().msgIWantFood((Restaurant2Customer) customer);
+		}
+		if(num == 3){
+			restaurant3.getHost().msgIWantFood((CustomerRole3) customer, 0, 0);
 		}
 		if(num == 4){
 			restaurant4.getHost().msgIWantFood((Customer4) customer);
