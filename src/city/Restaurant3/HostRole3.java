@@ -61,10 +61,16 @@ public class HostRole3 extends Role {
 		
 		person = p;
 		
+		
 	}
 	
 	// Messages
 	public void msgIWantFood(CustomerRole3 cust, int locX, int locY) {
+		
+
+		System.out.println("I WANT FOOD!!!");
+		
+		
 		Do("Received message msgIWantFood from customer " + cust.getCustomerName() + ".");
 		waitingCustomers.add(new MyCustomer(cust, locX, locY));
 		person.stateChanged();
