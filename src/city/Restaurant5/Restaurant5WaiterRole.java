@@ -287,7 +287,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
             If so seat him at the table.
 		 */
 
-		Do("I'm in the scheduler");
 		try
 		{
 

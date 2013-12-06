@@ -768,6 +768,8 @@ public class PersonAgent extends Agent implements Person{
 
 
 	public void goToBank(){
+		
+		Do("11111111111 I'm in go to bank");
 		synchronized(events){
 			for(String e : events){
 				if(e.equals("GoToBank")){
@@ -779,6 +781,7 @@ public class PersonAgent extends Agent implements Person{
 		String bank;
 		if(name.equals("bankCustomerTest")){
 			print("Going to go to the bank");
+			print("!!!!!!!!!!!!!!!!!!!!!!! I'm a bank customer now");		
 			String restName = null;
 			Role role = null;
 			synchronized(roles){

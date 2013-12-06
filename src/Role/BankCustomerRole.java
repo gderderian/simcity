@@ -23,6 +23,7 @@ public class BankCustomerRole extends Role{
         //public int customeraccountnumber;
         public Semaphore atBankStation = new Semaphore(0,true);
         public Semaphore atBankLobby = new Semaphore(0,true);
+        
         public BankCustomerRoleGui gui;
         PersonAgent person;
         String name;
@@ -32,7 +33,7 @@ public class BankCustomerRole extends Role{
         
         public BankCustomerRole(double setamountofcustomermoney/*, PersonAgent setperson*/)
         {
-                
+        		building = "bank1";
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
                 bankaccountnumber = 0;
