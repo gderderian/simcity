@@ -20,6 +20,7 @@ import city.PersonTask.State;
 import city.PersonTask.TaskType;
 import city.PersonTask.Transportation;
 import city.Restaurant2.Restaurant2CustomerRole;
+import city.Restaurant3.CustomerRole3;
 import city.Restaurant4.CustomerRole4;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.gui.BuildingPanel;
@@ -295,14 +296,14 @@ public class PersonAgent extends Agent implements Person{
 
 		timeOfDay = t;
 
-		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") ||  name.equals("waiter4") || name.equals("waiter5"))){
+		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") || name.equals("waiter3") || name.equals("waiter4") || name.equals("waiter5"))){
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.goToWork));
 			}
 			log("Its time for me to go to work");
 		}
 		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest1Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("joe"))){
+				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
@@ -810,8 +811,9 @@ public class PersonAgent extends Agent implements Person{
 			}
 			else{
 				DoGoTo(task.location, task);
-			}	
+			}
 		}
+
 		else{
 		//Generalized function so we can get rid of the hacks
 		
