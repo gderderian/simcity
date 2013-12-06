@@ -49,7 +49,6 @@ public class BankPanel extends JPanel {
     
     int waiterposcounter = 30;
     public BankPanel(BankGui gui) {
-        
     	this.gui = gui;
     	
     	PersonAgent person2 = new PersonAgent("steve", aStarTraversal, citymap, house);

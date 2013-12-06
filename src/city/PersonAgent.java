@@ -454,30 +454,6 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		/* This is only for our animation test which
-		 * displays A* animation capabilities!!
-		 */
-		if(name == "aStarTest1") {
-			DoGoTo("rest3", null);
-			DoGoTo("mark2", null);
-			DoGoTo("apart1", null);
-			goHome();
-			return false;
-		} else if(name == "aStarTest2") {
-			DoGoTo("rest1", null);
-			DoGoTo("rest2", null);
-			DoGoTo("bank2", null);
-			DoGoTo("stop3", null);
-			goHome();
-			return false;
-		} else if(name == "aStarTest3") {
-			DoGoTo("mark3", null);
-			DoGoTo("rest4", null);
-			goHome();
-			return false;
-		}
-		/* End of animation test code */
-
 		if(name == "BusTest" && !busTest) {
 			DoGoTo("rest2", null);
 			busTest = true;
@@ -1015,7 +991,7 @@ public class PersonAgent extends Agent implements Person{
 		int y = cityMap.getY(location);
 
 		Position p = new Position(x, y);
-		if(currentPosition.distance(p) > 20) {		// && name == "BusTest"
+		if(currentPosition.distance(p) > 25) {		// && name == "BusTest"
 			if(task != null){
 				task.transportation = Transportation.bus;
 			}
