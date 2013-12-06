@@ -37,21 +37,6 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     
     Restaurant5 restaurant;
     
-    PersonAgent personCook = new PersonAgent("Cook");
-    PersonAgent personHost = new PersonAgent("Host");
-    PersonAgent personCashier = new PersonAgent("Cashier");
-    PersonAgent personWaiter = new PersonAgent("Waiter");
-    Restaurant5CookRole Cook;
-    Restaurant5CashierRole Cashier;
-    Restaurant5WaiterRole Waiter;
-    Restaurant5HostRole Host;
-    
-    Restaurant5CookGui cookGui;
-    Restaurant5CustomerGui customerGui;
-    Restaurant5WaiterGui waiterGui;
-    
-   //Restaurant5Gui restaurant5gui = new Restaurant5Gui();
-    
     private Image bufferImage;
     private Dimension bufferSize;
 
@@ -66,32 +51,6 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     	
     	this.restaurant = restaurant;
     	
-    	Cook = new Restaurant5CookRole("CookRole", personCook);
-        cookGui = new Restaurant5CookGui(Cook, null);
-        Cook.setGui(cookGui);
-        Cashier = new Restaurant5CashierRole("CashierRole", personCashier);
-       
-        Host = new Restaurant5HostRole("HostRole", personHost);
-        
-        Waiter = new Restaurant5WaiterRole("WaiterRole", personWaiter);
-        waiterGui = new Restaurant5WaiterGui(Waiter, null, Host);
-        Waiter.setGui(waiterGui);
-         
-        restaurant.setHost(Host);
-        
-        personCook.addRole(Cook, true);
-        personCook.startThread();
-        personHost.addRole(Host, true);
-        personHost.startThread();
-        personCashier.addRole(Cashier, true);
-        personCashier.startThread();
-        personWaiter.addRole(Waiter, true);
-        personWaiter.startThread();
-        Host.addwaiter(Waiter);
-        
-        
-        guis.add(cookGui);
-        guis.add(waiterGui);
     	
    
     	Timer timer = new Timer(13, this );
