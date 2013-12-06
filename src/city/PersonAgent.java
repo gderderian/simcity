@@ -796,123 +796,22 @@ public class PersonAgent extends Agent implements Person{
 
 	public void goToRestaurant(PersonTask task){
 		//Testing/scenario hacks
-		if(name.equals("rest1Test")){
-			print("Going to go to a restaurant");
-			String restName = null;
-			Role role = null;
-			synchronized(roles){
-				for(Role r : roles){
-					if(r instanceof Restaurant1CustomerRole) {
-						r.setActive();
-						role = (Restaurant1CustomerRole) r;
-						restName = role.getBuilding();
-						log("Set Restaurant1CustomerRole active");
-					}
-				}
-			}
-			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
-			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
-				String destination = restName;
-				takeCar(destination);
-			}
-			else{
-				//This is walking
-				DoGoTo(restName, null);
-			}
-			log.add(new LoggedEvent("Decided to go to a restaurant"));
-			((Restaurant1CustomerRole) role).setHost(cityMap.restaurant1.getHost());
-			((Restaurant1CustomerRole) role).goToRestaurant();
-			((Restaurant1CustomerRole)role).setGuiActive();
-		}
-		else if(name.equals("rest2Test")){
-			log("Going to go to a restaurant");
-			task.location = "rest2";
-			task.role = "Restaurant2CustomerRole";
-			//String restName = "rest2";
-			//Role role = null;
-			/*
-			synchronized(roles){
-				for(Role r : roles){
-					if(r instanceof Restaurant2CustomerRole) {
-						r.setActive();
-						role = (Restaurant2CustomerRole) r;
-						restName = role.getBuilding();
-						log("Set Restaurant2CustomerRole active");
-					}
-				}
-			}*/
-			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
-			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
+		
+		if(name.contains("rest")){	//if it's a restaurant test
+			String[] restNumTest = name.split("rest");
+			String[] restNum = restNumTest[1].split("Test");
+			String num = restNum[0];
+			log("Going to go to Restaurant " + num);
+			task.location = "rest" + num;
+			task.role = "Restaurant" + num + "CustomerRole";
+			if(!cars.isEmpty()){
 				String destination = task.location;
 				takeCar(destination);
 			}
 			else{
-				//This is walking
 				DoGoTo(task.location, task);
-			}
-			//log.add(new LoggedEvent("Decided to go to a restaurant"));
-			//cityMap.restaurant2.getHost().msgIWantFood((Restaurant2Customer) role);
-			//((Restaurant2CustomerRole)role).setGuiActive();		
+			}	
 		}
-		else if(name.equals("rest4Test")){
-			print("Going to go to a restaurant");
-			String restName = null;
-			Role role = null;
-			synchronized(roles){
-				for(Role r : roles){
-					if(r instanceof CustomerRole4) {
-						r.setActive();
-						role = (CustomerRole4) r;
-						restName = role.getBuilding();
-						log("Set CustomerRole4 active");
-					}
-				}
-			}
-			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
-			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
-				String destination = restName;
-				takeCar(destination);
-			}
-			else{
-				//This is walking
-				DoGoTo(restName, null);
-			}
-			log.add(new LoggedEvent("Decided to go to a restaurant"));
-			cityMap.restaurant4.getHost().msgIWantFood((CustomerRole4) role);
-			((CustomerRole4)role).setGuiActive();	
-		}		
-		else if(name.equals("rest5Test")){
-			print("Going to go to a restaurant 5");
-			String restName = null;
-			Role role = null;
-			synchronized(roles){
-				for(Role r : roles){
-					if(r instanceof Restaurant5CustomerRole) {
-						r.setActive();
-						role = (Restaurant5CustomerRole) r;
-						restName = role.getBuilding();
-						restName = "rest5";
-						log("Set CustomerRole5 active");
-					}
-				}
-				
-				
-				
-			}
-			//gui.goToRestaurant(2);	//Removed for agent testing TODO uncomment for running
-			if(!cars.isEmpty()){	//Extremely hack-y TODO fix this
-				String destination = restName;
-				takeCar(destination);
-			}
-			else{
-				//This is walking
-				DoGoTo(restName, null);
-			}
-			log.add(new LoggedEvent("Decided to go to a restaurant5"));
-			cityMap.restaurant5.getHost().msgIWantFood((Restaurant5CustomerRole) role);
-			((Restaurant5CustomerRole)role).setGuiActive();	
-		 }
-		
 		else{
 		//Generalized function so we can get rid of the hacks
 		
