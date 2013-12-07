@@ -356,11 +356,6 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 			}
 		}
 		synchronized(customers){
-			for(MyCustomer c : customers){
-				if(c.s != CustomerState.gone){
-					return true;
-				}
-			}
 			if(state == WaiterState.yesBreak){
 				log("Taking break.");
 				takeBreak();
