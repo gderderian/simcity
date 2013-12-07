@@ -673,9 +673,6 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else{
 			DoGoTo(myJob.location, task);
-			if(task.transportation == Transportation.walking){
-				reachedDestination(task);
-			}
 		}
 		//This needs to be moved into the reachedDestination() function
 		//myJob.startJob();
@@ -788,9 +785,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 			else{
 				DoGoTo(task.location, task);
-				if(task.transportation == Transportation.walking){
-					reachedDestination(task);
-				}
 
 			}
 			
@@ -1037,6 +1031,9 @@ public class PersonAgent extends Agent implements Person{
 		moveTo(x, y);
 		if(task != null)
 			task.state = State.arrived;
+		if(task.transportation == Transportation.walking){
+			reachedDestination(task);
+		}
 		gui.setInvisible();
 		return;
 	}
