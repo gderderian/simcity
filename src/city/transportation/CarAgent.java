@@ -45,6 +45,7 @@ public class CarAgent extends Vehicle implements Car {
 	
 	//Messages
 	public void msgPickMeUp(Person p, Position pos) {
+		log("Received message: Pick me up!");
 		owner = p;
 		ownerLocation = pos;
 		event = CarEvent.drivingToOwner;
@@ -53,12 +54,14 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	public void msgDriveTo(Person p, String dest) {
+		log("Received message: Drive to " + dest + "!");
 		destination = dest;
 		event = CarEvent.drivingToDestination;
 		stateChanged();
 	}
 	
 	public void msgParkCar(Person p) {
+		log("Received message: Go park yourself!");
 		event = CarEvent.parking;
 		destination = null;
 		stateChanged();
@@ -101,6 +104,7 @@ public class CarAgent extends Vehicle implements Car {
 	
 	//Actions
 	private void driveToOwner() {
+		
 		int x = ownerLocation.getX();
 		int y = ownerLocation.getY();
 		
@@ -120,11 +124,15 @@ public class CarAgent extends Vehicle implements Car {
 			moveTo(x, 3);
 		} else if(y == 18) {
 			moveTo(x, 15);
-		} else { log("ERROR: Unexpected driving destination - see driveToOwner() in CarAgent."); }
+		} else if(y == 17) {
+			moveTo(x, 15);
+		} else
+			log("ERROR: Unexpected driving destination - see driveToOwner() in CarAgent.");
 
 		event = CarEvent.arrivingAtOwner;
 	}
 	private void driveToDestination() {
+		
 		int x = cityMap.getX(destination);
 		int y = cityMap.getY(destination);
 
@@ -160,6 +168,10 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	private void parkCar() {
+		if(aStar == null) {
+			log("Driving to nearest parking entrance.");
+			return;
+		}
 		Position parkingEntrance = cityMap.getParkingEntrance(currentPosition);
 		log("Parking...");
 		guiMoveFromCurrentPositionTo(parkingEntrance);

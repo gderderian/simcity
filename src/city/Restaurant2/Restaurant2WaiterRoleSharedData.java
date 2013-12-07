@@ -9,7 +9,7 @@ public class Restaurant2WaiterRoleSharedData extends Restaurant2WaiterRole{
 	}
 	
 	void SendOrderToCook(MyCustomer c){
-		//waiterGui.DoGoToSpindle();
+		waiterGui.DoGoToSpindle();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {

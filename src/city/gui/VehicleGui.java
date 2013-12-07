@@ -38,7 +38,7 @@ public class VehicleGui implements Gui {
 			xPos = 450;
 			yPos = 390;
 		} else {
-			xPos = 660;
+			xPos = 630;
 			yPos = 660;
 		}
 
