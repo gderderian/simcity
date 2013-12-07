@@ -3,7 +3,7 @@ package interfaces;
 import java.util.HashMap;
 
 import city.MarketOrder;
-import city.Restaurant2.Restaurant2CookRole.Order;
+import city.Restaurant2.Order;
 
 public interface Restaurant2Cook {
 		

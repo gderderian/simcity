@@ -13,7 +13,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.Market;
@@ -22,6 +21,7 @@ import city.OrderItem;
 import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2CookGui;
 import Role.Role;
+import city.Restaurant2.Order;
 
 public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
@@ -78,11 +78,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		atDestination.release();
 	}
 	
-	/*
-	public void setPerson(PersonAgent p) {
-		person = p;
-	}*/
-	
 	//MESSAGES
 	
 	public void msgHereIsOrder(Restaurant2Waiter w, String choice, int table){
@@ -98,6 +93,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	}
 	
 	//TODO fix this in V2
+	@Override
 	public void msgFailedOrder(HashMap<String, Integer> failedOrder){
 	//	shipmentOrders.add(new ShipmentOrder(failedOrder, ShipmentState.pending));
 		person.stateChanged();
@@ -296,36 +292,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		
 	}
 	
-	public class Order{
-		Restaurant2Waiter w;
-		String choice;
-		int table;
-		OrderState s;
-		
-		Order(Restaurant2Waiter wa, String c, int t){
-			w = wa;
-			choice = c;
-			table = t;
-			s = OrderState.pending;
-		}
-		
-		void setState(OrderState state){
-			s = state;
-		}
-		
-		Restaurant2Waiter getWaiter(){
-			return w;
-		}
-		
-		String getChoice(){
-			return choice;
-		}
-		
-		int getTable(){
-			return table;
-		}
-	}
-	
 	class ShipmentOrder{
 		MarketOrder order;
 		ShipmentState ss;
@@ -354,6 +320,5 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	public String getRoleName() {
 		return roleName;
 	}
-
 
 }
