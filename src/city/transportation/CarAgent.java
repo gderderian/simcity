@@ -45,6 +45,7 @@ public class CarAgent extends Vehicle implements Car {
 	
 	//Messages
 	public void msgPickMeUp(Person p, Position pos) {
+		log("Received message: Pick me up!");
 		owner = p;
 		ownerLocation = pos;
 		event = CarEvent.drivingToOwner;
@@ -53,12 +54,14 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	public void msgDriveTo(Person p, String dest) {
+		log("Received message: Drive to " + dest + "!");
 		destination = dest;
 		event = CarEvent.drivingToDestination;
 		stateChanged();
 	}
 	
 	public void msgParkCar(Person p) {
+		log("Received message: Go park yourself!");
 		event = CarEvent.parking;
 		destination = null;
 		stateChanged();
