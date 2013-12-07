@@ -1,13 +1,11 @@
 package city;
 
-import restaurant1.Restaurant1CustomerRole;
 import test.mock.LoggedEvent;
 import interfaces.Bus;
 import interfaces.Car;
 import interfaces.HouseInterface;
 import interfaces.Landlord;
 import interfaces.Person;
-import interfaces.Restaurant2Customer;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,12 +17,6 @@ import test.mock.EventLog;
 import city.PersonTask.State;
 import city.PersonTask.TaskType;
 import city.PersonTask.Transportation;
-import city.Restaurant2.Restaurant2CustomerRole;
-import city.Restaurant3.CustomerRole3;
-import city.Restaurant4.CustomerRole4;
-import city.Restaurant5.Restaurant5CustomerRole;
-import city.gui.BuildingPanel;
-import city.gui.Gui;
 import city.gui.PersonGui;
 import city.gui.House.HomeOwnerGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
@@ -137,7 +129,6 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
 		} else {
 			currentPosition = new Position(20, 18);
-			log("I don't have a house");
 		}
 
 		wallet = 1000;
@@ -297,7 +288,8 @@ public class PersonAgent extends Agent implements Person{
 
 		timeOfDay = t;
 
-		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") || name.equals("waiter3") || name.equals("waiter4") || name.equals("waiter5"))){
+		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") || name.equals("waiter3") || name.equals("waiter4")
+				|| name.equals("waiter5"))){
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.goToWork));
 			}
@@ -682,6 +674,16 @@ public class PersonAgent extends Agent implements Person{
 		else if(task.type == TaskType.goToWork){
 			myJob.startJob();
 		}
+		else if(task.type == TaskType.goToBank){
+			log.add(new LoggedEvent("Decided to go to the bank"));
+			if(role != null){
+				cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+				((BankCustomerRole)role).setGuiActive();
+			}
+			else{
+				log("Couldn't find the role for task " + task.type.toString());
+			}
+		}
 	}
 
 	public void goToWork(PersonTask task){
@@ -703,15 +705,6 @@ public class PersonAgent extends Agent implements Person{
 
 	//TODO ...
 	public void leaveWork(){
-		/*
-		synchronized(tasks){
-			for(String e : tasks){
-				if(e.equals("LeaveWork")){
-					tasks.remove(e);
-					break;
-				}
-			}
-		}*/
 		//Need to make the gui step outside the building, and then the person can do whatever the next thing is on their list
 		myJob.endJob();
 	}
@@ -768,6 +761,9 @@ public class PersonAgent extends Agent implements Person{
 						r.setActive();
 						role = (BankCustomerRole) r;
 						bankName = role.getBuilding();
+						task.location = bankName;
+						task.role = r.getRoleName();
+						//task.role = r;
 						log("Set BankCustomerRole active");
 					}
 				}
@@ -781,9 +777,10 @@ public class PersonAgent extends Agent implements Person{
 				//This is walking
 				DoGoTo(bankName, task);
 			}
-			log.add(new LoggedEvent("Decided to go to the bank"));
-			cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-			((BankCustomerRole)role).setGuiActive();		
+			//Moved this to arrived at destination function
+			//log.add(new LoggedEvent("Decided to go to the bank"));
+			//cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+			//((BankCustomerRole)role).setGuiActive();		
 		}
 		synchronized(bankEvents){
 			//TODO finish this
