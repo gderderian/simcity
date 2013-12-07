@@ -970,7 +970,16 @@ public class PersonAgent extends Agent implements Person{
 		currentPosition.moveInto(aStar.getGrid());
 		gui.setInvisible();
 		
-		//Need something here to continue to task?
+		//Will need to pass in the current task when this get used regularly
+		PersonTask task = null;
+		synchronized(tasks){
+			for(PersonTask t : tasks){
+				if(t.location.equals(ride.destination)){
+					task = t;
+				}
+			}
+		}
+		reachedDestination(task);
 
 		carRide = null;
 	}
