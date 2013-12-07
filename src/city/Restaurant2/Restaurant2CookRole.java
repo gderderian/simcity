@@ -23,12 +23,13 @@ import city.gui.restaurant2.Restaurant2CookGui;
 import Role.Role;
 import city.Restaurant2.Order;
 
-public class Restaurant2CookRole extends Role implements Restaurant2Cook {
+public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	enum OrderState {pending, cooking, done, sent};
 	enum FoodOrderState {Ordered, notOrdered};
 	Timer timer = new Timer();
+	Timer timerSpindle = new Timer();
 	Map<String, Food> foods = new HashMap<String, Food>();
 	String name;
 	List<ShipmentOrder> shipmentOrders = Collections.synchronizedList(new ArrayList<ShipmentOrder>());
@@ -40,6 +41,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	String roleName = "Restaurant2CookRole";
 	
 	private Semaphore atDestination = new Semaphore(0,true);
+	
+	OrderSpindle spindle;
 	
 	PersonAgent person;
 	boolean test = false;
@@ -62,7 +65,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 		//each food starts off with low inventory
 		
 		startCheck = true;
-		//startCheck = false;
+
+		spindle = OrderSpindle.getInstance();
 	}
 	
 	public void addRestaurant2Market(Market m){
@@ -122,6 +126,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	public boolean pickAndExecuteAnAction() {
 		if(startCheck){
 			checkInventory();
+			checkSpindle();
 		}
 		synchronized(orders){
 			for(Order o : orders){
@@ -168,6 +173,19 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook {
 	
 	
 	//ACTIONS
+	
+	private void checkSpindle(){
+		if(!spindle.isEmpty()){
+			orders.add(spindle.takeOffOrder());
+			log("Found an order on the spindle, I'm adding it to my list");
+		}
+		timer.schedule(new TimerTask() {
+			public void run() {
+				checkSpindle();
+			}
+		},
+		2000);
+	}
 	
 	private void PlateIt(Order o){
 		Do("Plating food " + o.choice);

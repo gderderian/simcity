@@ -23,6 +23,7 @@ import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
 import city.Restaurant2.Restaurant2WaiterRoleRegular;
+import city.Restaurant2.Restaurant2WaiterRoleSharedData;
 import city.gui.Bank.BankAnimationPanel;
 import city.gui.Bank.BankCustomerRoleGui;
 import city.gui.Bank.BankGui;
@@ -750,11 +751,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
     
 	public Role getNewRole(String type, PersonAgent p){
+		//Creates role, gui for role
+		//Adds role to gui and gui to role
+		//Adds role to correct animation panel
 		if(type.equals("Restaurant2 Waiter")){
-			//Creates role, gui for role
-			//Adds role to gui and gui to role
-			//Adds role to correct animation panel
-			Restaurant2WaiterRole role = new Restaurant2WaiterRoleRegular(p.getName(), p);
+			Restaurant2WaiterRole role = new Restaurant2WaiterRoleSharedData(p.getName(), p);
 			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, 1);
 			role.setGui(gui);
 			restaurant2.addGui(gui);

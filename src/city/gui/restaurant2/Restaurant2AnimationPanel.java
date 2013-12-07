@@ -1,6 +1,5 @@
 package city.gui.restaurant2;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,15 +22,6 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
 	
 	private final int WINDOWX = 900;
     private final int WINDOWY = 750;
-    private final int TABLEDIM = 70;
-    private final int TABLESPACE = 50;
-    private final int TABLE1Y = WINDOWY/10;
-    private final int TABLE1X = 200;	//first column of tables
-    private final int TABLE2X = 470;	//second column of tables
-    private final int KITCHENX = WINDOWX - 50;	//based off of the refrigerator
-    private final int KITCHENY = WINDOWY/2 - 35;	//based off of the refrigerator
-    private final int STOVEX = KITCHENX - 75;
-    private final int STOVEY = KITCHENY + 60;
     
     ImageIcon background = new ImageIcon("images/restaurant2.png");
     
