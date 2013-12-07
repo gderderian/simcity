@@ -27,4 +27,9 @@ public class OrderSpindle {
 		orders.remove(0);
 		return o;
 	}
+	
+	public boolean isEmpty(){
+		if(orders.isEmpty()) return true;
+		else return false;
+	}
 }

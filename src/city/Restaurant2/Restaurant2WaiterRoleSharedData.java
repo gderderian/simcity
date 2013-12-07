@@ -10,6 +10,7 @@ public class Restaurant2WaiterRoleSharedData extends Restaurant2WaiterRole{
 	
 	void SendOrderToCook(MyCustomer c){
 		OrderSpindle.getInstance().addOrder(new Order(this, c.choice, c.table));
+		print("Adding an order to the spindle");
 	}
 
 }
