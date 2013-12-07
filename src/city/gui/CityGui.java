@@ -55,6 +55,7 @@ import city.gui.restaurant2.Restaurant2CookGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.gui.restaurant2.Restaurant2WaiterGui;
 import city.transportation.BusAgent;
+import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
@@ -424,6 +425,28 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		newPerson.startThread();
 	}
+	
+	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h, CarAgent c){
+		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
+		if(h != null){
+			h.setOwner(newPerson);
+		}
+		
+		PersonGui g = new PersonGui(newPerson);
+		newPerson.setGui(g);
+		
+		animationPanel.addGui(g);
+		
+		guis.add(g);
+		
+		personFactory(newPerson, job, g);
+		
+		people.add(newPerson);
+
+		addCar(newPerson, c);
+		
+		newPerson.startThread();
+	}
 
 	public void enableComeBack(Restaurant2Waiter agent) {
 		// TODO Auto-generated method stub
@@ -461,6 +484,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			newTruck.startThread();
 		}
 	}   
+	
+	public void addCar(PersonAgent p, CarAgent c) {
+		vehicles.add(c);
+		VehicleGui g = new VehicleGui(c);
+		c.setGui(g);
+		animationPanel.addGui(g);
+		g.setMainAnimationPanel(animationPanel);
+		
+		p.addCar(c);
+		
+		c.startThread();
+	}
 	
 	private void personFactory(PersonAgent p, int i) {
 		if(i == 1) {
