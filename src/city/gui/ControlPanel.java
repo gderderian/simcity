@@ -75,7 +75,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel backButtonPanel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
