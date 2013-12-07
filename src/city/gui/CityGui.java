@@ -227,7 +227,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up all of the houses
-		for(int i=0; i<2; i++){ 
+		for(int i=0; i<22; i++){ 
 			HouseAnimationPanel temp= new HouseAnimationPanel();
 			houseAgents.get(i).setHouseAnimationPanel(temp);
 			houses.add(temp);

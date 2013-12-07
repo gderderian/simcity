@@ -62,7 +62,7 @@ public class PersonAgent extends Agent implements Person{
 	public BusRide busRide;	//only need one because will only be doing one bus ride at a time
 	public enum BusRideState {initial, waiting, busIsHere, onBus, done, paidFare, getOffBus};
 	public CarRide carRide;
-	public enum CarRideState {initial, arrived, pickingMeUp};
+	public enum CarRideState {initial, arrived, pickingMeUp, inCar};
 
 	//Money
 	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
@@ -527,7 +527,6 @@ public class PersonAgent extends Agent implements Person{
 		}
 		if(carRide != null) {
 			if(carRide.state == CarRideState.arrived){
-				log("GET OUT OF CAR");
 				getOutOfCar(carRide);
 				return true;
 			}
@@ -556,10 +555,11 @@ public class PersonAgent extends Agent implements Person{
 		//Go to bank
 		synchronized(tasks){
 			for(PersonTask t: tasks){
-				if(t.type == TaskType.goToBank && t.state == State.initial);
+				if(t.type == TaskType.goToBank && t.state == State.initial){
 				goToBank(t);
 				t.state = State.processing;
 				return true;
+				}
 			}
 		}
 		//Cook meal
@@ -612,6 +612,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		
 		boolean anyActive= false;
 		/*
 		synchronized(roles){
@@ -940,16 +941,22 @@ public class PersonAgent extends Agent implements Person{
 		}
 
 		gui.setInvisible();
+		ride.state = CarRideState.inCar;
 		ride.car.msgDriveTo(this, ride.destination);
 		log.add(new LoggedEvent("Telling car to go to " + ride.destination));
 	}
 	
 	public void getOutOfCar(CarRide ride){
-		gui.teleport(ride.carLocation.getX(), ride.carLocation.getY());
+		int carX = ride.carLocation.getX();
+		int carY = ride.carLocation.getY();
+		gui.teleport(carX * 30 + 120, carY * 30 + 60);
+		gui.setVisible();
+		ride.car.msgParkCar(this);
+		
+		log.add(new LoggedEvent("Telling car to park"));
 
 		int x = cityMap.getX(ride.destination);
 		int y = cityMap.getY(ride.destination);
-		gui.setVisible();
 		gui.moveTo(x * 30 + 120, y * 30 + 60);
 		try {
 			atDestination.acquire();
@@ -957,9 +964,13 @@ public class PersonAgent extends Agent implements Person{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		ride.car.msgParkCar(this);
-		log.add(new LoggedEvent("Telling car to park"));
+		
+		currentPosition.release(aStar.getGrid());
+		currentPosition = new Position(x, y);
+		currentPosition.moveInto(aStar.getGrid());
+		gui.setInvisible();
+		
+		//Need something here to continue to task?
 
 		carRide = null;
 	}
