@@ -37,8 +37,10 @@ public abstract class Vehicle extends Agent {
 
 	
 	void moveTo(int x, int y) {
-		if(aStar == null)
+		if(aStar == null) {
 			System.out.println("Vehicle moving to " + x + ", " + y + ".");
+			return;
+		}
 		Position p = new Position(x, y);
 		guiMoveFromCurrentPositionTo(p);
 	}
