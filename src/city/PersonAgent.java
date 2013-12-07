@@ -557,10 +557,11 @@ public class PersonAgent extends Agent implements Person{
 		//Go to bank
 		synchronized(tasks){
 			for(PersonTask t: tasks){
-				if(t.type == TaskType.goToBank && t.state == State.initial);
+				if(t.type == TaskType.goToBank && t.state == State.initial){
 				goToBank(t);
 				t.state = State.processing;
 				return true;
+				}
 			}
 		}
 		//Cook meal
@@ -613,6 +614,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		
 		boolean anyActive= false;
 		/*
 		synchronized(roles){
