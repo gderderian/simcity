@@ -20,7 +20,8 @@ public class MockCar extends Mock implements Car{
         @Override
         public void msgDriveTo(Person p, String dest) {
                 log.add(new LoggedEvent("Recieved message drive to " + dest));
-                p.msgArrived(this);
+                p.msgArrived(this, null);
+                //this needs a position to be able to work
         }
 
         @Override
