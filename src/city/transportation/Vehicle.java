@@ -40,10 +40,6 @@ public abstract class Vehicle extends Agent {
 		if(aStar == null)
 			System.out.println("Vehicle moving to " + x + ", " + y + ".");
 		Position p = new Position(x, y);
-		
-		if(currentPosition.distance(p) > 16) {
-			//intermediate movement.
-		}
 		guiMoveFromCurrentPositionTo(p);
 	}
 	

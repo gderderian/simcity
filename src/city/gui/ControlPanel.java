@@ -41,6 +41,7 @@ import city.House;
 import city.Market;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
+import astar.Position;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
@@ -570,6 +571,15 @@ public class ControlPanel extends JPanel implements ActionListener{
       	sidewalkGrid[11][18].release(5);      	
       	
       	streetGrid[18][18].release(100); //starting point for vehicles
+      	
+      	streetGrid[7][9].release(100); //Parking entrances + tiles right outside
+      	streetGrid[6][9].release();
+      	streetGrid[14][9].release(100); 
+      	streetGrid[15][9].release();
+      	streetGrid[10][7].release(100); 
+      	streetGrid[10][6].release();
+      	streetGrid[11][11].release(100); 
+      	streetGrid[11][12].release();
       	
       	/********Finished setting up semaphore grid***********/
     }
