@@ -58,9 +58,11 @@ public class BankTellerRoleGui implements Gui{
 
     public void draw(Graphics2D g) {
     	g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 40, gui);
-    	//System.out.print(" x pos" + xPos + "  y pos " + yPos);
-    	//g.setColor(Color.MAGENTA);
-        //g.fillRect(xPos, yPos, 20, 20);
+    	
+    	Graphics2D g3 = (Graphics2D)g;
+    	g3.fillOval(xPos - 20, yPos +50, 20, 20);
+    	g3.setColor(Color.GREEN);
+    	
     }
 
     public boolean isPresent() {

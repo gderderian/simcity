@@ -800,7 +800,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 
 			}
-			
+			/*
 			if(name.equals("rest5Test")){
 				print("Going to go to a restaurant 5");
 				String restName = null;
@@ -823,6 +823,7 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 			}
+			*/
 		
 		}
 		else{
