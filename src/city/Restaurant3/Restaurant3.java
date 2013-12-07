@@ -52,4 +52,8 @@ public class Restaurant3 {
 		cashier = c;
 	}
 	
+	public CashierRole3 getCashier(){
+		return cashier;
+	}
+	
 }
