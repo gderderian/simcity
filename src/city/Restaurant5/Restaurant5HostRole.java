@@ -143,7 +143,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 
 	public void msgCustomerleftTable(Restaurant5Customer cust) {
 		cust = (Restaurant5CustomerRole) cust;
-		
+		Do("table empty!");
 		
 		synchronized(tables)
 		{
@@ -226,7 +226,8 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
             If so seat him at the table.
 		 */
 		
-		
+		Do("!!!!!!!!!!!!!!!!!   host scheduler");
+	
 		synchronized(tables) 
 		{
 		
@@ -251,7 +252,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 							Do("!!!!!!!!!! waiting customer size " + waitingCustomers.size());
 							occupiedtablecounter += 1;
 							//DoSeatCustomerAtWaitingArea(assigncustomer, xcoordinateofwaitingspot, ycoordinateofwaitingspot);
-							
+							return true;
 							}
 						}
 					}
@@ -261,7 +262,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 					}
 					
 					
-					return true;//return true to the abstract agent to reinvoke the scheduler.
+					//return true;//return true to the abstract agent to reinvoke the scheduler.
 				}
 			}
 		
