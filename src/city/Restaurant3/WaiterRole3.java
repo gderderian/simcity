@@ -107,7 +107,7 @@ public class WaiterRole3 extends Role {
 	}
 
 	public void msgSeatCustomer(CustomerRole3 c, int tableNum, HostRole3 h, int customerX, int customerY) {
-		Do("Received message to seat customer " + c.getCustomerName() + " at table #" + tableNum + ".");
+		Do("Received message to seat customer " + c.getCustomerName() + " at table #" + tableNum + " (" + customerX + "/" + customerY + ").");
 		myHost = h;
 		MyCustomer customer = new MyCustomer(customerX, customerY);
 		customer.customer = c;
@@ -227,6 +227,9 @@ public class WaiterRole3 extends Role {
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		//System.out.println("Event:" + event + " - State: " + state + " - MCSize: " + myCustomers.get(0).state);
+		
 		try {
 			if (state == AgentState.wantBreak && event == AgentEvent.none){
 				requestBreakFromHost();
@@ -423,7 +426,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	private void goHome(){
-		//Do("Going back to home position as there are no tasks for me to do right now.");
+		//System.out.println("Going back to home position as there are no tasks for me to do right now.");
 		waiterGui.setDestination(homeX, homeY);
 	}
 	
