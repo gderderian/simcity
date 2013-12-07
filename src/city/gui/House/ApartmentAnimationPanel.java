@@ -21,7 +21,7 @@ import city.gui.Gui;
 public class ApartmentAnimationPanel extends BuildingPanel implements ActionListener, MouseListener{
 	private static final int WINDOWX = 900;
 	private static final int WINDOWY = 700;
-	private static final int NUM_APTS = 5;
+	private static final int NUM_APTS = 10;
 	private int aptBuilding;
 	
 	List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
@@ -56,27 +56,20 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
 
-		//This is the door to the city
-		/*g2.setColor(Color.CYAN);
-		g2.fillRect(0, 0, 100, 30);
-		g2.setColor(Color.BLACK);
-		g2.drawString("Exit to City", 5, 20); */
-
-
 		//Show a layout of all of the rooms in the apartment
 		//*Note: there are no people shown here, it is just the layout of rooms and the user can pick one to view
-		for(int i=0; i<NUM_APTS; i++){ //First column of rooms (1-5)
+		for(int i=0; i<NUM_APTS; i++){ //First column of rooms (1-10)
 			g2.setColor(Color.RED);
 			g2.fillRect(200, 70 + (i * (50 + 5)), 50, 50);
 			g2.setColor(Color.BLUE);
 			g2.drawString("" + (i + 1), 215, 85 + (i * (50 + 5)));
 		}
 
-		for(int i=0; i<NUM_APTS; i++){ //Second column of rooms (6-10)
+		for(int i=0; i<NUM_APTS; i++){ //Second column of rooms (11-20)
 			g2.setColor(Color.RED);
 			g2.fillRect(400, 70 + (i * (50 + 5)), 50, 50);
 			g2.setColor(Color.BLUE);
-			g2.drawString("" + (i + 6), 415, 85 + (i * (50 + 5)));
+			g2.drawString("" + (i + 11), 415, 85 + (i * (50 + 5)));
 		}
 	}
 
@@ -97,12 +90,6 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 	public void mouseReleased(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-
-		//Change to city
-		/*if((x >= 0) && (x <= 75) && (y >= 0) && (y <= 30)){
-			System.out.println("Back to the city view, goodbye!");
-			changeBackToCity();
-		}*/
 
 		//Change to apt 1
 		if((x >= 200) && (x <= 250) && (y >= 70) && (y <= 130)){
@@ -135,33 +122,93 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		}
 
 		//Change to apt 6
-		if((x >= 400) && (x <= 450) && (y >= 70) && (y <= 130)){
+		if((x >= 200) && (x <= 250) && (y >= 355) && (y <= 405)){
 			System.out.println("To apartment 6");
 			super.cityGui.changeView(aptBuilding, 5);
 		}
-
+		
 		//Change to apt 7
-		if((x >= 400) && (x <= 450) && (y >= 135) && (y <= 185)){
+		if((x >= 200) && (x <= 250) && (y >= 460) && (y <= 510)){
 			System.out.println("To apartment 7");
 			super.cityGui.changeView(aptBuilding, 6);
 		}
-
+		
 		//Change to apt 8
-		if((x >= 400) && (x <= 450) && (y >= 190) && (y <= 240)){
+		if((x >= 200) && (x <= 250) && (y >= 565) && (y <= 615)){
 			System.out.println("To apartment 8");
 			super.cityGui.changeView(aptBuilding, 7);
 		}
-
+		
 		//Change to apt 9
-		if((x >= 400) && (x <= 450) && (y >= 245) && (y <= 295)){
+		if((x >= 200) && (x <= 250) && (y >= 670) && (y <= 720)){
 			System.out.println("To apartment 9");
 			super.cityGui.changeView(aptBuilding, 8);
 		}
-
+		
 		//Change to apt 10
-		if((x >= 400) && (x <= 450) && (y >= 300) && (y <= 350)){
+		if((x >= 200) && (x <= 250) && (y >= 775) && (y <= 825)){
 			System.out.println("To apartment 10");
 			super.cityGui.changeView(aptBuilding, 9);
+		}
+		
+		//Change to apt 11
+		if((x >= 400) && (x <= 450) && (y >= 70) && (y <= 130)){
+			System.out.println("To apartment 11");
+			super.cityGui.changeView(aptBuilding, 10);
+		}
+
+		//Change to apt 12
+		if((x >= 400) && (x <= 450) && (y >= 135) && (y <= 185)){
+			System.out.println("To apartment 12");
+			super.cityGui.changeView(aptBuilding, 11);
+		}
+
+		//Change to apt 13
+		if((x >= 400) && (x <= 450) && (y >= 190) && (y <= 240)){
+			System.out.println("To apartment 13");
+			super.cityGui.changeView(aptBuilding, 12);
+		}
+		
+		//Change to apt 14
+		if((x >= 400) && (x <= 450) && (y >= 245) && (y <= 295)){
+			System.out.println("To apartment 14");
+			super.cityGui.changeView(aptBuilding, 13);
+		}
+
+		//Change to apt 15
+		if((x >= 400) && (x <= 450) && (y >= 300) && (y <= 350)){
+			System.out.println("To apartment 15");
+			super.cityGui.changeView(aptBuilding, 14);
+		}
+		
+		//Change to apt 16
+		if((x >= 400) && (x <= 450) && (y >= 355) && (y <= 405)){
+			System.out.println("To apartment 16");
+			super.cityGui.changeView(aptBuilding, 15);
+		}
+				
+		//Change to apt 17
+		if((x >= 400) && (x <= 450) && (y >= 460) && (y <= 510)){
+			System.out.println("To apartment 17");
+			super.cityGui.changeView(aptBuilding, 16);
+		}
+				
+		//Change to apt 18
+		if((x >= 400) && (x <= 450) && (y >= 565) && (y <= 615)){
+			System.out.println("To apartment 18");
+			super.cityGui.changeView(aptBuilding, 17);
+		}
+				
+		//Change to apt 19
+		if((x >= 400) && (x <= 450) && (y >= 670) && (y <= 720)){
+			System.out.println("To apartment 19");
+			super.cityGui.changeView(aptBuilding, 18);
+		}
+				
+		//Change to apt 20
+		if((x >= 200) && (x <= 250) && (y >= 775) && (y <= 825)){
+			System.out.println("To apartment 20");
+			super.cityGui.changeView(aptBuilding, 19);
 		}
 	}
 

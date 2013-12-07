@@ -212,14 +212,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		//Set up and populate apartment 1
 		addBuildingPanel(apt1);
-		for(int i=0; i<10; i++){
+		for(int i=0; i<20; i++){
 			apt1List.add(new HouseAnimationPanel());
 			addBuildingPanel(apt1List.get(i));
 			buildingPanels.add(apt1List.get(i));
 		}
 		//Set up and populate apartment 2
 		addBuildingPanel(apt2);
-		for(int i=0; i<10; i++){
+		for(int i=0; i<20; i++){
 			apt2List.add(new HouseAnimationPanel());
 			addBuildingPanel(apt2List.get(i));
 			buildingPanels.add(apt2List.get(i));
