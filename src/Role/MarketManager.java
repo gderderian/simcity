@@ -1,6 +1,7 @@
 package Role;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
@@ -32,6 +33,8 @@ public class MarketManager extends Role {
 	ActivityTag tag = ActivityTag.MARKETMANAGER;
 
 	PersonAgent p;
+	
+	private Semaphore isAnimating = new Semaphore(0,true);
 	
 	public MarketManager(String initialName, PersonAgent person){
 		
@@ -228,6 +231,10 @@ public class MarketManager extends Role {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+	
+	public void releaseSemaphore(){
+		isAnimating.release();
 	}
 
 }
