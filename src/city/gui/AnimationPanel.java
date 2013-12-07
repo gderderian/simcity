@@ -189,7 +189,6 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
                 	gui.updatePosition();
                 	if(((VehicleGui) gui).type == "car") 
                 		gui.updatePosition();
-                		gui.updatePosition();
                 }
             }
         }
