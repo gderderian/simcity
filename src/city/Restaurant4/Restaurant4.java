@@ -45,6 +45,7 @@ public class Restaurant4 {
 	public void setCook(CookRole4 c){
 		cook = c;
 		c.setOrders(orders);
+		orders.setConsumer(c);
 	}
 	
 	public void setCashier(CashierRole4 c){

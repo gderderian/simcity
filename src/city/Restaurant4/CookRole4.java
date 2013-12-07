@@ -77,6 +77,8 @@ public class CookRole4 extends Role implements Cook4 {
 	
 	// MESSAGES 
 	public void msgHereIsOrder(Waiter4 w, String choice, Customer4 c){
+		System.out.println("I GOT A NEW ORDER TO PROCESS");
+		
 		Order o= new Order(w, choice, c, "pending", id++);
 		orders.add(o);
 		boolean newWaiter= true;
@@ -91,6 +93,10 @@ public class CookRole4 extends Role implements Cook4 {
 		p.stateChanged();
 	}
 
+	public void msgReadyForConsumption(){
+		p.stateChanged(); //wakes up the cook and tells him there is something for him to do now
+	}
+	
 	public void msgPickedUpFood(Customer4 c){
 		for(Order o : orders){
 			if(o.c.equals(c)){
@@ -181,8 +187,10 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 	
 	private void checkSharedOrders(){
+		System.out.println("Inside cook check shared orders");
 		Order o= sharedOrders.fillOrder();
 		while(o != null){
+			System.out.println("HEYO, IM LOOKIN' FOR SHARED ORDERS");
 			orders.add(o);
 			o= sharedOrders.fillOrder();
 		}

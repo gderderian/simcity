@@ -302,6 +302,8 @@ public class CityMap {
 		}
 		if(num == 3){
 			restaurant3.getHost().msgIWantFood((CustomerRole3) customer, 0, 0);
+			((CustomerRole3) customer).setHost(restaurant3.getHost());
+			((CustomerRole3) customer).setCashier(restaurant3.getCashier());
 		}
 		if(num == 4){
 			restaurant4.getHost().msgIWantFood((Customer4) customer);
