@@ -93,10 +93,12 @@ public class CustomerRole3 extends Role {
 					choice = pickRandomItemWithinCost();
 					event = AgentEvent.wantWaiter;
 					person.stateChanged();
+					System.out.println("DONE CHOOSING!!!");
 		      }
 		});
 		eatingTimer = new Timer(DEFAULT_HUNGER_LEVEL,
 				new ActionListener() { public void actionPerformed(ActionEvent evt) {
+					System.out.println("DONOTHING SET!! 101");
 					state = AgentState.DoingNothing;
 					event = AgentEvent.doneEating;
 					person.stateChanged();
@@ -186,12 +188,16 @@ public class CustomerRole3 extends Role {
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		// System.out.println("Event:" + event + " - State: " + state);
+		
+		
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry){
 			state = AgentState.WaitingForSeat;
 			goToRestaurant();
 			return true;
 		}
-		if (state == AgentState.WaitingForSeat && event == AgentEvent.followHost){
+		if (state == AgentState.DoingNothing && event == AgentEvent.followHost){ // was state check for waitingforseat
 			state = AgentState.BeingSeated;
 			SitDown();
 			return true;
@@ -225,6 +231,7 @@ public class CustomerRole3 extends Role {
 			return true;
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
+			System.out.println("DONOTHING SET!! 233");
 			state = AgentState.DoingNothing;
 			event = AgentEvent.none;
 			return true;
@@ -236,12 +243,14 @@ public class CustomerRole3 extends Role {
 			return true;
 		}
 		if (state == AgentState.WaitingForFood && event == AgentEvent.doneLeaving){
+			System.out.println("DONOTHING SET!! 245");
 			state = AgentState.DoingNothing;
 			event = AgentEvent.none;
 			return true;
 		}
 		if (state == AgentState.CantPay && event == AgentEvent.notPaid){
 			shame();
+			System.out.println("DONOTHING SET!! 252");
 			state = AgentState.DoingNothing;
 			event = AgentEvent.none;
 			return true;
@@ -313,7 +322,7 @@ public class CustomerRole3 extends Role {
 	}
 	
 	private void beginChoosing(){
-		Do("Beginning to decide what food item to pick.");
+		System.out.println("!!!!!!!    Beginning to decide what food item to pick.");
 		choosingTimer.setRepeats(false);
 		choosingTimer.restart();
 		choosingTimer.start();
@@ -333,6 +342,7 @@ public class CustomerRole3 extends Role {
 	}
 
 	private void SitDown() {
+		System.out.println("SITTING DOWN!!!!!");
 		Do("Going to sit down.");
 		customerGui.beginAnimate();
 		try {
@@ -414,6 +424,7 @@ public class CustomerRole3 extends Role {
 	    	madeStayDecision = true;
 	    } else {
 	    	Do("The restaurant is currently full according to the host and I don't want to wait so I'm leaving.");
+	    	System.out.println("DONOTHING SET!! 426");
 	    	state = AgentState.DoingNothing;
 	    	event = AgentEvent.none;
 	    	customerGui.resetNotHungry();

@@ -1,6 +1,7 @@
 package city.gui.Restaurant5;
 
 import city.gui.Gui;
+
 import javax.swing.*;
 
 import city.PersonAgent;
@@ -36,7 +37,7 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     private static int tablespacing = 50;
     
     Restaurant5 restaurant;
-    
+    public Image imgofbankfloor = new ImageIcon("images/bankfloor2.jpg").getImage();
     private Image bufferImage;
     private Dimension bufferSize;
 
@@ -62,7 +63,8 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
 	}
 
     public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D)g;
+    	g.drawImage(imgofbankfloor, 0,0, 900, 690, this); 
+    	//Graphics2D g2 = (Graphics2D)g;
         Graphics2D g3 = (Graphics2D)g;
         Graphics2D g4 = (Graphics2D)g;
         Graphics2D g5 = (Graphics2D)g;
@@ -72,9 +74,11 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
         Graphics2D waitingarea = (Graphics2D)g;
         
         //Clear the screen by painting a rectangle the size of the frame
-        g2.setColor(getBackground());
-        g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-        
+        //g2.setColor(getBackground());
+        //g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+        g3.setColor(Color.ORANGE);
+        g3.fillRect(tablewidth, tablelength, tablespacing, tablespacing);
+    
         g3.setColor(Color.orange);
         g3.fillRect(260, 250, 50, 50);
        
@@ -96,8 +100,8 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
         
         //Here is the table
         //got rid of the magic numbers
-        g2.setColor(Color.ORANGE);
-        g2.fillRect(tablewidth, tablelength, tablespacing, tablespacing);//200 and 250 need to be table params
+        //g2.setColor(Color.ORANGE);
+        //g2.fillRect(tablewidth, tablelength, tablespacing, tablespacing);//200 and 250 need to be table params
 
 /*
  * This gets moved to updatePos below so it will be called even when the panel is not visible
@@ -109,7 +113,7 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
 */
         for(Gui gui : guis) {
             if (gui.isPresent()) {
-                gui.draw(g2);
+                //gui.draw(g2);
                 gui.draw(g3); 
             }
         }

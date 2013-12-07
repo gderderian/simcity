@@ -65,8 +65,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	ActivityTag tag = ActivityTag.RESTAURANT5WAITER;
 
-	//public boolean atkitchencurrently = false;
-
 	Restaurant5Menu menu = new Restaurant5Menu();
 
 	public Restaurant5WaiterGui waiterGui = null;
@@ -98,7 +96,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	public void msgAtTable() {
 
 		atTable.release();
-		//Do("i have attable " + atTable.availablePermits() + "permits");
 		person.stateChanged();
 	}
 
@@ -112,7 +109,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	public void msgAssignMeCustomer(Restaurant5Customer customer, int table)
 	{
 		customer.setWaiter(this);
-		Do("Assign me customer function table " + table  );
+		Do("Assign me customer and seat him at table " + table  );
 		Do(" customer " + customer);
 		Do("person " + person);
 		customers.add(new mycustomer(customer, table));
@@ -181,7 +178,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 		}
 		person.stateChanged();
-		//send a message to cook	
+		
 	}
 
 	public void msgFoodIsOut(String order, int table) {
@@ -234,7 +231,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 				if(givechecktocustomer.table == check.assignedtable)
 				{ 
 					givechecktocustomer.state = customerstate.CheckReady;
-					//currentcheck = check;
 					checks.add(check);
 					person.stateChanged();
 				}
@@ -281,49 +277,16 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	}
 
-	/**
-	 * Scheduler.  Determine what action is called for, and do it.
-	 * @param Waiting 
-	 * @throws InterruptedException 
-	 */
 	public boolean pickAndExecuteAnAction() {
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
-		Do("I'm in the waiter scheduler!!!");
+		
+		//Do("I'm in the waiter scheduler!!!");
 		try
 		{
-
-			//if(this.state == AgentState.DoingNothing)
-			//waiterGui.gotohomeposition();
-			//Do("i have attable permit " + atTable.availablePermits());
-			/*
-			if(this.state == AgentState.DoingNothing)
-			{
-				Dogobacktolobby();
-
-				try {
-					atLobby.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				atlobbycurrently = true;
-				return true;
-			}
-			 */
-			//if(customers.isEmpty())
-			//waiterGui.beginhomeposition();
-
-
 
 			if(!customers.isEmpty())
 			{
 
 				for (mycustomer customer : customers) {
-
 
 					Do("!!!!!!!!!!   customer size " + customers.size());
 					Do("<<<<<<<<<<<  current customer id " + customers.get(0).customer + " state " + customers.get(0).state);
@@ -339,11 +302,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 						}
 					}
-					//}
-
-
-					//for (mycustomer customer : customers) {
-
+				
 					if(customer.state == customerstate.ReadyToOrder)
 					{
 
@@ -351,7 +310,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 							atlobbycurrently = false;
 							DoGoToTable(customer.table);
-							//Do("i have attable permit " + atTable.availablePermits());
 							log("moving to table " + customer.table);
 
 							try {
@@ -363,29 +321,15 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 								e.printStackTrace();
 							}
 							log("at table");
-							//Do("i have attable permit " + atTable.availablePermits());
-							//log("" + waiterGui.AtTheTable());
-							//if(waiterGui.AtTheTable() == true)
-							//{
-							//Do("im at the table");
-							//								customer.state = customerstate.Ordered;
 							TakeOrder(customer);
 							customer.state = customerstate.WaitingForFood;
 							waiterGui.atTable = false;
 
-							//return true;
-							//}
 							return true;
 						}
 
 					}
-					//}
-
-
-
-					//for (mycustomer customer : customers) 
-					//{	
-
+		
 					if(customer.state == customerstate.Ordered)
 					{
 						foodout = false;
@@ -394,20 +338,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						BringOrderToCook(customer);
 						return true;
 					}
-					//}
-					/*
-				Dogobacktolobby();
-				atlobbycurrently=false;
-				//log("NUMBER OF PERMITS = " + atLobby.availablePermits());
-				try {
-					atLobby.acquire();
-					//atLobby.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				atlobbycurrently = true;
-					 */
+			
 					if(customer.state == customerstate.FoodReady /*&& atlobbycurrently == true*/)
 					{	
 						log("bring food!!!");
@@ -417,11 +348,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						return true; 
 					}
 
-
-					//for (mycustomer customer : customers) 
-					//{
-
-
 					if(customer.state == customerstate.Reorder && atlobbycurrently == true)
 					{
 						foodout = true; 
@@ -430,12 +356,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						return true;
 
 					}
-					//}
-
-
-
-					//for (mycustomer customer : customers) {
-
+				
 					if(customer.state == customerstate.ReadyToPay)
 					{
 						if(customer.waiterattable == false) {	
@@ -444,39 +365,12 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 							cashier.msgMakeCheckForWaiter(customer.customer,choice, table, this);
 							customer.state = customerstate.WaitingForCheck;
-							//atlobbycurrently = false;
-							//DoGoToTable(customer.table);
-
-							//try {
-
-							//log("" + atTable.availablePermits());
-							//atTable.acquire();
-							//} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							//e.printStackTrace();
-							//}
-
-							//log("" + waiterGui.AtTheTable());
-							//if(waiterGui.AtTheTable() == true)
-							//{
-							//Do("im at the table");
-							//customer.state = customerstate.Ordered;
-							//take customer request for a check
-							//GiveCheckToCustomer(customer);
-							//customer.state = customerstate.GoingToCashier;
-
-							//return true;
-							//}
-
+						
 							return true;	
 
 						}
 					}
-					//}
-
-
-					//for (mycustomer customer : customers) 
-					//{
+		
 
 					if(customer.state == customerstate.CheckReady && atlobbycurrently == true)
 					{
@@ -493,10 +387,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						}
 
 					}
-					//}
-
-					//for (mycustomer customer : customers) {
-
+				
 					if(customer.state == customerstate.CheckReady)
 					{
 						if(customer.waiterattable == false) {	
@@ -515,28 +406,14 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 								e.printStackTrace();
 							}
 
-							//							log("" + waiterGui.AtTheTable());
-							//							if(waiterGui.AtTheTable() == true)
-							//							{
-							//Do("im at the table");
-							//								customer.state = customerstate.Ordered;
-							//take customer request for a check
+						
 							GiveCheckToCustomer(customer);
 							customer.state = customerstate.GoingToCashier;
 
-							return true;
-							//							}
-							//							return true;	
+							return true;	
 
 						}
 					}
-
-					//}
-
-
-
-					//for (mycustomer customer : customers) 
-					//{
 
 					if(customer.state == customerstate.GoingToCashier)
 					{
@@ -546,15 +423,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						return true;
 
 					}
-					//}
-
-
-
-
-
-					//for (mycustomer customer : customers) {
-
-
+			
 					if(customer.state == customerstate.LeavingWithoutEating)
 					{
 						foodout = false;
@@ -566,12 +435,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						log("" + state);
 						return true;
 					}
-					//}
-
-
-
-					//for (mycustomer customer : customers) {
-
+			
 					if(customer.state == customerstate.Leaving)
 					{
 						//log("" + customer.customer.getName() + "removed");
@@ -579,13 +443,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 						customers.remove(customer);
 						return true;
 					}				
-
-					//}
-
-
-
-
-
 
 					waiterGui.gotohomeposition();
 				}
@@ -605,24 +462,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	// Actions
 
 	private void seatCustomer(mycustomer customer) {
-		/*
-		waiterGui.BringCustomerFromWaitingSpot(customer.customer.getxcoordinate(), customer.customer.getycoordinate());
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 */
-		/*
-		waiterGui.gotocustomerwaitingposition(customer.customer.getxcoordinate(), customer.customer .getycoordinate());
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 */
 
 		customer.customer.msgSitAtTable(customer.table);
 		DoSeatCustomer((Restaurant5CustomerRole)customer.customer, customer.table);
@@ -633,11 +472,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		//Do("I'm done sitting the customer");
-
-		//Do("i have attable permit " + atTable.availablePermits());
-
+	
 		Dogobacktolobby();
 		try {
 			atLobby.acquire();
@@ -647,10 +482,8 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	}
 
-	// The animation DoXYZ() routines
 	private void DoSeatCustomer(Restaurant5CustomerRole customer, int table) {
-		//Notice how we print "customer" directly. It's toString method will do it.
-		//Same with "table"
+	
 		log("Seating " + customer + " at " + table);
 		waiterGui.DoBringToTable(customer, table); 
 	}
@@ -756,9 +589,6 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	public void BringFoodToCustomer(String order, int table) {
 
-
-		//this is the new code 
-
 		log("bringing " + order + " to table " + table);
 
 
@@ -823,21 +653,8 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 				}
 				customer.customer.msgReceivedCheckFromWaiter(returncustomercheck);
 				customer.state = customerstate.GoingToCashier; 
-
-				/*
-				Dogobacktolobby();
-
-				try {
-					atLobby.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				atlobbycurrently = true;
-				 */
 				atlobbycurrently = true;
 				waiterGui.gotohomeposition();
-
 
 			}
 		}
