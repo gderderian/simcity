@@ -124,6 +124,7 @@ public class PersonAgent extends Agent implements Person{
 	PersonGui gui;
 	HomeOwnerGui homeGui;
 	ActivityTag tag = ActivityTag.PERSON;
+	boolean callonce = false; //this is tom's little hack
 
 	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map, HouseInterface h){
 		super();
@@ -454,7 +455,13 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-
+		
+		if(name.equals("bankCustomerTest") && callonce == false) {
+			goToBank(new PersonTask(TaskType.goToBank));
+			callonce = true;
+		}
+		
+		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
@@ -673,9 +680,6 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else{
 			DoGoTo(myJob.location, task);
-			if(task.transportation == Transportation.walking){
-				reachedDestination(task);
-			}
 		}
 		//This needs to be moved into the reachedDestination() function
 		//myJob.startJob();
@@ -788,12 +792,9 @@ public class PersonAgent extends Agent implements Person{
 			}
 			else{
 				DoGoTo(task.location, task);
-				if(task.transportation == Transportation.walking){
-					reachedDestination(task);
-				}
 
 			}
-			
+			/*
 			if(name.equals("rest5Test")){
 				print("Going to go to a restaurant 5");
 				String restName = null;
@@ -816,6 +817,7 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 			}
+			*/
 		
 		}
 		else{
@@ -1037,6 +1039,9 @@ public class PersonAgent extends Agent implements Person{
 		moveTo(x, y);
 		if(task != null)
 			task.state = State.arrived;
+		if(task.transportation == Transportation.walking){
+			reachedDestination(task);
+		}
 		gui.setInvisible();
 		return;
 	}

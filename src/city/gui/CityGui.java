@@ -184,6 +184,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant2.setBackground(new Color(150, 20, 60));
 		addBuildingPanel(restaurant2);
 		controlPanel.addRest2ToCityMap(rest2);
+		controlPanel.addRest3ToCityMap(rest3);
 		controlPanel.addRest4ToCityMap(rest4);
 		controlPanel.addRest5ToCityMap(rest5);
 		controlPanel.addRest1ToCityMap(rest1);

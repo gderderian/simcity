@@ -307,7 +307,11 @@ public class CityMap {
 			restaurant4.getHost().msgIWantFood((Customer4) customer);
 		}
 		if(num == 5){
+			((Restaurant5CustomerRole) customer).setHost(restaurant5.getHost());
+            ((Restaurant5CustomerRole) customer).setCashier(restaurant5.getCashier());
 			restaurant5.getHost().msgIWantFood((Restaurant5Customer) customer);
+			
+			
 		}
 	}
 	
