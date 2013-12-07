@@ -48,6 +48,7 @@ import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
 import city.Restaurant2.*;
+import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
 import city.transportation.BusAgent;
@@ -70,7 +71,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton startScenario = new JButton("Start scenario!");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bus Test", "Bank Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -164,12 +165,16 @@ public class ControlPanel extends JPanel implements ActionListener{
         scenarioSelect.setSelectedIndex(1);
     }
     
+    public void addRest1ToCityMap(Restaurant1 r) {
+    	cityMap.setRestaurant1(r);
+    }
+    
     public void addRest2ToCityMap(Restaurant2 r){
         cityMap.setRestaurant2(r);
     }
     
-    public void addRest1ToCityMap(Restaurant1 r) {
-    	cityMap.setRestaurant1(r);
+    public void addRest3ToCityMap(Restaurant3 r){
+    	cityMap.setRestaurant3(r);
     }
     
     public void addRest4ToCityMap(Restaurant4 r) {
@@ -613,8 +618,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runRestaurant4Test();
 		else if(scenario.equals("Restaurant5"))
 			runRestaurant5Test();
-		else if(scenario.equals("Bus Test"))
-				runBusTest();
 		else if(scenario.equals("Bank Test"))
 				runBankTest();
     	
@@ -663,28 +666,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
 		addPerson("rest4Test", "No job");
-   
-		/*
-		addPersonNoHouse("host5", "Restaurant5 Host");
-		addPersonNoHouse("cashier5", "Restaurant5 Cashier");
-		addPersonNoHouse("cook5", "Restaurant5 Cook");
-		addPerson("waiter5", "Restaurant5 Waiter");
-		addPerson("rest5Test", "No job");
-	    */
-    
     
     }
-    
-    public void runBusTest() {
-		//Add a bus and a person to take bus
-		timer.schedule(new TimerTask() {
-			public void run() {
-				 addVehicle("bus");
-			}
-		}, 8000	);	
-		
-		addPerson("BusTest", "No job");
-	}
     
     public void runRestaurant1Test(){
     	//Add two buses at an interval
