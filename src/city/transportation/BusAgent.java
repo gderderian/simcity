@@ -60,12 +60,12 @@ public class BusAgent extends Vehicle implements Bus {
 		guiFinished = new Semaphore(0, true);
 
 		//Bus stop locations
-		stopPositions.put(0, new Position(18, 8));
-		stopPositions.put(1, new Position(10, 3));
-		stopPositions.put(2, new Position(3, 9));
-		stopPositions.put(3, new Position(8, 15));
+		stopPositions.put(0, new Position(17, 8));
+		stopPositions.put(1, new Position(10, 4));
+		stopPositions.put(2, new Position(4, 9));
+		stopPositions.put(3, new Position(8, 14));
 
-		currentPosition = new Position(18, 18);
+		currentPosition = new Position(17, 18);
 	}
 
 	//Messages
@@ -250,16 +250,16 @@ public class BusAgent extends Vehicle implements Bus {
 
 		switch(stop) { //Moves to a corner before going to next stop - makes paths as straight as possible
 		case 0:
-			guiMoveFromCurrentPositionTo(new Position(18, 15));
+			guiMoveFromCurrentPositionTo(new Position(17, 14));
 			break;
 		case 1:
-			guiMoveFromCurrentPositionTo(new Position(18, 3));
+			guiMoveFromCurrentPositionTo(new Position(17, 4));
 			break;
 		case 2:
-			guiMoveFromCurrentPositionTo(new Position(3, 3));
+			guiMoveFromCurrentPositionTo(new Position(4, 4));
 			break;
 		case 3:
-			guiMoveFromCurrentPositionTo(new Position(3, 15));
+			guiMoveFromCurrentPositionTo(new Position(4, 14));
 			break;
 		}
 
