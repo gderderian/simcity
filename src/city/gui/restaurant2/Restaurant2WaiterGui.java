@@ -20,8 +20,6 @@ public class Restaurant2WaiterGui implements Gui{
     
     private final int HOMEX, HOMEY;
 
-    private final int WINDOWX = 900;
-    private final int WINDOWY = 750 - 20;
     private final int TABLE1Y = 280;
     private final int TABLE2Y = 280;
     private final int TABLE3Y = 430;
@@ -31,7 +29,7 @@ public class Restaurant2WaiterGui implements Gui{
     private final int TABLE2X = 470;
     private final int TABLE4X = 470;
     private final int KITCHENY = 350;		//goes to the counter of the kitchen
-    private final int KITCHENX = 675;
+    private final int KITCHENX = 660;
     
     public final int XBREAK = 400;
     public final int YBREAK = -10;
@@ -81,20 +79,25 @@ public class Restaurant2WaiterGui implements Gui{
 
     public void updatePosition() {
         if (xPos < xDestination)
-            xPos++;
+            xPos ++;
         else if (xPos > xDestination)
-            xPos--;
+            xPos --;
 
         if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
+            yPos ++;
+        
+        else if (xPos > yDestination)
+            yPos --;
 
         if (xPos == xDestination && yPos == yDestination){
         	if ((yPos == TABLE1Y && xPos == TABLE1X)|| (yPos == TABLE2Y && xPos == TABLE2X)
         			|| (yPos == TABLE3Y && xPos == TABLE3X) || (yPos == TABLE4Y && xPos == TABLE4X)){
-        		agent.msgAtDest();}
+        		agent.msgAtDest();
+        	}
             if(xPos == KITCHENX && yPos == KITCHENY){
+            	agent.msgAtDest();
+            }
+            if(xPos == KITCHENX && yPos == (KITCHENY - 60)){
             	agent.msgAtDest();
             }
         }
@@ -229,8 +232,8 @@ public class Restaurant2WaiterGui implements Gui{
 	}
 
 	public void DoGoToSpindle() {
-		// TODO Auto-generated method stub
-		
+		xDestination = KITCHENX;
+		yDestination = KITCHENY - 60;
 	}
 
 }
