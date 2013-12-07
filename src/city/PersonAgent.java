@@ -54,7 +54,7 @@ public class PersonAgent extends Agent implements Person{
 	boolean atHome= false;
 
 	//Transportation
-	Car car;
+	public Car car;
 	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
 	TransportationState transportationState;
 	CityMap cityMap;

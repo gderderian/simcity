@@ -228,4 +228,9 @@ public class Restaurant2WaiterGui implements Gui{
 		onBreak = b;
 	}
 
+	public void DoGoToSpindle() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
