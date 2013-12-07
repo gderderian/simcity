@@ -747,6 +747,7 @@ public class PersonAgent extends Agent implements Person{
 						bankName = role.getBuilding();
 						task.location = bankName;
 						task.role = r.getRoleName();
+						//task.role = r;
 						log("Set BankCustomerRole active");
 					}
 				}

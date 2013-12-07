@@ -70,6 +70,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton startScenario = new JButton("Start scenario!");
+    private JPanel backButtonPanel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test"
@@ -84,13 +85,15 @@ public class ControlPanel extends JPanel implements ActionListener{
     private int WINDOWY = 750;
     private int SCROLLY = WINDOWY/4;
     private int ADDPERSONY = WINDOWY/5;
+    private int BACKBUTTONY = 40;
     private int INFOPANELY = WINDOWY - ADDPERSONY;
     private int WINDOWXINSIDE = WINDOWX - 10;
     
     private Dimension scrollDim = new Dimension(WINDOWXINSIDE, SCROLLY);
-    private Dimension panelDim = new Dimension(WINDOWX, WINDOWY);
+    private Dimension panelDim = new Dimension(WINDOWX, WINDOWY - BACKBUTTONY);
     private Dimension addPersonDim = new Dimension(WINDOWXINSIDE, ADDPERSONY);
     private Dimension infoPanelDim = new Dimension(WINDOWXINSIDE, INFOPANELY);
+    private Dimension backButtonDim = new Dimension(WINDOWX, BACKBUTTONY);
 
     private JTextField nameField;
     private JTextField errorDisplay = new JTextField();
@@ -142,12 +145,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 
         setBorder(BorderFactory.createLineBorder(Color.black, 5));
         
+        backButtonPanel.add(backToCity);
+    	backToCity.addActionListener(this);
+    	backToCity.setEnabled(false);
+        add(backButtonPanel);
+        
         addPersonSection();
         
         setupWorldControls();
                 
         controlPane.setPreferredSize(panelDim);
         worldControls.setPreferredSize(panelDim);
+        backButtonPanel.setPreferredSize(backButtonDim);
         worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
         worldControls.setAlignmentX(Component.CENTER_ALIGNMENT);
         controlPane.addTab("World", worldControls);
@@ -210,8 +219,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     	
     	Dimension dropDownSize = new Dimension(WINDOWX, 30);
     	startScenario.addActionListener(this);
-    	backToCity.addActionListener(this);
-    	backToCity.setEnabled(false);
     	scenarioSelect.addActionListener(this);
     	scenarioSelect.setPreferredSize(dropDownSize);
     	scenarioSelect.setMaximumSize(dropDownSize);
@@ -220,8 +227,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     	worldControls.add(Box.createVerticalStrut(10));
     	clickBuildings.setFont(new Font("Trebuchet", Font.BOLD, 14));
     	worldControls.add(clickBuildings);
-    	worldControls.add(Box.createVerticalStrut(10));
-    	worldControls.add(backToCity);
     	worldControls.add(Box.createVerticalStrut(10));
     	JLabel title = new JLabel("Running a scenario: ");
     	title.setAlignmentX(Component.CENTER_ALIGNMENT);
