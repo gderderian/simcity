@@ -30,7 +30,7 @@ public class WaiterRole3 extends Role {
 	private String name;
 	public CashierRole3 myCashier;
 	private boolean onBreak;
-	public int homeX = 230;
+	public int homeX = 430;
 	public int homeY = 230;
 	
 	private WaiterGui3 waiterGui;
@@ -330,7 +330,7 @@ public class WaiterRole3 extends Role {
 
 		Do("Seating customer " + c.customer.getName() + ".");
 		
-		waiterGui.setDestination(c.pickupX + 20, c.pickupY + 20);
+		waiterGui.setDestination(c.pickupX, c.pickupY);
 		waiterGui.beginAnimate();
 		try {
 			isAnimating.acquire();
@@ -426,7 +426,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	private void goHome(){
-		//System.out.println("Going back to home position as there are no tasks for me to do right now.");
+		System.out.println("Going back to home position as there are no tasks for me to do right now.");
 		waiterGui.setDestination(homeX, homeY);
 	}
 	
