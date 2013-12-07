@@ -123,7 +123,10 @@ public class CarAgent extends Vehicle implements Car {
 			moveTo(x, 3);
 		} else if(y == 18) {
 			moveTo(x, 15);
-		} else { log("ERROR: Unexpected driving destination - see driveToOwner() in CarAgent."); }
+		} else if(y == 17) {
+			moveTo(x, 15);
+		} else
+			log("ERROR: Unexpected driving destination - see driveToOwner() in CarAgent.");
 
 		event = CarEvent.arrivingAtOwner;
 	}
