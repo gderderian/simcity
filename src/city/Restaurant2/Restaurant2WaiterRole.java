@@ -50,10 +50,10 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 	
 	boolean deliveringFood;
 	
-	private Semaphore atDest = new Semaphore(0,true);
+	protected Semaphore atDest = new Semaphore(0,true);
 	private Semaphore AtStand = new Semaphore(0, true);
 	
-	private Restaurant2WaiterGui waiterGui;
+	protected Restaurant2WaiterGui waiterGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2WAITER;
 	
 	boolean test = false;

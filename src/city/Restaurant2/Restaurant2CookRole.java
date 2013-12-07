@@ -38,9 +38,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	List<Market> markets = new ArrayList<Market>();
 	boolean startCheck;
 	
-	Timer checkSpindleTimer;
-    private static final int TIMER_INTERVAL = 500;
-	
 	String roleName = "Restaurant2CookRole";
 	
 	private Semaphore atDestination = new Semaphore(0,true);
