@@ -22,6 +22,7 @@ import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.Restaurant2.Restaurant2WaiterRoleRegular;
 import city.gui.Bank.BankAnimationPanel;
 import city.gui.Bank.BankCustomerRoleGui;
 import city.gui.Bank.BankGui;
@@ -465,7 +466,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
 			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
 			restaurant2.addGui(customerGui);
-			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
+			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRoleRegular("waiter", p);
 			p.addFirstJob(waiterRole, "rest2");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -718,7 +719,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			//Creates role, gui for role
 			//Adds role to gui and gui to role
 			//Adds role to correct animation panel
-			Restaurant2WaiterRole role = new Restaurant2WaiterRole(p.getName(), p);
+			Restaurant2WaiterRole role = new Restaurant2WaiterRoleRegular(p.getName(), p);
 			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, 1);
 			role.setGui(gui);
 			restaurant2.addGui(gui);
