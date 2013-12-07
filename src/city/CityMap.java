@@ -33,6 +33,7 @@ public class CityMap {
 	
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
 	Map<String, Position> parkingLocations = new HashMap<String, Position>();
+	List<Position> parkingEntrances = new ArrayList<Position>();
 	List<String> restaurants = new ArrayList<String>();
 	
 	Restaurant1 restaurant1;
@@ -99,6 +100,12 @@ public class CityMap {
 		parkingLocations.put("mark1", new Position(24,12));
 		parkingLocations.put("mark2", new Position(5,3));
 		parkingLocations.put("mark3", new Position(8,12));
+		
+		//Entrances to parking structure
+		parkingEntrances.add(new Position(7,9));
+		parkingEntrances.add(new Position(14,9));
+		parkingEntrances.add(new Position(10,7));
+		parkingEntrances.add(new Position(11,11));
 		
 		//Adding list of nearby locations to each bus stop
 		List<String> buildingList0 = new ArrayList<String>();
@@ -219,6 +226,19 @@ public class CityMap {
 			}
 		}
 		return minStop;
+	}
+	
+	public Position getParkingEntrance(Position p) {
+		int nearestEntrance = 0;
+		double distance = 1000;
+		for(int i = 0; i < parkingEntrances.size(); i++) {
+			double newDistance = parkingEntrances.get(i).distance(p);
+			if(newDistance < distance) {
+				distance = newDistance;
+				nearestEntrance = i;
+			}
+		}
+		return parkingEntrances.get(nearestEntrance);
 	}
 	
 	public void addBusStop(BusStop busStop) {
