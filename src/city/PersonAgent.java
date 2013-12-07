@@ -365,9 +365,10 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	//Messages from bus/bus stop
-	public void msgArrivedAtStop(int stop) {
+	public void msgArrivedAtStop(int stop, Position p) {
 		if(busRide.finalStop == stop){
 			busRide.state = BusRideState.getOffBus;
+			busRide.busPos = p;
 			log("Arrived at the correct bus stop, I can get off!");
 		}
 		stateChanged();
@@ -379,9 +380,10 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 
-	public void msgBusIsHere(Bus b) { //Sent from bus stop
+	public void msgBusIsHere(Bus b, Position p) { //Sent from bus stop
 		log("Recieved message bus is here");
 		busRide.bus = b;
+		busRide.busPos = p;
 		busRide.state = BusRideState.busIsHere;
 		stateChanged();
 	}
@@ -889,6 +891,14 @@ public class PersonAgent extends Agent implements Person{
 
 
 	public void getOnBus(){
+		gui.moveTo(busRide.busPos.getX() * 30 + 120, busRide.busPos.getY() * 30 + 60);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		gui.setInvisible();
 		busRide.state = BusRideState.onBus;
 		log.add(new LoggedEvent("Getting on the bus"));
@@ -906,17 +916,33 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void getOffBus(){
+		log("Getting off the bus");
+		
+		int busX = busRide.busPos.getX();
+		int busY = busRide.busPos.getY();
+		gui.teleport(busX * 30 + 120, busY * 30 + 60);
+		gui.setVisible();
+		
 		busRide.state = BusRideState.done;
 		busRide.bus.msgImGettingOff(this);
-		log("Getting off the bus");
+		
 		String thisStop = "stop" + Integer.toString(busRide.finalStop);
+		
 		int x = cityMap.getX(thisStop);
 		int y = cityMap.getY(thisStop);
-		gui.teleport(x * 30 + 130, y * 30 + 70);
+		
+		gui.moveTo(x * 30 + 120, y * 30 + 60);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		currentPosition.release(aStar.getGrid());
 		currentPosition = new Position(x, y);
 		currentPosition.moveInto(aStar.getGrid());
-
+		
 		print("Now, go to final destination!");
 
 		PersonTask temp = null;
@@ -1248,6 +1274,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public class BusRide{
 		public Bus bus;
+		public Position busPos;
 		public double fare;
 		public BusRideState state;
 		public int finalStop;

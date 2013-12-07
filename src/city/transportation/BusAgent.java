@@ -169,7 +169,7 @@ public class BusAgent extends Vehicle implements Bus {
 	private void TellPassengersWeAreAtStop() {
 		log("We have arrived at stop #" + currentStop);
 		for(Passenger p : passengers) {
-			p.p.msgArrivedAtStop(currentStop);
+			p.p.msgArrivedAtStop(currentStop, currentPosition);
 		}
 
 		DoWaitAtStop();

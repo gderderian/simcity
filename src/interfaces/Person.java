@@ -30,11 +30,11 @@ public interface Person {
 	
 	
 	//Messages from bus/bus stop
-	public abstract void msgArrivedAtStop(int stop);
+	public abstract void msgArrivedAtStop(int stop, Position p);
 	
 	public abstract void msgPleasePayFare(Bus b, double fare);
 	
-	public abstract void msgBusIsHere(Bus b);
+	public abstract void msgBusIsHere(Bus b, Position p);
 	
 	//Messages from car	
 	public abstract void msgArrived(Car c, Position p);
