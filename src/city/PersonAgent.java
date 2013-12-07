@@ -638,6 +638,7 @@ public class PersonAgent extends Agent implements Person{
 	@SuppressWarnings("unused")
 	public void reachedDestination(PersonTask task){
 		log("I've reached my destination, now I'm going to go inside!");
+		log("My tas right now is " + task.type.toString());
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
@@ -679,6 +680,9 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else{
 			DoGoTo(myJob.location, task);
+			if(task.transportation == Transportation.walking){
+				reachedDestination(task);
+			}
 		}
 		//This needs to be moved into the reachedDestination() function
 		//myJob.startJob();
@@ -791,8 +795,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 			else{
 				DoGoTo(task.location, task);
-
-			if(task.transportation == Transportation.walking){
+				if(task.transportation == Transportation.walking){
 					reachedDestination(task);
 				}
 
