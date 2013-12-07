@@ -58,10 +58,7 @@ public class PersonAgent extends Agent implements Person{
 	enum TransportationState{takingCar, takingBus, walking, chooseTransport};
 	TransportationState transportationState;
 	CityMap cityMap;
-	//BusStopAgent busStop;
-	//public int busStopToGetOffAt;
 	BusAgent bus;
-	//public List<BusRide> busRides = Collections.synchronizedList(new ArrayList<BusRide>());	//probably don't need a whole list, only one BusRide?
 	public BusRide busRide;	//only need one because will only be doing one bus ride at a time
 	public enum BusRideState {initial, waiting, busIsHere, onBus, done, paidFare, getOffBus};
 	public CarRide carRide;
@@ -294,6 +291,7 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(new PersonTask(TaskType.goToWork));
 			}
 			log("Its time for me to go to work");
+			stateChanged();
 		}
 		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") ||/* name.equals("rest1Test") || */name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
@@ -301,15 +299,16 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
 			log("It's time for me to eat something");
+			stateChanged();
 		}
 		else if(t > 5000 && t < 7000 && name.equals("rest1Test")) {
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
 			log("It's time for me to eat something");
+			stateChanged();
 		}
 
-		stateChanged();
 	}
 	//From house
 	public void msgImBroken(String type) {
@@ -456,7 +455,7 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-
+		
 		if(name.equals("bankCustomerTest") && callonce == false) {
 			goToBank(new PersonTask(TaskType.goToBank));
 			callonce = true;
@@ -470,7 +469,7 @@ public class PersonAgent extends Agent implements Person{
 					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
 				}
 			}
-			if (anytrue){
+			if(anytrue){
 				return anytrue;
 			} 
 		}

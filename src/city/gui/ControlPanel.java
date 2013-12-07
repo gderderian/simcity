@@ -1,7 +1,6 @@
 package city.gui;
 
 import interfaces.BusStop;
-import interfaces.Car;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -18,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
-import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
@@ -42,18 +40,11 @@ import city.House;
 import city.Market;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
-import astar.Position;
-import Role.BankManagerRole;
-import Role.BankTellerRole;
-import Role.LandlordRole;
-import Role.MarketManager;
-import Role.MarketWorker;
 import Role.Role;
 import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
-import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 
@@ -68,7 +59,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JLabel clickBuildings = new JLabel("Click on a building to see inside!");
-    //private JPanel activityLog = new JPanel();
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton startScenario = new JButton("Start scenario!");
