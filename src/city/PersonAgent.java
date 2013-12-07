@@ -1102,9 +1102,11 @@ public class PersonAgent extends Agent implements Person{
 		gui.setVisible();
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
+		int myX = currentPosition.getX();
+		int myY = currentPosition.getY();
 
 		Position p = new Position(x, y);
-		if(currentPosition.distance(p) > 25) {	// || name.equals("BusTest")
+		if(/*currentPosition.distance(p) > 25*/ Math.abs(myX - x) > 20 || Math.abs(myY - y) > 17) {	// || name.equals("BusTest")
 			if(task != null){
 				task.transportation = Transportation.bus;
 			}
