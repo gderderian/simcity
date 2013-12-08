@@ -253,7 +253,7 @@ public class CityMap {
 		nearbyDestinations.put(number, destinations);
 	}
 	
-	public String getClosestPlaceFromHere(String here, String type){
+	/*public String getClosestPlaceFromHere(String here, String type){
 		int housex = 0;
 		int housey = 0;
 		int posx = 0;
@@ -285,7 +285,7 @@ public class CityMap {
 			}
 		}
 		return closestPlace;
-	}
+	}*/
 	
 	/*
 	 * This function takes a restaurant number and messages the host of that restaurant that the customer is hungry
