@@ -31,10 +31,12 @@ import city.gui.Bank.BankManagerRoleGui;
 import city.gui.Bank.BankTellerRoleGui;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
+import city.gui.House.LandlordGui;
 import city.gui.Market.MarketAnimationPanel;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
+import Role.LandlordRole;
 import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
@@ -45,6 +47,7 @@ import city.gui.restaurant4.AnimationPanel4;
 import city.gui.restaurant4.CookGui4;
 import city.gui.restaurant4.CustomerGui4;
 import city.gui.restaurant4.WaiterGui4;
+import city.ApartmentBuilding;
 import city.Bank;
 import city.CityMap;
 import city.House;
@@ -142,9 +145,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
 	ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
+	ApartmentBuilding apart1= new ApartmentBuilding();
 	
 	//HouseAnimationPanel house1= new HouseAnimationPanel();
 	ArrayList<HouseAnimationPanel> houses = new ArrayList<HouseAnimationPanel>();
+	ApartmentBuilding apart2= new ApartmentBuilding();
 	
 	// Master list of city buildings
 	List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
@@ -152,7 +157,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	private JPanel infoPanel;
 
 	private final int WINDOWX = 1300;
-	private final int WINDOWY = 750;
+	private final int WINDOWY = 730;
 	private final int ANIMATIONX = 900;
 	private final int WINDOW_X_COORD = 50;
 	private final int WINDOW_Y_COORD = 50;
@@ -209,23 +214,26 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(restaurant3);
 
 		add(animationPanel, BorderLayout.EAST);
-
+		
+		List<House> houseAgents= controlPanel.getHouses();
 		//Set up and populate apartment 1
 		addBuildingPanel(apt1);
-		for(int i=0; i<10; i++){
-			apt1List.add(new HouseAnimationPanel());
+		for(int i=0; i<20; i++){
+			HouseAnimationPanel temp= new HouseAnimationPanel();
+			apt1List.add(temp);
+			houseAgents.get(i + 22).setHouseAnimationPanel(temp);
 			addBuildingPanel(apt1List.get(i));
 			buildingPanels.add(apt1List.get(i));
 		}
 		//Set up and populate apartment 2
 		addBuildingPanel(apt2);
-		for(int i=0; i<10; i++){
-			apt2List.add(new HouseAnimationPanel());
+		for(int i=0; i<20; i++){
+			HouseAnimationPanel temp= new HouseAnimationPanel();
+			apt2List.add(temp);
+			houseAgents.get(i + 42).setHouseAnimationPanel(temp);
 			addBuildingPanel(apt2List.get(i));
 			buildingPanels.add(apt2List.get(i));
 		}
-		
-		List<House> houseAgents= controlPanel.getHouses();
 		//Set up all of the houses
 		for(int i=0; i<22; i++){ 
 			HouseAnimationPanel temp= new HouseAnimationPanel();
@@ -424,6 +432,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		people.add(newPerson);
 		
 		newPerson.startThread();
+		
+		newPerson.setBank(bank);
 	}
 	
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h, CarAgent c){
@@ -517,10 +527,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			p.addRole(customerRole, false);
 		}
 		if(i == 3) { // Restaurant 3 (Grant) Testing
-			CustomerRole3 customerRole = new CustomerRole3(p.getName(), 50,50, p);
-			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, 50, 50, 0); // GUI should be passed into 2nd agmt
+			CustomerRole3 customerRole = new CustomerRole3(p.getName(), -20, -20, p);
+			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, -20, -20, 0);
 			restaurant3.addGui(customerGui);
-			WaiterRole3 waiterRole = new WaiterRole3("waiter", 50, 50,p);
+			WaiterRole3 waiterRole = new WaiterRole3("waiter", 230, 230,p);
 			p.addFirstJob(waiterRole, "rest3");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -724,17 +734,33 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			//I added this
 			else if(job.contains("Bank")) {
 				p.addFirstJob(r, "bank1");
-				 
-				if(r instanceof BankManagerRole) {
-					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager");
-					bank.setBankManager((BankManagerRole) r);
-					p.setRoleActive(r);
-				}
+				/*
 				if(r instanceof BankTellerRole) {
 					bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) r);
 					p.setRoleActive(r);
 				}
+				*/
+				if(r instanceof BankManagerRole) {
+					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager in the bank!");
+					bank.setBankManager((BankManagerRole) r);
+					p.setRoleActive(r);
+				}
 					
+			}
+			
+			else if(job.contains("Landlord")){
+				if(job.equals("Landlord1")){
+					p.addFirstJob(r, "apart1");
+					
+					p.setRoleActive(r);
+					apart1.setLandlord((LandlordRole)r);
+				}
+				else if(job.equals("Landlord2")){
+					p.addFirstJob(r, "apart2");
+					
+					p.setRoleActive(r);
+					apart2.setLandlord((LandlordRole)r);
+				}
 			}
 		}
 	}
@@ -861,7 +887,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui.setPresent(true);
 			return role;
 		} else if (type.equals("Restaurant3 Waiter")){
-			WaiterRole3 role= new WaiterRole3(p.getName(), 50, 50, p); 
+			WaiterRole3 role= new WaiterRole3(p.getName(), 230, 230, p); 
 			WaiterGui3 gui = new WaiterGui3(role);
 			role.setGui(gui);
 			restaurant3.addGui(gui);
@@ -909,6 +935,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		//I added this
 		else if(type.equals("Bank Manager")){
+			
+			System.out.println("!!!!!!!!!!!!  I'm in get role");
 			Bank bank = new Bank();
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
@@ -931,7 +959,22 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;	
 		}
 		
-		
+		else if(type.equals("Landlord1")){
+			LandlordRole role = new LandlordRole(p.getName(), p); 
+			LandlordGui gui = new LandlordGui(role);
+			role.setGui(gui);
+			apt1.addGui(gui); 
+			gui.setPresent(false);
+			return role;
+		}
+		else if(type.equals("Landlord2")){
+			LandlordRole role = new LandlordRole(p.getName(), p); 
+			LandlordGui gui = new LandlordGui(role);
+			role.setGui(gui);
+			apt2.addGui(gui); 
+			gui.setPresent(false);
+			return role;
+		}
 		
 		else return null;
 	}

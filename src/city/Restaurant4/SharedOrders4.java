@@ -8,9 +8,14 @@ import city.Restaurant4.CookRole4.Order;
 public class SharedOrders4 {
 	List<Order> orders;
 	public Semaphore monitor= new Semaphore(1);
+	public CookRole4 consumer;
 	
 	public SharedOrders4(){
 		orders= Collections.synchronizedList(new ArrayList<Order>());
+	}
+	
+	public void setConsumer(CookRole4 c){
+		consumer= c;
 	}
 	
 	public boolean addOrder(Order o){
@@ -18,6 +23,7 @@ public class SharedOrders4 {
 			synchronized(orders){
 				System.out.println("ADDING ORDER TO REVOLVING STAND");
 				orders.add(o);
+				consumer.msgReadyForConsumption();
 			}
 			monitor.release();
 			return true;

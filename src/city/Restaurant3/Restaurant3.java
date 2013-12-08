@@ -39,9 +39,11 @@ public class Restaurant3 {
 	
 	public void addWaiters(WaiterRole3 w){
 		//waiters.add(w);
-		host.addWaiter(w);
-		w.setCook(cook);
-		w.setCashier(cashier);
+		if (cook == null || cashier == null || host == null || w == null){
+			host.addWaiter(w);
+			w.setCook(cook);
+			w.setCashier(cashier);
+		}
 	}
 	
 	public void setCook(CookRole3 c){
@@ -50,6 +52,10 @@ public class Restaurant3 {
 	
 	public void setCashier(CashierRole3 c){
 		cashier = c;
+	}
+	
+	public CashierRole3 getCashier(){
+		return cashier;
 	}
 	
 }

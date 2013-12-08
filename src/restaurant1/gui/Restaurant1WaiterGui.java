@@ -20,6 +20,15 @@ public class Restaurant1WaiterGui implements Gui {
 	private final int LOBBY_X = 100, LOBBY_Y = 110;
 	
 	private int home_x, home_y;
+    
+	ImageIcon icon1 = new ImageIcon("images/waiter1.png");
+	ImageIcon icon2 = new ImageIcon("images/waiter2.png");
+	ImageIcon icon3 = new ImageIcon("images/waiter3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = icon1;
 	
 	private boolean moving = false;
 	private boolean carryingFood = false;
@@ -47,6 +56,20 @@ public class Restaurant1WaiterGui implements Gui {
     }
 
     public void updatePosition() {
+		//Code for switching pictures to create animation
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = icon1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = icon2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = icon3;
+        	else
+        		icon = icon2;
+    	} else icon = icon2;
+    	
         if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
@@ -64,14 +87,7 @@ public class Restaurant1WaiterGui implements Gui {
     }
     
     public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK); // Waiter gui is a black 30x30 square
-        g.fillRect(xPos, yPos, WIDTH, HEIGHT);
-
-        // This draws a "W" on the waiter gui
-        Font font = new Font("Arial", Font.BOLD, 20);
-        g.setFont(font);
-        g.setColor(Color.WHITE);
-        g.drawString("W", xPos + 5, yPos + 22);
+    	g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
         
         if(carryingFood) {
         	// If the waiter is delivering food, this code adds the food to the waiter's animation

@@ -92,7 +92,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel personControls = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
-    private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord", 
+    private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
     		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
     		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
     		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 Waiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
@@ -377,8 +377,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
 
 			House house = houses.get(houseAssignmentNumber);
-			if(houseAssignmentNumber == 43){
-				houseAssignmentNumber = 42;
+			if(houseAssignmentNumber == 62){
+				houseAssignmentNumber = 61;
 			}
 			else{
 				houseAssignmentNumber++;
@@ -601,16 +601,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[4][18].release(5);
 		sidewalkGrid[11][18].release(5);      	
 
-		streetGrid[18][18].release(100); //starting point for vehicles
+		streetGrid[17][20].release(100); //starting point for vehicles
 
 		streetGrid[7][9].release(100); //Parking entrances + tiles right outside
-		streetGrid[6][9].release();
 		streetGrid[14][9].release(100); 
-		streetGrid[15][9].release();
 		streetGrid[10][7].release(100); 
-		streetGrid[10][6].release();
 		streetGrid[11][11].release(100); 
-		streetGrid[11][12].release();
 
 		/********Finished setting up semaphore grid***********/
 	}
@@ -628,13 +624,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 		for(int i = 0; i < 22; i++) {
 			houses.add(new House("house" + Integer.toString(i + 1)));
 		}
-		for(int i = 0; i < 10; i++) {
-			houses.add(new Apartment("apart1", i));
+		for(int i = 0; i < 20; i++) {
+			Apartment a= new Apartment("apart1 " + i, i);
+			a.setRoom(i);
+			a.setBuilding(1);
+			houses.add(a);
 		}
-		for(int i = 0; i < 10; i++) {
-			houses.add(new Apartment("apart2", i));
+		for(int i = 0; i < 20; i++) {
+			Apartment a= new Apartment("apart2 " + i, i);
+			a.setRoom(i);
+			a.setBuilding(2);
+			houses.add(a);
 		}
-		System.out.println("Created houses.");
+		System.out.println("Created " + houses.size() + " houses including apartments");
 	}
 
 	public List<House> getHouses(){
@@ -688,6 +690,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 13000	);
 
+		addPersonWithCar("rest1Test", "No Job");
+
 		addPersonNoHouse("host", "Restaurant2 Host");
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
 		addPersonNoHouse("cook", "Restaurant2 Cook");
@@ -709,6 +713,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
 		addPerson("rest4Test", "No job");
+		addPersonWithCar("rest4Test", "No job");
 
 	}
 
@@ -806,7 +811,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);
 
 		addPersonNoHouse("bank manager", "Bank Manager");
-		addPersonNoHouse("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
 		addPerson("bankCustomerTest", "No job");
 
 	}
@@ -825,6 +830,27 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("joe", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
 
 	}
 

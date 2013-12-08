@@ -51,8 +51,8 @@ public class CustomerGui3 implements Gui{
 		agent = c;
 		xPos = HIDDEN_X;
 		yPos = HIDDEN_Y;
-		xDestination = customerX;
-		yDestination = customerY;
+		xDestination = customerX - 25;
+		yDestination = customerY - 25;
 		index = customerIndex;
 	}
 	

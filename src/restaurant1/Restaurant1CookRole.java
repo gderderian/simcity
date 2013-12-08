@@ -26,7 +26,7 @@ public class Restaurant1CookRole extends Role {
 	
 	String roleName = "Restaurant1CookRole";
 	
-	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
+	public List<Restaurant1Order> orders = Collections.synchronizedList(new ArrayList<Restaurant1Order>());
 
 	private MarketManager market;
 	
@@ -78,18 +78,18 @@ public class Restaurant1CookRole extends Role {
 
 	// Messages
 	public void msgHereIsOrder(Restaurant1WaiterRole w, String choice, int table) {
-		orders.add(new Order(w, choice, table, orderState.pending, orderCount++));
+		orders.add(new Restaurant1Order(w, choice, table, orderState.pending, orderCount++));
 		person.stateChanged();
 	}
 	
-	public void msgFoodDoneCooking(Order o) {
+	public void msgFoodDoneCooking(Restaurant1Order o) {
 		o.s = orderState.cooked;
 		person.stateChanged();
 	}
 	
 	public void msgPickedUpOrder(int orderNumber) {
 		synchronized(orders) {
-			for(Order o : orders) {
+			for(Restaurant1Order o : orders) {
 				if(o.orderNumber == orderNumber) {
 					o.s = orderState.pickedUp;
 				}
@@ -151,7 +151,7 @@ public class Restaurant1CookRole extends Role {
 		}
 		
 		synchronized(orders) {
-			for(Order o : orders) {
+			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pickedUp) {
 					finishIt(o);
 					return true;
@@ -160,7 +160,7 @@ public class Restaurant1CookRole extends Role {
 		}
 
 		synchronized(orders) {
-			for(Order o : orders) {
+			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.cooked) {
 					plateIt(o);
 					return true;
@@ -169,7 +169,7 @@ public class Restaurant1CookRole extends Role {
 		}
 
 		synchronized(orders) {
-			for(Order o : orders) {
+			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pending) {
 					cookIt(o);
 					return true;
@@ -184,7 +184,7 @@ public class Restaurant1CookRole extends Role {
 
 	// Actions
 
-	private void cookIt(final Order o) {
+	private void cookIt(final Restaurant1Order o) {
 		//Animation
 		//DoCooking(o) 
 
@@ -241,7 +241,7 @@ public class Restaurant1CookRole extends Role {
 						}, cookTime	);
 	}
 
-	private void plateIt(Order o) {
+	private void plateIt(Restaurant1Order o) {
 		DoGoToGrill();
 		try {
 			atDestination.acquire();
@@ -264,7 +264,7 @@ public class Restaurant1CookRole extends Role {
 		o.w.msgOrderDone(o.choice, o.table, o.orderNumber);
 	}
 	
-	private void finishIt(Order o) {
+	private void finishIt(Restaurant1Order o) {
 		cookGui.msgOrderPickedUp(o.orderNumber);
 		o.s = orderState.finished;
 	}
@@ -332,22 +332,6 @@ public class Restaurant1CookRole extends Role {
 	
 	public void addMarket(MarketManager m) {
 		market = m;
-	}
-
-	private class Order {
-		Restaurant1WaiterRole w;
-		String choice;
-		int table;
-		orderState s;
-		int orderNumber;
-		
-		Order(Restaurant1WaiterRole w, String choice, int table, orderState s, int number) {
-			this.w = w;
-			this.choice = choice;
-			this.table = table;
-			this.s = s;
-			this.orderNumber = number;
-		}
 	}
 	
 	private class Food {

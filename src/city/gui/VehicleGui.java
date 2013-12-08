@@ -38,7 +38,7 @@ public class VehicleGui implements Gui {
 			xPos = 450;
 			yPos = 390;
 		} else {
-			xPos = 660;
+			xPos = 630;
 			yPos = 660;
 		}
 
@@ -122,4 +122,11 @@ public class VehicleGui implements Gui {
 			isPresent = false;
 	}
 
+	public void teleport(int x, int y) {
+		xPos = x;
+		yPos = y;
+		xDest = x;
+		yDest = y;
+		
+	}
 }

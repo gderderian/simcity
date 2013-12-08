@@ -3,9 +3,10 @@ package city.gui.House;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import city.gui.Gui;
 import Role.LandlordRole;
 
-public class LandlordGui {
+public class LandlordGui implements Gui{
         LandlordRole landlord;
         
         private int xPos = 100, yPos = 100;//default waiter position
@@ -97,4 +98,10 @@ public class LandlordGui {
                     goingToStove= true;
             }
     }
+
+	@Override
+	public void setPresent(boolean t) {
+		// TODO Auto-generated method stub
+		
+	}
 }

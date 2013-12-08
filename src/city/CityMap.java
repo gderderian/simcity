@@ -4,6 +4,7 @@ import interfaces.BusStop;
 import interfaces.Restaurant2Customer;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import justinetesting.interfaces.Customer4;
 import restaurant1.Restaurant1;
@@ -18,6 +19,7 @@ import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
+import Role.BankTellerRole;
 import Role.Role;
 import astar.Position;
 
@@ -35,6 +37,8 @@ public class CityMap {
 	Map<String, Position> parkingLocations = new HashMap<String, Position>();
 	List<Position> parkingEntrances = new ArrayList<Position>();
 	List<String> restaurants = new ArrayList<String>();
+	
+	private Semaphore intersection = new Semaphore(1, true);
 	
 	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
@@ -85,7 +89,7 @@ public class CityMap {
 		buildingLocations.put("house16", new Position(0,6));
 		buildingLocations.put("house17", new Position(0,10));
 		buildingLocations.put("house18", new Position(0,14));
-		buildingLocations.put("house29", new Position(0,16));
+		buildingLocations.put("house19", new Position(0,16));
 		buildingLocations.put("house20", new Position(3,18));
 		buildingLocations.put("house21", new Position(4,18));
 		buildingLocations.put("house22", new Position(11,18));
@@ -162,9 +166,18 @@ public class CityMap {
 		restaurants.add("Restaurant5");
 	}
 	
+	public void enterIntersection() {
+		try {
+			intersection.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
-	
-	
+	public void leaveIntersection() {
+		intersection.release();
+	}
 	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
@@ -302,6 +315,8 @@ public class CityMap {
 		}
 		if(num == 3){
 			restaurant3.getHost().msgIWantFood((CustomerRole3) customer, 0, 0);
+			((CustomerRole3) customer).setHost(restaurant3.getHost());
+			((CustomerRole3) customer).setCashier(restaurant3.getCashier());
 		}
 		if(num == 4){
 			restaurant4.getHost().msgIWantFood((Customer4) customer);
@@ -313,6 +328,15 @@ public class CityMap {
 			
 			
 		}
+	}
+	
+	
+	
+	public void msgArrivedAtBank(Role bankteller) {
+		
+		//bank.getManager().msgIWantFood((Restaurant5Customer) customer);
+		bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) bankteller);
+		//this.setRoleActive(findrole);
 	}
 	
 }

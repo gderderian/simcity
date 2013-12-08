@@ -113,6 +113,7 @@ public class BankManagerRole extends Role{
 		//Do("im in the scheduler");
 		//Do("" + banktellers.size());
 
+		//Do("!!!!!!!!!!!!!!! bank manager gui " + gui);
 		synchronized(banktellers)
 		{
 

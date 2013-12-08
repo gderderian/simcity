@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 /* NOTE: This code is not used in Restaurant V2 */
 
 public class Restaurant1CookGui implements Gui {
@@ -25,6 +27,16 @@ public class Restaurant1CookGui implements Gui {
     private int xPos = XPOS, yPos = YPOS;//default waiter position
     private int xDestination = XPOS, yDestination = YPOS;//default start position
     
+	ImageIcon icon1 = new ImageIcon("images/cook1.png");
+	ImageIcon icon2 = new ImageIcon("images/cook2.png");
+	ImageIcon icon3 = new ImageIcon("images/cook3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = icon1;
+	
+    
     private List<MyOrder> orders = Collections.synchronizedList(new ArrayList<MyOrder>());
     int cookingLocation = 0, waitingLocation = 0;
     
@@ -33,6 +45,20 @@ public class Restaurant1CookGui implements Gui {
     }
 
     public void updatePosition() {
+		//Code for switching pictures to create animation
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = icon1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = icon2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = icon3;
+        	else
+        		icon = icon2;
+    	} else icon = icon2;
+		
         if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
@@ -50,16 +76,7 @@ public class Restaurant1CookGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.GRAY);
-        g.fillRect(xPos, yPos, 30, 30); // Size/position of gui
-        g.setColor(Color.BLACK);
-        g.drawRect(xPos - 1, yPos - 1, 31, 31);
-        g.drawRect(xPos - 2, yPos - 2, 33, 33);
-
-        Font font = new Font("Arial", Font.BOLD, 12);
-        g.setFont(font);
-        g.setColor(Color.BLACK);
-        g.drawString("Cook", xPos + 1, yPos + 20);   
+    	g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
         
         // Drawing the cooking area
         g.setColor(Color.GRAY);

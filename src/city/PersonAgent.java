@@ -71,7 +71,7 @@ public class PersonAgent extends Agent implements Person{
 	double moneyToDeposit;
 
 	//Bank
-	Bank bank;
+	Bank bank = new Bank();
 	BankTellerRole bankTeller;
 	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
 	BankState bankState;
@@ -123,7 +123,16 @@ public class PersonAgent extends Agent implements Person{
 		homeGui= new HomeOwnerGui(this);
 
 		if(house != null) {
-			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
+			System.out.println("house.getName(): " + house.getName());
+			if(house.getName().contains("apart1")){
+				currentPosition = new Position(map.getX("apart1"), map.getY("apart1"));
+			}
+			else if(house.getName().contains("apart2")){
+				currentPosition = new Position(map.getX("apart2"), map.getY("apart2"));
+			}
+			else{
+				currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
+			}
 		} else {
 			currentPosition = new Position(20, 18);
 		}
@@ -183,6 +192,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void setGui(PersonGui g){
 		gui = g;
+		goHome(); // each person initially starts in their house
 	}
 
 	public void addRole(Role r, boolean active){
@@ -285,29 +295,52 @@ public class PersonAgent extends Agent implements Person{
 
 		timeOfDay = t;
 
-		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") || name.equals("waiter3") || name.equals("waiter4")
-				|| name.equals("waiter5"))){
+		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller") || name.equals("MarketManager"))){
 			synchronized(tasks){
-				tasks.add(new PersonTask(TaskType.goToWork));
+				PersonTask task = new PersonTask(TaskType.goToWork);
+				tasks.add(task);
+				if(name.equals("bank teller"))
+				{
+					task.role = "BankTellerRole";
+				} else if (name.equals("MarketManager")){
+					task.role = "MarketManager";
+				}
 			}
-			log("Its time for me to go to work");
+			log("It's time for me to go to work!");
 			stateChanged();
 		}
-		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") ||/* name.equals("rest1Test") || */name.equals("rest4Test")
+		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
-			log("It's time for me to eat something");
+			log("It's time for me to eat something.");
 			stateChanged();
 		}
 		else if(t > 5000 && t < 7000 && name.equals("rest1Test")) {
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
-			log("It's time for me to eat something");
+			log("It's time for me to eat something.");
 			stateChanged();
 		}
+		else if(t > 19000 && t < 21000 && (name.equals("bankCustomerTest")))
+		{
+			synchronized(tasks) {
+				tasks.add(new PersonTask(TaskType.goToBank));
+			}
+			log("It's time for me to go to bank.");
+			
+		} else if(t > 19000 && t < 21000 && (name.equals("marketClient")))
+		{
+			synchronized(tasks) {
+				tasks.add(new PersonTask(TaskType.goToMarket));
+			}
+			log("It's time for me to buy something from the market.");
+			
+		}
+
+
 
 	}
 	//From house
@@ -365,9 +398,10 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	//Messages from bus/bus stop
-	public void msgArrivedAtStop(int stop) {
+	public void msgArrivedAtStop(int stop, Position p) {
 		if(busRide.finalStop == stop){
 			busRide.state = BusRideState.getOffBus;
+			busRide.busPos = p;
 			log("Arrived at the correct bus stop, I can get off!");
 		}
 		stateChanged();
@@ -379,9 +413,10 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 
-	public void msgBusIsHere(Bus b) { //Sent from bus stop
+	public void msgBusIsHere(Bus b, Position p) { //Sent from bus stop
 		log("Recieved message bus is here");
 		busRide.bus = b;
+		busRide.busPos = p;
 		busRide.state = BusRideState.busIsHere;
 		stateChanged();
 	}
@@ -389,6 +424,7 @@ public class PersonAgent extends Agent implements Person{
 	//Messages from car
 	public void msgImPickingYouUp(Car car, Position p) { 
 		log.add(new LoggedEvent("Received message ImPickingYouUp from car"));
+		log("Recieved message ImPickingYouUp from car");
 		carRide.state = CarRideState.pickingMeUp;
 		carRide.carLocation = p;
 		stateChanged();
@@ -455,11 +491,13 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
+
+
 		if(name.equals("bankCustomerTest") && callonce == false) {
 			goToBank(new PersonTask(TaskType.goToBank));
 			callonce = true;
 		}
+
 
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -555,10 +593,12 @@ public class PersonAgent extends Agent implements Person{
 		//Go to bank
 		synchronized(tasks){
 			for(PersonTask t: tasks){
-				if(t.type == TaskType.goToBank && t.state == State.initial){
-				goToBank(t);
-				t.state = State.processing;
-				return true;
+
+				if(t.type == TaskType.goToBank && t.state == State.initial) {
+					Do("!!!!!!!!!!!!!!!!!!!!!!  I'm calling go to bank function");
+					goToBank(t);
+					t.state = State.processing;
+					return true;
 				}
 			}
 		}
@@ -612,7 +652,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		
+
 		boolean anyActive= false;
 		/*
 		synchronized(roles){
@@ -635,9 +675,19 @@ public class PersonAgent extends Agent implements Person{
 		if(!atHome){
 			log("Going home");
 			if(house != null){
-				DoGoTo(house.getName(), null);
+				String location;
+				if(house.getName().contains("apart1")){
+					location = "apart1";
+				}
+				else if(house.getName().contains("apart2")){
+					location = "apart2";
+				}
+				else{
+					location = house.getName();
+				}
+				DoGoTo(location, null);
 				house.getAnimationPanel().addGui(homeGui);
-				homeGui.goToBed();
+				//homeGui.goToBed();
 			}	
 			atHome= true;
 		}
@@ -674,6 +724,7 @@ public class PersonAgent extends Agent implements Person{
 		else if(task.type == TaskType.goToWork){
 			myJob.startJob();
 		}
+
 		else if(task.type == TaskType.goToBank){
 			log.add(new LoggedEvent("Decided to go to the bank"));
 			if(role != null){
@@ -683,6 +734,12 @@ public class PersonAgent extends Agent implements Person{
 			else{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
+		}
+		else if(task.type == TaskType.goToMarket){
+			log("I should give the market manager my order!");
+			MarketOrder o = new MarketOrder(groceryList.get(0), this);
+			cityMap.market.mktManager.msgHereIsOrder(o);
+
 		}
 	}
 
@@ -699,6 +756,26 @@ public class PersonAgent extends Agent implements Person{
 		else{
 			DoGoTo(myJob.location, task);
 		}
+
+
+		/*if(task.role.equals("BankTellerRole"))
+		
+		
+		
+		{	
+			for(Role findrole : roles)
+			{
+				if(findrole instanceof BankTellerRole)
+				{
+					Do("Bank teller is at the bank");
+					//bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) findrole);
+					//this.setRoleActive(findrole);
+					cityMap.msgArrivedAtBank(findrole);
+				}
+			}
+		}
+		*/
+		
 		//This needs to be moved into the reachedDestination() function
 		//myJob.startJob();
 	}
@@ -723,6 +800,9 @@ public class PersonAgent extends Agent implements Person{
 			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
 		else if(name.equals("joe")){
+			if(!atHome){
+				goHome();
+			}
 			homeGui.goToFridge();         
 			try{
 				atDestination.acquire();
@@ -730,11 +810,11 @@ public class PersonAgent extends Agent implements Person{
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
-			groceryList.add(food);
-			homeGui.goToExit(); 
+			//groceryList.add(food);
+			/*homeGui.goToExit(); 
 			try{
 				atDestination.acquire();
-			} catch (InterruptedException e){}
+			} catch (InterruptedException e){}*/
 			/*MarketOrder o= new MarketOrder(food, this);
         	log("IS THE MARKET MANAGER NULL? " + cityMap.market.mktManager);
         	cityMap.market.mktManager.msgHereIsOrder(o);
@@ -889,6 +969,14 @@ public class PersonAgent extends Agent implements Person{
 
 
 	public void getOnBus(){
+		gui.moveTo(busRide.busPos.getX() * 30 + 120, busRide.busPos.getY() * 30 + 60);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		gui.setInvisible();
 		busRide.state = BusRideState.onBus;
 		log.add(new LoggedEvent("Getting on the bus"));
@@ -906,13 +994,29 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void getOffBus(){
+		log("Getting off the bus");
+
+		int busX = busRide.busPos.getX();
+		int busY = busRide.busPos.getY();
+		gui.teleport(busX * 30 + 120, busY * 30 + 60);
+		gui.setVisible();
+
 		busRide.state = BusRideState.done;
 		busRide.bus.msgImGettingOff(this);
-		log("Getting off the bus");
+
 		String thisStop = "stop" + Integer.toString(busRide.finalStop);
+
 		int x = cityMap.getX(thisStop);
 		int y = cityMap.getY(thisStop);
-		gui.teleport(x * 30 + 130, y * 30 + 70);
+
+		gui.moveTo(x * 30 + 120, y * 30 + 60);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		currentPosition.release(aStar.getGrid());
 		currentPosition = new Position(x, y);
 		currentPosition.moveInto(aStar.getGrid());
@@ -932,6 +1036,11 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void tellCarWhereToDrive(CarRide ride) {
+		if(atHome){
+			homeGui.goToExit();
+			gui.setVisible();
+			house.getAnimationPanel().notInHouse(homeGui);
+		}
 		gui.moveTo(ride.carLocation.getX() * 30 + 120, ride.carLocation.getY() * 30 + 60);
 		try {
 			atDestination.acquire();
@@ -945,14 +1054,14 @@ public class PersonAgent extends Agent implements Person{
 		ride.car.msgDriveTo(this, ride.destination);
 		log.add(new LoggedEvent("Telling car to go to " + ride.destination));
 	}
-	
+
 	public void getOutOfCar(CarRide ride){
 		int carX = ride.carLocation.getX();
 		int carY = ride.carLocation.getY();
 		gui.teleport(carX * 30 + 120, carY * 30 + 60);
 		gui.setVisible();
 		ride.car.msgParkCar(this);
-		
+
 		log.add(new LoggedEvent("Telling car to park"));
 
 		int x = cityMap.getX(ride.destination);
@@ -964,12 +1073,12 @@ public class PersonAgent extends Agent implements Person{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		currentPosition.release(aStar.getGrid());
 		currentPosition = new Position(x, y);
 		currentPosition.moveInto(aStar.getGrid());
 		gui.setInvisible();
-		
+
 		//Will need to pass in the current task when this get used regularly
 		PersonTask task = null;
 		synchronized(tasks){
@@ -991,12 +1100,28 @@ public class PersonAgent extends Agent implements Person{
 
 	public void goGroceryShopping(PersonTask task){
 		log("I'm headed out to the market to buy food now.");
+		if(atHome){
+			homeGui.goToExit(); 
+			try{
+				atDestination.acquire();
+			} catch (InterruptedException e){}
+		}
+		//String location = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
+		String location;
+		Random rand = new Random();
+		int num= rand.nextInt(3);
+		if(num == 0)
+			location= "mark1";
+		else if(num == 1)
+			location= "mark2";
+		else
+			location = "mark3";
 
-		String location = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
 		task.location = location;
 		task.role = "MarketCustomerRole";
 
-		if(car != null){
+		if(car == null){
+			log("location: " + location);
 			DoGoTo(location, task);
 		}
 		else{
@@ -1005,7 +1130,7 @@ public class PersonAgent extends Agent implements Person{
 		task.state = State.inTransit;
 
 		/*
-		 * This will be moved to reachedDestination() function
+		 * This was moved to reachedDestination() function
 		MarketOrder o = new MarketOrder(groceryList.get(0), this);
 		cityMap.market.mktManager.msgHereIsOrder(o);
 		 */
@@ -1076,31 +1201,37 @@ public class PersonAgent extends Agent implements Person{
 		gui.setVisible();
 		int x = cityMap.getX(location);
 		int y = cityMap.getY(location);
+		int myX = currentPosition.getX();
+		int myY = currentPosition.getY();
 
 		Position p = new Position(x, y);
-		if(currentPosition.distance(p) > 25) {	// || name.equals("BusTest")
-			if(task != null){
-				task.transportation = Transportation.bus;
+		if((Math.abs(myX - x) > 20) || Math.abs(myY - y) > 17) {
+			if(!(x > 16 && myX > 16) && !(x < 5 && myX < 5) && !(y < 5 && myY < 5) && !(y > 13 && myY > 13)){	// || name.equals("BusTest")
+				if(task != null){
+					task.transportation = Transportation.bus;
+				}
+				int startingBusStop = cityMap.getClosestBusStop(currentPosition);
+				int busStopToGetOffAt = cityMap.getClosestBusStop(location);
+				busRide.finalStop = busStopToGetOffAt;
+				busRide.initialStop = startingBusStop;
+				busRide.destination = location;
+				DoGoTo("stop" + Integer.toString(startingBusStop), task);
+				busRide.busStopAgent = cityMap.getBusStop(startingBusStop);
+				busRide.busStopAgent.msgWaitingForBus(this);
+				gui.setVisible(); /*Person will stand outside bus stop*/
+				return;
 			}
-			int startingBusStop = cityMap.getClosestBusStop(currentPosition);
-			int busStopToGetOffAt = cityMap.getClosestBusStop(location);
-			busRide.finalStop = busStopToGetOffAt;
-			busRide.initialStop = startingBusStop;
-			busRide.destination = location;
-			DoGoTo("stop" + Integer.toString(startingBusStop), task);
-			busRide.busStopAgent = cityMap.getBusStop(startingBusStop);
-			busRide.busStopAgent.msgWaitingForBus(this);
-			gui.setVisible(); /*Person will stand outside bus stop*/
-			return;
 		}
 		if(task != null){
 			if(task.transportation != Transportation.bus && task.transportation != Transportation.car)
 				task.transportation = Transportation.walking;
 		}
 		moveTo(x, y);
-		if(task != null)
+		if(task != null) {
 			task.state = State.arrived;
-		if(task.transportation == Transportation.walking){
+			log("ARRIVED");
+		}
+		if((task != null) && (task.transportation == Transportation.walking)){
 			reachedDestination(task);
 		}
 		gui.setInvisible();
@@ -1198,6 +1329,11 @@ public class PersonAgent extends Agent implements Person{
 		 */
 	}
 
+	public void setBank(Bank bank)
+	{
+		this.bank = bank;
+	}
+
 	public void addCar(Car c) {
 		car = c;
 	}
@@ -1248,6 +1384,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public class BusRide{
 		public Bus bus;
+		public Position busPos;
 		public double fare;
 		public BusRideState state;
 		public int finalStop;

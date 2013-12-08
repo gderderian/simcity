@@ -21,6 +21,9 @@ public abstract class Vehicle extends Agent {
 	AStarTraversal aStar;
 	Semaphore guiFinished;
 	
+	boolean inIntersection = false;
+	final int intersectionLeft = 13, intersectionRight = 21, intersectionTop = 10, intersectionBottom = 18;
+	
 	CityMap cityMap;
 	
 	VehicleGui gui;
@@ -104,6 +107,28 @@ public abstract class Vehicle extends Agent {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		    
+		    int x = currentPosition.getX();
+		    int y = currentPosition.getY();
+		    
+		    if(x >= intersectionLeft && x <= intersectionRight && y >= intersectionTop && y <= intersectionBottom) {
+		    	if(!inIntersection) {
+		    		try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		    		
+		    		cityMap.enterIntersection();
+		    		inIntersection = true;
+		    	}
+		    } else {
+		    	if(inIntersection) {
+		    		cityMap.leaveIntersection();
+		    		inIntersection = false;
+		    	}
+		    }
 		}
 		/*
 		boolean pathTaken = false;

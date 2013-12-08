@@ -41,6 +41,7 @@ public class CarAgent extends Vehicle implements Car {
 		
 		
 		currentPosition = new Position(11, 11);
+		currentPosition.moveInto(aStar.getGrid());
 	}
 	
 	//Messages
@@ -104,6 +105,7 @@ public class CarAgent extends Vehicle implements Car {
 	
 	//Actions
 	private void driveToOwner() {
+		
 		int x = ownerLocation.getX();
 		int y = ownerLocation.getY();
 		
@@ -131,6 +133,7 @@ public class CarAgent extends Vehicle implements Car {
 		event = CarEvent.arrivingAtOwner;
 	}
 	private void driveToDestination() {
+		
 		int x = cityMap.getX(destination);
 		int y = cityMap.getY(destination);
 
@@ -166,6 +169,10 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	private void parkCar() {
+		if(aStar == null) {
+			log("Driving to nearest parking entrance.");
+			return;
+		}
 		Position parkingEntrance = cityMap.getParkingEntrance(currentPosition);
 		log("Parking...");
 		guiMoveFromCurrentPositionTo(parkingEntrance);

@@ -9,6 +9,7 @@ import java.util.*;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import agent.Agent;
+import astar.Position;
 
 public class BusStopAgent extends Agent implements BusStop {
 	//Data
@@ -74,7 +75,7 @@ public class BusStopAgent extends Agent implements BusStop {
 			while(i < b.openSpots && !peopleWaiting.isEmpty()) {
 				Person temp = peopleWaiting.get(0);
 				newPassengers.add(temp);
-				temp.msgBusIsHere(b.b); //Need reference to bus or not? Bus will message person anyways.
+				personBusMessage(temp, b);
 				peopleWaiting.remove(temp);
 				i++;
 			}
@@ -83,6 +84,23 @@ public class BusStopAgent extends Agent implements BusStop {
 			log("Here are " + newPassengers.size() + " passengers!");
 			b.b.msgPeopleBoarding(newPassengers);
 			buses.remove(b);
+		}
+	}
+	
+	private void personBusMessage(Person p, MyBus b) {
+		switch(number) {
+		case 0: 
+			p.msgBusIsHere(b.b, new Position(17, 8));
+			break;
+		case 1:
+			p.msgBusIsHere(b.b, new Position(10, 4));
+			break;
+		case 2:
+			p.msgBusIsHere(b.b, new Position(4, 9));
+			break;
+		case 3:
+			p.msgBusIsHere(b.b, new Position(8, 14));
+			break;
 		}
 	}
 
