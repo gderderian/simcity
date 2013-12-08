@@ -29,6 +29,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
@@ -56,20 +57,33 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton addPersonB = new JButton("Add");
     private JTabbedPane controlPane = new JTabbedPane();
     private JPanel worldControls = new JPanel();
+    private JPanel timeSelectionPanel = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JLabel clickBuildings = new JLabel("Click on a building to see inside!");
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton startScenario = new JButton("Start scenario!");
+    private JButton changeTime = new JButton("Change Time");
     private JPanel backButtonPanel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
-
+    
+    // Timer GUI display & control functionality
     private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
+    
+    private String[] hours = {"12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
+    private JComboBox hourSelect = new JComboBox(hours);
+    
+    private String[] minutes = {"00", "15", "30", "45"};
+    private JComboBox minuteSelect = new JComboBox(minutes);
+    
+    private String[] amPm = {"am", "pm"};
+    private JComboBox amPmSelect = new JComboBox(amPm);
+    
     
     private Timer timer = new Timer();
     
@@ -209,11 +223,38 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     private void setupWorldControls(){
     	
+    	// Scenario selection
     	Dimension dropDownSize = new Dimension(WINDOWX, 30);
     	startScenario.addActionListener(this);
     	scenarioSelect.addActionListener(this);
     	scenarioSelect.setPreferredSize(dropDownSize);
     	scenarioSelect.setMaximumSize(dropDownSize);
+    	
+    	// Manual timer Controls
+    	Dimension timerControlDropdownSize = new Dimension(70, 30);
+    	changeTime.addActionListener(this);
+    	
+    	// Hour dropdown
+    	hourSelect.addActionListener(this);
+    	hourSelect.setPreferredSize(timerControlDropdownSize);
+    	hourSelect.setMaximumSize(timerControlDropdownSize);
+    	
+    	// Minute Dropdown
+    	minuteSelect.addActionListener(this);
+    	minuteSelect.setPreferredSize(timerControlDropdownSize);
+    	minuteSelect.setMaximumSize(timerControlDropdownSize);
+    	
+    	// am/pm Select Dropdown
+    	amPmSelect.addActionListener(this);
+    	amPmSelect.setPreferredSize(timerControlDropdownSize);
+    	amPmSelect.setMaximumSize(timerControlDropdownSize);
+    	
+    	// Add all to single panel
+    	timeSelectionPanel.add(hourSelect);
+    	timeSelectionPanel.add(minuteSelect);
+    	timeSelectionPanel.add(amPmSelect);
+    	timeSelectionPanel.add(Box.createVerticalStrut(1));
+    	timeSelectionPanel.add(changeTime);
     	
     	//This add(Box) function creates a space on the JPanel - using it here for spacing the buttons out to look nice
     	worldControls.add(Box.createVerticalStrut(10));
@@ -232,6 +273,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     	worldControls.add(Box.createVerticalStrut(10));
     	worldControls.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	// worldControls.add(new JSeparator());
+    	worldControls.add(timeSelectionPanel);
     }
     
     private void addPersonSection(){
@@ -359,6 +402,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource() == backToCity) {
 			cityGui.backToCityView();
 			backToCity.setEnabled(false);
+		}
+		
+		else if(e.getSource() == changeTime) {
+			cityGui.setTime(hourSelect.getSelectedItem().toString(), minuteSelect.getSelectedItem().toString(), amPmSelect.getSelectedItem().toString());
 		}
 	}
 

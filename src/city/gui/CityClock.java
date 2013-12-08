@@ -206,17 +206,17 @@ public class CityClock {
 		int calcDayHours = 179999 * hour;
 		int totalDayHours = calcDayHours / 24;
 		
-		//System.out.println("Newly set hours: " + totalDayHours);
+		System.out.println("Newly set hours: " + totalDayHours);
 		
 		// Calculate minutes in total day timer
 		int calcDayMinutes = 179999 * minute;
 		int totalDayMinutes = calcDayMinutes / 60;
 		
-		//System.out.println("Newly set minutes: " + totalDayMinutes);
+		System.out.println("Newly set minutes: " + totalDayMinutes);
 		
 		int finalTimerSet = totalDayHours + totalDayMinutes + 1; // This is what our timer needs to be reset and then set to
 		
-		//System.out.println("Newly set total: " + finalTimerSet);
+		System.out.println("Newly set total: " + finalTimerSet);
 		
 		if (finalTimerSet <= 59999){
 			dayState = dayStates.morning;
@@ -229,10 +229,11 @@ public class CityClock {
 		beginTime = System.currentTimeMillis() - (finalTimerSet);
 		
 		cityTime.stop();
-		cityTime.setDelay(finalTimerSet);
+		
+		cityTime.setInitialDelay(179999 - finalTimerSet);
 		manualSet = true;
-		//System.out.println("Time delay: " + cityTime.getDelay());
-		cityTime.restart();
+		System.out.println("Time delay: " + cityTime.getDelay() + " - New begin: " + finalTimerSet);
+		cityTime.start();
 		//beginTime = System.currentTimeMillis();
 		//checkTimer.restart();
 		

@@ -978,4 +978,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		else return null;
 	}
+	
+	public void setTime(String hour, String minute, String amPm){
+		masterClock.setDayTime(Integer.parseInt(hour), Integer.parseInt(minute), amPm);
+	}
+	
 }
