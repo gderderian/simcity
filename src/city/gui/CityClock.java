@@ -64,12 +64,14 @@ public class CityClock {
 						dayState = dayStates.night;
 					}
 					
-					// Below is debug test
+					// Below is test to manually set date/time if necessary
+					/*
 					if (dayState == dayStates.afternoon){
-						// setDayTime(10, 0, "am");
+						setDayTime(10, 0, "pm");
 					}
+					*/
 					
-					System.out.println("Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState() + "  - Delay is " + cityTime.getDelay());
+					//System.out.println("Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState() + "  - Delay is " + cityTime.getDelay());
 					//System.out.println("Human time is " + getHumanTime());
 					String fullTimeToSend = getHumanTime() + "  -  " + getDayOfWeek() + "  -  Week " + week;
 					cityGui.timerTick(getCurrentTime(), getHourOfDayInHumanTime(), getMinuteOfDay(), getDayState(), getAmPm(), fullTimeToSend);
@@ -204,17 +206,17 @@ public class CityClock {
 		int calcDayHours = 179999 * hour;
 		int totalDayHours = calcDayHours / 24;
 		
-		System.out.println("Newly set hours: " + totalDayHours);
+		//System.out.println("Newly set hours: " + totalDayHours);
 		
 		// Calculate minutes in total day timer
 		int calcDayMinutes = 179999 * minute;
 		int totalDayMinutes = calcDayMinutes / 60;
 		
-		System.out.println("Newly set minutes: " + totalDayMinutes);
+		//System.out.println("Newly set minutes: " + totalDayMinutes);
 		
 		int finalTimerSet = totalDayHours + totalDayMinutes + 1; // This is what our timer needs to be reset and then set to
 		
-		System.out.println("Newly set total: " + finalTimerSet);
+		//System.out.println("Newly set total: " + finalTimerSet);
 		
 		if (finalTimerSet <= 59999){
 			dayState = dayStates.morning;
@@ -229,12 +231,12 @@ public class CityClock {
 		cityTime.stop();
 		cityTime.setDelay(finalTimerSet);
 		manualSet = true;
-		System.out.println("Time delay: " + cityTime.getDelay());
+		//System.out.println("Time delay: " + cityTime.getDelay());
 		cityTime.restart();
 		//beginTime = System.currentTimeMillis();
 		//checkTimer.restart();
 		
-		System.out.println("Newly set time: " + getHumanTime());
+		//System.out.println("Newly set time: " + getHumanTime());
 		
 	}
 	
