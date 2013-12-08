@@ -47,6 +47,9 @@ public class CityMap {
 	Restaurant5 restaurant5;
 	Bank bank;
 	Market market;
+	ApartmentBuilding apart1;
+	ApartmentBuilding apart2;
+	
 	
 	public CityMap() {
 		//Restaurant locations
@@ -207,12 +210,19 @@ public class CityMap {
 		bank = b;
 	}
 	
+	public void setApartment1(ApartmentBuilding b){
+		apart1= b;
+	}
+	
+	public void setApartment2(ApartmentBuilding b){
+		apart2= b;
+	}
+	
 	public Position getParkingLocation(String location) {
 		return parkingLocations.get(location);
 	}
 	
 	public int getX(String location) {
-		System.out.println("LOCATION: " + location);
 		return buildingLocations.get(location).getX();
 	}
 	

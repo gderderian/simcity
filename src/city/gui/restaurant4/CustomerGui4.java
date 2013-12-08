@@ -2,7 +2,10 @@ package city.gui.restaurant4;
 
 import city.Restaurant4.CustomerRole4;
 import city.gui.Gui;
+
 import java.awt.*;
+
+import javax.swing.ImageIcon;
 
 public class CustomerGui4 implements Gui{
 	
@@ -18,9 +21,18 @@ public class CustomerGui4 implements Gui{
 
 	public static final int xTable = 100;
 	public static final int yTable = 250;
-	private static final int foodDisplacement= 30;
+	private static final int foodDisplacement= 40;
 	private static final int movement= -40;
 
+	ImageIcon flat1 = new ImageIcon("images/person_flat1.png");
+	ImageIcon flat2 = new ImageIcon("images/person_flat2.png");
+	ImageIcon flat3 = new ImageIcon("images/person_flat3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = flat1;
+	
 	public CustomerGui4(CustomerRole4 c/*, RestaurantGui4 gui*/){
 		agent = c;
 		setxPos(20);
@@ -32,6 +44,21 @@ public class CustomerGui4 implements Gui{
 	}
 
 	public void updatePosition() {
+		//Code for switching pictures to create animation
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = flat1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = flat2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = flat3;
+        	else
+        		icon = flat2;
+		} else icon = flat2;
+		
+		//Code for moving 
 		if (getxPos() < getxDestination())
 			setxPos(getxPos() + 1);
 		else if (getxPos() > getxDestination())
@@ -54,8 +81,10 @@ public class CustomerGui4 implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(getxPos(), getyPos(), customerDimensions, customerDimensions);
+		//g.setColor(Color.GREEN);
+		//g.fillRect(getxPos(), getyPos(), customerDimensions, customerDimensions);
+		g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
+		
 		if(agent.getState() == "eating"){
 			g.setColor(Color.BLACK);
 			if(agent.getChoice() == "Eggs"){

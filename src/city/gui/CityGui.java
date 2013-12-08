@@ -11,6 +11,7 @@ import restaurant1.Restaurant1CashierRole;
 import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
+import restaurant1.Restaurant1NormalWaiterRole;
 import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
 import restaurant1.gui.Restaurant1CashierGui;
@@ -31,10 +32,12 @@ import city.gui.Bank.BankManagerRoleGui;
 import city.gui.Bank.BankTellerRoleGui;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
+import city.gui.House.LandlordGui;
 import city.gui.Market.MarketAnimationPanel;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
+import Role.LandlordRole;
 import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
@@ -45,6 +48,7 @@ import city.gui.restaurant4.AnimationPanel4;
 import city.gui.restaurant4.CookGui4;
 import city.gui.restaurant4.CustomerGui4;
 import city.gui.restaurant4.WaiterGui4;
+import city.ApartmentBuilding;
 import city.Bank;
 import city.CityMap;
 import city.House;
@@ -142,9 +146,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
 	ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
+	ApartmentBuilding apart1= new ApartmentBuilding();
 	
 	//HouseAnimationPanel house1= new HouseAnimationPanel();
 	ArrayList<HouseAnimationPanel> houses = new ArrayList<HouseAnimationPanel>();
+	ApartmentBuilding apart2= new ApartmentBuilding();
 	
 	// Master list of city buildings
 	List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
@@ -516,7 +522,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant1CustomerRole customerRole = new Restaurant1CustomerRole(p.getName(), p);
 			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
 			restaurant1.addGui(customerGui);
-			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
+			Restaurant1WaiterRole waiterRole = new Restaurant1NormalWaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest1");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -742,6 +748,21 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 					
 			}
+			
+			else if(job.contains("Landlord")){
+				if(job.equals("Landlord1")){
+					p.addFirstJob(r, "apart1");
+					
+					p.setRoleActive(r);
+					apart1.setLandlord((LandlordRole)r);
+				}
+				else if(job.equals("Landlord2")){
+					p.addFirstJob(r, "apart2");
+					
+					p.setRoleActive(r);
+					apart2.setLandlord((LandlordRole)r);
+				}
+			}
 		}
 	}
 	
@@ -795,7 +816,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Restaurant1 Waiter")){
-			Restaurant1WaiterRole role = new Restaurant1WaiterRole(p.getName(), p);
+			Restaurant1WaiterRole role = new Restaurant1NormalWaiterRole(p.getName(), p);
 			Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
 			gui.setHome(rest4.getWaiterListSize() * 40 + 200, 60);
 			role.setGui(gui);
@@ -939,8 +960,28 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;	
 		}
 		
-		
+		else if(type.equals("Landlord1")){
+			LandlordRole role = new LandlordRole(p.getName(), p); 
+			LandlordGui gui = new LandlordGui(role);
+			role.setGui(gui);
+			apt1.addGui(gui); 
+			gui.setPresent(false);
+			return role;
+		}
+		else if(type.equals("Landlord2")){
+			LandlordRole role = new LandlordRole(p.getName(), p); 
+			LandlordGui gui = new LandlordGui(role);
+			role.setGui(gui);
+			apt2.addGui(gui); 
+			gui.setPresent(false);
+			return role;
+		}
 		
 		else return null;
 	}
+	
+	public void setTime(String hour, String minute, String amPm){
+		masterClock.setDayTime(Integer.parseInt(hour), Integer.parseInt(minute), amPm);
+	}
+	
 }

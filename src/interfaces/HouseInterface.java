@@ -2,6 +2,7 @@ package interfaces;
 
 import java.util.List;
 
+import Role.LandlordRole;
 import city.Food;
 import city.gui.House.HouseAnimationPanel;
 
@@ -11,6 +12,8 @@ public interface HouseInterface {
 	public abstract void setOwner(Person p);
 
 	public abstract void setHouseAnimationPanel(HouseAnimationPanel p);
+	
+	public abstract void setLandlord(LandlordRole r);
 
 	//PUBLIC METHODS
 	public abstract void boughtGroceries(List<Food> groceries);

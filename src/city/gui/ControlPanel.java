@@ -29,11 +29,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
 import city.Apartment;
+import city.ApartmentBuilding;
 import city.Bank;
 import city.CityMap;
 import city.House;
@@ -52,54 +54,71 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JPanel view = new JPanel();
-    private List<JButton> list = new ArrayList<JButton>();
-    private JButton addPersonB = new JButton("Add");
+    private List<JButton> personButtonList = new ArrayList<JButton>();
+    private JButton addPersonButton = new JButton("Add");
     private JTabbedPane controlPane = new JTabbedPane();
     private JPanel worldControls = new JPanel();
+    private JPanel timeSelectionPanel = new JPanel();
+    private JPanel worldControlPanel = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JLabel clickBuildings = new JLabel("Click on a building to see inside!");
     private ActivityPane activityPane = new ActivityPane();
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton startScenario = new JButton("Start scenario!");
+    private JButton changeTime = new JButton("Change Time");
     private JPanel backButtonPanel = new JPanel();
+    private JPanel personOptionsDisplay = new JPanel();
+    private JButton buyCarButton = new JButton("Buy a Car");
     
-    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test"
+    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
-
+    
+    // Timer GUI display & control functionality
     private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
+    
+    private String[] hours = {"12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
+    private JComboBox hourSelect = new JComboBox(hours);
+    
+    private String[] minutes = {"00", "15", "30", "45"};
+    private JComboBox minuteSelect = new JComboBox(minutes);
+    
+    private String[] amPm = {"am", "pm"};
+    private JComboBox amPmSelect = new JComboBox(amPm);
+    
     
     private Timer timer = new Timer();
     
     private int WINDOWX = 370;
     private int WINDOWY = 750;
-    private int SCROLLY = WINDOWY/4;
+    private int SCROLLY = WINDOWY/4 - 20;
     private int ADDPERSONY = WINDOWY/5;
     private int BACKBUTTONY = 40;
-    private int INFOPANELY = WINDOWY - ADDPERSONY;
+    private int INFOPANELY = SCROLLY + 30;
     private int WINDOWXINSIDE = WINDOWX - 10;
+    private int PERSONOPTIONSY = WINDOWY - (INFOPANELY + ADDPERSONY);
     
     private Dimension scrollDim = new Dimension(WINDOWXINSIDE, SCROLLY);
     private Dimension panelDim = new Dimension(WINDOWX, WINDOWY - BACKBUTTONY);
     private Dimension addPersonDim = new Dimension(WINDOWXINSIDE, ADDPERSONY);
     private Dimension infoPanelDim = new Dimension(WINDOWXINSIDE, INFOPANELY);
     private Dimension backButtonDim = new Dimension(WINDOWX, BACKBUTTONY);
+    private Dimension personOptionsDim = new Dimension(WINDOWXINSIDE, PERSONOPTIONSY);
 
     private JTextField nameField;
     private JTextField errorDisplay = new JTextField();
-    private JPanel personControls = new JPanel();
+    private JPanel personControlPanel = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
-    private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord", 
+    private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
     		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
     		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
     		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 Waiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
     		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
     private JComboBox jobField = new JComboBox(jobs);
-    private Map<String, Role> jobRoles = new HashMap<String, Role>();
     
     int houseAssignmentNumber = 0;
     
@@ -147,12 +166,12 @@ public class ControlPanel extends JPanel implements ActionListener{
         setupWorldControls();
                 
         controlPane.setPreferredSize(panelDim);
-        worldControls.setPreferredSize(panelDim);
+        worldControlPanel.setPreferredSize(panelDim);
         backButtonPanel.setPreferredSize(backButtonDim);
-        worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
-        worldControls.setAlignmentX(Component.CENTER_ALIGNMENT);
-        controlPane.addTab("World", worldControls);
-        controlPane.addTab("People", personControls);
+        worldControlPanel.setLayout(new BoxLayout(worldControlPanel, BoxLayout.PAGE_AXIS));
+        worldControlPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        controlPane.addTab("World", worldControlPanel);
+        controlPane.addTab("People", personControlPanel);
         controlPane.addTab("Activity Log", activityPane);
         add(controlPane);
         
@@ -162,7 +181,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         //Creation of houses and apartments
         createHouses();
       	//Creation of bus stops
-        createBusStops();     
+        createBusStops();
                 
         scenarioSelect.setSelectedIndex(1);
     }
@@ -195,6 +214,14 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityMap.setBank(b);
     }
     
+    public void addApartment1ToCityMap(ApartmentBuilding b){
+    	cityMap.setApartment1(b);
+    }
+    
+    public void addApartment2ToCityMap(ApartmentBuilding b){
+    	cityMap.setApartment2(b);
+    }
+    
     public void setCityGui(CityGui c){
     	cityGui = c;
     }
@@ -209,29 +236,58 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     private void setupWorldControls(){
     	
+    	// Scenario selection
     	Dimension dropDownSize = new Dimension(WINDOWX, 30);
     	startScenario.addActionListener(this);
     	scenarioSelect.addActionListener(this);
     	scenarioSelect.setPreferredSize(dropDownSize);
     	scenarioSelect.setMaximumSize(dropDownSize);
     	
+    	// Manual timer Controls
+    	Dimension timerControlDropdownSize = new Dimension(70, 30);
+    	changeTime.addActionListener(this);
+    	
+    	// Hour dropdown
+    	hourSelect.addActionListener(this);
+    	hourSelect.setPreferredSize(timerControlDropdownSize);
+    	hourSelect.setMaximumSize(timerControlDropdownSize);
+    	
+    	// Minute Dropdown
+    	minuteSelect.addActionListener(this);
+    	minuteSelect.setPreferredSize(timerControlDropdownSize);
+    	minuteSelect.setMaximumSize(timerControlDropdownSize);
+    	
+    	// am/pm Select Dropdown
+    	amPmSelect.addActionListener(this);
+    	amPmSelect.setPreferredSize(timerControlDropdownSize);
+    	amPmSelect.setMaximumSize(timerControlDropdownSize);
+    	
+    	// Add all to single panel
+    	changeTime.setEnabled(false);
+    	timeSelectionPanel.add(hourSelect);
+    	timeSelectionPanel.add(minuteSelect);
+    	timeSelectionPanel.add(amPmSelect);
+    	timeSelectionPanel.add(Box.createVerticalStrut(1));
+    	timeSelectionPanel.add(changeTime);
+    	
     	//This add(Box) function creates a space on the JPanel - using it here for spacing the buttons out to look nice
-    	worldControls.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(Box.createVerticalStrut(10));
     	clickBuildings.setFont(new Font("Trebuchet", Font.BOLD, 14));
-    	worldControls.add(clickBuildings);
-    	worldControls.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(clickBuildings);
+    	worldControlPanel.add(Box.createVerticalStrut(10));
     	JLabel title = new JLabel("Running a scenario: ");
     	title.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	worldControls.add(title);
-    	worldControls.add(scenarioSelect);
+    	worldControlPanel.add(title);
+    	worldControlPanel.add(scenarioSelect);
     	clickBuildings.setAlignmentX(Component.CENTER_ALIGNMENT);
     	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	worldControls.add(Box.createVerticalStrut(10));
-    	worldControls.add(startScenario);
+    	worldControlPanel.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(startScenario);
     	startScenario.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	worldControls.add(Box.createVerticalStrut(10));
-    	worldControls.add(timeDisplay);
+    	worldControlPanel.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	worldControlPanel.add(timeSelectionPanel);
     }
     
     private void addPersonSection(){
@@ -239,18 +295,30 @@ public class ControlPanel extends JPanel implements ActionListener{
     	
     	//addPerson.setAlignmentX(Component.CENTER_ALIGNMENT);
     	
-    	personControls.setPreferredSize(panelDim);
+    	personControlPanel.setPreferredSize(panelDim);
     	
     	addPerson.setPreferredSize(addPersonDim);
     	infoPanel.setPreferredSize(infoPanelDim);
+    	personOptionsDisplay.setPreferredSize(personOptionsDim);
         pane.setViewportView(view);
         
         infoPanel.add(new JLabel("List of people in SimCity"));
     	infoPanel.add(pane);
     	
     	//Add AddPerson panel and info panel to main panel
-    	personControls.add(addPerson);
-    	personControls.add(infoPanel);
+    	FlowLayout controlsFlow = new FlowLayout();
+    	personControlPanel.setLayout(controlsFlow);
+    	personControlPanel.add(addPerson, controlsFlow);
+    	//personControlPanel.add(personOptionsDisplay, controlsFlow);
+    	personControlPanel.add(infoPanel, controlsFlow);
+    	personControlPanel.add(personOptionsDisplay, controlsFlow);
+    	
+    	personOptionsDisplay.setBorder(BorderFactory.createLineBorder(Color.black));
+    	
+    	buyCarButton.addActionListener(this);
+    	personOptionsDisplay.add(new JLabel("Person Options"));
+		addPerson.add(Box.createVerticalStrut(10));
+    	personOptionsDisplay.add(buyCarButton);
         
         pane.setMinimumSize(scrollDim);
         pane.setMaximumSize(scrollDim);
@@ -304,16 +372,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		});
 
-		addPersonB.addActionListener(this);
+		addPersonButton.addActionListener(this);
 		addPerson.add(Box.createVerticalStrut(10));
-		addPerson.add(addPersonB, flow);
+		addPerson.add(addPersonButton, flow);
 		addPerson.add(Box.createVerticalStrut(10));
 
 		errorDisplay.setEditable(false);
 		addPerson.add(errorDisplay, flow);
-
+		
 		view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
-		this.add(personControls);
+		this.add(personControlPanel);
 	}
 
 
@@ -322,9 +390,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * Handles the event of the add button being pressed
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == addPersonB) {
+		if (e.getSource() == addPersonButton) {
 			// Chapter 2.19 describes showInputDialog()
 			if(!nameField.getText().equals("")){
+				//TODO Should we add a check here for duplicate names?
+				//Might matter for the car buying, if two people have the same name
 				String job = null;
 				if(jobField.getSelectedIndex() == 0){
 					errorDisplay.setText("Please select a job");
@@ -341,25 +411,26 @@ public class ControlPanel extends JPanel implements ActionListener{
 				errorDisplay.setText("Please enter a name for the person");
 			}
 		}
-		/*
-        else if(e.getSource() == scenarioSelect){
-        	if(scenarioSelect.getSelectedIndex() == 0){
-        		startScenario.setEnabled(false);
-        	}
-        	else
-        		startScenario.setEnabled(true);
-        }*/
 		else if(e.getSource() == startScenario){
 			if(scenarioSelect.getSelectedIndex() != 0){
 				populateCity((String)scenarioSelect.getSelectedItem());
 				cityGui.startMasterClock();
 				startScenario.setEnabled(false);
+				changeTime.setEnabled(true);
 			}
 		}
 		else if(e.getSource() == backToCity) {
 			cityGui.backToCityView();
 			backToCity.setEnabled(false);
 		}
+		else if(e.getSource() == changeTime) {
+			
+			cityGui.setTime(hourSelect.getSelectedItem().toString(), minuteSelect.getSelectedItem().toString(), amPmSelect.getSelectedItem().toString());
+		
+		} else if(e.getSource() == buyCarButton){
+			// Coming soon
+		}
+		
 	}
 
 	/**
@@ -394,7 +465,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			button.setMinimumSize(buttonSize);
 			button.setMaximumSize(buttonSize);
 			button.addActionListener(this);
-			list.add(button);
+			personButtonList.add(button);
 			view.add(button);
 
 
@@ -420,7 +491,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			button.setMinimumSize(buttonSize);
 			button.setMaximumSize(buttonSize);
 			button.addActionListener(this);
-			list.add(button);
+			personButtonList.add(button);
 			view.add(button);
 			isHungry.setEnabled(false);
 			validate();
@@ -454,7 +525,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			button.setMinimumSize(buttonSize);
 			button.setMaximumSize(buttonSize);
 			button.addActionListener(this);
-			list.add(button);
+			personButtonList.add(button);
 			view.add(button);
 			isHungry.setEnabled(false);
 			validate();
@@ -649,8 +720,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 */
 		if(scenario.equals("Full Scenario"))
 			runFullTest();
-		else if(scenario.equals("Regular Joe"))
-			runRegularJoeTest();
+		else if(scenario.equals("Trader Joe's"))
+			runMarketVisitTest();
 		else if(scenario.equals("Restaurant1"))
 			runRestaurant1Test();
 		else if(scenario.equals("Restaurant2"))
@@ -665,7 +736,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runBankTest();
 		else if(scenario.equals("Car Test"))
 			runCarTest();
-
+		else if(scenario.equals("Landlord Test"))
+			runLandlordTest();
 	}
 
 	public void runFullTest(){
@@ -746,8 +818,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("host", "Restaurant2 Host");
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
 		addPersonNoHouse("cook", "Restaurant2 Cook");
-		addPerson("waiter", "Restaurant2 Waiter");
-		addPerson("rest2Test", "No job");
+		addPersonWithCar("waiter", "Restaurant2 Waiter");
+		addPersonWithCar("rest2Test", "No job");
 
 	}
 
@@ -811,7 +883,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);
 
 		addPersonNoHouse("bank manager", "Bank Manager");
-		addPersonNoHouse("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
 		addPerson("bankCustomerTest", "No job");
 
 	}
@@ -830,27 +902,20 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("joe", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
+	}
+	
+	public void runMarketVisitTest(){
+
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("marketClient", "No Job");
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
 
 	}
 
@@ -859,6 +924,37 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonWithCar("rest1Test", "No Job");
 	}
 
+	public void runLandlordTest(){
+		addPerson("Landlord", "Landlord1");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+	}
+	
 	public void setTimeDisplay(String timeToDisplay){
 		timeDisplay.setText(timeToDisplay);
 	}

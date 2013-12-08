@@ -39,4 +39,16 @@ public class PersonTask {
 		//initialized most variables to null for checking purposes later and so the person doesnt get wrong information
 	}
 	
+	public PersonTask(String t){
+		type = TaskType.valueOf(t);
+		state = State.initial;
+		transportation = Transportation.undecided;
+		startHour = -1;
+		startMinute = -1;	//may take this out
+		amPm = null;	//may take this out
+		location = null;
+		role = null;
+		//initialized most variables to null for checking purposes later and so the person doesnt get wrong information
+	}
+	
 }

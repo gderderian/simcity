@@ -38,7 +38,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
     
     Restaurant1 restaurant;
     
-    PersonAgent personCook = new PersonAgent("Cook");
+    /*PersonAgent personCook = new PersonAgent("Cook");
     PersonAgent personHost = new PersonAgent("Host");
     PersonAgent personCashier = new PersonAgent("Cashier");
     PersonAgent personWaiter = new PersonAgent("Waiter");
@@ -50,7 +50,7 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
     Restaurant1CookGui cookGui;
     Restaurant1CustomerGui customerGui;
     Restaurant1WaiterGui waiterGui;
-    Restaurant1CashierGui cashierGui;
+    Restaurant1CashierGui cashierGui;*/
     
     private Timer timer;
 

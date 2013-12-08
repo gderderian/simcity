@@ -6,6 +6,8 @@ import city.Restaurant4.WaiterRole4;
 
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
 import justinetesting.interfaces.Customer4;
 
 
@@ -23,6 +25,15 @@ public class WaiterGui4 implements Gui{
     
     boolean isPresent = true;
 
+    ImageIcon icon1 = new ImageIcon("images/waiter1.png");
+	ImageIcon icon2 = new ImageIcon("images/waiter2.png");
+	ImageIcon icon3 = new ImageIcon("images/waiter3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = icon1;
+    
     public int temp= 0;
     public int xTable = 100;
     public int xTableNew;
@@ -33,13 +44,26 @@ public class WaiterGui4 implements Gui{
     public int yHome= 100;
     public static final int xEntrance= 60;
     public static final int yEntrance= 60;
-    private static final int foodDisplacement= 30;
+    private static final int foodDisplacement= 40;
 
     public WaiterGui4(WaiterRole4 agent) {
         this.agent = agent;
     }
 
     public void updatePosition() {
+    	//Code for switching pictures to create animation
+    	movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+
+    	if(xPos != xDestination || yPos != yDestination) {
+    		if(movementCounter < iconSwitch)
+    	        icon = icon1;
+    	    else if(movementCounter < iconSwitch * 2)
+    	        icon = icon2;
+    	    else if(movementCounter < iconSwitch * 3)
+    	        icon = icon3;
+    	    else
+    	        icon = icon2;
+    	   } else icon = icon2;
     	
     	if (xPos < xDestination)
             xPos++;
@@ -70,9 +94,10 @@ public class WaiterGui4 implements Gui{
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(xPos, yPos, dimension, dimension);
-        
+        //g.setColor(Color.MAGENTA);
+        //g.fillRect(xPos, yPos, dimension, dimension);
+    	g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
+    	
         if(doBringFood){
 			g.setColor(Color.BLACK);
 			if(choice == "Eggs"){
