@@ -483,13 +483,13 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		/*
+		
+		
 		if(name.equals("bankCustomerTest") && callonce == false) {
 			goToBank(new PersonTask(TaskType.goToBank));
 			callonce = true;
 		}
-<<<<<<< HEAD
-		*/
+
 		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -587,7 +587,7 @@ public class PersonAgent extends Agent implements Person{
 			for(PersonTask t: tasks){
 				
 				if(t.type == TaskType.goToBank && t.state == State.initial) {
-
+				Do("!!!!!!!!!!!!!!!!!!!!!!  I'm calling go to bank function");
 				goToBank(t);
 				t.state = State.processing;
 				return true;
