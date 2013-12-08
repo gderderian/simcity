@@ -35,6 +35,7 @@ import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
 import city.Apartment;
+import city.ApartmentBuilding;
 import city.Bank;
 import city.CityMap;
 import city.House;
@@ -211,6 +212,14 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addBankToCityMap(Bank b) {
     	cityMap.setBank(b);
+    }
+    
+    public void addApartment1ToCityMap(ApartmentBuilding b){
+    	cityMap.setApartment1(b);
+    }
+    
+    public void addApartment2ToCityMap(ApartmentBuilding b){
+    	cityMap.setApartment2(b);
     }
     
     public void setCityGui(CityGui c){
