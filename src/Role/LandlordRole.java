@@ -5,6 +5,7 @@ import interfaces.Person;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;
+import city.gui.House.LandlordGui;
 
 import java.util.*;
 
@@ -22,6 +23,7 @@ public class LandlordRole extends Role implements Landlord {
 	public EventLog log= new EventLog();
 	String name;
 	PersonAgent p;
+	LandlordGui gui;
 	
 	ActivityTag tag = ActivityTag.LANDLORD;
 	
@@ -162,5 +164,9 @@ public class LandlordRole extends Role implements Landlord {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	public void setGui(LandlordGui gui) {
+		this.gui= gui;
 	}
 }

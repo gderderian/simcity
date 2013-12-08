@@ -212,7 +212,6 @@ public class CityMap {
 	}
 	
 	public int getX(String location) {
-		System.out.println("LOCATION: " + location);
 		return buildingLocations.get(location).getX();
 	}
 	
