@@ -295,32 +295,33 @@ public class PersonAgent extends Agent implements Person{
 
 		timeOfDay = t;
 
-
-		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") || name.equals("waiter3") || name.equals("waiter4") || name.equals("waiter5") || name.equals("bank teller"))){
+		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller") || name.equals("MarketManager"))){
 			synchronized(tasks){
 				PersonTask task = new PersonTask(TaskType.goToWork);
 				tasks.add(task);
 				if(name.equals("bank teller"))
 				{
 					task.role = "BankTellerRole";
+				} else if (name.equals("MarketManager")){
+					task.role = "MarketManager";
 				}
 			}
-			log("Its time for me to go to work");
+			log("It's time for me to go to work!");
 			stateChanged();
 		}
-		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") ||/* name.equals("rest1Test") || */name.equals("rest4Test")
+		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
-			log("It's time for me to eat something");
+			log("It's time for me to eat something.");
 			stateChanged();
 		}
 		else if(t > 5000 && t < 7000 && name.equals("rest1Test")) {
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
-			log("It's time for me to eat something");
+			log("It's time for me to eat something.");
 			stateChanged();
 		}
 		else if(t > 19000 && t < 21000 && (name.equals("bankCustomerTest")))
@@ -328,8 +329,15 @@ public class PersonAgent extends Agent implements Person{
 			synchronized(tasks) {
 				tasks.add(new PersonTask(TaskType.goToBank));
 			}
-			log("It's time for me to go to bank");
-
+			log("It's time for me to go to bank.");
+			
+		} else if(t > 19000 && t < 21000 && (name.equals("marketClient")))
+		{
+			synchronized(tasks) {
+				tasks.add(new PersonTask(TaskType.goToMarket));
+			}
+			log("It's time for me to buy something from the market.");
+			
 		}
 
 
