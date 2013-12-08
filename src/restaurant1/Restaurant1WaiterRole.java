@@ -26,29 +26,29 @@ public abstract class Restaurant1WaiterRole extends Role implements Restaurant1W
 	
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	
-	private static enum customerState { waiting, seated, readyToOrder, 
+	protected static enum customerState { waiting, seated, readyToOrder, 
 		askedForOrder, ordered, orderSentToCook, orderOut, foodReady, served, checkReady, checkGiven, finished, 
 		leftRestaurant };
 		
-	private Restaurant1HostRole host;
-	private Restaurant1CookRole cook;
+	protected Restaurant1HostRole host;
+	protected Restaurant1CookRole cook;
 	
-	private Restaurant1CashierRole cashier;
+	protected Restaurant1CashierRole cashier;
 	
-	private enum breakState { none, wantABreak, askedForBreak, onBreak, doneWithBreak };
+	protected enum breakState { none, wantABreak, askedForBreak, onBreak, doneWithBreak };
 	breakState breakStatus = breakState.none;
 
-	private String name;
+	protected String name;
 	
 	PersonAgent person;
 	
-	private Semaphore atDestination = new Semaphore(0, true);
+	protected Semaphore atDestination = new Semaphore(0, true);
 	
-	private enum waiterState { working, onBreak };
-	private waiterState state = waiterState.working;
+	protected enum waiterState { working, onBreak };
+	protected waiterState state = waiterState.working;
 	
-	private enum waiterEvent { none, backToWork, takeABreak };
-	private waiterEvent event = waiterEvent.none;
+	protected enum waiterEvent { none, backToWork, takeABreak };
+	protected waiterEvent event = waiterEvent.none;
 	
 	public Restaurant1WaiterGui waiterGui = null;
 	
@@ -455,7 +455,7 @@ public abstract class Restaurant1WaiterRole extends Role implements Restaurant1W
 		return state == waiterState.onBreak;
 	}
 	
-	private class MyCustomer {
+	class MyCustomer {
 		Restaurant1CustomerRole c;
 		int table;
 		int orderNumber;
@@ -471,7 +471,7 @@ public abstract class Restaurant1WaiterRole extends Role implements Restaurant1W
 		}
 	}
 	
-	private void log(String msg){
+	protected void log(String msg){
 		print(msg);
         ActivityLog.getInstance().logActivity(tag, msg, name);
 	}
