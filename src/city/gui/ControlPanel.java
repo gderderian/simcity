@@ -70,7 +70,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel personOptionsDisplay = new JPanel();
     private JButton buyCarButton = new JButton("Buy a Car");
     
-    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
+    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test",
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
@@ -711,8 +711,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 */
 		if(scenario.equals("Full Scenario"))
 			runFullTest();
-		else if(scenario.equals("Regular Joe"))
-			runRegularJoeTest();
+		else if(scenario.equals("Trader Joe's"))
+			runMarketVisitTest();
 		else if(scenario.equals("Restaurant1"))
 			runRestaurant1Test();
 		else if(scenario.equals("Restaurant2"))
@@ -913,6 +913,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
+
+	}
+	
+	public void runMarketVisitTest(){
+
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("joe", "No Job");
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
 
 	}
 
