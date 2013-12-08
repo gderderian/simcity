@@ -601,7 +601,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[4][18].release(5);
 		sidewalkGrid[11][18].release(5);      	
 
-		streetGrid[17][18].release(100); //starting point for vehicles
+		streetGrid[17][20].release(100); //starting point for vehicles
 
 		streetGrid[7][9].release(100); //Parking entrances + tiles right outside
 		streetGrid[14][9].release(100); 

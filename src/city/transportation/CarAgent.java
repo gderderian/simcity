@@ -41,6 +41,7 @@ public class CarAgent extends Vehicle implements Car {
 		
 		
 		currentPosition = new Position(11, 11);
+		currentPosition.moveInto(aStar.getGrid());
 	}
 	
 	//Messages

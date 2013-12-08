@@ -4,6 +4,7 @@ import interfaces.BusStop;
 import interfaces.Restaurant2Customer;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import justinetesting.interfaces.Customer4;
 import restaurant1.Restaurant1;
@@ -35,6 +36,8 @@ public class CityMap {
 	Map<String, Position> parkingLocations = new HashMap<String, Position>();
 	List<Position> parkingEntrances = new ArrayList<Position>();
 	List<String> restaurants = new ArrayList<String>();
+	
+	private Semaphore intersection = new Semaphore(1, true);
 	
 	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
@@ -162,9 +165,18 @@ public class CityMap {
 		restaurants.add("Restaurant5");
 	}
 	
+	public void enterIntersection() {
+		try {
+			intersection.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
-	
-	
+	public void leaveIntersection() {
+		intersection.release();
+	}
 	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
