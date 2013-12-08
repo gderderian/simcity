@@ -100,8 +100,6 @@ public abstract class Vehicle extends Agent {
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
 		    gui.moveTo(120 + (tmpPath.getX() * 30), 60 + (tmpPath.getY() * 30));
 		    
-		    print("At: " + currentPosition);
-		    
 		    //Give animation time to move to square.
 		    try {
 				guiFinished.acquire();
