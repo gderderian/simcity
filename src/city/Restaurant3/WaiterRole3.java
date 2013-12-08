@@ -1,15 +1,11 @@
 package city.Restaurant3;
 
 import Role.Role;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
-
 import javax.swing.Timer;
-
-import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;
@@ -61,7 +57,7 @@ public class WaiterRole3 extends Role {
 		
 		breakTimer = new Timer(DEFAULT_BREAK_TIME,
 				new ActionListener() { public void actionPerformed(ActionEvent evt) {
-					Do("Returning from break");
+					log("Returning from break");
 					waiterGui.returnFromBreak();
 					notifyHostReturnedFromBreak();
 					state = AgentState.DoingNothing;
@@ -79,7 +75,7 @@ public class WaiterRole3 extends Role {
 	
 	// Messages
 	public void doneEating(CustomerRole3 c) {
-		Do("Received message from customer " + c.getCustomerName() + " that they are done eating.");
+		log("Received message from customer " + c.getCustomerName() + " that they are done eating.");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.customer.equals(c)){
@@ -93,7 +89,7 @@ public class WaiterRole3 extends Role {
 	}
 
 	public void hereIsFood(int tableNum, String choice) {
-		Do("Received message from cook that " + choice + " is now ready for table #" + tableNum + ".");
+		log("Received message from cook that " + choice + " is now ready for table #" + tableNum + ".");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.tableNum == tableNum){
@@ -107,7 +103,7 @@ public class WaiterRole3 extends Role {
 	}
 
 	public void msgSeatCustomer(CustomerRole3 c, int tableNum, HostRole3 h, int customerX, int customerY) {
-		Do("Received message to seat customer " + c.getCustomerName() + " at table #" + tableNum + " (" + customerX + "/" + customerY + ").");
+		log("Received message to seat customer " + c.getCustomerName() + " at table #" + tableNum + " (" + customerX + "/" + customerY + ").");
 		myHost = h;
 		MyCustomer customer = new MyCustomer(customerX, customerY);
 		customer.customer = c;
@@ -117,7 +113,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void readyToOrder(CustomerRole3 c) {
-		Do("Customer " + c.getName() + " is now ready to order.");
+		log("Customer " + c.getName() + " is now ready to order.");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.customer.equals(c)){
@@ -131,7 +127,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void hereIsMyChoice(String choice, CustomerRole3 c) {
-		Do("Received choice " + choice + " from customer " + c.getCustomerName() + ".");
+		log("Received choice " + choice + " from customer " + c.getCustomerName() + ".");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.customer.equals(c)){
@@ -146,7 +142,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void ImDone(CustomerRole3 c) {
-		Do("Customer " + c.getCustomerName() + " has finished eating.");
+		log("Customer " + c.getCustomerName() + " has finished eating.");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.customer.equals(c)){
@@ -160,7 +156,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void needNewChoice(int tableNum, String choice) {
-		Do("Customer at table #" + tableNum + " has to make a new food choice other than " + choice + ".");
+		log("Customer at table #" + tableNum + " has to make a new food choice other than " + choice + ".");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.tableNum == tableNum){
@@ -174,7 +170,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void breakApproved(){
-		Do("My break was approved by the host.");
+		log("My break was approved by the host.");
 		state = AgentState.onBreak;
 		event = AgentEvent.breakApproved;
 		onBreak = true;
@@ -182,7 +178,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void breakRejected(){
-		Do("My break was rejected by the host.");
+		log("My break was rejected by the host.");
 		onBreak = false;
 		state = AgentState.wantBreak;
 		event = AgentEvent.breakRejected;
@@ -190,14 +186,14 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void requestBreak(){
-		Do("Requesting break from host.");
+		log("Requesting break from host.");
 		state = AgentState.wantBreak;
 		event = AgentEvent.none;
 		person.stateChanged();
 	}
 	
 	public void hereIsCheck(CustomerRole3 c, double checkAmount){
-		Do("Accepting check from customer " + c.getCustomerName() + " in the amount of $" + checkAmount + ".");
+		log("Accepting check from customer " + c.getCustomerName() + " in the amount of $" + checkAmount + ".");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.customer.equals(c)){
@@ -212,7 +208,7 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void readyForCheck(CustomerRole3 c){
-		Do("Customer " + c.getCustomerName() + " is ready for and wants their check.");
+		log("Customer " + c.getCustomerName() + " is ready for and wants their check.");
 		try {
 			for (MyCustomer cust : myCustomers) {
 				if (cust.customer.equals(c)){
@@ -227,10 +223,7 @@ public class WaiterRole3 extends Role {
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		
-		//System.out.println("Event:" + event + " - State: " + state + " - MCSize: " + myCustomers.get(0).state);
-		
-		try {
+		try{
 			if (state == AgentState.wantBreak && event == AgentEvent.none){
 				requestBreakFromHost();
 				return true;
@@ -281,7 +274,7 @@ public class WaiterRole3 extends Role {
 			}
 			for (MyCustomer c : myCustomers) {
 				if (c.state == CustomerState.wantCheck){
-					Do("About to call request check function");
+					log("About to call request check function");
 					requestCheckForCustomer(c);
 					return true;
 				}
@@ -301,7 +294,7 @@ public class WaiterRole3 extends Role {
 
 	// Actions
 	private void takeOrder(MyCustomer c, int tableNum){
-		Do("Going to take order from customer " + c.customer.getName() + " at table #" + tableNum + ".");
+		log("Going to take order from customer " + c.customer.getName() + " at table #" + tableNum + ".");
 		waiterGui.setDestination(c.customer.getGui().getX(), c.customer.getGui().getY());
 		waiterGui.beginAnimate();
 		try {
@@ -314,7 +307,7 @@ public class WaiterRole3 extends Role {
 	}
 
 	private void sendToKitchen(MyCustomer c, String choice){
-		Do("Sending order " + choice + " from customer " + c.customer.getName() + " to kitchen.");
+		log("Sending order " + choice + " from customer " + c.customer.getName() + " to kitchen.");
 		c.state = CustomerState.WaitingForFood;
 		waiterGui.setDestination(225, 390);
 		waiterGui.beginAnimate();
@@ -328,7 +321,7 @@ public class WaiterRole3 extends Role {
 
 	public void seatCustomer(MyCustomer c){
 
-		Do("Seating customer " + c.customer.getName() + ".");
+		log("Seating customer " + c.customer.getName() + ".");
 		
 		waiterGui.setDestination(c.pickupX, c.pickupY);
 		waiterGui.beginAnimate();
@@ -366,7 +359,7 @@ public class WaiterRole3 extends Role {
 	
 	public void deliverOrder(MyCustomer c, String choice){
 
-		Do("Delivering order " + choice + " to customer " + c.customer.getName() + ".");
+		log("Delivering order " + choice + " to customer " + c.customer.getName() + ".");
 		
 		waiterGui.setDestination(225, 390);
 		waiterGui.beginAnimate();
@@ -419,21 +412,21 @@ public class WaiterRole3 extends Role {
 	}
 	
 	public void goodbyeCustomer(MyCustomer c){
-		Do("Removing customer " + c.customer.getName() + "from my lists and saying goodbye.");
+		log("Removing customer " + c.customer.getName() + "from my lists and saying goodbye.");
 		myCustomers.remove(c);
 		myHost.decrementCustomer(this);
 		c.customer.getHost().msgLeavingTable(c.customer);
 	}
 	
 	private void goHome(){
-		System.out.println("Going back to home position as there are no tasks for me to do right now.");
+		log("Going back to home position as there are no tasks for me to do right now.");
 		waiterGui.setDestination(homeX, homeY);
 	}
 	
 	private void repickFood(MyCustomer c){
 		Menu3 newMenu = new Menu3();
 		newMenu.removeItem(c.choice);
-		Do("Telling customer " + c.customer.getCustomerName() + " they need to repick an item because their previous choice is not in stock (according to the cook).");
+		log("Telling customer " + c.customer.getCustomerName() + " they need to repick an item because their previous choice is not in stock (according to the cook).");
 		c.customer.repickFood(newMenu);
 		c.state = CustomerState.Ordering;
 	}
@@ -441,19 +434,19 @@ public class WaiterRole3 extends Role {
 	private void deliverCheck(MyCustomer c){
 		double needToPay = 0;
 		needToPay = c.payAmount;
-		Do("Delivering check to customer " + c.customer.getCustomerName() + " of $" + needToPay + ".");
+		log("Delivering check to customer " + c.customer.getCustomerName() + " of $" + needToPay + ".");
 		c.customer.hereIsCheck(needToPay);
 		c.state = CustomerState.payingCheck;
 	}
 	
 	private void requestCheckForCustomer(MyCustomer c){
-		Do("Requesting check from cashier.");
+		log("Requesting check from cashier.");
 		myCashier.calculateCheck(this, c.customer, c.choice);
 		c.state = CustomerState.waitingForCheck;
 	}
 	
 	private void requestBreakFromHost(){
-		Do("Requesting break from host.");
+		log("Requesting break from host.");
 		myHost.wantBreak(this);
 		event = AgentEvent.breakRequested;
 		state = AgentState.wantBreak;
@@ -461,14 +454,14 @@ public class WaiterRole3 extends Role {
 	}
 	
 	private void processBreakRejection(){
-		Do("Processing break rejection.");
+		log("Processing break rejection.");
 		waiterGui.breakRejected();
 		state = AgentState.DoingNothing;
 		event = AgentEvent.none;
 	}
 	
 	private void beginBreak(){
-		Do("Beginning my break.");
+		log("Beginning my break.");
 		waiterGui.breakApproved();
 		breakTimer.setRepeats(false);
 		breakTimer.restart();
