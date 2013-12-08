@@ -416,6 +416,7 @@ public class PersonAgent extends Agent implements Person{
 	//Messages from car
 	public void msgImPickingYouUp(Car car, Position p) { 
 		log.add(new LoggedEvent("Received message ImPickingYouUp from car"));
+		log("Recieved message ImPickingYouUp from car");
 		carRide.state = CarRideState.pickingMeUp;
 		carRide.carLocation = p;
 		stateChanged();
@@ -678,7 +679,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 				DoGoTo(location, null);
 				house.getAnimationPanel().addGui(homeGui);
-				homeGui.goToBed();
+				//homeGui.goToBed();
 			}	
 			atHome= true;
 		}
@@ -1023,6 +1024,11 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void tellCarWhereToDrive(CarRide ride) {
+		if(atHome){
+			homeGui.goToExit();
+			gui.setVisible();
+			house.getAnimationPanel().notInHouse(homeGui);
+		}
 		gui.moveTo(ride.carLocation.getX() * 30 + 120, ride.carLocation.getY() * 30 + 60);
 		try {
 			atDestination.acquire();
