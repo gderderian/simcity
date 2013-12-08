@@ -23,13 +23,6 @@ public class Restaurant1CustomerGui implements Gui{
 	private Restaurant1AnimationPanel animPanel;
 
 	private Restaurant1WaiterGui waiterGui;
-	
-	ImageIcon up1 = new ImageIcon("images/person_up1.png");
-	ImageIcon up2 = new ImageIcon("images/person_up2.png");
-	ImageIcon up3 = new ImageIcon("images/person_up3.png");
-	ImageIcon down1 = new ImageIcon("images/person_down1.png");
-	ImageIcon down2 = new ImageIcon("images/person_down2.png");
-	ImageIcon down3 = new ImageIcon("images/person_down3.png");
 	ImageIcon flat1 = new ImageIcon("images/person_flat1.png");
 	ImageIcon flat2 = new ImageIcon("images/person_flat2.png");
 	ImageIcon flat3 = new ImageIcon("images/person_flat3.png");
@@ -37,7 +30,7 @@ public class Restaurant1CustomerGui implements Gui{
 	private int movementCounter = 0;
 	private final int iconSwitch = 10; //Rate at which icons switch during movement
 	
-	ImageIcon icon = new ImageIcon("images/person_up1.png");
+	ImageIcon icon = flat1;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -62,7 +55,9 @@ public class Restaurant1CustomerGui implements Gui{
 	}
 
 	public void updatePosition() {
+		//Code for switching pictures to create animation
 		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
         if (xPos < xDestination) {
             xPos++;
             if(movementCounter < iconSwitch)
@@ -89,25 +84,9 @@ public class Restaurant1CustomerGui implements Gui{
         
         if (yPos < yDestination) {
             yPos++;
-        	if(movementCounter < iconSwitch && icon != down1)
-        		icon = down1;
-        	else if(movementCounter < iconSwitch * 2 && icon != down2)
-        		icon = down2;
-        	else if(movementCounter < iconSwitch * 3 && icon != down3)
-        		icon = down3;
-        	else if(icon != down2)
-        		icon = down2;
         }
         else if (yPos > yDestination) {
             yPos--;
-        	if(movementCounter < iconSwitch && icon != up1)
-        		icon = up1;
-        	else if(movementCounter < iconSwitch * 2 && icon != up2)
-        		icon = up2;
-        	else if(movementCounter < iconSwitch * 3 && icon != up3)
-        		icon = up3;
-        	else if(icon != up2)
-        		icon = up2;
         }
 			
 

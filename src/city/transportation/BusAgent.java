@@ -248,7 +248,7 @@ public class BusAgent extends Vehicle implements Bus {
 			public void run() {
 				msgFinishedUnloading();
 			}
-		}, 2500	);
+		}, 1000	);
 	}
 
 	public void addBusStops(List<BusStop> stops) {
