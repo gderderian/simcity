@@ -199,11 +199,9 @@ public class CityClock {
 	
 	public void setDayTime(int hour, int minute, String amPm){
 		
+		
 		if (amPm.equals("pm")){
-			
-				hour = hour + 12;
-			
-			
+				hour = hour + 12;	
 		}
 		
 		// Calculate hours in total day timer
@@ -213,8 +211,8 @@ public class CityClock {
 		System.out.println("Newly set hours: " + totalDayHours);
 		
 		// Calculate minutes in total day timer
-		int calcDayMinutes = 179999 * minute;
-		int totalDayMinutes = calcDayMinutes / 60;
+		int calcDayMinutes = 60 * minute;
+		int totalDayMinutes = calcDayMinutes / 7500;
 		
 		System.out.println("Newly set minutes: " + totalDayMinutes);
 		
@@ -239,7 +237,9 @@ public class CityClock {
 		System.out.println("Time delay: " + cityTime.getDelay() + " - New begin: " + finalTimerSet);
 		cityTime.start();
 		//beginTime = System.currentTimeMillis();
-		//checkTimer.restart();
+		checkTimer.stop();
+		checkTimer.setInitialDelay(1875);
+		checkTimer.start();
 		
 		//System.out.println("Newly set time: " + getHumanTime());
 		
