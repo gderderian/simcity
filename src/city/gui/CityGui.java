@@ -22,6 +22,8 @@ import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.Restaurant2.Restaurant2WaiterRoleRegular;
+import city.Restaurant2.Restaurant2WaiterRoleSharedData;
 import city.gui.Bank.BankAnimationPanel;
 import city.gui.Bank.BankCustomerRoleGui;
 import city.gui.Bank.BankGui;
@@ -53,6 +55,7 @@ import city.gui.restaurant2.Restaurant2CookGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.gui.restaurant2.Restaurant2WaiterGui;
 import city.transportation.BusAgent;
+import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
@@ -149,7 +152,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	private JPanel infoPanel;
 
 	private final int WINDOWX = 1300;
-	private final int WINDOWY = 750;
+	private final int WINDOWY = 730;
 	private final int ANIMATIONX = 900;
 	private final int WINDOW_X_COORD = 50;
 	private final int WINDOW_Y_COORD = 50;
@@ -209,14 +212,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		//Set up and populate apartment 1
 		addBuildingPanel(apt1);
-		for(int i=0; i<10; i++){
+		for(int i=0; i<20; i++){
 			apt1List.add(new HouseAnimationPanel());
 			addBuildingPanel(apt1List.get(i));
 			buildingPanels.add(apt1List.get(i));
 		}
 		//Set up and populate apartment 2
 		addBuildingPanel(apt2);
-		for(int i=0; i<10; i++){
+		for(int i=0; i<20; i++){
 			apt2List.add(new HouseAnimationPanel());
 			addBuildingPanel(apt2List.get(i));
 			buildingPanels.add(apt2List.get(i));
@@ -224,7 +227,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up all of the houses
-		for(int i=0; i<2; i++){ 
+		for(int i=0; i<22; i++){ 
 			HouseAnimationPanel temp= new HouseAnimationPanel();
 			houseAgents.get(i).setHouseAnimationPanel(temp);
 			houses.add(temp);
@@ -424,6 +427,28 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		newPerson.setBank(bank);
 	}
+	
+	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h, CarAgent c){
+		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
+		if(h != null){
+			h.setOwner(newPerson);
+		}
+		
+		PersonGui g = new PersonGui(newPerson);
+		newPerson.setGui(g);
+		
+		animationPanel.addGui(g);
+		
+		guis.add(g);
+		
+		personFactory(newPerson, job, g);
+		
+		people.add(newPerson);
+
+		addCar(newPerson, c);
+		
+		newPerson.startThread();
+	}
 
 	public void enableComeBack(Restaurant2Waiter agent) {
 		// TODO Auto-generated method stub
@@ -462,12 +487,24 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 	}   
 	
+	public void addCar(PersonAgent p, CarAgent c) {
+		vehicles.add(c);
+		VehicleGui g = new VehicleGui(c);
+		c.setGui(g);
+		animationPanel.addGui(g);
+		g.setMainAnimationPanel(animationPanel);
+		
+		p.addCar(c);
+		
+		c.startThread();
+	}
+	
 	private void personFactory(PersonAgent p, int i) {
 		if(i == 1) {
 			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
 			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
 			restaurant2.addGui(customerGui);
-			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRole("waiter", p);
+			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRoleRegular("waiter", p);
 			p.addFirstJob(waiterRole, "rest2");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -482,10 +519,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			p.addRole(customerRole, false);
 		}
 		if(i == 3) { // Restaurant 3 (Grant) Testing
-			CustomerRole3 customerRole = new CustomerRole3(p.getName(), 50,50, p);
-			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, 50, 50, 0); // GUI should be passed into 2nd agmt
+			CustomerRole3 customerRole = new CustomerRole3(p.getName(), -20, -20, p);
+			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, -20, -20, 0);
 			restaurant3.addGui(customerGui);
-			WaiterRole3 waiterRole = new WaiterRole3("waiter", 50, 50,p);
+			WaiterRole3 waiterRole = new WaiterRole3("waiter", 230, 230,p);
 			p.addFirstJob(waiterRole, "rest3");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -717,11 +754,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
     
 	public Role getNewRole(String type, PersonAgent p){
+		//Creates role, gui for role
+		//Adds role to gui and gui to role
+		//Adds role to correct animation panel
 		if(type.equals("Restaurant2 Waiter")){
-			//Creates role, gui for role
-			//Adds role to gui and gui to role
-			//Adds role to correct animation panel
-			Restaurant2WaiterRole role = new Restaurant2WaiterRole(p.getName(), p);
+			Restaurant2WaiterRole role = new Restaurant2WaiterRoleSharedData(p.getName(), p);
 			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, 1);
 			role.setGui(gui);
 			restaurant2.addGui(gui);
@@ -827,7 +864,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui.setPresent(true);
 			return role;
 		} else if (type.equals("Restaurant3 Waiter")){
-			WaiterRole3 role= new WaiterRole3(p.getName(), 50, 50, p); 
+			WaiterRole3 role= new WaiterRole3(p.getName(), 230, 230, p); 
 			WaiterGui3 gui = new WaiterGui3(role);
 			role.setGui(gui);
 			restaurant3.addGui(gui);

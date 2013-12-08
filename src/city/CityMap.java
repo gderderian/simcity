@@ -4,6 +4,7 @@ import interfaces.BusStop;
 import interfaces.Restaurant2Customer;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import justinetesting.interfaces.Customer4;
 import restaurant1.Restaurant1;
@@ -34,7 +35,10 @@ public class CityMap {
 	
 	Map<String, Position> buildingLocations = new HashMap<String, Position>();
 	Map<String, Position> parkingLocations = new HashMap<String, Position>();
+	List<Position> parkingEntrances = new ArrayList<Position>();
 	List<String> restaurants = new ArrayList<String>();
+	
+	private Semaphore intersection = new Semaphore(1, true);
 	
 	Restaurant1 restaurant1;
 	Restaurant2 restaurant2;
@@ -101,6 +105,12 @@ public class CityMap {
 		parkingLocations.put("mark2", new Position(5,3));
 		parkingLocations.put("mark3", new Position(8,12));
 		
+		//Entrances to parking structure
+		parkingEntrances.add(new Position(7,9));
+		parkingEntrances.add(new Position(14,9));
+		parkingEntrances.add(new Position(10,7));
+		parkingEntrances.add(new Position(11,11));
+		
 		//Adding list of nearby locations to each bus stop
 		List<String> buildingList0 = new ArrayList<String>();
 		buildingList0.add("house2");
@@ -156,9 +166,18 @@ public class CityMap {
 		restaurants.add("Restaurant5");
 	}
 	
+	public void enterIntersection() {
+		try {
+			intersection.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
-	
-	
+	public void leaveIntersection() {
+		intersection.release();
+	}
 	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
@@ -222,6 +241,19 @@ public class CityMap {
 		return minStop;
 	}
 	
+	public Position getParkingEntrance(Position p) {
+		int nearestEntrance = 0;
+		double distance = 1000;
+		for(int i = 0; i < parkingEntrances.size(); i++) {
+			double newDistance = parkingEntrances.get(i).distance(p);
+			if(newDistance < distance) {
+				distance = newDistance;
+				nearestEntrance = i;
+			}
+		}
+		return parkingEntrances.get(nearestEntrance);
+	}
+	
 	public void addBusStop(BusStop busStop) {
 		busStops.add((BusStopAgent) busStop);
 	}
@@ -283,6 +315,8 @@ public class CityMap {
 		}
 		if(num == 3){
 			restaurant3.getHost().msgIWantFood((CustomerRole3) customer, 0, 0);
+			((CustomerRole3) customer).setHost(restaurant3.getHost());
+			((CustomerRole3) customer).setCashier(restaurant3.getCashier());
 		}
 		if(num == 4){
 			restaurant4.getHost().msgIWantFood((Customer4) customer);

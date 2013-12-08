@@ -146,6 +146,8 @@ public class CustomerRole3 extends Role {
 	public void msgAnimationFinishedLeaveRestaurant() {
 		Do("Done leaving restaurant.");
 		event = AgentEvent.doneLeaving;
+
+		System.out.println("Event:" + event + " - State: " + state);
 		person.stateChanged();
 	}
 	
@@ -231,7 +233,6 @@ public class CustomerRole3 extends Role {
 			return true;
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
-			System.out.println("DONOTHING SET!! 233");
 			state = AgentState.DoingNothing;
 			event = AgentEvent.none;
 			return true;
@@ -243,14 +244,12 @@ public class CustomerRole3 extends Role {
 			return true;
 		}
 		if (state == AgentState.WaitingForFood && event == AgentEvent.doneLeaving){
-			System.out.println("DONOTHING SET!! 245");
 			state = AgentState.DoingNothing;
 			event = AgentEvent.none;
 			return true;
 		}
 		if (state == AgentState.CantPay && event == AgentEvent.notPaid){
 			shame();
-			System.out.println("DONOTHING SET!! 252");
 			state = AgentState.DoingNothing;
 			event = AgentEvent.none;
 			return true;

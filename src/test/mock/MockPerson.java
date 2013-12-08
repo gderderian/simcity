@@ -1,5 +1,6 @@
 package test.mock;
 
+import astar.Position;
 import Role.LandlordRole;
 import city.MarketOrder;
 import city.transportation.BusAgent;
@@ -79,12 +80,6 @@ public class MockPerson extends Mock implements Person {
 		
 	}
 
-	@Override
-	public void msgArrived(Car c) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 	//FROM LANDLORD
 	@Override
@@ -121,6 +116,18 @@ public class MockPerson extends Mock implements Person {
 
 	@Override
 	public void msgHereIsYourOrder(MarketOrder order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgArrived(Car c, Position p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgImPickingYouUp(Car c, Position p) {
 		// TODO Auto-generated method stub
 		
 	}

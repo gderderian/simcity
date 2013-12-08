@@ -10,8 +10,8 @@ public class WaiterGui3 implements Gui {
 
 	RestaurantGui3 gui;
     
-    private int xPos = 230, yPos = 100;
-    public int xDestination = 230, yDestination = 230, host_tableX, host_tableY;
+    private int xPos = 0, yPos = 0;
+    public int xDestination = 0, yDestination = 0, host_tableX, host_tableY;
     
     private static final int HOST_SIZE_X = 20;
     private static final int HOST_SIZE_Y = 20;
@@ -103,8 +103,8 @@ public class WaiterGui3 implements Gui {
 	}
     
     public void DoBringToTable(CustomerRole3 customer, int tableX, int tableY) {
-        xDestination = tableX + 20;
-        yDestination = tableY - 20;
+        xDestination = tableX + 15;
+        yDestination = tableY - 15;
         host_tableX = tableX;
         host_tableY = tableY;
     }

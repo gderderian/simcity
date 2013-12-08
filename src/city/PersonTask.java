@@ -1,5 +1,7 @@
 package city;
 
+import Role.Role;
+
 public class PersonTask {
 	
 	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, doneWithWork};
@@ -20,6 +22,7 @@ public class PersonTask {
 	public String amPm; // String "am" or "pm" to represent first or second half of a day
 	public String location; // String that holds the location of where this action is supposed to take place, "market1"
 	public String role;
+	//public Role role;	should it change to this?
 	public TaskType type;
 	public Transportation transportation;
 	public State state;

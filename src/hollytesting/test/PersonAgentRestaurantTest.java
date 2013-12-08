@@ -9,6 +9,7 @@ import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant2.Restaurant2CustomerRole.AgentEvent;
 import city.Restaurant2.Restaurant2HostRole;
 import city.Restaurant2.Restaurant2WaiterRole;
+import city.Restaurant2.Restaurant2WaiterRoleRegular;
 import city.gui.PersonGui;
 import junit.framework.TestCase;
 import city.Restaurant2.Restaurant2HostRole.CustomerState;
@@ -35,7 +36,7 @@ public class PersonAgentRestaurantTest extends TestCase{
                 host = new Restaurant2HostRole("Host", hostPerson);     
                 host.setTesting(true);
                 waiterPerson = new PersonAgent("waiterPerson");
-                waiter = new Restaurant2WaiterRole("Waiter", waiterPerson);
+                waiter = new Restaurant2WaiterRoleRegular("Waiter", waiterPerson);
                 waiter.setTesting(true);
                 cookPerson = new PersonAgent("cookPerson");
                 cook = new Restaurant2CookRole("Cook", cookPerson);

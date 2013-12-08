@@ -10,6 +10,7 @@ import city.CityMap;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import astar.AStarTraversal;
+import astar.Position;
 
 public class CarAgent extends Vehicle implements Car {
 	//Data
@@ -20,8 +21,10 @@ public class CarAgent extends Vehicle implements Car {
 	
 	public String destination = null;
 	
-	public enum CarEvent { none, driving, arriving, parking };
-	public enum CarState { parked, driving, arrived };
+	private Position ownerLocation = null;
+	
+	public enum CarEvent { none, drivingToOwner, arrivingAtOwner, drivingToDestination, arrivingAtDestination, parking };
+	public enum CarState { parked, driving, arrived, atOwner };
 	
 	String name = "Car";
 	
@@ -35,17 +38,31 @@ public class CarAgent extends Vehicle implements Car {
 		capacity = 1;
 		type = "car";
 		guiFinished = new Semaphore(0, true);
+		
+		
+		currentPosition = new Position(11, 11);
+		currentPosition.moveInto(aStar.getGrid());
 	}
 	
 	//Messages
-	public void msgDriveTo(Person p, String dest) {
+	public void msgPickMeUp(Person p, Position pos) {
+		log("Received message: Pick me up!");
 		owner = p;
-		event = CarEvent.driving;
+		ownerLocation = pos;
+		event = CarEvent.drivingToOwner;
+		log("Going to pick up my owner");
+		stateChanged();
+	}
+	
+	public void msgDriveTo(Person p, String dest) {
+		log("Received message: Drive to " + dest + "!");
 		destination = dest;
+		event = CarEvent.drivingToDestination;
 		stateChanged();
 	}
 	
 	public void msgParkCar(Person p) {
+		log("Received message: Go park yourself!");
 		event = CarEvent.parking;
 		destination = null;
 		stateChanged();
@@ -57,12 +74,22 @@ public class CarAgent extends Vehicle implements Car {
 
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
-		if(state == CarState.parked && event == CarEvent.driving) {
+		if(state == CarState.parked && event == CarEvent.drivingToOwner) {
+			state = CarState.driving;
+			driveToOwner();
+			return true;
+		}
+		if(state == CarState.driving && event == CarEvent.arrivingAtOwner) {
+			state = CarState.atOwner;
+			pickUpOwner();
+			return true;
+		}
+		if(state == CarState.atOwner && event == CarEvent.drivingToDestination) {
 			state = CarState.driving;
 			driveToDestination();
 			return true;
 		}
-		if(state == CarState.driving && event == CarEvent.arriving) {
+		if(state == CarState.driving && event == CarEvent.arrivingAtDestination) {
 			state = CarState.arrived;
 			tellOwnerWeHaveArrived();
 			return true;
@@ -77,34 +104,79 @@ public class CarAgent extends Vehicle implements Car {
 	}
 	
 	//Actions
+	private void driveToOwner() {
+		
+		int x = ownerLocation.getX();
+		int y = ownerLocation.getY();
+		
+		gui.setVisible();
+		
+		if(x < 4 && y < 4) {
+			moveTo(3,3);
+		} else if(x > 17 && y < 4) {
+			moveTo(18,3);
+		} else if(x < 4 && y > 14) {
+			moveTo(3, 15);
+		} else if(x == 0) {
+			moveTo(3, y);
+		} else if(x == 21) {
+			moveTo(18, y);
+		} else if(y == 0) {
+			moveTo(x, 3);
+		} else if(y == 18) {
+			moveTo(x, 15);
+		} else if(y == 17) {
+			moveTo(x, 15);
+		} else
+			log("ERROR: Unexpected driving destination - see driveToOwner() in CarAgent.");
+
+		event = CarEvent.arrivingAtOwner;
+	}
 	private void driveToDestination() {
-		//gui.DoDriveTo(destination);
 		
+		int x = cityMap.getX(destination);
+		int y = cityMap.getY(destination);
+
 		log("Driving to " + destination);
-		/*try {
-			guiFinished.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		
-		event = CarEvent.arriving;
+		if(x < 4 && y < 4) {
+			moveTo(3,3);
+		} else if(x > 17 && y < 4) {
+			moveTo(18,3);
+		} else if(x < 4 && y > 14) {
+			moveTo(3, 15);
+		} else if(x == 0) {
+			moveTo(3, y);
+		} else if(x == 21) {
+			moveTo(18, y);
+		} else if(y == 0) {
+			moveTo(x, 3);
+		} else if(y == 18) {
+			moveTo(x, 15);
+		} else { log("ERROR: Unexpected driving destination - see driveToDestination() in CarAgent."); }
+		
+		event = CarEvent.arrivingAtDestination;
+	}
+	
+	private void pickUpOwner() {
+		log("I'm here to pick you up!");
+		owner.msgImPickingYouUp(this, currentPosition);
 	}
 	
 	private void tellOwnerWeHaveArrived() {
-		owner.msgArrived(this);
+		log("We have arrived at our destination!");
+		owner.msgArrived(this, currentPosition);
 	}
 	
 	private void parkCar() {
-		//gui.DoParkCar();
-		
+		if(aStar == null) {
+			log("Driving to nearest parking entrance.");
+			return;
+		}
+		Position parkingEntrance = cityMap.getParkingEntrance(currentPosition);
 		log("Parking...");
-		/*try {
-			guiFinished.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		guiMoveFromCurrentPositionTo(parkingEntrance);
+		gui.setInvisible();
 		
 		event = CarEvent.none;
 	}

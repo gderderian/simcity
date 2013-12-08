@@ -21,6 +21,9 @@ public abstract class Vehicle extends Agent {
 	AStarTraversal aStar;
 	Semaphore guiFinished;
 	
+	boolean inIntersection = false;
+	final int intersectionLeft = 13, intersectionRight = 21, intersectionTop = 10, intersectionBottom = 18;
+	
 	CityMap cityMap;
 	
 	VehicleGui gui;
@@ -37,13 +40,11 @@ public abstract class Vehicle extends Agent {
 
 	
 	void moveTo(int x, int y) {
-		if(aStar == null)
+		if(aStar == null) {
 			System.out.println("Vehicle moving to " + x + ", " + y + ".");
-		Position p = new Position(x, y);
-		
-		if(currentPosition.distance(p) > 16) {
-			//intermediate movement.
+			return;
 		}
+		Position p = new Position(x, y);
 		guiMoveFromCurrentPositionTo(p);
 	}
 	
@@ -74,11 +75,11 @@ public abstract class Vehicle extends Agent {
 		    gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
 
 		    //Did not get lock. Lets make n attempts.
-		    while (!gotPermit && attempts < 10) {
+		    while (!gotPermit && attempts < 3) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
 
 			//Wait for 1sec and try again to get lock.
-			try { Thread.sleep(1000); }
+			try { Thread.sleep(2000); }
 			catch (Exception e){}
 
 			gotPermit   = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
@@ -99,6 +100,8 @@ public abstract class Vehicle extends Agent {
 		    currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
 		    gui.moveTo(120 + (tmpPath.getX() * 30), 60 + (tmpPath.getY() * 30));
 		    
+		    print("At: " + currentPosition);
+		    
 		    //Give animation time to move to square.
 		    try {
 				guiFinished.acquire();
@@ -106,6 +109,28 @@ public abstract class Vehicle extends Agent {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		    
+		    int x = currentPosition.getX();
+		    int y = currentPosition.getY();
+		    
+		    if(x >= intersectionLeft && x <= intersectionRight && y >= intersectionTop && y <= intersectionBottom) {
+		    	if(!inIntersection) {
+		    		try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		    		
+		    		cityMap.enterIntersection();
+		    		inIntersection = true;
+		    	}
+		    } else {
+		    	if(inIntersection) {
+		    		cityMap.leaveIntersection();
+		    		inIntersection = false;
+		    	}
+		    }
 		}
 		/*
 		boolean pathTaken = false;

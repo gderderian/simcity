@@ -19,7 +19,7 @@ import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2WaiterGui;
 import Role.Role;
 
-public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
+public abstract class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public enum CustomerState {waiting, prompted, proceed, seated, askedToOrder, askedForOrder, ordering, ordered, doneOrdering, 
@@ -50,10 +50,10 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 	
 	boolean deliveringFood;
 	
-	private Semaphore atDest = new Semaphore(0,true);
+	protected Semaphore atDest = new Semaphore(0,true);
 	private Semaphore AtStand = new Semaphore(0, true);
 	
-	private Restaurant2WaiterGui waiterGui;
+	protected Restaurant2WaiterGui waiterGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2WAITER;
 	
 	boolean test = false;
@@ -356,11 +356,6 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 			}
 		}
 		synchronized(customers){
-			for(MyCustomer c : customers){
-				if(c.s != CustomerState.gone){
-					return true;
-				}
-			}
 			if(state == WaiterState.yesBreak){
 				log("Taking break.");
 				takeBreak();
@@ -456,9 +451,7 @@ public class Restaurant2WaiterRole extends Role implements Restaurant2Waiter {
 		}
 	}
 	
-	void SendOrderToCook(MyCustomer c){
-		cook.msgHereIsOrder(this, c.choice, c.table);
-	}
+	abstract void SendOrderToCook(MyCustomer c);
 	
 	void sendCheck(MyCustomer c){
 		waiterGui.DoGoToTable(c.c, c.table);

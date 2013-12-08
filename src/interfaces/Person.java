@@ -1,5 +1,6 @@
 package interfaces;
 
+import astar.Position;
 import Role.LandlordRole;
 import city.MarketOrder;
 import city.transportation.BusAgent;
@@ -29,14 +30,16 @@ public interface Person {
 	
 	
 	//Messages from bus/bus stop
-	public abstract void msgArrivedAtStop(int stop);
+	public abstract void msgArrivedAtStop(int stop, Position p);
 	
 	public abstract void msgPleasePayFare(Bus b, double fare);
 	
-	public abstract void msgBusIsHere(Bus b);
+	public abstract void msgBusIsHere(Bus b, Position p);
 	
-	public abstract void msgArrived(Car c);
+	//Messages from car	
+	public abstract void msgArrived(Car c, Position p);
 		
+	public abstract void msgImPickingYouUp(Car c, Position p);
 	
 	//from landlord
 	public abstract void msgFixed(String appliance);

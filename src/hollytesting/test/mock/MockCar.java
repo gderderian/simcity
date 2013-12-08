@@ -1,5 +1,6 @@
 package hollytesting.test.mock;
 
+import astar.Position;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import test.mock.Mock;
@@ -19,13 +20,20 @@ public class MockCar extends Mock implements Car{
         @Override
         public void msgDriveTo(Person p, String dest) {
                 log.add(new LoggedEvent("Recieved message drive to " + dest));
-                person = (PersonAgent) p;
-                p.msgArrived(this);
+                p.msgArrived(this, null);
+                //this needs a position to be able to work
         }
 
         @Override
         public void msgParkCar(Person p) {
                 log.add(new LoggedEvent("Recieved message park car"));
         }
+
+		@Override
+		public void msgPickMeUp(Person p, Position pos) {
+			log.add(new LoggedEvent("Received message pick me up"));
+			person = (PersonAgent) p;
+			
+		}
 
 }

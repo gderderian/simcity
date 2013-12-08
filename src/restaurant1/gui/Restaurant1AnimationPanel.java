@@ -65,32 +65,6 @@ public class Restaurant1AnimationPanel extends BuildingPanel implements ActionLi
         setVisible(true);
 
         addMouseListener(this);
-
-        /*This can no longer go here! 
-        Cook = new Restaurant1CookRole("CookRole", personCook);
-        cookGui = new Restaurant1CookGui(Cook);
-        Cook.setGui(cookGui);
-        Cashier = new Restaurant1CashierRole("CashierRole", personCashier);
-        cashierGui = new Restaurant1CashierGui(Cashier);
-        Waiter = new Restaurant1WaiterRole("WaiterRole", personWaiter);
-        waiterGui = new Restaurant1WaiterGui(Waiter);
-        Waiter.setGui(waiterGui);
-        Host = new Restaurant1HostRole("HostRole", personHost);
-        
-        personCook.addRole(Cook, true);
-        personCook.startThread();
-        personHost.addRole(Host, true);
-        personHost.startThread();
-        personCashier.addRole(Cashier, true);
-        personCashier.startThread();
-        personWaiter.addRole(Waiter, true);
-        personWaiter.startThread();
-        Host.addWaiter(Waiter);
-        
-        guis.add(cookGui);
-        guis.add(waiterGui);
-        guis.add(cashierGui);
-        */
     	
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();

@@ -58,8 +58,8 @@ public class PersonAgentTransportationTest extends TestCase {
                  * Finish this when person has reason to take car
                  */
                 
-                person.cars.add((Car) car);
-                person.carRides.add(person.new CarRide((Car) car, "Restaurant"));
+                person.car = (Car) car;
+                person.carRide = person.new CarRide((Car) car, "Restaurant");
                 car.msgDriveTo(person, "Restaurant");
                 assertTrue("The person should have record of the car arriving at destination", person.log.containsString("Recieved message arrived by car"));
                 person.pickAndExecuteAnAction();
