@@ -637,6 +637,7 @@ public class PersonAgent extends Agent implements Person{
 		if(!atHome){
 			log("Going home");
 			if(house != null){
+				log("IM NOT HOMELESS");
 				DoGoTo(house.getName(), null);
 				house.getAnimationPanel().addGui(homeGui);
 				homeGui.goToBed();
@@ -686,6 +687,11 @@ public class PersonAgent extends Agent implements Person{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
 		}
+		else if(task.type == TaskType.goToMarket){
+			log("I should give the market manager my order!");
+			MarketOrder o = new MarketOrder(groceryList.get(0), this);
+			cityMap.market.mktManager.msgHereIsOrder(o);
+		}
 	}
 
 	public void goToWork(PersonTask task){
@@ -725,6 +731,9 @@ public class PersonAgent extends Agent implements Person{
 			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
 		else if(name.equals("joe")){
+			if(!atHome){
+				goHome();
+			}
 			homeGui.goToFridge();         
 			try{
 				atDestination.acquire();
@@ -732,11 +741,11 @@ public class PersonAgent extends Agent implements Person{
 			int y = rand.nextInt(foodsToEat.size());
 			String food = foodsToEat.get(y);
 			house.checkFridge(food);
-			groceryList.add(food);
-			homeGui.goToExit(); 
+			//groceryList.add(food);
+			/*homeGui.goToExit(); 
 			try{
 				atDestination.acquire();
-			} catch (InterruptedException e){}
+			} catch (InterruptedException e){}*/
 			/*MarketOrder o= new MarketOrder(food, this);
         	log("IS THE MARKET MANAGER NULL? " + cityMap.market.mktManager);
         	cityMap.market.mktManager.msgHereIsOrder(o);
@@ -1017,12 +1026,26 @@ public class PersonAgent extends Agent implements Person{
 
 	public void goGroceryShopping(PersonTask task){
 		log("I'm headed out to the market to buy food now.");
-
-		String location = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
+		if(atHome){
+			homeGui.goToExit(); 
+			try{
+				atDestination.acquire();
+			} catch (InterruptedException e){}
+		}
+		//String location = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
+		String location;
+		Random rand = new Random();
+		int num= rand.nextInt(2);
+		if(num == 0)
+			location= "mark1";
+		else
+			location= "mark2";
+		
 		task.location = location;
 		task.role = "MarketCustomerRole";
 
-		if(car != null){
+		if(car == null){
+			log("location: " + location);
 			DoGoTo(location, task);
 		}
 		else{
@@ -1031,7 +1054,7 @@ public class PersonAgent extends Agent implements Person{
 		task.state = State.inTransit;
 
 		/*
-		 * This will be moved to reachedDestination() function
+		 * This was moved to reachedDestination() function
 		MarketOrder o = new MarketOrder(groceryList.get(0), this);
 		cityMap.market.mktManager.msgHereIsOrder(o);
 		 */
@@ -1128,7 +1151,7 @@ public class PersonAgent extends Agent implements Person{
 		moveTo(x, y);
 		if(task != null)
 			task.state = State.arrived;
-		if(task.transportation == Transportation.walking){
+		if((task != null) && (task.transportation == Transportation.walking)){
 			reachedDestination(task);
 		}
 		gui.setInvisible();
