@@ -65,7 +65,7 @@ public class CookRole3 extends Role {
 	
 	// Messages
 	public void hereIsOrder(String choice, WaiterRole3 waiter, int tableNum) {
-		Do("Cook has received an order of " + choice + " for table #" + tableNum + " via waiter " + waiter.getName() + ".");
+		log("Cook has received an order of " + choice + " for table #" + tableNum + " via waiter " + waiter.getName() + ".");
 		// Determine if there is enough inventory of this item to fulfill this order
 		if (allFood.get(choice).quantity >= 1) { // Able to fulfill order, dock one from that item's inventory
 			Order o = new Order();
@@ -86,7 +86,7 @@ public class CookRole3 extends Role {
 	}
 	
 	public void deliverFood(String incomingFood, int quantity) {
-		Do("Accepting order of " + quantity + " " + incomingFood + "(s) from market.");
+		log("Accepting order of " + quantity + " " + incomingFood + "(s) from market.");
 		FoodItem f = allFood.get(incomingFood);
 		if (quantity < f.requestedQuantity && f.searchMarket != MARKETS_NUM){
 			f.searchMarket++;
@@ -106,9 +106,6 @@ public class CookRole3 extends Role {
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		
-		System.out.println("Order size: "  +  currentOrders.size());
-		
 		if (!currentOrders.isEmpty()) {
 			try {
 				for (Order order : currentOrders) {
@@ -150,7 +147,7 @@ public class CookRole3 extends Role {
 
 	// Actions
 	private void prepareFood(Order o){ // Begins cooking the specified order and starts a timer based on the food item class' set cooking time
-		Do("Beginning to prepare food " + o.getFoodName() + ".");
+		log("Beginning to prepare food " + o.getFoodName() + ".");
 		
 		// Get from fridge
 	    cookGui.setDestination(350, 445);
@@ -210,7 +207,7 @@ public class CookRole3 extends Role {
 	}
 
 	private void orderDone(Order o){ // Tells the specific waiter that their customer's order is done and removes that order from the cook's list of orders
-		Do("Notifying waiter that " + o.getFoodName() + " for table #" + o.recipTable + "is done.");
+		log("Notifying waiter that " + o.getFoodName() + " for table #" + o.recipTable + "is done.");
 		
 		// Go to grill to get order and remove it
 		cookGui.setDestination(225, 495);
@@ -268,7 +265,7 @@ public class CookRole3 extends Role {
 	}
 	
 	private void orderOut(Order o){ // Tells the specific waiter that their customer's order cannot be fulfilled
-		Do("Notifying waiter that " + o.getFoodName() + " is out of stock and the customer who ordered it needs to rechoose.");
+		log("Notifying waiter that " + o.getFoodName() + " is out of stock and the customer who ordered it needs to rechoose.");
 		o.getWaiter().needNewChoice(o.recipTable, o.foodItem);
 		currentOrders.remove(o);
 	}
