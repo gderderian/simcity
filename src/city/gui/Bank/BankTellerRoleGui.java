@@ -18,6 +18,7 @@ public class BankTellerRoleGui implements Gui{
 	private BankGui gui;
 	
 	boolean isPresent;
+	public boolean bankTellerOccupied;
 
     int initialxc = 200;
     private int xcoordinatesofstations[] = new int [4];
@@ -32,6 +33,7 @@ public class BankTellerRoleGui implements Gui{
     public BankTellerRoleGui(BankTellerRole setrole, BankGui setgui) {
         this.role = setrole;
         this.gui = setgui;
+        bankTellerOccupied = false;
         
        
 		for(int i = 0; i < 4; i++)
@@ -60,8 +62,21 @@ public class BankTellerRoleGui implements Gui{
     	g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 40, gui);
     	
     	Graphics2D g3 = (Graphics2D)g;
-    	g3.fillOval(xPos - 20, yPos +50, 20, 20);
-    	g3.setColor(Color.GREEN);
+    	Graphics2D g4 = (Graphics2D)g;
+    	if(bankTellerOccupied == false)
+    	{
+    		g3.setColor(Color.GREEN);
+    		g3.fillRect(xPos - 20, yPos - 12, 38, 20);
+    		g4.setFont(new Font("Arial", Font.BOLD, 12));
+    		g4.setColor(Color.black);
+    		g4.drawString("OPEN", xPos - 18, yPos + 2);
+    	}
+    	if(bankTellerOccupied == true)
+    	{
+    		g3.setColor(Color.RED);
+    		g3.fillRect(xPos - 20, yPos - 12, 38, 20);
+    	}
+    	
     	
     }
 

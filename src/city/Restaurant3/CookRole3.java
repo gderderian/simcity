@@ -106,6 +106,9 @@ public class CookRole3 extends Role {
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		System.out.println("Order size: "  +  currentOrders.size());
+		
 		if (!currentOrders.isEmpty()) {
 			try {
 				for (Order order : currentOrders) {
@@ -130,7 +133,19 @@ public class CookRole3 extends Role {
 				return true;
 			}
 		}
+		goHome();
 		return false;
+	}
+	
+	private void goHome(){
+		// Go to cook home
+		cookGui.setDestination(225, 445);
+		cookGui.beginAnimate();
+		try {
+			isAnimating.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// Actions
@@ -192,15 +207,6 @@ public class CookRole3 extends Role {
 			allFood.get(o.foodItem).requestedQuantity = orderQuantity;
 		}
 		
-		// Go to cook home
-		cookGui.setDestination(225, 445);
-		cookGui.beginAnimate();
-		try {
-			isAnimating.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	private void orderDone(Order o){ // Tells the specific waiter that their customer's order is done and removes that order from the cook's list of orders
@@ -256,15 +262,6 @@ public class CookRole3 extends Role {
 		cookGui.setCarryText("");
 		
 		o.getWaiter().hereIsFood(o.recipTable, o.foodItem);
-			
-		// Go back home
-		cookGui.setDestination(225, 445);
-		cookGui.beginAnimate();
-		try {
-			isAnimating.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
 		currentOrders.remove(o);
 		
@@ -356,6 +353,7 @@ public class CookRole3 extends Role {
 					new ActionListener() { public void actionPerformed(ActionEvent event) {
 			          status = orderStatus.ready;
 			          foodTimer.stop();
+			          person.stateChanged();
 			      }
 			});
 			foodTimer.start();

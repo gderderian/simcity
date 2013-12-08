@@ -427,6 +427,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		people.add(newPerson);
 		
 		newPerson.startThread();
+		
+		newPerson.setBank(bank);
 	}
 	
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h, CarAgent c){
@@ -727,14 +729,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			//I added this
 			else if(job.contains("Bank")) {
 				p.addFirstJob(r, "bank1");
-				 
-				if(r instanceof BankManagerRole) {
-					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager");
-					bank.setBankManager((BankManagerRole) r);
-					p.setRoleActive(r);
-				}
+				/*
 				if(r instanceof BankTellerRole) {
 					bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) r);
+					p.setRoleActive(r);
+				}
+				*/
+				if(r instanceof BankManagerRole) {
+					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager in the bank!");
+					bank.setBankManager((BankManagerRole) r);
 					p.setRoleActive(r);
 				}
 					
@@ -912,6 +915,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		//I added this
 		else if(type.equals("Bank Manager")){
+			
+			System.out.println("!!!!!!!!!!!!  I'm in get role");
 			Bank bank = new Bank();
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
