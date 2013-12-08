@@ -1,5 +1,6 @@
 package city.transportation.mock;
 
+import astar.Position;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import test.mock.Mock;
@@ -68,7 +69,7 @@ public class MockTransportationPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgArrivedAtStop(int stop) {
+	public void msgArrivedAtStop(int stop, Position p) {
 		log.add(new LoggedEvent("Got message: Arrived at stop"));		
 	}
 
@@ -78,13 +79,13 @@ public class MockTransportationPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgBusIsHere(Bus b) {
+	public void msgBusIsHere(Bus b, Position p) {
 		log.add(new LoggedEvent("Got message: Bus is here"));
 		
 	}
 
 	@Override
-	public void msgArrived(Car c) {
+	public void msgArrived(Car c, Position p) {
 		log.add(new LoggedEvent("Got message: Car arrived"));
 	}
 
@@ -114,6 +115,12 @@ public class MockTransportationPerson extends Mock implements Person {
 	@Override
 	public void msgHereIsYourOrder(MarketOrder order) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgImPickingYouUp(Car c, Position p) {
+		log.add(new LoggedEvent("Got message: Car is picking me up"));
 		
 	}
 
