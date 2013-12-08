@@ -1,15 +1,11 @@
 package city.Restaurant3;
 
 import Role.Role;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
-
 import javax.swing.Timer;
-
-import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;

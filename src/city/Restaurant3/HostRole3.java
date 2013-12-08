@@ -1,10 +1,7 @@
 package city.Restaurant3;
 
 import Role.Role;
-
 import java.util.*;
-
-import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;

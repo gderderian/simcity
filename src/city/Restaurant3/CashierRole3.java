@@ -3,10 +3,7 @@ package city.Restaurant3;
 import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
-import agent.Agent;
-
 import java.util.*;
-
 import city.PersonAgent;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
