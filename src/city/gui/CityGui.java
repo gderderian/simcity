@@ -917,7 +917,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		else if(type.equals("Bank Manager")){
 			
 			System.out.println("!!!!!!!!!!!!  I'm in get role");
-			Bank bank = new Bank();
+			//Bank bank = new Bank();
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
 			BankGui bankgui = new BankGui(); 
@@ -929,7 +929,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		//I added this
 		else if(type.equals("Bank Teller")) {
-			Bank bank = new Bank();
+			//Bank bank = new Bank();
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
 			BankGui bankgui = new BankGui(); 

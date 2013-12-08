@@ -89,11 +89,11 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         g.drawImage(imgofsilver, 100, 0, 20, 182, this);
         //wall.setColor(Color.gray);
         //wall.fillRect(160, 0, 20, 180);
-        g.drawImage(imgofwood, 160, 500, 595, 70, this);
-        g.drawImage(imgofcouch, 180, 500, 130, 70, this);
-        g.drawImage(imgofcouch, 320, 500, 130, 70, this);
-        g.drawImage(imgofcouch, 460, 500, 130, 70, this);
-        g.drawImage(imgofcouch, 600, 500, 130, 70, this);
+        g.drawImage(imgofwood, 160, 500, 595, 90, this);
+        g.drawImage(imgofcouch, 180, 500, 130, 90, this);
+        g.drawImage(imgofcouch, 320, 500, 130, 90, this);
+        g.drawImage(imgofcouch, 460, 500, 130, 90, this);
+        g.drawImage(imgofcouch, 600, 500, 130, 90, this);
         //waitingarea.setColor(Color.white);
         //waitingarea.fillRect(180, 470, 700, 10);
         
