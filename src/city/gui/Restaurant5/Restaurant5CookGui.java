@@ -5,6 +5,8 @@ import city.Restaurant5.*;
 import city.Restaurant5.Restaurant5CookRole.cookingorder;
 import city.Restaurant5.Restaurant5CookRole.cookstate;
 
+
+
 /*
 import restaurant.CookAgent.cookingorder;
 import restaurant.CookAgent.cookingorderstate;
@@ -140,94 +142,35 @@ public class Restaurant5CookGui implements Gui {
     	for(ordergui displayordergui: orderguis) {
     		if(displayordergui.state == orderguistate.cooking)
     		{
+    			
+    			Graphics2D g2 = (Graphics2D)g;
+    			g2.setColor(Color.WHITE);
+        		g2.fillRect(displayordergui.xcoordinate - 2, displayordergui.ycoordinate - 74, 46, 20);
+        		g.setFont(new Font("Arial", Font.BOLD, 12));
+    			g.setColor(Color.BLACK);
     			g.drawString(displayordergui.order, displayordergui.xcoordinate, displayordergui.ycoordinate - 60);
-    		}
-    	}
-        
-        
-        
-        /*
-        if(agent.state == cookstate.plating)
-        {
-        	yDestination = 50;
-        	//System.out.print("i'm plting");
-        	for(cookingorder displaycookingorder: agent.cookingorders) {
-        		if(displaycookingorder.state == cookingorderstate.waiting)
-        		{
-        			//System.out.print("i'm plating");
-        			g.drawString(displaycookingorder.order,xPos, yPos + 1);
-        			break;
-        			
-        		}
-        	}	
-        	
-        }
-        */
-        
-        /*
-        for(cookingorder displaycookingorder: agent.cookingorders) {
-    		if(displaycookingorder.state == cookingorderstate.waiting)
-    		{
-    			orderguis.add( new ordergui(displaycookingorder.order, displaycookingorder.waiter, 442, 100) );
+      
     			
     		}
     	}
-    	*/
-        /*
-        for(ordergui displayordergui: orderguis) {
-        	g.setColor(Color.black);
-        	g.drawString(displayordergui.order, displayordergui.xcoordinate, displayordergui.ycoordinate);
-        	
-        }
-        */
         
         
-        
-        
-        /*
-        if(agent.donecooking == true)
-        {
-        	//System.out.print("i'm done cooking man");
-        	int counter = 0;
-        	if(agent.currentorder.order.equals("chicken"))
-        	{
-        		g.drawString("Chicken",counterxpos[counter],80);
-        	}
-        	
-        }
-        */
-        
-        /*
-        for(cookingorder displaycookingorder: agent.cookingorders) 
-        {
-    		if(displaycookingorder.state == cookingorderstate.waiting)
-    		{
-    			//g.drawString("pickme up" + displaycookingorder.order,xPos, yPos + 20);		
-    		}
-    	}
-    	*/
-        
+       
         
         
         for(ordergui displayordergui : orderguis) {
         		if(displayordergui.state == orderguistate.pending)
         		{
-        		g.setColor(Color.black);
-        		g.drawString(displayordergui.order, displayordergui.xcoordinate, displayordergui.ycoordinate + 10);	
-       
+        			
+        			Graphics2D g2 = (Graphics2D)g;
+        			g2.setColor(Color.WHITE);
+            		g2.fillRect(displayordergui.xcoordinate - 2, displayordergui.ycoordinate + 3, 46, 20);
+            		g.setFont(new Font("Arial", Font.BOLD, 12));
+        			g.setColor(Color.BLACK);
+        			g.drawString(displayordergui.order, displayordergui.xcoordinate, displayordergui.ycoordinate + 16);
         		}
         }
-        /*
-        for(finishedorder displayfinishedorder: agent.finishedorders) {
-        	if(displayfinishedorder.state == finishedorderstate.pending)
-        	{
-        		
-        		g.drawString(displayfinishedorder.order, xPos, yPos + counter);
-        		//counter += 10;
-        	}
-        	
-        }
-        */
+    
         
         
     }

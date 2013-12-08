@@ -750,6 +750,10 @@ public class PersonAgent extends Agent implements Person{
 		}
 		
 		
+		if(task.role != null)
+		{
+			
+
 		if(task.role.equals("BankTellerRole"))
 		{	
 			for(Role findrole : roles)
@@ -762,6 +766,8 @@ public class PersonAgent extends Agent implements Person{
 					cityMap.msgArrivedAtBank(findrole);
 				}
 			}
+		}
+		
 		}
 		
 		//This needs to be moved into the reachedDestination() function
