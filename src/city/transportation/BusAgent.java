@@ -117,6 +117,11 @@ public class BusAgent extends Vehicle implements Bus {
 		event = BusEvent.pickingUpPassengers;
 		stateChanged();
 	}
+	
+	public void msgScenicRouteFinished() {
+		event = BusEvent.arrivedAtStop;
+		stateChanged();
+	}
 
 	public void msgGuiFinished() {
 		guiFinished.release();
@@ -212,6 +217,13 @@ public class BusAgent extends Vehicle implements Bus {
 	private void DriveToNextStop() {
 
 		log("Driving to stop #" + (currentStop + 1));
+		
+		if(currentStop == 3 && passengers.isEmpty()) {
+			log("(Taking the scenic route)");
+			scenicRoute();
+			return;
+		}
+		
 		GoToStop((currentStop + 1) % 4);
 
 		event = BusEvent.arrivedAtStop;
@@ -264,6 +276,39 @@ public class BusAgent extends Vehicle implements Bus {
 		}
 
 		guiMoveFromCurrentPositionTo(stopPositions.get(stop));
+	}
+	
+	private void scenicRoute() { //This method has the bus drive off of the screen and then back on at the bottom if it has no passengers
+		guiMoveFromCurrentPositionTo(new Position(25, 14));
+		gui.moveTo(25 * 30 + 150, 14 * 30 + 60);
+		try {
+			guiFinished.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gui.setInvisible();
+
+		timer.schedule(new TimerTask() {
+			public void run() {
+				finishScenicRoute();
+			}
+		}, 4000	);
+	}
+	
+	private void finishScenicRoute() {
+		int x = 17, y = 20; //Coordinates of spot at bottom of screen
+		gui.teleport(x * 30 + 120, y * 30 + 90);
+		
+		currentPosition.release(aStar.getGrid());
+		currentPosition = new Position(x, y);
+		currentPosition.moveInto(aStar.getGrid());
+		
+		gui.setVisible();
+		
+		guiMoveFromCurrentPositionTo(stopPositions.get(0));
+		
+		msgScenicRouteFinished();
 	}
 
 	private void log(String msg){

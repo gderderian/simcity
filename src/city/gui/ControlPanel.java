@@ -601,16 +601,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[4][18].release(5);
 		sidewalkGrid[11][18].release(5);      	
 
-		streetGrid[18][18].release(100); //starting point for vehicles
+		streetGrid[17][18].release(100); //starting point for vehicles
 
 		streetGrid[7][9].release(100); //Parking entrances + tiles right outside
-		streetGrid[6][9].release();
 		streetGrid[14][9].release(100); 
-		streetGrid[15][9].release();
 		streetGrid[10][7].release(100); 
-		streetGrid[10][6].release();
 		streetGrid[11][11].release(100); 
-		streetGrid[11][12].release();
 
 		/********Finished setting up semaphore grid***********/
 	}
@@ -688,6 +684,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 13000	);
 
+		addPersonWithCar("rest1Test", "No Job");
+
 		addPersonNoHouse("host", "Restaurant2 Host");
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
 		addPersonNoHouse("cook", "Restaurant2 Cook");
@@ -709,6 +707,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
 		addPerson("rest4Test", "No job");
+		addPersonWithCar("rest4Test", "No job");
 
 	}
 
