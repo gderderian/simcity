@@ -83,7 +83,7 @@ public class PersonAgent extends Agent implements Person{
 	double moneyToDeposit;
 
 	//Bank
-	Bank bank;
+	Bank bank = new Bank();
 	BankTellerRole bankTeller;
 	enum BankState {none, deposit, withdraw, loan};   //so we know what the person is doing at the bank
 	BankState bankState;
@@ -298,9 +298,14 @@ public class PersonAgent extends Agent implements Person{
 
 		timeOfDay = t;
 
-		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") || name.equals("waiter3") || name.equals("waiter4") || name.equals("waiter5"))){
+		if(t > 4000 && t < 7020 && (name.equals("waiter") || name.equals("waiter1") || name.equals("waiter3") || name.equals("waiter4") || name.equals("waiter5") || name.equals("bank teller"))){
 			synchronized(tasks){
-				tasks.add(new PersonTask(TaskType.goToWork));
+				PersonTask task = new PersonTask(TaskType.goToWork);
+				tasks.add(task);
+				if(name.equals("bank teller"))
+				{
+					task.role = "BankTellerRole";
+				}
 			}
 			log("Its time for me to go to work");
 		}
@@ -311,6 +316,16 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to eat something");
 		}
+		else if(t > 19000 && t < 21000 && (name.equals("bankCustomerTest")))
+		{
+			synchronized(tasks) {
+				tasks.add(new PersonTask(TaskType.goToBank));
+			}
+			log("It's time for me to go to bank");
+			
+		}
+		
+		
 
 		stateChanged();
 	}
@@ -455,12 +470,12 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
+		/*
 		if(name.equals("bankCustomerTest") && callonce == false) {
 			goToBank(new PersonTask(TaskType.goToBank));
 			callonce = true;
 		}
-		
+		*/
 		
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -549,10 +564,11 @@ public class PersonAgent extends Agent implements Person{
 		//Go to bank
 		synchronized(tasks){
 			for(PersonTask t: tasks){
-				if(t.type == TaskType.goToBank && t.state == State.initial);
+				if(t.type == TaskType.goToBank && t.state == State.initial) {
 				goToBank(t);
 				t.state = State.processing;
 				return true;
+				}
 			}
 		}
 		//Cook meal
@@ -666,6 +682,9 @@ public class PersonAgent extends Agent implements Person{
 		else if(task.type == TaskType.goToWork){
 			myJob.startJob();
 		}
+		else if(task.type == TaskType.goToBank) {
+			
+		}
 	}
 
 	public void goToWork(PersonTask task){
@@ -684,6 +703,22 @@ public class PersonAgent extends Agent implements Person{
 				reachedDestination(task);
 			}
 		}
+		
+		
+		if(task.role.equals("BankTellerRole"))
+		{	
+			for(Role findrole : roles)
+			{
+				if(findrole instanceof BankTellerRole)
+				{
+					Do("Bank teller is at the bank");
+					//bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) findrole);
+					//this.setRoleActive(findrole);
+					cityMap.msgArrivedAtBank(findrole);
+				}
+			}
+		}
+		
 		//This needs to be moved into the reachedDestination() function
 		//myJob.startJob();
 	}
@@ -1138,6 +1173,11 @@ public class PersonAgent extends Agent implements Person{
 		    }
 		}
 		 */
+	}
+	
+	public void setBank(Bank bank)
+	{
+		this.bank = bank;
 	}
 
 

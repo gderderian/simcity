@@ -38,6 +38,9 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     
     Restaurant5 restaurant;
     public Image imgofbankfloor = new ImageIcon("images/bankfloor2.jpg").getImage();
+    public Image imgofstove = new ImageIcon("images/restaurant5stove.png").getImage();
+    public Image imgoftable= new ImageIcon("images/restaurant5table.png").getImage();
+    public Image imgofplatingarea = new ImageIcon("images/silver.jpeg").getImage();
     private Image bufferImage;
     private Dimension bufferSize;
 
@@ -76,23 +79,31 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
         //Clear the screen by painting a rectangle the size of the frame
         //g2.setColor(getBackground());
         //g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-        g3.setColor(Color.ORANGE);
-        g3.fillRect(tablewidth, tablelength, tablespacing, tablespacing);
+        
+        g.drawImage(imgoftable, 200,  265, 50, 50, this);
+        g.drawImage(imgoftable, 260,  265, 50, 50, this);
+        g.drawImage(imgoftable, 320,  265, 50, 50, this);
+        g.drawImage(imgoftable, 380,  265, 50, 50, this);
+        //g3.setColor(Color.ORANGE);
+        //g3.fillRect(tablewidth, tablelength, tablespacing, tablespacing);
     
-        g3.setColor(Color.orange);
-        g3.fillRect(260, 250, 50, 50);
+        //g3.setColor(Color.orange);
+        //g3.fillRect(260, 250, 50, 50);
        
-        g4.setColor(Color.orange);
-        g4.fillRect(320, 250, 50, 50);
+        //g4.setColor(Color.orange);
+        //g4.fillRect(320, 250, 50, 50);
        
-        g5.setColor(Color.orange);
-        g5.fillRect(380, 250, 50, 50);
+        //g5.setColor(Color.orange);
+        //g5.fillRect(380, 250, 50, 50);
         
-        kitchentable.setColor(Color.yellow);
-        kitchentable.fillRect(340, 70, 250, 40);
+        //kitchentable.setColor(Color.yellow);
+        //kitchentable.fillRect(340, 70, 250, 40);
         
-        cookingarea.setColor(Color.gray);
-        cookingarea.fillRect(340, 7, 250, 20);
+        g.drawImage(imgofplatingarea, 340,  70, 250, 40, this);
+        g.drawImage(imgofstove, 350,  -36, 180, 100, this);
+        g.drawImage(imgofstove, 280,  -36, 180, 100, this);
+        //cookingarea.setColor(Color.gray);
+        //cookingarea.fillRect(340, 7, 250, 20);
         
         waitingarea.setColor(Color.gray);
         waitingarea.fillRect(5, 40, 20, 270);
@@ -160,6 +171,7 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
 	public void updatePos() {
         for(Gui gui : guis) {
             if (gui.isPresent()) {
+                gui.updatePosition();
                 gui.updatePosition();
             }
         }

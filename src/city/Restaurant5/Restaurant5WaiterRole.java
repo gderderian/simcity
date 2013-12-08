@@ -66,6 +66,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	ActivityTag tag = ActivityTag.RESTAURANT5WAITER;
 
 	Restaurant5Menu menu = new Restaurant5Menu();
+	Restaurant5 restaurant5 = new Restaurant5();
 
 	public Restaurant5WaiterGui waiterGui = null;
 
@@ -159,6 +160,8 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 		log("Received order! " + order);
 		orders.add(new orders(order, table));
 		log("order added to the list");
+		//This is the new customer order system
+		
 		synchronized(customers)
 		{
 
@@ -177,7 +180,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 			}
 
 		}
-		person.stateChanged();
+		//person.stateChanged();
 		
 	}
 
@@ -279,7 +282,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	public boolean pickAndExecuteAnAction() {
 		
-		//Do("I'm in the waiter scheduler!!!");
+		Do("I'm in the waiter scheduler!!!");
 		try
 		{
 

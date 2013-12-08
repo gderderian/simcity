@@ -15,9 +15,11 @@ public class Restaurant5 {
 	Restaurant5CookRole cook;
 	Restaurant5CustomerRole customer;
 	List<Restaurant5WaiterRole> waiters;
+	OrderSpindle orderspindle;
 	
 	public Restaurant5(){
 		waiters = Collections.synchronizedList(new ArrayList<Restaurant5WaiterRole>());
+		orderspindle = new OrderSpindle();
 	}
 	
 	public void setHost(Restaurant5HostRole h){
@@ -39,6 +41,7 @@ public class Restaurant5 {
 
 	public void setCook(Restaurant5CookRole c) {
 		cook = c;
+		cook.setOrderSpindle(orderspindle);
 		
 	}
 
@@ -55,5 +58,6 @@ public class Restaurant5 {
 		w.setCook(cook);
 		w.setCashier(cashier);
 		w.setHost(host);
+		//w.setOrderSpindle(orderspindle);
 	}
 }

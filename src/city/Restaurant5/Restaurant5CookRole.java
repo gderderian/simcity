@@ -3,6 +3,7 @@ import Role.Role;
 import city.CityMap;
 import city.House;
 import city.PersonAgent;
+import city.Restaurant5.OrderSpindle.CustomerOrder;
 import city.gui.PersonGui;
 //import restaurant.CustomerAgent.AgentEvent;
 //import restaurant.CustomerAgent.AgentState;
@@ -75,6 +76,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	Restaurant5MarketRole market2;
 	Restaurant5MarketRole market3;
 	Restaurant5CashierRole cashier;
+	OrderSpindle orderspindle;
 	
 	ActivityTag tag = ActivityTag.RESTAURANT5COOK;
 	
@@ -109,6 +111,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		cookingorders.add( new cookingorder(waiter, order, table));
 		log("order added to the cooking list");
 		person.stateChanged();
+		
 	}
 	
 	public void msgDoneCooking(cookingorder setcookingorder) {
@@ -434,6 +437,10 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 	public void addCashier(Restaurant5CashierRole cashier) {
 		this.cashier = cashier;
+	}
+	
+	public void setOrderSpindle(OrderSpindle orderspindle) {
+		this.orderspindle = orderspindle;
 	}
 	
 	//order class for cook
