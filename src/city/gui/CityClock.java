@@ -179,4 +179,47 @@ public class CityClock {
 		return amPm;
 	}
 	
+	public void setDayTime(int hour, int minute, String amPm){
+		
+		if (amPm.equals("pm")){
+			hour = hour + 12;
+		}
+		
+		// Calculate hours in total day timer
+		int calcDayHours = 179999 * hour;
+		int totalDayHours = calcDayHours / 24;
+		
+		// Calculate minutes in total day timer
+		int calcDayMinutes = 179999 * minute;
+		int totalDayMinutes = calcDayMinutes * 60;
+		
+		int finalTimerSet = totalDayHours + totalDayMinutes; // This is what our timer needs to be reset and then set to
+		
+		if (finalTimerSet <= 59999){
+			dayState = dayStates.morning;
+		} else if (getCurrentTime() >= 60000 && getCurrentTime() <= 119999){
+			dayState = dayStates.afternoon;
+		} else  if (getCurrentTime() >= 120000){
+			dayState = dayStates.night;
+		}
+		
+		cityTime = new Timer(finalTimerSet, // Start of day, 179999 (day is three minutes)
+				new ActionListener() { public void actionPerformed(ActionEvent event) {
+					// Timer is done, it is now a new day
+					if (day == 8){
+						day = 1;
+						week++;
+					} else {
+						day++;
+					}
+					cityTime.restart();
+					beginTime = System.currentTimeMillis();
+					System.out.println("Today is a new day: " + day + " - " + getDayOfWeek());
+		      }
+		});
+		cityTime.start();
+		beginTime = System.currentTimeMillis();
+		
+	}
+	
 }
