@@ -958,7 +958,6 @@ public class PersonAgent extends Agent implements Person{
 
 	public void getOnBus(){
 		gui.moveTo(busRide.busPos.getX() * 30 + 120, busRide.busPos.getY() * 30 + 60);
-		log(Integer.toString(atDestination.availablePermits()) + "permits");
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
