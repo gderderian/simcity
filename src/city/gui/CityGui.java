@@ -37,6 +37,7 @@ import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
+import Role.MarketCustomerRole;
 import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
@@ -718,7 +719,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			}			
 			
 			
-			else if(job.contains("Market")) {
+			else if(job.contains("market") || job.contains("Market")) {
 				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
 					market.addWorker((MarketWorker)r);
@@ -741,7 +742,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 				*/
 				if(r instanceof BankManagerRole) {
-					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager in the bank!");
+					System.out.println("adding bank manager in the bank!");
 					bank.setBankManager((BankManagerRole) r);
 					p.setRoleActive(r);
 				}
@@ -895,14 +896,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			MarketManager role= new MarketManager(p.getName(), p); 
+			MarketManager role= new MarketManager(p.getName(), p);
 			return role;
 		}
 		else if(type.equals("Market Worker")){
 			MarketWorker role= new MarketWorker(p); 
 			return role;
 		}
-				
+		else if(type.equals("Market Customer")){
+			MarketCustomerRole role= new MarketCustomerRole(p); 
+			return role;
+		}	
 		else if(type.equals("Restaurant5 Customer")){
 			Restaurant5CustomerRole role = new Restaurant5CustomerRole(p.getName(), p);
 			return role;
@@ -931,11 +935,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		else if(type.equals("Restaurant5 Cashier")){
 			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
 			return role;
-		}
-		
-		//I added this
-		else if(type.equals("Bank Manager")){
-			
+		} else if(type.equals("Bank Manager")){
 			System.out.println("!!!!!!!!!!!!  I'm in get role");
 			Bank bank = new Bank();
 			BankManagerRole role = new BankManagerRole(bank);
@@ -945,10 +945,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
 			return role;
-		}
-		
-		//I added this
-		else if(type.equals("Bank Teller")) {
+		} else if(type.equals("Bank Teller")) {
 			Bank bank = new Bank();
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
@@ -957,17 +954,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
 			return role;	
-		}
-		
-		else if(type.equals("Landlord1")){
+		} else if(type.equals("Landlord1")){
 			LandlordRole role = new LandlordRole(p.getName(), p); 
 			LandlordGui gui = new LandlordGui(role);
 			role.setGui(gui);
 			apt1.addGui(gui); 
 			gui.setPresent(false);
 			return role;
-		}
-		else if(type.equals("Landlord2")){
+		} else if(type.equals("Landlord2")){
 			LandlordRole role = new LandlordRole(p.getName(), p); 
 			LandlordGui gui = new LandlordGui(role);
 			role.setGui(gui);
