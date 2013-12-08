@@ -34,6 +34,10 @@ public class BankCustomerRoleGui implements Gui{
 	private int ycoordinatesofstations[] = new int [4];
 	public Image imgofbankcustomer = new ImageIcon("images/person_flat1.png").getImage();
 	
+	public boolean openaccount;
+	public boolean deposit;
+	public boolean withdraw;
+	
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
 		this.role = setrole;		
 
@@ -109,8 +113,32 @@ public class BankCustomerRoleGui implements Gui{
 
 	public void draw(Graphics2D g) {
 		g.drawImage(imgofbankcustomer,xPos, yPos + 90, 50, 40, gui);
-		//g.setColor(Color.BLUE);
-		//g.fillRect(xPos, yPos, 20, 20);
+		Graphics2D g2 = (Graphics2D)g;
+		Graphics2D g3 = (Graphics2D)g;
+		if(openaccount == true)
+		{
+			//g2.setColor(Color.WHITE);
+    		//g2.fillOval(xPos - 30, yPos + 60, 70, 40);
+    		g3.setFont(new Font("Arial", Font.BOLD, 12));
+    		g3.setColor(Color.black);
+    		g3.drawString("OPEN ACCOUNT", xPos - 15, yPos + 80);	
+			
+		}
+		else if(deposit == true)
+		{
+			g3.setFont(new Font("Arial", Font.BOLD, 12));
+    		g3.setColor(Color.black);
+    		g3.drawString("DEPOSIT", xPos - 15, yPos + 80);
+		}
+		
+		else if(withdraw == true)
+		{
+			g3.setFont(new Font("Arial", Font.BOLD, 12));
+    		g3.setColor(Color.black);
+    		g3.drawString("WITHDRAW", xPos - 15, yPos + 80);	
+		}
+		
+		
 		
 	}
 

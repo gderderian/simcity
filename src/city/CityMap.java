@@ -19,6 +19,7 @@ import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.transportation.BusStopAgent;
 import Role.BankManagerRole;
+import Role.BankTellerRole;
 import Role.Role;
 import astar.Position;
 
@@ -327,6 +328,15 @@ public class CityMap {
 			
 			
 		}
+	}
+	
+	
+	
+	public void msgArrivedAtBank(Role bankteller) {
+		
+		//bank.getManager().msgIWantFood((Restaurant5Customer) customer);
+		bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) bankteller);
+		//this.setRoleActive(findrole);
 	}
 	
 }

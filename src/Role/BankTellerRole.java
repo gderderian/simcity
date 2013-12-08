@@ -60,6 +60,7 @@ public class BankTellerRole extends Role {
 		Do("customer wants to open an account");
 		log.add(new LoggedEvent("msgOpenAccount"));
 		banktellerstate = state.openaccount;
+		gui.bankTellerOccupied = true;
 		person.stateChanged();
 	}
 

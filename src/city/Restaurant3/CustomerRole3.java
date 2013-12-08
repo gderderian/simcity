@@ -237,10 +237,6 @@ public class CustomerRole3 extends Role {
 			event = AgentEvent.none;
 			return true;
 		}
-		if (state == AgentState.Paying && event == AgentEvent.doneLeaving){
-			person.setRoleInactive(this);
-			return true;
-		}
 		if (state == AgentState.Paying && event == AgentEvent.none){
 			sendPayment();
 			state = AgentState.Leaving;

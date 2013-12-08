@@ -202,6 +202,7 @@ public class BankCustomerRole extends Role{
                 		Do("i'm opening an account");
                         mybankteller.msgOpenAccount();
                         bankcustomerstate = state.waiting;
+                        gui.openaccount = true;
                         return true;
                 }
                 
@@ -210,6 +211,7 @@ public class BankCustomerRole extends Role{
                 		Do("I'm depositing into my account");
                         mybankteller.msgDepositIntoAccount(this.deposit);
                         bankcustomerstate = state.waiting;
+                        gui.deposit = true;
                         return true;
                 }
                 
@@ -218,6 +220,7 @@ public class BankCustomerRole extends Role{
                 		Do("I'm withdrawing from my account");
                         mybankteller.msgWithdrawFromAccount(this.withdrawal);
                         bankcustomerstate = state.waiting;
+                        gui.withdraw = true;
                         return true;
                 }
                 
