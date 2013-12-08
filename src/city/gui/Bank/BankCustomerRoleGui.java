@@ -33,7 +33,7 @@ public class BankCustomerRoleGui implements Gui{
 	private int xcoordinatesofstations[] = new int [4];
 	private int ycoordinatesofstations[] = new int [4];
 	public Image imgofbankcustomer = new ImageIcon("images/person_flat1.png").getImage();
-	
+	public Image imgofaccount = new ImageIcon("images/account.png").getImage();
 	public boolean openaccount;
 	public boolean deposit;
 	public boolean withdraw;
@@ -117,11 +117,11 @@ public class BankCustomerRoleGui implements Gui{
 		Graphics2D g3 = (Graphics2D)g;
 		if(openaccount == true)
 		{
-			//g2.setColor(Color.WHITE);
-    		//g2.fillOval(xPos - 30, yPos + 60, 70, 40);
-    		g3.setFont(new Font("Arial", Font.BOLD, 12));
-    		g3.setColor(Color.black);
-    		g3.drawString("OPEN ACCOUNT", xPos - 15, yPos + 80);	
+		
+			g.drawImage(imgofaccount,xPos - 16, yPos + 70, 35, 35, gui);
+			//g3.setFont(new Font("Arial", Font.BOLD, 12));
+    		//g3.setColor(Color.black);
+    		//g3.drawString("OPEN ACCOUNT", xPos - 15, yPos + 80);	
 			
 		}
 		else if(deposit == true)

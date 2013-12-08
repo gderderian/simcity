@@ -26,8 +26,13 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
     
     public Image imgoftable = new ImageIcon("images/bluetable.png").getImage();
     public Image imgofmanagertable = new ImageIcon("images/table.png").getImage();
-    public Image imgofcouch = new ImageIcon("images/sofaforbank.jpg").getImage();
+    //public Image imgofcouch = new ImageIcon("images/sofaforbank.jpg").getImage();
     public Image imgofbankfloor = new ImageIcon("images/bankfloor2.jpg").getImage();
+    public Image imgofsilver = new ImageIcon("images/silver.jpeg").getImage();
+    public Image imgofwood = new ImageIcon("images/brownwood.jpg").getImage();
+    public Image imgofchristmastree = new ImageIcon("images/brownwood.jpg").getImage();
+    public Image imgofcouch = new ImageIcon("images/coachtexture.jpg").getImage();
+    
     
     private Image bufferImage;
     private Dimension bufferSize;
@@ -69,21 +74,28 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
         //g2.setColor(getBackground());
         //g2.fillRect(0, 0, this.getWidth(), this.getHeight());
        
-        
-        g.drawImage(imgoftable, 200, 150, 50, 50, this);
-        g.drawImage(imgoftable, 300, 150, 50, 50, this);
-        g.drawImage(imgoftable, 400, 150, 50, 50, this);
-        g.drawImage(imgoftable, 500, 150, 50, 50, this);
+        g.drawImage(imgofwood, 100, 164, 900, 20, this);
+        g.drawImage(imgofsilver, 200, 150, 50, 50, this);
+        g.drawImage(imgofsilver, 300, 150, 50, 50, this);
+        g.drawImage(imgofsilver, 400, 150, 50, 50, this);
+        g.drawImage(imgofsilver, 500, 150, 50, 50, this);
+        g.drawImage(imgofsilver, 600, 150, 50, 50, this);
+        g.drawImage(imgofsilver, 700, 150, 50, 50, this);
+        g.drawImage(imgofsilver, 800, 150, 50, 50, this);
         //g.drawImage(imgofcouch, 50, 300, 400, 100, this);
         // g.drawImage(imgofcouch, 200, 300, 100, 100, this);
         //g.drawImage(imgofcouch, 350, 300, 100, 100, this);
         //g.drawImage(imgofcouch, 500, 300, 100, 100, this);
-
-        wall.setColor(Color.gray);
-        wall.fillRect(160, 0, 20, 180);
-        
-        waitingarea.setColor(Color.white);
-        waitingarea.fillRect(180, 470, 700, 10);
+        g.drawImage(imgofsilver, 100, 0, 20, 182, this);
+        //wall.setColor(Color.gray);
+        //wall.fillRect(160, 0, 20, 180);
+        g.drawImage(imgofwood, 160, 500, 595, 90, this);
+        g.drawImage(imgofcouch, 180, 500, 130, 90, this);
+        g.drawImage(imgofcouch, 320, 500, 130, 90, this);
+        g.drawImage(imgofcouch, 460, 500, 130, 90, this);
+        g.drawImage(imgofcouch, 600, 500, 130, 90, this);
+        //waitingarea.setColor(Color.white);
+        //waitingarea.fillRect(180, 470, 700, 10);
         
         //backtocityviewbutton.setColor(Color.red);
         //backtocityviewbutton.fillRect(20, 20,20, 20);

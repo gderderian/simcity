@@ -59,7 +59,7 @@ public class BankTellerRoleGui implements Gui{
     }
 
     public void draw(Graphics2D g) {
-    	g.drawImage(imgofbankteller, xPos, yPos + 20, 50, 40, gui);
+    	g.drawImage(imgofbankteller, xPos, yPos + 13, 50, 40, gui);
     	
     	Graphics2D g3 = (Graphics2D)g;
     	Graphics2D g4 = (Graphics2D)g;
@@ -71,11 +71,13 @@ public class BankTellerRoleGui implements Gui{
     		g4.setColor(Color.black);
     		g4.drawString("OPEN", xPos - 18, yPos + 2);
     	}
+    	/*
     	if(bankTellerOccupied == true)
     	{
     		g3.setColor(Color.RED);
     		g3.fillRect(xPos - 20, yPos - 12, 38, 20);
     	}
+    	*/
     	
     	
     }

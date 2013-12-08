@@ -100,6 +100,8 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
         //kitchentable.fillRect(340, 70, 250, 40);
         
         g.drawImage(imgofplatingarea, 340,  70, 250, 40, this);
+        g.drawImage(imgofstove, 490,  -36, 180, 100, this);
+        g.drawImage(imgofstove, 420,  -36, 180, 100, this);
         g.drawImage(imgofstove, 350,  -36, 180, 100, this);
         g.drawImage(imgofstove, 280,  -36, 180, 100, this);
         //cookingarea.setColor(Color.gray);

@@ -11,6 +11,7 @@ import restaurant1.Restaurant1CashierRole;
 import restaurant1.Restaurant1CookRole;
 import restaurant1.Restaurant1CustomerRole;
 import restaurant1.Restaurant1HostRole;
+import restaurant1.Restaurant1NormalWaiterRole;
 import restaurant1.Restaurant1WaiterRole;
 import restaurant1.gui.Restaurant1AnimationPanel;
 import restaurant1.gui.Restaurant1CashierGui;
@@ -522,7 +523,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant1CustomerRole customerRole = new Restaurant1CustomerRole(p.getName(), p);
 			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
 			restaurant1.addGui(customerGui);
-			Restaurant1WaiterRole waiterRole = new Restaurant1WaiterRole("waiter", p);
+			Restaurant1WaiterRole waiterRole = new Restaurant1NormalWaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest1");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -816,7 +817,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Restaurant1 Waiter")){
-			Restaurant1WaiterRole role = new Restaurant1WaiterRole(p.getName(), p);
+			Restaurant1WaiterRole role = new Restaurant1NormalWaiterRole(p.getName(), p);
 			Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
 			gui.setHome(rest4.getWaiterListSize() * 40 + 200, 60);
 			role.setGui(gui);
@@ -937,7 +938,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		} else if(type.equals("Bank Manager")){
 			System.out.println("!!!!!!!!!!!!  I'm in get role");
-			Bank bank = new Bank();
+			//Bank bank = new Bank();
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
 			BankGui bankgui = new BankGui(); 
