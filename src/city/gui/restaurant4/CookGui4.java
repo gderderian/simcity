@@ -2,9 +2,12 @@ package city.gui.restaurant4;
 
 import city.Restaurant4.CookRole4;
 import city.gui.Gui;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+
+import javax.swing.ImageIcon;
 
 public class CookGui4 implements Gui {
 	CookRole4 agent;
@@ -15,6 +18,8 @@ public class CookGui4 implements Gui {
     private int movement= 20;
     ArrayList<MyGrillSpot> grillSpots = new ArrayList<MyGrillSpot>();
     ArrayList<MyPlateSpot> plateSpots = new ArrayList<MyPlateSpot>();
+    
+    ImageIcon icon = new ImageIcon("images/cook1.png");
     
     boolean isPresent = true;
     
@@ -35,9 +40,10 @@ public class CookGui4 implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.CYAN);
-        g.fillRect(xPos, yPos, cookDimensions, cookDimensions);
-    
+        //g.setColor(Color.CYAN);
+        //g.fillRect(xPos, yPos, cookDimensions, cookDimensions);
+    	g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
+    	
         try{
         	for(MyGrillSpot gs : grillSpots){
         		g.setColor(Color.BLACK);
