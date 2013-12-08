@@ -316,7 +316,6 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 			log("It's time for me to go to work!");
-			stateChanged();
 		}
 		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
@@ -324,14 +323,12 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
 			log("It's time for me to eat something.");
-			stateChanged();
 		}
 		else if(t > 5000 && t < 7000 && name.equals("rest1Test")) {
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
 			log("It's time for me to eat something.");
-			stateChanged();
 		}
 		else if(t > 19000 && t < 21000 && (name.equals("bankCustomerTest")))
 		{
@@ -366,7 +363,7 @@ public class PersonAgent extends Agent implements Person{
 			
 		}
 		
-
+		stateChanged();
 
 	}
 	//From house
