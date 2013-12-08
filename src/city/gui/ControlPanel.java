@@ -318,7 +318,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     	buyCarButton.addActionListener(this);
     	personOptionsDisplay.add(new JLabel("Person Options"));
 		addPerson.add(Box.createVerticalStrut(10));
-    	personOptionsDisplay.add(buyCarButton);
+    	//personOptionsDisplay.add(buyCarButton);
         
         pane.setMinimumSize(scrollDim);
         pane.setMaximumSize(scrollDim);
