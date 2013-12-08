@@ -93,12 +93,10 @@ public class CustomerRole3 extends Role {
 					choice = pickRandomItemWithinCost();
 					event = AgentEvent.wantWaiter;
 					person.stateChanged();
-					System.out.println("DONE CHOOSING!!!");
 		      }
 		});
 		eatingTimer = new Timer(DEFAULT_HUNGER_LEVEL,
 				new ActionListener() { public void actionPerformed(ActionEvent evt) {
-					System.out.println("DONOTHING SET!! 101");
 					state = AgentState.DoingNothing;
 					event = AgentEvent.doneEating;
 					person.stateChanged();
@@ -144,15 +142,13 @@ public class CustomerRole3 extends Role {
 	}
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
-		Do("Done leaving restaurant.");
+		log("Done leaving restaurant.");
 		event = AgentEvent.doneLeaving;
-
-		System.out.println("Event:" + event + " - State: " + state);
 		person.stateChanged();
 	}
 	
 	public void repickFood(Menu3 newMenu) {
-		Do("Need to repick my food choice.");
+		log("Need to repick my food choice.");
 		myMenu = newMenu;
 		state = AgentState.BeingSeated;
 		event = AgentEvent.seated;
@@ -161,38 +157,34 @@ public class CustomerRole3 extends Role {
 	
 	public void dispenseChange(double newMoney) {
 		money = newMoney;
-		Do("Received change back, my new money amount is $" + newMoney + ".");
+		log("Received change back, my new money amount is $" + newMoney + ".");
 		person.stateChanged();
 	}
 	
 	public void hereIsCheck(double amountDue) {
-		Do("Customer needs to pay $" + amountDue);
+		log("Customer needs to pay $" + amountDue);
 		needToPay = amountDue;
 		event = AgentEvent.receivedCheck;
 		person.stateChanged();
 	}
 	
 	public void goToCorner() {
-		Do("I ordered something that I now can't afford to pay for. I'm going in the corner and will stay there forever.");
+		log("I ordered something that I now can't afford to pay for. I'm going in the corner and will stay there forever.");
 		state = AgentState.CantPay;
 		event = AgentEvent.notPaid;
 		person.stateChanged();
 	}
 	
 	public void restaurantFull(){
-		Do("The host says the restaurant is full. I need to decide whether to stay or leave.");
+		log("The host says the restaurant is full. I need to decide whether to stay or leave.");
 		//if (madeStayDecision == false) {
 			state = AgentState.restaurantFull;
 		//}
-		//Do("State: " + state + " - Event: " + event);
 		person.stateChanged();
 	}
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		
-		// System.out.println("Event:" + event + " - State: " + state);
-		
 		
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry){
 			state = AgentState.WaitingForSeat;
@@ -233,6 +225,7 @@ public class CustomerRole3 extends Role {
 			return true;
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
+			returnToCity();
 			state = AgentState.DoingNothing;
 			event = AgentEvent.none;
 			return true;
@@ -263,14 +256,19 @@ public class CustomerRole3 extends Role {
 	}
 
 	// Actions
+	private void returnToCity(){
+		person.setRoleInactive(this);
+		person.setGuiVisible();
+	}
+	
 	private void tellWaiterReady(){
-		Do("Telling waiter that I'm ready to order.");
+		log("Telling waiter that I'm ready to order.");
 		assignedWaiter.readyToOrder(this);
 		state = AgentState.CalledWaiter;
 	}
 	
 	private void sendReadyForCheck(){
-		Do("Telling waiter I want my check because I'm ready to leave.");
+		log("Telling waiter I want my check because I'm ready to leave.");
 		assignedWaiter.readyForCheck(this);
 		state = AgentState.RequestedCheck;
 	}
@@ -279,14 +277,14 @@ public class CustomerRole3 extends Role {
 		
 		// Customer can't afford anything on menu within their price range because choice was set to blank
 		if (choice.equals("")) { // Customer cannot afford any items on the menu. Make them leave.
-			Do("I can't afford anything that's on the menu given to me with the money I currently have ($" + money + "). I'm leaving!");
+			log("I can't afford anything that's on the menu given to me with the money I currently have ($" + money + "). I'm leaving!");
 			leaveAbruptly();
 			return;
 		}
 		
 		// Customer leaves if there is nothing for them to order
 		if (orderAttempts > ORDER_ATTEMPT_THRESHOLD){ // Nothing is left on the menu for the customer to order. Make them leave.
-			Do("There's nothing for me to order from the restaurant anymore. I'm leaving!");
+			log("There's nothing for me to order from the restaurant anymore. I'm leaving!");
 			leaveAbruptly();
 			return;
 		}
@@ -317,18 +315,17 @@ public class CustomerRole3 extends Role {
 		}
 		customerGui.setCarryText(carryText + "?");
 		
-		Do("Sending food choice " + choice + " to waiter.");
+		log("Sending food choice " + choice + " to waiter.");
 	}
 	
 	private void beginChoosing(){
-		System.out.println("!!!!!!!    Beginning to decide what food item to pick.");
 		choosingTimer.setRepeats(false);
 		choosingTimer.restart();
 		choosingTimer.start();
 	}
 	
 	public void goToRestaurant() {
-		Do("Going to restaurant and telling host that I'm hungry. I currently have $" + money + ".");
+		log("Going to restaurant and telling host that I'm hungry. I currently have $" + money + ".");
 		customerGui.setDestination(homeX, homeY);
 		customerGui.beginAnimate();
 		try {
@@ -341,8 +338,7 @@ public class CustomerRole3 extends Role {
 	}
 
 	private void SitDown() {
-		System.out.println("SITTING DOWN!!!!!");
-		Do("Going to sit down.");
+		log("Going to sit down.");
 		customerGui.beginAnimate();
 		try {
 			isAnimating.acquire();
@@ -353,7 +349,7 @@ public class CustomerRole3 extends Role {
 	}
 	
 	private void beginEating() {
-		Do("Beginning to eat food.");
+		log("Beginning to eat food.");
 		String carryText = "";
 		switch(choice){
 		case "Chicken":
@@ -379,11 +375,11 @@ public class CustomerRole3 extends Role {
 		eatingTimer.setRepeats(false);
 		eatingTimer.restart();
 		eatingTimer.start();
-		Do("Beginning to eat food.");
+		log("Beginning to eat food.");
 	}
 
 	private void leaveRestaurant() {
-		Do("Leaving restaurant.");
+		log("Leaving restaurant.");
 		customerGui.setCarryText("");
 		customerGui.DoExitRestaurant();
 		assignedWaiter.ImDone(this);
@@ -393,7 +389,7 @@ public class CustomerRole3 extends Role {
 	}
 	
 	private void leaveAbruptly() {
-		Do("Leaving restaurant.");
+		log("Leaving restaurant.");
 		customerGui.setCarryText("");
 		customerGui.DoExitRestaurant();
 		assignedWaiter.ImDone(this);
@@ -402,7 +398,7 @@ public class CustomerRole3 extends Role {
 	}
 	
 	private void sendPayment(){
-		Do("Sending my payment of $" + money + " to cashier.");
+		log("Sending my payment of $" + money + " to cashier.");
 		cashier.acceptPayment(this, money);
 	}
 	
@@ -419,11 +415,10 @@ public class CustomerRole3 extends Role {
 	    	state = AgentState.WaitingForSeat;
 	    	event = AgentEvent.gotHungry;
 	    	//host.msgIWantFood(this);
-	    	Do("The restaurant is currently full according to the host, but I'll continue to stay and wait.");
+	    	log("The restaurant is currently full according to the host, but I'll continue to stay and wait.");
 	    	madeStayDecision = true;
 	    } else {
-	    	Do("The restaurant is currently full according to the host and I don't want to wait so I'm leaving.");
-	    	System.out.println("DONOTHING SET!! 426");
+	    	log("The restaurant is currently full according to the host and I don't want to wait so I'm leaving.");
 	    	state = AgentState.DoingNothing;
 	    	event = AgentEvent.none;
 	    	customerGui.resetNotHungry();

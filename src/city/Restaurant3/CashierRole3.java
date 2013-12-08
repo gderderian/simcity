@@ -40,14 +40,14 @@ public class CashierRole3 extends Role {
 	
 	// Messages
 	public void calculateCheck(WaiterRole3 w, CustomerRole3 customer, String choice){
-		Do("Calculating check for customer " + customer.getCustomerName() + " who ordered " + choice + ".");
+		log("Calculating check for customer " + customer.getCustomerName() + " who ordered " + choice + ".");
 		Check newCheck = new Check(w, customer, choice); // Add in new check to be calculated for this customer
 		myChecks.add(newCheck);
 		person.stateChanged();
 	}
 	
 	public void acceptPayment(CustomerRole3 c, double amountPaid){
-		Do("Accepting payment of $" + amountPaid + " from customer " + c.getCustomerName() + ".");
+		log("Accepting payment of $" + amountPaid + " from customer " + c.getCustomerName() + ".");
 		// Lookup check to mark it as paid
 		if (!myChecks.isEmpty()) {
 			synchronized(myChecks){
@@ -63,13 +63,16 @@ public class CashierRole3 extends Role {
 		person.stateChanged();
 	}
 	
+	/*
 	public void acceptMarketBill(MarketRole3 market, double amountDue){
 		// Create new check that needs to be paid
-		Do("Creating check for market " + market.getName() + " based on incoming bill/message.");
+		log("Creating check for market " + market.getName() + " based on incoming bill/message.");
 		//Check newCheck = new Check(market, (float)amountDue); // Add in new check to be calculated for this market
 		//myChecks.add(newCheck);
 		person.stateChanged();
 	}
+
+	*/
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
@@ -96,7 +99,7 @@ public class CashierRole3 extends Role {
 
 	// Actions
 	public void processCheckToWaiter(Check c){ // Mark check as calculated and send back to waiter
-		Do("Processing check and sending it back to waiter.");
+		log("Processing check and sending it back to waiter.");
 		Menu3 myMenu = new Menu3();
 		checkAmount = myMenu.getPriceofItem(c.choice);
 		c.amount = checkAmount;
@@ -106,7 +109,7 @@ public class CashierRole3 extends Role {
 	}
 	
 	public void processCustomerPayment(CustomerRole3 customer, double amountPaid, Check c){
-		Do("Processing payment of $" + amountPaid + " from customer " + customer.getCustomerName() + ".");
+		log("Processing payment of $" + amountPaid + " from customer " + customer.getCustomerName() + ".");
 		if (amountPaid == c.amount){ // Customer paid exact amount
 			c.status = checkStatus.paid;
 			myMoney = myMoney + c.amount;
@@ -121,7 +124,7 @@ public class CashierRole3 extends Role {
 	}
 	
 	public void payMarket(Check c){ // Complete processing of check
-		Do("Completing payment of marketCheck by sending money back to market.");
+		log("Completing payment of marketCheck by sending money back to market.");
 		//Market m = c.getMarket();
 		//m.acceptCashierPayment(this, c.amount);
 		c.status = checkStatus.paid;

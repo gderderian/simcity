@@ -66,18 +66,13 @@ public class HostRole3 extends Role {
 	
 	// Messages
 	public void msgIWantFood(CustomerRole3 cust, int locX, int locY) {
-		
-
-		System.out.println("I WANT FOOD!!!");
-		
-		
-		Do("Received message msgIWantFood from customer " + cust.getCustomerName() + ".");
+		log("Received message msgIWantFood from customer " + cust.getCustomerName() + ".");
 		waitingCustomers.add(new MyCustomer(cust, locX, locY));
 		person.stateChanged();
 	}
 
 	public void msgLeavingTable(CustomerRole3 customer) {
-		Do("Received message msgLeavingTable3 from customer " + customer.getCustomerName() + ".");
+		log("Received message msgLeavingTable3 from customer " + customer.getCustomerName() + ".");
 		synchronized(tables){
 			for (Table3 table : tables) {
 				if (table.getOccupant() == customer) {
@@ -89,7 +84,7 @@ public class HostRole3 extends Role {
 	}
 	
 	public void wantBreak(WaiterRole3 w){
-		Do("Received request to go on break from waiter " + w.getName() + ".");
+		log("Received request to go on break from waiter " + w.getName() + ".");
 		synchronized(myWaiters){
 			for (MyWaiter waiter : myWaiters) {
 				if (waiter.waiter.equals(w)){
@@ -101,7 +96,7 @@ public class HostRole3 extends Role {
 	}
 	
 	public void decrementCustomer(WaiterRole3 w){
-		Do("Received notification one customer left the restaurant.");
+		log("Received notification one customer left the restaurant.");
 		synchronized(myWaiters){
 			for (MyWaiter waiter : myWaiters) {
 				if (waiter.waiter.equals(w)){
@@ -113,7 +108,7 @@ public class HostRole3 extends Role {
 	}
 	
 	public void returnedFromBreak(WaiterRole3 w){
-		Do("Notified that waiter " + w.getName() + " has now returned from break.");
+		log("Notified that waiter " + w.getName() + " has now returned from break.");
 		synchronized(myWaiters){
 			for (MyWaiter waiter : myWaiters) {
 				if (waiter.waiter.equals(w)){
@@ -175,7 +170,7 @@ public class HostRole3 extends Role {
 	// Actions
 	private void seatCustomer(CustomerRole3 customer, Table3 table, int X, int Y) {
 		// Find waiter and notify them
-		//Do("Seating customer " + customer.getCustomerName() + " at table #" + table.tableNumber + ".");
+		//log("Seating customer " + customer.getCustomerName() + " at table #" + table.tableNumber + ".");
 		if (myWaiters.size() != 0) {
 			int init_cust = myWaiters.get(0).numCustomers;
 			MyWaiter w_selected = null;
@@ -207,11 +202,11 @@ public class HostRole3 extends Role {
 	public void processBreakRequest(MyWaiter w){
 		int onBreakNow = getNumWaitersOnBreak();
 		if (myWaiters.size() <= 1 || (onBreakNow == myWaiters.size() - 1)){ // One waiter also always has to be left!
-			Do("Rejecting request for waiter " + w.name + " to go on break.");
+			log("Rejecting request for waiter " + w.name + " to go on break.");
 			w.waiter.breakRejected();
 			w.state = WaiterState.none;
 		} else {
-			Do("Approving request for waiter " + w.name + " to go on break.");
+			log("Approving request for waiter " + w.name + " to go on break.");
 			w.waiter.breakApproved();
 			w.state = WaiterState.onBreak;
 		}

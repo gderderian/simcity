@@ -750,7 +750,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		
 		
-		if(task.role.equals("BankTellerRole"))
+		/*
 		{	
 			for(Role findrole : roles)
 			{
@@ -763,6 +763,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		*/
 		
 		//This needs to be moved into the reachedDestination() function
 		//myJob.startJob();
