@@ -377,8 +377,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
 
 			House house = houses.get(houseAssignmentNumber);
-			if(houseAssignmentNumber == 43){
-				houseAssignmentNumber = 42;
+			if(houseAssignmentNumber == 62){
+				houseAssignmentNumber = 61;
 			}
 			else{
 				houseAssignmentNumber++;
@@ -624,13 +624,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 		for(int i = 0; i < 22; i++) {
 			houses.add(new House("house" + Integer.toString(i + 1)));
 		}
-		for(int i = 0; i < 10; i++) {
-			houses.add(new Apartment("apart1", i));
+		for(int i = 0; i < 20; i++) {
+			Apartment a= new Apartment("apart1 " + i, i);
+			a.setRoom(i);
+			a.setBuilding(1);
+			houses.add(a);
 		}
-		for(int i = 0; i < 10; i++) {
-			houses.add(new Apartment("apart2", i));
+		for(int i = 0; i < 20; i++) {
+			Apartment a= new Apartment("apart2 " + i, i);
+			a.setRoom(i);
+			a.setBuilding(2);
+			houses.add(a);
 		}
-		System.out.println("Created houses.");
+		System.out.println("Created " + houses.size() + " houses including apartments");
 	}
 
 	public List<House> getHouses(){
@@ -824,6 +830,27 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("joe", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
 
 	}
 

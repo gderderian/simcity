@@ -1,11 +1,13 @@
 package city;
 
+import interfaces.HouseInterface;
+
 import java.util.Random;
 import java.util.TimerTask;
 
 import test.mock.LoggedEvent;
 
-public class Apartment extends House {
+public class Apartment extends House implements HouseInterface{
 	PersonAgent landlord;
 	int aptNum;
 	int aptBuilding;

@@ -123,7 +123,16 @@ public class PersonAgent extends Agent implements Person{
 		homeGui= new HomeOwnerGui(this);
 
 		if(house != null) {
-			currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
+			System.out.println("house.getName(): " + house.getName());
+			if(house.getName().contains("apart1")){
+				currentPosition = new Position(map.getX("apart1"), map.getY("apart1"));
+			}
+			else if(house.getName().contains("apart2")){
+				currentPosition = new Position(map.getX("apart2"), map.getY("apart2"));
+			}
+			else{
+				currentPosition = new Position(map.getX(house.getName()), map.getY(house.getName()));
+			}
 		} else {
 			currentPosition = new Position(20, 18);
 		}
@@ -183,6 +192,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void setGui(PersonGui g){
 		gui = g;
+		goHome(); // each person initially starts in their house
 	}
 
 	public void addRole(Role r, boolean active){
@@ -637,8 +647,17 @@ public class PersonAgent extends Agent implements Person{
 		if(!atHome){
 			log("Going home");
 			if(house != null){
-				log("IM NOT HOMELESS");
-				DoGoTo(house.getName(), null);
+				String location;
+				if(house.getName().contains("apart1")){
+					location = "apart1";
+				}
+				else if(house.getName().contains("apart2")){
+					location = "apart2";
+				}
+				else{
+					location = house.getName();
+				}
+				DoGoTo(location, null);
 				house.getAnimationPanel().addGui(homeGui);
 				homeGui.goToBed();
 			}	
@@ -1035,11 +1054,13 @@ public class PersonAgent extends Agent implements Person{
 		//String location = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
 		String location;
 		Random rand = new Random();
-		int num= rand.nextInt(2);
+		int num= rand.nextInt(3);
 		if(num == 0)
 			location= "mark1";
-		else
+		else if(num == 1)
 			location= "mark2";
+		else
+			location = "mark3";
 		
 		task.location = location;
 		task.role = "MarketCustomerRole";

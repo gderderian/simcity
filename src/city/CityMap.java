@@ -85,7 +85,7 @@ public class CityMap {
 		buildingLocations.put("house16", new Position(0,6));
 		buildingLocations.put("house17", new Position(0,10));
 		buildingLocations.put("house18", new Position(0,14));
-		buildingLocations.put("house29", new Position(0,16));
+		buildingLocations.put("house19", new Position(0,16));
 		buildingLocations.put("house20", new Position(3,18));
 		buildingLocations.put("house21", new Position(4,18));
 		buildingLocations.put("house22", new Position(11,18));
@@ -199,6 +199,7 @@ public class CityMap {
 	}
 	
 	public int getX(String location) {
+		System.out.println("LOCATION: " + location);
 		return buildingLocations.get(location).getX();
 	}
 	
