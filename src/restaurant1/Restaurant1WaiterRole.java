@@ -20,7 +20,7 @@ import city.PersonAgent;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
+public abstract class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 	
 	String roleName = "Restaurant1WaiterRole";
 	
@@ -323,12 +323,12 @@ public class Restaurant1WaiterRole extends Role implements Restaurant1Waiter {
 		c.c.msgPleaseReorder();
 	}
 	
-	private void sendOrderToCook(MyCustomer c) {
+	abstract void sendOrderToCook(MyCustomer c); /*{
 		log("Sending " + c.c.getName() + "'s order of " + c.choice + " to cook wirelessly. Isn't technology great?");
 		
 		c.s = customerState.orderSentToCook;
 		cook.msgHereIsOrder(this, c.choice, c.table);
-	}
+	}*/
 	
 	private void bringFoodToCustomer(MyCustomer c) {
 		log("Getting food from cook.");
