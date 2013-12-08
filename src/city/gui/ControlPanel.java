@@ -52,10 +52,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JPanel view = new JPanel();
-    private List<JButton> list = new ArrayList<JButton>();
-    private JButton addPersonB = new JButton("Add");
+    private List<JButton> personButtonList = new ArrayList<JButton>();
+    private JButton addPersonButton = new JButton("Add");
     private JTabbedPane controlPane = new JTabbedPane();
-    private JPanel worldControls = new JPanel();
+    private JPanel worldControlPanel = new JPanel();
     private JPanel addPerson = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JLabel clickBuildings = new JLabel("Click on a building to see inside!");
@@ -63,9 +63,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton backToCity = new JButton("Switch back to city view");
     private JButton startScenario = new JButton("Start scenario!");
     private JPanel backButtonPanel = new JPanel();
+    private JPanel personOptionsDisplay = new JPanel();
+    private JButton buyCarButton = new JButton("Buy a Car");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Regular Joe", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test",
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
 
@@ -75,21 +77,23 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     private int WINDOWX = 370;
     private int WINDOWY = 750;
-    private int SCROLLY = WINDOWY/4;
+    private int SCROLLY = WINDOWY/4 - 20;
     private int ADDPERSONY = WINDOWY/5;
     private int BACKBUTTONY = 40;
-    private int INFOPANELY = WINDOWY - ADDPERSONY;
+    private int INFOPANELY = SCROLLY + 30;
     private int WINDOWXINSIDE = WINDOWX - 10;
+    private int PERSONOPTIONSY = WINDOWY - (INFOPANELY + ADDPERSONY);
     
     private Dimension scrollDim = new Dimension(WINDOWXINSIDE, SCROLLY);
     private Dimension panelDim = new Dimension(WINDOWX, WINDOWY - BACKBUTTONY);
     private Dimension addPersonDim = new Dimension(WINDOWXINSIDE, ADDPERSONY);
     private Dimension infoPanelDim = new Dimension(WINDOWXINSIDE, INFOPANELY);
     private Dimension backButtonDim = new Dimension(WINDOWX, BACKBUTTONY);
+    private Dimension personOptionsDim = new Dimension(WINDOWXINSIDE, PERSONOPTIONSY);
 
     private JTextField nameField;
     private JTextField errorDisplay = new JTextField();
-    private JPanel personControls = new JPanel();
+    private JPanel personControlPanel = new JPanel();
     public JCheckBox isHungry;
     public JCheckBox takeBreak;
     private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
@@ -99,7 +103,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
     private JComboBox jobField = new JComboBox(jobs);
-    private Map<String, Role> jobRoles = new HashMap<String, Role>();
     
     int houseAssignmentNumber = 0;
     
@@ -147,12 +150,12 @@ public class ControlPanel extends JPanel implements ActionListener{
         setupWorldControls();
                 
         controlPane.setPreferredSize(panelDim);
-        worldControls.setPreferredSize(panelDim);
+        worldControlPanel.setPreferredSize(panelDim);
         backButtonPanel.setPreferredSize(backButtonDim);
-        worldControls.setLayout(new BoxLayout(worldControls, BoxLayout.PAGE_AXIS));
-        worldControls.setAlignmentX(Component.CENTER_ALIGNMENT);
-        controlPane.addTab("World", worldControls);
-        controlPane.addTab("People", personControls);
+        worldControlPanel.setLayout(new BoxLayout(worldControlPanel, BoxLayout.PAGE_AXIS));
+        worldControlPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        controlPane.addTab("World", worldControlPanel);
+        controlPane.addTab("People", personControlPanel);
         controlPane.addTab("Activity Log", activityPane);
         add(controlPane);
         
@@ -216,21 +219,21 @@ public class ControlPanel extends JPanel implements ActionListener{
     	scenarioSelect.setMaximumSize(dropDownSize);
     	
     	//This add(Box) function creates a space on the JPanel - using it here for spacing the buttons out to look nice
-    	worldControls.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(Box.createVerticalStrut(10));
     	clickBuildings.setFont(new Font("Trebuchet", Font.BOLD, 14));
-    	worldControls.add(clickBuildings);
-    	worldControls.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(clickBuildings);
+    	worldControlPanel.add(Box.createVerticalStrut(10));
     	JLabel title = new JLabel("Running a scenario: ");
     	title.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	worldControls.add(title);
-    	worldControls.add(scenarioSelect);
+    	worldControlPanel.add(title);
+    	worldControlPanel.add(scenarioSelect);
     	clickBuildings.setAlignmentX(Component.CENTER_ALIGNMENT);
     	backToCity.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	worldControls.add(Box.createVerticalStrut(10));
-    	worldControls.add(startScenario);
+    	worldControlPanel.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(startScenario);
     	startScenario.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	worldControls.add(Box.createVerticalStrut(10));
-    	worldControls.add(timeDisplay);
+    	worldControlPanel.add(Box.createVerticalStrut(10));
+    	worldControlPanel.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
     
@@ -239,18 +242,30 @@ public class ControlPanel extends JPanel implements ActionListener{
     	
     	//addPerson.setAlignmentX(Component.CENTER_ALIGNMENT);
     	
-    	personControls.setPreferredSize(panelDim);
+    	personControlPanel.setPreferredSize(panelDim);
     	
     	addPerson.setPreferredSize(addPersonDim);
     	infoPanel.setPreferredSize(infoPanelDim);
+    	personOptionsDisplay.setPreferredSize(personOptionsDim);
         pane.setViewportView(view);
         
         infoPanel.add(new JLabel("List of people in SimCity"));
     	infoPanel.add(pane);
     	
     	//Add AddPerson panel and info panel to main panel
-    	personControls.add(addPerson);
-    	personControls.add(infoPanel);
+    	FlowLayout controlsFlow = new FlowLayout();
+    	personControlPanel.setLayout(controlsFlow);
+    	personControlPanel.add(addPerson, controlsFlow);
+    	//personControlPanel.add(personOptionsDisplay, controlsFlow);
+    	personControlPanel.add(infoPanel, controlsFlow);
+    	personControlPanel.add(personOptionsDisplay, controlsFlow);
+    	
+    	personOptionsDisplay.setBorder(BorderFactory.createLineBorder(Color.black));
+    	
+    	buyCarButton.addActionListener(this);
+    	personOptionsDisplay.add(new JLabel("Person Options"));
+		addPerson.add(Box.createVerticalStrut(10));
+    	personOptionsDisplay.add(buyCarButton);
         
         pane.setMinimumSize(scrollDim);
         pane.setMaximumSize(scrollDim);
@@ -304,16 +319,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		});
 
-		addPersonB.addActionListener(this);
+		addPersonButton.addActionListener(this);
 		addPerson.add(Box.createVerticalStrut(10));
-		addPerson.add(addPersonB, flow);
+		addPerson.add(addPersonButton, flow);
 		addPerson.add(Box.createVerticalStrut(10));
 
 		errorDisplay.setEditable(false);
 		addPerson.add(errorDisplay, flow);
-
+		
 		view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
-		this.add(personControls);
+		this.add(personControlPanel);
 	}
 
 
@@ -322,9 +337,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * Handles the event of the add button being pressed
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == addPersonB) {
+		if (e.getSource() == addPersonButton) {
 			// Chapter 2.19 describes showInputDialog()
 			if(!nameField.getText().equals("")){
+				//TODO Should we add a check here for duplicate names?
+				//Might matter for the car buying, if two people have the same name
 				String job = null;
 				if(jobField.getSelectedIndex() == 0){
 					errorDisplay.setText("Please select a job");
@@ -341,14 +358,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 				errorDisplay.setText("Please enter a name for the person");
 			}
 		}
-		/*
-        else if(e.getSource() == scenarioSelect){
-        	if(scenarioSelect.getSelectedIndex() == 0){
-        		startScenario.setEnabled(false);
-        	}
-        	else
-        		startScenario.setEnabled(true);
-        }*/
 		else if(e.getSource() == startScenario){
 			if(scenarioSelect.getSelectedIndex() != 0){
 				populateCity((String)scenarioSelect.getSelectedItem());
@@ -359,6 +368,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource() == backToCity) {
 			cityGui.backToCityView();
 			backToCity.setEnabled(false);
+		}
+		else if(e.getSource() == buyCarButton){
+			//
 		}
 	}
 
@@ -394,7 +406,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			button.setMinimumSize(buttonSize);
 			button.setMaximumSize(buttonSize);
 			button.addActionListener(this);
-			list.add(button);
+			personButtonList.add(button);
 			view.add(button);
 
 
@@ -420,7 +432,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			button.setMinimumSize(buttonSize);
 			button.setMaximumSize(buttonSize);
 			button.addActionListener(this);
-			list.add(button);
+			personButtonList.add(button);
 			view.add(button);
 			isHungry.setEnabled(false);
 			validate();
@@ -454,7 +466,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			button.setMinimumSize(buttonSize);
 			button.setMaximumSize(buttonSize);
 			button.addActionListener(this);
-			list.add(button);
+			personButtonList.add(button);
 			view.add(button);
 			isHungry.setEnabled(false);
 			validate();

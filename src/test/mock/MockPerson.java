@@ -69,13 +69,13 @@ public class MockPerson extends Mock implements Person {
 	
 	//FROM BUS
 	@Override
-	public void msgArrivedAtStop(int stop) {
+	public void msgArrivedAtStop(int stop, Position p) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgBusIsHere(Bus b) {
+	public void msgBusIsHere(Bus b, Position p) {
 		// TODO Auto-generated method stub
 		
 	}

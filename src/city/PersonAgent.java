@@ -17,6 +17,7 @@ import test.mock.EventLog;
 import city.PersonTask.State;
 import city.PersonTask.TaskType;
 import city.PersonTask.Transportation;
+import city.gui.CityClock;
 import city.gui.PersonGui;
 import city.gui.House.HomeOwnerGui;
 import city.gui.restaurant2.Restaurant2CustomerGui;
@@ -39,6 +40,7 @@ public class PersonAgent extends Agent implements Person{
 	//DATA
 	String name;
 	public List<PersonTask> tasks = Collections.synchronizedList(new ArrayList<PersonTask>());
+	public PersonSchedule schedule = new PersonSchedule();
 	public List<String> foodsToEat = new ArrayList<String>();
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	enum PersonState {idle, hungry, choosingFood, destinationSet, payRent};
@@ -84,12 +86,10 @@ public class PersonAgent extends Agent implements Person{
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
-	int timeOfDay;
-	enum TimeStatus {wakeUp, getReadyForWork, goToWork, atWork, leaveWork, nightTime};
-	TimeStatus timeStatus = TimeStatus.wakeUp;
-	//List<MarketAgent> markets;
-	//List<Restaurant> restaurants;
-	//Restaurant recentlyVisitedRestaurant; 	//so the person won't go there twice in a row
+	//int timeOfDay;
+	//enum TimeStatus {wakeUp, getReadyForWork, goToWork, atWork, leaveWork, nightTime};
+	//TimeStatus timeStatus = TimeStatus.wakeUp;
+	CityClock clock;
 
 	//Testing
 	public EventLog log = new EventLog();
@@ -239,6 +239,17 @@ public class PersonAgent extends Agent implements Person{
 	public void setJobLocation(String loc){
 		myJob.location = loc;
 	}
+	
+	//Takes a string argument and creates a new PersonTask which is added onto the current day's schedule
+	public void addTask(String task){
+		schedule.addTaskToDay(clock.getDayOfWeekNum(), new PersonTask(task));
+		stateChanged();
+		//Do we need this stateChanged()?
+	}
+	
+	public void setClock(CityClock c){
+		clock = c;
+	}
 
 	//For testing, until we have the time functionality
 	public void setWorkState(String s){
@@ -292,8 +303,6 @@ public class PersonAgent extends Agent implements Person{
 	//TODO fix this
 
 	public void msgTimeUpdate(int t){
-
-		timeOfDay = t;
 
 		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller") || name.equals("MarketManager"))){
 			synchronized(tasks){
@@ -653,19 +662,13 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 
-		boolean anyActive= false;
-		/*
-		synchronized(roles){
-			for(Role r : roles){
-				if(r.isActive)
-					anyActive = true;
-			}
-			if(!atHome && !anyActive && !busTest){
+		synchronized(tasks){
+			if(tasks.isEmpty()){
 				if(house != null)
 					goHome();
+				//should we return true here?
 			}
 		}
-		 */
 		return false;
 	}
 
