@@ -348,7 +348,7 @@ public class PersonAgent extends Agent implements Person{
 		{
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToWork);
-				//task.role = "MarketManager";
+				task.role = "MarketManager";
 				tasks.add(task);
 			}
 			log("It's time for me to do my job as a manager at the market.");
@@ -521,7 +521,6 @@ public class PersonAgent extends Agent implements Person{
 			callonce = true;
 		}
 
-		System.out.println("Scrolling through things to do!");
 
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -547,7 +546,6 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(tasks){
 			for(PersonTask t : tasks){
 				if(t.type == TaskType.goToWork && t.state == State.initial){
-					System.out.println("BLAH BLAH BLAH BLAH");
 					goToWork(t);
 					t.state = State.processing;
 					return true;
@@ -608,9 +606,7 @@ public class PersonAgent extends Agent implements Person{
 		//Go grocery shopping
 		synchronized(tasks){
 			for(PersonTask t : tasks){
-				System.out.println("Scrolling through things to do!");
 				if(t.type == TaskType.goToMarket && t.state == State.initial){
-					System.out.println("GOINGT TO AMRKET DAMMIT!");
 					goToMarket(t);
 					t.state = State.processing;
 					return true;
