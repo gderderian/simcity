@@ -72,7 +72,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton buyCarButton = new JButton("Buy a Car");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test",
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -736,7 +736,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runBankTest();
 		else if(scenario.equals("Car Test"))
 			runCarTest();
-
+		else if(scenario.equals("Landlord Test"))
+			runLandlordTest();
 	}
 
 	public void runFullTest(){
@@ -901,28 +902,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("joe", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-
 	}
 	
 	public void runMarketVisitTest(){
@@ -934,7 +913,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 
-		addPerson("joe", "No Job");
+		addPerson("marketClient", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
 
@@ -945,6 +924,37 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonWithCar("rest1Test", "No Job");
 	}
 
+	public void runLandlordTest(){
+		addPerson("Landlord", "Landlord1");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+		addPerson("Joe", "No Job");
+	}
+	
 	public void setTimeDisplay(String timeToDisplay){
 		timeDisplay.setText(timeToDisplay);
 	}
