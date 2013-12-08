@@ -180,7 +180,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         //Creation of houses and apartments
         createHouses();
       	//Creation of bus stops
-        createBusStops();     
+        createBusStops();
                 
         scenarioSelect.setSelectedIndex(1);
     }
@@ -254,6 +254,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     	amPmSelect.setMaximumSize(timerControlDropdownSize);
     	
     	// Add all to single panel
+    	changeTime.setEnabled(false);
     	timeSelectionPanel.add(hourSelect);
     	timeSelectionPanel.add(minuteSelect);
     	timeSelectionPanel.add(amPmSelect);
@@ -277,8 +278,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     	worldControlPanel.add(Box.createVerticalStrut(10));
     	worldControlPanel.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	// worldControls.add(new JSeparator());
-    	worldControls.add(timeSelectionPanel);
+    	worldControlPanel.add(timeSelectionPanel);
     }
     
     private void addPersonSection(){
@@ -407,6 +407,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				populateCity((String)scenarioSelect.getSelectedItem());
 				cityGui.startMasterClock();
 				startScenario.setEnabled(false);
+				changeTime.setEnabled(true);
 			}
 		}
 		else if(e.getSource() == backToCity) {
