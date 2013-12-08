@@ -13,6 +13,10 @@ public class PersonSchedule {
 	 * so that the person can get ready for it/start going to the location
 	 */
 	
+	public PersonSchedule(){
+		weeklySchedule = new HashMap<Integer, ArrayList<PersonTask>>();
+	}
+	
 	public void addTaskToDay(int dayOfWeek, PersonTask dayTask){
 		ArrayList<PersonTask> dayTasks = weeklySchedule.get(dayOfWeek);
 		dayTasks.add(dayTask);

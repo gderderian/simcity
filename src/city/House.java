@@ -5,6 +5,7 @@ import interfaces.Person;
 
 import java.util.*;
 
+import Role.LandlordRole;
 import city.gui.House.HouseAnimationPanel;
 import test.mock.*;
 
@@ -232,5 +233,12 @@ public class House implements HouseInterface{
 
 	public HouseAnimationPanel getAnimationPanel() {
 		return h;
+	}
+
+
+	@Override
+	public void setLandlord(LandlordRole r) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -120,6 +120,10 @@ public class CityClock {
 		return dayText;
 	}
 	
+	public int getDayOfWeekNum(){
+		return day;
+	}
+	
 	public String getDayState(){
 		if (dayState.equals(dayState.morning)){
 			return "Morning";
