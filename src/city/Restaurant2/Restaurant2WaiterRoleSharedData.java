@@ -10,6 +10,11 @@ public class Restaurant2WaiterRoleSharedData extends Restaurant2WaiterRole{
 	
 	void SendOrderToCook(MyCustomer c){
 		waiterGui.DoGoToSpindle();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		OrderSpindle.getInstance().addOrder(new Order(this, c.choice, c.table));
 		print("Adding an order to the spindle");
 	}
