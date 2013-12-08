@@ -19,8 +19,6 @@ public class Restaurant1CustomerGui implements Gui{
 
 	private static final int WIDTH = 30, HEIGHT = 30;
 	private final int CASHIER_X = 80, CASHIER_Y = 300;
-	
-	private Restaurant1AnimationPanel animPanel;
 
 	private Restaurant1WaiterGui waiterGui;
 	ImageIcon flat1 = new ImageIcon("images/person_flat1.png");
@@ -58,8 +56,9 @@ public class Restaurant1CustomerGui implements Gui{
 		//Code for switching pictures to create animation
 		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
 		
-        if (xPos < xDestination) {
-            xPos++;
+
+		
+		if(xPos != xDestination || yPos != yDestination) {
             if(movementCounter < iconSwitch)
         		icon = flat1;
         	else if(movementCounter < iconSwitch * 2)
@@ -68,27 +67,16 @@ public class Restaurant1CustomerGui implements Gui{
         		icon = flat3;
         	else
         		icon = flat2;
-        }
-        
-        else if (xPos > xDestination) {
+		} else icon = flat2;
+		
+        if (xPos < xDestination) 
+            xPos++;
+        else if (xPos > xDestination) 
             xPos--;
-        	if(movementCounter < iconSwitch && icon != flat1)
-        		icon = flat1;
-        	else if(movementCounter < iconSwitch * 2 && icon != flat2)
-        		icon = flat2;
-        	else if(movementCounter < iconSwitch * 3 && icon != flat3)
-        		icon = flat3;
-        	else if(icon != flat2)
-        		icon = flat2;
-        }
-        
-        if (yPos < yDestination) {
+        if (yPos < yDestination) 
             yPos++;
-        }
-        else if (yPos > yDestination) {
+        else if (yPos > yDestination) 
             yPos--;
-        }
-			
 
 		if (xPos == xDestination && yPos == yDestination) {	
 			if (command==Command.GoToSeat) {
@@ -116,7 +104,7 @@ public class Restaurant1CustomerGui implements Gui{
         g.setColor(Color.BLACK);
         g.drawString("C", xPos + 8, yPos + 22); */
 		
-		g.drawImage(icon.getImage(), xPos, yPos, WIDTH, HEIGHT, animPanel);
+		g.drawImage(icon.getImage(), xPos, yPos, WIDTH, HEIGHT, null);
         
         // Switch statement to determine if food needs to be displayed on the table
         switch(state) {
@@ -242,9 +230,5 @@ public class Restaurant1CustomerGui implements Gui{
 	
 	public int getGuiY() {
 		return yPos;
-	}
-	
-	public void setAnimationPanel() {
-		
 	}
 }
