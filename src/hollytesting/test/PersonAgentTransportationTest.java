@@ -44,7 +44,8 @@ public class PersonAgentTransportationTest extends TestCase {
                 person.pickAndExecuteAnAction();
                 assertTrue("Person should have a BusRide with a fare of 0, but instead the fare is " + person.busRide.fare, 
                                 person.busRide.fare == 0);
-                person.msgArrivedAtStop(1);
+                //This null spot is supposed to send a Position
+                person.msgArrivedAtStop(1, null);
                 assertEquals("The person's busRide still should not be null", person.busRide != null);
                 assertTrue("There should be a bus on the list with state get off bus", person.busRide.state == BusRideState.getOffBus);
                 //person.pickAndExecuteAnAction();

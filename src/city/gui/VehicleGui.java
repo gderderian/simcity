@@ -34,10 +34,14 @@ public class VehicleGui implements Gui {
 	public VehicleGui(Vehicle v){
 		this.v = v;
 		this.type = v.getType();
-		if(type == "car") {
+		if(type.equals("car") || type.equals("crash")) {
 			xPos = 450;
 			yPos = 390;
-		} else {
+		} else if(type.equals("truck")) {
+			xPos = 420;
+			yPos = 270;
+		}
+		else {
 			xPos = 630;
 			yPos = 660;
 		}
@@ -49,12 +53,17 @@ public class VehicleGui implements Gui {
 		movingLeft = new ImageIcon("images/" + type + "_left.png");
 		movingUp = new ImageIcon("images/" + type + "_up.png");
 		movingDown = new ImageIcon("images/" + type + "_down.png");
+		
+		if(type.equals("crash")) {
+			movingRight = new ImageIcon("car_right.png");
+			movingLeft = new ImageIcon("car_left.png");
+			movingUp = new ImageIcon("car_up.png");
+			movingDown = new ImageIcon("car_down.png");
+		}
 
-		if(type == "car") {
-			icon = movingDown;
+		if(type.equals("car") || type.equals("crash") || type.equals("truck")) {
 			setInvisible();
 		}
-		else
 			icon = movingUp;
 	}
 

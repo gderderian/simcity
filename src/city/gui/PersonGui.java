@@ -127,6 +127,8 @@ public class PersonGui implements Gui {
 	
 	public void draw(Graphics2D g) {
         g.drawImage(icon.getImage(), xPos, yPos, animPanel);
+        g.setColor(Color.black);
+        g.drawString(agent.getName(), xPos, yPos - 5);
 	}
 
 	public boolean isPresent() {

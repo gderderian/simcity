@@ -20,5 +20,11 @@ public class MockMarketWorker extends Mock implements MarketWorker {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void releaseSemaphore() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

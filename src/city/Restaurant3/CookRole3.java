@@ -12,6 +12,7 @@ import javax.swing.Timer;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;
+import city.Restaurant2.OrderSpindle;
 import city.Restaurant3.Order.orderStatus;
 import city.Restaurant3.OrderSpindle3;
 import city.gui.Restaurant3.*;
@@ -65,6 +66,8 @@ public class CookRole3 extends Role {
 		allFood.put("Cobbler", new FoodItem("Cobbler", 5000, 3));
 		
 		person = p;
+		
+		oSpindle = OrderSpindle3.returnSpindleInstance();
 		
 		spindleCheck = new Timer(2000,
 				new ActionListener() { public void actionPerformed(ActionEvent event) {
