@@ -77,11 +77,6 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		restaurant = r;
 	}
 	
-	/*
-	public void setPerson(PersonAgent p){
-		person = p;
-	}
-	*/
 	//stateChanged?
 	public void addWaiters(Restaurant2Waiter w){
 		waiters.add(new MyWaiter(w));
@@ -90,7 +85,6 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	
 	
 	// Messages
-
 	public void msgIWantFood(Restaurant2Customer cust) {
 		boolean alreadyExists = false;
 		log("Customer is hungry");
@@ -128,6 +122,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	}
 	
 	public void msgNoTablesLeaving(Restaurant2Customer c){
+		log("Msg no tables leaving");
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == c){
@@ -139,6 +134,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	}
 	
 	public void msgIllStay(Restaurant2Customer c){
+		log("Msg Ill stay");
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.c == c){
@@ -150,6 +146,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	}
 
 	public void msgTableIsFree(int table) {
+		log("Msg table is free");
 		synchronized(tables){
 			for(Table t : tables){
 				if (t.tableNumber == table){
@@ -161,6 +158,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	}
 	
 	public void msgRequestBreak(Restaurant2Waiter w){
+		log("msg request break");
 		synchronized(waiters){
 			for(MyWaiter mw : waiters){
 				if (mw.w == w){
@@ -172,10 +170,12 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	}
 	
 	public void msgBackFromBreak(Restaurant2Waiter w){
+		log("Msg back from break");
 		synchronized(waiters){
 			for(MyWaiter mw : waiters){
 				if(mw.w == w){
 					mw.ws = WaiterState.normal;
+					person.stateChanged();
 				}
 			}
 		}
@@ -191,7 +191,8 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		try{
+		//log("Calling host 2 pick and execute");
+		synchronized(tables){
 			for (Table table : tables) {
 				if (!table.isOccupied()) {
 					if(!waiters.isEmpty()){
@@ -206,23 +207,19 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 				}
 			}
 		}
-		catch(ConcurrentModificationException e){
-			return true;
-		}
 		
-		try{
+		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.cs == CustomerState.tablesFull){
+					
 					NotifyTablesFull(mc);
+					return true;
 				}
 			}
 		}
-		catch(ConcurrentModificationException e){
-			return true;
-		}
 		
-		if(!waiters.isEmpty()){
-			try{
+		synchronized(waiters){
+			if(!waiters.isEmpty()){
 				for(MyWaiter mw : waiters){
 					if (mw.ws == WaiterState.breakRequested){
 						mw.ws = WaiterState.assessing;
@@ -231,10 +228,6 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 					}
 				}
 			}
-			catch(ConcurrentModificationException e){
-				return true;
-			}
-
 		}
 
 		return false;

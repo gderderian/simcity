@@ -40,6 +40,7 @@ public class CookRole4 extends Role implements Cook4 {
 	public int id= 0;
 	Map<String, Integer> delivery= new HashMap<String, Integer>();
 	boolean successful;
+	boolean checkOrders;
 	
 	ActivityTag tag = ActivityTag.RESTAURANT4COOK;
 	
@@ -94,6 +95,7 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 
 	public void msgReadyForConsumption(){
+		checkOrders= true;
 		p.stateChanged(); //wakes up the cook and tells him there is something for him to do now
 	}
 	
@@ -132,7 +134,10 @@ public class CookRole4 extends Role implements Cook4 {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		//First check if there are any new shared data orders to be added to the cook's personal list
-		checkSharedOrders();
+		if(checkOrders == true){
+			checkSharedOrders();
+			checkOrders= false;
+		}
 		if(orders != null){
 			synchronized(orders){ 
 				for(Order order : orders){
