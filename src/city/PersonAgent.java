@@ -704,8 +704,9 @@ public class PersonAgent extends Agent implements Person{
 
 	@SuppressWarnings("unused")
 	public void reachedDestination(PersonTask task){
+		
 		log("I've reached my destination, now I'm going to go inside!");
-		log("My tas right now is " + task.type.toString());
+		log("My task right now is " + task.type.toString());
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
@@ -765,9 +766,8 @@ public class PersonAgent extends Agent implements Person{
 	public void goToWork(PersonTask task){
 		log("Going to work");
 
-		System.out.println("Going to work as a " + task.role + " at " + task.location);
-
 		task.location = myJob.location;
+		System.out.println("Going to work as a " + task.role + " at " + task.location);
 		//Role in the task here should be null because role-related things are taken care of in the Job class
 
 		if(car != null){	//if the person has a car, he/she will take it
@@ -778,32 +778,6 @@ public class PersonAgent extends Agent implements Person{
 		else{
 			DoGoTo(myJob.location, task);
 		}
-
-
-		if(task.role != null)
-		{
-
-
-			if(task.role.equals("BankTellerRole"))
-
-			{	
-				for(Role findrole : roles)
-				{
-					if(findrole instanceof BankTellerRole)
-					{
-						Do("Bank teller is at the bank");
-						//bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) findrole);
-						//this.setRoleActive(findrole);
-						cityMap.msgArrivedAtBank(findrole);
-					}
-				}
-			}
-
-
-		}
-
-		//This needs to be moved into the reachedDestination() function
-		//myJob.startJob();
 	}
 
 	//TODO ...
@@ -1244,8 +1218,7 @@ public class PersonAgent extends Agent implements Person{
 		int y = cityMap.getY(location);
 		int myX = currentPosition.getX();
 		int myY = currentPosition.getY();
-
-		Position p = new Position(x, y);
+		
 		if((Math.abs(myX - x) > 20) || Math.abs(myY - y) > 17) {
 			if(!(x > 16 && myX > 16) && !(x < 5 && myX < 5) && !(y < 5 && myY < 5) && !(y > 13 && myY > 13)){	// || name.equals("BusTest")
 				if(task != null){
@@ -1263,18 +1236,21 @@ public class PersonAgent extends Agent implements Person{
 				return;
 			}
 		}
+		
 		if(task != null){
 			if(task.transportation != Transportation.bus && task.transportation != Transportation.car)
 				task.transportation = Transportation.walking;
 		}
+		
 		moveTo(x, y);
 		if(task != null) {
 			task.state = State.arrived;
-			log("ARRIVED");
 		}
+		
 		if((task != null) && (task.transportation == Transportation.walking)){
 			reachedDestination(task);
 		}
+		
 		gui.setInvisible();
 		return;
 	}
@@ -1489,8 +1465,8 @@ public class PersonAgent extends Agent implements Person{
 			if(role.getGui() != null){
 				role.getGui().setPresent(true);
 			}
-			if(role.getGui() instanceof Restaurant2CustomerGui){
-				log("This is a customer gui");
+			if(role instanceof BankTellerRole) {
+				//TODO fill this in
 			}
 		}
 
