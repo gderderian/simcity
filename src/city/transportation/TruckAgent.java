@@ -87,15 +87,13 @@ public class TruckAgent extends Vehicle {
 				}
 			}
 		}
-		
-		DriveAround(); //Demonstration of animation capabilities!
 
 		return false;
 	}
 
 	//Actions
 	private void DeliverOrder(MyMarketOrder o) {
-		DoGoTo()
+		DriveToMarket();
 		log("Going to " + o.o.destination);
 		DoGoTo(o.o.destination);
 		log("Delivering order from market to recipient");
@@ -103,7 +101,7 @@ public class TruckAgent extends Vehicle {
 		o.delivered = true;
 		log("Returning to market");
 		//Hack - must change to specific restaurant
-		DoGoTo("mark1");
+		DriveToMarket();
 	}
 
 	private void ReportToMarket(MyMarketOrder o) {
@@ -111,19 +109,30 @@ public class TruckAgent extends Vehicle {
 		orders.remove(o);
 	}
 	
-	private void DriveAround() {
-		//Demonstration of animation capabilities - Driving loops around city.
-		while(true) {
-			guiMoveFromCurrentPositionTo(new Position(15, 6));
-			guiMoveFromCurrentPositionTo(new Position(6, 6));
-			guiMoveFromCurrentPositionTo(new Position(6, 12));
-			guiMoveFromCurrentPositionTo(new Position(15, 12));
-			
-			guiMoveFromCurrentPositionTo(new Position(16, 5));
-			guiMoveFromCurrentPositionTo(new Position(5, 5));
-			guiMoveFromCurrentPositionTo(new Position(5, 13));
-			guiMoveFromCurrentPositionTo(new Position(16, 13));
-		}
+	private void DriveToMarket() {
+		String dest = market.getBuilding();
+		
+		int x = cityMap.getX(dest);
+		int y = cityMap.getY(dest);
+		
+		if(x < 4 && y < 4) {
+			moveTo(3,3);
+		} else if(x > 17 && y < 4) {
+			moveTo(18,3);
+		} else if(x < 4 && y > 14) {
+			moveTo(3, 15);
+		} else if(x == 0) {
+			moveTo(3, y);
+		} else if(x == 21) {
+			moveTo(18, y);
+		} else if(y == 0) {
+			moveTo(x, 3);
+		} else if(y == 18) {
+			moveTo(x, 15);
+		} else if(y == 17) {
+			moveTo(x, 15);
+		} else
+			log("ERROR: Unexpected driving destination - see driveToOwner() in CarAgent.");
 	}
 
 	// Accessors
