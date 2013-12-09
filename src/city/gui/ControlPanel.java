@@ -755,7 +755,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);		
 
 		//Add two trucks at an interval
-		timer.schedule(new TimerTask() {
+		/*timer.schedule(new TimerTask() {
 			public void run() {
 				addVehicle("truck");
 			}
@@ -765,7 +765,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			public void run() {
 				addVehicle("truck");
 			}
-		}, 13000	);
+		}, 13000	);*/
 
 		addPersonWithCar("rest1Test", "No Job");
 
@@ -957,6 +957,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("brokenApplianceTest", "No Job");
+		addPerson("Joe", "No Job");
 	}
 	
 	public void setTimeDisplay(String timeToDisplay){

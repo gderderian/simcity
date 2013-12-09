@@ -220,7 +220,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void setRoleInactive(Role r){
-		log("Settign my role inactive");
 		synchronized(roles){
 			for(Role role : roles){
 				if(role == r){
@@ -229,6 +228,19 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		synchronized(tasks){
+			/*for(PersonTask task : tasks){
+			  		if(task.role.equals(r.getRoleName())){
+			 			tasks.remove(task);
+			 		}
+			 }*/
+			
+			//This new way might not work every time so if it messes your code up just put it back to the comment out code above
+			/*int taskSize= tasks.size();
+			for(int i=0; i<taskSize; i++){
+				if(tasks.get(0).role.equals(r.getRoleName())){
+					tasks.remove(tasks.get(0));
+				}
+			}*/
 			for(PersonTask task : tasks){
 				log("Role name: " + r.getRoleName() + "   task role name: " + task.role);
 				if(task.role.equals(r.getRoleName())){
@@ -397,6 +409,14 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to do my job as a worker at the market.");
 
+		} else if(t > 3000 && t < 5000){
+			synchronized(roles){
+				for(Role role : roles){
+					if(role.getRoleName().contains("Landlord")){
+						((LandlordRole)role).msgCollectRent();
+					}
+				}
+			}
 		}
 		stateChanged();
 	}
@@ -515,6 +535,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgRentDue(Landlord r, double rate) {
+		log("Oh, looks like its time for me to pay rent!");
 		billsToPay.add(new Bill("rent", rate, r));
 		stateChanged();
 	}
@@ -1045,12 +1066,13 @@ public class PersonAgent extends Agent implements Person{
 
 	public void payBills(){
 		log.add(new LoggedEvent("Paying bill"));
+		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				if(b.landlord == landlord){
+				if(b.landlord == house.getLandlord()){
 					if(wallet > b.amount){
 						log.add(new LoggedEvent("The bill I'm paying is my rent"));
-						landlord.msgHereIsMyRent(this, b.amount);
+						house.getLandlord().msgHereIsMyRent(this, b.amount);
 						wallet -= b.amount;
 						billsToPay.remove(b);
 						return;

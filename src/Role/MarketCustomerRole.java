@@ -30,8 +30,6 @@ public class MarketCustomerRole extends Role {
 	// Messages
 	public void msgHereIsYourOrder(MarketOrder o){
 		// Handled within PersonAgent directly
-		log("MINE!!!!!!!!!!!!!!");
-		System.out.println("MINE!!!!!!!!!!!!!!");
 		person.stateChanged();
 	}
 	
