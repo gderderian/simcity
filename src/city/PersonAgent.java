@@ -304,8 +304,14 @@ public class PersonAgent extends Agent implements Person{
 	//TODO fix this
 
 	public void msgTimeUpdate(int t, int hour){
-		
-
+		/*
+		if(hour == 2){
+			if(myJob != null){
+				PersonTask task = new PersonTask(TaskType.goToWork);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+			}
+		}
+		*/
 		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
 			synchronized(tasks){
 				PersonTask task = new PersonTask(TaskType.goToWork);
@@ -717,7 +723,6 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void reachedDestination(PersonTask task){
 		
 		log("I've reached my destination, now I'm going to go inside!");

@@ -278,7 +278,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
-			//person.msgTimeUpdate(timeOfDay);
 			person.msgTimeUpdate(timeOfDay, hourOfDayHumanTime);
 		}
 		controlPanel.setTimeDisplay(displayTime);
@@ -422,33 +421,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.enableBackToCity();
 	}
 
-	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
-		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
-		if(h != null){
-			h.setOwner(newPerson);
-		}
-		
-		PersonGui g = new PersonGui(newPerson);
-		newPerson.setGui(g);
-		
-		newPerson.setClock(masterClock);
-		//newPerson.addTask("gotHungry");
-		//newPerson.addTask("goToBank");
-		//newPerson.addTask("goToMarket");
-		
-		animationPanel.addGui(g);
-		
-		guis.add(g);
-		
-		personFactory(newPerson, job, g);
-		
-		people.add(newPerson);
-		
-		newPerson.startThread();
-		
-		newPerson.setBank(bank);
-	}
-	
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h, CarAgent c){
 		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
 		if(h != null){
@@ -470,10 +442,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		personFactory(newPerson, job, g);
 		
 		people.add(newPerson);
-
-		addCar(newPerson, c);
+		
+		if(c != null)
+			addCar(newPerson, c);
 		
 		newPerson.startThread();
+		
+		newPerson.setBank(bank);
 	}
 
 	public void enableComeBack(Restaurant2Waiter agent) {
@@ -614,6 +589,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		customerRole5.setGui(customerGui5);
 		p.addRole(customerRole5, false);
 
+		//Add bank customer role to go to bank
 		BankCustomerRole bankCustomerRole = new BankCustomerRole(p.wallet);
 		bankCustomerRole.setPerson(p);
 		BankGui bankgui = new BankGui();
@@ -623,6 +599,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		bankCustomerRole.setGui(bankCustomerGui);
 		p.addRole(bankCustomerRole, false);
 		
+		//Add market customer role to go to market
 		MarketCustomerRole marketCustomer = new MarketCustomerRole(p.getName(), p);
 		MarketGui marketGui = new MarketGui();
 		MarketCustomerGui mktCustomerGui = new MarketCustomerGui(marketCustomer, marketGui); 
