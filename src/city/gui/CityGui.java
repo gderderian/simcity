@@ -76,6 +76,7 @@ import city.Restaurant5.Restaurant5CashierRole;
 import city.Restaurant5.Restaurant5CookRole;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
+import city.Restaurant5.Restaurant5RegularWaiterRole;
 import city.Restaurant5.Restaurant5WaiterRole;
 import city.gui.Restaurant3.*;
 import city.gui.Restaurant5.Restaurant5AnimationPanel;
@@ -546,7 +547,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant5CustomerRole customerRole = new Restaurant5CustomerRole(p.getName(), p);
 			Restaurant5CustomerGui customerGui = new Restaurant5CustomerGui(customerRole, restaurant5gui, hostrole);
 			restaurant5.addGui(customerGui);
-			Restaurant5WaiterRole waiterRole = new Restaurant5WaiterRole("waiter", p);
+			Restaurant5RegularWaiterRole waiterRole = new Restaurant5RegularWaiterRole("waiter", p);
 			p.addFirstJob(waiterRole, "rest5");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -913,7 +914,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Restaurant5 Waiter")){
-			Restaurant5WaiterRole role = new Restaurant5WaiterRole(p.getName(),p);
+			Restaurant5RegularWaiterRole role = new Restaurant5RegularWaiterRole(p.getName(),p);
 			Restaurant5HostRole hrole = new Restaurant5HostRole(p.getName(), p);
 			Restaurant5Gui rest5gui = new Restaurant5Gui();
 			Restaurant5WaiterGui gui = new Restaurant5WaiterGui(role, rest5gui, hrole);

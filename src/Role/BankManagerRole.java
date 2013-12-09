@@ -38,6 +38,7 @@ public class BankManagerRole extends Role{
 	BankTellerRole freebankteller;
 	PersonAgent person;
 	public EventLog log = new EventLog();
+	BankRobberRole bankrobber;
 
 
 
@@ -62,6 +63,13 @@ public class BankManagerRole extends Role{
 		banktellers.add(new mybankteller(newbankteller, this));
 		Do("" + banktellers.size());
 		person.stateChanged();
+	}
+	
+	public void msgBankRobberArrived(BankRobberRole setbankrobber) {
+		
+		bankrobber = setbankrobber;
+		person.stateChanged();
+		
 	}
 
 	public void msgCalculateLoan() {
@@ -109,7 +117,19 @@ public class BankManagerRole extends Role{
 
 	public boolean pickAndExecuteAnAction() {
 
-
+		
+		if(bankrobber != null)
+		{
+			
+			
+			
+			
+			
+			
+			return true;
+		}
+		
+		
 		//Do("im in the scheduler");
 		//Do("" + banktellers.size());
 

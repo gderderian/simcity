@@ -514,13 +514,6 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-
-		if(name.equals("bankCustomerTest") && callonce == false) {
-			goToBank(new PersonTask(TaskType.goToBank));
-			callonce = true;
-		}
-
-
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
