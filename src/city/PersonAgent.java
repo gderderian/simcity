@@ -303,9 +303,8 @@ public class PersonAgent extends Agent implements Person{
 
 	//TODO fix this
 
-	public void msgTimeUpdate(int t){
+	public void msgTimeUpdate(int t, int hour){
 		
-		log("Time is " + t);
 
 		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
 			synchronized(tasks){
@@ -318,7 +317,7 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 			log("It's time for me to go to work!");
-		}/*
+		}
 		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
 			synchronized(tasks){
@@ -331,7 +330,7 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
 			log("It's time for me to eat something.");
-		}*/
+		}
 		else if(t > 19000 && t < 21000 && (name.equals("bankCustomerTest")))
 		{
 			synchronized(tasks) {
@@ -678,7 +677,6 @@ public class PersonAgent extends Agent implements Person{
 		//go home if there is nothing else to do
 		synchronized(tasks){
 			if(tasks.isEmpty()){
-				log("Tasks is empty");
 				List<PersonTask> dayTasks = schedule.getDayTasks(clock.getDayOfWeekNum());
 				if(dayTasks.isEmpty()){
 					if(house != null){
