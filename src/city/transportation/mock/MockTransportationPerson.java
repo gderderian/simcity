@@ -64,12 +64,6 @@ public class MockTransportationPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgApplianceBrokeCantCook() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void msgArrivedAtStop(int stop, Position p) {
 		log.add(new LoggedEvent("Got message: Arrived at stop"));		
 	}
