@@ -489,6 +489,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
 			
+			if(true) { //HACK - change this to add new trucks to different markets.
+				market1.addTruck(newTruck);
+				newTruck.setMarketManager(market1.getMarketManager());
+			}
+			
 			newTruck.startThread();
 		}
 	}   

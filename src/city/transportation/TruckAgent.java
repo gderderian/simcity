@@ -1,6 +1,6 @@
 package city.transportation;
 
-import interfaces.MarketManager;
+import Role.MarketManager;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -41,7 +41,7 @@ public class TruckAgent extends Vehicle {
 		
 		type = "truck";
 
-		currentPosition = new Position(17, 20);
+		currentPosition = new Position(10, 7);
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
 	}
@@ -95,6 +95,7 @@ public class TruckAgent extends Vehicle {
 
 	//Actions
 	private void DeliverOrder(MyMarketOrder o) {
+		DoGoTo()
 		log("Going to " + o.o.destination);
 		DoGoTo(o.o.destination);
 		log("Delivering order from market to recipient");
