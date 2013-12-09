@@ -110,17 +110,17 @@ public class MarketManager extends Role {
 	
 	// Messages
 	public void msgHereIsOrder(MarketOrder o){
-		log("Recieved order from " + o.getRecipient().getName());
-		log("Current order size is:" + o.orders.size());
+		//log("Recieved order from " + o.getRecipient().getName());
+		//log("Current order size is:" + o.orders.size());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.inPerson);
 		myOrders.add(mo);
-		log("Current order size is:" + o.orders.size());
+		//log("Current order size is:" + o.orders.size());
 		p.stateChanged();
 	}
 	
 	public void msgOrderPicked(MarketOrder o){
-		log("Received orderPicked message");
-		log("Current order size is:" + o.orders.size());
+		//log("Received orderPicked message");
+		//log("Current order size is:" + o.orders.size());
 		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
 			for (myMarketOrder order : myOrders) {
@@ -159,12 +159,12 @@ public class MarketManager extends Role {
 			if (!myOrders.isEmpty()) {
 				for (myMarketOrder order : myOrders) {
 					if (order.state == orderState.pendingWorkerAssignment){
-						log("I'll delegate this order to one of my workers");
+						//log("I'll delegate this order to one of my workers");
 						makeWorkerPrepareOrder(order);
 						return true;
 					}
 					if (order.state == orderState.pickedReady){
-						log("In scheduler after orderPicked message");
+						//log("In scheduler after orderPicked message");
 						deliverOrder(order);
 						return true;
 					}

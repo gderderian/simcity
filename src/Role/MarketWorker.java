@@ -56,8 +56,8 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	
 	// Messages
 	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
-		log("A new order to process...");
-		log("Current order size is:" + o.orders.size());
+		//log("A new order to process...");
+		//log("Current order size is:" + o.orders.size());
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);
 		pickOrders.add(newPickableOrder);
 		p.stateChanged();
@@ -97,7 +97,7 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	}
 	
 	private void returnCompletedOrder(PickableOrder o){
-		log("Notifying manager a customer's order is done!");
+		//log("Notifying manager a customer's order is done!");
 		o.recipientManager.msgOrderPicked(o.order);
 		pickOrders.remove(o);
 	}
