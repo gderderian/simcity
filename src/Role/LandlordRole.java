@@ -1,5 +1,6 @@
 package Role;
 
+import interfaces.HouseInterface;
 import interfaces.Landlord;
 import interfaces.Person;
 import activityLog.ActivityLog;
@@ -155,6 +156,7 @@ public class LandlordRole extends Role implements Landlord {
 	//CLASSES
 	public class MyTenant{
 		Person tenant;
+		HouseInterface house;
 		double rate;
 		boolean paymentsUpToDate= true; 
 		boolean newPayment= false;
@@ -163,6 +165,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 		public MyTenant(Person p){
 			tenant= p;
+			house= p.getHouse();
 			rate= 10.00;
 		}
 	}
@@ -180,5 +183,14 @@ public class LandlordRole extends Role implements Landlord {
 
 	public void setGui(LandlordGui gui) {
 		this.gui= gui;
+	}
+	
+	public void setGuiActive() {
+		for(MyTenant t : tenants){
+			if(t.needsMaintenance.size() > 0){
+				t.house.getAnimationPanel().addGui(gui);
+			}
+		}
+		gui.setPresent(true);
 	}
 }

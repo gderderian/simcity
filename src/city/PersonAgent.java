@@ -26,6 +26,7 @@ import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
+import Role.LandlordRole;
 import Role.MarketCustomerRole;
 import Role.Role;
 import activityLog.ActivityLog;
@@ -780,8 +781,18 @@ public class PersonAgent extends Agent implements Person{
 
 		}
 		else if(task.type == TaskType.goToApartment){
-			log("Inside the goToApartment else if block");
-			
+			log("Inside the goToApartment else if block, my current role is " + task.role);
+			for(Role r : roles){
+				if(r.getRoleName().contains("Landlord")){
+					r.setActive();
+					role = r;
+					break;
+				}
+			}
+			if(role != null){
+				((LandlordRole)role).setGuiActive();
+				log("My role wasn't null, yay! Time to work");
+			}
 		}
 		
 		//tasks.remove(task);
