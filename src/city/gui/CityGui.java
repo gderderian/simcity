@@ -278,7 +278,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
-			person.msgTimeUpdate(timeOfDay);
+			//person.msgTimeUpdate(timeOfDay);
+			person.msgTimeUpdate(timeOfDay, hourOfDayHumanTime);
 		}
 		controlPanel.setTimeDisplay(displayTime);
 	}
@@ -431,7 +432,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		newPerson.setGui(g);
 		
 		newPerson.setClock(masterClock);
-		newPerson.addTask("gotHungry");
+		//newPerson.addTask("gotHungry");
 		//newPerson.addTask("goToBank");
 		//newPerson.addTask("goToMarket");
 		
@@ -458,9 +459,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		newPerson.setGui(g);
 		
 		newPerson.setClock(masterClock);
-		newPerson.addTask("gotHungry");
-		newPerson.addTask("goToBank");
-		newPerson.addTask("goToMarket");
+		//newPerson.addTask("gotHungry");
+		//newPerson.addTask("goToBank");
+		//newPerson.addTask("goToMarket");
 		
 		animationPanel.addGui(g);
 		
