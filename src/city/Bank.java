@@ -20,7 +20,7 @@ public class Bank {
         public Bank() {
                 
                 accounts = new ArrayList<account>();
-                bankmanager = new BankManagerRole(this);
+                //bankmanager = new BankManagerRole(this);
                 bankstations = new ArrayList<bankstation>();
                 for(int i = 0; i < 4; i++)
                 {

@@ -529,15 +529,12 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
-					// return anytrue;
-					anytrue = r.pickAndExecuteAnAction();// || anytrue; // Changed by Grant
 				}
 			}
 			if(anytrue){
