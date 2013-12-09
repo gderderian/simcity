@@ -34,7 +34,6 @@ import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.House.LandlordGui;
 import city.gui.Market.MarketAnimationPanel;
-import city.gui.Market.MarketCustomerGui;
 import city.gui.Market.MarketGui;
 import city.gui.Market.MarketManagerGui;
 import Role.BankCustomerRole;
@@ -277,7 +276,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
-			person.msgTimeUpdate(timeOfDay);
+			//person.msgTimeUpdate(timeOfDay);
+			person.msgTimeUpdate(hourOfDayHumanTime);
 		}
 		controlPanel.setTimeDisplay(displayTime);
 	}
