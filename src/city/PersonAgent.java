@@ -90,6 +90,7 @@ public class PersonAgent extends Agent implements Person{
 	//enum TimeStatus {wakeUp, getReadyForWork, goToWork, atWork, leaveWork, nightTime};
 	//TimeStatus timeStatus = TimeStatus.wakeUp;
 	CityClock clock;
+	int currentHour;
 
 	//Testing
 	public EventLog log = new EventLog();
@@ -149,6 +150,8 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		currentHour = 0;
 
 	}
 
@@ -169,6 +172,8 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		currentHour = 0;
 
 	}
 
@@ -308,13 +313,25 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgTimeUpdate(int t, int hour){
 		/*
-		if(hour == 2){
-			if(myJob != null){
-				PersonTask task = new PersonTask(TaskType.goToWork);
-				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
-			}
+		if(hour == 2 && (currentHour != hour)){
+			currentHour = hour;
+			
+			//if(myJob != null){
+			//	PersonTask task = new PersonTask(TaskType.goToWork);
+			//	schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+			//}
+				PersonTask newTask = new PersonTask(TaskType.gotHungry);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
+				log("Adding got hungry task");
+		}
+		if(hour == 4 && (currentHour != hour)){
+			currentHour = hour;
+				PersonTask newTask = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
+				log("Adding go to market task");
 		}
 		*/
+		
 		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
 			synchronized(tasks){
 				PersonTask task = new PersonTask(TaskType.goToWork);
@@ -381,7 +398,6 @@ public class PersonAgent extends Agent implements Person{
 			log("It's time for me to do my job as a worker at the market.");
 
 		}
-
 		stateChanged();
 	}
 	//From house
@@ -696,9 +712,7 @@ public class PersonAgent extends Agent implements Person{
 		//go home if there is nothing else to do
 		synchronized(tasks){
 			if(tasks.isEmpty()){
-				//if(name.equals("rest2Test")){
-				//	log("Tasks is empty");
-				//}
+				//log("Tasks is empty");
 				List<PersonTask> dayTasks = schedule.getDayTasks(clock.getDayOfWeekNum());
 				if(dayTasks.isEmpty()){
 					//log("No more tasks in schedule");
@@ -710,8 +724,12 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 				else{
+					for(PersonTask t : dayTasks){
+						log("Task is " + t.type.toString());
+					}
 					tasks.add(dayTasks.get(0));
-					dayTasks.remove(0);
+					log("Adding a new task " + dayTasks.get(0).type.toString());
+					schedule.removeTaskFromDay(clock.getDayOfWeekNum(), dayTasks.get(0));
 					return true;
 				}
 			}
@@ -1123,6 +1141,7 @@ public class PersonAgent extends Agent implements Person{
 			homeGui.goToExit();
 			gui.setVisible();
 			house.getAnimationPanel().notInHouse(homeGui);
+			atHome = false;
 		}
 		gui.moveTo(ride.carLocation.getX() * 30 + 120, ride.carLocation.getY() * 30 + 60);
 		try {
@@ -1187,7 +1206,9 @@ public class PersonAgent extends Agent implements Person{
 		
 		log("I'm headed out to the market NOW!!!!!!!!!!!!!!!!!");
 		if(atHome){
+			log("At home, going to exit of house");
 			homeGui.goToExit(); 
+			atHome = false;
 			try{
 				atDestination.acquire();
 			} catch (InterruptedException e){}
@@ -1208,7 +1229,7 @@ public class PersonAgent extends Agent implements Person{
 		// task.location = location;
 
 		// Hack for testing
-		task.location = "mark1"; 
+		task.location = location; 
 		
 		task.role = "MarketCustomerRole";
 
@@ -1230,7 +1251,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void takeCar(String destination){
-		log.add(new LoggedEvent("Taking car to destination: " + destination));
+		log("Taking car to destination " + destination);
 		CarRide ride = new CarRide((Car) car, destination);
 		carRide = ride;
 		ride.car.msgPickMeUp(this, currentPosition);

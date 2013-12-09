@@ -436,6 +436,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		newPerson.setGui(g);
 		
 		newPerson.setClock(masterClock);
+		
+		if(!job.equals("No job")){
+			newPerson.addTask("goToWork");
+		}
+		
 		//newPerson.addTask("gotHungry");
 		//newPerson.addTask("goToBank");
 		//newPerson.addTask("goToMarket");
