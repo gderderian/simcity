@@ -541,8 +541,34 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 
 	}
+	
+	
+	/*
+	Dogotokitchen();
+		try {
+			atKitchen.acquire();
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		cook.msgReceviedOrderFromWaiter(this, customer.choice, customer.table);
 
 
+		Dogobacktolobby();
+		atlobbycurrently=false;
+		//log("NUMBER OF PERMITS = " + atLobby.availablePermits());
+		try {
+			atLobby.acquire();
+			//atLobby.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		atlobbycurrently = true;
+
+	
+	*/
 	private void GoBackAfterCustomerGotCheck()
 	{
 		Dogobacktolobby();
