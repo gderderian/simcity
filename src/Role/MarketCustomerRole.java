@@ -8,7 +8,7 @@ public class MarketCustomerRole extends Role {
 	String roleName = "MarketCustomerRole";
 
 	// Constructor
-	MarketCustomerRole(PersonAgent p){
+	public MarketCustomerRole(PersonAgent p){
 		person = p;
 	}
 	
