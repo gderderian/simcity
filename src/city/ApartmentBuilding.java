@@ -12,6 +12,7 @@ public class ApartmentBuilding {
 		if(tenants != null){
 			for(int i=0; i<tenants.size(); i++){
 				tenants.get(i).house.setLandlord(r);
+				landlord.addTenant(tenants.get(i));
 			}
 		}
 	}
@@ -21,6 +22,7 @@ public class ApartmentBuilding {
 	}
 	
 	public void addTenant(PersonAgent p){
+		landlord.addTenant(p);
 		tenants.add(p);
 		p.house.setLandlord(landlord);
 	}

@@ -26,6 +26,7 @@ public class Apartment extends House implements HouseInterface{
 	
 	public void setLandlord(LandlordRole r){
 		landlord= r;
+		System.out.println("I now have a new landlord, joy");
 	}
 	
 	public void setRoom(int num){
@@ -34,6 +35,17 @@ public class Apartment extends House implements HouseInterface{
 	
 	public void setBuilding(int num){
 		aptBuilding= num;
+	}
+	
+	public int getNum(){
+		int temp= aptNum;
+		if(aptBuilding == 1){
+			temp += 21;
+		}
+		else if(aptBuilding == 2){
+			temp += 41;
+		}
+		return temp;
 	}
 	
 	@Override

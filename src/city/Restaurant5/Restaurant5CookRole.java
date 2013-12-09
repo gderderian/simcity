@@ -3,7 +3,7 @@ import Role.Role;
 import city.CityMap;
 import city.House;
 import city.PersonAgent;
-import city.Restaurant5.OrderSpindle.CustomerOrder;
+import city.Restaurant5.OrderSpindle5.CustomerOrder;
 import city.gui.PersonGui;
 //import restaurant.CustomerAgent.AgentEvent;
 //import restaurant.CustomerAgent.AgentState;
@@ -76,7 +76,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	Restaurant5MarketRole market2;
 	Restaurant5MarketRole market3;
 	Restaurant5CashierRole cashier;
-	OrderSpindle orderspindle;
+	OrderSpindle5 orderspindle;
 	
 	ActivityTag tag = ActivityTag.RESTAURANT5COOK;
 	
@@ -439,7 +439,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		this.cashier = cashier;
 	}
 	
-	public void setOrderSpindle(OrderSpindle orderspindle) {
+	public void setOrderSpindle(OrderSpindle5 orderspindle) {
 		this.orderspindle = orderspindle;
 	}
 	

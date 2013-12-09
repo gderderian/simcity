@@ -6,9 +6,12 @@ import java.util.concurrent.Semaphore;
 import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
+import city.Market;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
+import city.gui.Market.MarketManagerGui;
+import city.gui.Restaurant3.WaiterGui3;
 import city.transportation.TruckAgent;
 import Role.Role;
 
@@ -23,6 +26,7 @@ public class MarketManager extends Role {
 	public List<myMarketWorker> myWorkers;
 	public List<myMarketOrder> myOrders;
 	public List<TruckAgent> marketTrucks;
+	public List<MarketCustomerRole> marketCustomers;
 	public Hashtable<String, MarketItem> marketStock;
 
 	public enum orderState {pendingWorkerAssignment, assignedToWorker, pickedReady, givenToTruck, pendingBilling, billed, done};
@@ -31,15 +35,20 @@ public class MarketManager extends Role {
 	public enum itemType {food, car};
 	
 	ActivityTag tag = ActivityTag.MARKETMANAGER;
+	
+	public MarketManagerGui marketMgrGui = null;
 
 	PersonAgent p;
 	
 	private Semaphore isAnimating = new Semaphore(0,true);
 	
-	public MarketManager(String initialName, PersonAgent person){
+	Market myMarket;
+	
+	public MarketManager(String initialName, PersonAgent person, Market mkt){
 		
 		name = initialName;
 		p = person;
+		myMarket = mkt;
 		
 		// List initialization
 		myOrders = Collections.synchronizedList(new ArrayList<myMarketOrder>());
@@ -56,7 +65,7 @@ public class MarketManager extends Role {
 		marketStock.put("Honda Civic", new MarketItem("Honda Accord", 5, itemType.car));
 		
 	}
-	
+
 	public class myMarketOrder {
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
 		public orderState state;
@@ -228,13 +237,30 @@ public class MarketManager extends Role {
 	public String getName() {
 		return name;
 	}
-	@Override
+
 	public String getRoleName() {
 		return roleName;
 	}
 	
 	public void releaseSemaphore(){
 		isAnimating.release();
+	}
+	
+	public void msgCustomerArrivedToMarket(MarketCustomerRole role) {
+		marketCustomers.add(role);
+	}
+	
+	public void setGui(MarketManagerGui gui) {
+		marketMgrGui = gui;
+	}
+
+	public MarketManagerGui getGui() {
+		return marketMgrGui;
+	}
+
+	public void setPerson(PersonAgent p2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

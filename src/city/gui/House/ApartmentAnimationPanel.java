@@ -128,25 +128,25 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		}
 		
 		//Change to apt 7
-		if((x >= 200) && (x <= 250) && (y >= 460) && (y <= 510)){
+		if((x >= 200) && (x <= 250) && (y >= 410) && (y <= 465)){
 			System.out.println("To apartment 7");
 			super.cityGui.changeView(aptBuilding, 6);
 		}
 		
 		//Change to apt 8
-		if((x >= 200) && (x <= 250) && (y >= 565) && (y <= 615)){
+		if((x >= 200) && (x <= 250) && (y >= 470) && (y <= 525)){
 			System.out.println("To apartment 8");
 			super.cityGui.changeView(aptBuilding, 7);
 		}
 		
 		//Change to apt 9
-		if((x >= 200) && (x <= 250) && (y >= 670) && (y <= 720)){
+		if((x >= 200) && (x <= 250) && (y >= 530) && (y <= 580)){
 			System.out.println("To apartment 9");
 			super.cityGui.changeView(aptBuilding, 8);
 		}
 		
 		//Change to apt 10
-		if((x >= 200) && (x <= 250) && (y >= 775) && (y <= 825)){
+		if((x >= 200) && (x <= 250) && (y >= 585) && (y <= 640)){
 			System.out.println("To apartment 10");
 			super.cityGui.changeView(aptBuilding, 9);
 		}
@@ -188,25 +188,25 @@ public class ApartmentAnimationPanel extends BuildingPanel implements ActionList
 		}
 				
 		//Change to apt 17
-		if((x >= 400) && (x <= 450) && (y >= 460) && (y <= 510)){
+		if((x >= 400) && (x <= 450) && (y >= 410) && (y <= 465)){
 			System.out.println("To apartment 17");
 			super.cityGui.changeView(aptBuilding, 16);
 		}
 				
 		//Change to apt 18
-		if((x >= 400) && (x <= 450) && (y >= 565) && (y <= 615)){
+		if((x >= 400) && (x <= 450) && (y >= 470) && (y <= 525)){
 			System.out.println("To apartment 18");
 			super.cityGui.changeView(aptBuilding, 17);
 		}
 				
 		//Change to apt 19
-		if((x >= 400) && (x <= 450) && (y >= 670) && (y <= 720)){
+		if((x >= 400) && (x <= 450) && (y >= 530) && (y <= 580)){
 			System.out.println("To apartment 19");
 			super.cityGui.changeView(aptBuilding, 18);
 		}
 				
 		//Change to apt 20
-		if((x >= 200) && (x <= 250) && (y >= 775) && (y <= 825)){
+		if((x >= 400) && (x <= 450) && (y >= 585) && (y <= 640)){
 			System.out.println("To apartment 20");
 			super.cityGui.changeView(aptBuilding, 19);
 		}

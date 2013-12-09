@@ -15,11 +15,11 @@ public class Restaurant5 {
 	Restaurant5CookRole cook;
 	Restaurant5CustomerRole customer;
 	List<Restaurant5WaiterRole> waiters;
-	OrderSpindle orderspindle;
+	OrderSpindle5 orderspindle;
 	
 	public Restaurant5(){
 		waiters = Collections.synchronizedList(new ArrayList<Restaurant5WaiterRole>());
-		orderspindle = new OrderSpindle();
+		orderspindle = new OrderSpindle5();
 	}
 	
 	public void setHost(Restaurant5HostRole h){
