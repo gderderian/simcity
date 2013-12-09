@@ -34,8 +34,8 @@ public class Food {
                 
                 this.type= type;
                 MyFood temp= allFoodTypes.get(type);
-                this.appliance= temp.appliance;
-                this.cookTime= temp.cookTime;
+                this.appliance = temp.appliance;
+                this.cookTime = temp.cookTime;
         }
         
         private class MyFood{

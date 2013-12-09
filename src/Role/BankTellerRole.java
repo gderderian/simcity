@@ -53,7 +53,7 @@ public class BankTellerRole extends Role {
 
 	public void msgAssignMeCustomer(BankCustomerRole customer)
 	{
-		Do("assign me customer");
+		log("assign me customer");
 		currentcustomer = customer;
 		currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
 		person.stateChanged();
@@ -61,16 +61,17 @@ public class BankTellerRole extends Role {
 
 	public void msgOpenAccount() 
 	{
-		Do("customer wants to open an account");
+		log("customer wants to open an account");
 		log.add(new LoggedEvent("msgOpenAccount"));
 		banktellerstate = state.openaccount;
 		gui.bankTellerOccupied = true;
 		person.stateChanged();
+		log("After calling state changed");
 	}
 
 	public void msgDepositIntoAccount(double deposit)
 	{
-		Do("customer wants to deposit into an account");
+		log("customer wants to deposit into an account");
 		log.add(new LoggedEvent("msgDepositIntoAccount"));
 		this.deposit = deposit;
 		banktellerstate = state.depositintoaccount;
@@ -113,6 +114,7 @@ public class BankTellerRole extends Role {
 
 
 	public boolean pickAndExecuteAnAction() {
+		//log("INSIDE BANK TELLER SCHEDULER");
 
 		
 		Do("!!!!!!!!!!!!!!!!!!!! banktellerrole scheduler");
@@ -126,7 +128,7 @@ public class BankTellerRole extends Role {
 		
 		if(banktellerstate == state.openaccount)
 		{
-			Do("customer is opening account");
+			log("customer is opening account");
 			bankmanager.bank.accounts.add(new account(currentcustomer, bankmanager.bank.uniqueaccountnumber));
 			currentcustomeraccountnumber = bankmanager.bank.uniqueaccountnumber;
 			currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
@@ -137,7 +139,7 @@ public class BankTellerRole extends Role {
 
 		if(banktellerstate == state.depositintoaccount)
 		{
-
+			log("Scheduler 2");
 			synchronized(bankmanager.bank.accounts)
 			{
 
@@ -156,7 +158,7 @@ public class BankTellerRole extends Role {
 
 			}
 
-			banktellerstate = state.doingnothing;
+			//banktellerstate = state.doingnothing;
 			return true;
 
 

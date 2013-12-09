@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
@@ -39,6 +41,8 @@ public class BankManagerRole extends Role{
 	PersonAgent person;
 	public EventLog log = new EventLog();
 	BankRobberRole bankrobber;
+	
+	ActivityTag tag = ActivityTag.BANKMANAGER;
 
 
 
@@ -51,7 +55,7 @@ public class BankManagerRole extends Role{
 
 	public void msgCustomerArrivedAtBank(BankCustomerRole newcustomer)
 	{
-		Do("new customer arrived");
+		log("new customer arrived");
 		customers.add(new mycustomer(newcustomer));
 		person.stateChanged();
 
@@ -59,9 +63,9 @@ public class BankManagerRole extends Role{
 
 	public void msgBankTellerArrivedAtBank(BankTellerRole newbankteller)
 	{
-		Do("new bankteller arrived");
+		log("new bankteller arrived");
 		banktellers.add(new mybankteller(newbankteller, this));
-		Do("" + banktellers.size());
+		log("" + banktellers.size());
 		person.stateChanged();
 	}
 	
@@ -141,7 +145,6 @@ public class BankManagerRole extends Role{
 			{
 				if(newbankteller.state == banktellerstate.arrived)
 				{
-
 					synchronized(bank.bankstations)
 					{
 
@@ -149,7 +152,7 @@ public class BankManagerRole extends Role{
 						{
 
 							if(!findfreebankstation.isOccupied())
-							{
+							{								
 								Do("assign bankteller  to station " + findfreebankstation.stationnumber);
 								log.add(new LoggedEvent("bankstationassigned"));
 								findfreebankstation.setBankTeller(newbankteller.bankteller);
@@ -178,7 +181,6 @@ public class BankManagerRole extends Role{
 			{
 				if(customer.state == customerstate.waiting)
 				{
-
 					synchronized(banktellers)
 					{
 
@@ -210,7 +212,6 @@ public class BankManagerRole extends Role{
 				 */
 
 			}
-
 		}
 
 		if(state == bankmanagerstate.calculateloan)
@@ -224,6 +225,7 @@ public class BankManagerRole extends Role{
 				{
 					if(findaccountwithloan.loan > 0)
 					{
+						
 						findaccountwithloan.loan *= findaccountwithloan.interestrate;
 						findaccountwithloan.interestrate *= .05;
 					}
@@ -239,6 +241,7 @@ public class BankManagerRole extends Role{
 				{
 					if(findaccountwithloan.loans.size() !=0)
 					{
+												
 						findaccountwithloan.raiseinterestrateonloan();
 					}
 
@@ -261,6 +264,7 @@ public class BankManagerRole extends Role{
 				{
 					if(leavingcustomer.customer == this.leavingcustomer)
 					{
+						
 						customers.remove(leavingcustomer);
 						log.add(new LoggedEvent("customerremoved"));
 						return true;
@@ -278,15 +282,16 @@ public class BankManagerRole extends Role{
 				{
 					if(freebankteller.bankteller == this.freebankteller)
 					{
+
 						freebankteller.state = banktellerstate.free;
 						log.add(new LoggedEvent("banktellerfree"));
-
+						return true;
 					}
 				}
 
 			}
 
-			return true;
+			//return true;
 
 		}
 
@@ -357,6 +362,12 @@ public class BankManagerRole extends Role{
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+	
+	private void log(String msg){
+		print(msg);
+		ActivityLog.getInstance().logActivity(tag, msg, name);
+		log.add(new LoggedEvent(msg));
 	}
 
 

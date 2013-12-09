@@ -2,6 +2,8 @@ package Role;
 
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.gui.Gui;
 import city.gui.Bank.BankCustomerRoleGui;
 import test.mock.EventLog;
@@ -31,6 +33,8 @@ public class BankCustomerRole extends Role{
         String name;
         BankManagerRole bankmanager;
         public EventLog log = new EventLog();
+        
+        ActivityTag tag = ActivityTag.BANKCUSTOMER;
         
         
         public BankCustomerRole(double setamountofcustomermoney/*, PersonAgent setperson*/)
@@ -110,6 +114,7 @@ public class BankCustomerRole extends Role{
         public void msgOpenAccountDone(int setcustomeraccountnumber) 
         {
                 log.add(new LoggedEvent("msgOpenAccountDone"));
+                log("Msg open account done");
                 bankcustomerstate = state.openaccountsuccessful;
                 this.bankaccountnumber = setcustomeraccountnumber;
                 person.stateChanged();
@@ -177,15 +182,15 @@ public class BankCustomerRole extends Role{
         {
         
         	
-        		Do("!!!!!!!!!!!! I'm in customer scheduler !!!!!!!");
+        		//log("!!!!!!!!!!!! I'm in customer scheduler !!!!!!!");
                 
         		if(bankcustomerstate == state.gotobankteller)
         		{
         			
-        			Do("I'm going to bank teller station");
+        			log("I'm going to bank teller station");
         			guiGoToBankTellerStation(stationnumber);
         			bankcustomerstate = state.waiting;
-        			Do("!!!!!!!!!!!!!!!!!  Bank Account Number " + bankaccountnumber);
+        			log("!!!!!!!!!!!!!!!!!  Bank Account Number " + bankaccountnumber);
         			if(bankaccountnumber == 0)
         			{
         				//bankcustomerstate = state.openaccount;
@@ -249,7 +254,7 @@ public class BankCustomerRole extends Role{
                 
                 if(bankcustomerstate == state.openaccountsuccessful)
                 {
-                       	Do("I recevied my account number: " + this.bankaccountnumber);
+                       	log("I recevied my account number: " + this.bankaccountnumber);
                 		log.add(new LoggedEvent("receivedaccountnumber"));
                         person.msgSetBankAccountNumber(this.bankaccountnumber);
                         bankcustomerstate = state.waiting;
@@ -350,6 +355,12 @@ public class BankCustomerRole extends Role{
     		}
         	
         }
+        
+    	private void log(String msg){
+    		print(msg);
+    		ActivityLog.getInstance().logActivity(tag, msg, name);
+    		log.add(new LoggedEvent(msg));
+    	}
         
 
     	public void setGuiActive() {

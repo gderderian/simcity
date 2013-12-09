@@ -8,9 +8,9 @@ public class OrderItem {
 	public OrderItem(String n, int q){
 		name = n;
 		quantity = q;
+		type = "food";
 	}
 
-	
 	public int getQuantity() {
 		return quantity;
 	}

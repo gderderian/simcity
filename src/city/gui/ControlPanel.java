@@ -206,8 +206,14 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityMap.seRestaurant5(r);
     }
     
-    public void addMarketToCityMap(Market m) {
-    	cityMap.setMarket(m);
+    public void addMarketToCityMap(Market m, int marketNum) {
+    	if (marketNum == 1){
+    		cityMap.setMarket1(m);
+    	} else if (marketNum == 2){
+    		cityMap.setMarket2(m);
+    	} else {
+    		cityMap.setMarket3(m);
+    	}
     }
     
     public void addBankToCityMap(Bank b) {
@@ -919,10 +925,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("marketClient", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
 
 	}
 
@@ -933,11 +939,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runLandlordTest(){
 		addPerson("Landlord", "Landlord1");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");

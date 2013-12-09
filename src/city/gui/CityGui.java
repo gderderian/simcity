@@ -133,7 +133,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 		
 	// Market
-	Market market = new Market();
+	Market market1 = new Market();
+	Market market2 = new Market();
+	Market market3 = new Market();
 
 	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
@@ -202,7 +204,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.addRest4ToCityMap(rest4);
 		controlPanel.addRest5ToCityMap(rest5);
 		controlPanel.addRest1ToCityMap(rest1);
-		controlPanel.addMarketToCityMap(market);
+		controlPanel.addMarketToCityMap(market1, 1);
+		controlPanel.addMarketToCityMap(market2, 2);
+		controlPanel.addMarketToCityMap(market3, 3);
 		controlPanel.addBankToCityMap(bank);
 		//controlPanel.addBankToCityMap(bank);
 
@@ -524,7 +528,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			CustomerRole3 customerRole = new CustomerRole3(p.getName(), -20, -20, p);
 			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, -20, -20, 0);
 			restaurant3.addGui(customerGui);
-			WaiterRole3 waiterRole = new WaiterRole3("waiter", 230, 230,p);
+			WaiterRole3 waiterRole = new WaiterRole3Normal("waiter", 230, 230,p);
 			p.addFirstJob(waiterRole, "rest3");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -612,11 +616,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		/* Check if the person lives in an apartment and add them to the correct tenant list */
 		if((p.house != null) && (!job.contains("Landlord"))){
-			if((p.house.getNum() >= 22) && (p.house.getNum() <= 42)){
-				System.out.println("Adding tenant, the landlord should now log this"); 
+			if((p.house.getNum() >= 21) && (p.house.getNum() <= 41)){
 				apart1.addTenant(p);
 			 }
-			 else if((p.house.getNum() >= 43) && (p.house.getNum() <= 62)){
+			 else if((p.house.getNum() >= 42) && (p.house.getNum() <= 62)){
 				apart2.addTenant(p);
 			 }
 		}
@@ -731,12 +734,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			} else if(job.contains("market") || job.contains("Market")) {
 				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
-					market.addWorker((MarketWorker)r);
+					market1.addWorker((MarketWorker)r);
 					gui.setInvisible();
 					p.setRoleActive(r);
 				}
 				else if(r instanceof MarketManager){
-					market.setManager((MarketManager)r);
+					market1.setManager((MarketManager)r);
 					gui.setInvisible();
 					p.setRoleActive(r);
 				}
@@ -891,7 +894,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui.setPresent(true);
 			return role;
 		} else if (type.equals("Restaurant3 Waiter")){
-			WaiterRole3 role= new WaiterRole3(p.getName(), 230, 230, p); 
+			WaiterRole3 role= new WaiterRole3Normal(p.getName(), 230, 230, p); 
 			WaiterGui3 gui = new WaiterGui3(role);
 			role.setGui(gui);
 			restaurant3.addGui(gui);
@@ -899,8 +902,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			
-			System.out.println("I AM AMRKET MANAGER!!!");
 			Market mkt = new Market();
 			MarketManager role = new MarketManager("Market ManagerJoe", p, mkt);
 			role.setPerson(p);
@@ -912,7 +913,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			
 		}
 		else if(type.equals("Market Worker")){
-			System.out.println("I AM AMRKET WORKER!!!");
 			MarketWorker role = new MarketWorker(p);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
@@ -922,7 +922,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Customer")){
-			MarketCustomerRole role= new MarketCustomerRole("Blah", p); 
+			System.out.println("CREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMER");
+			MarketCustomerRole role = new MarketCustomerRole(p.getName(), p);
+			role.setPerson(p);
+			MarketGui mktGui = new MarketGui(); 
+			MarketCustomerGui gui2 = new MarketCustomerGui(role, mktGui);
+			role.setGui(gui2);
+			market1Animation.addGui(gui2);
 			return role;
 		}	
 		else if(type.equals("Restaurant5 Customer")){

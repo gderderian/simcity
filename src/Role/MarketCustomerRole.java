@@ -2,6 +2,9 @@ package Role;
 
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
+import city.MarketOrder;
 import city.PersonAgent;
 import city.gui.Market.MarketCustomerGui;
 import city.gui.Restaurant3.CookGui3;
@@ -13,6 +16,8 @@ public class MarketCustomerRole extends Role {
 
 	private Semaphore isAnimating = new Semaphore(0,true);
 	private MarketCustomerGui mktCustGui;
+	private String name;
+	ActivityTag tag = ActivityTag.MARKETCUSTOMER;
 	
 	// Constructor
 	public MarketCustomerRole(String name, PersonAgent p){
@@ -23,13 +28,12 @@ public class MarketCustomerRole extends Role {
 	PersonAgent person; // GUI and entrance/exit purposes
 	
 	// Messages
-	/*
 	public void msgHereIsYourOrder(MarketOrder o){
-	 
 		// Handled within PersonAgent directly
-		
+		log("MINE!!!!!!!!!!!!!!");
+		System.out.println("MINE!!!!!!!!!!!!!!");
+		person.stateChanged();
 	}
-	*/
 	
 	public void releaseSemaphore(){
 		isAnimating.release();
@@ -46,16 +50,24 @@ public class MarketCustomerRole extends Role {
 	}
 
 	public void setGuiActive() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void setGui(MarketCustomerGui gui) {
 		mktCustGui = gui;
-		
 	}
 	
-	// Actions
-	// All relevant actions handled within master PersonAgent
+	public MarketCustomerGui getGui() {
+		return mktCustGui;
+	}
+
+	public void setPerson(PersonAgent p) {
+		person = p;
+	}
+	
+	private void log(String msg){
+		print(msg);
+        ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 
 }
