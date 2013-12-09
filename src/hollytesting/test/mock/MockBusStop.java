@@ -29,7 +29,7 @@ public class MockBusStop extends Mock implements BusStop{
         @Override
         public void msgWaitingForBus(Person p) {
                 log.add(new LoggedEvent("Recieved message waiting for bus from person "));
-                person.msgBusIsHere(bus);
+                person.msgBusIsHere(bus, null);
                 bus.msgPeopleBoarding(people);
         }
 

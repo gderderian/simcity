@@ -8,6 +8,7 @@ import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
 import interfaces.Bus;
 import interfaces.Car;
+import interfaces.HouseInterface;
 import interfaces.Landlord;
 import interfaces.Person;
 
@@ -62,7 +63,7 @@ public class MockPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgApplianceBrokeCantCook() {
+	public void msgApplianceBrokeCantCook(String c) {
 		
 	}
 
@@ -130,6 +131,12 @@ public class MockPerson extends Mock implements Person {
 	public void msgImPickingYouUp(Car c, Position p) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public HouseInterface getHouse() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
