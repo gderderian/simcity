@@ -344,10 +344,12 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to go to bank.");
 
-		} else if(t > 10000 && t < 11000 && (name.equals("marketClient")))
+		} else if(t > 10000 && t < 13000 && (name.equals("marketClient")))
 		{
 			synchronized(tasks) {
-				tasks.add(new PersonTask(TaskType.goToMarket));
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				task.role = "MarketCustomer";
+				tasks.add(task);
 			}
 			log("It's time for me to buy something from the market.");
 
@@ -533,13 +535,13 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				if(r.isActive){
-					anytrue = r.pickAndExecuteAnAction();// || anytrue; // Changed by Grant
-					return anytrue;
+					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
+					// return anytrue;
 				}
 			}
-			//if(anytrue){
-				//return anytrue;
-			//} 
+			if(anytrue){
+				return anytrue;
+			}
 		}
 		synchronized(tasks){
 			for(PersonTask t : tasks){
@@ -769,7 +771,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else if(task.type == TaskType.goToMarket){
 			
-			log("I should give the market manager my order!");
+			log("I should give the market manager my order!!!!!!!!!!!!!!!!!!!!!");
 
 			if(role != null){
 				cityMap.market.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
@@ -779,7 +781,6 @@ public class PersonAgent extends Agent implements Person{
 			else{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
-
 
 			MarketOrder o = new MarketOrder(groceryList.get(0), this);
 			cityMap.market.mktManager.msgHereIsOrder(o);
@@ -1150,6 +1151,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void goToMarket(PersonTask task){
+		
 		log("I'm headed out to the market NOW!!!!!!!!!!!!!!!!!");
 		if(atHome){
 			homeGui.goToExit(); 
@@ -1168,18 +1170,14 @@ public class PersonAgent extends Agent implements Person{
 		else
 			location = "mark3";
 
+		location = "mark1";
+		
 		// task.location = location;
 
 		// Hack for testing
 		task.location = "mark1"; 
-
-		if (name.equals("marketClient")){
-			//task.role = "MarketCustomerRole";
-		} else if (name.equals("marketManager")){
-			//task.role = "MarketManagerRole";
-		} else if (name.equals("marketWorker")){
-			//task.role = "MarketWorkerRole";
-		}
+		
+		task.role = "MarketCustomerRole";
 
 		if(car == null){
 			log("location: " + location);
