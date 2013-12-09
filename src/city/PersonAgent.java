@@ -123,7 +123,6 @@ public class PersonAgent extends Agent implements Person{
 		homeGui= new HomeOwnerGui(this);
 
 		if(house != null) {
-			System.out.println("house.getName(): " + house.getName());
 			if(house.getName().contains("apart1")){
 				currentPosition = new Position(map.getX("apart1"), map.getY("apart1"));
 			}

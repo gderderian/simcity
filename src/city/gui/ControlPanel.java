@@ -506,8 +506,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			AStarTraversal streetTraversal = new AStarTraversal(streetGrid);              
 			CarAgent car = new CarAgent(streetTraversal, cityMap);
 			House house = houses.get(houseAssignmentNumber);
-			if(houseAssignmentNumber == 43){
-				houseAssignmentNumber = 42;
+			if(houseAssignmentNumber == 62){
+				houseAssignmentNumber = 61;
 			}
 			else{
 				houseAssignmentNumber++;

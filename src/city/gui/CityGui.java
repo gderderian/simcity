@@ -217,6 +217,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up and populate apartment 1
+		controlPanel.addApartment1ToCityMap(apart1);
 		addBuildingPanel(apt1);
 		for(int i=0; i<20; i++){
 			HouseAnimationPanel temp= new HouseAnimationPanel();
@@ -226,6 +227,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt1List.get(i));
 		}
 		//Set up and populate apartment 2
+		controlPanel.addApartment2ToCityMap(apart2);
 		addBuildingPanel(apt2);
 		for(int i=0; i<20; i++){
 			HouseAnimationPanel temp= new HouseAnimationPanel();
@@ -606,6 +608,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		p.addRole(bankCustomerRole, false);
 		
 		
+		/* Check if the person lives in an apartment and add them to the correct tenant list */
+		if((p.house != null) && (!job.contains("Landlord"))){
+			if((p.house.getNum() >= 22) && (p.house.getNum() <= 42)){
+				System.out.println("Adding tenant, the landlord should now log this"); 
+				apart1.addTenant(p);
+			 }
+			 else if((p.house.getNum() >= 43) && (p.house.getNum() <= 62)){
+				apart2.addTenant(p);
+			 }
+		}
+		
 		/* Now, create a job role */
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
@@ -751,13 +764,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			else if(job.contains("Landlord")){
 				if(job.equals("Landlord1")){
 					p.addFirstJob(r, "apart1");
-					
 					p.setRoleActive(r);
 					apart1.setLandlord((LandlordRole)r);
 				}
 				else if(job.equals("Landlord2")){
 					p.addFirstJob(r, "apart2");
-					
 					p.setRoleActive(r);
 					apart2.setLandlord((LandlordRole)r);
 				}
