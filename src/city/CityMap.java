@@ -292,7 +292,8 @@ public class CityMap {
 		int housey = 0;
 		int posx = 0;
 		int posy = 0;
-		double shortestDistance = 0;
+		//When shortestDistance is set to 0, currentDistance will never be smaller than it, returns null every time, better to initilize to something large like 100
+		double shortestDistance = 100;
 		double currentDistance = 0;
 		String closestPlace = null;
 		String currentPlace = null;
