@@ -903,8 +903,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			
-			System.out.println("I AM AMRKET MANAGER!!!");
 			Market mkt = new Market();
 			MarketManager role = new MarketManager("Market ManagerJoe", p, mkt);
 			role.setPerson(p);
@@ -916,7 +914,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			
 		}
 		else if(type.equals("Market Worker")){
-			System.out.println("I AM AMRKET WORKER!!!");
 			MarketWorker role = new MarketWorker(p);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
@@ -926,7 +923,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Customer")){
-			MarketCustomerRole role= new MarketCustomerRole("Blah", p); 
+			System.out.println("CREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMER");
+			MarketCustomerRole role = new MarketCustomerRole(p.getName(), p);
+			role.setPerson(p);
+			MarketGui mktGui = new MarketGui(); 
+			MarketCustomerGui gui2 = new MarketCustomerGui(role, mktGui);
+			role.setGui(gui2);
+			market1Animation.addGui(gui2);
 			return role;
 		}	
 		else if(type.equals("Restaurant5 Customer")){

@@ -52,7 +52,14 @@ public class MarketCustomerRole extends Role {
 
 	public void setGui(MarketCustomerGui gui) {
 		mktCustGui = gui;
-		
+	}
+	
+	public MarketCustomerGui getGui() {
+		return mktCustGui;
+	}
+
+	public void setPerson(PersonAgent p) {
+		person = p;
 	}
 	
 	// Actions

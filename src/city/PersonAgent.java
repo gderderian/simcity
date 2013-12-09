@@ -782,13 +782,12 @@ public class PersonAgent extends Agent implements Person{
 				cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
 				((MarketCustomerRole)role).setGuiActive();
 				role.getGui().setPresent(true);
-			}
-			else{
+			} else{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
 
-			MarketOrder o = new MarketOrder(groceryList.get(0), this);
-			cityMap.mark1.mktManager.msgHereIsOrder(o);
+			//MarketOrder o = new MarketOrder(groceryList.get(0), this);
+			//cityMap.mark1.mktManager.msgHereIsOrder(o);
 
 		}
 		else if(task.type == TaskType.goToApartment){

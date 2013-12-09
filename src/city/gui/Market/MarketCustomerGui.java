@@ -9,14 +9,14 @@ import Role.MarketWorker;
 
 public class MarketCustomerGui implements Gui {
 
-    private MarketCustomerRole agent = null;
+    private MarketCustomerRole agent;
 
 	MarketGui gui;
 	
-	boolean isPresent = true;
+	boolean isPresent = false;
     
-    private int xPos = 230, yPos = 445;
-    public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
+    private int xPos = -20, yPos = -20;
+    public int xDestination = 145, yDestination = 250, host_tableX, host_tableY;
     
     private static final int COOK_SIZE_X = 20;
     private static final int COOK_SIZE_Y = 20;
