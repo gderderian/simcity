@@ -46,7 +46,9 @@ public class CityMap {
 	Restaurant4 restaurant4;
 	Restaurant5 restaurant5;
 	Bank bank;
-	Market market;
+	Market mark1;
+	Market mark2;
+	Market mark3;
 	ApartmentBuilding apart1;
 	ApartmentBuilding apart2;
 	
@@ -202,8 +204,16 @@ public class CityMap {
 		restaurant5 =r;
 	}
 	
-	public void setMarket(Market m){
-		market= m;
+	public void setMarket1(Market m){
+		mark1 = m;
+	}
+	
+	public void setMarket2(Market m){
+		mark2 = m;
+	}
+	
+	public void setMarket3(Market m){
+		mark3 = m;
 	}
 	
 	public void setBank(Bank b) {
