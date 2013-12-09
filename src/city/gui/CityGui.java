@@ -133,9 +133,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 		
 	// Market
-	Market market1 = new Market();
-	Market market2 = new Market();
-	Market market3 = new Market();
+	Market market1 = new Market("mark1");
+	Market market2 = new Market("mark2");
+	Market market3 = new Market("mark3");
 
 	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
@@ -469,7 +469,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}        
 
 	public void addVehicle(String type, AStarTraversal aStarTraversal) {
-		if(type == "bus") {
+		if(type.equals("bus")) {
 			BusAgent newBus = new BusAgent(aStarTraversal, controlPanel.getCityMap());
 			newBus.addBusStops(controlPanel.getBusStops());
 			vehicles.add(newBus);
@@ -482,7 +482,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			newBus.startThread();   
 		}
 		
-		if(type == "truck") {
+		if(type.equals("truck")) {
 			TruckAgent newTruck = new TruckAgent(aStarTraversal, controlPanel.getCityMap());
 			vehicles.add(newTruck);
 			VehicleGui g = new VehicleGui(newTruck);
@@ -490,6 +490,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			guis.add(g);
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
+			
+			if(true) { //HACK - change this to add new trucks to different markets.
+				market1.addTruck(newTruck);
+				newTruck.setMarketManager(market1.getMarketManager());
+			}
 			
 			newTruck.startThread();
 		}
@@ -661,6 +666,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					rest1.addWaiters((Restaurant1WaiterRole) r);
 				}
 				else if(r instanceof Restaurant1CookRole){
+					((Restaurant1CookRole) r).addMarket(market1.getMarketManager());
 					rest1.setCook((Restaurant1CookRole) r);
 					p.setRoleActive(r);
 					gui.setInvisible();

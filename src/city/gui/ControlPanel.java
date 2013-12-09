@@ -72,7 +72,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton buyCarButton = new JButton("Buy a Car");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -759,6 +759,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runCarTest();
 		else if(scenario.equals("Landlord Test"))
 			runLandlordTest();
+		else if(scenario.equals("Market Truck Test"))
+			runMarketTruckTest();
 	}
 
 	public void runFullTest(){
@@ -985,6 +987,17 @@ public class ControlPanel extends JPanel implements ActionListener{
 		//addPerson("marketWorker", "Market Worker");
 
 	}
+	
+	public void runMarketTruckTest() {
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("marketClient", "No Job");
+	}
 
 	public void runCarTest() {
 		//Add one person who should use their car
@@ -1029,6 +1042,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * All workers are created with cars (because they have jobs so they can afford them)
 	 */
 	public void createInitialPeople(){
+		addVehicle("truck");
+		
 		/*Market workers*/
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");

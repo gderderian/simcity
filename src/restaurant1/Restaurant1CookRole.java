@@ -15,6 +15,7 @@ import java.util.concurrent.Semaphore;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
+import city.transportation.TruckAgent;
 
 /**
  * Restaurant Host Agent
@@ -63,9 +64,9 @@ public class Restaurant1CookRole extends Role {
 		person = p;
 		
 				// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
-		foods.put("steak", new Food("steak", 8, 100, 5, 8));
-		foods.put("fish", new Food("fish", 6, 100, 5, 8));
-		foods.put("chicken", new Food("chicken", 4, 100, 5, 8));
+		foods.put("steak", new Food("steak", 8, 20, 5, 8));
+		foods.put("fish", new Food("fish", 6, 20, 5, 8));
+		foods.put("chicken", new Food("chicken", 4, 20, 5, 8));
 		
 		this.name = name;
 		
@@ -107,7 +108,7 @@ public class Restaurant1CookRole extends Role {
 		person.stateChanged();
 	}
 	
-	public void msgHereIsYourOrder(MarketManager m, MarketOrder o) {
+	public void msgHereIsYourOrder(TruckAgent t, MarketOrder o) {
 		List<OrderItem> orderItems = o.getOrders();
 		for(int i = 0; i < orderItems.size(); i++) {
 				OrderItem tempOrder = orderItems.get(i);
@@ -358,6 +359,11 @@ public class Restaurant1CookRole extends Role {
 	
 	public void addMarket(MarketManager m) {
 		market = m;
+	}
+	
+	public void foodShortage() {
+		foods.get("steak").amount = 0;
+		initialInventoryCheck();
 	}
 	
 	private class Food {

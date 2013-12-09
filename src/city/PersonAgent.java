@@ -1397,6 +1397,19 @@ public class PersonAgent extends Agent implements Person{
 		//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
 		AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+		
+		//If a path is not found, sleep for .5 seconds and then try again.
+		while(aStarNode == null) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+		}
+		
 		List<Position> path = aStarNode.getPath();
 		Boolean firstStep   = true;
 		Boolean gotPermit   = true;
