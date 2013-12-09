@@ -133,7 +133,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 		
 	// Market
-	Market market = new Market();
+	Market market1 = new Market();
+	Market market2 = new Market();
+	Market market3 = new Market();
 
 	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
@@ -202,7 +204,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.addRest4ToCityMap(rest4);
 		controlPanel.addRest5ToCityMap(rest5);
 		controlPanel.addRest1ToCityMap(rest1);
-		controlPanel.addMarketToCityMap(market);
+		controlPanel.addMarketToCityMap(market1, 1);
+		controlPanel.addMarketToCityMap(market2, 2);
+		controlPanel.addMarketToCityMap(market3, 3);
 		controlPanel.addBankToCityMap(bank);
 		//controlPanel.addBankToCityMap(bank);
 
@@ -731,12 +735,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			} else if(job.contains("market") || job.contains("Market")) {
 				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
-					market.addWorker((MarketWorker)r);
+					market1.addWorker((MarketWorker)r);
 					gui.setInvisible();
 					p.setRoleActive(r);
 				}
 				else if(r instanceof MarketManager){
-					market.setManager((MarketManager)r);
+					market1.setManager((MarketManager)r);
 					gui.setInvisible();
 					p.setRoleActive(r);
 				}

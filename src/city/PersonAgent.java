@@ -25,6 +25,7 @@ import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
+import Role.LandlordRole;
 import Role.MarketCustomerRole;
 import Role.Role;
 import activityLog.ActivityLog;
@@ -343,10 +344,12 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to go to bank.");
 
-		} else if(t > 10000 && t < 11000 && (name.equals("marketClient")))
+		} else if(t > 10000 && t < 13000 && (name.equals("marketClient")))
 		{
 			synchronized(tasks) {
-				tasks.add(new PersonTask(TaskType.goToMarket));
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				task.role = "MarketCustomer";
+				tasks.add(task);
 			}
 			log("It's time for me to buy something from the market.");
 
@@ -531,13 +534,13 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				if(r.isActive){
-					//log("PERSON SCHEDULER");
-					anytrue = r.pickAndExecuteAnAction();// || anytrue; // Changed by Grant
+					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
 				}
 			}
 			if(anytrue){
 				return anytrue;
-			} 
+			}
+
 		}
 		synchronized(tasks){
 			for(PersonTask t : tasks){
@@ -770,10 +773,10 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else if(task.type == TaskType.goToMarket){
 			
-			log("I should give the market manager my order!");
+			log("I should give the market manager my order!!!!!!!!!!!!!!!!!!!!!");
 
 			if(role != null){
-				cityMap.market.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
+				cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
 				((MarketCustomerRole)role).setGuiActive();
 				role.getGui().setPresent(true);
 			}
@@ -781,14 +784,23 @@ public class PersonAgent extends Agent implements Person{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
 
-
 			MarketOrder o = new MarketOrder(groceryList.get(0), this);
-			cityMap.market.mktManager.msgHereIsOrder(o);
+			cityMap.mark1.mktManager.msgHereIsOrder(o);
 
 		}
 		else if(task.type == TaskType.goToApartment){
-			log("Inside the goToApartment else if block");
-			
+			log("Inside the goToApartment else if block, my current role is " + task.role);
+			for(Role r : roles){
+				if(r.getRoleName().contains("Landlord")){
+					r.setActive();
+					role = r;
+					break;
+				}
+			}
+			if(role != null){
+				((LandlordRole)role).setGuiActive();
+				log("My role wasn't null, yay! Time to work");
+			}
 		}
 		
 		//tasks.remove(task);
@@ -1151,6 +1163,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void goToMarket(PersonTask task){
+		
 		log("I'm headed out to the market NOW!!!!!!!!!!!!!!!!!");
 		if(atHome){
 			homeGui.goToExit(); 
@@ -1169,18 +1182,14 @@ public class PersonAgent extends Agent implements Person{
 		else
 			location = "mark3";
 
+		location = "mark1";
+		
 		// task.location = location;
 
 		// Hack for testing
 		task.location = "mark1"; 
-
-		if (name.equals("marketClient")){
-			//task.role = "MarketCustomerRole";
-		} else if (name.equals("marketManager")){
-			//task.role = "MarketManagerRole";
-		} else if (name.equals("marketWorker")){
-			//task.role = "MarketWorkerRole";
-		}
+		
+		task.role = "MarketCustomerRole";
 
 		if(car == null){
 			log("location: " + location);
