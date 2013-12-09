@@ -189,7 +189,6 @@ public class ActivityPane extends JPanel implements ActionListener {
 	}
 	
 	public void addActivity(activity a){
-		System.out.println("There are " + visibleTags.size() + " visible filters");
 		if(visibleTags.contains(a.type)){
 			newActivities.add(a);
 			updatePane();
