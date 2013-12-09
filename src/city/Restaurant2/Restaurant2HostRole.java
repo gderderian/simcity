@@ -191,7 +191,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		log("Calling host 2 pick and execute");
+		//log("Calling host 2 pick and execute");
 		synchronized(tables){
 			for (Table table : tables) {
 				if (!table.isOccupied()) {
@@ -211,6 +211,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.cs == CustomerState.tablesFull){
+					
 					NotifyTablesFull(mc);
 					return true;
 				}
