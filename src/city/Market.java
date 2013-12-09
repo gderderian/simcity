@@ -32,7 +32,7 @@ public class Market { // Class modeled after comment made in https://github.com/
 	}
 	
 	public void addTruck(TruckAgent newTruck){
-		
+		marketTrucks.add(newTruck);
 	}
 
 }
