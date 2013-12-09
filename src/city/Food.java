@@ -7,14 +7,14 @@ public class Food {
         String appliance;
         public int cookTime;
         Map<String, MyFood> allFoodTypes= new HashMap<String, MyFood>();
-        MyFood eggs= new MyFood("Stove", 1000);
-        MyFood pancakes= new MyFood("Stove", 1250);
-        MyFood waffels= new MyFood("Stove", 1250);
-        MyFood bacon= new MyFood("Stove", 1000);
-        MyFood steak= new MyFood("Microwave", 1750);
-        MyFood chicken= new MyFood("Oven", 1250);
-        MyFood pizza= new MyFood("Microwave", 1000);
-        MyFood salad= new MyFood("Microwave", 1000);
+        MyFood eggs= new MyFood("Stove", 2000);
+        MyFood pancakes= new MyFood("Stove", 2250);
+        MyFood waffels= new MyFood("Stove", 2250);
+        MyFood bacon= new MyFood("Stove", 2000);
+        MyFood steak= new MyFood("Microwave", 2750);
+        MyFood chicken= new MyFood("Oven", 2250);
+        MyFood pizza= new MyFood("Microwave", 2000);
+        MyFood salad= new MyFood("Microwave", 2000);
         
         public Food(String type, String appliance, int time){
                 this.type= type;

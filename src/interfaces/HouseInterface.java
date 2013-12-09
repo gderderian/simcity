@@ -15,6 +15,8 @@ public interface HouseInterface {
 	
 	public abstract void setLandlord(LandlordRole r);
 	
+	public abstract LandlordRole getLandlord();
+	
 	public abstract int getNum();
 	
 	public abstract String getName();
