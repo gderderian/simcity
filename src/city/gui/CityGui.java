@@ -425,6 +425,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 		
+		newPerson.setClock(masterClock);
+		newPerson.addTask("gotHungry");
+		//newPerson.addTask("goToBank");
+		//newPerson.addTask("goToMarket");
+		
 		animationPanel.addGui(g);
 		
 		guis.add(g);
@@ -446,6 +451,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
+		
+		newPerson.setClock(masterClock);
+		newPerson.addTask("gotHungry");
+		newPerson.addTask("goToBank");
+		newPerson.addTask("goToMarket");
 		
 		animationPanel.addGui(g);
 		
