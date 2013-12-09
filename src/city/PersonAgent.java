@@ -332,21 +332,9 @@ public class PersonAgent extends Agent implements Person{
 				PersonTask task = new PersonTask(TaskType.goToWork);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 			}
-			/*
-				PersonTask newTask = new PersonTask(TaskType.gotHungry);
-				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
-				log("Adding got hungry task");*/
 				
 		}
-		/*
-		if(hour == 4 && (currentHour != hour)){
-			currentHour = hour;
-				PersonTask newTask = new PersonTask(TaskType.goToMarket);
-				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
-				log("Adding go to market task");
-		}
-			*/
-		/*
+		/* This is unnecessary
 		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
 			synchronized(tasks){
 				PersonTask task = new PersonTask(TaskType.goToWork);
@@ -405,6 +393,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to do my job as a worker at the market.");
 		}*/ 
+		/*
 		else if(hour == 2 && currentHour != hour){
 			currentHour = hour;
 			synchronized(roles){
@@ -414,7 +403,24 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 			}
+		}*/
+		
+		/*Adds got hungry task
+		 * Right now this is only for the test person
+		 * */
+		else if(hour == 3 && currentHour != hour){
+			currentHour = hour;
+			PersonTask newTask = new PersonTask(TaskType.gotHungry);
+			schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
+			log("Adding got hungry task");
 		}
+		/*Adds go to market task
+		else if(hour == 4 && (currentHour != hour) && myJob == null){
+			currentHour = hour;
+				PersonTask newTask = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
+				log("Adding go to market task");
+		}*/
 		stateChanged();
 	}
 	//From house
