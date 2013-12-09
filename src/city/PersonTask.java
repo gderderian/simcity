@@ -1,7 +1,5 @@
 package city;
 
-import Role.Role;
-
 public class PersonTask {
 	
 	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, goToApartment, doneWithWork};

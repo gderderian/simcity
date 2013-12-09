@@ -60,7 +60,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 	
 	List<JCheckBoxMenuItem> roleFilters = new ArrayList<JCheckBoxMenuItem>();
 
-	Dimension scrollPaneDim = new Dimension(350, 730);
+	Dimension scrollPaneDim = new Dimension(350, 580);
 	Dimension menuDim = new Dimension(350, 20);
 	
 	public ActivityPane(){
