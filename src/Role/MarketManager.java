@@ -25,7 +25,6 @@ public class MarketManager extends Role {
 	private double marketMoney;
 	public List<myMarketWorker> myWorkers;
 	public List<myMarketOrder> myOrders;
-	public List<TruckAgent> marketTrucks;
 	public List<MarketCustomerRole> marketCustomers;
 	public Hashtable<String, MarketItem> marketStock;
 
@@ -55,7 +54,6 @@ public class MarketManager extends Role {
 		// List initialization
 		myOrders = Collections.synchronizedList(new ArrayList<myMarketOrder>());
 		myWorkers = Collections.synchronizedList(new ArrayList<myMarketWorker>());
-		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
 		marketStock = new Hashtable<String, MarketItem>();
 		marketCustomers = Collections.synchronizedList(new ArrayList<MarketCustomerRole>());
 		
@@ -211,10 +209,10 @@ public class MarketManager extends Role {
 			o.order.getRecipient().msgHereIsYourOrder(o.order);
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
-			int initOrders = marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
+			int initOrders = myMarket.marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
 			TruckAgent selectedTruck = null;
-			synchronized(marketTrucks){
-				for (TruckAgent t : marketTrucks){
+			synchronized(myMarket.marketTrucks){
+				for (TruckAgent t : myMarket.marketTrucks){
 					if (t.orders.size() <= initOrders){
 						initOrders = t.getOrderNum();
 						selectedTruck = t;
