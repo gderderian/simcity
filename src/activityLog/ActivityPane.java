@@ -270,7 +270,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 		
 		List<activity> alerts = ActivityLog.getInstance().getLog();  //Get all the alerts from the log
 		Collections.sort(alerts);                  //Sort them (they end up sorted by timestamp)
-		for(activity a : activities) {
+		for(activity a : alerts) {
 			if(visibleTags.contains(a.type)) {
 				newActivities.add(a);
 			}
