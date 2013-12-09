@@ -27,6 +27,7 @@ import city.transportation.CarAgent;
 import city.transportation.TruckAgent;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
+import Role.MarketCustomerRole;
 import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
@@ -713,7 +714,7 @@ public class PersonAgent extends Agent implements Person{
 	@SuppressWarnings("unused")
 	public void reachedDestination(PersonTask task){
 		log("I've reached my destination, now I'm going to go inside!");
-		log("My tas right now is " + task.type.toString());
+		log("My task right now is " + task.type.toString());
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
@@ -753,14 +754,15 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		else if(task.type == TaskType.goToMarket){
+			
 			log("I should give the market manager my order!");
 			
 			if(role != null){
-				//cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-				//((BankCustomerRole)role).setGuiActive();
+				cityMap.market.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
+				((MarketCustomerRole)role).setGuiActive();
 			}
 			else{
-				//log("Couldn't find the role for task " + task.type.toString());
+				log("Couldn't find the role for task " + task.type.toString());
 			}
 			
 			

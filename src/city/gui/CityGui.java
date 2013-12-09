@@ -34,6 +34,9 @@ import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.House.LandlordGui;
 import city.gui.Market.MarketAnimationPanel;
+import city.gui.Market.MarketCustomerGui;
+import city.gui.Market.MarketGui;
+import city.gui.Market.MarketManagerGui;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -127,9 +130,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		// Restaurant 5 (Tom)
 	
 		
-   // Market
-	Market market= new Market();
-		
+	// Market
+	Market market = new Market();
 
 	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
@@ -607,6 +609,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		bankCustomerRole.setGui(bankCustomerGui);
 		p.addRole(bankCustomerRole, false);
 		
+		MarketCustomerRole marketCustomer = new MarketCustomerRole(p.getName(), p);
+		MarketGui marketGui = new MarketGui();
+		MarketCustomerGui mktCustomerGui = new MarketCustomerGui(marketCustomer, marketGui); 
+		mktCustomerGui.setPresent(false);
+		market1Animation.addGui(mktCustomerGui);
+		marketCustomer.setGui(mktCustomerGui);
+		p.addRole(marketCustomer, false);
+		
 		
 		/* Now, create a job role */
 		if(!job.equals("No job")){
@@ -719,10 +729,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
 					market.addWorker((MarketWorker)r);
+					gui.setInvisible();
 					p.setRoleActive(r);
 				}
 				else if(r instanceof MarketManager){
 					market.setManager((MarketManager)r);
+					gui.setInvisible();
 					p.setRoleActive(r);
 				}
 			} else if(job.contains("Bank")) {
@@ -886,15 +898,25 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			MarketManager role= new MarketManager(p.getName(), p);
+			
+			System.out.println("I AM AMRKET MANAGER!!!");
+			
+			Market mkt = new Market();
+			MarketManager role = new MarketManager("Joe", p, mkt);
+			role.setPerson(p);
+			MarketGui mktGui = new MarketGui(); 
+			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
+			role.setGui(gui);
+			market1Animation.addGui(gui);
 			return role;
+			
 		}
 		else if(type.equals("Market Worker")){
 			MarketWorker role= new MarketWorker(p); 
 			return role;
 		}
 		else if(type.equals("Market Customer")){
-			MarketCustomerRole role= new MarketCustomerRole(p); 
+			MarketCustomerRole role= new MarketCustomerRole("Blah", p); 
 			return role;
 		}	
 		else if(type.equals("Restaurant5 Customer")){
