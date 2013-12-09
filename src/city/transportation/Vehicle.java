@@ -56,11 +56,25 @@ public abstract class Vehicle extends Agent {
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
-		if(aStar == null)
+		if(aStar == null) {
 			return;
+		}
 		//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
 		AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+		
+		//If a path is not found, sleep for .5 seconds and then try again.
+		while(aStarNode == null) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			print("Trying to find a path again!");
+			aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+		}
 		List<Position> path = aStarNode.getPath();
 		Boolean firstStep   = true;
 		Boolean gotPermit   = true;
@@ -77,7 +91,7 @@ public abstract class Vehicle extends Agent {
 		    gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
 
 		    //Did not get lock. Lets make n attempts.
-		    while (!gotPermit && attempts < 3) {
+		    while (!gotPermit && attempts < 2) {
 			//System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
 
 			//Wait for 1sec and try again to get lock.

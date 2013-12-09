@@ -25,7 +25,6 @@ public class MarketManager extends Role {
 	private double marketMoney;
 	public List<myMarketWorker> myWorkers;
 	public List<myMarketOrder> myOrders;
-	public List<TruckAgent> marketTrucks;
 	public List<MarketCustomerRole> marketCustomers;
 	public Hashtable<String, MarketItem> marketStock;
 
@@ -55,7 +54,6 @@ public class MarketManager extends Role {
 		// List initialization
 		myOrders = Collections.synchronizedList(new ArrayList<myMarketOrder>());
 		myWorkers = Collections.synchronizedList(new ArrayList<myMarketWorker>());
-		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
 		marketStock = new Hashtable<String, MarketItem>();
 		marketCustomers = Collections.synchronizedList(new ArrayList<MarketCustomerRole>());
 		
@@ -63,10 +61,14 @@ public class MarketManager extends Role {
 		marketStock = new Hashtable<String, MarketItem>();
 		marketStock.put("Pasta", new MarketItem("Pasta", 5, itemType.food));
 		marketStock.put("Pizza", new MarketItem("Pizza", 5, itemType.food));
-		marketStock.put("Chicken", new MarketItem("Chicken", 5, itemType.food));
+		marketStock.put("Chicken", new MarketItem("Chicken", 5, itemType.food));		
 		marketStock.put("Honda Accord", new MarketItem("Honda Accord", 5, itemType.car));
 		marketStock.put("Honda Civic", new MarketItem("Honda Accord", 5, itemType.car));
 		
+		//Market stock for restaurant1 orders
+		marketStock.put("steak", new MarketItem("steak", 5, itemType.food));
+		marketStock.put("fish", new MarketItem("fish", 5, itemType.food));
+		marketStock.put("chicken", new MarketItem("chicken", 5, itemType.food));
 	}
 
 	public class myMarketOrder {
@@ -110,17 +112,17 @@ public class MarketManager extends Role {
 	
 	// Messages
 	public void msgHereIsOrder(MarketOrder o){
-		log("Recieved order from " + o.getRecipient().getName());
-		log("Current order size is:" + o.orders.size());
+		//log("Recieved order from " + o.getRecipient().getName());
+		//log("Current order size is:" + o.orders.size());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.inPerson);
 		myOrders.add(mo);
-		log("Current order size is:" + o.orders.size());
+		//log("Current order size is:" + o.orders.size());
 		p.stateChanged();
 	}
 	
 	public void msgOrderPicked(MarketOrder o){
-		log("Received orderPicked message");
-		log("Current order size is:" + o.orders.size());
+		//log("Received orderPicked message");
+		//log("Current order size is:" + o.orders.size());
 		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
 			for (myMarketOrder order : myOrders) {
@@ -159,12 +161,12 @@ public class MarketManager extends Role {
 			if (!myOrders.isEmpty()) {
 				for (myMarketOrder order : myOrders) {
 					if (order.state == orderState.pendingWorkerAssignment){
-						log("I'll delegate this order to one of my workers");
+						//log("I'll delegate this order to one of my workers");
 						makeWorkerPrepareOrder(order);
 						return true;
 					}
 					if (order.state == orderState.pickedReady){
-						log("In scheduler after orderPicked message");
+						//log("In scheduler after orderPicked message");
 						deliverOrder(order);
 						return true;
 					}
@@ -211,10 +213,10 @@ public class MarketManager extends Role {
 			o.order.getRecipient().msgHereIsYourOrder(o.order);
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
-			int initOrders = marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
+			int initOrders = myMarket.marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
 			TruckAgent selectedTruck = null;
-			synchronized(marketTrucks){
-				for (TruckAgent t : marketTrucks){
+			synchronized(myMarket.marketTrucks){
+				for (TruckAgent t : myMarket.marketTrucks){
 					if (t.orders.size() <= initOrders){
 						initOrders = t.getOrderNum();
 						selectedTruck = t;
@@ -233,7 +235,7 @@ public class MarketManager extends Role {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 	
 	public void addWorker(MarketWorker w){
@@ -267,6 +269,10 @@ public class MarketManager extends Role {
 
 	public void setPerson(PersonAgent workerPerson) {
 		p = workerPerson;
+	}
+	
+	public String getMarketName(){
+		return myMarket.getName();
 	}
 
 }

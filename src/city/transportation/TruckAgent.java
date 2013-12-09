@@ -1,6 +1,6 @@
 package city.transportation;
 
-import interfaces.MarketManager;
+import Role.MarketManager;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -12,6 +12,7 @@ import astar.Position;
 import city.CityMap;
 import city.MarketOrder;
 import city.PersonAgent;
+import city.transportation.CarAgent.CarEvent;
 
 public class TruckAgent extends Vehicle {
 	//Data
@@ -41,7 +42,7 @@ public class TruckAgent extends Vehicle {
 		
 		type = "truck";
 
-		currentPosition = new Position(17, 20);
+		currentPosition = new Position(10, 7);
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
 	}
@@ -87,22 +88,29 @@ public class TruckAgent extends Vehicle {
 				}
 			}
 		}
-		
-		DriveAround(); //Demonstration of animation capabilities!
 
 		return false;
 	}
 
 	//Actions
 	private void DeliverOrder(MyMarketOrder o) {
+		if(aStar == null) {
+			log("Picking up order");
+			log("Delivering order from market to recipient");
+			o.o.getRecipient().msgHereIsYourOrder(this, o.o);
+			o.delivered = true;
+		}
+		log("Picking up order from market");
+		DriveToMarket();
+		
 		log("Going to " + o.o.destination);
-		DoGoTo(o.o.destination);
+		DriveTo(o.o.destination);
 		log("Delivering order from market to recipient");
 		o.o.getRecipient().msgHereIsYourOrder(this, o.o);
 		o.delivered = true;
-		log("Returning to market");
-		//Hack - must change to specific restaurant
-		DoGoTo("mark1");
+		
+		parkTruck();
+		
 	}
 
 	private void ReportToMarket(MyMarketOrder o) {
@@ -110,19 +118,66 @@ public class TruckAgent extends Vehicle {
 		orders.remove(o);
 	}
 	
-	private void DriveAround() {
-		//Demonstration of animation capabilities - Driving loops around city.
-		while(true) {
-			guiMoveFromCurrentPositionTo(new Position(15, 6));
-			guiMoveFromCurrentPositionTo(new Position(6, 6));
-			guiMoveFromCurrentPositionTo(new Position(6, 12));
-			guiMoveFromCurrentPositionTo(new Position(15, 12));
-			
-			guiMoveFromCurrentPositionTo(new Position(16, 5));
-			guiMoveFromCurrentPositionTo(new Position(5, 5));
-			guiMoveFromCurrentPositionTo(new Position(5, 13));
-			guiMoveFromCurrentPositionTo(new Position(16, 13));
+	private void DriveToMarket() {
+		String dest = market.getMarketName();
+		
+		int x = cityMap.getX(dest);
+		int y = cityMap.getY(dest);
+		
+		if(x < 4 && y < 4) {
+			moveTo(3,3);
+		} else if(x > 17 && y < 4) {
+			moveTo(18,3);
+		} else if(x < 4 && y > 14) {
+			moveTo(3, 15);
+		} else if(x == 0) {
+			moveTo(3, y);
+		} else if(x == 21) {
+			moveTo(18, y);
+		} else if(y == 0) {
+			moveTo(x, 3);
+		} else if(y == 18) {
+			moveTo(x, 15);
+		} else if(y == 17) {
+			moveTo(x, 15);
+		} else
+			log("ERROR: Unexpected driving destination - see driveToMarket() in TruckAgent.");
+	}
+	
+	private void DriveTo(String dest) {
+		
+		int x = cityMap.getX(dest);
+		int y = cityMap.getY(dest);
+
+		if(x < 4 && y < 4) {
+			moveTo(3,3);
+		} else if(x > 17 && y < 4) {
+			moveTo(18,3);
+		} else if(x < 4 && y > 14) {
+			moveTo(3, 15);
+		} else if(x == 0) {
+			moveTo(3, y);
+		} else if(x == 21) {
+			moveTo(18, y);
+		} else if(y == 0) {
+			moveTo(x, 3);
+		} else if(y == 18) {
+			moveTo(x, 15);
+		} else if(y == 17) {
+			moveTo(x, 15);
+		} else
+			log("ERROR: Unexpected driving destination - see driveTo(String) in TruckAgent.");
+	}
+	
+	private void parkTruck() {
+		if(aStar == null) {
+			log("Driving to nearest parking entrance.");
+			return;
 		}
+		Position parkingEntrance = cityMap.getParkingEntrance(currentPosition);
+		log("Parking...");
+		guiMoveFromCurrentPositionTo(parkingEntrance);
+		gui.setInvisible();
 	}
 
 	// Accessors
@@ -137,7 +192,7 @@ public class TruckAgent extends Vehicle {
 	private void log(String msg){
 		print(msg);
 		if(!test)
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
 	public void thisIsATest() {

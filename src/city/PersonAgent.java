@@ -86,16 +86,13 @@ public class PersonAgent extends Agent implements Person{
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
-	//int timeOfDay;
-	//enum TimeStatus {wakeUp, getReadyForWork, goToWork, atWork, leaveWork, nightTime};
-	//TimeStatus timeStatus = TimeStatus.wakeUp;
 	CityClock clock;
+	int currentHour;
 
 	//Testing
 	public EventLog log = new EventLog();
 	public boolean goToRestaurantTest = false;
 	public boolean test = false;
-
 	public boolean busTest = false;
 
 	//Job
@@ -149,6 +146,8 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		currentHour = 0;
 
 	}
 
@@ -169,6 +168,8 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		currentHour = 0;
 
 	}
 
@@ -215,7 +216,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void setRoleInactive(Role r){
-		log("Settign my role inactive");
 		synchronized(roles){
 			for(Role role : roles){
 				if(role == r){
@@ -224,6 +224,19 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		synchronized(tasks){
+			/*for(PersonTask task : tasks){
+			  		if(task.role.equals(r.getRoleName())){
+			 			tasks.remove(task);
+			 		}
+			 }*/
+			
+			//This new way might not work every time so if it messes your code up just put it back to the comment out code above
+			/*int taskSize= tasks.size();
+			for(int i=0; i<taskSize; i++){
+				if(tasks.get(0).role.equals(r.getRoleName())){
+					tasks.remove(tasks.get(0));
+				}
+			}*/
 			for(PersonTask task : tasks){
 				log("Role name: " + r.getRoleName() + "   task role name: " + task.role);
 				if(task.role.equals(r.getRoleName())){
@@ -307,14 +320,17 @@ public class PersonAgent extends Agent implements Person{
 	//TODO fix this
 
 	public void msgTimeUpdate(int t, int hour){
-		/*
-		if(hour == 2){
+		
+		if(hour == 1 && (currentHour != hour)){
+			currentHour = hour;
+			
 			if(myJob != null){
 				PersonTask task = new PersonTask(TaskType.goToWork);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 			}
+				
 		}
-		*/
+		/* This is unnecessary
 		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
 			synchronized(tasks){
 				PersonTask task = new PersonTask(TaskType.goToWork);
@@ -326,43 +342,36 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 			log("It's time for me to go to work!");
-		}
-		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
+		}*/
+		if(hour == 3 && currentHour != hour && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+			currentHour = hour;
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
 			log("It's time for me to eat something.");
 		}
-		else if(t > 5000 && t < 7000 && name.equals("brokenApplianceTest")){
-			synchronized(tasks){
-				tasks.add(new PersonTask(TaskType.gotHungry));
-			}
-			log("It's time for me to eat something.");
-		}
-		else if(t > 5000 && t < 7000 && name.equals("rest1Test")) {
-			synchronized(tasks){
-				tasks.add(new PersonTask(TaskType.gotHungry));
-			}
-			log("It's time for me to eat something.");
-		}
-		else if(t > 19000 && t < 21000 && (name.equals("bankCustomerTest")))
+		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest")))
 		{
+			currentHour = hour;
 			synchronized(tasks) {
 				tasks.add(new PersonTask(TaskType.goToBank));
 			}
 			log("It's time for me to go to bank.");
 
-		} else if(t > 10000 && t < 13000 && (name.equals("marketClient")))
+		} else if(hour == 4 && currentHour != hour && (name.equals("marketClient")))
 		{
+			currentHour = hour;
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				task.role = "MarketCustomer";
 				tasks.add(task);
 			}
 			log("It's time for me to buy something from the market.");
-
-		} else if(t > 4000 && t < 7020 && (name.equals("marketManager")))
+		} 
+		/*
+		* Dont need these two functions
+		else if(t > 4000 && t < 7020 && (name.equals("marketManager")))
 		{
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToWork);
@@ -379,9 +388,35 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(task);
 			}
 			log("It's time for me to do my job as a worker at the market.");
-
+		}*/ 
+		/*
+		else if(hour == 2 && currentHour != hour){
+			currentHour = hour;
+			synchronized(roles){
+				for(Role role : roles){
+					if(role.getRoleName().contains("Landlord")){
+						((LandlordRole)role).msgCollectRent();
+					}
+				}
+			}
+		}*/
+		
+		/*Adds got hungry task
+		 * Right now this is only for the test person
+		 * */
+		else if(hour == 3 && currentHour != hour){
+			currentHour = hour;
+			PersonTask newTask = new PersonTask(TaskType.gotHungry);
+			schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
+			log("Adding got hungry task");
 		}
-
+		/*Adds go to market task
+		else if(hour == 4 && (currentHour != hour) && myJob == null){
+			currentHour = hour;
+				PersonTask newTask = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
+				log("Adding go to market task");
+		}*/
 		stateChanged();
 	}
 	//From house
@@ -499,6 +534,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgRentDue(Landlord r, double rate) {
+		log("Oh, looks like its time for me to pay rent!");
 		billsToPay.add(new Bill("rent", rate, r));
 		stateChanged();
 	}
@@ -697,9 +733,6 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(tasks){
 			if(tasks.isEmpty()){
 				//log("Tasks is empty");
-				if(name.equals("rest2Test")){
-					log("Tasks is empty");
-				}
 				List<PersonTask> dayTasks = schedule.getDayTasks(clock.getDayOfWeekNum());
 				if(dayTasks.isEmpty()){
 					//log("No more tasks in schedule");
@@ -711,8 +744,12 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 				else{
+					for(PersonTask t : dayTasks){
+						log("Task is " + t.type.toString());
+					}
 					tasks.add(dayTasks.get(0));
-					dayTasks.remove(0);
+					log("Adding a new task " + dayTasks.get(0).type.toString());
+					schedule.removeTaskFromDay(clock.getDayOfWeekNum(), dayTasks.get(0));
 					return true;
 				}
 			}
@@ -724,7 +761,7 @@ public class PersonAgent extends Agent implements Person{
 	//ACTIONS
 	public void goHome(){
 		if(!atHome){
-			log("Going home");
+			//log("Going home");
 			if(house != null){
 				String location;
 				if(house.getName().contains("apart1")){
@@ -1003,9 +1040,13 @@ public class PersonAgent extends Agent implements Person{
 			//Get the location and set the role in the task
 			String location = cityMap.getClosestPlaceFromHere(house.getName(), "rest");
 			task.location = location;
-			String[] restNum = location.split("rest");
-			log("The number of the restaurant I am going to is " + restNum[0]);
-			String roleName = "Restaurant" + restNum[0] + "CustomerRole";
+			String temp= Character.toString(location.charAt(4));
+			int num= Integer.parseInt(temp);
+			//String[] restNum = location.split("rest");  //This was not returning a valid number
+			log("The number of the restaurant I am going to is " + num);
+			//log("The number of the restaurant I am going to is " + restNum[0]);
+			//String roleName = "Restaurant" + restNum[0] + "CustomerRole";
+			String roleName = "Restaurant" + num + "CustomerRole";
 			task.role = roleName;
 
 			if(car != null){	//if the person has a car, he/she will take it
@@ -1028,12 +1069,13 @@ public class PersonAgent extends Agent implements Person{
 
 	public void payBills(){
 		log.add(new LoggedEvent("Paying bill"));
+		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				if(b.landlord == landlord){
+				if(b.landlord == house.getLandlord()){
 					if(wallet > b.amount){
 						log.add(new LoggedEvent("The bill I'm paying is my rent"));
-						landlord.msgHereIsMyRent(this, b.amount);
+						house.getLandlord().msgHereIsMyRent(this, b.amount);
 						wallet -= b.amount;
 						billsToPay.remove(b);
 						return;
@@ -1124,6 +1166,7 @@ public class PersonAgent extends Agent implements Person{
 			homeGui.goToExit();
 			gui.setVisible();
 			house.getAnimationPanel().notInHouse(homeGui);
+			atHome = false;
 		}
 		gui.moveTo(ride.carLocation.getX() * 30 + 120, ride.carLocation.getY() * 30 + 60);
 		try {
@@ -1188,7 +1231,9 @@ public class PersonAgent extends Agent implements Person{
 		
 		log("I'm headed out to the market NOW!!!!!!!!!!!!!!!!!");
 		if(atHome){
+			log("At home, going to exit of house");
 			homeGui.goToExit(); 
+			atHome = false;
 			try{
 				atDestination.acquire();
 			} catch (InterruptedException e){}
@@ -1209,7 +1254,7 @@ public class PersonAgent extends Agent implements Person{
 		// task.location = location;
 
 		// Hack for testing
-		task.location = "mark1"; 
+		task.location = location; 
 		
 		task.role = "MarketCustomerRole";
 
@@ -1231,7 +1276,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void takeCar(String destination){
-		log.add(new LoggedEvent("Taking car to destination: " + destination));
+		log("Taking car to destination " + destination);
 		CarRide ride = new CarRide((Car) car, destination);
 		carRide = ride;
 		ride.car.msgPickMeUp(this, currentPosition);
@@ -1352,6 +1397,19 @@ public class PersonAgent extends Agent implements Person{
 		//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
 		AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+		
+		//If a path is not found, sleep for .5 seconds and then try again.
+		while(aStarNode == null) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+		}
+		
 		List<Position> path = aStarNode.getPath();
 		Boolean firstStep   = true;
 		Boolean gotPermit   = true;
@@ -1586,7 +1644,7 @@ public class PersonAgent extends Agent implements Person{
 	private void log(String msg){
 		print(msg);
 		if(!test){
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, true);
 		}
 		log.add(new LoggedEvent(msg));
 	}

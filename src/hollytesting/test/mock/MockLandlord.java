@@ -24,7 +24,7 @@ public class MockLandlord extends Mock implements Landlord{
         }
 
 		@Override
-		public void msgEndOfDay() {
+		public void msgCollectRent() {
 			// TODO Auto-generated method stub
 			
 		}

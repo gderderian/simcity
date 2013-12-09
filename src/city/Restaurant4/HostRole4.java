@@ -303,7 +303,7 @@ public class HostRole4 extends Role {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
 	@Override

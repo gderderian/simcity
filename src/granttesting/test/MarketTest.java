@@ -2,6 +2,7 @@ package granttesting.test;
 
 import java.util.ArrayList;
 
+import Role.MarketCustomerRole;
 import Role.MarketManager;
 import Role.MarketManager.myMarketWorker;
 import Role.MarketManager.orderState;
@@ -9,6 +10,7 @@ import Role.MarketWorker;
 import Role.MarketWorker.orderPickState;
 import granttesting.test.mock.MockCook;
 import junit.framework.TestCase;
+import city.Market;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
@@ -17,24 +19,28 @@ public class MarketTest extends TestCase{
         
     PersonAgent person;
     PersonAgent person2;
+    PersonAgent person3;
     MockCook restaurantCook;
     MarketManager marketMgr;
     MarketWorker marketWorker;
+    MarketCustomerRole marketCustomer;
     myMarketWorker myMarketWorker;
     public ArrayList<OrderItem> testOrderItems;
     
     public void setUp() throws Exception{
-
-            super.setUp();                
-            person = new PersonAgent("Person");
-            person2 = new PersonAgent("Person2");
-            restaurantCook = new MockCook("MockCook");
-            marketMgr = new MarketManager("MarketManager", person);
-            marketWorker = new MarketWorker(person2);
-         
-            testOrderItems = new ArrayList<OrderItem>();
             
-            
+    	super.setUp();
+        person = new PersonAgent("Person");
+        person2 = new PersonAgent("Person2");
+        person3 = new PersonAgent("Person3");
+        restaurantCook = new MockCook("MockCook");
+        Market mkt1 = new Market();
+        marketMgr = new MarketManager("MarketManager", person, mkt1);
+        mkt1.setManager(marketMgr);
+        marketWorker = new MarketWorker(person2);
+        marketCustomer = new MarketCustomerRole("Person3", person3);
+        testOrderItems = new ArrayList<OrderItem>();
+      
     }
     
     public void testNormativeOrderWorkerAssignment(){
@@ -45,7 +51,8 @@ public class MarketTest extends TestCase{
     	// Try to submit order to the MarketManager of 5 pieces of chicken
     	OrderItem testItem = new OrderItem("Chicken", 5);
     	testOrderItems.add(testItem);
-    	marketMgr.msgHereIsOrder(new MarketOrder(testOrderItems, person));
+    	MarketOrder mOrder = new MarketOrder(testOrderItems, person);
+    	marketMgr.msgHereIsOrder(mOrder);
     	
     	// MarketManager should now have one order that it needs to process
     	assertEquals("MarketManager orderList should now have one order", marketMgr.myOrders.size(), 1);
@@ -95,13 +102,12 @@ public class MarketTest extends TestCase{
     	// Worker should now begin to do process their order
     	marketWorker.pickAndExecuteAnAction();
     	
-    	// Worker should now have set their order status to processing
-    	assertTrue("Worker should have begun picking order", marketWorker.pickOrders.get(0).state == orderPickState.picking);
+    	// Worker should now have set their order status to done because they've just picked their order
+    	assertTrue("Worker should have finished picking order, order actually is " + marketWorker.pickOrders.get(0).state, marketWorker.pickOrders.get(0).state == orderPickState.done);
     	
-    	// Worker should now see order as done and notify the manager that it's ready to go!
+    	// Worker should now have one order left because they told their manager that it's ready to go!
     	marketWorker.pickAndExecuteAnAction();
-    	assertTrue("Worker should have finished picking order. Is instead " + marketWorker.pickOrders.get(0).state, marketWorker.pickOrders.get(0).state == orderPickState.done);
-    	
+    	assertEquals("MarketManager orderList should now have no orders", marketMgr.myOrders.size(), 1);
     	
     	
     }  

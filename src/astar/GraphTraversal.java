@@ -33,7 +33,7 @@ public abstract class GraphTraversal
 		    printMessage("Failed to find a path from " +
 				 startingState.toString()  +
 				 " to " + endingState.toString() +
-				 ", sorry.", null);
+				 ". Trying again now.", null);
 		    return null;
 		} else {
 		    //printCurrentList();
