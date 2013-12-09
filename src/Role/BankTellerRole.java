@@ -40,8 +40,6 @@ public class BankTellerRole extends Role {
 	public BankTellerRole(BankManagerRole assignbankmanager)
 	{
 		super();
-
-		//this.banktellerrole = assignbanktellerrole;
 		this.bankmanager = assignbankmanager;
 	}
 
@@ -55,9 +53,10 @@ public class BankTellerRole extends Role {
 
 	public void msgAssignMeCustomer(BankCustomerRole customer)
 	{
+		Do("assign me customer");
 		currentcustomer = customer;
 		currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
-		person.stateChanged();
+		//person.stateChanged();
 	}
 
 	public void msgOpenAccount() 

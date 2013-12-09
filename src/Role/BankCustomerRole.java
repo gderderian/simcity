@@ -175,7 +175,9 @@ public class BankCustomerRole extends Role{
 
         public boolean pickAndExecuteAnAction() 
         {
+        
         	
+        		Do("!!!!!!!!!!!! I'm in customer scheduler !!!!!!!");
                 
         		if(bankcustomerstate == state.gotobankteller)
         		{
@@ -183,9 +185,14 @@ public class BankCustomerRole extends Role{
         			Do("I'm going to bank teller station");
         			guiGoToBankTellerStation(stationnumber);
         			bankcustomerstate = state.waiting;
+        			Do("!!!!!!!!!!!!!!!!!  Bank Account Number " + bankaccountnumber);
         			if(bankaccountnumber == 0)
         			{
-        				bankcustomerstate = state.openaccount;
+        				//bankcustomerstate = state.openaccount;
+        				 mybankteller.msgOpenAccount();
+                         bankcustomerstate = state.waiting;
+                         gui.openaccount = true;
+                         return true;
         			}
         			else if(amountofcustomermoney >= 50)
         			{

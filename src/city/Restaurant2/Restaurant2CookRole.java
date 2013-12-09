@@ -175,6 +175,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	//ACTIONS
 	
 	private void checkSpindle(){
+		//log("Checking the spindle");
 		if(!spindle.isEmpty()){
 			orders.add(spindle.takeOffOrder());
 			log("Found an order on the spindle, I'm adding it to my list");
@@ -184,7 +185,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 				checkSpindle();
 			}
 		},
-		2000);
+		20000);
 	}
 	
 	private void PlateIt(Order o){

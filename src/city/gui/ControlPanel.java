@@ -206,8 +206,14 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityMap.seRestaurant5(r);
     }
     
-    public void addMarketToCityMap(Market m) {
-    	cityMap.setMarket(m);
+    public void addMarketToCityMap(Market m, int marketNum) {
+    	if (marketNum == 1){
+    		cityMap.setMarket1(m);
+    	} else if (marketNum == 2){
+    		cityMap.setMarket2(m);
+    	} else {
+    		cityMap.setMarket3(m);
+    	}
     }
     
     public void addBankToCityMap(Bank b) {
@@ -455,7 +461,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				houseAssignmentNumber++;
 			}
 
-			cityGui.addPerson(name, aStarTraversal, job, cityMap, house);
+			cityGui.addPerson(name, aStarTraversal, job, cityMap, house, null);
 			System.out.println("Adding person " + name + " with job " + job);
 
 			Dimension paneSize = pane.getSize();
@@ -481,7 +487,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 			AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
 
-			cityGui.addPerson(name, aStarTraversal, job, cityMap, null);
+			cityGui.addPerson(name, aStarTraversal, job, cityMap, null, null);
 			System.out.println("Adding person " + name + " with job " + job);
 
 			Dimension paneSize = pane.getSize();
@@ -915,6 +921,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("marketClient", "No Job");
 		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
 		addPerson("marketWorker", "Market Worker");
 
 	}

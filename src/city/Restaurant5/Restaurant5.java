@@ -58,6 +58,6 @@ public class Restaurant5 {
 		w.setCook(cook);
 		w.setCashier(cashier);
 		w.setHost(host);
-		//w.setOrderSpindle(orderspindle);
+		w.setOrderSpindle(orderspindle);
 	}
 }

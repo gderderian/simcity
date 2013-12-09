@@ -27,7 +27,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
+public abstract class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	
 	String roleName = "Restaurant5WaiterRole";
 	
@@ -51,13 +51,13 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	private String name;
 	private Restaurant5HostRole host;
-	private Restaurant5CookRole cook;
+	protected Restaurant5CookRole cook;
 	private Restaurant5Cashier cashier;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore atTable1 = new Semaphore(0,true);
-	private Semaphore atLobby = new Semaphore(0,true);
+	protected Semaphore atLobby = new Semaphore(0,true);
 	public Semaphore atKitchen = new Semaphore(0, true);
-	private boolean atlobbycurrently = true;
+	protected boolean atlobbycurrently = true;
 	public String currentfood; 
 	public Restaurant5Check currentcheck;
 	public boolean foodout = false;
@@ -67,6 +67,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	Restaurant5Menu menu = new Restaurant5Menu();
 	Restaurant5 restaurant5 = new Restaurant5();
+	OrderSpindle5 orderspindle;
 
 	public Restaurant5WaiterGui waiterGui = null;
 
@@ -513,38 +514,11 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	}
 
 
-	private void BringOrderToCook(mycustomer customer)
-	{
-
-		Dogotokitchen();
-		try {
-			atKitchen.acquire();
-		}
-		catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		cook.msgReceviedOrderFromWaiter(this, customer.choice, customer.table);
-
-
-		Dogobacktolobby();
-		atlobbycurrently=false;
-		//log("NUMBER OF PERMITS = " + atLobby.availablePermits());
-		try {
-			atLobby.acquire();
-			//atLobby.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		atlobbycurrently = true;
-
-
-	}
+	public abstract void BringOrderToCook(mycustomer customer);
 	
 	
 	/*
-	Dogotokitchen();
+		Dogotokitchen();
 		try {
 			atKitchen.acquire();
 		}
@@ -692,7 +666,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	}
 
 
-	private void Dogobacktolobby(){
+	protected void Dogobacktolobby(){
 
 		//log("going back to lobby");
 		waiterGui.DoLeaveCustomer();
@@ -701,7 +675,7 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 
 	}
 
-	private void Dogotokitchen() {
+	protected void Dogotokitchen() {
 		waiterGui.GoToKitchen();
 
 	}
@@ -800,6 +774,10 @@ public class Restaurant5WaiterRole extends Role implements Restaurant5Waiter {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	public void setOrderSpindle(OrderSpindle5 setorderspindle) {
+		orderspindle = setorderspindle;
 	}
 
 }
