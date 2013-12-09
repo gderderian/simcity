@@ -964,7 +964,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			bank1Animation.addGui(gui);
 			return role;
 		} else if(type.equals("Bank Teller")) {
-			Bank bank = new Bank();
+			//Bank bank = new Bank();
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
 			BankGui bankgui = new BankGui(); 

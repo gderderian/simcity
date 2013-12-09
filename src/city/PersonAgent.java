@@ -1005,7 +1005,7 @@ public class PersonAgent extends Agent implements Person{
 					}
 					else{
 						synchronized(tasks){
-							tasks.add(new PersonTask(TaskType.goToBank));
+							//tasks.add(new PersonTask(TaskType.goToBank));
 							//Eventually want to make this so there are different types of goToBank TaskTypes
 							//i.e. for this TaskType.goToBankWithdrawal or something
 							return;

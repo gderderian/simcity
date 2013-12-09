@@ -56,7 +56,7 @@ public class BankTellerRole extends Role {
 		Do("assign me customer");
 		currentcustomer = customer;
 		currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
-		//person.stateChanged();
+		person.stateChanged();
 	}
 
 	public void msgOpenAccount() 
@@ -114,14 +114,16 @@ public class BankTellerRole extends Role {
 
 	public boolean pickAndExecuteAnAction() {
 
+		
+		Do("!!!!!!!!!!!!!!!!!!!! banktellerrole scheduler");
+		
 		if(banktellerstate == state.gotobanktellerstation)
 		{
 			guiGoToBankTellerStation(stationnumber);
 			banktellerstate = state.doingnothing;
 			return true;
 		}
-
-
+		
 		if(banktellerstate == state.openaccount)
 		{
 			Do("customer is opening account");

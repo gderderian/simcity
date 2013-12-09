@@ -883,8 +883,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);
 
 		addPersonNoHouse("bank manager", "Bank Manager");
+		addPersonNoHouse("bank teller", "Bank Teller");
+		addPerson("bankCustomerTest", "No job");
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bankCustomerTest", "No job");
+		addPerson("bank teller", "Bank Teller");
 
 	}
 
