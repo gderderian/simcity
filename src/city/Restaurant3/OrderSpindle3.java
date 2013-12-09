@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import city.Restaurant3.CookRole3.Order;
-
 public class OrderSpindle3 {
 	
 	List<Order> spindleOrders;
+	private static OrderSpindle3 spindleInstance = new OrderSpindle3();
 	
 	public OrderSpindle3(){
 		spindleOrders = Collections.synchronizedList(new ArrayList<Order>());
@@ -30,6 +29,10 @@ public class OrderSpindle3 {
 		} else {
 			return false;
 		}
+	}
+	
+	public static OrderSpindle3 returnSpindleInstance(){
+		return spindleInstance;
 	}
 	
 }
