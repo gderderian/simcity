@@ -12,6 +12,7 @@ public class Market { // Class modeled after comment made in https://github.com/
 	public MarketManager mktManager;
 	
 	public void setManager(MarketManager mk){
+		System.out.println("Manager has been set!!!!");
 		mktManager= mk;
 	}
 	

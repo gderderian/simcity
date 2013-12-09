@@ -50,13 +50,14 @@ public class MarketManager extends Role {
 		p = person;
 		myMarket = mkt;
 		
-		mkt.mktManager = this; // I am the market's manager!!!
+		mkt.setManager(this); // I am the market manager!
 		
 		// List initialization
 		myOrders = Collections.synchronizedList(new ArrayList<myMarketOrder>());
 		myWorkers = Collections.synchronizedList(new ArrayList<myMarketWorker>());
 		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
 		marketStock = new Hashtable<String, MarketItem>();
+		marketCustomers = Collections.synchronizedList(new ArrayList<MarketCustomerRole>());
 		
 		// Sample market stock
 		marketStock = new Hashtable<String, MarketItem>();
