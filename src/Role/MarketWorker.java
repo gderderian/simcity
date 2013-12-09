@@ -9,6 +9,7 @@ import activityLog.ActivityTag;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
+import city.gui.Market.MarketManagerGui;
 import city.gui.Market.MarketWorkerGui;
 import Role.Role;
 
@@ -117,8 +118,10 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 
 	public void setGui(MarketWorkerGui setGui) {
 		gui = setGui;
-		
 	}
 	
+	public MarketWorkerGui getGui() {
+		return gui;
+	}	
 	
 }
