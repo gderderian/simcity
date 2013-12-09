@@ -34,6 +34,7 @@ import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.House.LandlordGui;
 import city.gui.Market.MarketAnimationPanel;
+import city.gui.Market.MarketCustomerGui;
 import city.gui.Market.MarketGui;
 import city.gui.Market.MarketManagerGui;
 import city.gui.Market.MarketWorkerGui;
@@ -431,7 +432,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		newPerson.setGui(g);
 		
 		newPerson.setClock(masterClock);
-		newPerson.addTask("gotHungry");
+		//newPerson.addTask("gotHungry");
 		//newPerson.addTask("goToBank");
 		//newPerson.addTask("goToMarket");
 		
@@ -458,9 +459,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		newPerson.setGui(g);
 		
 		newPerson.setClock(masterClock);
-		newPerson.addTask("gotHungry");
-		newPerson.addTask("goToBank");
-		newPerson.addTask("goToMarket");
+		//newPerson.addTask("gotHungry");
+		//newPerson.addTask("goToBank");
+		//newPerson.addTask("goToMarket");
 		
 		animationPanel.addGui(g);
 		
