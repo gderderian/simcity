@@ -20,7 +20,6 @@ import city.PersonTask.Transportation;
 import city.gui.CityClock;
 import city.gui.PersonGui;
 import city.gui.House.HomeOwnerGui;
-import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
@@ -534,12 +533,11 @@ public class PersonAgent extends Agent implements Person{
 			for(Role r : roles){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction();// || anytrue; // Changed by Grant
-					return anytrue;
 				}
 			}
-			//if(anytrue){
-				//return anytrue;
-			//} 
+			if(anytrue){
+				return anytrue;
+			} 
 		}
 		synchronized(tasks){
 			for(PersonTask t : tasks){
@@ -686,15 +684,18 @@ public class PersonAgent extends Agent implements Person{
 			if(tasks.isEmpty()){
 				List<PersonTask> dayTasks = schedule.getDayTasks(clock.getDayOfWeekNum());
 				if(dayTasks.isEmpty()){
-					if(house != null){
-						goHome();
+					if(!atHome){
+						if(house != null){
+							goHome();
+							return true;
+						}
 					}
 				}
 				else{
 					tasks.add(dayTasks.get(0));
 					dayTasks.remove(0);
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;
