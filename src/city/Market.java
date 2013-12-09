@@ -14,9 +14,15 @@ public class Market { // Class modeled after comment made in https://github.com/
 
 	public MarketManager mktManager;
 	public List<TruckAgent> marketTrucks;
+	String marketName;
 	
 	public Market(){
 		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
+	}
+	
+	public Market(String name){
+		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
+		marketName = name;
 	}
 	
 	public void setManager(MarketManager mk){
@@ -33,6 +39,14 @@ public class Market { // Class modeled after comment made in https://github.com/
 	
 	public void addTruck(TruckAgent newTruck){
 		marketTrucks.add(newTruck);
+	}
+	
+	public void setName(String name){
+		marketName = name;
+	}
+	
+	public String getName(){
+		return marketName;
 	}
 
 }

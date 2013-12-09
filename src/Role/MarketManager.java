@@ -266,5 +266,9 @@ public class MarketManager extends Role {
 	public void setPerson(PersonAgent workerPerson) {
 		p = workerPerson;
 	}
+	
+	public String getMarketName(){
+		return myMarket.getName();
+	}
 
 }
