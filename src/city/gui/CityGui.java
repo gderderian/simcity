@@ -133,9 +133,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	
 		
 	// Market
-	Market market1 = new Market();
-	Market market2 = new Market();
-	Market market3 = new Market();
+	Market market1 = new Market("mark1");
+	Market market2 = new Market("mark2");
+	Market market3 = new Market("mark3");
 
 	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
