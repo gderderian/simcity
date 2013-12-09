@@ -1586,7 +1586,7 @@ public class PersonAgent extends Agent implements Person{
 	private void log(String msg){
 		print(msg);
 		if(!test){
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, true);
 		}
 		log.add(new LoggedEvent(msg));
 	}

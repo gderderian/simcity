@@ -31,6 +31,8 @@ public class ActivityPane extends JPanel implements ActionListener {
 	private JTextPane textPane;
 	Style commentStyle;
 	Style nameStyle;
+	Style personNameStyle;
+	Style personCommentStyle;
 	StyledDocument styledDoc;
 	JPanel filterPanel = new JPanel();
 	JButton filterButton = new JButton("Filter by Role/Agent");
@@ -97,10 +99,16 @@ public class ActivityPane extends JPanel implements ActionListener {
 		scrollPane.setViewportView(textPane);
 		styledDoc = textPane.getStyledDocument();
 		commentStyle = styledDoc.addStyle("CommentStyle", null);
+		StyleConstants.setForeground(commentStyle, Color.blue);
 		nameStyle = styledDoc.addStyle("NameStyle", null);
-		StyleConstants.setForeground(commentStyle, Color.black);
-		StyleConstants.setForeground(nameStyle, Color.black);
+		StyleConstants.setForeground(nameStyle, Color.blue);
 		StyleConstants.setBold(nameStyle, true);
+		personNameStyle = styledDoc.addStyle("PersonNameStyle", null);
+		StyleConstants.setForeground(personNameStyle, Color.black);
+		StyleConstants.setBold(personNameStyle, true);
+		personCommentStyle = styledDoc.addStyle("PersonCommentStyle", null);
+		StyleConstants.setForeground(personCommentStyle, Color.black);
+		
 		ActivityLog.setPane(this);
 		
 		//adding all the check boxes to a list
@@ -198,6 +206,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 	}
 	
 	public void addActivity(activity a){
+		System.out.println("The number of visible tags is " + visibleTags.size());
 		if(visibleTags.contains(a.type)){
 			newActivities.add(a);
 			updatePane();
@@ -208,10 +217,18 @@ public class ActivityPane extends JPanel implements ActionListener {
 		synchronized(newActivities){
 			for(activity a : newActivities){
 				try{
-					int endPosition = textPane.getDocument().getEndPosition().getOffset();
-					textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
-					endPosition = textPane.getDocument().getEndPosition().getOffset();
-					textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
+					if(a.person_notRole){
+						int endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", personNameStyle);
+						endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", personCommentStyle);
+					}
+					else{
+						int endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
+						endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
+					}
 				}
 				catch (BadLocationException e){
 					e.printStackTrace();
@@ -281,7 +298,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 					}
 				}
 				for(ActivityTag t : ActivityTag.values()){
-					if(t.toString().contains((String)buildingSelect.getSelectedItem()) || t.toString().contains("PERSON")){
+					if(t.toString().contains(((String) buildingSelect.getSelectedItem()).toUpperCase()) || t.toString().contains("PERSON")){
 						addTagToFilter(t);
 					}
 				}

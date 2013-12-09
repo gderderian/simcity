@@ -473,7 +473,7 @@ public abstract class Restaurant1WaiterRole extends Role implements Restaurant1W
 	
 	protected void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
 	@Override

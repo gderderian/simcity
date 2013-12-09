@@ -23,9 +23,9 @@ public class ActivityLog {
 	 * Activity gets added to a log of all total activities
 	 * Also gets added to newActivities, which gets used when updating the activity log panel
 	 */
-	public void logActivity(ActivityTag t, String m, String n){
+	public void logActivity(ActivityTag t, String m, String n, boolean person){
 		Date d = new Date();
-		activity a = new activity(t, m, n, d);
+		activity a = new activity(t, m, n, d, person);
 		log.add(a);
 		pane.addActivity(a);
 	}

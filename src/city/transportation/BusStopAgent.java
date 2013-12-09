@@ -107,7 +107,7 @@ public class BusStopAgent extends Agent implements BusStop {
 	private void log(String msg){
 		print(msg);
 		if(!test)
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
 	public void thisIsATest() {
