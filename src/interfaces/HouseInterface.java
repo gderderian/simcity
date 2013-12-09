@@ -14,6 +14,10 @@ public interface HouseInterface {
 	public abstract void setHouseAnimationPanel(HouseAnimationPanel p);
 	
 	public abstract void setLandlord(LandlordRole r);
+	
+	public abstract int getNum();
+	
+	public abstract String getName();
 
 	//PUBLIC METHODS
 	public abstract void boughtGroceries(List<Food> groceries);
@@ -25,8 +29,6 @@ public interface HouseInterface {
 	public abstract void cookFood(String type);
 
 	public abstract void fixedAppliance(String appliance);
-
-	public abstract String getName();
 
 	public abstract HouseAnimationPanel getAnimationPanel();
 

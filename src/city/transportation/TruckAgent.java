@@ -42,7 +42,8 @@ public class TruckAgent extends Vehicle {
 		type = "truck";
 
 		currentPosition = new Position(17, 20);
-		currentPosition.moveInto(aStar.getGrid());
+		if(aStar != null)
+			currentPosition.moveInto(aStar.getGrid());
 	}
 
 	//Messages

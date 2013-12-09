@@ -5,6 +5,7 @@ import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import agent.Agent;
+import restaurant1.Restaurant1Order.orderState;
 import restaurant1.gui.Restaurant1CookGui;
 import test.mock.LoggedEvent;
 
@@ -30,9 +31,8 @@ public class Restaurant1CookRole extends Role {
 
 	private MarketManager market;
 	
-	public enum orderState { pending, cooking, cooked, pickedUp, finished };
-	
 	int orderCount = 0;
+	Restaurant1OrderWheel orderWheel;
 	
 	private enum foodOrderingState { notYetOrdered, ordered };
 	
@@ -45,6 +45,8 @@ public class Restaurant1CookRole extends Role {
 	PersonAgent person;
 	
 	Timer timer = new Timer();
+	
+	Timer timer2 = new Timer();
 	
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 
@@ -66,6 +68,8 @@ public class Restaurant1CookRole extends Role {
 		foods.put("chicken", new Food("chicken", 4, 100, 5, 8));
 		
 		this.name = name;
+		
+		orderWheel = Restaurant1OrderWheel.getInstance();
 	}
 
 	public String getName() {
@@ -75,10 +79,15 @@ public class Restaurant1CookRole extends Role {
 	public void setGui(Restaurant1CookGui gui) {
 		cookGui = gui;
 	}
+	
+	public void setOrderWheel(Restaurant1OrderWheel wheel) {
+		orderWheel = wheel;
+	}
 
 	// Messages
-	public void msgHereIsOrder(Restaurant1WaiterRole w, String choice, int table) {
-		orders.add(new Restaurant1Order(w, choice, table, orderState.pending, orderCount++));
+	public void msgHereIsOrder(Restaurant1Order o) {
+		o.setNumber(orderCount++);
+		orders.add(o);
 		person.stateChanged();
 	}
 	
@@ -141,6 +150,7 @@ public class Restaurant1CookRole extends Role {
 	public boolean pickAndExecuteAnAction() {
 		if(restaurantOpening) {
 			initialInventoryCheck();
+			checkOrderWheel();
 			return true;
 		}
 		
@@ -312,6 +322,22 @@ public class Restaurant1CookRole extends Role {
 		
 		log("Sending order for more food to the market!");
 		market.msgHereIsOrder(newOrder);
+	}
+
+	private void checkOrderWheel() {
+		Restaurant1Order temp = orderWheel.getOrder();
+		
+		if(temp != null) {
+			temp.setNumber(orderCount++);
+			orders.add(temp);
+			person.stateChanged();
+		}
+		
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				checkOrderWheel();
+			}
+		}, 5000	);
 	}
 	
 	private void DoGoToHome() {

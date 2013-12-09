@@ -29,14 +29,24 @@ public class LandlordRole extends Role implements Landlord {
 	
 	public LandlordRole(String name, PersonAgent p){
 		super();
-		name= "Landlord";
+		this.name= name;
 		this.p= p;
 	}
 	
 	//This should be done when the people are created, assuming they are living in an apartment and are not a landlord
 	public void addTenant(Person p){
-		MyTenant t= new MyTenant(p);
-		tenants.add(t);
+		boolean newTenant= true;
+		for(int i=0; i<tenants.size(); i++){
+			if(tenants.get(i).tenant == p){
+				newTenant= false;
+			}
+		}
+		if(newTenant){
+			MyTenant t= new MyTenant(p);
+			tenants.add(t);
+			this.p.stateChanged();
+			log("I got a new tenant, now I have " + tenants.size() + " tenants total!");
+		}
 	}
 	
 	
@@ -100,6 +110,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
+		log("Checkin' my schedule");
 		synchronized(tenants){
 			for(MyTenant t : tenants){
 				if(t.newPayment == true){// t.paymentsUpToDate == false){

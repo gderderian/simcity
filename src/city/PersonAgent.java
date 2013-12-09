@@ -26,6 +26,7 @@ import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
+import Role.MarketCustomerRole;
 import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
@@ -111,7 +112,6 @@ public class PersonAgent extends Agent implements Person{
 	PersonGui gui;
 	HomeOwnerGui homeGui;
 	ActivityTag tag = ActivityTag.PERSON;
-	boolean callonce = false; //this is tom's little hack
 
 	public PersonAgent(String n, AStarTraversal aStarTraversal, CityMap map, HouseInterface h){
 		super();
@@ -122,7 +122,6 @@ public class PersonAgent extends Agent implements Person{
 		homeGui= new HomeOwnerGui(this);
 
 		if(house != null) {
-			System.out.println("house.getName(): " + house.getName());
 			if(house.getName().contains("apart1")){
 				currentPosition = new Position(map.getX("apart1"), map.getY("apart1"));
 			}
@@ -246,7 +245,7 @@ public class PersonAgent extends Agent implements Person{
 	public void setJobLocation(String loc){
 		myJob.location = loc;
 	}
-	
+
 	//Takes a string argument and creates a new PersonTask which is added onto the current day's schedule
 	public void addTask(String task){
 		PersonTask t = new PersonTask(task);
@@ -254,7 +253,7 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 		//Do we need this stateChanged()?
 	}
-	
+
 	public void setClock(CityClock c){
 		clock = c;
 	}
@@ -333,33 +332,33 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(new PersonTask(TaskType.goToBank));
 			}
 			log("It's time for me to go to bank.");
-			
+
 		} else if(t > 10000 && t < 11000 && (name.equals("marketClient")))
 		{
 			synchronized(tasks) {
 				tasks.add(new PersonTask(TaskType.goToMarket));
 			}
 			log("It's time for me to buy something from the market.");
-			
+
 		} else if(t > 4000 && t < 7020 && (name.equals("marketManager")))
 		{
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToWork);
-				//task.role = "MarketManager";
+				task.role = "MarketManager";
 				tasks.add(task);
 			}
 			log("It's time for me to do my job as a manager at the market.");
-			
+
 		} else if(t > 4000 && t < 7020 && (name.equals("marketWorker")))
 		{
 			synchronized(tasks) {
 				tasks.add(new PersonTask(TaskType.goToWork));
-				
+
 			}
 			log("It's time for me to do my job as a worker at the market.");
-			
+
 		}
-		
+
 		stateChanged();
 	}
 	//From house
@@ -510,11 +509,6 @@ public class PersonAgent extends Agent implements Person{
 	 * 3. All other actions (i.e. eat food, go to bank), in order of importance/urgency
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
-		if(name.equals("bankCustomerTest") && callonce == false) {
-			goToBank(new PersonTask(TaskType.goToBank));
-			callonce = true;
-		}
 
 		//ROLES - i.e. job or customer
 		boolean anytrue = false;
@@ -714,7 +708,9 @@ public class PersonAgent extends Agent implements Person{
 
 	@SuppressWarnings("unused")
 	public void reachedDestination(PersonTask task){
+		
 		log("I've reached my destination, now I'm going to go inside!");
+		
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
@@ -754,17 +750,18 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		else if(task.type == TaskType.goToMarket){
-			log("I should give the market manager my order!");
 			
+			log("I should give the market manager my order!");
+
 			if(role != null){
-				//cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-				//((BankCustomerRole)role).setGuiActive();
+				cityMap.market.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
+				((MarketCustomerRole)role).setGuiActive();
 			}
 			else{
-				//log("Couldn't find the role for task " + task.type.toString());
+				log("Couldn't find the role for task " + task.type.toString());
 			}
-			
-			
+
+
 			MarketOrder o = new MarketOrder(groceryList.get(0), this);
 			cityMap.market.mktManager.msgHereIsOrder(o);
 
@@ -775,10 +772,9 @@ public class PersonAgent extends Agent implements Person{
 
 	public void goToWork(PersonTask task){
 		log("Going to work");
-		
-		System.out.println("Going to work as a " + task.role + " at " + task.location);
-		
+
 		task.location = myJob.location;
+		System.out.println("Going to work as a " + task.role + " at " + task.location);
 		//Role in the task here should be null because role-related things are taken care of in the Job class
 
 		if(car != null){	//if the person has a car, he/she will take it
@@ -789,32 +785,6 @@ public class PersonAgent extends Agent implements Person{
 		else{
 			DoGoTo(myJob.location, task);
 		}
-
-
-		if(task.role != null)
-		{
-			
-
-		if(task.role.equals("BankTellerRole"))
-
-		{	
-			for(Role findrole : roles)
-			{
-				if(findrole instanceof BankTellerRole)
-				{
-					Do("Bank teller is at the bank");
-					//bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) findrole);
-					//this.setRoleActive(findrole);
-					cityMap.msgArrivedAtBank(findrole);
-				}
-			}
-		}
-
-		
-		}
-		
-		//This needs to be moved into the reachedDestination() function
-		//myJob.startJob();
 	}
 
 	//TODO ...
@@ -852,14 +822,14 @@ public class PersonAgent extends Agent implements Person{
 			try{
 				atDestination.acquire();
 			} catch (InterruptedException e){}
-			*/
+			 */
 			//MarketOrder o= new MarketOrder(food, this);
-        	//log("IS THE MARKET MANAGER NULL? " + cityMap.market.mktManager);
-        	//cityMap.market.mktManager.msgHereIsOrder(o);
-        	
-        	// DoGoTo("mark1", PersonTask(TaskType.goToMarket));
-        	
-        	
+			//log("IS THE MARKET MANAGER NULL? " + cityMap.market.mktManager);
+			//cityMap.market.mktManager.msgHereIsOrder(o);
+
+			// DoGoTo("mark1", PersonTask(TaskType.goToMarket));
+
+
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
@@ -1161,10 +1131,10 @@ public class PersonAgent extends Agent implements Person{
 			location = "mark3";
 
 		// task.location = location;
-		
+
 		// Hack for testing
 		task.location = "mark1"; 
-		
+
 		if (name.equals("marketClient")){
 			//task.role = "MarketCustomerRole";
 		} else if (name.equals("marketManager")){
@@ -1187,7 +1157,7 @@ public class PersonAgent extends Agent implements Person{
 		MarketOrder o = new MarketOrder(groceryList.get(0), this);
 		cityMap.market.mktManager.msgHereIsOrder(o);
 		 */
-		
+
 	}
 
 	public void takeCar(String destination){
@@ -1257,8 +1227,7 @@ public class PersonAgent extends Agent implements Person{
 		int y = cityMap.getY(location);
 		int myX = currentPosition.getX();
 		int myY = currentPosition.getY();
-
-		Position p = new Position(x, y);
+		
 		if((Math.abs(myX - x) > 20) || Math.abs(myY - y) > 17) {
 			if(!(x > 16 && myX > 16) && !(x < 5 && myX < 5) && !(y < 5 && myY < 5) && !(y > 13 && myY > 13)){	// || name.equals("BusTest")
 				if(task != null){
@@ -1276,18 +1245,21 @@ public class PersonAgent extends Agent implements Person{
 				return;
 			}
 		}
+		
 		if(task != null){
 			if(task.transportation != Transportation.bus && task.transportation != Transportation.car)
 				task.transportation = Transportation.walking;
 		}
+		
 		moveTo(x, y);
 		if(task != null) {
 			task.state = State.arrived;
-			log("ARRIVED");
 		}
+		
 		if((task != null) && (task.transportation == Transportation.walking)){
 			reachedDestination(task);
 		}
+		
 		gui.setInvisible();
 		return;
 	}
@@ -1502,8 +1474,8 @@ public class PersonAgent extends Agent implements Person{
 			if(role.getGui() != null){
 				role.getGui().setPresent(true);
 			}
-			if(role.getGui() instanceof Restaurant2CustomerGui){
-				log("This is a customer gui");
+			if(role instanceof BankTellerRole) {
+				//TODO fill this in
 			}
 		}
 

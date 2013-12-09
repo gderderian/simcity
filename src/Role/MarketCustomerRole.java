@@ -1,14 +1,21 @@
 package Role;
 
+import java.util.concurrent.Semaphore;
+
 import city.PersonAgent;
+import city.gui.Market.MarketCustomerGui;
+import city.gui.Restaurant3.CookGui3;
 import Role.Role;
 
 public class MarketCustomerRole extends Role {
 	
 	String roleName = "MarketCustomerRole";
 
+	private Semaphore isAnimating = new Semaphore(0,true);
+	private MarketCustomerGui mktCustGui;
+	
 	// Constructor
-	public MarketCustomerRole(PersonAgent p){
+	public MarketCustomerRole(String name, PersonAgent p){
 		person = p;
 	}
 	
@@ -24,6 +31,10 @@ public class MarketCustomerRole extends Role {
 	}
 	*/
 	
+	public void releaseSemaphore(){
+		isAnimating.release();
+	}
+	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
 		return false;
@@ -32,6 +43,16 @@ public class MarketCustomerRole extends Role {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	public void setGuiActive() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setGui(MarketCustomerGui gui) {
+		mktCustGui = gui;
+		
 	}
 	
 	// Actions
