@@ -35,7 +35,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 	Style personCommentStyle;
 	StyledDocument styledDoc;
 	JPanel filterPanel = new JPanel();
-	JButton filterButton = new JButton("Filter by Role/Agent");
+	JButton filterButton = new JButton("Filter by Role, Agent, or Building");
 	JButton clearRolesButton = new JButton("Clear all selections");
 	JButton selectAllRolesButton = new JButton("Select all roles");
 	JFrame optionWindow = new JFrame();

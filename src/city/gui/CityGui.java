@@ -102,7 +102,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	AnimationPanel animationPanel = new AnimationPanel();
 
-	ControlPanel controlPanel = new ControlPanel();
+	ControlPanel controlPanel = new ControlPanel(this);
 	
     private static final int TIMER_INTERVAL = 30;
     private Timer timer;
@@ -180,13 +180,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	 * Sets up all the gui components.
 	 */
 	public CityGui() {            
-		controlPanel.setCityGui(this);
-
-		//testPerson.startThread();
-		//testPerson.setGui(testPersonGui);
-		//testPersonGui.addAnimationPanel(restaurant2);
-		//guis.add(testPersonGui);
-		//cityPanel.addGui(testPersonGui);
 
 		setBounds(WINDOW_X_COORD, WINDOW_Y_COORD, WINDOWX, WINDOWY);
 
@@ -227,8 +220,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up and populate apartment 1
-		controlPanel.addApartment1ToCityMap(apart1);
-		addBuildingPanel(apt1);
+		//controlPanel.addApartment1ToCityMap(apart1);
+		//addBuildingPanel(apt1);
+		
 		for(int i=0; i<20; i++){
 			HouseAnimationPanel temp= new HouseAnimationPanel();
 			apt1List.add(temp);
@@ -247,6 +241,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt2List.get(i));
 		}
 		//Set up all of the houses
+		
 		for(int i=0; i<22; i++){ 
 			HouseAnimationPanel temp= new HouseAnimationPanel();
 			houseAgents.get(i).setHouseAnimationPanel(temp);
@@ -273,6 +268,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
         timer = new Timer(TIMER_INTERVAL, this);
         timer.start();
+        
+        controlPanel.createInitialPeople();
         
 	}
 	
@@ -436,6 +433,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		newPerson.setGui(g);
 		
 		newPerson.setClock(masterClock);
+		
+		//if(!job.equals("No job")){
+		//	newPerson.addTask("goToWork");
+		//}
+		
 		//newPerson.addTask("gotHungry");
 		//newPerson.addTask("goToBank");
 		//newPerson.addTask("goToMarket");
@@ -781,7 +783,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		changeView("City");
 	}
 
-	private void addBuildingPanel(BuildingPanel bp) {
+	public void addBuildingPanel(BuildingPanel bp) {
 		bp.setPreferredSize(new Dimension(ANIMATIONX, WINDOWY));
 		buildingPanels.add(bp);
 		bp.setCityGui(this);

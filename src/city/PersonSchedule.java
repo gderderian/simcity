@@ -37,6 +37,12 @@ public class PersonSchedule {
 		weeklySchedule.put(dayOfWeek, dayTasks);
 	}
 	
+	public void removeTaskFromDay(int dayOfWeek, PersonTask task){
+		ArrayList<PersonTask> dayTasks = weeklySchedule.get(dayOfWeek);
+		dayTasks.remove(task);
+		weeklySchedule.put(dayOfWeek, dayTasks);
+	}
+	
 	public ArrayList<PersonTask> getDayTasks(int dayOfWeek){
 		return weeklySchedule.get(dayOfWeek);
 	}
