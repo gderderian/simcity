@@ -9,6 +9,14 @@ public class Restaurant5NewWaiterRole extends Restaurant5WaiterRole {
 		// TODO Auto-generated constructor stub
 	
 	}
+
+	@Override
+	public void BringOrderToCook(mycustomer customer) {
+		// TODO Auto-generated method stub
+		
+		orderspindle.addToSpindle(this, customer.choice, customer.table);
+		
+	}
 	
 	
 	

@@ -27,7 +27,7 @@ public class BankGui extends JFrame implements ActionListener {
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
 	
-    private BankPanel restPanel = new BankPanel(this);
+   // private BankPanel restPanel = new BankPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
@@ -58,7 +58,7 @@ public class BankGui extends JFrame implements ActionListener {
     	setLayout(new BorderLayout());
     
         Dimension restDim = new Dimension(400, (int) (400));
-        restPanel.setPreferredSize(restDim);
+       // restPanel.setPreferredSize(restDim);
         
         // Now, setup the info panel
         Dimension infoDim = new Dimension(400, (int) (200));
@@ -104,7 +104,7 @@ public class BankGui extends JFrame implements ActionListener {
     	JPanel controlPanel = new JPanel();
     	controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
     	controlPanel.setPreferredSize(new Dimension(600, (int) 800));
-    	controlPanel.add(restPanel);
+    	//controlPanel.add(restPanel);
     	controlPanel.add(infoPanel);
     	animationPanel.setPreferredSize(new Dimension(800, (int) 800));
         add(controlPanel, BorderLayout.WEST);
@@ -185,12 +185,12 @@ public class BankGui extends JFrame implements ActionListener {
         if(e.getSource() == pausebutton) { 	  
         	if(restart == false) {
         		System.out.println("pause button called");
-        		  restPanel.pauseagents();
+        		  //restPanel.pauseagents();
         		  restart = true;
         	  }
         	  else if(restart == true)
         	  {
-        		restPanel.restartagents();
+        		//restPanel.restartagents();
         		restart = false;
         	  }
         }
@@ -200,19 +200,19 @@ public class BankGui extends JFrame implements ActionListener {
         if(e.getSource() == depletecooksupply)
         {
         	//System.out.println("deplete cook's supply");
-        	restPanel.addPerson("BankCustomerRole", "tom", true);
+        	//restPanel.addPerson("BankCustomerRole", "tom", true);
         }
         
         if(e.getSource() == depletemarket1supply)
         {
         	System.out.println("deplete market 1 supply");
-        	restPanel.depletemarket1supply();
+        	//restPanel.depletemarket1supply();
         }
         
         if(e.getSource() == depletemarket2supply)
         {
         	System.out.println("deplete market 2 supply");
-        	restPanel.depletemarket2supply();
+        	//restPanel.depletemarket2supply();
         }
         
        
