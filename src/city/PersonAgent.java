@@ -215,7 +215,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void setRoleInactive(Role r){
-		log("Settign my role inactive");
 		synchronized(roles){
 			for(Role role : roles){
 				if(role == r){
@@ -224,10 +223,19 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		synchronized(tasks){
-			for(PersonTask task : tasks){
-				log("Role name: " + r.getRoleName() + "   task role name: " + task.role);
-				if(task.role.equals(r.getRoleName())){
-					tasks.remove(task);
+			//This new way might not work every time so if it messes your code up just put it back to the comment out code below
+			/*
+			  	for(PersonTask task : tasks){
+			  		if(task.role.equals(r.getRoleName())){
+			 			tasks.remove(task);
+			 		}
+			 	}
+			 */
+			
+			int taskSize= tasks.size();
+			for(int i=0; i<taskSize; i++){
+				if(tasks.get(0).role.equals(r.getRoleName())){
+					tasks.remove(tasks.get(0));
 				}
 			}
 		}
