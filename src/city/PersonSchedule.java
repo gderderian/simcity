@@ -23,12 +23,12 @@ public class PersonSchedule {
 	public PersonSchedule(){
 		weeklySchedule = new HashMap<Integer, ArrayList<PersonTask>>();
 		weeklySchedule.put(1, MondayTasks);
-		weeklySchedule.put(1, TuesdayTasks);
-		weeklySchedule.put(1, WednesdayTasks);
-		weeklySchedule.put(1, ThursdayTasks);
-		weeklySchedule.put(1, FridayTasks);
-		weeklySchedule.put(1, SaturdayTasks);
-		weeklySchedule.put(1, SundayTasks);
+		weeklySchedule.put(2, TuesdayTasks);
+		weeklySchedule.put(3, WednesdayTasks);
+		weeklySchedule.put(4, ThursdayTasks);
+		weeklySchedule.put(5, FridayTasks);
+		weeklySchedule.put(6, SaturdayTasks);
+		weeklySchedule.put(7, SundayTasks);
 	}
 	
 	public void addTaskToDay(int dayOfWeek, PersonTask dayTask){
