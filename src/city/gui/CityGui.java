@@ -498,6 +498,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			
 			newTruck.startThread();
 		}
+		
+		if(type.equals("crash")) {
+			CarAgent c = new CarAgent(aStarTraversal, controlPanel.getCityMap());
+			vehicles.add(c);
+			VehicleGui g = new VehicleGui(c);
+			c.setGui(g);
+			guis.add(g);
+			animationPanel.addGui(g);
+			g.setMainAnimationPanel(animationPanel);
+			
+			c.startThread();
+			c.msgCrashIntoSomething();
+		}
 	}   
 	
 	public void addCar(PersonAgent p, CarAgent c) {

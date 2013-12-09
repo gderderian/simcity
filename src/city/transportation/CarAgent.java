@@ -3,6 +3,7 @@ package city.transportation;
 import interfaces.Car;
 import interfaces.Person;
 
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import city.CityMap;
@@ -16,34 +17,37 @@ public class CarAgent extends Vehicle implements Car {
 	//Data
 	public CarEvent event = CarEvent.none;
 	public CarState state = CarState.parked;
-	
+
 	public Person owner = null; //Car owner
-	
+
 	public String destination = null;
-	
+
+	boolean crash = false;
+	int destructionPath = 0;
+
 	private Position ownerLocation = null;
-	
+
 	public enum CarEvent { none, drivingToOwner, arrivingAtOwner, drivingToDestination, arrivingAtDestination, parking };
 	public enum CarState { parked, driving, arrived, atOwner };
-	
+
 	String name = "Car";
-	
+
 	private boolean test = false;
-	
+
 	ActivityTag tag = ActivityTag.CAR;
-	
+
 	public CarAgent(AStarTraversal aStar, CityMap map) {
 		super(aStar, map);
-		
+
 		capacity = 1;
 		type = "car";
 		guiFinished = new Semaphore(0, true);
-		
-		
+
+
 		currentPosition = new Position(11, 11);
 		currentPosition.moveInto(aStar.getGrid());
 	}
-	
+
 	//Messages
 	public void msgPickMeUp(Person p, Position pos) {
 		log("Received message: Pick me up!");
@@ -53,27 +57,38 @@ public class CarAgent extends Vehicle implements Car {
 		log("Going to pick up my owner");
 		stateChanged();
 	}
-	
+
 	public void msgDriveTo(Person p, String dest) {
 		log("Received message: Drive to " + dest + "!");
 		destination = dest;
 		event = CarEvent.drivingToDestination;
 		stateChanged();
 	}
-	
+
 	public void msgParkCar(Person p) {
 		log("Received message: Go park yourself!");
 		event = CarEvent.parking;
 		destination = null;
 		stateChanged();
 	}
-	
+
+	//This message is for the non-norm car-crash case
+	public void msgCrashIntoSomething() {
+		crash = true;
+		stateChanged();
+	}
+
 	public void msgGuiFinished() {
 		guiFinished.release();
 	}
 
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		if(crash) {
+			log("TIME TO CRASH INTO SOMETHING!");
+			driveDestructionPath();
+			return true;
+		}
 		if(state == CarState.parked && event == CarEvent.drivingToOwner) {
 			state = CarState.driving;
 			driveToOwner();
@@ -99,18 +114,18 @@ public class CarAgent extends Vehicle implements Car {
 			parkCar();
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	//Actions
 	private void driveToOwner() {
-		
+
 		int x = ownerLocation.getX();
 		int y = ownerLocation.getY();
-		
+
 		gui.setVisible();
-		
+
 		if(x < 4 && y < 4) {
 			moveTo(3,3);
 		} else if(x > 17 && y < 4) {
@@ -133,12 +148,12 @@ public class CarAgent extends Vehicle implements Car {
 		event = CarEvent.arrivingAtOwner;
 	}
 	private void driveToDestination() {
-		
+
 		int x = cityMap.getX(destination);
 		int y = cityMap.getY(destination);
 
 		log("Driving to " + destination);
-		
+
 		if(x < 4 && y < 4) {
 			moveTo(3,3);
 		} else if(x > 17 && y < 4) {
@@ -154,20 +169,20 @@ public class CarAgent extends Vehicle implements Car {
 		} else if(y == 18) {
 			moveTo(x, 15);
 		} else { log("ERROR: Unexpected driving destination - see driveToDestination() in CarAgent."); }
-		
+
 		event = CarEvent.arrivingAtDestination;
 	}
-	
+
 	private void pickUpOwner() {
 		log("I'm here to pick you up!");
 		owner.msgImPickingYouUp(this, currentPosition);
 	}
-	
+
 	private void tellOwnerWeHaveArrived() {
 		log("We have arrived at our destination!");
 		owner.msgArrived(this, currentPosition);
 	}
-	
+
 	private void parkCar() {
 		if(aStar == null) {
 			log("Driving to nearest parking entrance.");
@@ -177,16 +192,57 @@ public class CarAgent extends Vehicle implements Car {
 		log("Parking...");
 		guiMoveFromCurrentPositionTo(parkingEntrance);
 		gui.setInvisible();
-		
+
 		event = CarEvent.none;
 	}
+
+	private void driveDestructionPath() {
+		destructionPath = (destructionPath + 1) % 8;
+		
+		gui.setVisible();
+
+		switch(destructionPath) {
+		case 0:
+			guiMoveFromCurrentPositionTo(new Position(17, 8));
+			break;
+		
+		case 1:
+			guiMoveFromCurrentPositionTo(new Position(17, 14));
+			break;
+			
+		case 2: 
+			guiMoveFromCurrentPositionTo(new Position(8, 14));
+			break;
+		
+		case 3:
+			guiMoveFromCurrentPositionTo(new Position(4, 14));
+			break;
+			
+		case 4:
+			guiMoveFromCurrentPositionTo(new Position(4, 4));
+			break;
+			
+		case 5:
+			guiMoveFromCurrentPositionTo(new Position(10, 4));
+			break;
+
+		case 6:
+			guiMoveFromCurrentPositionTo(new Position(17, 4));
+			break;
+			
+		case 7: 
+			guiMoveFromCurrentPositionTo(new Position(4, 9));
+			break;
+		}
 	
+	}
+
 	private void log(String msg){
 		print(msg);
 		if(!test)
 			ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
-	
+
 	public void thisIsATest() {
 		test = true;
 	}

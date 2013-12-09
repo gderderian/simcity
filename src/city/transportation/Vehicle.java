@@ -56,8 +56,9 @@ public abstract class Vehicle extends Agent {
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
-		if(aStar == null)
+		if(aStar == null) {
 			return;
+		}
 		//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
 		AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
@@ -71,6 +72,7 @@ public abstract class Vehicle extends Agent {
 				e.printStackTrace();
 			}
 			
+			print("Trying to find a path again!");
 			aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
 		}
 		List<Position> path = aStarNode.getPath();
