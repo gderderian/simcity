@@ -180,6 +180,10 @@ public class PersonAgent extends Agent implements Person{
 	public String getName(){
 		return name;
 	}
+	
+	public HouseInterface getHouse(){
+		return house;
+	}
 
 	public void setGoToRestaurant(){	//for testing purposes
 		goToRestaurantTest = true;
@@ -317,7 +321,7 @@ public class PersonAgent extends Agent implements Person{
 			log("It's time for me to go to work!");
 		}
 		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
+				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
@@ -367,6 +371,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 	//From house
 	public void msgImBroken(String type) {
+		log("Oh no, my " + type + " broke!");
 		appliancesToFix.add(new MyAppliance(type));
 		stateChanged();
 	}
@@ -388,6 +393,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgFoodDone(String food) {
 		log.add(new LoggedEvent("Recieved message food is done"));
+		log("YES, my food is done cooking!");
 		synchronized(meals){
 			for(MyMeal m : meals){
 				if(m.type == food){
@@ -408,15 +414,19 @@ public class PersonAgent extends Agent implements Person{
 		// TODO Auto-generated method stub
 		//Not sure what to do with this one - also non-norm, will assume for now that there is definitely space in fridge?
 	}
-
-	//TODO finish this function
-	public void msgApplianceBrokeCantCook() {
+	
+	public void msgApplianceBrokeCantCook(String food) {
+		log("Oh no, my appliance broke, I'll have to try to make something else.");
 		synchronized(meals){
 			for(MyMeal m : meals){
-
+				if(m.type == food){
+					m.state = FoodState.done;
+				}
 			}
 		}
-
+		synchronized(tasks){
+			tasks.add(new PersonTask(TaskType.gotHungry));
+		}
 	}
 
 	//Messages from bus/bus stop
@@ -712,7 +722,7 @@ public class PersonAgent extends Agent implements Person{
 	@SuppressWarnings("unused")
 	public void reachedDestination(PersonTask task){
 		log("I've reached my destination, now I'm going to go inside!");
-		log("My tas right now is " + task.type.toString());
+		log("My task right now is " + task.type.toString());
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
@@ -727,7 +737,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		//This is if the person is going to the restaurant to eat
-		if(task.location.contains("rest") && task.type == TaskType.gotHungry){
+		if(task.location != null && task.location.contains("rest") && task.type == TaskType.gotHungry){
 			String[] restNum = task.location.split("rest");
 			if(role != null){
 				cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
@@ -766,6 +776,9 @@ public class PersonAgent extends Agent implements Person{
 			MarketOrder o = new MarketOrder(groceryList.get(0), this);
 			cityMap.market.mktManager.msgHereIsOrder(o);
 
+		}
+		else if(task.type == TaskType.goToApartment){
+			log("Inside the goToApartment else if block");
 		}
 	}
 
@@ -856,6 +869,21 @@ public class PersonAgent extends Agent implements Person{
         	// DoGoTo("mark1", PersonTask(TaskType.goToMarket));
         	
         	
+		}
+		else if(name.equals("brokenApplianceTest")){
+			List<Food> groceries= new ArrayList<Food>();
+			Food chicken= new Food("Chicken");
+			groceries.add(chicken);
+			
+			if(!atHome){
+				goHome();
+			}
+			homeGui.goToFridge();         
+			try{
+				atDestination.acquire();
+			} catch (InterruptedException e){}
+			house.boughtGroceries(groceries);
+			house.checkFridge("Chicken");
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
@@ -975,7 +1003,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void notifyLandlordBroken(MyAppliance a){
 		log("Telling landlord that appliance " + a.type + " is broken");
-		landlord.msgFixAppliance(this, a.type);
+		house.getLandlord().msgFixAppliance(this, a.type);
 		a.state = ApplianceState.beingFixed;
 	}
 
@@ -1204,15 +1232,28 @@ public class PersonAgent extends Agent implements Person{
 
 	public void cookMeal(MyMeal meal){
 		log.add(new LoggedEvent("Cooking meal"));
+		Food temp= new Food(meal.type);
+		if(temp.appliance.equals("Stove")){
+			homeGui.goToStove();
+		} else if(temp.appliance.equals("Microwave")){
+			homeGui.goToMicrowave();
+		} else if(temp.appliance.equals("Oven")){
+			homeGui.goToOven();
+		}
+		try{
+			atDestination.acquire();
+		} catch (InterruptedException e){}
 		house.cookFood(meal.type);
 		meal.state = FoodState.cooking;
-		//TODO add gui
 	}
 
 	public void eatMeal(MyMeal m){
 		log.add(new LoggedEvent("Eating meal"));
-		//TODO make gui function
-		//gui.eatMeal();
+		log("My food is done cooking, eating my meal now");
+		homeGui.goToTable();
+		try{
+			atDestination.acquire();
+		} catch (InterruptedException e){}
 		meals.remove(m);
 	}
 
@@ -1234,7 +1275,7 @@ public class PersonAgent extends Agent implements Person{
 		guiMoveFromCurrentPositionTo(p);
 	}
 
-	void DoGoTo(String location, PersonTask task) {
+	public void DoGoTo(String location, PersonTask task) {
 		if(test)
 			return;
 
