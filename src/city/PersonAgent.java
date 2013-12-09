@@ -215,6 +215,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void setRoleInactive(Role r){
+		log("Settign my role inactive");
 		synchronized(roles){
 			for(Role role : roles){
 				if(role == r){
@@ -224,6 +225,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		synchronized(tasks){
 			for(PersonTask task : tasks){
+				log("Role name: " + r.getRoleName() + "   task role name: " + task.role);
 				if(task.role.equals(r.getRoleName())){
 					//tasks.remove(task);
 					//this is called in reachedDestination
@@ -326,7 +328,13 @@ public class PersonAgent extends Agent implements Person{
 			log("It's time for me to go to work!");
 		}
 		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
+			synchronized(tasks){
+				tasks.add(new PersonTask(TaskType.gotHungry));
+			}
+			log("It's time for me to eat something.");
+		}
+		else if(t > 5000 && t < 7000 && name.equals("brokenApplianceTest")){
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
@@ -479,6 +487,7 @@ public class PersonAgent extends Agent implements Person{
 
 	//from landlord
 	public void msgFixed(String appliance) {
+		log("Yes! My " + appliance + " was fixed!");
 		synchronized(appliancesToFix){
 			for(MyAppliance a : appliancesToFix){
 				if(a.type == appliance){
@@ -790,22 +799,29 @@ public class PersonAgent extends Agent implements Person{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
 
-			//MarketOrder o = new MarketOrder(groceryList.get(0), this);
-			//cityMap.mark1.mktManager.msgHereIsOrder(o);
+			OrderItem oItem = new OrderItem("Chicken", 3);
+			List<OrderItem> oItemList = new ArrayList<OrderItem>();
+			oItemList.add(oItem);
+			
+			MarketOrder o = new MarketOrder(oItemList, this);
+			log("Current order size in personagent pre-send is:" + o.orders.size());
+			cityMap.mark1.mktManager.msgHereIsOrder(o);
 
 		}
 		else if(task.type == TaskType.goToApartment){
-			log("Inside the goToApartment else if block, my current role is " + task.role);
+			tasks.add(task);
 			for(Role r : roles){
 				if(r.getRoleName().contains("Landlord")){
 					r.setActive();
 					role = r;
+					task.role= "LandlordRole";
 					break;
 				}
 			}
 			if(role != null){
 				((LandlordRole)role).setGuiActive();
-				log("My role wasn't null, yay! Time to work");
+				role.getGui().setPresent(true);
+				log("Time to work");
 			}
 		}
 		
@@ -1278,6 +1294,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void DoGoTo(String location, PersonTask task) {
+		
 		if(test)
 			return;
 
@@ -1578,12 +1595,15 @@ public class PersonAgent extends Agent implements Person{
 		test = true;
 	}
 
-	@Override
 	public void msgHereIsYourOrder(MarketOrder order) {
 		log("Yay, I got my order back!");
-		List<OrderItem> o= order.orders;
-		Food f= new Food(o.get(0).type);
-		List<Food> groceries= new ArrayList<Food>();
+		List<OrderItem> o = order.orders;
+		
+		log("Final: " + order.orders.size());
+		
+		Food f = new Food(o.get(0).name);
+		
+		List<Food> groceries = new ArrayList<Food>();
 		groceries.add(f);
 		house.boughtGroceries(groceries);
 	}

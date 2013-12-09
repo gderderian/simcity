@@ -922,10 +922,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("marketClient", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
+		//addPerson("marketWorker", "Market Worker");
 
 	}
 
@@ -936,11 +936,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runLandlordTest(){
 		addPerson("Landlord", "Landlord1");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");

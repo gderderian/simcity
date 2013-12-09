@@ -616,11 +616,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		/* Check if the person lives in an apartment and add them to the correct tenant list */
 		if((p.house != null) && (!job.contains("Landlord"))){
-			if((p.house.getNum() >= 22) && (p.house.getNum() <= 42)){
-				System.out.println("Adding tenant, the landlord should now log this"); 
+			if((p.house.getNum() >= 21) && (p.house.getNum() <= 41)){
 				apart1.addTenant(p);
 			 }
-			 else if((p.house.getNum() >= 43) && (p.house.getNum() <= 62)){
+			 else if((p.house.getNum() >= 42) && (p.house.getNum() <= 62)){
 				apart2.addTenant(p);
 			 }
 		}
