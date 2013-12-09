@@ -14,7 +14,7 @@ public class BankCustomerRole extends Role{
 	
 	String roleName = "BankCustomerRole";
 
-        public enum state {arrived, waiting, inprogress, gotobankteller, openaccount, withdraw, deposit, leave, getloan, paybackloan, openaccountsuccessful, depositintoaccountsuccessful, withdrawfromaccountsuccessful, getloansuccessful};
+        public enum state {arrived, waiting, inprogress, gotobankteller, atstation, openaccount, withdraw, deposit, leave, getloan, paybackloan, openaccountsuccessful, depositintoaccountsuccessful, withdrawfromaccountsuccessful, getloansuccessful, withdrawalfailed};
         public int bankaccountnumber;
         state bankcustomerstate;
         BankTellerRole mybankteller;
@@ -22,8 +22,10 @@ public class BankCustomerRole extends Role{
         double withdrawal;
         double loan;
         double paybackloan;
+        double failedwithdrawal;
         public double amountofcustomermoney;
         int stationnumber;
+        boolean needloan;
         //public int customeraccountnumber;
         public Semaphore atBankStation = new Semaphore(0,true);
         public Semaphore atBankLobby = new Semaphore(0,true);
@@ -43,6 +45,7 @@ public class BankCustomerRole extends Role{
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
                 bankaccountnumber = 0;
+                needloan = true;
                 //this.person = setperson;
                 //this.name = setperson.getName();
                 //stateChanged();
@@ -103,13 +106,6 @@ public class BankCustomerRole extends Role{
                 person.stateChanged();        
         }
         
-        public void msgLeaveBank()
-        {
-                //animation state change
-                bankcustomerstate = state.leave;
-                person.stateChanged();
-                
-        }
 
         public void msgOpenAccountDone(int setcustomeraccountnumber) 
         {
@@ -146,9 +142,12 @@ public class BankCustomerRole extends Role{
                 person.stateChanged();
         }
 
-        public void msgWithdrawalFailed() 
+        public void msgWithdrawalFailed(double failedwithdrawal) 
         {
-                // TODO Auto-generated method stub
+                log("failed to withdraw amount " + failedwithdrawal);
+        		bankcustomerstate = state.withdrawalfailed;
+                this.failedwithdrawal = failedwithdrawal;
+                person.stateChanged();
                 
         }
 
@@ -184,31 +183,67 @@ public class BankCustomerRole extends Role{
         	
         		//log("!!!!!!!!!!!! I'm in customer scheduler !!!!!!!");
                 
+        		log("!!!!!!!!!!!!!!!!! state " + bankcustomerstate);
+        		
+        		 
+        		log("!!!!!!!!!!!!!!!!! amount of customer money" + amountofcustomermoney);
+        		
         		if(bankcustomerstate == state.gotobankteller)
         		{
         			
         			log("I'm going to bank teller station");
         			guiGoToBankTellerStation(stationnumber);
-        			bankcustomerstate = state.waiting;
-        			log("!!!!!!!!!!!!!!!!!  Bank Account Number " + bankaccountnumber);
-        			if(bankaccountnumber == 0)
-        			{
-        				//bankcustomerstate = state.openaccount;
+        			bankcustomerstate = state.atstation;
+        			return true;
+        		}
+        		
+        		if(bankcustomerstate == state.atstation && bankaccountnumber == 0)
+        		{
+        	
         				 mybankteller.msgOpenAccount();
                          bankcustomerstate = state.waiting;
                          gui.openaccount = true;
                          return true;
-        			}
-        			else if(amountofcustomermoney >= 50)
-        			{
-        				bankcustomerstate = state.deposit;
-        			}
-        			
-        					
-        			return true;
         		}
+        		
+        		if(bankcustomerstate == state.atstation && amountofcustomermoney >= 50)
+        		{	
+        				mybankteller.msgDepositIntoAccount(amountofcustomermoney/2);
+        				bankcustomerstate = state.waiting;
+        				gui.deposit = true;
+        				return true;
+        		}     			
         	
-        	
+        		
+        		
+        		if(bankcustomerstate == state.atstation && amountofcustomermoney <= 50)
+        		{
+        				mybankteller.msgWithdrawFromAccount(amountofcustomermoney);
+        				bankcustomerstate = state.waiting;
+        				gui.deposit = true;
+        				return true;   			
+        		}
+        		
+        		if(bankcustomerstate == state.atstation && needloan == true)
+        		{
+        				double amountofloanrequested = amountofcustomermoney * 2;
+        				mybankteller.msgGetLoan(amountofloanrequested);
+        				bankcustomerstate = state.waiting;
+        				gui.deposit = true;
+        				return true;   			
+        		}
+        		
+        		
+        		if(bankcustomerstate == state.withdrawalfailed)
+        		{
+        			this.failedwithdrawal /= 2;
+        			mybankteller.msgWithdrawFromAccount(amountofcustomermoney);
+    				bankcustomerstate = state.waiting;
+    				gui.deposit = true;
+    				return true;   			
+        		}
+        		
+        		/*
                 if(bankcustomerstate == state.openaccount)
                 {
                 		Do("i'm opening an account");
@@ -251,24 +286,59 @@ public class BankCustomerRole extends Role{
                         bankcustomerstate = state.waiting;
                         return true;
                 }
-                
+                */
                 if(bankcustomerstate == state.openaccountsuccessful)
                 {
                        	log("I recevied my account number: " + this.bankaccountnumber);
                 		log.add(new LoggedEvent("receivedaccountnumber"));
                         person.msgSetBankAccountNumber(this.bankaccountnumber);
-                        bankcustomerstate = state.waiting;
-                        return true;        
-                }
-                
+                        gui.openaccount = false;
+                        if(needloan == true)
+                        {
+                        	Do("!!!!!!!!!!!!!!! I requested loan");
+                        	double amountofloanrequested = amountofcustomermoney * 2;
+            				mybankteller.msgGetLoan(amountofloanrequested);
+            				gui.deposit = true;
+            				//return true;   			
+                        		
+                        }
+                        
+                        else if(amountofcustomermoney >= 500)
+                        {
+                        	gui.deposit = true;
+                        	double amounttodeposit = amountofcustomermoney/2;
+                        	mybankteller.msgDepositIntoAccount(amounttodeposit);
+                        }
+                        
+                        else
+                        {
+                        
+                        	mybankteller.msgBankCustomerLeaving();
+                        	log("My wallet after depositing into my account : " + amountofcustomermoney);
+                        	guiLeaveBank();
+                        	gui.setPresent(false);
+                        	person.setRoleInactive(this);
+                            //bankcustomerstate = state.waiting;
+                    
+                        }
+                        //return true;        
+                 }                
                 if(bankcustomerstate == state.depositintoaccountsuccessful)
                 {
-                		Do("I successfully deposited money into my account");
-                        log.add(new LoggedEvent("successfullydeposittedintoaccount"));
-                        this.amountofcustomermoney -= this.deposit;
-                        person.msgBalanceAfterDepositingIntoAccount(this.amountofcustomermoney);
-                        bankcustomerstate = state.waiting;
-                        return true;        
+                	    
+                		this.amountofcustomermoney -= this.deposit;
+                		gui.deposit = false;
+                		log("I successfully deposited money into my account");
+                		log("My wallet after depositing into my account : " + amountofcustomermoney);
+                		log.add(new LoggedEvent("successfullydeposittedintoaccount"));
+                		mybankteller.msgBankCustomerLeaving();
+                		person.msgBalanceAfterDepositingIntoAccount(this.amountofcustomermoney);
+                        guiLeaveBank();
+                    	gui.setPresent(false);
+                    	person.setRoleInactive(this);
+                    
+                        //bankcustomerstate = state.waiting;
+                        //return true;        
                 }
                 
                 if(bankcustomerstate == state.withdrawfromaccountsuccessful)
@@ -277,19 +347,29 @@ public class BankCustomerRole extends Role{
                         log.add(new LoggedEvent("successfullywithdrewfromaccount"));
                         this.amountofcustomermoney += this.withdrawal;
                         person.msgBalanceAfterWithdrawingFromAccount(this.amountofcustomermoney);
-                        bankcustomerstate = state.waiting;
-                        return true;        
+                        mybankteller.msgBankCustomerLeaving();
+                        guiLeaveBank();
+                    	gui.setPresent(false);
+                    	person.setRoleInactive(this);
+                     
+                        //bankcustomerstate = state.waiting;
+                        //return true;        
                 }
                 
                 if(bankcustomerstate == state.getloansuccessful)
                 {
-                		Do("I sucessfully received loan");
+                		log("I received a loan of $" + this.loan);
                         this.amountofcustomermoney += this.loan;
                         person.msgBalanceAfterGetitngLoanFromAccount(this.amountofcustomermoney);
-                        bankcustomerstate = state.waiting;
-                        return true;        
+                        mybankteller.msgBankCustomerLeaving();
+                        guiLeaveBank();
+                    	gui.setPresent(false);
+                    	person.setRoleInactive(this);
+                  
+                        //bankcustomerstate = state.waiting;
+                        //return true;        
                 }
-                
+                /*
                 if(bankcustomerstate == state.leave)
                 {
                 		Do("I'm leaving");
@@ -298,13 +378,12 @@ public class BankCustomerRole extends Role{
                         bankcustomerstate = state.waiting;
                         return true;
                 }
-                
-              //gui.gotohomeposition();
+               */ 
+        
                 
                 return false;
+        
         }
-
-
         public Gui getGui() {
            
                 return this.gui;
@@ -345,6 +424,8 @@ public class BankCustomerRole extends Role{
         
         public void guiLeaveBank()
         {
+        	
+        	Do("I'm leaving bank");
         	gui.leaveBank();
         	try {
     			atBankLobby.acquire();
@@ -353,6 +434,7 @@ public class BankCustomerRole extends Role{
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
+        	Do("I left bank!");
         	
         }
         

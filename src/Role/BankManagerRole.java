@@ -12,6 +12,7 @@ import city.Bank;
 //import restaurant.BankAgent.bankstate;
 import city.account;
 import city.gui.Bank.BankManagerRoleGui;
+import Role.BankManagerRole.customerstate;
 import Role.BankTellerRole;
 import Role.BankCustomerRole;
 import Role.Role;
@@ -88,6 +89,22 @@ public class BankManagerRole extends Role{
 		log.add(new LoggedEvent("msgCustomerLeft"));
 		Do("customer just left");
 		this.leavingcustomer = leavingcustomer;
+		synchronized(customers)
+		{
+
+			for(mycustomer customer: customers)
+			{
+				if(customer.customer == this.leavingcustomer)
+				{
+					
+					customers.remove(customer);
+					log.add(new LoggedEvent("customerremoved"));
+
+				}
+
+			}
+
+		}
 		this.freebankteller = bankteller;
 		state = bankmanagerstate.customerleft;
 		person.stateChanged();
@@ -192,6 +209,8 @@ public class BankManagerRole extends Role{
 								bankteller.bankteller.msgAssignMeCustomer(customer.customer);
 								Do("assign bankteller to customer: " + customer.customer.person.getName());
 								customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
+								//new line
+								customers.remove(customer);
 								customer.state = customerstate.beingserved;
 								bankteller.state = banktellerstate.busy;
 								//customer.customer.msgOpenAccount();
@@ -253,10 +272,10 @@ public class BankManagerRole extends Role{
 
 			return true;
 		}
-
+		
 		if(state == bankmanagerstate.customerleft)
 		{
-
+			/*
 			synchronized(customers)
 			{
 
@@ -267,14 +286,14 @@ public class BankManagerRole extends Role{
 						
 						customers.remove(leavingcustomer);
 						log.add(new LoggedEvent("customerremoved"));
-						return true;
+						//return true;
 
 					}
 
 				}
 
 			}
-
+			*/
 			synchronized(banktellers)
 			{
 
@@ -285,13 +304,13 @@ public class BankManagerRole extends Role{
 
 						freebankteller.state = banktellerstate.free;
 						log.add(new LoggedEvent("banktellerfree"));
-						return true;
+						//return true;
 					}
 				}
 
 			}
 
-			//return true;
+			return true;
 
 		}
 
