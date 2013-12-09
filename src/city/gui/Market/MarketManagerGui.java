@@ -14,8 +14,8 @@ public class MarketManagerGui implements Gui {
 	
 	boolean isPresent = false;
     
-    private int xPos = 230, yPos = 445;
-    public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
+    private int xPos = -20, yPos = -20;
+    public int xDestination = 275, yDestination = 250, host_tableX, host_tableY;
     
     private static final int COOK_SIZE_X = 20;
     private static final int COOK_SIZE_Y = 20;
@@ -79,7 +79,7 @@ public class MarketManagerGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.YELLOW);
+        g.setColor(Color.GREEN);
         g.fillRect(xPos, yPos, COOK_SIZE_X, COOK_SIZE_Y);
 		if (!carryingOrderText.equals("")){
 			g.drawString(carryingOrderText, xPos, yPos);

@@ -916,6 +916,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("marketClient", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
 
 	}
 
