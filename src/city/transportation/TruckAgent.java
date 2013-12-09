@@ -119,7 +119,7 @@ public class TruckAgent extends Vehicle {
 	}
 	
 	private void DriveToMarket() {
-		String dest = market.getBuilding();
+		String dest = market.getMarketName();
 		
 		int x = cityMap.getX(dest);
 		int y = cityMap.getY(dest);

@@ -469,7 +469,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}        
 
 	public void addVehicle(String type, AStarTraversal aStarTraversal) {
-		if(type == "bus") {
+		if(type.equals("bus")) {
 			BusAgent newBus = new BusAgent(aStarTraversal, controlPanel.getCityMap());
 			newBus.addBusStops(controlPanel.getBusStops());
 			vehicles.add(newBus);
@@ -482,7 +482,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			newBus.startThread();   
 		}
 		
-		if(type == "truck") {
+		if(type.equals("truck")) {
 			TruckAgent newTruck = new TruckAgent(aStarTraversal, controlPanel.getCityMap());
 			vehicles.add(newTruck);
 			VehicleGui g = new VehicleGui(newTruck);
@@ -666,6 +666,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					rest1.addWaiters((Restaurant1WaiterRole) r);
 				}
 				else if(r instanceof Restaurant1CookRole){
+					((Restaurant1CookRole) r).addMarket(market1.getMarketManager());
 					rest1.setCook((Restaurant1CookRole) r);
 					p.setRoleActive(r);
 					gui.setInvisible();

@@ -61,6 +61,18 @@ public abstract class Vehicle extends Agent {
 		//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
 		AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+		
+		//If a path is not found, sleep for .5 seconds and then try again.
+		while(aStarNode == null) {
+			try {
+				Thread.sleep(500);
+				aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		List<Position> path = aStarNode.getPath();
 		Boolean firstStep   = true;
 		Boolean gotPermit   = true;
