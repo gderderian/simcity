@@ -324,26 +324,29 @@ public class PersonAgent extends Agent implements Person{
 	//TODO fix this
 
 	public void msgTimeUpdate(int t, int hour){
-		/*
-		if(hour == 2 && (currentHour != hour)){
+		
+		if(hour == 1 && (currentHour != hour)){
 			currentHour = hour;
 			
-			//if(myJob != null){
-			//	PersonTask task = new PersonTask(TaskType.goToWork);
-			//	schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
-			//}
+			if(myJob != null){
+				PersonTask task = new PersonTask(TaskType.goToWork);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+			}
+			/*
 				PersonTask newTask = new PersonTask(TaskType.gotHungry);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
-				log("Adding got hungry task");
+				log("Adding got hungry task");*/
+				
 		}
+		/*
 		if(hour == 4 && (currentHour != hour)){
 			currentHour = hour;
 				PersonTask newTask = new PersonTask(TaskType.goToMarket);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
 				log("Adding go to market task");
 		}
-		*/
-		
+			*/
+		/*
 		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
 			synchronized(tasks){
 				PersonTask task = new PersonTask(TaskType.goToWork);
@@ -355,43 +358,36 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 			log("It's time for me to go to work!");
-		}
-		else if(t > 19000 && t < 21000 && (name.equals("rest2Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe"))){
+		}*/
+		if(hour == 3 && currentHour != hour && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+			currentHour = hour;
 			synchronized(tasks){
 				tasks.add(new PersonTask(TaskType.gotHungry));
 			}
 			log("It's time for me to eat something.");
 		}
-		else if(t > 5000 && t < 7000 && name.equals("brokenApplianceTest")){
-			synchronized(tasks){
-				tasks.add(new PersonTask(TaskType.gotHungry));
-			}
-			log("It's time for me to eat something.");
-		}
-		else if(t > 5000 && t < 7000 && name.equals("rest1Test")) {
-			synchronized(tasks){
-				tasks.add(new PersonTask(TaskType.gotHungry));
-			}
-			log("It's time for me to eat something.");
-		}
-		else if(t > 19000 && t < 21000 && (name.equals("bankCustomerTest")))
+		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest")))
 		{
+			currentHour = hour;
 			synchronized(tasks) {
 				tasks.add(new PersonTask(TaskType.goToBank));
 			}
 			log("It's time for me to go to bank.");
 
-		} else if(t > 10000 && t < 13000 && (name.equals("marketClient")))
+		} else if(hour == 4 && currentHour != hour && (name.equals("marketClient")))
 		{
+			currentHour = hour;
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				task.role = "MarketCustomer";
 				tasks.add(task);
 			}
 			log("It's time for me to buy something from the market.");
-
-		} else if(t > 4000 && t < 7020 && (name.equals("marketManager")))
+		} 
+		/*
+		* Dont need these two functions
+		else if(t > 4000 && t < 7020 && (name.equals("marketManager")))
 		{
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToWork);
@@ -408,8 +404,9 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(task);
 			}
 			log("It's time for me to do my job as a worker at the market.");
-
-		} else if(t > 3000 && t < 5000){
+		}*/ 
+		else if(hour == 2 && currentHour != hour){
+			currentHour = hour;
 			synchronized(roles){
 				for(Role role : roles){
 					if(role.getRoleName().contains("Landlord")){
@@ -762,7 +759,7 @@ public class PersonAgent extends Agent implements Person{
 	//ACTIONS
 	public void goHome(){
 		if(!atHome){
-			log("Going home");
+			//log("Going home");
 			if(house != null){
 				String location;
 				if(house.getName().contains("apart1")){
