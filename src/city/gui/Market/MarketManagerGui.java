@@ -12,7 +12,7 @@ public class MarketManagerGui implements Gui {
 
 	MarketGui gui;
 	
-	boolean isPresent = true;
+	boolean isPresent = false;
     
     private int xPos = 230, yPos = 445;
     public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
@@ -79,7 +79,7 @@ public class MarketManagerGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.YELLOW);
         g.fillRect(xPos, yPos, COOK_SIZE_X, COOK_SIZE_Y);
 		if (!carryingOrderText.equals("")){
 			g.drawString(carryingOrderText, xPos, yPos);

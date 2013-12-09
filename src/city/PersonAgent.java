@@ -356,8 +356,9 @@ public class PersonAgent extends Agent implements Person{
 		} else if(t > 4000 && t < 7020 && (name.equals("marketWorker")))
 		{
 			synchronized(tasks) {
-				tasks.add(new PersonTask(TaskType.goToWork));
-
+				PersonTask task = new PersonTask(TaskType.goToWork);
+				task.role = "MarketWorker";
+				tasks.add(task);
 			}
 			log("It's time for me to do my job as a worker at the market.");
 
@@ -746,6 +747,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		else if(task.type == TaskType.goToWork){
+			System.out.println("Starting job in 735 of personagent");
 			myJob.startJob();
 		}
 
@@ -766,6 +768,7 @@ public class PersonAgent extends Agent implements Person{
 			if(role != null){
 				cityMap.market.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
 				((MarketCustomerRole)role).setGuiActive();
+				role.getGui().setPresent(true);
 			}
 			else{
 				log("Couldn't find the role for task " + task.type.toString());
@@ -1503,7 +1506,7 @@ public class PersonAgent extends Agent implements Person{
 		public Job(Role r, String l){
 			role = r;
 			//location = r.getBuilding();
-			location= l;
+			location = l;
 			workStartTime = -1;
 			workEndTime = -1;
 			leaveForWork = -1;
@@ -1511,8 +1514,12 @@ public class PersonAgent extends Agent implements Person{
 
 		public void startJob(){
 			role.setActive();
+			System.out.println("Setting role active" + role.getRoleName());
 			workState = WorkState.atWork;
+			System.out.println("at work, about to check for null");
 			if(role.getGui() != null){
+				System.out.println("NOT NULL!!!!");
+				System.out.println("at work");
 				role.getGui().setPresent(true);
 			}
 			if(role instanceof BankTellerRole) {
