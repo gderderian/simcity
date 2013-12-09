@@ -36,7 +36,7 @@ public class MarketManager extends Role {
 	
 	ActivityTag tag = ActivityTag.MARKETMANAGER;
 	
-	public MarketManagerGui marketMgrGui = null;
+	MarketManagerGui marketMgrGui;
 
 	PersonAgent p;
 	
@@ -258,9 +258,8 @@ public class MarketManager extends Role {
 		return marketMgrGui;
 	}
 
-	public void setPerson(PersonAgent p2) {
-		// TODO Auto-generated method stub
-		
+	public void setPerson(PersonAgent workerPerson) {
+		p = workerPerson;
 	}
 
 }

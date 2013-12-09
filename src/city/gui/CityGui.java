@@ -36,6 +36,7 @@ import city.gui.House.LandlordGui;
 import city.gui.Market.MarketAnimationPanel;
 import city.gui.Market.MarketGui;
 import city.gui.Market.MarketManagerGui;
+import city.gui.Market.MarketWorkerGui;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -921,9 +922,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		else if(type.equals("Market Manager")){
 			
 			System.out.println("I AM AMRKET MANAGER!!!");
-			
 			Market mkt = new Market();
-			MarketManager role = new MarketManager("Joe", p, mkt);
+			MarketManager role = new MarketManager("Market ManagerJoe", p, mkt);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
@@ -933,7 +933,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			
 		}
 		else if(type.equals("Market Worker")){
-			MarketWorker role= new MarketWorker(p); 
+			System.out.println("I AM AMRKET WORKER!!!");
+			MarketWorker role = new MarketWorker(p);
+			role.setPerson(p);
+			MarketGui mktGui = new MarketGui(); 
+			MarketWorkerGui gui1 = new MarketWorkerGui(role, mktGui);
+			role.setGui(gui1);
+			market1Animation.addGui(gui1);
 			return role;
 		}
 		else if(type.equals("Market Customer")){
