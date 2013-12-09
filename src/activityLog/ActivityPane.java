@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -81,6 +82,11 @@ public class ActivityPane extends JPanel implements ActionListener {
 	Dimension menuDim = new Dimension(350, 20);
 	Dimension optionWindowDim = new Dimension(550, 400);
 	
+    private String[] buildings = {"[Filter roles by building]", "Restaurant1", "Restaurant2", "Restaurant3",
+    		"Restaurant4", "Restaurant5", "Bank", "Market", "Transportation", "House"
+    };
+    private JComboBox buildingSelect = new JComboBox(buildings);
+	
 	List<ActivityTag> visibleTags = new ArrayList<ActivityTag>();
 	
 	public ActivityPane(){
@@ -140,6 +146,8 @@ public class ActivityPane extends JPanel implements ActionListener {
 			j.addActionListener(this);
 		}
 		
+		buildingSelect.addActionListener(this);
+		
 		filterPanel.setPreferredSize(new Dimension(350, 25));
 		filterButton.setPreferredSize(new Dimension(350, 20));
 		filterButton.addActionListener(this);
@@ -159,6 +167,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 	private void setupOptionWindow(){
 		optionPanel.add(clearRolesButton);
 		optionPanel.add(selectAllRolesButton);
+		optionPanel.add(buildingSelect);
 		optionPanel.add(Box.createVerticalStrut(10));
 		clearRolesButton.addActionListener(this);
 		selectAllRolesButton.addActionListener(this);
@@ -229,6 +238,54 @@ public class ActivityPane extends JPanel implements ActionListener {
 		}
 		else if(e.getSource() == filterButton){
 			optionWindow.setVisible(true);
+		}
+		else if(e.getSource() == buildingSelect){
+			visibleTags.clear();
+			if(buildingSelect.getSelectedItem().equals("Transportation")){
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains("Bus") || j.getText().contains("Car") || j.getText().contains("Truck") || j.getText().contains("BusStop")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains("CAR") || t.toString().contains("BUS") || t.toString().contains("BUSSTOP") || t.toString().contains("TRUCK")){
+						addTagToFilter(t);
+					}
+				}
+			}
+			else if(buildingSelect.getSelectedItem().equals("House")){
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains("Landlord")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains("LANDLORD")){
+						addTagToFilter(t);
+					}
+				}
+			}
+			else{
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains((String)buildingSelect.getSelectedItem())){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains((String)buildingSelect.getSelectedItem())){
+						addTagToFilter(t);
+					}
+				}
+			}
 		}
 		else{
 			for(JCheckBox j : roleFilters){
