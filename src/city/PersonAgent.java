@@ -786,6 +786,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else if(task.type == TaskType.goToApartment){
 			log("Inside the goToApartment else if block");
+			
 		}
 		
 		//tasks.remove(task);
