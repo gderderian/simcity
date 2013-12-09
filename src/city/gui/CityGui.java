@@ -694,9 +694,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				else if(r instanceof WaiterRole4){
 					rest4.addWaiters((WaiterRole4) r);
 				}
-			}
-			
-			else if(job.contains("Restaurant5")) {
+			} else if(job.contains("Restaurant5")) {
 				p.addFirstJob(r, "rest5");
 				if(r instanceof Restaurant5HostRole) {
 					rest5.setHost((Restaurant5HostRole)r);
@@ -717,10 +715,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					rest5.addWaiters((Restaurant5WaiterRole) r);
 				}
 
-			}			
-			
-			
-			else if(job.contains("market") || job.contains("Market")) {
+			} else if(job.contains("market") || job.contains("Market")) {
 				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
 					market.addWorker((MarketWorker)r);
@@ -730,11 +725,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					market.setManager((MarketManager)r);
 					p.setRoleActive(r);
 				}
-			}
-			
-			
-			//I added this
-			else if(job.contains("Bank")) {
+			} else if(job.contains("Bank")) {
 				p.addFirstJob(r, "bank1");
 				/*
 				if(r instanceof BankTellerRole) {
@@ -748,9 +739,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					p.setRoleActive(r);
 				}
 					
-			}
-			
-			else if(job.contains("Landlord")){
+			} else if(job.contains("Landlord")){
 				if(job.equals("Landlord1")){
 					p.addFirstJob(r, "apart1");
 					
