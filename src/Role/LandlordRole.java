@@ -10,6 +10,7 @@ import city.PersonTask;
 import city.gui.House.LandlordGui;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
@@ -23,9 +24,12 @@ public class LandlordRole extends Role implements Landlord {
 	double earnings= 0.0;
 	public List<MyTenant> tenants= Collections.synchronizedList(new ArrayList<MyTenant>());
 	public EventLog log= new EventLog();
+	private Timer fix= new Timer();
 	String name;
 	PersonAgent p;
 	LandlordGui gui;
+	private Semaphore atDest= new Semaphore(0);
+	boolean setRoleInactive= false;
 	
 	ActivityTag tag = ActivityTag.LANDLORD;
 	
@@ -50,6 +54,9 @@ public class LandlordRole extends Role implements Landlord {
 		}
 	}
 	
+	public LandlordGui getGui(){
+		return gui;
+	}
 	
 	//MESSAGES
 	public void msgEndOfDay(){	
@@ -89,6 +96,7 @@ public class LandlordRole extends Role implements Landlord {
 			for(MyTenant t : tenants){
 				if(t.tenant.equals(p)){
 					t.needsMaintenance.add(a);
+					t.maintenance= true;
 				}
 			}
 		}
@@ -97,15 +105,23 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//From Animation
 	public void msgAnimationAtStove(){
-		
+		log("Reached the broken stove, fixin' time!");
+		atDest.release();
 	}
 	
 	public void msgAnimationAtOven(){
-		
+		log("Reached the broken oven, fixin' time!");
+		atDest.release();
 	}
 	
 	public void msgAnimationAtMicrowave(){
-		
+		log("Reached the broken microwave, fixin' time!");
+		atDest.release();
+	}
+	
+	public void msgAnimationExited(){
+		log("Glad I could help, goodbye!");
+		atDest.release();
 	}
 	
 	
@@ -129,6 +145,9 @@ public class LandlordRole extends Role implements Landlord {
 				}
 			}
 		}
+		if(setRoleInactive){
+			deactivate();
+		}
 		return false;
 	}
 	
@@ -142,16 +161,42 @@ public class LandlordRole extends Role implements Landlord {
 	}
 
 	private void fixAppliance(final MyTenant mt){
-		log("Fixing appliance.");
+		log("Going to fix a tenant's appliance.");
+		final String temp= mt.needsMaintenance.remove(0);
 		PersonTask pt= new PersonTask("goToApartment");
 		p.DoGoTo(mt.tenant.getHouse().getName(), pt);
-		mt.tenant.msgFixed(mt.needsMaintenance.get(0));
-		mt.needsMaintenance.remove(0);
-		log("needsMaintenance.size(): " + mt.needsMaintenance.size());
-		p.stateChanged();	
+		if(temp.equals("Stove")){
+			gui.goToStove();
+		} else if(temp.equals("Oven")){
+			gui.goToOven();
+		} else if(temp.equals("Microwave")){
+			gui.goToStove();
+		}
+		try{
+			atDest.acquire();
+		} catch(InterruptedException e){}
+		fix.schedule(new TimerTask() {
+			@Override public void run() {
+				mt.tenant.msgFixed(temp);
+				mt.maintenance= false;
+				log("All fixed, time to go home");
+				gui.goToExit();
+				try{
+					atDest.acquire();
+				} catch(InterruptedException e){}
+				gui.setPresent(false);
+				mt.house.getAnimationPanel().notInHouse(gui);
+				setRoleInactive= true;
+				p.stateChanged();
+				return;
+			}}, 4000);
 	}
 
-	
+	public void deactivate(){
+		setRoleInactive= false;
+		p.setRoleInactive(this);
+		p.setGuiVisible();
+	}
 	
 	//CLASSES
 	public class MyTenant{
@@ -160,6 +205,7 @@ public class LandlordRole extends Role implements Landlord {
 		double rate;
 		boolean paymentsUpToDate= true; 
 		boolean newPayment= false;
+		boolean maintenance= false;
 		public int numOutstandingPayments= 0;
 		public List<String> needsMaintenance= Collections.synchronizedList(new ArrayList<String>());
 	
@@ -186,8 +232,9 @@ public class LandlordRole extends Role implements Landlord {
 	}
 	
 	public void setGuiActive() {
+		log("Set gui active");
 		for(MyTenant t : tenants){
-			if(t.needsMaintenance.size() > 0){
+			if(t.maintenance){
 				t.house.getAnimationPanel().addGui(gui);
 			}
 		}
