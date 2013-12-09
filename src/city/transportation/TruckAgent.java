@@ -12,6 +12,7 @@ import astar.Position;
 import city.CityMap;
 import city.MarketOrder;
 import city.PersonAgent;
+import city.transportation.CarAgent.CarEvent;
 
 public class TruckAgent extends Vehicle {
 	//Data
@@ -93,15 +94,23 @@ public class TruckAgent extends Vehicle {
 
 	//Actions
 	private void DeliverOrder(MyMarketOrder o) {
+		if(aStar == null) {
+			log("Picking up order");
+			log("Delivering order from market to recipient");
+			o.o.getRecipient().msgHereIsYourOrder(this, o.o);
+			o.delivered = true;
+		}
+		log("Picking up order from market");
 		DriveToMarket();
+		
 		log("Going to " + o.o.destination);
-		DoGoTo(o.o.destination);
+		DriveTo(o.o.destination);
 		log("Delivering order from market to recipient");
 		o.o.getRecipient().msgHereIsYourOrder(this, o.o);
 		o.delivered = true;
-		log("Returning to market");
-		//Hack - must change to specific restaurant
-		DriveToMarket();
+		
+		parkTruck();
+		
 	}
 
 	private void ReportToMarket(MyMarketOrder o) {
@@ -132,7 +141,43 @@ public class TruckAgent extends Vehicle {
 		} else if(y == 17) {
 			moveTo(x, 15);
 		} else
-			log("ERROR: Unexpected driving destination - see driveToOwner() in CarAgent.");
+			log("ERROR: Unexpected driving destination - see driveToMarket() in TruckAgent.");
+	}
+	
+	private void DriveTo(String dest) {
+		
+		int x = cityMap.getX(dest);
+		int y = cityMap.getY(dest);
+
+		if(x < 4 && y < 4) {
+			moveTo(3,3);
+		} else if(x > 17 && y < 4) {
+			moveTo(18,3);
+		} else if(x < 4 && y > 14) {
+			moveTo(3, 15);
+		} else if(x == 0) {
+			moveTo(3, y);
+		} else if(x == 21) {
+			moveTo(18, y);
+		} else if(y == 0) {
+			moveTo(x, 3);
+		} else if(y == 18) {
+			moveTo(x, 15);
+		} else if(y == 17) {
+			moveTo(x, 15);
+		} else
+			log("ERROR: Unexpected driving destination - see driveTo(String) in TruckAgent.");
+	}
+	
+	private void parkTruck() {
+		if(aStar == null) {
+			log("Driving to nearest parking entrance.");
+			return;
+		}
+		Position parkingEntrance = cityMap.getParkingEntrance(currentPosition);
+		log("Parking...");
+		guiMoveFromCurrentPositionTo(parkingEntrance);
+		gui.setInvisible();
 	}
 
 	// Accessors
