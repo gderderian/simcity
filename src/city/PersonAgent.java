@@ -86,9 +86,6 @@ public class PersonAgent extends Agent implements Person{
 	//Other
 	List<MarketOrder> recievedOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());   //orders the person has gotten that they need to deal with
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
-	//int timeOfDay;
-	//enum TimeStatus {wakeUp, getReadyForWork, goToWork, atWork, leaveWork, nightTime};
-	//TimeStatus timeStatus = TimeStatus.wakeUp;
 	CityClock clock;
 	int currentHour;
 
@@ -96,7 +93,6 @@ public class PersonAgent extends Agent implements Person{
 	public EventLog log = new EventLog();
 	public boolean goToRestaurantTest = false;
 	public boolean test = false;
-
 	public boolean busTest = false;
 
 	//Job

@@ -3,6 +3,8 @@ package city.Restaurant2;
 import interfaces.Restaurant2Cook;
 import interfaces.Restaurant2Waiter;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -29,7 +31,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	enum OrderState {pending, cooking, done, sent};
 	enum FoodOrderState {Ordered, notOrdered};
 	Timer timer = new Timer();
-	Timer timerSpindle = new Timer();
+	javax.swing.Timer spindleTimer;
 	Map<String, Food> foods = new HashMap<String, Food>();
 	String name;
 	List<ShipmentOrder> shipmentOrders = Collections.synchronizedList(new ArrayList<ShipmentOrder>());
@@ -67,6 +69,13 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 		startCheck = true;
 
 		spindle = OrderSpindle.getInstance();
+		
+		spindleTimer = new javax.swing.Timer(2000,
+				new ActionListener() { public void actionPerformed(ActionEvent event) {
+					checkSpindle();
+					spindleTimer.restart();
+		      }
+		});
 	}
 	
 	public void addRestaurant2Market(Market m){
@@ -180,12 +189,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 			orders.add(spindle.takeOffOrder());
 			log("Found an order on the spindle, I'm adding it to my list");
 		}
-		timer.schedule(new TimerTask() {
-			public void run() {
-				checkSpindle();
-			}
-		},
-		20000);
 	}
 	
 	private void PlateIt(Order o){
