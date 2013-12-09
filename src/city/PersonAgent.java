@@ -225,7 +225,8 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(tasks){
 			for(PersonTask task : tasks){
 				if(task.role.equals(r.getRoleName())){
-					tasks.remove(task);
+					//tasks.remove(task);
+					//this is called in reachedDestination
 				}
 			}
 		}
@@ -535,11 +536,12 @@ public class PersonAgent extends Agent implements Person{
 			for(Role r : roles){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
+					return anytrue;
 				}
 			}
-			if(anytrue){
-				return anytrue;
-			}
+			//if(anytrue){
+			//	return anytrue;
+			//}
 
 		}
 		synchronized(tasks){
@@ -685,8 +687,13 @@ public class PersonAgent extends Agent implements Person{
 		//go home if there is nothing else to do
 		synchronized(tasks){
 			if(tasks.isEmpty()){
+				//log("Tasks is empty");
+				if(name.equals("rest2Test")){
+					log("Tasks is empty");
+				}
 				List<PersonTask> dayTasks = schedule.getDayTasks(clock.getDayOfWeekNum());
 				if(dayTasks.isEmpty()){
+					//log("No more tasks in schedule");
 					if(!atHome){
 						if(house != null){
 							goHome();
@@ -802,7 +809,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		//tasks.remove(task);
+		tasks.remove(task);
 	}
 
 	public void goToWork(PersonTask task){

@@ -1,6 +1,7 @@
 package activityLog;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ActivityLog {
@@ -23,9 +24,14 @@ public class ActivityLog {
 	 * Also gets added to newActivities, which gets used when updating the activity log panel
 	 */
 	public void logActivity(ActivityTag t, String m, String n){
-		activity a = new activity(t, m, n);
+		Date d = new Date();
+		activity a = new activity(t, m, n, d);
 		log.add(a);
 		pane.addActivity(a);
+	}
+	
+	public List<activity> getLog(){
+		return log;
 	}
 
 }
