@@ -1,6 +1,9 @@
 package Role;
 import java.util.concurrent.Semaphore;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
+
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Bank;
@@ -27,6 +30,9 @@ public class BankTellerRole extends Role {
 	state banktellerstate;
 	public BankTellerRoleGui gui;
 	public EventLog log = new EventLog();
+
+	ActivityTag tag = ActivityTag.BANKTELLER;
+
 	PersonAgent person;
 	int stationnumber;
 
@@ -37,7 +43,6 @@ public class BankTellerRole extends Role {
 
 		//this.banktellerrole = assignbanktellerrole;
 		this.bankmanager = assignbankmanager;
-
 	}
 
 	public void msgGoToBankTellerStation(int banktellerstationnumber)
@@ -93,7 +98,7 @@ public class BankTellerRole extends Role {
 
 	public void msgPayBackLoan(double paybackloan)
 	{
-		
+
 		Do("customer wants to pay back his loan");
 		this.paybackloan = paybackloan;
 		banktellerstate = state.paybackloan;
@@ -109,9 +114,6 @@ public class BankTellerRole extends Role {
 
 
 	public boolean pickAndExecuteAnAction() {
-
-
-		Do("!!!!!!!!!!!!!!!!!!!!!!  i'm in the bankteller scheduler");
 
 		if(banktellerstate == state.gotobanktellerstation)
 		{
@@ -254,13 +256,13 @@ public class BankTellerRole extends Role {
 				{
 					if(findaccount.accountnumber == currentcustomeraccountnumber)
 					{        
-						
-						
-						
+
+
+
 						findaccount.loan -= paybackloan;
 						currentcustomer.msgLoanPaidBack(paybackloan, findaccount.loan);
-						
-						
+
+
 						// this is more advanced loan system.
 						double oldestloanamount;
 						double subtotal;
@@ -275,7 +277,7 @@ public class BankTellerRole extends Role {
 							{
 								currentcustomer.msgLoanPaid(findaccount.loans.get(i).loanamount,findaccount.loans.get(i).lendtime, findaccount.loans.get(i).interestrate);
 								findaccount.loans.remove(i);
-								
+
 							}
 							subtotal *= -1;
 							paybackloan = subtotal;        
@@ -338,6 +340,10 @@ public class BankTellerRole extends Role {
 		return roleName;
 	}
 
+	private void log(String msg){
+		print(msg);
+		ActivityLog.getInstance().logActivity(tag, msg, name);
+	}
 
 
 

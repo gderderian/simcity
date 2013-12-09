@@ -670,10 +670,9 @@ public class PersonAgent extends Agent implements Person{
 
 		synchronized(tasks){
 			if(tasks.isEmpty()){
-				if(house != null) {
+				if(house != null)
 					goHome();
-					return true;}
-				//should we return true here?
+				//should we return true here? NO!
 			}
 		}
 		return false;
@@ -1468,7 +1467,10 @@ public class PersonAgent extends Agent implements Person{
 				role.getGui().setPresent(true);
 			}
 			if(role instanceof BankTellerRole) {
-				//TODO fill this in
+						log("Bank teller is at the bank");
+						//bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) findrole);
+						//this.setRoleActive(findrole);
+						cityMap.msgArrivedAtBank(role);
 			}
 		}
 
