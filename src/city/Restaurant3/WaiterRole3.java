@@ -14,7 +14,7 @@ import city.gui.Restaurant3.WaiterGui3;
 /**
  * Restaurant Waiter Agent
  */
-public class WaiterRole3 extends Role {
+public abstract class WaiterRole3 extends Role {
 	
 	String roleName = "Restaurant3WaiterRole";
 	
@@ -29,8 +29,8 @@ public class WaiterRole3 extends Role {
 	public int homeX = 430;
 	public int homeY = 230;
 	
-	private WaiterGui3 waiterGui;
-	private Semaphore isAnimating = new Semaphore(0,true);
+	protected WaiterGui3 waiterGui;
+	protected Semaphore isAnimating = new Semaphore(0,true);
 	Timer breakTimer;
 	
 	public test.mock.EventLog evtLog;
@@ -306,18 +306,7 @@ public class WaiterRole3 extends Role {
 		c.state = CustomerState.Ordering;
 	}
 
-	private void sendToKitchen(MyCustomer c, String choice){
-		log("Sending order " + choice + " from customer " + c.customer.getName() + " to kitchen.");
-		c.state = CustomerState.WaitingForFood;
-		waiterGui.setDestination(225, 390);
-		waiterGui.beginAnimate();
-		try {
-			isAnimating.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		myCook.hereIsOrder(choice, this, c.tableNum);
-	}
+	abstract void sendToKitchen(MyCustomer c, String choice);
 
 	public void seatCustomer(MyCustomer c){
 
@@ -552,7 +541,7 @@ public class WaiterRole3 extends Role {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
 	@Override

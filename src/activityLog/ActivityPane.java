@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -29,39 +31,65 @@ public class ActivityPane extends JPanel implements ActionListener {
 	private JTextPane textPane;
 	Style commentStyle;
 	Style nameStyle;
+	Style personNameStyle;
+	Style personCommentStyle;
 	StyledDocument styledDoc;
-	JMenuBar menuBar = new JMenuBar();
-	JMenu roleOptions = new JMenu("Filer by Role");
-	JCheckBoxMenuItem rest1customer = new JCheckBoxMenuItem("Restaurant1 Customer Role");
-	JCheckBoxMenuItem rest1waiter = new JCheckBoxMenuItem("Restaurant1 Waiter Role");
-	JCheckBoxMenuItem rest1host = new JCheckBoxMenuItem("Restaurant1 Host Role");
-	JCheckBoxMenuItem rest1cook = new JCheckBoxMenuItem("Restaurant1 Cook Role");
-	JCheckBoxMenuItem rest1cashier = new JCheckBoxMenuItem("Restaurant1 Cashier Role");
-	JCheckBoxMenuItem rest2customer = new JCheckBoxMenuItem("Restaurant2 Customer Role");
-	JCheckBoxMenuItem rest2waiter = new JCheckBoxMenuItem("Restaurant2 Waiter Role");
-	JCheckBoxMenuItem rest2host = new JCheckBoxMenuItem("Restaurant2 Host Role");
-	JCheckBoxMenuItem rest2cook = new JCheckBoxMenuItem("Restaurant2 Cook Role");
-	JCheckBoxMenuItem rest2cashier = new JCheckBoxMenuItem("Restaurant2 Cashier Role");
-	JCheckBoxMenuItem rest3customer = new JCheckBoxMenuItem("Restaurant3 Customer Role");
-	JCheckBoxMenuItem rest3waiter = new JCheckBoxMenuItem("Restaurant3 Waiter Role");
-	JCheckBoxMenuItem rest3host = new JCheckBoxMenuItem("Restaurant3 Host Role");
-	JCheckBoxMenuItem rest3cook = new JCheckBoxMenuItem("Restaurant3 Cook Role");
-	JCheckBoxMenuItem rest3cashier = new JCheckBoxMenuItem("Restaurant3 Cashier Role");
-	JCheckBoxMenuItem rest4customer = new JCheckBoxMenuItem("Restaurant4 Customer Role");
-	JCheckBoxMenuItem rest4waiter = new JCheckBoxMenuItem("Restaurant4 Waiter Role");
-	JCheckBoxMenuItem rest4host = new JCheckBoxMenuItem("Restaurant4 Host Role");
-	JCheckBoxMenuItem rest4cook = new JCheckBoxMenuItem("Restaurant4 Cook Role");
-	JCheckBoxMenuItem rest4cashier = new JCheckBoxMenuItem("Restaurant4 Cashier Role");
-	JCheckBoxMenuItem rest5customer = new JCheckBoxMenuItem("Restaurant5 Customer Role");
-	JCheckBoxMenuItem rest5waiter = new JCheckBoxMenuItem("Restaurant5 Waiter Role");
-	JCheckBoxMenuItem rest5host = new JCheckBoxMenuItem("Restaurant5 Host Role");
-	JCheckBoxMenuItem rest5cook = new JCheckBoxMenuItem("Restaurant5 Cook Role");
-	JCheckBoxMenuItem rest5cashier = new JCheckBoxMenuItem("Restaurant5 Cashier Role");
+	JPanel filterPanel = new JPanel();
+	JButton filterButton = new JButton("Filter by Role/Agent");
+	JButton clearRolesButton = new JButton("Clear all selections");
+	JButton selectAllRolesButton = new JButton("Select all roles");
+	JFrame optionWindow = new JFrame();
+	JPanel optionPanel = new JPanel();
+	JCheckBox person = new JCheckBox("Person");
+	JCheckBox rest1customer = new JCheckBox("Restaurant1Customer");
+	JCheckBox rest1waiter = new JCheckBox("Restaurant1Waiter");
+	JCheckBox rest1host = new JCheckBox("Restaurant1Host");
+	JCheckBox rest1cook = new JCheckBox("Restaurant1Cook");
+	JCheckBox rest1cashier = new JCheckBox("Restaurant1Cashier");
+	JCheckBox rest2customer = new JCheckBox("Restaurant2Customer");
+	JCheckBox rest2waiter = new JCheckBox("Restaurant2Waiter");
+	JCheckBox rest2host = new JCheckBox("Restaurant2Host");
+	JCheckBox rest2cook = new JCheckBox("Restaurant2Cook");
+	JCheckBox rest2cashier = new JCheckBox("Restaurant2Cashier");
+	JCheckBox rest3customer = new JCheckBox("Restaurant3Customer");
+	JCheckBox rest3waiter = new JCheckBox("Restaurant3Waiter");
+	JCheckBox rest3host = new JCheckBox("Restaurant3Host");
+	JCheckBox rest3cook = new JCheckBox("Restaurant3Cook");
+	JCheckBox rest3cashier = new JCheckBox("Restaurant3Cashier");
+	JCheckBox rest4customer = new JCheckBox("Restaurant4Customer");
+	JCheckBox rest4waiter = new JCheckBox("Restaurant4Waiter");
+	JCheckBox rest4host = new JCheckBox("Restaurant4Host");
+	JCheckBox rest4cook = new JCheckBox("Restaurant4Cook");
+	JCheckBox rest4cashier = new JCheckBox("Restaurant4Cashier");
+	JCheckBox rest5customer = new JCheckBox("Restaurant5Customer");
+	JCheckBox rest5waiter = new JCheckBox("Restaurant5Waiter");
+	JCheckBox rest5host = new JCheckBox("Restaurant5Host");
+	JCheckBox rest5cook = new JCheckBox("Restaurant5Cook");
+	JCheckBox rest5cashier = new JCheckBox("Restaurant5Cashier");
+	JCheckBox bankManager = new JCheckBox("BankManager");
+	JCheckBox bankTeller = new JCheckBox("BankTeller");
+	JCheckBox bankCustomer = new JCheckBox("BankCustomer");
+	JCheckBox marketCustomer = new JCheckBox("MarketCustomer");
+	JCheckBox landlord = new JCheckBox("Landlord");
+	JCheckBox marketManager = new JCheckBox("MarketManager");
+	JCheckBox marketWorker = new JCheckBox("MarketWorker");
+	JCheckBox bus = new JCheckBox("Bus");
+	JCheckBox busStop = new JCheckBox("BusStop");
+	JCheckBox car = new JCheckBox("Car");
+	JCheckBox truck = new JCheckBox("Truck");
 	
-	List<JCheckBoxMenuItem> roleFilters = new ArrayList<JCheckBoxMenuItem>();
+	List<JCheckBox> roleFilters = new ArrayList<JCheckBox>();
 
 	Dimension scrollPaneDim = new Dimension(350, 580);
 	Dimension menuDim = new Dimension(350, 20);
+	Dimension optionWindowDim = new Dimension(550, 400);
+	
+    private String[] buildings = {"[Filter roles by building]", "Restaurant1", "Restaurant2", "Restaurant3",
+    		"Restaurant4", "Restaurant5", "Bank", "Market", "Transportation", "House"
+    };
+    private JComboBox buildingSelect = new JComboBox(buildings);
+	
+	List<ActivityTag> visibleTags = new ArrayList<ActivityTag>();
 	
 	public ActivityPane(){
 		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -71,13 +99,20 @@ public class ActivityPane extends JPanel implements ActionListener {
 		scrollPane.setViewportView(textPane);
 		styledDoc = textPane.getStyledDocument();
 		commentStyle = styledDoc.addStyle("CommentStyle", null);
+		StyleConstants.setForeground(commentStyle, Color.blue);
 		nameStyle = styledDoc.addStyle("NameStyle", null);
-		StyleConstants.setForeground(commentStyle, Color.black);
-		StyleConstants.setForeground(nameStyle, Color.black);
+		StyleConstants.setForeground(nameStyle, Color.blue);
 		StyleConstants.setBold(nameStyle, true);
+		personNameStyle = styledDoc.addStyle("PersonNameStyle", null);
+		StyleConstants.setForeground(personNameStyle, Color.black);
+		StyleConstants.setBold(personNameStyle, true);
+		personCommentStyle = styledDoc.addStyle("PersonCommentStyle", null);
+		StyleConstants.setForeground(personCommentStyle, Color.black);
+		
 		ActivityLog.setPane(this);
 		
 		//adding all the check boxes to a list
+		roleFilters.add(person);
 		roleFilters.add(rest1customer);
 		roleFilters.add(rest1waiter);
 		roleFilters.add(rest1host);
@@ -103,37 +138,97 @@ public class ActivityPane extends JPanel implements ActionListener {
 		roleFilters.add(rest5host);
 		roleFilters.add(rest5cashier);
 		roleFilters.add(rest5cook);
+		roleFilters.add(bankManager);
+		roleFilters.add(bankTeller);
+		roleFilters.add(bankCustomer);
+		roleFilters.add(marketCustomer);
+		roleFilters.add(landlord);
+		roleFilters.add(marketManager);
+		roleFilters.add(marketWorker);
+		roleFilters.add(bus);
+		roleFilters.add(busStop);
+		roleFilters.add(car);
+		roleFilters.add(truck);
+		
+		for(JCheckBox j : roleFilters){
+			j.addActionListener(this);
+		}
+		
+		buildingSelect.addActionListener(this);
+		
+		filterPanel.setPreferredSize(new Dimension(350, 25));
+		filterButton.setPreferredSize(new Dimension(350, 20));
+		filterButton.addActionListener(this);
+		filterPanel.add(filterButton);
+		add(filterPanel);
+		
+		for(ActivityTag t : ActivityTag.values()){
+			visibleTags.add(t);
+		}
 		
 		//options window setup
 		setupOptionWindow();
-		menuBar.add(roleOptions);
-		menuBar.setPreferredSize(menuDim);
-		
-		add(menuBar);
+
 		add(scrollPane);
 	}
 	
 	private void setupOptionWindow(){
-		roleOptions.setAlignmentX(LEFT_ALIGNMENT);
-		for(JCheckBoxMenuItem j : roleFilters){
-			roleOptions.add(j);
-			j.addActionListener(this);
+		optionPanel.add(clearRolesButton);
+		optionPanel.add(selectAllRolesButton);
+		optionPanel.add(buildingSelect);
+		optionPanel.add(Box.createVerticalStrut(10));
+		clearRolesButton.addActionListener(this);
+		selectAllRolesButton.addActionListener(this);
+		optionPanel.setPreferredSize(optionWindowDim);
+		optionWindow.setPreferredSize(optionWindowDim);
+		optionWindow.setMaximumSize(optionWindowDim);
+		optionWindow.setMinimumSize(optionWindowDim);
+		optionWindow.setLocation(300, 150);
+		optionWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		
+		int count = 0;
+		for(JCheckBox j : roleFilters){
+			j.setSelected(true);
+			optionPanel.add(j);
+			if(count % 3 == 0){
+				j.setAlignmentX(LEFT_ALIGNMENT);
+			}
+			else if(count % 3 == 1){
+				j.setAlignmentX(CENTER_ALIGNMENT);
+			}
+			else if(count % 3 == 2){
+				j.setAlignmentX(RIGHT_ALIGNMENT);
+			}
+			count ++;
 		}
+		
+		optionWindow.add(optionPanel);
 	}
 	
 	public void addActivity(activity a){
-		newActivities.add(a);
-		updatePane();
+		System.out.println("The number of visible tags is " + visibleTags.size());
+		if(visibleTags.contains(a.type)){
+			newActivities.add(a);
+			updatePane();
+		}
 	}
 	
 	private void updatePane(){
 		synchronized(newActivities){
 			for(activity a : newActivities){
 				try{
-					int endPosition = textPane.getDocument().getEndPosition().getOffset();
-					textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
-					endPosition = textPane.getDocument().getEndPosition().getOffset();
-					textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
+					if(a.person_notRole){
+						int endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", personNameStyle);
+						endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", personCommentStyle);
+					}
+					else{
+						int endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
+						endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
+					}
 				}
 				catch (BadLocationException e){
 					e.printStackTrace();
@@ -146,11 +241,115 @@ public class ActivityPane extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(JCheckBoxMenuItem j : roleFilters){
-			if(e.getSource() == j){
-				System.out.println(j.getText());
+		if(e.getSource() == clearRolesButton){
+			for(JCheckBox j : roleFilters){
+				j.setSelected(false);
+				removeTagFromFilter(ActivityTag.valueOf(j.getText().toUpperCase()));
 			}
 		}
+		else if(e.getSource() == selectAllRolesButton){
+			for(JCheckBox j : roleFilters){
+				j.setSelected(true);
+				addTagToFilter(ActivityTag.valueOf(j.getText().toUpperCase()));
+			}
+		}
+		else if(e.getSource() == filterButton){
+			optionWindow.setVisible(true);
+		}
+		else if(e.getSource() == buildingSelect){
+			visibleTags.clear();
+			if(buildingSelect.getSelectedItem().equals("Transportation")){
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains("Bus") || j.getText().contains("Car") || j.getText().contains("Truck") || j.getText().contains("BusStop")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains("CAR") || t.toString().contains("BUS") || t.toString().contains("BUSSTOP") || t.toString().contains("TRUCK")){
+						addTagToFilter(t);
+					}
+				}
+			}
+			else if(buildingSelect.getSelectedItem().equals("House")){
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains("Landlord") || j.getText().contains("Person")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains("LANDLORD") || t.toString().contains("PERSON")){
+						addTagToFilter(t);
+					}
+				}
+			}
+			else{
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains((String)buildingSelect.getSelectedItem()) || j.getText().contains("Person")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains(((String) buildingSelect.getSelectedItem()).toUpperCase()) || t.toString().contains("PERSON")){
+						addTagToFilter(t);
+					}
+				}
+			}
+		}
+		else{
+			for(JCheckBox j : roleFilters){
+				if(e.getSource() == j){
+					if(j.isSelected()){
+						addTagToFilter(ActivityTag.valueOf(j.getText().toUpperCase()));
+					}
+					else{
+						removeTagFromFilter(ActivityTag.valueOf(j.getText().toUpperCase()));
+					}
+				}
+			}
+		}
+	}
+	
+	private void addTagToFilter(ActivityTag t){
+		if(!visibleTags.contains(t)){
+			visibleTags.add(t);
+			filterTracePanel();
+		}
+	}
+	
+	private void removeTagFromFilter(ActivityTag t){
+		if(visibleTags.contains(t)){
+			visibleTags.remove(t);
+			filterTracePanel();
+		}
+	}
+	
+	private void filterTracePanel() {
+		try {
+			textPane.getStyledDocument().remove(0, textPane.getStyledDocument().getLength());  //Removes the whole document
+			//textPane.getStyledDocument().remove()
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+		
+		newActivities.clear();
+		
+		List<activity> alerts = ActivityLog.getInstance().getLog();  //Get all the alerts from the log
+		Collections.sort(alerts);                  //Sort them (they end up sorted by timestamp)
+		for(activity a : alerts) {
+			if(visibleTags.contains(a.type)) {
+				newActivities.add(a);
+			}
+		}
+		updatePane();  //update the panel to now reflect the correct alerts
 	}
 	
 	

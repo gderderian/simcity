@@ -7,13 +7,14 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.Timer;
+
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;
+import city.Restaurant3.Order.orderStatus;
+import city.Restaurant3.OrderSpindle3;
 import city.gui.Restaurant3.*;
-
-import javax.swing.Timer;
-
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 
@@ -36,10 +37,14 @@ public class CookRole3 extends Role {
 	
 	public EventLog log;
 	
+	protected OrderSpindle3 oSpindle;
+	
 	PersonAgent person;
 	ActivityTag tag = ActivityTag.RESTAURANT3COOK;
 	
 	String roleName = "Restaurant3CookRole";
+	
+	Timer spindleCheck;
 	
 	public CookRole3(String name, PersonAgent p) {
 
@@ -60,6 +65,14 @@ public class CookRole3 extends Role {
 		allFood.put("Cobbler", new FoodItem("Cobbler", 5000, 3));
 		
 		person = p;
+		
+		spindleCheck = new Timer(2000,
+				new ActionListener() { public void actionPerformed(ActionEvent event) {
+					checkOrderSpindle();
+					spindleCheck.restart();
+		      }
+		});
+		spindleCheck.start();
 		
 	}
 	
@@ -274,6 +287,20 @@ public class CookRole3 extends Role {
 	//	myMarkets.add(m);
 	//}
 	
+	private void checkOrderSpindle(){
+		while(!oSpindle.isSpindleEmpty()){
+			Order o = new Order();
+			o = oSpindle.removeOrder();
+			if (allFood.get(o.foodItem).quantity >= 1) { // Able to fulfill order, dock one from that item's inventory
+				o.status = orderStatus.waiting;
+			} else {
+				o.status = orderStatus.bounceBack;
+			}
+			currentOrders.add(o);
+			person.stateChanged();
+		}
+	}
+	
 	public class FoodItem {
 		
 		String foodItem;
@@ -304,60 +331,6 @@ public class CookRole3 extends Role {
 		isAnimating.release();
 	}
 	
-	public enum orderStatus {waiting, preparing, ready, bounceBack};
-	
-	public class Order {
-		
-		String foodItem;
-		int recipTable;
-		WaiterRole3 requestingWaiter;
-		Timer foodTimer;
-		orderStatus status;
-		
-		public Order(WaiterRole3 w){
-			requestingWaiter = w;
-			status = orderStatus.waiting;
-		}
-		
-		public Order(){
-			status = orderStatus.waiting;
-		}
-		
-		public Order(CustomerRole3 c, WaiterRole3 w, String foodChoice){
-			requestingWaiter = w;
-			foodItem = foodChoice;
-			status = orderStatus.waiting;
-		}
-		
-		public void setPreparing(){
-			status = orderStatus.preparing;
-		}
-		
-		public orderStatus getStatus(){
-			return status;
-		}
-		
-		public String getFoodName(){
-			return foodItem;
-		}
-		
-		public WaiterRole3 getWaiter(){
-			return requestingWaiter;
-		}
-		
-		public void setCooking(int cookTime){
-			foodTimer = new Timer(cookTime,
-					new ActionListener() { public void actionPerformed(ActionEvent event) {
-			          status = orderStatus.ready;
-			          foodTimer.stop();
-			          person.stateChanged();
-			      }
-			});
-			foodTimer.start();
-		}
-
-	}
-	
 	// Accessors
 	public String getName() {
 		return name;
@@ -373,7 +346,7 @@ public class CookRole3 extends Role {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
         log.add(new LoggedEvent(msg));
 	}
 

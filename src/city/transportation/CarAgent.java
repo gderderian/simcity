@@ -184,7 +184,7 @@ public class CarAgent extends Vehicle implements Car {
 	private void log(String msg){
 		print(msg);
 		if(!test)
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 	
 	public void thisIsATest() {

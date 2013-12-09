@@ -223,19 +223,24 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		synchronized(tasks){
-			//This new way might not work every time so if it messes your code up just put it back to the comment out code below
-			/*
-			  	for(PersonTask task : tasks){
+			/*for(PersonTask task : tasks){
 			  		if(task.role.equals(r.getRoleName())){
 			 			tasks.remove(task);
 			 		}
-			 	}
-			 */
+			 }*/
 			
-			int taskSize= tasks.size();
+			//This new way might not work every time so if it messes your code up just put it back to the comment out code above
+			/*int taskSize= tasks.size();
 			for(int i=0; i<taskSize; i++){
 				if(tasks.get(0).role.equals(r.getRoleName())){
 					tasks.remove(tasks.get(0));
+				}
+			}*/
+			for(PersonTask task : tasks){
+				log("Role name: " + r.getRoleName() + "   task role name: " + task.role);
+				if(task.role.equals(r.getRoleName())){
+					//tasks.remove(task);
+					//this is called in reachedDestination
 				}
 			}
 		}
@@ -552,11 +557,12 @@ public class PersonAgent extends Agent implements Person{
 			for(Role r : roles){
 				if(r.isActive){
 					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
+					return anytrue;
 				}
 			}
-			if(anytrue){
-				return anytrue;
-			}
+			//if(anytrue){
+			//	return anytrue;
+			//}
 
 		}
 		synchronized(tasks){
@@ -702,8 +708,13 @@ public class PersonAgent extends Agent implements Person{
 		//go home if there is nothing else to do
 		synchronized(tasks){
 			if(tasks.isEmpty()){
+				//log("Tasks is empty");
+				if(name.equals("rest2Test")){
+					log("Tasks is empty");
+				}
 				List<PersonTask> dayTasks = schedule.getDayTasks(clock.getDayOfWeekNum());
 				if(dayTasks.isEmpty()){
+					//log("No more tasks in schedule");
 					if(!atHome){
 						if(house != null){
 							goHome();
@@ -826,7 +837,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		//tasks.remove(task);
+		tasks.remove(task);
 	}
 
 	public void goToWork(PersonTask task){
@@ -1587,7 +1598,7 @@ public class PersonAgent extends Agent implements Person{
 	private void log(String msg){
 		print(msg);
 		if(!test){
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, true);
 		}
 		log.add(new LoggedEvent(msg));
 	}

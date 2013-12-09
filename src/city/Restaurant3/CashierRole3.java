@@ -206,7 +206,7 @@ public class CashierRole3 extends Role {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
         log.add(new LoggedEvent(msg));
 	}
 

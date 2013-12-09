@@ -104,7 +104,7 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, getName());
+        ActivityLog.getInstance().logActivity(tag, msg, getName(), false);
 	}
 
 	public String getRoleName() {

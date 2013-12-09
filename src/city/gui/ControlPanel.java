@@ -42,7 +42,6 @@ import city.House;
 import city.Market;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
-import Role.Role;
 import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;

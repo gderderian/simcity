@@ -528,7 +528,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			CustomerRole3 customerRole = new CustomerRole3(p.getName(), -20, -20, p);
 			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, -20, -20, 0);
 			restaurant3.addGui(customerGui);
-			WaiterRole3 waiterRole = new WaiterRole3("waiter", 230, 230,p);
+			WaiterRole3 waiterRole = new WaiterRole3Normal("waiter", 230, 230,p);
 			p.addFirstJob(waiterRole, "rest3");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
@@ -894,7 +894,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui.setPresent(true);
 			return role;
 		} else if (type.equals("Restaurant3 Waiter")){
-			WaiterRole3 role= new WaiterRole3(p.getName(), 230, 230, p); 
+			WaiterRole3 role= new WaiterRole3Normal(p.getName(), 230, 230, p); 
 			WaiterGui3 gui = new WaiterGui3(role);
 			role.setGui(gui);
 			restaurant3.addGui(gui);

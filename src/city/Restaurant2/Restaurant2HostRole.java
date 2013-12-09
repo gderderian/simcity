@@ -186,6 +186,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -348,7 +349,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	private void log(String msg){
 		print(msg);
 		if(!test){
-	        ActivityLog.getInstance().logActivity(tag, msg, name);
+	        ActivityLog.getInstance().logActivity(tag, msg, name, false);
 		}
         log.add(new LoggedEvent(msg));
 	}
