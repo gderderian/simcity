@@ -957,6 +957,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("brokenApplianceTest", "No Job");
+		addPerson("Joe", "No Job");
 	}
 	
 	public void setTimeDisplay(String timeToDisplay){

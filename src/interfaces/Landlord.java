@@ -2,7 +2,7 @@ package interfaces;
 
 public interface Landlord {
 
-		public abstract void msgEndOfDay();
+		public abstract void msgCollectRent();
 		
 		public abstract void msgHereIsMyRent(Person p, double rate);
 		

@@ -392,6 +392,14 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to do my job as a worker at the market.");
 
+		} else if(t > 3000 && t < 5000){
+			synchronized(roles){
+				for(Role role : roles){
+					if(role.getRoleName().contains("Landlord")){
+						((LandlordRole)role).msgCollectRent();
+					}
+				}
+			}
 		}
 
 		stateChanged();
@@ -511,6 +519,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgRentDue(Landlord r, double rate) {
+		log("Oh, looks like its time for me to pay rent!");
 		billsToPay.add(new Bill("rent", rate, r));
 		stateChanged();
 	}
@@ -1039,12 +1048,13 @@ public class PersonAgent extends Agent implements Person{
 
 	public void payBills(){
 		log.add(new LoggedEvent("Paying bill"));
+		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				if(b.landlord == landlord){
+				if(b.landlord == house.getLandlord()){
 					if(wallet > b.amount){
 						log.add(new LoggedEvent("The bill I'm paying is my rent"));
-						landlord.msgHereIsMyRent(this, b.amount);
+						house.getLandlord().msgHereIsMyRent(this, b.amount);
 						wallet -= b.amount;
 						billsToPay.remove(b);
 						return;
