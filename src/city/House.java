@@ -59,6 +59,9 @@ public class House implements HouseInterface{
 		return Integer.parseInt(temp);
 	}
 	
+	public LandlordRole getLandlord(){
+		return null;
+	}
 	
 	//PUBLIC METHODS
 	/* (non-Javadoc)

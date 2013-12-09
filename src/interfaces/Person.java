@@ -11,6 +11,8 @@ public interface Person {
 
 	public String getName();
 	
+	public HouseInterface getHouse();
+	
 	public abstract void msgImHungry();
 	
 	//From house
@@ -26,7 +28,7 @@ public interface Person {
 
 	public abstract void msgSpaceInFridge(int spaceLeft);
 	
-	public abstract void msgApplianceBrokeCantCook();
+	public abstract void msgApplianceBrokeCantCook(String type);
 	
 	
 	//Messages from bus/bus stop

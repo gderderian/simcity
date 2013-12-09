@@ -33,8 +33,9 @@ public class SharedOrders4 {
 	
 	public Order fillOrder(){
 		if(orders.size() > 0 && monitor.tryAcquire()){
-			Order o= orders.get(0);
+			Order o;
 			synchronized(orders){
+				o= orders.get(0);
 				System.out.println("REMOVING ORDER FROM REVOLVING STAND");
 				orders.remove(0);
 				monitor.release();

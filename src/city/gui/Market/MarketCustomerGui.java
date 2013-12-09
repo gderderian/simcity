@@ -2,20 +2,21 @@ package city.gui.Market;
 
 import java.awt.*;
 import java.util.ArrayList;
+
 import city.gui.Gui;
+import Role.MarketCustomerRole;
+import Role.MarketWorker;
 
-import Role.MarketManager;
+public class MarketCustomerGui implements Gui {
 
-public class MarketManagerGui implements Gui {
-
-    private MarketManager agent = null;
+    private MarketCustomerRole agent = null;
 
 	MarketGui gui;
 	
-	boolean isPresent = false;
+	boolean isPresent = true;
     
-    private int xPos = -20, yPos = -20;
-    public int xDestination = 275, yDestination = 250, host_tableX, host_tableY;
+    private int xPos = 230, yPos = 445;
+    public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
     
     private static final int COOK_SIZE_X = 20;
     private static final int COOK_SIZE_Y = 20;
@@ -28,14 +29,14 @@ public class MarketManagerGui implements Gui {
 	public ArrayList<String> platingFood;
 	public ArrayList<String> cookingFood;
 	
-    public MarketManagerGui(MarketManager a) {
+    public MarketCustomerGui(MarketCustomerRole a) {
     	agent = a;
     	carryingOrderText = "";
 		platingFood = new ArrayList<String>();
 		cookingFood = new ArrayList<String>();
     }
     
-    public MarketManagerGui(MarketManager a, MarketGui g) {
+    public MarketCustomerGui(MarketCustomerRole a, MarketGui g) {
     	agent = a;
     	gui = g;
     	carryingOrderText = "";
@@ -43,7 +44,7 @@ public class MarketManagerGui implements Gui {
 		cookingFood = new ArrayList<String>();
     }
     
-    public MarketManagerGui(MarketManager a, MarketGui g, int startX, int startY, int indexNum) {
+    public MarketCustomerGui(MarketCustomerRole a, MarketGui g, int startX, int startY, int indexNum) {
     	agent = a;
     	gui = g;
     	xPos = startX;
@@ -79,7 +80,7 @@ public class MarketManagerGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.GREEN);
+        g.setColor(Color.BLUE);
         g.fillRect(xPos, yPos, COOK_SIZE_X, COOK_SIZE_Y);
 		if (!carryingOrderText.equals("")){
 			g.drawString(carryingOrderText, xPos, yPos);

@@ -455,7 +455,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				houseAssignmentNumber++;
 			}
 
-			cityGui.addPerson(name, aStarTraversal, job, cityMap, house);
+			cityGui.addPerson(name, aStarTraversal, job, cityMap, house, null);
 			System.out.println("Adding person " + name + " with job " + job);
 
 			Dimension paneSize = pane.getSize();
@@ -481,7 +481,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 			AStarTraversal aStarTraversal = new AStarTraversal(sidewalkGrid);
 
-			cityGui.addPerson(name, aStarTraversal, job, cityMap, null);
+			cityGui.addPerson(name, aStarTraversal, job, cityMap, null, null);
 			System.out.println("Adding person " + name + " with job " + job);
 
 			Dimension paneSize = pane.getSize();
@@ -916,6 +916,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("marketClient", "No Job");
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketWorker", "Market Worker");
 
 	}
 
@@ -952,7 +956,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
 		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
+		addPerson("brokenApplianceTest", "No Job");
 	}
 	
 	public void setTimeDisplay(String timeToDisplay){

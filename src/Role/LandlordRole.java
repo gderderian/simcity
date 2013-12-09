@@ -5,6 +5,7 @@ import interfaces.Person;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;
+import city.PersonTask;
 import city.gui.House.LandlordGui;
 
 import java.util.*;
@@ -44,7 +45,6 @@ public class LandlordRole extends Role implements Landlord {
 		if(newTenant){
 			MyTenant t= new MyTenant(p);
 			tenants.add(t);
-			this.p.stateChanged();
 			log("I got a new tenant, now I have " + tenants.size() + " tenants total!");
 		}
 	}
@@ -110,7 +110,6 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
-		log("Checkin' my schedule");
 		synchronized(tenants){
 			for(MyTenant t : tenants){
 				if(t.newPayment == true){// t.paymentsUpToDate == false){
@@ -135,17 +134,19 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
-		System.out.println("tenant's name: " + mt.tenant);
+		log("tenant's name: " + mt.tenant.getName());
 		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
 		p.stateChanged();
 	}
 
 	private void fixAppliance(final MyTenant mt){
-		System.out.println("Fixing appliance.");
+		log("Fixing appliance.");
+		PersonTask pt= new PersonTask("goToApartment");
+		p.DoGoTo(mt.tenant.getHouse().getName(), pt);
 		mt.tenant.msgFixed(mt.needsMaintenance.get(0));
 		mt.needsMaintenance.remove(0);
-		System.out.println("needsMaintenance.size(): " + mt.needsMaintenance.size());
+		log("needsMaintenance.size(): " + mt.needsMaintenance.size());
 		p.stateChanged();	
 	}
 

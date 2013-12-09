@@ -9,9 +9,11 @@ import activityLog.ActivityTag;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
+import city.gui.Market.MarketManagerGui;
+import city.gui.Market.MarketWorkerGui;
 import Role.Role;
 
-public class MarketWorker extends Role {
+public class MarketWorker extends Role implements interfaces.MarketWorker {
 	
 	String roleName = "MarketWorkerRole";
 	
@@ -23,6 +25,7 @@ public class MarketWorker extends Role {
 	
 	private Semaphore isAnimating = new Semaphore(0,true);
 	
+	MarketWorkerGui gui;
 	public enum orderPickState {pending, picking, done};
 	
 	public class PickableOrder {
@@ -108,5 +111,17 @@ public class MarketWorker extends Role {
 	public void releaseSemaphore(){
 		isAnimating.release();
 	}
+
+	public void setPerson(PersonAgent workerPerson) {
+		p = workerPerson;
+	}
+
+	public void setGui(MarketWorkerGui setGui) {
+		gui = setGui;
+	}
+	
+	public MarketWorkerGui getGui() {
+		return gui;
+	}	
 	
 }

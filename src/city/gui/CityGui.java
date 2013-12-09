@@ -34,6 +34,10 @@ import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
 import city.gui.House.LandlordGui;
 import city.gui.Market.MarketAnimationPanel;
+import city.gui.Market.MarketCustomerGui;
+import city.gui.Market.MarketGui;
+import city.gui.Market.MarketManagerGui;
+import city.gui.Market.MarketWorkerGui;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
@@ -128,9 +132,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		// Restaurant 5 (Tom)
 	
 		
-   // Market
-	Market market= new Market();
-		
+	// Market
+	Market market = new Market();
 
 	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
@@ -276,7 +279,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
-			person.msgTimeUpdate(timeOfDay);
+			person.msgTimeUpdate(timeOfDay, hourOfDayHumanTime);
 		}
 		controlPanel.setTimeDisplay(displayTime);
 	}
@@ -419,28 +422,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		controlPanel.enableBackToCity();
 	}
 
-	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h){
-		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
-		if(h != null){
-			h.setOwner(newPerson);
-		}
-		
-		PersonGui g = new PersonGui(newPerson);
-		newPerson.setGui(g);
-		
-		animationPanel.addGui(g);
-		
-		guis.add(g);
-		
-		personFactory(newPerson, job, g);
-		
-		people.add(newPerson);
-		
-		newPerson.startThread();
-		
-		newPerson.setBank(bank);
-	}
-	
 	public void addPerson(String name, AStarTraversal aStarTraversal, String job, CityMap map, House h, CarAgent c){
 		PersonAgent newPerson = new PersonAgent(name, aStarTraversal, map, h);
 		if(h != null){
@@ -450,6 +431,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 		
+		newPerson.setClock(masterClock);
+		//newPerson.addTask("gotHungry");
+		//newPerson.addTask("goToBank");
+		//newPerson.addTask("goToMarket");
+		
 		animationPanel.addGui(g);
 		
 		guis.add(g);
@@ -457,10 +443,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		personFactory(newPerson, job, g);
 		
 		people.add(newPerson);
-
-		addCar(newPerson, c);
+		
+		if(c != null)
+			addCar(newPerson, c);
 		
 		newPerson.startThread();
+		
+		newPerson.setBank(bank);
 	}
 
 	public void enableComeBack(Restaurant2Waiter agent) {
@@ -601,6 +590,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		customerRole5.setGui(customerGui5);
 		p.addRole(customerRole5, false);
 
+		//Add bank customer role to go to bank
 		BankCustomerRole bankCustomerRole = new BankCustomerRole(p.wallet);
 		bankCustomerRole.setPerson(p);
 		BankGui bankgui = new BankGui();
@@ -609,6 +599,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		bank1Animation.addGui(bankCustomerGui);
 		bankCustomerRole.setGui(bankCustomerGui);
 		p.addRole(bankCustomerRole, false);
+		
+		//Add market customer role to go to market
+		MarketCustomerRole marketCustomer = new MarketCustomerRole(p.getName(), p);
+		MarketGui marketGui = new MarketGui();
+		MarketCustomerGui mktCustomerGui = new MarketCustomerGui(marketCustomer, marketGui); 
+		mktCustomerGui.setPresent(false);
+		market1Animation.addGui(mktCustomerGui);
+		marketCustomer.setGui(mktCustomerGui);
+		p.addRole(marketCustomer, false);
 		
 		
 		/* Check if the person lives in an apartment and add them to the correct tenant list */
@@ -733,10 +732,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
 					market.addWorker((MarketWorker)r);
+					gui.setInvisible();
 					p.setRoleActive(r);
 				}
 				else if(r instanceof MarketManager){
 					market.setManager((MarketManager)r);
+					gui.setInvisible();
 					p.setRoleActive(r);
 				}
 			} else if(job.contains("Bank")) {
@@ -898,15 +899,30 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			MarketManager role= new MarketManager(p.getName(), p);
+			
+			System.out.println("I AM AMRKET MANAGER!!!");
+			Market mkt = new Market();
+			MarketManager role = new MarketManager("Market ManagerJoe", p, mkt);
+			role.setPerson(p);
+			MarketGui mktGui = new MarketGui(); 
+			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
+			role.setGui(gui);
+			market1Animation.addGui(gui);
 			return role;
+			
 		}
 		else if(type.equals("Market Worker")){
-			MarketWorker role= new MarketWorker(p); 
+			System.out.println("I AM AMRKET WORKER!!!");
+			MarketWorker role = new MarketWorker(p);
+			role.setPerson(p);
+			MarketGui mktGui = new MarketGui(); 
+			MarketWorkerGui gui1 = new MarketWorkerGui(role, mktGui);
+			role.setGui(gui1);
+			market1Animation.addGui(gui1);
 			return role;
 		}
 		else if(type.equals("Market Customer")){
-			MarketCustomerRole role= new MarketCustomerRole(p); 
+			MarketCustomerRole role= new MarketCustomerRole("Blah", p); 
 			return role;
 		}	
 		else if(type.equals("Restaurant5 Customer")){

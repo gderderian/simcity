@@ -1,10 +1,8 @@
 package city;
 
-import Role.Role;
-
 public class PersonTask {
 	
-	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, doneWithWork};
+	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, goToApartment, doneWithWork};
 	enum Transportation {undecided, walking, bus, car};
 	enum State {initial, processing, inTransit, arrived, complete};
 	/*

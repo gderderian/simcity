@@ -87,12 +87,15 @@ public class HomeOwnerGui implements Gui {
             goingToFridge= false;
         } else if (xPos >= xStove && yPos <= yAppliance && goingToStove){
             person.msgAnimationAtStove();
+            person.msgAtDestination();
             goingToStove= false;
         } else if (xPos >= xOven && yPos <= yAppliance && goingToOven){
             person.msgAnimationAtOven();
+            person.msgAtDestination();
             goingToOven= false;
         } else if (xPos >= xMicrowave && yPos <= yAppliance && goingToMicrowave){
             person.msgAnimationAtMicrowave();
+            person.msgAtDestination();
             goingToMicrowave= false;
         } else if (xPos >= xBed && yPos >= yBed && goingToBed){
                 person.msgAnimationAtBed();
