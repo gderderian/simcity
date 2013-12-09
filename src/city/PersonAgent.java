@@ -783,8 +783,13 @@ public class PersonAgent extends Agent implements Person{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
 
-			//MarketOrder o = new MarketOrder(groceryList.get(0), this);
-			//cityMap.mark1.mktManager.msgHereIsOrder(o);
+			OrderItem oItem = new OrderItem("Chicken", 3);
+			List<OrderItem> oItemList = new ArrayList<OrderItem>();
+			oItemList.add(oItem);
+			
+			MarketOrder o = new MarketOrder(oItemList, this);
+			log("Current order size in personagent pre-send is:" + o.orders.size());
+			cityMap.mark1.mktManager.msgHereIsOrder(o);
 
 		}
 		else if(task.type == TaskType.goToApartment){
@@ -1571,12 +1576,15 @@ public class PersonAgent extends Agent implements Person{
 		test = true;
 	}
 
-	@Override
 	public void msgHereIsYourOrder(MarketOrder order) {
 		log("Yay, I got my order back!");
-		List<OrderItem> o= order.orders;
-		Food f= new Food(o.get(0).type);
-		List<Food> groceries= new ArrayList<Food>();
+		List<OrderItem> o = order.orders;
+		
+		log("Final: " + order.orders.size());
+		
+		Food f = new Food(o.get(0).name);
+		
+		List<Food> groceries = new ArrayList<Food>();
 		groceries.add(f);
 		house.boughtGroceries(groceries);
 	}

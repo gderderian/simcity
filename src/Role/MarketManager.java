@@ -111,17 +111,22 @@ public class MarketManager extends Role {
 	// Messages
 	public void msgHereIsOrder(MarketOrder o){
 		log("Recieved order from " + o.getRecipient().getName());
+		log("Current order size is:" + o.orders.size());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.inPerson);
 		myOrders.add(mo);
+		log("Current order size is:" + o.orders.size());
 		p.stateChanged();
 	}
+	
 	public void msgOrderPicked(MarketOrder o){
+		log("Received orderPicked message");
+		log("Current order size is:" + o.orders.size());
 		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
 			for (myMarketOrder order : myOrders) {
 				if (order.order.equals(o)){
 					selectedMarketOrder = order;
-					return;
+					break;
 				}
 			}
 		}
@@ -156,16 +161,15 @@ public class MarketManager extends Role {
 					if (order.state == orderState.pendingWorkerAssignment){
 						log("I'll delegate this order to one of my workers");
 						makeWorkerPrepareOrder(order);
-						order.state = orderState.assignedToWorker;
 						return true;
 					}
 					if (order.state == orderState.pickedReady){
+						log("In scheduler after orderPicked message");
 						deliverOrder(order);
 						return true;
 					}
 					if (order.state == orderState.pendingBilling){
 						billRecipient(order);
-						order.state = orderState.billed;
 						return true;
 					}
 				}
@@ -176,14 +180,13 @@ public class MarketManager extends Role {
 
 	// Actions
 	private void makeWorkerPrepareOrder(myMarketOrder o){ // Distribute load of incoming orders to all workers
-		
+		o.state = orderState.assignedToWorker;
 		// Decrement quantity of things in each order
 		for (OrderItem item : o.order.orders){
 			MarketItem selectedMarketItem = marketStock.get(item.name);
 			selectedMarketItem.quantity = selectedMarketItem.quantity - 1;
 			marketStock.put(item.name, selectedMarketItem);
 		}
-		
 		
 		if (myWorkers.size() != 0) {
 			int initOrders = myWorkers.get(0).numWorkingOrders;
@@ -202,6 +205,7 @@ public class MarketManager extends Role {
 	}
 	
 	private void deliverOrder(myMarketOrder o){
+		log("In deliver order function, order is " + o.type);
 		if (o.type == deliveryType.inPerson){
 			log("All done, here is your order");
 			o.order.getRecipient().msgHereIsYourOrder(o.order);

@@ -57,6 +57,7 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	// Messages
 	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
 		log("A new order to process...");
+		log("Current order size is:" + o.orders.size());
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);
 		pickOrders.add(newPickableOrder);
 		p.stateChanged();
@@ -69,9 +70,10 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 				for (PickableOrder o : pickOrders) {
 					if (o.state == orderPickState.pending){
 						pickSingleOrder(o);
-						o.state = orderPickState.picking;
 						return true;
 					}
+				}
+				for (PickableOrder o : pickOrders) {
 					if (o.state == orderPickState.done){
 						returnCompletedOrder(o);
 						return true;
@@ -84,16 +86,18 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	
 	// Actions
 	private void pickSingleOrder(PickableOrder o){
+		o.state = orderPickState.picking;
 		for (OrderItem item : o.order.orders){
 			// Gui command to go to that item's specific location in the market "warehouse"/back stock room
 			o.itemPickStatus.put(item.name, true); // Item in this order has been picked
 		}
 		// When finished running through items to pick, then be done!
 		o.state = orderPickState.done;
+		p.stateChanged();
 	}
 	
 	private void returnCompletedOrder(PickableOrder o){
-		log("Well, this order is finished now!");
+		log("Notifying manager a customer's order is done!");
 		o.recipientManager.msgOrderPicked(o.order);
 		pickOrders.remove(o);
 	}
@@ -103,7 +107,6 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
         ActivityLog.getInstance().logActivity(tag, msg, getName());
 	}
 
-	@Override
 	public String getRoleName() {
 		return roleName;
 	}
