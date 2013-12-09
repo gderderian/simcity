@@ -59,11 +59,11 @@ public class LandlordRole extends Role implements Landlord {
 	}
 	
 	//MESSAGES
-	public void msgEndOfDay(){	
+	public void msgCollectRent(){	
 		log.add(new LoggedEvent("Recieved msgEndOfDay, all tenants now should have rent due"));
+		log("Time to collect rent from all of my tenants!");
 		synchronized(tenants){
 			for(MyTenant t : tenants){
-				System.out.println("Tenant: " + t);
 				t.numOutstandingPayments++;
 				t.newPayment= true;
 				if(t.numOutstandingPayments > 0){
@@ -76,6 +76,7 @@ public class LandlordRole extends Role implements Landlord {
 
 	public void msgHereIsMyRent(Person p, double amount){ // for the normative scenario, assuming tenant always pays correct amount for rent
 		log.add(new LoggedEvent("Recieved msgHereIsMyRent from tenant, tenant should now have no outstanding payments due"));
+		log("Yay, " + p.getName() + " payed their rent!");
 		earnings += amount;
 		synchronized(tenants){
 			for(MyTenant t : tenants){
@@ -154,7 +155,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
-		log("tenant's name: " + mt.tenant.getName());
+		log("Collecting rent now");
 		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
 		p.stateChanged();
@@ -218,7 +219,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
         log.add(new LoggedEvent(msg));
 	}
 

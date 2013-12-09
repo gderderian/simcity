@@ -1,8 +1,14 @@
 package city.Restaurant3;
 
 import Role.Role;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
+import javax.swing.Timer;
+
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.PersonAgent;
@@ -38,6 +44,8 @@ public class CookRole3 extends Role {
 	
 	String roleName = "Restaurant3CookRole";
 	
+	Timer spindleCheck;
+	
 	public CookRole3(String name, PersonAgent p) {
 
 		super();
@@ -57,6 +65,14 @@ public class CookRole3 extends Role {
 		allFood.put("Cobbler", new FoodItem("Cobbler", 5000, 3));
 		
 		person = p;
+		
+		spindleCheck = new Timer(2000,
+				new ActionListener() { public void actionPerformed(ActionEvent event) {
+					checkOrderSpindle();
+					spindleCheck.restart();
+		      }
+		});
+		spindleCheck.start();
 		
 	}
 	
@@ -271,6 +287,20 @@ public class CookRole3 extends Role {
 	//	myMarkets.add(m);
 	//}
 	
+	private void checkOrderSpindle(){
+		while(!oSpindle.isSpindleEmpty()){
+			Order o = new Order();
+			o = oSpindle.removeOrder();
+			if (allFood.get(o.foodItem).quantity >= 1) { // Able to fulfill order, dock one from that item's inventory
+				o.status = orderStatus.waiting;
+			} else {
+				o.status = orderStatus.bounceBack;
+			}
+			currentOrders.add(o);
+			person.stateChanged();
+		}
+	}
+	
 	public class FoodItem {
 		
 		String foodItem;
@@ -316,7 +346,7 @@ public class CookRole3 extends Role {
 	
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
         log.add(new LoggedEvent(msg));
 	}
 

@@ -433,7 +433,7 @@ public class CookRole4 extends Role implements Cook4 {
 	//ACTIVITY LOG
 	private void log(String msg){
 		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name);
+        ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
 	@Override

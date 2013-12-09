@@ -349,7 +349,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	private void log(String msg){
 		print(msg);
 		if(!test){
-	        ActivityLog.getInstance().logActivity(tag, msg, name);
+	        ActivityLog.getInstance().logActivity(tag, msg, name, false);
 		}
         log.add(new LoggedEvent(msg));
 	}

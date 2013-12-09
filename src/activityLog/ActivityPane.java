@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,6 +31,8 @@ public class ActivityPane extends JPanel implements ActionListener {
 	private JTextPane textPane;
 	Style commentStyle;
 	Style nameStyle;
+	Style personNameStyle;
+	Style personCommentStyle;
 	StyledDocument styledDoc;
 	JPanel filterPanel = new JPanel();
 	JButton filterButton = new JButton("Filter by Role/Agent");
@@ -81,6 +84,11 @@ public class ActivityPane extends JPanel implements ActionListener {
 	Dimension menuDim = new Dimension(350, 20);
 	Dimension optionWindowDim = new Dimension(550, 400);
 	
+    private String[] buildings = {"[Filter roles by building]", "Restaurant1", "Restaurant2", "Restaurant3",
+    		"Restaurant4", "Restaurant5", "Bank", "Market", "Transportation", "House"
+    };
+    private JComboBox buildingSelect = new JComboBox(buildings);
+	
 	List<ActivityTag> visibleTags = new ArrayList<ActivityTag>();
 	
 	public ActivityPane(){
@@ -91,10 +99,16 @@ public class ActivityPane extends JPanel implements ActionListener {
 		scrollPane.setViewportView(textPane);
 		styledDoc = textPane.getStyledDocument();
 		commentStyle = styledDoc.addStyle("CommentStyle", null);
+		StyleConstants.setForeground(commentStyle, Color.blue);
 		nameStyle = styledDoc.addStyle("NameStyle", null);
-		StyleConstants.setForeground(commentStyle, Color.black);
-		StyleConstants.setForeground(nameStyle, Color.black);
+		StyleConstants.setForeground(nameStyle, Color.blue);
 		StyleConstants.setBold(nameStyle, true);
+		personNameStyle = styledDoc.addStyle("PersonNameStyle", null);
+		StyleConstants.setForeground(personNameStyle, Color.black);
+		StyleConstants.setBold(personNameStyle, true);
+		personCommentStyle = styledDoc.addStyle("PersonCommentStyle", null);
+		StyleConstants.setForeground(personCommentStyle, Color.black);
+		
 		ActivityLog.setPane(this);
 		
 		//adding all the check boxes to a list
@@ -140,6 +154,8 @@ public class ActivityPane extends JPanel implements ActionListener {
 			j.addActionListener(this);
 		}
 		
+		buildingSelect.addActionListener(this);
+		
 		filterPanel.setPreferredSize(new Dimension(350, 25));
 		filterButton.setPreferredSize(new Dimension(350, 20));
 		filterButton.addActionListener(this);
@@ -159,6 +175,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 	private void setupOptionWindow(){
 		optionPanel.add(clearRolesButton);
 		optionPanel.add(selectAllRolesButton);
+		optionPanel.add(buildingSelect);
 		optionPanel.add(Box.createVerticalStrut(10));
 		clearRolesButton.addActionListener(this);
 		selectAllRolesButton.addActionListener(this);
@@ -199,10 +216,18 @@ public class ActivityPane extends JPanel implements ActionListener {
 		synchronized(newActivities){
 			for(activity a : newActivities){
 				try{
-					int endPosition = textPane.getDocument().getEndPosition().getOffset();
-					textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
-					endPosition = textPane.getDocument().getEndPosition().getOffset();
-					textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
+					if(a.person_notRole){
+						int endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", personNameStyle);
+						endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", personCommentStyle);
+					}
+					else{
+						int endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getName() + ": ", nameStyle);
+						endPosition = textPane.getDocument().getEndPosition().getOffset();
+						textPane.getStyledDocument().insertString(endPosition, a.getMessage() + "\n", commentStyle);
+					}
 				}
 				catch (BadLocationException e){
 					e.printStackTrace();
@@ -229,6 +254,54 @@ public class ActivityPane extends JPanel implements ActionListener {
 		}
 		else if(e.getSource() == filterButton){
 			optionWindow.setVisible(true);
+		}
+		else if(e.getSource() == buildingSelect){
+			visibleTags.clear();
+			if(buildingSelect.getSelectedItem().equals("Transportation")){
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains("Bus") || j.getText().contains("Car") || j.getText().contains("Truck") || j.getText().contains("BusStop")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains("CAR") || t.toString().contains("BUS") || t.toString().contains("BUSSTOP") || t.toString().contains("TRUCK")){
+						addTagToFilter(t);
+					}
+				}
+			}
+			else if(buildingSelect.getSelectedItem().equals("House")){
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains("Landlord") || j.getText().contains("Person")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains("LANDLORD") || t.toString().contains("PERSON")){
+						addTagToFilter(t);
+					}
+				}
+			}
+			else{
+				for(JCheckBox j : roleFilters){
+					if(j.getText().contains((String)buildingSelect.getSelectedItem()) || j.getText().contains("Person")){
+						j.setSelected(true);
+					}
+					else{
+						j.setSelected(false);
+					}
+				}
+				for(ActivityTag t : ActivityTag.values()){
+					if(t.toString().contains(((String) buildingSelect.getSelectedItem()).toUpperCase()) || t.toString().contains("PERSON")){
+						addTagToFilter(t);
+					}
+				}
+			}
 		}
 		else{
 			for(JCheckBox j : roleFilters){

@@ -8,12 +8,14 @@ public class activity implements Comparable<activity>{
 	String message;
 	String building;
 	public final Date date;
+	boolean person_notRole; 	//this is true if its coming from a person, false if from a role
 	
-	public activity(ActivityTag t, String m, String n, Date d){
+	public activity(ActivityTag t, String m, String n, Date d, boolean p){
 		type = t;
 		message = m;
 		name = n;
 		date = d;
+		person_notRole = p;
 	}
 	
 	public String getMessage(){

@@ -328,7 +328,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	private void log(String msg){
 		print(msg);
 		if(!test)
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
 	public void setTesting(boolean b) {

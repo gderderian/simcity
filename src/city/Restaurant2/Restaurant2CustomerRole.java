@@ -479,7 +479,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private void log(String msg){
 		print(msg);
 		if(!test)
-			ActivityLog.getInstance().logActivity(tag, msg, name);
+			ActivityLog.getInstance().logActivity(tag, msg, name, false);
         log.add(new LoggedEvent(msg));
 	}
 	
