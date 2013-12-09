@@ -50,6 +50,8 @@ public class MarketManager extends Role {
 		p = person;
 		myMarket = mkt;
 		
+		mkt.mktManager = this; // I am the market's manager!!!
+		
 		// List initialization
 		myOrders = Collections.synchronizedList(new ArrayList<myMarketOrder>());
 		myWorkers = Collections.synchronizedList(new ArrayList<myMarketWorker>());
@@ -246,8 +248,8 @@ public class MarketManager extends Role {
 		isAnimating.release();
 	}
 	
-	public void msgCustomerArrivedToMarket(MarketCustomerRole role) {
-		marketCustomers.add(role);
+	public void msgCustomerArrivedToMarket(MarketCustomerRole person) {
+		marketCustomers.add(person);
 	}
 	
 	public void setGui(MarketManagerGui gui) {

@@ -778,7 +778,7 @@ public class PersonAgent extends Agent implements Person{
 			log("I should give the market manager my order!!!!!!!!!!!!!!!!!!!!!");
 
 			if(role != null){
-				cityMap.market.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
+				cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
 				((MarketCustomerRole)role).setGuiActive();
 				role.getGui().setPresent(true);
 			}
@@ -787,7 +787,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 			MarketOrder o = new MarketOrder(groceryList.get(0), this);
-			cityMap.market.mktManager.msgHereIsOrder(o);
+			cityMap.mark1.mktManager.msgHereIsOrder(o);
 
 		}
 		else if(task.type == TaskType.goToApartment){
