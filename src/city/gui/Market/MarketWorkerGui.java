@@ -1,10 +1,10 @@
 package city.gui.Market;
 
+import interfaces.MarketWorker;
+
 import java.awt.*;
 import java.util.ArrayList;
 import city.gui.Gui;
-
-import Role.MarketWorker;
 
 public class MarketWorkerGui implements Gui {
 
@@ -12,10 +12,10 @@ public class MarketWorkerGui implements Gui {
 
 	MarketGui gui;
 	
-	boolean isPresent = true;
+	boolean isPresent = false;
     
-    private int xPos = 230, yPos = 445;
-    public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
+    private int xPos = 150, yPos = 200;
+    public int xDestination = 200, yDestination = 150, host_tableX, host_tableY;
     
     private static final int COOK_SIZE_X = 20;
     private static final int COOK_SIZE_Y = 20;
@@ -79,7 +79,7 @@ public class MarketWorkerGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.YELLOW);
         g.fillRect(xPos, yPos, COOK_SIZE_X, COOK_SIZE_Y);
 		if (!carryingOrderText.equals("")){
 			g.drawString(carryingOrderText, xPos, yPos);
