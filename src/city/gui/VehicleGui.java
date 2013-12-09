@@ -37,7 +37,11 @@ public class VehicleGui implements Gui {
 		if(type == "car") {
 			xPos = 450;
 			yPos = 390;
-		} else {
+		} else if(type == "truck") {
+			xPos = 420;
+			yPos = 270;
+		}
+		else {
 			xPos = 630;
 			yPos = 660;
 		}
@@ -50,11 +54,9 @@ public class VehicleGui implements Gui {
 		movingUp = new ImageIcon("images/" + type + "_up.png");
 		movingDown = new ImageIcon("images/" + type + "_down.png");
 
-		if(type == "car") {
-			icon = movingDown;
+		if(type == "car" || type == "truck") {
 			setInvisible();
 		}
-		else
 			icon = movingUp;
 	}
 

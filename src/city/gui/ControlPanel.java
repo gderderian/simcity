@@ -951,6 +951,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000	);
+		
+		addVehicle("truck");
 
 		addPerson("joe", "No Job");
 		
