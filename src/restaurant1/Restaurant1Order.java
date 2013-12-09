@@ -1,8 +1,10 @@
 package restaurant1;
 
-import restaurant1.Restaurant1CookRole.orderState;
+import restaurant1.*;
 
 public class Restaurant1Order {
+	
+	public enum orderState { pending, cooking, cooked, pickedUp, finished };
 	
 	Restaurant1WaiterRole w;
 	String choice;
@@ -10,11 +12,15 @@ public class Restaurant1Order {
 	orderState s;
 	int orderNumber;
 
-	Restaurant1Order(Restaurant1WaiterRole w, String choice, int table, orderState s, int number) {
+	Restaurant1Order(Restaurant1WaiterRole w, String choice, int table) {
 		this.w = w;
 		this.choice = choice;
 		this.table = table;
-		this.s = s;
-		this.orderNumber = number;
+		this.s = orderState.pending;
+		this.orderNumber = -1;
+	}
+	
+	public void setNumber(int num) {
+		this.orderNumber = num;
 	}
 }

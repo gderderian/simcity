@@ -56,6 +56,8 @@ public abstract class Vehicle extends Agent {
 	}
 	
 	void guiMoveFromCurrentPositionTo(Position to){
+		if(aStar == null)
+			return;
 		//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
 		AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);

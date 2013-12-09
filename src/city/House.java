@@ -54,6 +54,11 @@ public class House implements HouseInterface{
 		h= p;
 	}
 	
+	public int getNum(){
+		String temp= Character.toString(houseName.charAt(5));
+		return Integer.parseInt(temp);
+	}
+	
 	
 	//PUBLIC METHODS
 	/* (non-Javadoc)

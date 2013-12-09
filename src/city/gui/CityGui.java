@@ -38,6 +38,7 @@ import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
+import Role.MarketCustomerRole;
 import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
@@ -218,6 +219,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up and populate apartment 1
+		controlPanel.addApartment1ToCityMap(apart1);
 		addBuildingPanel(apt1);
 		for(int i=0; i<20; i++){
 			HouseAnimationPanel temp= new HouseAnimationPanel();
@@ -227,6 +229,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt1List.get(i));
 		}
 		//Set up and populate apartment 2
+		controlPanel.addApartment2ToCityMap(apart2);
 		addBuildingPanel(apt2);
 		for(int i=0; i<20; i++){
 			HouseAnimationPanel temp= new HouseAnimationPanel();
@@ -607,6 +610,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		p.addRole(bankCustomerRole, false);
 		
 		
+		/* Check if the person lives in an apartment and add them to the correct tenant list */
+		if((p.house != null) && (!job.contains("Landlord"))){
+			if((p.house.getNum() >= 22) && (p.house.getNum() <= 42)){
+				System.out.println("Adding tenant, the landlord should now log this"); 
+				apart1.addTenant(p);
+			 }
+			 else if((p.house.getNum() >= 43) && (p.house.getNum() <= 62)){
+				apart2.addTenant(p);
+			 }
+		}
+		
 		/* Now, create a job role */
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
@@ -693,9 +707,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				else if(r instanceof WaiterRole4){
 					rest4.addWaiters((WaiterRole4) r);
 				}
-			}
-			
-			else if(job.contains("Restaurant5")) {
+			} else if(job.contains("Restaurant5")) {
 				p.addFirstJob(r, "rest5");
 				if(r instanceof Restaurant5HostRole) {
 					rest5.setHost((Restaurant5HostRole)r);
@@ -716,10 +728,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					rest5.addWaiters((Restaurant5WaiterRole) r);
 				}
 
-			}			
-			
-			
-			else if(job.contains("Market")) {
+			} else if(job.contains("market") || job.contains("Market")) {
 				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
 					market.addWorker((MarketWorker)r);
@@ -729,11 +738,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					market.setManager((MarketManager)r);
 					p.setRoleActive(r);
 				}
-			}
-			
-			
-			//I added this
-			else if(job.contains("Bank")) {
+			} else if(job.contains("Bank")) {
 				p.addFirstJob(r, "bank1");
 				/*
 				if(r instanceof BankTellerRole) {
@@ -742,23 +747,19 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 				*/
 				if(r instanceof BankManagerRole) {
-					System.out.println("<<<<<<<<<<<<<<<<<<   adding bank manager in the bank!");
+					System.out.println("adding bank manager in the bank!");
 					bank.setBankManager((BankManagerRole) r);
 					p.setRoleActive(r);
 				}
 					
-			}
-			
-			else if(job.contains("Landlord")){
+			} else if(job.contains("Landlord")){
 				if(job.equals("Landlord1")){
 					p.addFirstJob(r, "apart1");
-					
 					p.setRoleActive(r);
 					apart1.setLandlord((LandlordRole)r);
 				}
 				else if(job.equals("Landlord2")){
 					p.addFirstJob(r, "apart2");
-					
 					p.setRoleActive(r);
 					apart2.setLandlord((LandlordRole)r);
 				}
@@ -896,14 +897,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			MarketManager role= new MarketManager(p.getName(), p); 
+			MarketManager role= new MarketManager(p.getName(), p);
 			return role;
 		}
 		else if(type.equals("Market Worker")){
 			MarketWorker role= new MarketWorker(p); 
 			return role;
 		}
-				
+		else if(type.equals("Market Customer")){
+			MarketCustomerRole role= new MarketCustomerRole(p); 
+			return role;
+		}	
 		else if(type.equals("Restaurant5 Customer")){
 			Restaurant5CustomerRole role = new Restaurant5CustomerRole(p.getName(), p);
 			return role;
@@ -932,11 +936,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		else if(type.equals("Restaurant5 Cashier")){
 			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
 			return role;
-		}
-		
-		//I added this
-		else if(type.equals("Bank Manager")){
-			
+		} else if(type.equals("Bank Manager")){
 			System.out.println("!!!!!!!!!!!!  I'm in get role");
 			//Bank bank = new Bank();
 			BankManagerRole role = new BankManagerRole(bank);
@@ -946,11 +946,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
 			return role;
-		}
-		
-		//I added this
-		else if(type.equals("Bank Teller")) {
-			//Bank bank = new Bank();
+		} else if(type.equals("Bank Teller")) {
+			Bank bank = new Bank();
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
 			BankGui bankgui = new BankGui(); 
@@ -958,17 +955,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
 			return role;	
-		}
-		
-		else if(type.equals("Landlord1")){
+		} else if(type.equals("Landlord1")){
 			LandlordRole role = new LandlordRole(p.getName(), p); 
 			LandlordGui gui = new LandlordGui(role);
 			role.setGui(gui);
 			apt1.addGui(gui); 
 			gui.setPresent(false);
 			return role;
-		}
-		else if(type.equals("Landlord2")){
+		} else if(type.equals("Landlord2")){
 			LandlordRole role = new LandlordRole(p.getName(), p); 
 			LandlordGui gui = new LandlordGui(role);
 			role.setGui(gui);

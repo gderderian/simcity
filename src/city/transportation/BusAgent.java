@@ -66,7 +66,8 @@ public class BusAgent extends Vehicle implements Bus {
 		stopPositions.put(3, new Position(8, 14));
 
 		currentPosition = new Position(17, 20);
-		currentPosition.moveInto(aStar.getGrid());
+		if(aStar != null)
+			currentPosition.moveInto(aStar.getGrid());
 	}
 
 	//Messages

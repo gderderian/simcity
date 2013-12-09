@@ -10,10 +10,11 @@ public class Restaurant1NormalWaiterRole extends Restaurant1WaiterRole {
 	}
 
 	void sendOrderToCook(MyCustomer c) {
+		Restaurant1Order order = new Restaurant1Order(this, c.choice, c.table);
 		log("Sending " + c.c.getName() + "'s order of " + c.choice + " to cook wirelessly. Isn't technology great?");
 		
+		cook.msgHereIsOrder(order);	
 		c.s = customerState.orderSentToCook;
-		cook.msgHereIsOrder(this, c.choice, c.table);	
 	}
 
 }
