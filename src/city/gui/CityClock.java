@@ -20,6 +20,7 @@ public class CityClock {
 	
 	public CityClock(CityGui cityGui){
 		this.cityGui= cityGui;
+		day = 1;
 	}
 
 	public void startTime(){
