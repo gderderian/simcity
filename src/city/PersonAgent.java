@@ -1049,9 +1049,13 @@ public class PersonAgent extends Agent implements Person{
 			//Get the location and set the role in the task
 			String location = cityMap.getClosestPlaceFromHere(house.getName(), "rest");
 			task.location = location;
-			String[] restNum = location.split("rest");
-			log("The number of the restaurant I am going to is " + restNum[0]);
-			String roleName = "Restaurant" + restNum[0] + "CustomerRole";
+			String temp= Character.toString(location.charAt(4));
+			int num= Integer.parseInt(temp);
+			//String[] restNum = location.split("rest");  //This was not returning a valid number
+			log("The number of the restaurant I am going to is " + num);
+			//log("The number of the restaurant I am going to is " + restNum[0]);
+			//String roleName = "Restaurant" + restNum[0] + "CustomerRole";
+			String roleName = "Restaurant" + num + "CustomerRole";
 			task.role = roleName;
 
 			if(car != null){	//if the person has a car, he/she will take it

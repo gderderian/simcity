@@ -195,8 +195,9 @@ public class LandlordRole extends Role implements Landlord {
 
 	public void deactivate(){
 		setRoleInactive= false;
-		p.setRoleInactive(this);
+		//p.setRoleInactive(this);
 		p.setGuiVisible();
+		p.stateChanged();
 	}
 	
 	//CLASSES
