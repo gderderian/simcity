@@ -206,7 +206,6 @@ public class ActivityPane extends JPanel implements ActionListener {
 	}
 	
 	public void addActivity(activity a){
-		System.out.println("The number of visible tags is " + visibleTags.size());
 		if(visibleTags.contains(a.type)){
 			newActivities.add(a);
 			updatePane();

@@ -708,10 +708,9 @@ public class PersonAgent extends Agent implements Person{
 		//go home if there is nothing else to do
 		synchronized(tasks){
 			if(tasks.isEmpty()){
-				//log("Tasks is empty");
-				if(name.equals("rest2Test")){
-					log("Tasks is empty");
-				}
+				//if(name.equals("rest2Test")){
+				//	log("Tasks is empty");
+				//}
 				List<PersonTask> dayTasks = schedule.getDayTasks(clock.getDayOfWeekNum());
 				if(dayTasks.isEmpty()){
 					//log("No more tasks in schedule");
