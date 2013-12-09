@@ -258,7 +258,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 			}
 			else if(buildingSelect.getSelectedItem().equals("House")){
 				for(JCheckBox j : roleFilters){
-					if(j.getText().contains("Landlord")){
+					if(j.getText().contains("Landlord") || j.getText().contains("Person")){
 						j.setSelected(true);
 					}
 					else{
@@ -266,14 +266,14 @@ public class ActivityPane extends JPanel implements ActionListener {
 					}
 				}
 				for(ActivityTag t : ActivityTag.values()){
-					if(t.toString().contains("LANDLORD")){
+					if(t.toString().contains("LANDLORD") || t.toString().contains("PERSON")){
 						addTagToFilter(t);
 					}
 				}
 			}
 			else{
 				for(JCheckBox j : roleFilters){
-					if(j.getText().contains((String)buildingSelect.getSelectedItem())){
+					if(j.getText().contains((String)buildingSelect.getSelectedItem()) || j.getText().contains("Person")){
 						j.setSelected(true);
 					}
 					else{
@@ -281,7 +281,7 @@ public class ActivityPane extends JPanel implements ActionListener {
 					}
 				}
 				for(ActivityTag t : ActivityTag.values()){
-					if(t.toString().contains((String)buildingSelect.getSelectedItem())){
+					if(t.toString().contains((String)buildingSelect.getSelectedItem()) || t.toString().contains("PERSON")){
 						addTagToFilter(t);
 					}
 				}
