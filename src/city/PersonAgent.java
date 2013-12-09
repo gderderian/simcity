@@ -533,12 +533,13 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				if(r.isActive){
-					anytrue = r.pickAndExecuteAnAction() || anytrue; // Changed by Grant
+					anytrue = r.pickAndExecuteAnAction();// || anytrue; // Changed by Grant
+					return anytrue;
 				}
 			}
-			if(anytrue){
-				return anytrue;
-			} 
+			//if(anytrue){
+				//return anytrue;
+			//} 
 		}
 		synchronized(tasks){
 			for(PersonTask t : tasks){

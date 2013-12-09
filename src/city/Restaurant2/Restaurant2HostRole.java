@@ -211,7 +211,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		synchronized(customers){
 			for(MyCustomer mc : customers){
 				if(mc.cs == CustomerState.tablesFull){
-					
+					log("Notifying tables full");
 					NotifyTablesFull(mc);
 					return true;
 				}
@@ -222,6 +222,7 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 			if(!waiters.isEmpty()){
 				for(MyWaiter mw : waiters){
 					if (mw.ws == WaiterState.breakRequested){
+						log("Assess break request");
 						mw.ws = WaiterState.assessing;
 						assessBreakRequest(mw);
 						return true;
