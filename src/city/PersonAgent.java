@@ -343,7 +343,28 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 		}
+		//For paying rent
+		if(hour == 2 && (currentHour != hour) && house.getName().contains("apart")){
+			currentHour = hour;
+			if(house.getName().contains("apart1")){
+				msgRentDue(house.getLandlord(), 10.0);
+			}
+		}
+		/* This is unnecessary
+		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
+			synchronized(tasks){
+				PersonTask task = new PersonTask(TaskType.goToWork);
+				tasks.add(task);
+				if(name.equals("bank teller"))
+				{
+					task.role = "BankTellerRole";
+				} else if (name.equals("MarketManager")){
+				}
+			}
+			log("It's time for me to go to work!");
+		}*/
 		if(hour == 3 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
 			currentHour = hour;
 			synchronized(tasks){
