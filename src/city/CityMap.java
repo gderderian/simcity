@@ -187,6 +187,10 @@ public class CityMap {
 		restaurant1 = r;
 	}
 	
+	public void setRestaurant2(Restaurant2 r){
+		restaurant2 = r;
+	}
+	
 	public void setRestaurant3(Restaurant3 r){
 		restaurant3 = r;
 	}
