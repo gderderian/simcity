@@ -2,7 +2,7 @@ package city;
 
 public class PersonTask {
 	
-	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, goToApartment, doneWithWork};
+	enum TaskType {gotHungry, goToWork, goToMarket, getOnBus, goToBank, goToApartment, doneWithWork, goHome};
 	enum Transportation {undecided, walking, bus, car};
 	enum State {initial, processing, inTransit, arrived, complete};
 	/*

@@ -36,6 +36,7 @@ public class MarketManager extends Role {
 	ActivityTag tag = ActivityTag.MARKETMANAGER;
 	
 	MarketManagerGui marketMgrGui;
+	public TruckAgent myTruck;
 
 	PersonAgent p;
 	
@@ -228,6 +229,7 @@ public class MarketManager extends Role {
 			o.order.getRecipient().msgHereIsYourOrder(o.order);
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
+			/*
 			int initOrders = myMarket.marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
 			TruckAgent selectedTruck = null;
 			synchronized(myMarket.marketTrucks){
@@ -238,7 +240,8 @@ public class MarketManager extends Role {
 					}
 				}
 			}
-			selectedTruck.msgPleaseDeliver(o.order);
+			*/
+			myTruck.msgPleaseDeliver(o.order);
 			o.state = orderState.givenToTruck;
 		}
 	}
@@ -288,6 +291,10 @@ public class MarketManager extends Role {
 	
 	public String getMarketName(){
 		return myMarket.getName();
+	}
+
+	public void setTruck(TruckAgent newTruck) {
+		myTruck = newTruck;
 	}
 
 }

@@ -11,14 +11,12 @@ import restaurant1.Restaurant1;
 import restaurant1.Restaurant1CustomerRole;
 import tomtesting.interfaces.Restaurant5Customer;
 import city.Restaurant2.Restaurant2;
-import city.Restaurant2.Restaurant2CustomerRole;
 import city.Restaurant3.CustomerRole3;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.transportation.BusStopAgent;
-import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.Role;
 import astar.Position;
@@ -229,7 +227,7 @@ public class CityMap {
 	}
 	
 	public Position getParkingLocation(String location) {
-		return parkingLocations.get(location);
+			return parkingLocations.get(location);
 	}
 	
 	public int getX(String location) {
@@ -352,6 +350,19 @@ public class CityMap {
 		}
 	}
 	
+	
+	public void msgMarketHereIsTruckOrder(int num, MarketOrder o){
+		// TODO change this to load balance the markets once they are all populated
+		if(num == 1 || num == 2){
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		}
+		else if(num == 3 || num == 4){
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		}
+		else if(num == 5){
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		}
+	}
 	
 	
 	public void msgArrivedAtBank(Role bankteller) {

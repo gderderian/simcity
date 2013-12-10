@@ -6,6 +6,7 @@ package city;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import city.transportation.TruckAgent;
 import Role.MarketManager;
 import Role.MarketWorker;
@@ -13,15 +14,14 @@ import Role.MarketWorker;
 public class Market { // Class modeled after comment made in https://github.com/usc-csci201-fall2013/simcity201/issues/28
 
 	public MarketManager mktManager;
-	public List<TruckAgent> marketTrucks;
+	
 	String marketName;
 	
 	public Market(){
-		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
+		
 	}
 	
 	public Market(String name){
-		marketTrucks = Collections.synchronizedList(new ArrayList<TruckAgent>());
 		marketName = name;
 	}
 	
@@ -37,9 +37,9 @@ public class Market { // Class modeled after comment made in https://github.com/
 		return mktManager;
 	}
 	
-	public void addTruck(TruckAgent newTruck){
-		marketTrucks.add(newTruck);
-	}
+	//public void setTruck(TruckAgent newTruck){
+	//	mktManager.setTruck(newTruck);
+	//}
 	
 	public void setName(String name){
 		marketName = name;

@@ -15,6 +15,7 @@ import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
 import city.gui.restaurant4.CookGui4;
+import city.transportation.TruckAgent;
 
 public class CookRole4 extends Role implements Cook4 {
 	
@@ -110,7 +111,7 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 	
 	 
-	public void msgHereIsYourOrder(MarketOrder mo){
+	public void msgHereIsYourOrder(MarketOrder mo){ 
 		List<OrderItem> order = mo.getOrders();
 		for(int i=0; i<order.size(); i++){
 			if(order.get(i).type.equals("Eggs")){
@@ -246,8 +247,9 @@ public class CookRole4 extends Role implements Cook4 {
 		orders.add(pancakes);
 		orders.add(bacon);
 		
-		MarketOrder order= new MarketOrder(orders, "Restaruant4", p);
-		market.msgHereIsOrder(order);
+		MarketOrder order= new MarketOrder(orders, "rest4", p);
+		p.getCityMap().msgMarketHereIsTruckOrder(4, order);
+		//market.msgHereIsTruckOrder(order);
 		o.ms= marketState.ordered;
 		p.stateChanged();
 	}
@@ -396,12 +398,12 @@ public class CookRole4 extends Role implements Cook4 {
 		String type;
 		private int cookingTime;
 		private int currAmount;
-		private final int capacity= 15;
-		private final int low= 3;
+		private final int capacity= 5;
+		private final int low= 2;
 		
 		Food(String type){
 			this.type= type;
-			currAmount= 10;
+			currAmount= 1;
 			if(type == "Eggs"){
 				cookingTime= eggTime;
 			}

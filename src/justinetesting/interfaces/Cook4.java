@@ -1,6 +1,7 @@
 package justinetesting.interfaces;
 
 import city.MarketOrder;
+import city.transportation.TruckAgent;
 
 public interface Cook4 {
 
