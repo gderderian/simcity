@@ -18,7 +18,6 @@ import java.util.concurrent.Semaphore;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.CityMap;
-import city.Market;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
@@ -233,9 +232,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	}
 	
 	private void checkFood(Order o) {
-		//if(markets.isEmpty()){
-		//	o.w.msgOutOfFood();
-		//}
 		Food temp = foods.get(o.choice);
 		if(temp.inventory == 0){
 			o.setState(OrderState.sent);

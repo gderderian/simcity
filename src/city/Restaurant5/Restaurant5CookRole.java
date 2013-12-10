@@ -24,6 +24,7 @@ import interfaces.MarketManager;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -115,6 +116,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 
 	// Messages
 	//After receiving message from the waiter start cooking
+	/*
 	public void msgHereIsYourOrder(MarketOrder mo){ 
 		List<OrderItem> order = mo.getOrders();
 		for(int i=0; i<order.size(); i++){
@@ -130,7 +132,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		o.ms= marketState.fulfilled;
 		this.p.stateChanged();
 	}
-	
+	*/
 	
 	
 	
@@ -284,7 +286,12 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			{
 				if(findmarket.suppliesoffood.get("chicken") == true)
 				{
-					findmarket.market.msgReceviedOrderFromCook(this,"chicken");
+					List<OrderItem> orders= new ArrayList<OrderItem>();
+					OrderItem chicken= new OrderItem("chicken", 5);
+					orders.add(chicken);
+					MarketOrder order= new MarketOrder(orders, "rest5", person);
+					person.getCityMap().msgMarketHereIsTruckOrder(5, order);
+					//findmarket.market.msgReceviedOrderFromCook(this,"chicken");
 					callchickenmarket = true;
 					return true;
 				}
@@ -300,7 +307,12 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			{
 				if(findmarket.suppliesoffood.get("burrito") == true)
 				{
-					findmarket.market.msgReceviedOrderFromCook(this,"burrito");
+					List<OrderItem> orders= new ArrayList<OrderItem>();
+					OrderItem burrito= new OrderItem("burrito", 5);
+					orders.add(burrito);
+					MarketOrder order= new MarketOrder(orders, "rest5", person);
+					person.getCityMap().msgMarketHereIsTruckOrder(5, order);
+					//findmarket.market.msgReceviedOrderFromCook(this,"burrito");
 					callburritomarket = true;
 					return true;
 				}
@@ -317,7 +329,13 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			{
 				if(findmarket.suppliesoffood.get("pizza") == true)
 				{
-					findmarket.market.msgReceviedOrderFromCook(this,"pizza");
+					
+					List<OrderItem> orders= new ArrayList<OrderItem>();
+					OrderItem pizza = new OrderItem("pizza", 5);
+					orders.add(pizza);
+					MarketOrder order= new MarketOrder(orders, "rest5", person);
+					person.getCityMap().msgMarketHereIsTruckOrder(5, order);
+					//findmarket.market.msgReceviedOrderFromCook(this,"pizza");
 					callpizzamarket = true;
 					return true;
 				}
@@ -472,11 +490,6 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 	public void setOrderSpindle(OrderSpindle5 orderspindle) {
 		this.orderspindle = orderspindle;
-	}
-	
-	public void setMarketManager(MarketManager setmarketmanager)
-	{
-		marketmanager = setmarketmanager;
 	}
 	
 	

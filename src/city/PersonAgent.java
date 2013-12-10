@@ -41,6 +41,9 @@ import city.gui.House.HomeOwnerGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
+import Role.BankManagerRole;
+import Role.MarketManager;
+
 
 public class PersonAgent extends Agent implements Person{
 
@@ -400,7 +403,14 @@ public class PersonAgent extends Agent implements Person{
 				msgRentDue(house.getLandlord(), 10.0);
 			}
 		}
-		if(hour == 3 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+		
+		if(hour == 9 && am_pm.equals("pm") && myJob.role instanceof BankManagerRole)
+		{
+			((BankManagerRole) myJob.role).msgEndOfTheDay();	
+		}
+		
+		
+		if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.gotHungry);
@@ -408,14 +418,14 @@ public class PersonAgent extends Agent implements Person{
 				log("I'm getting hungry.");
 			}
 		}
-		else if(hour == 3 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
+		else if(hour == 6 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I need to go to the bank");
 			}
 		} 
-		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1"))){
+		else if(hour == 6 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest1"))){
 
 			wallet = 40;
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
@@ -425,7 +435,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 		}
-		else if(hour == 4 && minute < 15 && (name.equals("marketClient"))){
+		else if(hour == 7 && minute < 15 && (name.equals("marketClient"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				task.role = "MarketCustomer";
@@ -445,7 +455,7 @@ public class PersonAgent extends Agent implements Person{
 			log("Adding got hungry task");
 		}
 		*/
-		else if(hour == 4 && minute >= 15 && minute < 30 && am_pm.equals("am") && myJob == null){
+		else if(hour == 12 && minute >= 15 && minute < 30 && am_pm.equals("pm") && myJob == null){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -1084,14 +1094,6 @@ public class PersonAgent extends Agent implements Person{
 					((BankCustomerRole) r).amountofcustomermoney = 40;
 					((BankCustomerRole) r).bankaccountnumber = 1;
 					}
-					
-					if(name.equals("bankCustomerTest1")) {
-						
-						((BankCustomerRole) r).amountofcustomermoney = 40;
-						((BankCustomerRole) r).bankaccountnumber = 1;
-					}
-						
-				
 					r.setActive(wallet);
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();

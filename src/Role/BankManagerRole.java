@@ -26,7 +26,7 @@ public class BankManagerRole extends Role{
 
 	public enum banktellerstate {arrived, free, busy};
 	//public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
-	public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft};
+	public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft, endoftheday};
 	public enum customerstate {waiting, beingserved, leaving};
 	public String name;
 	public Semaphore accessingaccount = new Semaphore(0,true);
@@ -70,6 +70,13 @@ public class BankManagerRole extends Role{
 		log("" + banktellers.size());
 		person.stateChanged();
 	}
+	
+	public void msgEndOfTheDay()
+	{
+		state = bankmanagerstate.endoftheday;
+		person.stateChanged();	
+	}
+	
 	
 	public void msgBankRobberArrived(BankRobberRole setbankrobber) {
 		
@@ -240,7 +247,7 @@ public class BankManagerRole extends Role{
 			}
 		}
 
-		if(state == bankmanagerstate.calculateloan)
+		if(state == bankmanagerstate.endoftheday)
 		{
 			//this is a very simple loan calculation system with some limits
 
@@ -258,7 +265,25 @@ public class BankManagerRole extends Role{
 				}
 
 			}
-
+			
+			synchronized(banktellers)
+			{
+				
+			
+			for(mybankteller bankteller: banktellers)
+			{
+			
+				
+				
+			}
+			
+			
+			
+			}
+			
+			
+			
+			
 			//this is my new design for loan system
 			/*
 			synchronized(bank.accounts)

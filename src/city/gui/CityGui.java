@@ -799,12 +799,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					managerMarketCounter++;
 				}
 			} else if(job.contains("Bank")) {
-				/*
 				if(r instanceof BankTellerRole) {
 					bank.addBankTeller((BankTellerRole)r);
 					p.setRoleActive(r);
+					p.addFirstJob(r, "bank1", 2);
 				}
-				 */
 				if(r instanceof BankManagerRole) {
 					System.out.println("adding bank manager in the bank!");
 					bank.setBankManager((BankManagerRole) r);

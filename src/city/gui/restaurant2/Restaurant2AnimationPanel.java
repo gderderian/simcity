@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -42,7 +43,7 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
         
 	}
 	
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
 	public void actionPerformed(ActionEvent e) {
 		repaint();  //Will have paintComponent called
@@ -117,12 +118,13 @@ public class Restaurant2AnimationPanel extends BuildingPanel implements ActionLi
     }
     
     public void updatePos(){
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-                gui.updatePosition();
-            }
-        }
+		synchronized(guis){
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
     }
 
 }
