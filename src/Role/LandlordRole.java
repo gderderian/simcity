@@ -128,7 +128,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
-		log("Landlord role scheduler, Y U NO WORK?");
+		//log("Landlord role scheduler, Y U NO WORK?");
 		synchronized(tenants){
 			for(MyTenant t : tenants){
 				if(t.newPayment == true){// t.paymentsUpToDate == false){

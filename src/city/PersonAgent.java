@@ -156,6 +156,21 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		//populate fridge with a few foods to start
+		if(house != null){
+			log("My house should be stocked with a minimal amount of food");
+			List<Food> groceries= new ArrayList<Food>();
+			Food chicken= new Food("Chicken");
+			Food steak= new Food("Steak");
+			Food salad= new Food("Salad");
+			Food pizza= new Food("Pizza");
+			groceries.add(chicken);
+			groceries.add(steak);
+			groceries.add(salad);
+			groceries.add(pizza);
+			house.boughtGroceries(groceries);
+		}
 
 		currentHour = 0;
 
@@ -416,7 +431,7 @@ public class PersonAgent extends Agent implements Person{
 =======
 		} */
 		
-		else if(t > 3000 && t < 5000 && am_pm.equals("am") && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
+		/*else if(t > 3000 && t < 5000 && am_pm.equals("am") && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
 			//currentHour = hour;
 			log("I should be a landlord");
 			synchronized(roles){
@@ -433,7 +448,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		
 
-		}
+		}*/
 		
 		/*Adds got hungry task
 		 * Right now this is only for the test person
@@ -1024,7 +1039,16 @@ public class PersonAgent extends Agent implements Person{
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
-			goToRestaurant(task);
+			int y = rand.nextInt(2);
+			if(y == 0){
+				goToRestaurant(task);
+			}
+			else{
+				String food = foodsToEat.get(y);
+				house.checkFridge(food);
+				log("I'm going to eat " + food + " in my house.");
+				log.add(new LoggedEvent("Decided to eat something from my house."));
+			}
 		}
 	}
 
