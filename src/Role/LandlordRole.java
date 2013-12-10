@@ -128,6 +128,7 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
+		log("Landlord role scheduler, Y U NO WORK?");
 		synchronized(tenants){
 			for(MyTenant t : tenants){
 				if(t.newPayment == true){// t.paymentsUpToDate == false){
@@ -147,6 +148,7 @@ public class LandlordRole extends Role implements Landlord {
 			}
 		}
 		if(setRoleInactive){
+			log("Setting role inactive ova here (landlord role scheduler)");
 			deactivate();
 		}
 		return false;
@@ -195,7 +197,7 @@ public class LandlordRole extends Role implements Landlord {
 
 	public void deactivate(){
 		setRoleInactive= false;
-		//p.setRoleInactive(this);
+		p.setRoleInactive(this);
 		p.setGuiVisible();
 		p.stateChanged();
 	}
@@ -234,7 +236,6 @@ public class LandlordRole extends Role implements Landlord {
 	}
 	
 	public void setGuiActive() {
-		log("Set gui active");
 		for(MyTenant t : tenants){
 			if(t.maintenance){
 				t.house.getAnimationPanel().addGui(gui);

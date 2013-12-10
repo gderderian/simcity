@@ -944,6 +944,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		*/
 		addPerson("bankCustomerTest", "No job");
+		//addPerson("bank teller", "Bank Teller");
+		//addPerson("bankCustomerTest", "No job");
+		//addPerson("bank teller", "Bank Teller");
 
 	}
 
@@ -1028,9 +1031,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Landlord", "Landlord1");
 		*/
 		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
+		addPerson("Jenny", "No Job");
+		addPerson("Jake", "No Job");
+		addPerson("Jess", "No Job");
 		addPerson("brokenApplianceTest", "No Job");
 	}
 	
@@ -1062,10 +1065,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
 		/*Restaurant3 workers*/
-		addPerson("host", "Restaurant3 Host");
-		addPerson("cashier", "Restaurant3 Cashier");
-		addPerson("cook", "Restaurant3 Cook");
-		addPerson("waiter", "Restaurant3 Waiter");
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
 		/*Restaurant4 workers*/
 		addPerson("host4", "Restaurant4 Host");
 		addPerson("cashier4", "Restaurant4 Cashier");

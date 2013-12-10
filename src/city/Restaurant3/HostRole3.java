@@ -130,6 +130,11 @@ public class HostRole3 extends Role {
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		
+		System.out.println("Host customer size: " + waitingCustomers.size() + " - Waiters: " + myWaiters.size());
+		// System.out.println("Status: " + waitingCustomers.get(0).state);
+		
 		if (!waitingCustomers.isEmpty() && checkAllTable3sOccupied() == true) { // Ask customer if they want to stay when full
 			try {
 				if (waitingCustomers.get(0).state.equals(CustomerState.none)){ // If they haven't been notified restaurant is full, notify them
@@ -167,7 +172,7 @@ public class HostRole3 extends Role {
 	// Actions
 	private void seatCustomer(CustomerRole3 customer, Table3 table, int X, int Y) {
 		// Find waiter and notify them
-		//log("Seating customer " + customer.getCustomerName() + " at table #" + table.tableNumber + ".");
+		log("Seating customer " + customer.getCustomerName() + " at table #" + table.tableNumber + ".");
 		if (myWaiters.size() != 0) {
 			int init_cust = myWaiters.get(0).numCustomers;
 			MyWaiter w_selected = null;

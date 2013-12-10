@@ -767,7 +767,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				p.addFirstJob(r, "bank1");
 				/*
 				if(r instanceof BankTellerRole) {
-					bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) r);
+					bank.addBankTeller((BankTellerRole)r);
 					p.setRoleActive(r);
 				}
 				*/
@@ -990,9 +990,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			bank1Animation.addGui(gui);
 			return role;
 		} else if(type.equals("Bank Teller")) {
-			Bank bank = new Bank();
+			//Bank bank = new Bank();
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!! creating teller in  getnewrole()");
 			BankGui bankgui = new BankGui(); 
 			BankTellerRoleGui gui = new BankTellerRoleGui(role, bankgui);
 			role.setGui(gui);
