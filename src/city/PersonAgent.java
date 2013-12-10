@@ -903,7 +903,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		else if(task.type == TaskType.goToWork){
-			System.out.println("Starting job in 735 of personagent");
 			myJob.startJob();
 		}
  
@@ -1379,7 +1378,7 @@ public class PersonAgent extends Agent implements Person{
 		else
 			location = "mark3";
 
-		location = "mark1";
+		// location = "mark1";
 
 		// task.location = location;
 
@@ -1747,12 +1746,9 @@ public class PersonAgent extends Agent implements Person{
 
 		public void startJob(){
 			role.setActive(wallet);
-			System.out.println("Setting role active" + role.getRoleName());
+			log("Setting role active" + role.getRoleName());
 			workState = WorkState.atWork;
-			System.out.println("at work, about to check for null");
 			if(role.getGui() != null){
-				System.out.println("NOT NULL!!!!");
-				System.out.println("at work");
 				role.getGui().setPresent(true);
 			}
 			if(role instanceof BankTellerRole) {
