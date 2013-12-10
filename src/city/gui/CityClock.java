@@ -126,9 +126,9 @@ public class CityClock {
 	}
 	
 	public String getDayState(){
-		if (dayState.equals(dayState.morning)){
+		if (dayState.equals(dayStates.morning)){
 			return "Morning";
-		} else if (dayState.equals(dayState.afternoon)){
+		} else if (dayState.equals(dayStates.afternoon)){
 			return "Afternoon";
 		} else {
 			return "Night";
@@ -209,17 +209,17 @@ public class CityClock {
 		int calcDayHours = 179999 * hour;
 		int totalDayHours = calcDayHours / 24;
 		
-		System.out.println("Newly set hours: " + totalDayHours);
+		//System.out.println("Newly set hours: " + totalDayHours);
 		
 		// Calculate minutes in total day timer
 		int calcDayMinutes = 60 * minute;
 		int totalDayMinutes = calcDayMinutes / 7500;
 		
-		System.out.println("Newly set minutes: " + totalDayMinutes);
+		//System.out.println("Newly set minutes: " + totalDayMinutes);
 		
-		int finalTimerSet = totalDayHours + totalDayMinutes + 1; // This is what our timer needs to be reset and then set to
+		int finalTimerSet = totalDayHours + totalDayMinutes; // This is what our timer needs to be reset and then set to
 		
-		System.out.println("Newly set total: " + finalTimerSet);
+		//System.out.println("Newly set total: " + finalTimerSet);
 		
 		if (finalTimerSet <= 59999){
 			dayState = dayStates.morning;
@@ -235,7 +235,7 @@ public class CityClock {
 		
 		cityTime.setInitialDelay(179999 - finalTimerSet);
 		manualSet = true;
-		System.out.println("Time delay: " + cityTime.getDelay() + " - New begin: " + finalTimerSet);
+		//System.out.println("Time delay: " + cityTime.getDelay() + " - New begin: " + finalTimerSet);
 		cityTime.start();
 		//beginTime = System.currentTimeMillis();
 		checkTimer.stop();
