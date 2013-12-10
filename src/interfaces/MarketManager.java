@@ -10,4 +10,6 @@ public interface MarketManager {
 	
 	public void msgFinishedDelivery(MarketOrder o);
 
+	public String getMarketName();
+
 }

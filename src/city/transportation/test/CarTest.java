@@ -1,13 +1,10 @@
 package city.transportation.test;
 
-import test.mock.MockPerson;
-import city.PersonAgent;
+import junit.framework.TestCase;
 import city.transportation.CarAgent;
 import city.transportation.CarAgent.CarEvent;
 import city.transportation.CarAgent.CarState;
 import city.transportation.mock.MockTransportationPerson;
-
-import junit.framework.*;
 
 public class CarTest extends TestCase {
 	//instantiated in setUp()
@@ -34,11 +31,26 @@ public class CarTest extends TestCase {
 		assertTrue(car.owner == null);
 		
 		//Message
+		car.msgPickMeUp(owner, null);
+		
+		//Postconditions
+		assertTrue(car.event == CarEvent.drivingToOwner);
+		
+		//Scheduler
+		car.pickAndExecuteAnAction();		
+		car.pickAndExecuteAnAction();
+		
+		//Postconditions
+		assertTrue(car.event == CarEvent.arrivingAtOwner);
+		assertTrue(owner.log.getLastLoggedEvent().getMessage().equals("Got message: Car is picking me up")); //Owner received correct message
+		assertTrue(car.state == CarState.atOwner);
+		
+		//Message
 		car.msgDriveTo(owner, destination);
 		
 		//Postconditions
-		assertTrue(car.event == CarEvent.driving);
-		assertTrue(car.state == CarState.parked);
+		assertTrue(car.event == CarEvent.drivingToDestination);
+		assertTrue(car.state == CarState.atOwner);
 		assertTrue(car.destination == destination);
 		assertTrue(car.owner == owner);
 		
@@ -46,7 +58,7 @@ public class CarTest extends TestCase {
 		car.pickAndExecuteAnAction();
 		
 		//Postconditions
-		assertTrue(car.event == CarEvent.arriving);
+		assertTrue(car.event == CarEvent.arrivingAtDestination);
 		assertTrue(car.state == CarState.driving);
 		
 		//Run scheduler
