@@ -385,33 +385,28 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		else if(hour == 3 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
-			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I need to go to the bank");
 			}
-
 		} 
-		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1")))
-		{
-			currentHour = hour;
+		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1"))){
 			wallet = 40;
-			synchronized(tasks) {
-				tasks.add(new PersonTask(TaskType.goToBank));
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to go to bank.");
 			}
-			log("It's time for me to go to bank.");
 
-		} 
-		
+		}
 		else if(hour == 4 && minute < 15 && (name.equals("marketClient"))){
-
-			currentHour = hour;
-			synchronized(tasks) {
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				task.role = "MarketCustomer";
-				tasks.add(task);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to buy something from the market.");
 			}
-			log("It's time for me to buy something from the market.");
 		}
 		
 		/*Adds got hungry task
@@ -426,10 +421,11 @@ public class PersonAgent extends Agent implements Person{
 		}
 		*/
 		else if(hour == 4 && minute >= 15 && minute < 30 && am_pm.equals("am") && myJob == null){
-			currentHour = hour;
-				PersonTask newTask = new PersonTask(TaskType.goToMarket);
-				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
-				log("Adding go to market task");
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to buy something from the market.");
+			}
 		}
 		stateChanged();
 	}
