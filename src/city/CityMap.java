@@ -441,4 +441,7 @@ public class CityMap {
 		}
 	}
 	
+	public Restaurant1 getRest1() {
+		return restaurant1;
+	}
 }

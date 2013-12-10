@@ -25,6 +25,7 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     private JButton sharedDataWaiter;
     
     private JButton depleteInventory;
+    private JButton closeRestaurant;
     
     public Restaurant1Panel(ControlPanel cp) {
     	this.cp = cp;
@@ -41,11 +42,14 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	sharedDataWaiter = new JButton("Add shared data waiter");
     	
     	depleteInventory = new JButton("Deplete inventory");
+    	closeRestaurant = new JButton("Close restaurant");
     	
     	normalWaiter.addActionListener(this);
     	normalWaiter.setAlignmentX(CENTER_ALIGNMENT);
     	sharedDataWaiter.addActionListener(this);
     	sharedDataWaiter.setAlignmentX(CENTER_ALIGNMENT);
+    	closeRestaurant.addActionListener(this);
+    	closeRestaurant.setAlignmentX(CENTER_ALIGNMENT);
     	depleteInventory.addActionListener(this);
     	depleteInventory.setAlignmentX(CENTER_ALIGNMENT);
     	
@@ -67,12 +71,18 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 			addSharedDataWaiter();
 		} else if(e.getSource() == depleteInventory) {
 			depleteInventory();
+		} else if(e.getSource() == closeRestaurant) {
+			closeRestaurant();
 		}
 		
 	}
 
 	private void depleteInventory() {
-		// TODO Auto-generated method stub
+		cp.getRest1().getCook().depleteInventory();
+		
+	}
+	
+	private void closeRestaurant() {
 		
 	}
 
@@ -84,55 +94,5 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 	private void addNormalWaiter() {
 		// TODO Auto-generated method stub
 		
-	}
-
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
-    /**
-     * Adds a customer or waiter to the appropriate list
-     *
-     * @param type indicates whether the person is a customer or waiter (later)
-     * @param name name of person
-     */
-    /*public void addPerson(String type, String name, boolean isHungry) {
-
-    	if (type.equals("Customers")) {
-    		Restaurant1CustomerRole c = new Restaurant1CustomerRole(name);
-    		Restaurant1CustomerGui g = new Restaurant1CustomerGui(c, gui);
-    		if(isHungry) {
-    			g.setHungry();
-    		}
-
-    		gui.animationPanel.addGui(g);
-    		c.setHost(host);
-    		c.setGui(g);
-    		agents.add(c);
-    		customers.add(c);
-    		c.startThread();
-    	}
-    	if (type.equals("Waiters")) {
-    		Restaurant1WaiterRole w = new Restaurant1WaiterRole(name);
-    		Restaurant1WaiterGui g = new Restaurant1WaiterGui(w);
-    		
-    		gui.animationPanel.addGui(g);
-    		w.setHost(host);
-    		w.setCook(cook);
-    		w.setCashier(cashier);
-    		w.setGui(g);
-    		host.addWaiter(w);
-    		agents.add(w);
-    		waiters.add(w);
-    		if(waiters.size() > 13) {
-    			g.setHome((waiters.size() - 13) * 40 + 200, 100);
-    		}
-    		else {
-    			g.setHome(waiters.size() * 40 + 200, 60);
-    		}
-    		w.startThread();
-    	}
-    }*/
-    
-    
+	}   
 }
