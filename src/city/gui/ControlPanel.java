@@ -34,6 +34,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
+import restaurant1.gui.Restaurant1Panel;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
 import city.Apartment;
@@ -46,7 +47,6 @@ import city.PersonAgent;
 import city.account;
 import Role.BankTellerRole;
 import city.Restaurant2.*;
-import city.Restaurant2.Restaurant2;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
