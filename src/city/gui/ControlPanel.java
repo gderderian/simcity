@@ -1009,7 +1009,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public void runRestaurant4Test(){
 
 		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
-		addPerson("rest4Test", "No job");
+		addPerson("restTest", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 	}

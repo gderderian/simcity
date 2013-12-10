@@ -413,8 +413,9 @@ public class PersonAgent extends Agent implements Person{
 			((BankManagerRole) myJob.role).msgEndOfTheDay();	
 		}
 		
-		if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+		//if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+				//|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+		if(hour == 6 && minute < 15 && am_pm.equals("am") && myJob == null){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.gotHungry);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -1285,17 +1286,39 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
 
 	public void goToRestaurant(PersonTask task){
 		//Testing/scenario hacks
-
-		if(name.contains("rest")){	//if it's a restaurant test
+		if(name.equals("restTest")){
+			Random rand = new Random();
+			int num= rand.nextInt(5);
+			if(num == 0){
+				task.location= "rest1";
+				task.role = "Restaurant1CustomerRole";
+			} else if(num == 1){
+				task.location= "rest2";
+				task.role = "Restaurant2CustomerRole";
+			} else if(num == 2){
+				task.location= "rest3";
+				task.role = "Restaurant3CustomerRole";
+			} else if(num == 3){
+				task.location= "rest4";
+				task.role = "Restaurant4CustomerRole";
+			} else if(num == 4){
+				task.location= "rest5";
+				task.role = "Restaurant5CustomerRole";
+			}
+			
+			if(car != null){
+				print("Car is not empty!");
+				String destination = task.location;
+				takeCar(destination);
+			}
+			else{
+				DoGoTo(task.location, task);
+			}
+		}
+		else if(name.contains("rest")){	//if it's a restaurant test
 			String[] restNumTest = name.split("rest");
 			String[] restNum = restNumTest[1].split("Test");
 			String num = restNum[0];
@@ -1310,7 +1333,6 @@ public class PersonAgent extends Agent implements Person{
 			else{
 				DoGoTo(task.location, task);
 			}
-
 		}
 		else{
 			//Generalized function so we can get rid of the hacks
