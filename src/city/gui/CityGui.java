@@ -65,6 +65,7 @@ import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.gui.restaurant2.Restaurant2WaiterGui;
 import city.transportation.BusAgent;
 import city.transportation.CarAgent;
+import city.transportation.CrashCar;
 import city.transportation.TruckAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
@@ -520,15 +521,29 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 
 		if(type.equals("crash")) {
-			/*CarAgent c = new CarAgent(aStarTraversal, controlPanel.getCityMap());
-			vehicles.add(c);
-			VehicleGui g = new VehicleGui(c);
-			c.setGui(g);
+			CrashCar car1 = new CrashCar(aStarTraversal, controlPanel.getCityMap(), 1);
+
+			vehicles.add(car1);
+			VehicleGui g = new VehicleGui(car1);
+			car1.setGui(g);
 			guis.add(g);
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
+			
+			car1.startThread();
 
-			c.startThread();*/
+			CrashCar car2 = new CrashCar(aStarTraversal, controlPanel.getCityMap(), 2);
+			
+			car2.setOtherCrashCar(car1);
+
+			vehicles.add(car2);
+			VehicleGui g2 = new VehicleGui(car2);
+			car2.setGui(g2);
+			guis.add(g2);
+			animationPanel.addGui(g2);
+			g2.setMainAnimationPanel(animationPanel);
+			
+			car2.startThread();
 		}
 	}   
 

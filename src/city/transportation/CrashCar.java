@@ -1,143 +1,111 @@
 package city.transportation;
 
-import java.awt.Graphics2D;
-import java.util.Vector;
+import interfaces.Car;
+import interfaces.Person;
+
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-import javax.swing.ImageIcon;
+import city.CityMap;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import astar.AStarTraversal;
 import astar.Position;
 
-import city.gui.AnimationPanel;
-import city.gui.Gui;
+public class CrashCar extends Vehicle {
+	private boolean test = false;
+	String name = "Crash test!";
+	int num;
+	boolean crashed = false;
 
-public class CrashCar implements Gui {
+	private CrashCar otherCrashCar;	
 
-	AStarTraversal aStar; //This is so that the car can find open grid spots
-	Position currentPosition;
-	Semaphore[][] grid;
+	ActivityTag tag = ActivityTag.CAR;
 
-	boolean collision = false;
-	
-	Vector<Gui> targets;
-	
-	private int xDest;
-	private int yDest;
-	private int yPos;
-	private int xPos;
+	public CrashCar(AStarTraversal aStar, CityMap map, int num) {
+		super(aStar, map);
 
-	boolean isPresent = true;
+		this.num = num;
+		capacity = 1;
+		type = "crash" + Integer.toString(num);
+		guiFinished = new Semaphore(0, true);
 
-	ImageIcon movingRight;
-	ImageIcon movingLeft;
-	ImageIcon movingUp;
-	ImageIcon movingDown;
-	
-	ImageIcon crash1;
-	ImageIcon crash2;
-	ImageIcon crash3;
-
-	ImageIcon icon;
-
-	AnimationPanel animPanel;
-
-	public CrashCar(AStarTraversal a, Vector<Gui> guis){
-		aStar = a;
-		grid = a.getGrid();
-		
-		targets = guis;
-
-		xPos = 450;
-		yPos = 390;
-
-		xDest = xPos;
-		yDest = yPos;
-
-		movingRight = new ImageIcon("images/crash_right.png");
-		movingLeft = new ImageIcon("images/crash_left.png");
-		movingUp = new ImageIcon("images/crash_up.png");
-		movingDown = new ImageIcon("images/crash_down.png");
-
-		setInvisible();
-
-		icon = movingDown;
-		
-		drive();
-	}
-
-	@Override
-	public void updatePosition() {		
-		if(collision) {
-			icon = crash1;
-		}
-
-		if (xPos < xDest) {
-			xPos++;
-			icon = movingRight;
-		} else if (xPos > xDest) {
-			xPos--;
-			icon = movingLeft;
-		}
-
-		if (yPos < yDest) {
-			yPos++;
-			icon = movingDown;
-		} else if (yPos > yDest) {
-			yPos--;
-			icon = movingUp;
-		}
-		
-		if(xPos == xDest && yPos == yDest && !collision) {
-			drive();
-		}
-	}
-
-	private void drive() {
-		int x, y;
-		x = currentPosition.getX();
-		y = currentPosition.getY();
-		
-	}
-
-	public void setMainAnimationPanel(AnimationPanel p) {
-		animPanel = p;
-	}
-
-	public void moveTo(int x, int y) {
-		xDest = x;
-		yDest = y;
-	}
-
-	public void draw(Graphics2D g) {
-		g.drawImage(icon.getImage(), xPos, yPos, animPanel);
-	}
-
-	public boolean isPresent() {
-		return isPresent;
-	}
-
-	public void setInvisible(){
-		isPresent = false;
-		//System.out.println("Setting invisible");
-	}
-
-	public void setVisible(){
-		isPresent = true;
-	}
-
-	public void setPresent(boolean t) {
-		if(t)
-			isPresent = true;
+		if(num == 1) 
+			currentPosition = new Position(16, 20);
 		else
-			isPresent = false;
+			currentPosition = new Position(25, 13);
+
+		if(aStar != null)
+			currentPosition.moveInto(aStar.getGrid());
 	}
 
-	public void teleport(int x, int y) {
-		xPos = x;
-		yPos = y;
-		xDest = x;
-		yDest = y;
+	private void log(String msg){
+		print(msg);
+		if(!test)
+			ActivityLog.getInstance().logActivity(tag, msg, name, false);
+	}
 
+	public void thisIsATest() {
+		test = true;
+	}
+
+	public void msgICrashedIntoYou(CrashCar c) {
+		otherCrashCar = c;
+		crashed = true;
+		stateChanged();
+	}
+
+	protected boolean pickAndExecuteAnAction() {
+		if(!crashed) {
+			DriveToCrashSite();
+		} else {	
+			gui.crashed();
+			log("AAAHHHHHHHHH");
+			burnAway();
+		}
+
+		return false;
+	}
+
+	private void DriveToCrashSite() {
+		gui.setVisible();
+
+		if(num == 1) {
+			guiMoveFromCurrentPositionTo(new Position(9, 13));
+			log("Oh no, it appears that I have broken down in the middle of the road!");
+		} else {
+			guiMoveFromCurrentPositionTo(new Position(10, 13));
+			currentPosition.release(aStar.getGrid());
+			gui.moveTo(390, 450);
+			try {
+				guiFinished.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			otherCrashCar.msgICrashedIntoYou(this);
+			crashed = true;
+			stateChanged();
+		}
+		gui.setVisible();
+	}
+
+	public void setOtherCrashCar(CrashCar c) {
+		otherCrashCar = c;
+	}
+
+	private void burnAway() {
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			public void run() {
+				if(num == 1) {
+					currentPosition.release(aStar.getGrid());
+				}
+				gui.setInvisible();
+				stopThread();
+			}
+		}, 10000	);
 	}
 }
