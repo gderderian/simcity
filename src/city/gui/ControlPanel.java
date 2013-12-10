@@ -17,8 +17,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimerTask;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.BorderFactory;
@@ -34,15 +34,19 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
+import activityLog.ActivityPane;
+import astar.AStarTraversal;
 import city.Apartment;
 import city.ApartmentBuilding;
 import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
-import activityLog.ActivityPane;
-import astar.AStarTraversal;
+import city.PersonAgent;
+import city.account;
+import Role.BankTellerRole;
 import city.Restaurant2.*;
+import city.Restaurant2.Restaurant2;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
@@ -74,8 +78,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     /*Building panels*/
     private JPanel buildingInfoPanel = new JPanel();
     List<JPanel> buildingPanels = Collections.synchronizedList(new ArrayList<JPanel>());
-	private JPanel restaurant1Panel = new JPanel();
-    private Restaurant2InfoPanel restaurant2Panel = new Restaurant2InfoPanel();
+    private JPanel restaurant2Panel = new Restaurant2InfoPanel();
+	private JPanel restaurant1Panel = new Restaurant1Panel(this);
 	private JPanel restaurant3Panel = new JPanel();
 	private JPanel restaurant4Panel = new JPanel();
 	private JPanel restaurant5Panel = new JPanel();
@@ -160,6 +164,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     //Semaphore grid for astar animation
     Semaphore[][] streetGrid = new Semaphore[gridX+1][gridY+1];
     Semaphore[][] sidewalkGrid = new Semaphore[gridX+1][gridY+1];
+    
+    //Set up rest4 components
+    JButton closeRest4;
     
     CityGui cityGui;
 
@@ -289,7 +296,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void setupRestaurant1Panel(){
-        restaurant1Panel.add(new JLabel("Restaurant 1 Info/Options"));
         restaurant1Panel.setPreferredSize(buildingPanelDim);
         restaurant1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
@@ -311,6 +317,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant4Panel.add(new JLabel("Restaurant 4 Info/Options"));
         restaurant4Panel.setPreferredSize(buildingPanelDim);
         restaurant4Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        closeRest4= new JButton("Close Restaurant");
+        closeRest4.addActionListener(this);
+        restaurant4Panel.add(closeRest4);
     }
     
     private void setupRestaurant5Panel(){
@@ -341,6 +351,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         bank1Panel.add(new JLabel("Bank 1 Info/Options"));
         bank1Panel.setPreferredSize(buildingPanelDim);
         bank1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
     }
     
     private void setupWorldControls(){
@@ -572,6 +583,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		} else if(e.getSource() == buyCarButton){
 			// Coming soon
 		}
+		else if(e.getSource() == closeRest4){
+			cityMap.getRest4().close();
+		}
 
 	}
 
@@ -782,10 +796,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[1][18].release(100); //apart2
 		sidewalkGrid[0][18].release(20); //these two lines open up spots if multiple people are leaving apartment
 		sidewalkGrid[2][18].release(20);
+		
 		sidewalkGrid[21][8].release(100); //stop0
+		sidewalkGrid[21][9].release(20);
+		
 		sidewalkGrid[11][0].release(100); //stop1
+		sidewalkGrid[10][0].release(20);
+		
 		sidewalkGrid[0][8].release(100); //stop2
-		sidewalkGrid[18][7].release(100); //stop3
+		sidewalkGrid[0][9].release(20);
+		
+		sidewalkGrid[7][18].release(100); //stop3
+		sidewalkGrid[8][18].release(20);
 
 		sidewalkGrid[20][18].release(100); //starting point for agents
 		sidewalkGrid[21][18].release(100);
@@ -893,26 +915,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runFullTest(){
-		//Add two buses at an interval
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000	);		
-
-		//Add two trucks at an interval
-		/*timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("truck");
-			}
-		}, 5000	);
-
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("truck");
-			}
-		}, 13000	);*/
 
 		addPersonWithCar("rest1Test", "No Job");
 
@@ -928,13 +930,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant1Test(){
-		//Add two buses at an interval
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000	);
 
 		/*
 		 * moved these to createInitialPeople method
@@ -949,13 +944,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant2Test(){
-		//Add two buses at an interval
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000	);
 
 		/*
 		 * Added these to createInitialPeople method
@@ -970,13 +958,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant3Test(){
-		//Add two buses at an interval
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000);
 
 		/*
 		 * Added these to createInitialPeople method
@@ -991,13 +972,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant4Test(){
-		//Add two buses at an interval
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000	);
 
 		/*
 		 * Added these to createInitialPeople method
@@ -1011,18 +985,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
-		addPerson("rest4Test", "No job");
+		addPerson("Jill", "No job");
 
 	}
 
 	public void runRestaurant5Test(){
-		//Add two buses at an interval
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000	);
 
 		/*
 		 * Added these to createInitialPeople function
@@ -1039,13 +1006,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runBankTest() {
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000	);
-
 		/*
 		 * Added these to createInitialPeople function
 		 * 
@@ -1067,14 +1027,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRegularJoeTest(){
-		//Add two buses at an interval
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000	);
-
 		addPerson("joe", "No Job");
 
 		/*
@@ -1086,14 +1038,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runMarketVisitTest(){
-
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000);
-
 		addPerson("marketClient", "No Job");
 		/*
 		 * Added these to createInitialPeople function
@@ -1110,23 +1054,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runMarketTruckTest() {
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000);
-
 		addPerson("marketClient", "No Job");
 	}
 
 	public void runCarCrash() {
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000);
 		timer.schedule(new TimerTask() {
 			public void run() {
 				addVehicle("crash");
@@ -1160,6 +1091,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * All workers are created with cars (because they have jobs so they can afford them)
 	 */
 	public void createInitialPeople(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
 
 		/*Market workers*/
 		for(int i = 0; i < 3; i++) {

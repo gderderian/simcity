@@ -4,8 +4,6 @@ import java.awt.Graphics2D;
 
 import javax.swing.ImageIcon;
 
-import city.PersonAgent;
-import city.gui.restaurant2.Restaurant2AnimationPanel;
 import city.transportation.Vehicle;
 
 public class VehicleGui implements Gui {

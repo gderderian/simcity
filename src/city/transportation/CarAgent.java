@@ -3,7 +3,6 @@ package city.transportation;
 import interfaces.Car;
 import interfaces.Person;
 
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import city.CityMap;

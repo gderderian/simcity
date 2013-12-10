@@ -777,7 +777,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					workerMarketCounter = (workerMarketCounter + 1) % 3;
 				}
 				else if(r instanceof MarketManager){
-					
 					if(managerMarketCounter > 2) {
 						System.out.println("NO    (Already have 3 market managers...)");
 						return;

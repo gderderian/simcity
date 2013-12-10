@@ -1,28 +1,38 @@
 package city;
 
-import restaurant1.Restaurant1CookRole;
-import test.mock.LoggedEvent;
 import interfaces.Bus;
 import interfaces.Car;
 import interfaces.HouseInterface;
 import interfaces.Landlord;
 import interfaces.Person;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import restaurant1.Restaurant1CookRole;
 import test.mock.EventLog;
+import test.mock.LoggedEvent;
+import Role.BankCustomerRole;
+import Role.BankTellerRole;
+import Role.LandlordRole;
+import Role.MarketCustomerRole;
+import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
+import agent.Agent;
+import astar.AStarNode;
+import astar.AStarTraversal;
+import astar.Position;
 import city.PersonTask.State;
 import city.PersonTask.TaskType;
 import city.PersonTask.Transportation;
 import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant3.CookRole3;
-import city.Restaurant3.Restaurant3;
 import city.Restaurant4.CookRole4;
 import city.Restaurant5.Restaurant5CookRole;
 import city.gui.CityClock;
@@ -31,18 +41,6 @@ import city.gui.House.HomeOwnerGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
-import Role.BankCustomerRole;
-import Role.BankTellerRole;
-import Role.LandlordRole;
-import Role.MarketCustomerRole;
-import Role.MarketManager;
-import Role.Role;
-import activityLog.ActivityLog;
-import activityLog.ActivityTag;
-import agent.Agent;
-import astar.AStarNode;
-import astar.AStarTraversal;
-import astar.Position;
 
 public class PersonAgent extends Agent implements Person{
 
@@ -418,6 +416,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		} 
 		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1"))){
+
 			wallet = 40;
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
@@ -881,12 +880,18 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		boolean isOpen;
 		//This is if the person is going to the restaurant to eat
 		if(task.location != null && task.location.contains("rest") && task.type == TaskType.gotHungry){
 			String[] restNum = task.location.split("rest");
 			if(role != null){
-				cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
-				role.getGui().setPresent(true);
+				isOpen= cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
+				if(isOpen){
+					role.getGui().setPresent(true);
+				} else{
+					role.setInactive();
+					log("Oh no, the restaurant I want to go to is closed today!");
+				}	
 			}
 			else{
 				log("Looks like I don't have a role for this task. I can't go into the building.");
@@ -896,12 +901,18 @@ public class PersonAgent extends Agent implements Person{
 			System.out.println("Starting job in 735 of personagent");
 			myJob.startJob();
 		}
-
+ 
 		else if(task.type == TaskType.goToBank){
 			log.add(new LoggedEvent("Decided to go to the bank"));
 			if(role != null){
-				cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-				((BankCustomerRole)role).setGuiActive();
+				if(cityMap.isBankOpen()){
+					cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+					((BankCustomerRole)role).setGuiActive();
+					isOpen= true;
+				} else{
+					role.setInactive();
+					log("Oh no, the bank I want to go to is closed today!");
+				}
 			}
 			else{
 				log("Couldn't find the role for task " + task.type.toString());
@@ -910,22 +921,30 @@ public class PersonAgent extends Agent implements Person{
 		else if(task.type == TaskType.goToMarket){
 
 			log("I should give the market manager my order!!!!!!!!!!!!!!!!!!!!!");
-
+			String[] markNum = task.location.split("mark");
+				//isOpen= cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
+				
 			if(role != null){
-				cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
-				((MarketCustomerRole)role).setGuiActive();
-				role.getGui().setPresent(true);
+				//cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
+				isOpen= cityMap.msgMarketManagerArrivedToMarket(Integer.parseInt(markNum[1]), role);
+				if(isOpen){
+					((MarketCustomerRole)role).setGuiActive();
+					role.getGui().setPresent(true);
+				
+					OrderItem oItem = new OrderItem("Chicken", 3);
+					List<OrderItem> oItemList = new ArrayList<OrderItem>();
+					oItemList.add(oItem);
+
+					MarketOrder o = new MarketOrder(oItemList, this);
+					log("Current order size in personagent pre-send is:" + o.orders.size());
+					cityMap.msgMarketManagerHereIsOrder(Integer.parseInt(markNum[1]), o);
+				} else{
+					role.setInactive();
+					log("Oh no, the market I want to go to is closed today!");
+				}
 			} else{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
-
-			OrderItem oItem = new OrderItem("Chicken", 3);
-			List<OrderItem> oItemList = new ArrayList<OrderItem>();
-			oItemList.add(oItem);
-
-			MarketOrder o = new MarketOrder(oItemList, this);
-			log("Current order size in personagent pre-send is:" + o.orders.size());
-			cityMap.mark1.mktManager.msgHereIsOrder(o);
 
 		}
 		else if(task.type == TaskType.goToApartment){
@@ -1055,12 +1074,31 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				if(r instanceof BankCustomerRole) {
+					//r.setActive();
+					//This is hack for non norm
+					//if(name.equals("bankCustomerTest1"))
+					//((BankCustomerRole) r).amountofcustomermoney = 40;
+					//This is hack for non norm
+					if(name.equals("bankCustomerTest1")) {
+						
+					((BankCustomerRole) r).amountofcustomermoney = 40;
+					((BankCustomerRole) r).bankaccountnumber = 1;
+					}
+					
+					if(name.equals("bankCustomerTest1")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 1;
+					}
+						
+				
 					r.setActive(wallet);
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();
 					task.location = bankName;
 					task.role = r.getRoleName();
 					//task.role = r;
+					
 					log("Set BankCustomerRole active");
 				}
 			}
