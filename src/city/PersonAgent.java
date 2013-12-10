@@ -275,7 +275,6 @@ public class PersonAgent extends Agent implements Person{
 	//Takes a string argument and creates a new PersonTask which is added onto the current day's schedule
 	public void addTask(String task){
 		PersonTask t = new PersonTask(task);
-		schedule.addTaskToDay(clock.getDayOfWeekNum(), t);
 		stateChanged();
 		//Do we need this stateChanged()?
 	}
@@ -365,7 +364,19 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to go to bank.");
 
-		} else if(hour == 4 && currentHour != hour && (name.equals("marketClient")))
+		} 
+		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1")))
+		{
+			currentHour = hour;
+			wallet = 40;
+			synchronized(tasks) {
+				tasks.add(new PersonTask(TaskType.goToBank));
+			}
+			log("It's time for me to go to bank.");
+
+		} 
+		
+		else if(hour == 4 && currentHour != hour && (name.equals("marketClient")))
 		{
 			currentHour = hour;
 			synchronized(tasks) {
@@ -564,18 +575,23 @@ public class PersonAgent extends Agent implements Person{
 	//Bank
 	public void msgSetBankAccountNumber(double num){
 		accountNumber = num;
+		log("I have a bank account now :" + accountNumber);
 	}
 
 	public void msgBalanceAfterDepositingIntoAccount(double balance){
-		accountBalance = balance;
+		wallet = balance;
+		log("My balance after depositing into my account:" + wallet);
 	}
 
 	public void msgBalanceAfterWithdrawingFromAccount(double balance){
-		accountBalance = balance;
+		wallet = balance;
+		log("My balance after withdrawing from my account:" + wallet);
 	}
 
-	public void msgBalanceAfterGetitngLoanFromAccount(double balance) {
-		accountBalance = balance;
+	public void msgBalanceAfterGetitngLoanFromAccount(double balance, double loan) {
+		wallet = balance;
+		loan = loan;
+		log("My balance after getting loan from the bank:" + wallet + " and loan :" + loan);
 	}
 
 	/*

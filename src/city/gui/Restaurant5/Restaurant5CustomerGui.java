@@ -35,6 +35,20 @@ public class Restaurant5CustomerGui implements Gui{
 	private int xhomepos;
 	private int yhomepos;
 
+	ImageIcon flat1 = new ImageIcon("images/person_flat1.png");
+	ImageIcon flat2 = new ImageIcon("images/person_flat2.png");
+	ImageIcon flat3 = new ImageIcon("images/person_flat3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = flat1;
+	
+	
+	
+	
+	
+	
 	public Restaurant5CustomerGui(Restaurant5CustomerRole c, Restaurant5Gui gui, Restaurant5HostRole host){ //HostAgent m) {
 		agent = c;
 		
@@ -67,6 +81,26 @@ public class Restaurant5CustomerGui implements Gui{
 		
 		
 		//System.out.println("This is the customer coordinates x: " + xPos + " y: " + yPos);
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
+
+		
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = flat1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = flat2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = flat3;
+        	else
+        		icon = flat2;
+		} else icon = flat2;
+		
+		
+		
+		
+		
+		
 		
 		if(xPos == -20 && yPos == -20) {
 			agent.atLobby.release();
@@ -100,8 +134,11 @@ public class Restaurant5CustomerGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(xPos, yPos, 20, 20);
+		//g.setColor(Color.BLUE);
+		//g.fillRect(xPos, yPos, 20, 20);
+		
+		g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
+		
 		if(agent.eating == true && agent.choice == "chicken") {
 			//g.drawImage(imgofchicken, xPos, yPos + 20, 20, 20, gui);
 			g.drawString("Eating..", xPos, yPos - 10);

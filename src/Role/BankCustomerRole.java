@@ -221,6 +221,16 @@ public class BankCustomerRole extends Role{
                          return true;
         		}
         		
+        		if(bankcustomerstate == state.atstation && loan <= amountofcustomermoney)
+        		{
+        				gui.paybackloan = true;
+        				amountofcustomermoney -= this.paybackloan;
+        				mybankteller.msgPayBackLoan(this.paybackloan);
+        				bankcustomerstate = state.waiting;
+        				return true;
+        			
+        		}
+        		
         		if(bankcustomerstate == state.atstation && amountofcustomermoney >= 50)
         		{	
         	
@@ -259,7 +269,7 @@ public class BankCustomerRole extends Role{
         				log("Since my request for withdrawal failed. I'm requesting $" + this.failedwithdrawal);
             			mybankteller.msgWithdrawFromAccount(amountofcustomermoney);
         				bankcustomerstate = state.waiting;
-        				gui.withdraw = true;
+        				gui.rewithdraw = true;
         				return true;   		
         			
         			
@@ -401,6 +411,7 @@ public class BankCustomerRole extends Role{
                         log.add(new LoggedEvent("successfullywithdrewfromaccount"));
                         this.amountofcustomermoney += this.withdrawal;
                         gui.withdraw = false;
+                        gui.rewithdraw = false;
                         gui.money = true;
                         log("After withdrawing from my account I now have $" + this.amountofcustomermoney);
                         person.msgBalanceAfterWithdrawingFromAccount(this.amountofcustomermoney);
@@ -418,7 +429,7 @@ public class BankCustomerRole extends Role{
                         this.amountofcustomermoney += this.loan;
                         gui.loan = false;
                         gui.money = true;
-                        person.msgBalanceAfterGetitngLoanFromAccount(this.amountofcustomermoney);
+                        person.msgBalanceAfterGetitngLoanFromAccount(this.amountofcustomermoney, loan);
                         mybankteller.msgBankCustomerLeaving();
                         guiLeaveBank();
                     	gui.setPresent(false);
@@ -461,7 +472,7 @@ public class BankCustomerRole extends Role{
         	this.bankaccountnumber = person.bankaccountnumber;
         	//this.bankaccountnumber = 1;
         	this.amountofcustomermoney = person.wallet;
-        	this.amountofcustomermoney = 60;
+        	//this.amountofcustomermoney = 60;
         }
         
         public void setManager(BankManagerRole bankmanager)
