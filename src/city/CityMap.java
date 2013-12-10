@@ -229,7 +229,7 @@ public class CityMap {
 	}
 	
 	public Position getParkingLocation(String location) {
-		return parkingLocations.get(location);
+			return parkingLocations.get(location);
 	}
 	
 	public int getX(String location) {
