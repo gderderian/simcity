@@ -1,6 +1,7 @@
 package city.Restaurant3;
 
 import Role.Role;
+import interfaces.MarketManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -133,6 +134,12 @@ public class CookRole3 extends Role {
 		cookGui.platingFood.remove(foodChoice);
 		person.stateChanged();
 	}
+	
+	/* // Now done compeltely throguh citymap and cashier instead
+	public void msgHereIsMarketBill(double billAmount, MarketManager manager){
+		
+	}
+	*/
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
