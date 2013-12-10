@@ -1372,8 +1372,12 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 				
-				if (b.manager != null){ // Check for pending market bills
-					if(wallet > b.amount){
+				if (b.manager != null){ // Check for pending market bills	
+					if (myJob.role.getRoleName().contains("cook")){ // Is this bill a personal bill or a restaurant bill?
+						// Send to active cook role
+						//myJob.role.msgHereIsMarketBill(b.amount, b.manager);
+					} else if(wallet > b.amount){
+						// Pay myself because I made this order
 						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
 						b.manager.msgAcceptPayment(b.amount);
 						wallet -= b.amount;
