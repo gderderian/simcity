@@ -45,8 +45,10 @@ public class BankCustomerRole extends Role{
         		building = "bank1";
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
+                this.amountofcustomermoney = money;
                 //bankaccountnumber = 1;//this should be 0
                 needloan = true;
+                
                 //this is for testing purpose
                 //this.amountofcustomermoney = 40; // this should not be set to anything
                 //this.person = setperson;
