@@ -59,16 +59,22 @@ public class MarketManager extends Role {
 		
 		// Sample market stock
 		marketStock = new Hashtable<String, MarketItem>();
-		marketStock.put("Pasta", new MarketItem("Pasta", 5, itemType.food));
-		marketStock.put("Pizza", new MarketItem("Pizza", 5, itemType.food));
-		marketStock.put("Chicken", new MarketItem("Chicken", 5, itemType.food));		
-		marketStock.put("Honda Accord", new MarketItem("Honda Accord", 5, itemType.car));
-		marketStock.put("Honda Civic", new MarketItem("Honda Accord", 5, itemType.car));
+		marketStock.put("Pasta", new MarketItem("Pasta", 500, itemType.food));
+		marketStock.put("Pizza", new MarketItem("Pizza", 500, itemType.food));
+		marketStock.put("Chicken", new MarketItem("Chicken", 500, itemType.food));		
+		marketStock.put("Honda Accord", new MarketItem("Honda Accord", 500, itemType.car));
+		marketStock.put("Honda Civic", new MarketItem("Honda Accord", 500, itemType.car));
 		
 		//Market stock for restaurant1 orders
-		marketStock.put("steak", new MarketItem("steak", 5, itemType.food));
-		marketStock.put("fish", new MarketItem("fish", 5, itemType.food));
-		marketStock.put("chicken", new MarketItem("chicken", 5, itemType.food));
+		marketStock.put("steak", new MarketItem("steak", 500, itemType.food));
+		marketStock.put("fish", new MarketItem("fish", 500, itemType.food));
+		marketStock.put("chicken", new MarketItem("chicken", 500, itemType.food));
+		
+		//Market stock for restaurant4 orders
+		marketStock.put("Eggs", new MarketItem("Eggs", 500, itemType.food));
+		marketStock.put("Waffels", new MarketItem("Waffels", 500, itemType.food));
+		marketStock.put("Pancakes", new MarketItem("Pancakes", 500, itemType.food));
+		marketStock.put("Bacon", new MarketItem("Bacon", 500, itemType.food));
 	}
 
 	public class myMarketOrder {
