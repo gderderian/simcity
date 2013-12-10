@@ -247,7 +247,7 @@ public class CookRole4 extends Role implements Cook4 {
 		orders.add(pancakes);
 		orders.add(bacon);
 		
-		MarketOrder order= new MarketOrder(orders, "Restaruant4", p);
+		MarketOrder order= new MarketOrder(orders, "rest4", p);
 		p.getCityMap().msgMarketHereIsTruckOrder(4, order);
 		//market.msgHereIsTruckOrder(order);
 		o.ms= marketState.ordered;
@@ -399,7 +399,7 @@ public class CookRole4 extends Role implements Cook4 {
 		private int cookingTime;
 		private int currAmount;
 		private final int capacity= 5;
-		private final int low= 1;
+		private final int low= 2;
 		
 		Food(String type){
 			this.type= type;

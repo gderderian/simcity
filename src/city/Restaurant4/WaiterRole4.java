@@ -294,7 +294,7 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 		if (!firstRun){
 			waiterGui.doGoBack();
 		}
-		if(bs == breakState.wantToGoOnBreak){
+		/*if(bs == breakState.wantToGoOnBreak){
 			boolean goodTime= true;
 			for(MyCustomer customer : customers){
 				if(customer.s != customerState.done){
@@ -315,7 +315,7 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 		if(bs == breakState.finishedBreak){
 			readyToWork();
 			return true;
-		}
+		}*/
 		} catch(ConcurrentModificationException e){
 			return false;
 		}
