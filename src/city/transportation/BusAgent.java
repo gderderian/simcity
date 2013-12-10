@@ -220,7 +220,7 @@ public class BusAgent extends Vehicle implements Bus {
 
 		log("Driving to stop #" + (currentStop + 1));
 		
-		if(currentStop == 3 && passengers.isEmpty()) {
+		if(currentStop == 3) {
 			log("(Taking the scenic route)");
 			scenicRoute();
 			return;
