@@ -991,56 +991,23 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runRestaurant1Test(){
 
-		/*
-		 * moved these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host1", "Restaurant1 Host");
-		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
-		addPersonNoHouse("cook1", "Restaurant1 Cook");
-		addPerson("waiter1", "Restaurant1 Waiter");
-		 */
 		addPerson("rest1Test", "No job");
 
 	}
 
 	public void runRestaurant2Test(){
 
-		/*
-		 * Added these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host", "Restaurant2 Host");
-		addPersonNoHouse("cashier", "Restaurant2 Cashier");
-		addPersonNoHouse("cook", "Restaurant2 Cook");
-		addPersonWithCar("waiter", "Restaurant2 Waiter");
-		 */
 		addPersonWithCar("rest2Test", "No job");
 
 	}
 
 	public void runRestaurant3Test(){
-
-		/*
-		 * Added these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host", "Restaurant3 Host");
-		addPersonNoHouse("cashier", "Restaurant3 Cashier");
-		addPersonNoHouse("cook", "Restaurant3 Cook");
-		addPerson("waiter", "Restaurant3 Waiter");
-		 */
 		addPerson("rest3Test", "No job");
 
 	}
 
 	public void runRestaurant4Test(){
 
-		/*
-		 * Added these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host4", "Restaurant4 Host");
-		addPersonNoHouse("cashier4", "Restaurant4 Cashier");
-		addPersonNoHouse("cook4", "Restaurant4 Cook");
-		addPerson("waiter4", "Restaurant4 Waiter");
-		 */
 		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
@@ -1049,14 +1016,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runRestaurant5Test(){
 
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPersonNoHouse("host5", "Restaurant5 Host");
-		addPersonNoHouse("cashier5", "Restaurant5 Cashier");
-		addPersonNoHouse("cook5", "Restaurant5 Cook");
-		addPerson("waiter5", "Restaurant5 Waiter");
-		 */
 		//addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
@@ -1064,12 +1023,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runBankTest() {
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPersonNoHouse("bank manager", "Bank Manager");
-		addPerson("bank teller", "Bank Teller");
-		 */
+
 		addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
@@ -1086,23 +1040,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runRegularJoeTest(){
 		addPerson("joe", "No Job");
-
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		 */
 	}
 
 	public void runMarketVisitTest(){
 		addPerson("marketClient", "No Job");
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		 */
 
 		//addPerson("marketWorker", "Market Worker");
 		//addPerson("marketWorker", "Market Worker");
@@ -1129,11 +1070,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runLandlordTest(){
-		/*
-		 * Added this to createInitialPeople function
-		 * 
-		addPerson("Landlord", "Landlord1");
-		 */
+
 		addPerson("Joe", "No Job");
 		addPerson("Jenny", "No Job");
 		addPerson("Jake", "No Job");
@@ -1157,20 +1094,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000);
 
 		/*Market workers*/
-		for(int i = 1; i <= 3; i++) {
-			addPerson("marketManager", "Market Manager" + i);
-			addPerson("marketWorker", "Market Worker" + i);
-		}
-
-		addVehicle("truck");
-		addVehicle("truck");
-		addVehicle("truck");
+		//Spreading these out so that they don't get stuck next to each other
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
 
 		/*Landlord*/
 		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/
 		addPerson("bank manager", "Bank Manager");
 		addPerson("bank teller", "Bank Teller");
+		
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		/*Restaurant1 workers*/
@@ -1198,6 +1134,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cashier5", "Restaurant5 Cashier");
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
+		
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
+		addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
 	}
 
 	public void setTimeDisplay(String timeToDisplay){

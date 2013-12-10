@@ -150,6 +150,7 @@ public class HostRole4 extends Role {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		if(closed){
+			leave();
 			return false;
 		}
 		synchronized(line){
@@ -195,6 +196,11 @@ public class HostRole4 extends Role {
 	}
 
 	// ACTIONS
+	private void leave(){
+		p.setGuiVisible();
+		p.setRoleInactive(this);
+	}
+	
 	private void tellCustomer(int i){
 		line.get(i).msgPositionInLine(i);
 	}
