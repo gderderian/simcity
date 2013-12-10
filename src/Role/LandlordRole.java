@@ -30,6 +30,7 @@ public class LandlordRole extends Role implements Landlord {
 	LandlordGui gui;
 	private Semaphore atDest= new Semaphore(0);
 	boolean setRoleInactive= false;
+	boolean test= false;
 	
 	ActivityTag tag = ActivityTag.LANDLORD;
 	
@@ -50,7 +51,9 @@ public class LandlordRole extends Role implements Landlord {
 		if(newTenant){
 			MyTenant t= new MyTenant(p);
 			tenants.add(t);
-			log("I got a new tenant, now I have " + tenants.size() + " tenants total!");
+			if(!test){
+				log("I got a new tenant, now I have " + tenants.size() + " tenants total!");
+			}
 		}
 	}
 	
@@ -58,10 +61,16 @@ public class LandlordRole extends Role implements Landlord {
 		return gui;
 	}
 	
+	public void test(boolean t){
+		test= t;
+	}
+	
 	//MESSAGES
 	public void msgCollectRent(){	
 		log.add(new LoggedEvent("Recieved msgEndOfDay, all tenants now should have rent due"));
-		log("Time to collect rent from all of my tenants!");
+		if(!test){
+			log("Time to collect rent from all of my tenants!");
+		}
 		synchronized(tenants){
 			for(MyTenant t : tenants){
 				t.numOutstandingPayments++;
@@ -76,7 +85,9 @@ public class LandlordRole extends Role implements Landlord {
 
 	public void msgHereIsMyRent(Person p, double amount){ // for the normative scenario, assuming tenant always pays correct amount for rent
 		log.add(new LoggedEvent("Recieved msgHereIsMyRent from tenant, tenant should now have no outstanding payments due"));
-		log("Yay, " + p.getName() + " payed their rent!");
+		if(!test){
+			log("Yay, " + p.getName() + " payed their rent!");
+		}
 		earnings += amount;
 		synchronized(tenants){
 			for(MyTenant t : tenants){
@@ -128,10 +139,9 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction(){
-		//log("Landlord role scheduler, Y U NO WORK?");
 		synchronized(tenants){
 			for(MyTenant t : tenants){
-				if(t.newPayment == true){// t.paymentsUpToDate == false){
+				if(t.newPayment == true){
 					collectRent(t);
 					return true;
 				}
@@ -148,7 +158,6 @@ public class LandlordRole extends Role implements Landlord {
 			}
 		}
 		if(setRoleInactive){
-			log("Setting role inactive ova here (landlord role scheduler)");
 			deactivate();
 		}
 		return false;
@@ -157,39 +166,49 @@ public class LandlordRole extends Role implements Landlord {
 	
 	//ACTIONS
 	private void collectRent(MyTenant mt){
-		log("Collecting rent now");
+		if(!test){
+			log("Collecting rent now");
+		}
 		mt.tenant.msgRentDue(this, mt.rate);
 		mt.newPayment= false;
 		p.stateChanged();
 	}
 
 	private void fixAppliance(final MyTenant mt){
-		log("Going to fix a tenant's appliance.");
-		final String temp= mt.needsMaintenance.remove(0);
-		PersonTask pt= new PersonTask("goToApartment");
-		p.DoGoTo(mt.tenant.getHouse().getName(), pt);
-		if(temp.equals("Stove")){
-			gui.goToStove();
-		} else if(temp.equals("Oven")){
-			gui.goToOven();
-		} else if(temp.equals("Microwave")){
-			gui.goToStove();
+		System.out.println("Time for me to fix the appliance");
+		if(!test){
+			log("Going to fix a tenant's appliance.");
 		}
-		try{
-			atDest.acquire();
-		} catch(InterruptedException e){}
+		final String temp= mt.needsMaintenance.remove(0);
+		if(!test){
+			PersonTask pt= new PersonTask("goToApartment");
+			p.DoGoTo(mt.tenant.getHouse().getName(), pt);
+			if(temp.equals("Stove")){
+				gui.goToStove();
+			} else if(temp.equals("Oven")){
+				gui.goToOven();
+			} else if(temp.equals("Microwave")){
+				gui.goToStove();
+			}
+			try{
+				atDest.acquire();
+			} catch(InterruptedException e){}
+		}
 		fix.schedule(new TimerTask() {
 			@Override public void run() {
+				System.out.println("sending msg fixed");
 				mt.tenant.msgFixed(temp);
 				mt.maintenance= false;
-				log("All fixed, time to go home");
-				gui.goToExit();
-				try{
-					atDest.acquire();
-				} catch(InterruptedException e){}
-				gui.setPresent(false);
-				mt.house.getAnimationPanel().notInHouse(gui);
-				setRoleInactive= true;
+				if(!test){
+					log("All fixed, time to go home");
+					gui.goToExit();
+					try{
+						atDest.acquire();
+					} catch(InterruptedException e){}
+					gui.setPresent(false);
+					mt.house.getAnimationPanel().notInHouse(gui);
+					setRoleInactive= true;
+				}
 				p.stateChanged();
 				return;
 			}}, 4000);
