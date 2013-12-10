@@ -1051,11 +1051,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * All workers are created with cars (because they have jobs so they can afford them)
 	 */
 	public void createInitialPeople(){
-		addVehicle("truck");
 		
 		/*Market workers*/
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
+		
+		addVehicle("truck");
 		/*Landlord*/
 		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/

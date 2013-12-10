@@ -295,6 +295,12 @@ public class Restaurant1CookRole extends Role {
 	}
 	
 	private void orderMoreFood() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<OrderItem> orderList = Collections.synchronizedList(new ArrayList<OrderItem>());
 		
 		Food temp = foods.get("steak");
