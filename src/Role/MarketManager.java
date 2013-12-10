@@ -297,4 +297,9 @@ public class MarketManager extends Role {
 		myTruck = newTruck;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return p;
+	}
+
 }

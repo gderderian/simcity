@@ -563,5 +563,9 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 		return roleName;
 	}
 	
+	public PersonAgent getPerson(){
+		return person;
+	}
+	
 
 }

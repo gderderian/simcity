@@ -362,5 +362,10 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	public String getRoleName() {
 		return roleName;
 	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
 	
 }

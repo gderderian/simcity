@@ -442,4 +442,9 @@ public class CookRole4 extends Role implements Cook4 {
 	public String getRoleName() {
 		return roleName;
 	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return p;
+	}
 }

@@ -20,7 +20,6 @@ import city.PersonAgent;
 import city.gui.Restaurant5.Restaurant5CookGui;
 //import Restaurant5Check;
 
-
 /**
  * Restaurant Market Agent
  */
@@ -272,6 +271,11 @@ public class Restaurant5CashierRole extends Role implements Restaurant5Cashier{
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
 	}
 	
 

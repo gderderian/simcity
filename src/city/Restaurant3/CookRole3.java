@@ -358,4 +358,9 @@ public class CookRole3 extends Role {
 		return roleName;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 }

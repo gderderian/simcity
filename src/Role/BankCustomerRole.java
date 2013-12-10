@@ -510,6 +510,11 @@ public class BankCustomerRole extends Role{
 		public String getRoleName() {
 			return roleName;
 		}
+		
+		@Override
+		public PersonAgent getPerson() {
+			return person;
+		}
         
         
 }

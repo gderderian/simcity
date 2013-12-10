@@ -215,4 +215,9 @@ public class CashierRole3 extends Role {
 		return roleName;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 }

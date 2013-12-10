@@ -37,7 +37,6 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private Menu menu;
 	private Menu reMenu;
 	
-	double wallet;
 	double check;
 	
 	String type;
@@ -75,13 +74,13 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		person = p;
 		tableNumber = -1;
 		if(name.equals("flake") || name.equals("honest")){
-			wallet = 5.00;
+			money = 5.00;
 		}
 		else if(name.equals("reorderleave") || name.equals("cheapest")){
-			wallet = 5.99;
+			money = 5.99;
 		}
 		else{
-		wallet = 20.00;
+		money = 20.00;
 		}
 		
 		type = "Restaurant2CustomerRole";
@@ -104,7 +103,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		}
 		else{
 		*/
-		wallet = 20.00;
+		money = 20.00;
 		//}
 	}
 	/*
@@ -206,7 +205,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	public void msgHereIsYourChange(double change){
 		log("Recieved change " + change);
 		event = AgentEvent.leaving;
-		wallet = wallet + change;
+		money = money + change;
 		person.stateChanged();
 	}
 
@@ -280,7 +279,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		if(this.getName().equals("full")){
 			host.msgNoTablesLeaving(this);
 			log("The restaurant is too full, I'm going to leave.");
-			wallet = wallet - 20.00; //to counteract money replenish that happens when leaving
+			money = money - 20.00; //to counteract money replenish that happens when leaving
 			customerGui.setEnabled();
 		}
 		else{
@@ -294,7 +293,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 			SitDown(tableNum);
 			waiter.msgReadyToBeSeated(this);
 		}
-		else if(!menu.doIHaveEnough(wallet)){
+		else if(!menu.doIHaveEnough(money)){
 			log("No thanks, I don't have enough money to pay");
 			waiter.msgLeavingNoMoney(this);
 		}
@@ -368,7 +367,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		Do("Ordering food");
 		if(this.getName().equals("reorderleave") || this.getName().equals("cheapest")){
 			String choice = reMenu.chooseFood();
-			if(reMenu.doIHaveEnoughFor(wallet, choice)){
+			if(reMenu.doIHaveEnoughFor(money, choice)){
 				//String choice = "Chicken";
 				log("I would like to order the " + choice);
 				waiter.msgHereIsMyChoice(this, choice);
@@ -425,14 +424,14 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		cashier.msgHereIsPayment(this, wallet);
+		cashier.msgHereIsPayment(this, money);
 	}
 
 	private void leaveRestaurant() {
 		Do("Leaving restaurant.");
 		waiter.msgDoneEatingNowLeaving(this);
 		customerGui.DoExitRestaurant();
-		wallet = wallet + 20.00; //replenish their money supply
+		money = money + 20.00; //replenish their money supply
 		person.setGuiVisible();
 		person.setRoleInactive(this);
 	}
@@ -492,5 +491,11 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	@Override
 	public String getRoleName(){
 		return roleName;
+	}
+
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
 	}
 }

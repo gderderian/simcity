@@ -24,7 +24,8 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	boolean hungry;
 	int fridgeSpace;
 	String choice;
-	//needs access to person's money to pay rent
+	
+	PersonAgent person;
 
 	public HomeOwnerRole(House house){
 		this.house= house;
@@ -91,6 +92,11 @@ public class HomeOwnerRole extends Role implements HomeOwner {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
 	}
 	
 } 
