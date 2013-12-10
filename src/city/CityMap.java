@@ -40,11 +40,11 @@ public class CityMap {
 	private Semaphore intersection = new Semaphore(1, true);
 	
 	Restaurant1 restaurant1;
-	Restaurant2 restaurant2;
+	Restaurant2 restaurant2 = Restaurant2.getInstance();
 	Restaurant3 restaurant3;
 	Restaurant4 restaurant4;
 	Restaurant5 restaurant5;
-	Bank bank;
+	public Bank bank;
 	Market mark1;
 	Market mark2;
 	Market mark3;
@@ -185,10 +185,6 @@ public class CityMap {
 	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
-	}
-	
-	public void setRestaurant2(Restaurant2 r){
-		restaurant2 = r;
 	}
 	
 	public void setRestaurant3(Restaurant3 r){

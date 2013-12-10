@@ -18,8 +18,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimerTask;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.BorderFactory;
@@ -31,12 +31,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
 import restaurant1.gui.Restaurant1Panel;
+import activityLog.ActivityPane;
+import astar.AStarTraversal;
 import city.Apartment;
 import city.ApartmentBuilding;
 import city.Bank;
@@ -44,15 +45,13 @@ import city.CityMap;
 import city.House;
 import city.Market;
 import city.PersonAgent;
+import city.account;
 import Role.BankTellerRole;
-import activityLog.ActivityPane;
-import astar.AStarTraversal;
 import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
-import city.gui.Bank.BankTellerRoleGui;
-import city.gui.House.HouseAnimationPanel;
+import city.gui.restaurant2.Restaurant2InfoPanel;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 
@@ -80,8 +79,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     /*Building panels*/
     private JPanel buildingInfoPanel = new JPanel();
     List<JPanel> buildingPanels = Collections.synchronizedList(new ArrayList<JPanel>());
+    private JPanel restaurant2Panel = new Restaurant2InfoPanel();
 	private JPanel restaurant1Panel = new Restaurant1Panel(this);
-    private JPanel restaurant2Panel = new JPanel();
 	private JPanel restaurant3Panel = new JPanel();
 	private JPanel restaurant4Panel = new JPanel();
 	private JPanel restaurant5Panel = new JPanel();
@@ -224,10 +223,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityMap.setRestaurant1(r);
     }
     
-    public void addRest2ToCityMap(Restaurant2 r){
-        cityMap.setRestaurant2(r);
-    }
-    
     public void addRest3ToCityMap(Restaurant3 r){
     	cityMap.setRestaurant3(r);
     }
@@ -286,7 +281,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         /*Functions for setting up different building Panels*/
         setupRestaurant1Panel();
-        setupRestaurant2Panel();
+        //setupRestaurant2Panel();
         setupRestaurant3Panel();
         setupRestaurant4Panel();
         setupRestaurant5Panel();
@@ -307,12 +302,13 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
+    /*
     private void setupRestaurant2Panel(){
         restaurant2Panel.add(new JLabel("Restaurant 2 Info/Options"));
         restaurant2Panel.setPreferredSize(buildingPanelDim);
         restaurant2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
-    
+    */
     private void setupRestaurant3Panel(){
         restaurant3Panel.add(new JLabel("Restaurant 3 Info/Options"));
         restaurant3Panel.setPreferredSize(buildingPanelDim);
@@ -362,6 +358,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         bank1Panel.add(new JLabel("Bank 1 Info/Options"));
         bank1Panel.setPreferredSize(buildingPanelDim);
         bank1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
     }
     
     private void setupWorldControls(){
@@ -815,10 +812,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[1][18].release(100); //apart2
 		sidewalkGrid[0][18].release(20); //these two lines open up spots if multiple people are leaving apartment
 		sidewalkGrid[2][18].release(20);
+		
 		sidewalkGrid[21][8].release(100); //stop0
+		sidewalkGrid[21][9].release(20);
+		
 		sidewalkGrid[11][0].release(100); //stop1
+		sidewalkGrid[10][0].release(20);
+		
 		sidewalkGrid[0][8].release(100); //stop2
-		sidewalkGrid[18][7].release(100); //stop3
+		sidewalkGrid[0][9].release(20);
+		
+		sidewalkGrid[7][18].release(100); //stop3
+		sidewalkGrid[8][18].release(20);
 
 		sidewalkGrid[20][18].release(100); //starting point for agents
 		sidewalkGrid[21][18].release(100);

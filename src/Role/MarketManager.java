@@ -209,12 +209,16 @@ public class MarketManager extends Role {
 	// Actions
 	private void makeWorkerPrepareOrder(myMarketOrder o){ // Distribute load of incoming orders to all workers
 		o.state = orderState.assignedToWorker;
+		double orderTotal = 0;
 		// Decrement quantity of things in each order
 		for (OrderItem item : o.order.orders){
 			MarketItem selectedMarketItem = marketStock.get(item.name);
 			selectedMarketItem.quantity = selectedMarketItem.quantity - 1;
 			marketStock.put(item.name, selectedMarketItem);
+			orderTotal = orderTotal + marketStock.get(item.name).itemPrice;
 		}
+		
+		o.order.orderPrice = orderTotal;
 		
 		if (myWorkers.size() != 0) {
 			int initOrders = myWorkers.get(0).numWorkingOrders;
