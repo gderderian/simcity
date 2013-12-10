@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -44,7 +45,7 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
     private Image bufferImage;
     private Dimension bufferSize;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
     public Restaurant5AnimationPanel(Restaurant5 restaurant) {
     	setSize(WINDOWX, WINDOWY);
@@ -164,11 +165,12 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
 
 	@Override
 	public void updatePos() {
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-                gui.updatePosition();
-            }
-        }
+		synchronized(guis){
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
 	}
 }

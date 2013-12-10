@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -22,7 +23,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 	ImageIcon background = new ImageIcon("images/background3.png");	
 	
 	CityGui cityGui;
-	private List<Gui> guis = new ArrayList<Gui>();
+	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     private Timer timer;
     
     public AnimationPanel() {
@@ -182,6 +183,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 	}
 	*/
 	public void updatePos(){
+		synchronized(guis){
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
@@ -194,6 +196,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
                 }
             }
         }
+		}
 	}
 
 	@Override
