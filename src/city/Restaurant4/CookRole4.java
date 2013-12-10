@@ -76,6 +76,17 @@ public class CookRole4 extends Role implements Cook4 {
 		sharedOrders= o;
 	}
 	
+	public void addWaiter(Waiter4 w){
+		boolean newWaiter= true;
+		for(Waiter4 wait : waiters){
+			if(wait == w){
+				newWaiter= false;
+			}
+		}
+		if(newWaiter){
+			waiters.add(w);
+		}
+	}
 	
 	// MESSAGES 
 	public void msgHereIsOrder(Waiter4 w, String choice, Customer4 c){
@@ -347,6 +358,9 @@ public class CookRole4 extends Role implements Cook4 {
 		for(Waiter4 wait : waiters){
 			wait.msgAllMarketsOut();
 		}
+		cookGui.doExit();
+		p.setGuiVisible();
+		p.setRoleInactive(this);
 	}
 	
 	

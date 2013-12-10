@@ -30,6 +30,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 	enum marketBillState{none, pending, paid}
 	public EventLog4 log= new EventLog4();
 	double cash= 100.00;
+	boolean closed= false;
 	
 	ActivityTag tag = ActivityTag.RESTAURANT4CASHIER;
 	
@@ -79,11 +80,19 @@ public class CashierRole4 extends Role implements Cashier4 {
 		p.stateChanged();
 	}
 	
+	public void msgRestClosed(){
+		closed= true;
+		p.stateChanged();
+	}
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(closed){
+			leave();
+			return false;
+		}
 		synchronized(marketBills){
 			for(MarketBill mb : marketBills){
 				if(mb.mbs == marketBillState.pending){
@@ -116,6 +125,11 @@ public class CashierRole4 extends Role implements Cashier4 {
 
 	
 	// ACTIONS
+	private void leave(){
+		p.setGuiVisible();
+		p.setRoleInactive(this);
+	}
+	
 	private void goToBank(){
 		log("Seems like there isn't enough money to pay this market bill, I'll have to go to the bank and withdraw more");
 		cash += 500;
