@@ -51,6 +51,7 @@ public class BankManagerRole extends Role{
 	{
 		super();
 		this.bank = setbank;
+		
 
 	}
 
@@ -215,6 +216,12 @@ public class BankManagerRole extends Role{
 								bankteller.state = banktellerstate.busy;
 								//customer.customer.msgOpenAccount();
 								return true;
+							}
+							else
+							{
+								customer.customer.msgGoToWaitingArea(160, 500);
+					
+								
 							}
 						}
 

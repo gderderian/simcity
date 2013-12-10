@@ -1,5 +1,6 @@
 package Role;
 
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import activityLog.ActivityLog;
@@ -44,13 +45,21 @@ public class BankCustomerRole extends Role{
         		building = "bank1";
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
-                bankaccountnumber = 0;
+                bankaccountnumber = 1;//this should be 0
                 needloan = true;
+                //this is for testing purpose
+                this.amountofcustomermoney = 40; // this should not be set to anything
                 //this.person = setperson;
                 //this.name = setperson.getName();
                 //stateChanged();
         
-        } 
+        }
+        
+        public void msgGoToWaitingArea(int xc, int yc) {
+        	
+        	gui.setWaitingPosition(xc, yc);
+        	
+        }
         
         public void msgAssignMeBankTeller(BankTellerRole assignbankteller)
         {
@@ -128,7 +137,8 @@ public class BankCustomerRole extends Role{
 
         public void msgHereIsYourWithdrawal(double setwithdrawal) 
         {
-                log.add(new LoggedEvent("msgHereIsYourWithdrawal"));
+                log("I withdrew $" + setwithdrawal + " from my account");
+        		log.add(new LoggedEvent("msgHereIsYourWithdrawal"));
                 bankcustomerstate = state.withdrawfromaccountsuccessful;
                 this.withdrawal = setwithdrawal;
                 person.stateChanged();
@@ -153,8 +163,10 @@ public class BankCustomerRole extends Role{
 
         public void msgCannotGetLoan(double loan) 
         {
-                // TODO Auto-generated method stub
-                
+            log("Failed to get loan ");
+            
+            bankcustomerstate = state.leave;
+            person.stateChanged();       	
         }
 
         public void msgLoanBorrowed(double loan) 
@@ -166,8 +178,11 @@ public class BankCustomerRole extends Role{
         
         public void msgLoanPaidBack(double amountofloanpaidback, double amountofremainingloan)
         {
-
+        	log("loan paid back");
+        	gui.paybackloan = false;
         	log.add(new LoggedEvent("msgLoanPaidBack"));
+        	bankcustomerstate = state.leave;
+            person.stateChanged();      
                 
         }
         
@@ -183,10 +198,10 @@ public class BankCustomerRole extends Role{
         	
         		//log("!!!!!!!!!!!! I'm in customer scheduler !!!!!!!");
                 
-        		log("!!!!!!!!!!!!!!!!! state " + bankcustomerstate);
+        		log("state " + bankcustomerstate);
         		
         		 
-        		log("!!!!!!!!!!!!!!!!! amount of customer money" + amountofcustomermoney);
+        		log("amount of customer money $" + amountofcustomermoney);
         		
         		if(bankcustomerstate == state.gotobankteller)
         		{
@@ -208,19 +223,19 @@ public class BankCustomerRole extends Role{
         		
         		if(bankcustomerstate == state.atstation && amountofcustomermoney >= 50)
         		{	
+        	
         				mybankteller.msgDepositIntoAccount(amountofcustomermoney/2);
         				bankcustomerstate = state.waiting;
         				gui.deposit = true;
         				return true;
         		}     			
-        	
-        		
+        			
         		
         		if(bankcustomerstate == state.atstation && amountofcustomermoney <= 50)
         		{
-        				mybankteller.msgWithdrawFromAccount(amountofcustomermoney);
+        				mybankteller.msgWithdrawFromAccount(amountofcustomermoney); 
         				bankcustomerstate = state.waiting;
-        				gui.deposit = true;
+        				gui.withdraw = true;
         				return true;   			
         		}
         		
@@ -229,18 +244,38 @@ public class BankCustomerRole extends Role{
         				double amountofloanrequested = amountofcustomermoney * 2;
         				mybankteller.msgGetLoan(amountofloanrequested);
         				bankcustomerstate = state.waiting;
-        				gui.deposit = true;
+        				gui.loan = true;
         				return true;   			
         		}
         		
         		
         		if(bankcustomerstate == state.withdrawalfailed)
         		{
-        			this.failedwithdrawal /= 2;
-        			mybankteller.msgWithdrawFromAccount(amountofcustomermoney);
-    				bankcustomerstate = state.waiting;
-    				gui.deposit = true;
-    				return true;   			
+        			Random r = new Random();
+        			int i = r.nextInt(2); 
+        			if(i == 0)
+        			{
+        				this.failedwithdrawal /= 2;
+        				log("Since my request for withdrawal failed. I'm requesting $" + this.failedwithdrawal);
+            			mybankteller.msgWithdrawFromAccount(amountofcustomermoney);
+        				bankcustomerstate = state.waiting;
+        				gui.withdraw = true;
+        				return true;   		
+        			
+        			
+        			}
+        			else if(i == 1)
+        			{
+        				gui.withdraw = false;
+        				gui.loan = true;
+        				mybankteller.msgGetLoan(failedwithdrawal);
+        				bankcustomerstate = state.waiting;
+        				
+        				return true;  	
+        				
+        			}
+        				
+        				
         		}
         		
         		/*
@@ -278,21 +313,39 @@ public class BankCustomerRole extends Role{
                         bankcustomerstate = state.waiting;
                         return true;                
                 }
-                
+                */
                 if(bankcustomerstate == state.paybackloan)
                 {
-                		Do("I'm paying back loan");
-                        mybankteller.msgGetLoan(this.paybackloan);
+                		
+                		if(this.paybackloan <= amountofcustomermoney)
+                		{
+                		log("I'm paying back my loan of $" + this.paybackloan);
+                		gui.withdraw = false;
+                		gui.paybackloan = true;
+                		amountofcustomermoney -= this.paybackloan;
+                        mybankteller.msgPayBackLoan(this.paybackloan);
                         bankcustomerstate = state.waiting;
                         return true;
+                              
+                		}
+                		else
+                		{
+                			log("I don't have enough money to payback my loan so I'm leaving");
+                            mybankteller.msgBankCustomerLeaving();
+                            guiLeaveBank();
+                            gui.withdraw = false;
+                            gui.setPresent(false);
+                        	person.setRoleInactive(this);
+                		}
                 }
-                */
+               
                 if(bankcustomerstate == state.openaccountsuccessful)
                 {
                        	log("I recevied my account number: " + this.bankaccountnumber);
                 		log.add(new LoggedEvent("receivedaccountnumber"));
                         person.msgSetBankAccountNumber(this.bankaccountnumber);
                         gui.openaccount = false;
+                        /*
                         if(needloan == true)
                         {
                         	Do("!!!!!!!!!!!!!!! I requested loan");
@@ -302,11 +355,14 @@ public class BankCustomerRole extends Role{
             				//return true;   			
                         		
                         }
-                        
-                        else if(amountofcustomermoney >= 500)
+                        */
+                        if(amountofcustomermoney >= 50)
                         {
                         	gui.deposit = true;
+                        	Do(" !!!!!!!!!!! amount of customer money" + amountofcustomermoney);
+                        	bankcustomerstate = state.waiting;
                         	double amounttodeposit = amountofcustomermoney/2;
+                        	amountofcustomermoney -= amounttodeposit;
                         	mybankteller.msgDepositIntoAccount(amounttodeposit);
                         }
                         
@@ -314,7 +370,7 @@ public class BankCustomerRole extends Role{
                         {
                         
                         	mybankteller.msgBankCustomerLeaving();
-                        	log("My wallet after depositing into my account : " + amountofcustomermoney);
+                        	log("My wallet : " + amountofcustomermoney);
                         	guiLeaveBank();
                         	gui.setPresent(false);
                         	person.setRoleInactive(this);
@@ -336,49 +392,49 @@ public class BankCustomerRole extends Role{
                         guiLeaveBank();
                     	gui.setPresent(false);
                     	person.setRoleInactive(this);
-                    
-                        //bankcustomerstate = state.waiting;
-                        //return true;        
+                          
                 }
                 
                 if(bankcustomerstate == state.withdrawfromaccountsuccessful)
                 {
-                		Do("I successfully withdrew money from my account");
+                		
                         log.add(new LoggedEvent("successfullywithdrewfromaccount"));
                         this.amountofcustomermoney += this.withdrawal;
+                        gui.withdraw = false;
+                        gui.money = true;
+                        log("After withdrawing from my account I now have $" + this.amountofcustomermoney);
                         person.msgBalanceAfterWithdrawingFromAccount(this.amountofcustomermoney);
                         mybankteller.msgBankCustomerLeaving();
                         guiLeaveBank();
                     	gui.setPresent(false);
                     	person.setRoleInactive(this);
-                     
-                        //bankcustomerstate = state.waiting;
-                        //return true;        
+                        
                 }
                 
                 if(bankcustomerstate == state.getloansuccessful)
                 {
                 		log("I received a loan of $" + this.loan);
+                		log("Noe I have $" + this.loan + " in my wallet");
                         this.amountofcustomermoney += this.loan;
+                        gui.loan = false;
+                        gui.money = true;
                         person.msgBalanceAfterGetitngLoanFromAccount(this.amountofcustomermoney);
                         mybankteller.msgBankCustomerLeaving();
                         guiLeaveBank();
                     	gui.setPresent(false);
                     	person.setRoleInactive(this);
-                  
-                        //bankcustomerstate = state.waiting;
-                        //return true;        
+                          
                 }
-                /*
+               
                 if(bankcustomerstate == state.leave)
                 {
                 		Do("I'm leaving");
                         mybankteller.msgBankCustomerLeaving();
                         guiLeaveBank();
-                        bankcustomerstate = state.waiting;
-                        return true;
+                        gui.setPresent(false);
+                    	person.setRoleInactive(this);
                 }
-               */ 
+               
         
                 
                 return false;
