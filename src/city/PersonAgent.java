@@ -180,6 +180,10 @@ public class PersonAgent extends Agent implements Person{
 		cityMap = c;
 	}
 
+	public CityMap getCityMap(){
+		return cityMap;
+	}
+	
 	public String getName(){
 		return name;
 	}

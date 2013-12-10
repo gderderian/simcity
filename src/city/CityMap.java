@@ -353,6 +353,19 @@ public class CityMap {
 	}
 	
 	
+	public void msgMarketHereIsTruckOrder(int num, MarketOrder o){
+		// TODO change this to load balance the markets once they are all populated
+		if(num == 1 || num == 2){
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		}
+		else if(num == 3 || num == 4){
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		}
+		else if(num == 5){
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		}
+	}
+	
 	
 	public void msgArrivedAtBank(Role bankteller) {
 		
