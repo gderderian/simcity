@@ -166,6 +166,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     Semaphore[][] streetGrid = new Semaphore[gridX+1][gridY+1];
     Semaphore[][] sidewalkGrid = new Semaphore[gridX+1][gridY+1];
     
+    //Set up rest4 components
+    JButton closeRest4;
+    
     CityGui cityGui;
 
     /**
@@ -318,6 +321,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant4Panel.add(new JLabel("Restaurant 4 Info/Options"));
         restaurant4Panel.setPreferredSize(buildingPanelDim);
         restaurant4Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        closeRest4= new JButton("Close Restaurant");
+        closeRest4.addActionListener(this);
+        restaurant4Panel.add(closeRest4);
     }
     
     private void setupRestaurant5Panel(){
@@ -578,6 +585,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		} else if(e.getSource() == buyCarButton){
 			// Coming soon
+		}
+		else if(e.getSource() == closeRest4){
+			cityMap.getRest4().close();
 		}
 
 	}
@@ -970,7 +980,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
-		addPerson("rest4Test", "No job");
+		addPerson("Jill", "No job");
 
 	}
 
