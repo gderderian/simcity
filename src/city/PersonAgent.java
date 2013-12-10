@@ -42,7 +42,7 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankManagerRole;
-import Role.MarketManager;
+import Role.MarketManagerRole;
 
 
 public class PersonAgent extends Agent implements Person{
@@ -1477,6 +1477,7 @@ public class PersonAgent extends Agent implements Person{
 	
 	public void walkToDeath() {
 		guiMoveFromCurrentPositionTo(new Position(19, 14));
+		currentPosition.release(aStar.getGrid());
 		gui.moveTo(700, 460);
 		try {
 			atDestination.acquire();
@@ -1487,7 +1488,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 	
 	public void die() {
-		currentPosition.release(aStar.getGrid());
 		gui.die();
 
 		Timer t = new Timer();
