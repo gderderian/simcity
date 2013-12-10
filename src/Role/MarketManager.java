@@ -138,7 +138,7 @@ public class MarketManager extends Role {
 	}
 	
 	public void msgHereIsTruckOrder(MarketOrder o){
-		//log("Recieved order from " + o.getRecipient().getName());
+		log("Recieved order from " + o.getRecipient().getName());
 		//log("Current order size is:" + o.orders.size());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.truckOrder);
 		myOrders.add(mo);
@@ -147,7 +147,7 @@ public class MarketManager extends Role {
 	}
 	
 	public void msgOrderPicked(MarketOrder o){
-		//log("Received orderPicked message");
+		log("Received orderPicked message");
 		//log("Current order size is:" + o.orders.size());
 		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
@@ -208,6 +208,7 @@ public class MarketManager extends Role {
 
 	// Actions
 	private void makeWorkerPrepareOrder(myMarketOrder o){ // Distribute load of incoming orders to all workers
+		log("Getting a market worker to prepare the order");
 		o.state = orderState.assignedToWorker;
 		double orderTotal = 0;
 		// Decrement quantity of things in each order
@@ -233,6 +234,9 @@ public class MarketManager extends Role {
 			}
 			w_selected.worker.msgPrepareOrder(o.order, this);
 			w_selected.numWorkingOrders++;
+		}
+		else{
+			log("I have no market workers in my shop right now");
 		}
 	}
 	
