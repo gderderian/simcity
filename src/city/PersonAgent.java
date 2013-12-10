@@ -80,6 +80,7 @@ public class PersonAgent extends Agent implements Person{
 	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	public double wallet;
+	public int bankaccountnumber;
 	double moneyToDeposit;
 
 	//Bank
@@ -142,7 +143,8 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition = new Position(20, 18);
 		}
 
-		wallet = 1000;
+		wallet = 100;
+		bankaccountnumber = 0;
 		busRide = new BusRide(5);
 
 		if(aStar != null)
@@ -156,6 +158,21 @@ public class PersonAgent extends Agent implements Person{
 		foodsToEat.add("Steak");
 		foodsToEat.add("Salad");
 		foodsToEat.add("Pizza");
+		
+		//populate fridge with a few foods to start
+		if(house != null){
+			log("My house should be stocked with a minimal amount of food");
+			List<Food> groceries= new ArrayList<Food>();
+			Food chicken= new Food("Chicken");
+			Food steak= new Food("Steak");
+			Food salad= new Food("Salad");
+			Food pizza= new Food("Pizza");
+			groceries.add(chicken);
+			groceries.add(steak);
+			groceries.add(salad);
+			groceries.add(pizza);
+			house.boughtGroceries(groceries);
+		}
 
 		currentHour = 0;
 
@@ -170,7 +187,8 @@ public class PersonAgent extends Agent implements Person{
 
 		name = n;
 
-		wallet = 1000;
+		wallet = 100;
+		bankaccountnumber = 0;
 		busRide = new BusRide(5);
 
 		//populate foods list -- need to make sure this matches up with market
@@ -284,7 +302,6 @@ public class PersonAgent extends Agent implements Person{
 	//Takes a string argument and creates a new PersonTask which is added onto the current day's schedule
 	public void addTask(String task){
 		PersonTask t = new PersonTask(task);
-		schedule.addTaskToDay(clock.getDayOfWeekNum(), t);
 		stateChanged();
 		//Do we need this stateChanged()?
 	}
@@ -381,8 +398,20 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to go to bank.");
 
-		}/*
+		} 
+		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1")))
+		{
+			currentHour = hour;
+			wallet = 40;
+			synchronized(tasks) {
+				tasks.add(new PersonTask(TaskType.goToBank));
+			}
+			log("It's time for me to go to bank.");
+
+		} 
+		
 		else if(hour == 4 && minute < 15 && (name.equals("marketClient"))){
+
 			currentHour = hour;
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToMarket);
@@ -390,7 +419,7 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(task);
 			}
 			log("It's time for me to buy something from the market.");
-<<<<<<< HEAD
+
 		} 
 		/*
 		 * Dont need these two functions
@@ -417,7 +446,7 @@ public class PersonAgent extends Agent implements Person{
 =======
 		} */
 		
-		else if(t > 3000 && t < 5000 && am_pm.equals("am") && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
+		/*else if(t > 3000 && t < 5000 && am_pm.equals("am") && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
 			//currentHour = hour;
 			log("I should be a landlord");
 			synchronized(roles){
@@ -434,7 +463,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		
 
-		}
+		}*/
 		
 		/*Adds got hungry task
 		 * Right now this is only for the test person
@@ -603,18 +632,23 @@ public class PersonAgent extends Agent implements Person{
 	//Bank
 	public void msgSetBankAccountNumber(double num){
 		accountNumber = num;
+		log("I have a bank account now :" + accountNumber);
 	}
 
 	public void msgBalanceAfterDepositingIntoAccount(double balance){
-		accountBalance = balance;
+		wallet = balance;
+		log("My balance after depositing into my account:" + wallet);
 	}
 
 	public void msgBalanceAfterWithdrawingFromAccount(double balance){
-		accountBalance = balance;
+		wallet = balance;
+		log("My balance after withdrawing from my account:" + wallet);
 	}
 
-	public void msgBalanceAfterGetitngLoanFromAccount(double balance) {
-		accountBalance = balance;
+	public void msgBalanceAfterGetitngLoanFromAccount(double balance, double loan) {
+		wallet = balance;
+		loan = loan;
+		log("My balance after getting loan from the bank:" + wallet + " and loan :" + loan);
 	}
 
 	/*
@@ -1025,7 +1059,16 @@ public class PersonAgent extends Agent implements Person{
 		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
-			goToRestaurant(task);
+			int y = rand.nextInt(2);
+			if(y == 0){
+				goToRestaurant(task);
+			}
+			else{
+				String food = foodsToEat.get(y);
+				house.checkFridge(food);
+				log("I'm going to eat " + food + " in my house.");
+				log.add(new LoggedEvent("Decided to eat something from my house."));
+			}
 		}
 	}
 

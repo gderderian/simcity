@@ -71,7 +71,7 @@ public class House implements HouseInterface{
 	public void boughtGroceries(List<Food> groceries){
 		log.add(new LoggedEvent("Received boughtGroceries from person, fridge should now have " + groceries.size() + " items."));
 		System.out.println("Received boughtGroceries from person, fridge should now have " + groceries.size() + " items.");
-		if(groceries.size() <= (fridge.capacity - fridge.currentAmount)){
+		if(groceries.size() >= (fridge.capacity - fridge.currentAmount)){
 			owner.msgFridgeFull();
 		}
 		for(int i=0; (i<groceries.size()) && (fridge.currentAmount < fridge.capacity); i++){

@@ -29,7 +29,7 @@ public class Bank {
                 
                 //this is for testing
                 accounts.add(new account (null, 1));
-                accounts.get(0).balance = 0;
+                accounts.get(0).balance = 40;
                 accounts.get(0).loan = 0;
         }
         
