@@ -332,32 +332,18 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	//TODO fix this
-
-	public void msgTimeUpdate(int t, int hour){
-
-		if(hour == 1 && (currentHour != hour)){
-			currentHour = hour;
-
+	public void msgTimeUpdate(int t, int hour, long minute, String am_pm){
+		
+		//if(hour == 1 && (currentHour != hour)){
+		//	currentHour = hour;
+		if(hour == 1 && minute < 15 && am_pm.equals("am")){
 			if(myJob != null){
 				PersonTask task = new PersonTask(TaskType.goToWork);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 			}
 
 		}
-		/* This is unnecessary
-		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
-			synchronized(tasks){
-				PersonTask task = new PersonTask(TaskType.goToWork);
-				tasks.add(task);
-				if(name.equals("bank teller"))
-				{
-					task.role = "BankTellerRole";
-				} else if (name.equals("MarketManager")){
-				}
-			}
-			log("It's time for me to go to work!");
-		}*/
-		if(hour == 3 && currentHour != hour && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+		if(hour == 3 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
 			currentHour = hour;
 			synchronized(tasks){
@@ -365,7 +351,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to eat something.");
 		}
-		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest")))
+		else if(hour == 3 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest")))
 		{
 			currentHour = hour;
 			synchronized(tasks) {
@@ -373,8 +359,8 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to go to bank.");
 
-		} else if(hour == 4 && currentHour != hour && (name.equals("marketClient")))
-		{
+		}/*
+		else if(hour == 4 && minute < 15 && (name.equals("marketClient"))){
 			currentHour = hour;
 			synchronized(tasks) {
 				PersonTask task = new PersonTask(TaskType.goToMarket);
@@ -382,6 +368,7 @@ public class PersonAgent extends Agent implements Person{
 				tasks.add(task);
 			}
 			log("It's time for me to buy something from the market.");
+<<<<<<< HEAD
 		} 
 		/*
 		 * Dont need these two functions
@@ -405,6 +392,10 @@ public class PersonAgent extends Agent implements Person{
 		}*/ 
 
 		/*else if(t > 3000 && t < 5000 && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
+=======
+		} */
+		
+		else if(t > 3000 && t < 5000 && am_pm.equals("am") && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
 			//currentHour = hour;
 			log("I should be a landlord");
 			synchronized(roles){
@@ -419,24 +410,27 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 			}
-		}*/
+		
 
+		}
+		
 		/*Adds got hungry task
 		 * Right now this is only for the test person
 		 * */
-		else if(hour == 3 && currentHour != hour){
+		/*
+		else if(hour == 3 && minute >= 40){
 			currentHour = hour;
 			PersonTask newTask = new PersonTask(TaskType.gotHungry);
 			schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
 			log("Adding got hungry task");
 		}
-		/*Adds go to market task
-		else if(hour == 4 && (currentHour != hour) && myJob == null){
+		*/
+		else if(hour == 4 && minute >= 15 && minute < 30 && am_pm.equals("am") && myJob == null){
 			currentHour = hour;
 				PersonTask newTask = new PersonTask(TaskType.goToMarket);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
 				log("Adding go to market task");
-		}*/
+		}
 		stateChanged();
 	}
 	//From house
@@ -611,6 +605,7 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 		//ROLES - i.e. job or customer
+				
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){

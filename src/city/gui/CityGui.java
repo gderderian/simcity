@@ -280,7 +280,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
-			person.msgTimeUpdate(timeOfDay, hourOfDayHumanTime);
+			person.msgTimeUpdate(timeOfDay, hourOfDayHumanTime, minuteOfDay, amPm);
 		}
 		controlPanel.setTimeDisplay(displayTime);
 	}
