@@ -51,6 +51,7 @@ public class BankManagerRole extends Role{
 	{
 		super();
 		this.bank = setbank;
+		
 
 	}
 
@@ -216,6 +217,12 @@ public class BankManagerRole extends Role{
 								//customer.customer.msgOpenAccount();
 								return true;
 							}
+							else
+							{
+								customer.customer.msgGoToWaitingArea(160, 500);
+					
+								
+							}
 						}
 
 					}
@@ -253,6 +260,7 @@ public class BankManagerRole extends Role{
 			}
 
 			//this is my new design for loan system
+			/*
 			synchronized(bank.accounts)
 			{
 
@@ -267,7 +275,7 @@ public class BankManagerRole extends Role{
 				}
 
 			}
-
+			 */
 			state = bankmanagerstate.doingnothing;
 
 			return true;

@@ -27,6 +27,10 @@ public class Bank {
                 	bankstations.add(new bankstation(null, i+1, initialxcofbank += 100, initialycofbank));
                 }
                 
+                //this is for testing
+                accounts.add(new account (null, 1));
+                accounts.get(0).balance = 0;
+                accounts.get(0).loan = 0;
         }
         
         public BankManagerRole getBankManager()
