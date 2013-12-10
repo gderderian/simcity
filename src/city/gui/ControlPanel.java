@@ -30,7 +30,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
@@ -41,16 +40,13 @@ import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
-import city.PersonAgent;
-import Role.BankTellerRole;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
 import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
-import city.gui.Bank.BankTellerRoleGui;
-import city.gui.House.HouseAnimationPanel;
+import city.gui.restaurant2.Restaurant2InfoPanel;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 
@@ -79,7 +75,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel buildingInfoPanel = new JPanel();
     List<JPanel> buildingPanels = Collections.synchronizedList(new ArrayList<JPanel>());
 	private JPanel restaurant1Panel = new JPanel();
-    private JPanel restaurant2Panel = new JPanel();
+    private Restaurant2InfoPanel restaurant2Panel = new Restaurant2InfoPanel();
 	private JPanel restaurant3Panel = new JPanel();
 	private JPanel restaurant4Panel = new JPanel();
 	private JPanel restaurant5Panel = new JPanel();
@@ -218,10 +214,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     	cityMap.setRestaurant1(r);
     }
     
-    public void addRest2ToCityMap(Restaurant2 r){
-        cityMap.setRestaurant2(r);
-    }
-    
     public void addRest3ToCityMap(Restaurant3 r){
     	cityMap.setRestaurant3(r);
     }
@@ -280,7 +272,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         /*Functions for setting up different building Panels*/
         setupRestaurant1Panel();
-        setupRestaurant2Panel();
+        //setupRestaurant2Panel();
         setupRestaurant3Panel();
         setupRestaurant4Panel();
         setupRestaurant5Panel();
@@ -302,12 +294,13 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
+    /*
     private void setupRestaurant2Panel(){
         restaurant2Panel.add(new JLabel("Restaurant 2 Info/Options"));
         restaurant2Panel.setPreferredSize(buildingPanelDim);
         restaurant2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
-    
+    */
     private void setupRestaurant3Panel(){
         restaurant3Panel.add(new JLabel("Restaurant 3 Info/Options"));
         restaurant3Panel.setPreferredSize(buildingPanelDim);

@@ -119,7 +119,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel(rest1);
 
 	// Restaurant 2 (Holly)
-	Restaurant2 rest2 = new Restaurant2();
+	Restaurant2 rest2 = Restaurant2.getInstance();
 	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
 
 	// Restaurant 3 (Grant)
@@ -199,7 +199,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		//This automatically sets dimensions and cityGui references
 		restaurant2.setBackground(new Color(150, 20, 60));
 		addBuildingPanel(restaurant2);
-		controlPanel.addRest2ToCityMap(rest2);
 		controlPanel.addRest3ToCityMap(rest3);
 		controlPanel.addRest4ToCityMap(rest4);
 		controlPanel.addRest5ToCityMap(rest5);
@@ -551,7 +550,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
 			restaurant2.addGui(customerGui);
 			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRoleRegular("waiter", p);
-			p.addFirstJob(waiterRole, "rest2");
+			p.addFirstJob(waiterRole, "rest2", 3);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
@@ -560,7 +559,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
 			restaurant1.addGui(customerGui);
 			Restaurant1WaiterRole waiterRole = new Restaurant1NormalWaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest1");
+			p.addFirstJob(waiterRole, "rest1", 3);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
@@ -569,7 +568,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, -20, -20, 0);
 			restaurant3.addGui(customerGui);
 			WaiterRole3 waiterRole = new WaiterRole3Normal("waiter", 230, 230,p);
-			p.addFirstJob(waiterRole, "rest3");
+			p.addFirstJob(waiterRole, "rest3", 3);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
@@ -581,7 +580,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant5CustomerGui customerGui = new Restaurant5CustomerGui(customerRole, restaurant5gui, hostrole);
 			restaurant5.addGui(customerGui);
 			Restaurant5RegularWaiterRole waiterRole = new Restaurant5RegularWaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest5");
+			p.addFirstJob(waiterRole, "rest5", 3);
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 
@@ -668,78 +667,93 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
 			if(job.contains("Restaurant2")){
-				p.addFirstJob(r, "rest2");
 				if(r instanceof Restaurant2HostRole){
 					rest2.setHost((Restaurant2HostRole)r);
+					p.addFirstJob(r, "rest2", 1);	//goes to work at 1am
 				}
 				else if(r instanceof Restaurant2WaiterRole){
 					rest2.addWaiters((Restaurant2WaiterRole) r);
+					p.addFirstJob(r, "rest2", 3);
 				}
 				else if(r instanceof Restaurant2CookRole){
 					rest2.setCook((Restaurant2CookRole) r);
+					p.addFirstJob(r, "rest2", 3);
 				}
 				else if(r instanceof Restaurant2CashierRole){
 					rest2.setCashier((Restaurant2CashierRole) r);
+					p.addFirstJob(r, "rest2", 2);
 				}
 			}
 			else if(job.contains("Restaurant1")) {
-				p.addFirstJob(r, "rest1");
 				if(r instanceof Restaurant1HostRole) {
 					rest1.setHost((Restaurant1HostRole) r);
+					p.addFirstJob(r, "rest1", 1);
 				}
 				else if(r instanceof Restaurant1WaiterRole){
 					rest1.addWaiters((Restaurant1WaiterRole) r);
+					p.addFirstJob(r, "rest1", 3);
 				}
 				else if(r instanceof Restaurant1CookRole){
 					((Restaurant1CookRole) r).addMarket(market1.getMarketManager());
 					rest1.setCook((Restaurant1CookRole) r);
+					p.addFirstJob(r, "rest1", 3);
 				}
 				else if(r instanceof Restaurant1CashierRole){
 					rest1.setCashier((Restaurant1CashierRole) r);
+					p.addFirstJob(r, "rest1", 2);
 				}
 			}
 			else if(job.contains("Restaurant3")) {
-				p.addFirstJob(r, "rest3");
 				if(r instanceof HostRole3) {
 					rest3.setHost((HostRole3) r);
+					p.addFirstJob(r, "rest3", 1);
 				}
 				else if(r instanceof WaiterRole3){
 					rest3.addWaiters((WaiterRole3) r);
+					p.addFirstJob(r, "rest3", 3);
 				}
 				else if(r instanceof CookRole3){
 					rest3.setCook((CookRole3) r);
+					p.addFirstJob(r, "rest3", 3);
 				}
 				else if(r instanceof CashierRole3){
 					rest3.setCashier((CashierRole3) r);
+					p.addFirstJob(r, "rest3", 2);
 				}
 			}
 			else if(job.contains("Restaurant4")) {
-				p.addFirstJob(r, "rest4");
 				if(r instanceof HostRole4) {
 					rest4.setHost((HostRole4)r);
+					p.addFirstJob(r, "rest4", 1);
 				}
 				else if(r instanceof CookRole4){
 					rest4.setCook((CookRole4) r);
+					p.addFirstJob(r, "rest4", 3);
 				}
 				else if(r instanceof CashierRole4){
 					rest4.setCashier((CashierRole4) r);
+					p.addFirstJob(r, "rest4", 2);
 				}
 				else if(r instanceof WaiterRole4){
 					rest4.addWaiters((WaiterRole4) r);
+					p.addFirstJob(r, "rest4", 3);
 				}
 			} else if(job.contains("Restaurant5")) {
-				p.addFirstJob(r, "rest5");
 				if(r instanceof Restaurant5HostRole) {
 					rest5.setHost((Restaurant5HostRole)r);
+					p.addFirstJob(r, "rest5", 1);
 				}
 				else if(r instanceof Restaurant5CookRole){
 					rest5.setCook((Restaurant5CookRole) r);
+					p.addFirstJob(r, "rest5", 3);
 				}
 				else if(r instanceof Restaurant5CashierRole){
 					rest5.setCashier((Restaurant5CashierRole) r);
+					p.addFirstJob(r, "rest5", 2);
 				}
 				else if(r instanceof Restaurant5WaiterRole){
 					rest5.addWaiters((Restaurant5WaiterRole) r);
+					p.addFirstJob(r, "rest5", 3);
 				}
 
 			} else if(job.contains("market") || job.contains("Market")) {
@@ -748,15 +762,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					switch(workerMarketCounter) {
 					case 0: 
 						market1.addWorker((MarketWorker)r);
-						p.addFirstJob(r, "mark1");
+						p.addFirstJob(r, "mark1", 2);
 						break;
 					case 1: 
 						market2.addWorker((MarketWorker)r);
-						p.addFirstJob(r, "mark2");
+						p.addFirstJob(r, "mark2", 2);
 						break;
 					case 2: 
 						market3.addWorker((MarketWorker)r);
-						p.addFirstJob(r, "mark3");
+						p.addFirstJob(r, "mark3", 2);
 						break;
 					}
 					
@@ -772,21 +786,20 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					switch(managerMarketCounter) {
 					case 0: 
 						market1.setManager((MarketManager)r);
-						p.addFirstJob(r, "mark1");
+						p.addFirstJob(r, "mark1", 1);
 						break;
 					case 1: 
 						market2.setManager((MarketManager)r);
-						p.addFirstJob(r, "mark2");
+						p.addFirstJob(r, "mark2", 1);
 						break;
 					case 2: 
 						market3.setManager((MarketManager)r);
-						p.addFirstJob(r, "mark3");
+						p.addFirstJob(r, "mark3", 1);
 						break;
 					}
 					managerMarketCounter++;
 				}
 			} else if(job.contains("Bank")) {
-				p.addFirstJob(r, "bank1");
 				/*
 				if(r instanceof BankTellerRole) {
 					bank.addBankTeller((BankTellerRole)r);
@@ -797,16 +810,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					System.out.println("adding bank manager in the bank!");
 					bank.setBankManager((BankManagerRole) r);
 					p.setRoleActive(r);
+					p.addFirstJob(r, "bank1", 1);
 				}
 
 			} else if(job.contains("Landlord")){
 				if(job.equals("Landlord1")){
-					p.addFirstJob(r, "apart1");
+					p.addFirstJob(r, "apart1", 1);
 					p.setRoleActive(r);
 					apart1.setLandlord((LandlordRole)r);
 				}
 				else if(job.equals("Landlord2")){
-					p.addFirstJob(r, "apart2");
+					p.addFirstJob(r, "apart2", 1);
 					p.setRoleActive(r);
 					apart2.setLandlord((LandlordRole)r);
 				}

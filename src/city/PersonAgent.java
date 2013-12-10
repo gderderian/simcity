@@ -107,7 +107,7 @@ public class PersonAgent extends Agent implements Person{
 	public boolean busTest = false;
 
 	//Job
-	public Job myJob;
+	public Job myJob = null;
 	public enum WorkState {notWorking, goToWork, atWork};
 	WorkState workState;
 
@@ -285,8 +285,10 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 
-	public void addFirstJob(Role r, String location){
+	public void addFirstJob(Role r, String location, int startTime){
 		myJob = new Job(r, location);
+		if(startTime != -1)
+			myJob.workStartTime = startTime;
 		r.setBuilding(location);
 		roles.add(r);
 	}
@@ -362,21 +364,39 @@ public class PersonAgent extends Agent implements Person{
 			currentHour = hour;
 			schedule.transferTodaysTasksToTomorrow(clock.getDayOfWeekNum());
 		}
-		
-		//if(hour == 1 && (currentHour != hour)){
-		//	currentHour = hour;
-		if(hour == 1 && minute < 15 && am_pm.equals("am")){
-			if(myJob != null){
+		if(!(myJob == null)){
+			if(hour == myJob.workStartTime && minute < 15 && am_pm.equals("am") && myJob != null){
 				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 					PersonTask task = new PersonTask(TaskType.goToWork);
 					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 					log("It's time for me to go to work!");
 				}
 			}
-
 		}
+		
+		//Old way of doing jobs
+		/*
+		if(hour == 1 && minute < 15 && am_pm.equals("am") && myJob != null){
+			if(myJob.role.getRoleName().contains("Rest")){
+				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
+					PersonTask task = new PersonTask(TaskType.goToWork);
+					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+					log("It's time for me to go to work!");
+				}
+			}
+		}
+		if(hour == 3 && minute < 15 && am_pm.equals("am") && myJob != null){
+			if(!myJob.role.getRoleName().contains("Rest")){
+				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
+					PersonTask task = new PersonTask(TaskType.goToWork);
+					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+					log("It's time for me to go to work!");
+				}
+			}
+		}*/
+		
 		//For paying rent
-		if(hour == 2 && (currentHour != hour) && house.getName().contains("apart")){
+		if(hour == 2 && minute >= 15 && minute < 30 && am_pm.equals("am") && house.getName().contains("apart")){
 			currentHour = hour;
 			if(house.getName().contains("apart1")){
 				msgRentDue(house.getLandlord(), 10.0);
