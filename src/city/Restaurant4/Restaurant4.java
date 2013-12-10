@@ -13,6 +13,7 @@ public class Restaurant4 {
 	CustomerRole4 customer;
 	List<WaiterRole4> waiters;
 	SharedOrders4 orders= new SharedOrders4();
+	boolean isOpen= true;
 	
 	public Restaurant4(){
 		waiters = Collections.synchronizedList(new ArrayList<WaiterRole4>());
@@ -23,6 +24,9 @@ public class Restaurant4 {
 	}
 	
 	public HostRole4 getHost(){
+		if(!isOpen){
+			return null;
+		}
 		return host;
 	}
 	
@@ -56,4 +60,17 @@ public class Restaurant4 {
 		return waiters.size();
 	}
 	
+	public boolean isOpen(){
+		return isOpen;
+	}
+	
+	public void close(){
+		if(isOpen){
+			isOpen= false;
+			System.out.println("REST 4 IS NOW CLOSED");
+		} else{
+			isOpen= true;
+			System.out.println("REST 4 IS NOW OPEN");
+		}
+	}
 }

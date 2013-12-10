@@ -34,7 +34,6 @@ public class CustomerRole4 extends Role implements Customer4 {
 	private int xDest;
 	private int yDest;
 	private double amountOwed;
-	private double cashOnHand;
 	private static final int randSelector= 4;
 	private static final int timeToEat= 750;
 	private static final int dimensions= 20;
@@ -70,13 +69,13 @@ public class CustomerRole4 extends Role implements Customer4 {
 		this.name = name;
 		this.p= p;
 		if(name.equals("cheapestItem")){
-			cashOnHand= 5.99;
+			money= 5.99;
 		}
 		else if(name.equals("noMoneyL") || name.equals("noMoneyS")){
-			cashOnHand= 0;
+			money= 0;
 		}
 		else{	
-			cashOnHand= 40.00;
+			money= 40.00;
 		}
 		amountOwed= 0;
 	}
@@ -375,20 +374,20 @@ public class CustomerRole4 extends Role implements Customer4 {
 			amount += amountOwedNextTime;
 		}
 		amount += amountOwed;
-		if( cashOnHand - amount >= 0){
-			cashOnHand -= amount;
+		if( money - amount >= 0){
+			money -= amount;
 		}
 		else{
 			amount= 0;
 			amountOwedNextTime= 0;
 			payNextTime= false;
 		}
-		log("Now I have $" + cashOnHand);
+		log("Now I have $" + money);
 		waiter.getCashier().msgHereIsMoney(this, amount); 
 	}
 	
 	private void goToBank(){
-		cashOnHand += 20.00;
+		money += 20.00;
 	}
 	
 	private void leaveTable() {
@@ -432,6 +431,11 @@ public class CustomerRole4 extends Role implements Customer4 {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return p;
 	}
 }
 

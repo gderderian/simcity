@@ -555,6 +555,11 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	
 
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 
 
 }

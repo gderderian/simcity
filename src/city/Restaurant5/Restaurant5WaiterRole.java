@@ -779,6 +779,10 @@ public abstract class Restaurant5WaiterRole extends Role implements Restaurant5W
 	public void setOrderSpindle(OrderSpindle5 setorderspindle) {
 		orderspindle = setorderspindle;
 	}
+	
+	public PersonAgent getPerson(){
+		return person;
+	}
 
 }
 

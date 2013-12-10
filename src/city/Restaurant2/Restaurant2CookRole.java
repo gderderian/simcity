@@ -343,4 +343,9 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 		return roleName;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 }

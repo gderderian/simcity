@@ -18,6 +18,7 @@ import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.transportation.BusStopAgent;
 import Role.BankTellerRole;
+import Role.MarketCustomerRole;
 import Role.Role;
 import astar.Position;
 
@@ -198,6 +199,10 @@ public class CityMap {
 		restaurant4= r;
 	}
 	
+	public Restaurant4 getRest4(){
+		return restaurant4;
+	}
+	
 	public void seRestaurant5(Restaurant5 r){
 		restaurant5 =r;
 	}
@@ -313,63 +318,131 @@ public class CityMap {
 				
 				if(currentDistance < shortestDistance){
 					shortestDistance = currentDistance;
-					closestPlace = currentPlace;
+					//if(isOpen(currentPlace)){
+						closestPlace = currentPlace;
+					//}
 				}
 			}
 		}
 		return closestPlace;
 	}
 	
+	/*private boolean isOpen(String place){
+		if(place.equals("rest1")){
+			return restaurant1.isOpen();
+		} else if(place.equals("rest2")){
+			return restaurant2.isOpen();
+		} else if(place.equals("rest3")){
+			return restaurant3.isOpen();
+		} else if(place.equals("rest4")){
+			return restaurant4.isOpen();
+		} else if(place.equals("rest5")){
+			return restaurant5.isOpen();
+		} else if(place.equals("mark1")){
+			return mark1.isOpen();
+		} else if(place.equals("mark2")){
+			return mark2.isOpen();
+		} else if(place.equals("mark3")){
+			return mark3.isOpen();
+		} else if(place.equals("bank")){
+			return bank.isOpen();
+		}
+		return false;
+	}*/
+	
 	/*
 	 * This function takes a restaurant number and messages the host of that restaurant that the customer is hungry
 	 */
-	public void msgHostHungryAtRestaurant(int num, Role customer){
-		if(num == 1){
+	public boolean msgHostHungryAtRestaurant(int num, Role customer){
+		if(num == 1 && restaurant1.getHost() != null){
 			Restaurant1CustomerRole cust = (Restaurant1CustomerRole) customer;
 			cust.setHost(restaurant1.getHost());
 			cust.getGui().setHungry();
 			//restaurant1.getHost().msgImHungry((Restaurant1CustomerRole) customer);
+			return true;
 		}
-		if(num == 2){
+		if(num == 2 && restaurant2.getHost() != null){
 			restaurant2.getHost().msgIWantFood((Restaurant2Customer) customer);
+			return true;
 		}
-		if(num == 3){
+		if(num == 3 && restaurant3.getHost() != null){
 			restaurant3.getHost().msgIWantFood((CustomerRole3) customer, 0, 0);
 			((CustomerRole3) customer).setHost(restaurant3.getHost());
 			((CustomerRole3) customer).setCashier(restaurant3.getCashier());
+			return true;
 		}
-		if(num == 4){
+		if(num == 4 && restaurant4.getHost() != null){
 			restaurant4.getHost().msgIWantFood((Customer4) customer);
+			return true;
 		}
-		if(num == 5){
+		if(num == 5 && restaurant5.getHost() != null){
 			((Restaurant5CustomerRole) customer).setHost(restaurant5.getHost());
             ((Restaurant5CustomerRole) customer).setCashier(restaurant5.getCashier());
 			restaurant5.getHost().msgIWantFood((Restaurant5Customer) customer);
-			
-			
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean msgMarketManagerArrivedToMarket(int num, Role customer){
+		MarketCustomerRole cust = (MarketCustomerRole) customer;
+		if(num == 1 && mark1.getMarketManager() != null){
+			mark1.getMarketManager().msgCustomerArrivedToMarket(cust);
+			return true;
+		}
+		if(num == 2 && mark2.getMarketManager() != null){
+			mark2.getMarketManager().msgCustomerArrivedToMarket(cust);
+			return true;
+		}
+		if(num == 3 && mark3.getMarketManager() != null){
+			mark3.getMarketManager().msgCustomerArrivedToMarket(cust);
+			return true;
+		}
+		return false;
+	}
+	
+	public void msgMarketManagerHereIsOrder(int num, MarketOrder o){
+		if(num == 1){
+			mark1.getMarketManager().msgHereIsOrder(o);
+		}
+		if(num == 2){
+			mark2.getMarketManager().msgHereIsOrder(o);
+		}
+		if(num == 3){
+			mark3.getMarketManager().msgHereIsOrder(o);
 		}
 	}
 	
-	
-	public void msgMarketHereIsTruckOrder(int num, MarketOrder o){
+	public boolean msgMarketHereIsTruckOrder(int num, MarketOrder o){
 		// TODO change this to load balance the markets once they are all populated
-		if(num == 1 || num == 2){
+		if((num == 1 || num == 5) && mark1.getMarketManager() != null){
 			mark1.getMarketManager().msgHereIsTruckOrder(o);
+			return true;
 		}
-		else if(num == 3 || num == 4){
-			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		else if((num == 3 || num == 4) && mark3.getMarketManager() != null){
+			mark3.getMarketManager().msgHereIsTruckOrder(o);
+			return true;
 		}
-		else if(num == 5){
-			mark1.getMarketManager().msgHereIsTruckOrder(o);
+		else if(num == 2 && mark2.getMarketManager() != null){
+			mark2.getMarketManager().msgHereIsTruckOrder(o);
+			return true;
 		}
+		return false;
 	}
 	
 	
 	public void msgArrivedAtBank(Role bankteller) {
-		
 		//bank.getManager().msgIWantFood((Restaurant5Customer) customer);
 		bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) bankteller);
 		//this.setRoleActive(findrole);
+	}
+	
+	public boolean isBankOpen(){
+		if(bank.getBankManager() != null){
+			return true;
+		} else{
+			return false;
+		}
 	}
 	
 }

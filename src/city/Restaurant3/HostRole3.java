@@ -321,5 +321,10 @@ public class HostRole3 extends Role {
 	public String getRoleName() {
 		return roleName;
 	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
 	
 }

@@ -3,7 +3,6 @@ package city.transportation;
 import interfaces.Car;
 import interfaces.Person;
 
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import city.CityMap;
@@ -21,9 +20,6 @@ public class CarAgent extends Vehicle implements Car {
 	public Person owner = null; //Car owner
 
 	public String destination = null;
-
-	boolean crash = false;
-	int destructionPath = 0;
 
 	private Position ownerLocation = null;
 

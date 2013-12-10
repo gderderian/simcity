@@ -56,7 +56,7 @@ public class Restaurant1CookRole extends Role {
 	public Restaurant1CookGui cookGui = null;
 	
 	ActivityTag tag = ActivityTag.RESTAURANT1COOK;
-
+	
 	public Restaurant1CookRole(String name, PersonAgent p) {
 		super();
 		building = "rest1";
@@ -398,6 +398,11 @@ public class Restaurant1CookRole extends Role {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
 	}
 	
 }

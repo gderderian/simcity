@@ -214,4 +214,9 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 		return roleName;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 }
