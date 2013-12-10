@@ -409,7 +409,6 @@ public class PersonAgent extends Agent implements Person{
 			((BankManagerRole) myJob.role).msgEndOfTheDay();	
 		}
 		
-		
 		if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
@@ -590,6 +589,7 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgHereIsYourOrder(TruckAgent t, MarketOrder order){ //Order for the cook role from a truck agent
+		log("Recieved an order from the market! I'll send it on now");
 		synchronized(roles) {
 			for(Role r : roles) {
 				if(r.getRoleName().contains("Cook") && r.isActive()) {
@@ -819,11 +819,7 @@ public class PersonAgent extends Agent implements Person{
 					}
 				}
 				else{
-					for(PersonTask t : dayTasks){
-						log("Task is " + t.type.toString());
-					}
 					tasks.add(dayTasks.get(0));
-					log("Adding a new task " + dayTasks.get(0).type.toString());
 					schedule.removeTaskFromDay(clock.getDayOfWeekNum(), dayTasks.get(0));
 					return true;
 				}
@@ -876,7 +872,6 @@ public class PersonAgent extends Agent implements Person{
 	public void reachedDestination(PersonTask task){
 
 		log("I've reached my destination, now I'm going to go inside!");
-		log("My task right now is " + task.type.toString());
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
@@ -1135,7 +1130,6 @@ public class PersonAgent extends Agent implements Person{
 			log("Going to go to Restaurant " + num);
 			task.location = "rest" + num;
 			task.role = "Restaurant" + num + "CustomerRole";
-			log("The role is called " + task.role);
 			if(car != null){
 				print("Car is not empty!");
 				String destination = task.location;

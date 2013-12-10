@@ -249,7 +249,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	//TODO change this to market order
 	private void sendShipmentOrder(ShipmentOrder s){
 		log("Sending shipment order to market the market of size " + s.order.orders.size());
-		cityMap.msgMarketHereIsTruckOrder(2, s.order);
+		cityMap.msgMarketHereIsTruckOrder(1, s.order);
 	}
 	
 	private void recieveShipment(ShipmentOrder s){
