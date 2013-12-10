@@ -826,6 +826,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					}
 
 					workerMarketCounter = (workerMarketCounter + 1) % 3;
+					
 				}
 				else if(r instanceof MarketManager){
 					if(managerMarketCounter > 2) {
@@ -1016,7 +1017,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			MarketManager role = new MarketManager("Market ManagerJoe", p, market1);
+			MarketManager role = new MarketManager(p.getName(), p, market1);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
