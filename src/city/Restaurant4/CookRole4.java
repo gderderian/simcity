@@ -111,7 +111,7 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 	
 	 
-	public void msgHereIsYourOrder(TruckAgent t, MarketOrder mo){ 
+	public void msgHereIsYourOrder(MarketOrder mo){ 
 		List<OrderItem> order = mo.getOrders();
 		for(int i=0; i<order.size(); i++){
 			if(order.get(i).type.equals("Eggs")){

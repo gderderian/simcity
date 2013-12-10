@@ -100,6 +100,7 @@ public class TruckAgent extends Vehicle {
 			o.o.getRecipient().msgHereIsYourOrder(this, o.o);
 			o.delivered = true;
 		}
+		
 		log("Picking up order from market");
 		DriveToMarket();
 		
@@ -124,6 +125,8 @@ public class TruckAgent extends Vehicle {
 		int x = cityMap.getX(dest);
 		int y = cityMap.getY(dest);
 		
+		gui.setVisible();
+		
 		if(x < 4 && y < 4) {
 			moveTo(3,3);
 		} else if(x > 17 && y < 4) {
@@ -140,6 +143,8 @@ public class TruckAgent extends Vehicle {
 			moveTo(x, 15);
 		} else if(y == 17) {
 			moveTo(x, 15);
+		} else if(y == 10) {
+			moveTo(x, 12);
 		} else
 			log("ERROR: Unexpected driving destination - see driveToMarket() in TruckAgent.");
 	}
@@ -165,6 +170,8 @@ public class TruckAgent extends Vehicle {
 			moveTo(x, 15);
 		} else if(y == 17) {
 			moveTo(x, 15);
+		} else if(y == 10) {
+			moveTo(x, 12);
 		} else
 			log("ERROR: Unexpected driving destination - see driveTo(String) in TruckAgent.");
 	}

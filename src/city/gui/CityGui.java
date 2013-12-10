@@ -922,8 +922,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			Market mkt = new Market();
-			MarketManager role = new MarketManager("Market ManagerJoe", p, mkt);
+			MarketManager role = new MarketManager("Market ManagerJoe", p, market1);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
