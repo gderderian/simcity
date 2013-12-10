@@ -243,4 +243,9 @@ public class LandlordRole extends Role implements Landlord {
 		}
 		gui.setPresent(true);
 	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return p;
+	}
 }

@@ -1,6 +1,7 @@
 package Role;
 
 import agent.StringUtil;
+import city.PersonAgent;
 import city.gui.Gui;
 
 public abstract class Role {
@@ -12,6 +13,7 @@ public abstract class Role {
 	
 	protected String building;
 	protected Gui gui;
+	protected double money;
 
     protected Role() {
     	isActive = false;
@@ -80,12 +82,14 @@ public abstract class Role {
      * This function sets the role to active or not for use with the PersonAgent's scheduler
      */
     
-    public void setActive(){
+    public void setActive(double m){
     	isActive = true;
+    	money = m;
     }
     
     public void setInactive(){
     	isActive = false;
+    	getPerson().setWallet(money);
     }
     
     public boolean isInUse(){
@@ -100,4 +104,6 @@ public abstract class Role {
 		building = location;		
 	}
     
+    public abstract PersonAgent getPerson();
+        
 }

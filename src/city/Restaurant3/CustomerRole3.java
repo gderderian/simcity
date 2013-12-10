@@ -30,7 +30,6 @@ public class CustomerRole3 extends Role {
 	Timer eatingTimer;
 	Timer choosingTimer;
 	private CustomerGui3 customerGui;
-	private double money;
 	private double needToPay;
 	private int orderAttempts;
 	
@@ -511,6 +510,11 @@ public class CustomerRole3 extends Role {
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
 	}
 	
 }

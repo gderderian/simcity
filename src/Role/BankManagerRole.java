@@ -397,6 +397,11 @@ public class BankManagerRole extends Role{
 		log.add(new LoggedEvent(msg));
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 
 
 }

@@ -1,6 +1,5 @@
 package restaurant1;
 
-import restaurant1.Restaurant1WaiterRole.customerState;
 import city.PersonAgent;
 
 public class Restaurant1NormalWaiterRole extends Restaurant1WaiterRole {

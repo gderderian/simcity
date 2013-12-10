@@ -125,6 +125,11 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	
 	public MarketWorkerGui getGui() {
 		return gui;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return p;
 	}	
 	
 }

@@ -24,7 +24,6 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	
 	private String name;
 	private String choice;
-	private double money;
 	private Restaurant1Check check;
 	
 	private int waitingSpot;
@@ -542,6 +541,11 @@ public class Restaurant1CustomerRole extends Role implements Restaurant1Customer
 	@Override
 	public String getRoleName() {
 		return roleName;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
 	}
 }
 

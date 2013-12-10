@@ -549,4 +549,8 @@ public abstract class WaiterRole3 extends Role {
 		return roleName;
 	}
 	
+	public PersonAgent getPerson(){
+		return person;
+	}
+	
 }

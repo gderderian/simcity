@@ -726,6 +726,11 @@ public class Restaurant5CustomerRole extends Role implements Restaurant5Customer
 		return roleName;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 	
 
 	

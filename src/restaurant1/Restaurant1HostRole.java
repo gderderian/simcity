@@ -280,4 +280,9 @@ public class Restaurant1HostRole extends Role {
 	public String getRoleName() {
 		return roleName;
 	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
 }

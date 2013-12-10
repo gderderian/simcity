@@ -228,5 +228,10 @@ public class CashierRole4 extends Role implements Cashier4 {
 	public String getRoleName() {
 		return roleName;
 	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return p;
+	}
 	
 }
