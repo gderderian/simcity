@@ -18,6 +18,7 @@ import restaurant1.Restaurant1CookRole;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import Role.BankCustomerRole;
+import Role.BankRobberRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.MarketCustomerRole;
@@ -420,14 +421,14 @@ public class PersonAgent extends Agent implements Person{
 				log("I'm getting hungry.");
 			}
 		}
-		else if(hour == 6 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
+		else if(hour == 2 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I need to go to the bank");
 			}
 		} 
-		else if(hour == 6 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest1"))){
+		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest1"))){
 
 			wallet = 40;
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
@@ -437,6 +438,46 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 		}
+		
+		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest2"))){
+
+			wallet = 40;
+			bankaccountnumber = 2;
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to go to bank.");
+			}
+
+		}
+		
+		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest3"))){
+
+			wallet = 20;
+			bankaccountnumber = 3;
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to go to bank.");
+			}
+
+		}
+		
+		//bank robber
+		else if(hour == 3 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankRobber"))){
+
+			wallet = 40;
+			bankaccountnumber = 0;
+			if(!schedule.isTaskAlreadyScheduled(TaskType.robBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.robBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to rob a bank.");
+			}
+
+		}
+		
+		
+		
 		else if(hour == 7 && minute < 15 && (name.equals("marketClient"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
@@ -766,6 +807,19 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		
+		synchronized(tasks){
+			for(PersonTask t: tasks){
+				if(t.type == TaskType.robBank && t.state == State.initial) {
+					Do("I'm calling rob bank function");
+					robBank(t);
+					t.state = State.processing;
+					return true;
+				}
+			}
+		}
+		
+		
 		/*
 		synchronized(tasks){
 			boolean taskExists = false;
@@ -943,6 +997,28 @@ public class PersonAgent extends Agent implements Person{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
 		}
+		
+		else if(task.type == TaskType.robBank) {
+			log.add(new LoggedEvent("Decided to rob a bank"));
+			if(role != null){
+				if(cityMap.isBankOpen()){
+					
+					cityMap.bank.getBankManager().msgBankRobberArrived((BankRobberRole) role);
+					((BankRobberRole)role).setGuiActive();
+					isOpen= true;
+				} else{
+					role.setInactive();
+					log("Oh no, the bank I want to go to is closed today!");
+				}
+			}
+			else{
+				log("Couldn't find the role for task " + task.type.toString());
+			}
+			
+			
+			
+		}
+		
 		else if(task.type == TaskType.goToMarket){
 
 			log("I should give the market manager my order.");
@@ -1102,17 +1178,47 @@ public class PersonAgent extends Agent implements Person{
 		Role role = null;
 		synchronized(roles){
 			for(Role r : roles){
+				
+				/*
+				if(r instanceof BankRobberRole) {
+					r.setActive(wallet);
+					role = (BankRobberRole) r;
+					bankName = role.getBuilding();
+					task.location = bankName;
+					task.role = r.getRoleName();
+					//task.role = r;
+					
+					log("Set BankRobberrRole active");
+				}
+				*/
+				
 				if(r instanceof BankCustomerRole) {
 					//r.setActive();
 					//This is hack for non norm
 					//if(name.equals("bankCustomerTest1"))
 					//((BankCustomerRole) r).amountofcustomermoney = 40;
-					//This is hack for non norm
+					
+					//This is a hack for non norm
 					if(name.equals("bankCustomerTest1")) {
 						
 					((BankCustomerRole) r).amountofcustomermoney = 40;
 					((BankCustomerRole) r).bankaccountnumber = 1;
 					}
+					
+					//This is a hack for bank non-norm
+					if(name.equals("bankCustomerTest2")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 2;
+					
+					}
+					if(name.equals("bankCustomerTest3")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 3;
+					
+					}	
+					
 					r.setActive(wallet);
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();
@@ -1122,6 +1228,50 @@ public class PersonAgent extends Agent implements Person{
 					
 					log("Set BankCustomerRole active");
 				}
+				
+				
+				
+			}
+		}
+		if(car != null){	//Extremely hack-y TODO fix this
+			String destination = bankName;
+			takeCar(destination);
+			task.state = State.inTransit;
+		}
+		else{
+			//This is walking
+			DoGoTo(bankName, task);
+		}
+		//Moved this to arrived at destination function
+		//log.add(new LoggedEvent("Decided to go to the bank"));
+		//cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+		//((BankCustomerRole)role).setGuiActive();		
+		//}
+		synchronized(bankEvents){
+			//TODO finish this
+			//bank = cityMap.getClosestBank();
+		}
+	}
+	
+	public void robBank(PersonTask task){
+		//if(name.equals("bankCustomerTest")){
+		print("Going to go to rob the bank");
+		String bankName = "bank1";
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				
+				if(r instanceof BankRobberRole) {
+					r.setActive(wallet);
+					role = (BankRobberRole) r;
+					bankName = role.getBuilding();
+					task.location = bankName;
+					task.role = r.getRoleName();
+					//task.role = r;
+					
+					log("Set BankRobberrRole active");
+				}
+		
 			}
 		}
 		if(car != null){	//Extremely hack-y TODO fix this
@@ -1134,6 +1284,13 @@ public class PersonAgent extends Agent implements Person{
 			DoGoTo(bankName, task);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	public void goToRestaurant(PersonTask task){
 		//Testing/scenario hacks

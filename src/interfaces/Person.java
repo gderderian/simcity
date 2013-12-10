@@ -38,7 +38,7 @@ public interface Person {
 	
 	public abstract void msgBusIsHere(Bus b, Position p);
 	
-	//Messages from car	
+	//Messages from car		
 	public abstract void msgArrived(Car c, Position p);
 		
 	public abstract void msgImPickingYouUp(Car c, Position p);

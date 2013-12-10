@@ -116,7 +116,6 @@ public class MockTransportationPerson extends Mock implements Person {
 	@Override
 	public void msgImPickingYouUp(Car c, Position p) {
 		log.add(new LoggedEvent("Got message: Car is picking me up"));
-		
 	}
 
 	@Override

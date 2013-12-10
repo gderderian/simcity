@@ -1027,9 +1027,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
-		addPerson("bankCustomerTest1", "No job");
-		
-		
+		//addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest1", "No job");
+		addPerson("bankCustomerTest2", "No job");
+		addPerson("bankCustomerTest3", "No job");
+		addPerson("bankRobber", "No job");
 	
 		//addPerson("bank teller", "Bank Teller");
 		//addPerson("bankCustomerTest", "No job");

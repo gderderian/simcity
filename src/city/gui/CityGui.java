@@ -2,7 +2,20 @@ package city.gui;
 
 import interfaces.Restaurant2Waiter;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimerTask;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -29,6 +42,7 @@ import city.gui.Bank.BankAnimationPanel;
 import city.gui.Bank.BankCustomerRoleGui;
 import city.gui.Bank.BankGui;
 import city.gui.Bank.BankManagerRoleGui;
+import city.gui.Bank.BankRobberRoleGui;
 import city.gui.Bank.BankTellerRoleGui;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
@@ -40,6 +54,7 @@ import city.gui.Market.MarketManagerGui;
 import city.gui.Market.MarketWorkerGui;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
+import Role.BankRobberRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.MarketCustomerRole;
@@ -47,37 +62,35 @@ import Role.MarketManagerRole;
 import Role.MarketWorkerRole;
 import Role.Role;
 import astar.AStarTraversal;
-import astar.Position;
-import city.Restaurant2.Restaurant2;
-import city.gui.CityClock;
-import city.gui.restaurant4.AnimationPanel4;
-import city.gui.restaurant4.CookGui4;
-import city.gui.restaurant4.CustomerGui4;
-import city.gui.restaurant4.WaiterGui4;
 import city.ApartmentBuilding;
 import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
 import city.PersonAgent;
-import city.gui.restaurant2.Restaurant2AnimationPanel;
-import city.gui.restaurant2.Restaurant2CookGui;
-import city.gui.restaurant2.Restaurant2CustomerGui;
-import city.gui.restaurant2.Restaurant2WaiterGui;
-import city.transportation.BusAgent;
-import city.transportation.CarAgent;
-import city.transportation.CrashCar;
-import city.transportation.TruckAgent;
-import city.transportation.Vehicle;
-import city.Restaurant3.*;
+import city.Restaurant2.Restaurant2;
+import city.Restaurant2.Restaurant2CashierRole;
+import city.Restaurant2.Restaurant2CookRole;
+import city.Restaurant2.Restaurant2CustomerRole;
+import city.Restaurant2.Restaurant2HostRole;
+import city.Restaurant2.Restaurant2WaiterRole;
+import city.Restaurant2.Restaurant2WaiterRoleRegular;
+import city.Restaurant2.Restaurant2WaiterRoleSharedData;
+import city.Restaurant3.CashierRole3;
+import city.Restaurant3.CookRole3;
+import city.Restaurant3.CustomerRole3;
+import city.Restaurant3.HostRole3;
+import city.Restaurant3.Restaurant3;
+import city.Restaurant3.WaiterRole3;
+import city.Restaurant3.WaiterRole3Normal;
 import city.Restaurant4.CashierRole4;
 import city.Restaurant4.CookRole4;
 import city.Restaurant4.CustomerRole4;
+import city.Restaurant4.HostRole4;
 import city.Restaurant4.RegularWaiterRole4;
+import city.Restaurant4.Restaurant4;
 import city.Restaurant4.SharedDataWaiterRole4;
 import city.Restaurant4.WaiterRole4;
-import city.Restaurant4.HostRole4;
-import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CashierRole;
 import city.Restaurant5.Restaurant5CookRole;
@@ -85,24 +98,47 @@ import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
 import city.Restaurant5.Restaurant5RegularWaiterRole;
 import city.Restaurant5.Restaurant5WaiterRole;
-import city.gui.Restaurant3.*;
+import city.gui.Bank.BankAnimationPanel;
+import city.gui.Bank.BankCustomerRoleGui;
+import city.gui.Bank.BankGui;
+import city.gui.Bank.BankManagerRoleGui;
+import city.gui.Bank.BankTellerRoleGui;
+import city.gui.House.ApartmentAnimationPanel;
+import city.gui.House.HouseAnimationPanel;
+import city.gui.House.LandlordGui;
+import city.gui.Market.MarketAnimationPanel;
+import city.gui.Market.MarketCustomerGui;
+import city.gui.Market.MarketGui;
+import city.gui.Market.MarketManagerGui;
+import city.gui.Market.MarketWorkerGui;
+import city.gui.Restaurant3.AnimationPanel3;
+import city.gui.Restaurant3.CookGui3;
+import city.gui.Restaurant3.CustomerGui3;
+import city.gui.Restaurant3.WaiterGui3;
 import city.gui.Restaurant5.Restaurant5AnimationPanel;
 import city.gui.Restaurant5.Restaurant5CookGui;
 import city.gui.Restaurant5.Restaurant5CustomerGui;
 import city.gui.Restaurant5.Restaurant5Gui;
 import city.gui.Restaurant5.Restaurant5WaiterGui;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.TimerTask;
+import city.gui.restaurant2.Restaurant2AnimationPanel;
+import city.gui.restaurant2.Restaurant2CookGui;
+import city.gui.restaurant2.Restaurant2CustomerGui;
+import city.gui.restaurant2.Restaurant2WaiterGui;
+import city.gui.restaurant4.AnimationPanel4;
+import city.gui.restaurant4.CookGui4;
+import city.gui.restaurant4.CustomerGui4;
+import city.gui.restaurant4.WaiterGui4;
+import city.transportation.BusAgent;
+import city.transportation.CarAgent;
+import city.transportation.CrashCar;
+import city.transportation.TruckAgent;
+import city.transportation.Vehicle;
 
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class CityGui extends JFrame implements ActionListener, ChangeListener {
+public class CityGui extends JFrame implements ActionListener {
 
 	AnimationPanel animationPanel = new AnimationPanel();
 
@@ -325,11 +361,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void stateChanged(ChangeEvent e) {
-		//if(e.getSource() ==
-		//(slider)
-	}
-
 	public void changeView(String building){
 
 		controlPanel.changeBuildingControlPanel(building);
@@ -444,6 +475,21 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			h.setOwner(newPerson);
 		}
 
+		if(name.equals("bankRobber"))
+		{
+			BankRobberRole bankRobberRole = new BankRobberRole(newPerson.wallet);
+			bankRobberRole.setPerson(newPerson);
+			BankGui bankgui = new BankGui();
+			BankRobberRoleGui bankRobberRoleGui = new BankRobberRoleGui(bankRobberRole, bankgui); 
+			bankRobberRoleGui.setPresent(false);
+			bank1Animation.addGui(bankRobberRoleGui);
+			bankRobberRole.setGui(bankRobberRoleGui);
+			newPerson.addRole(bankRobberRole, false);
+			newPerson.addTask("robBank");
+			
+		}
+		
+		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 
@@ -505,7 +551,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			guis.add(g);
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
-
+			
 			switch(truckMarketCounter) {
 			case 0: 
 				market1.getMarketManager().setTruck(newTruck);
@@ -702,6 +748,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		market1Animation.addGui(mktCustomerGui);
 		marketCustomer.setGui(mktCustomerGui);
 		p.addRole(marketCustomer, false);
+		
+		//Add Bank Robber role to go to the bank
+		/*
+		BankRobberRole bankRobberRole = new BankRobberRole(p.wallet);
+		bankCustomerRole.setPerson(p);
+		//BankGui bankgui = new BankGui();
+		BankRobberRoleGui bankRobberRoleGui = new BankRobberRoleGui(bankCustomerRole, bankgui); 
+		bankCustomerGui.setPresent(false);
+		bank1Animation.addGui(bankCustomerGui);
+		bankCustomerRole.setGui(bankCustomerGui);
+		p.addRole(bankCustomerRole, false);
+		*/
 
 
 		/* Check if the person lives in an apartment and add them to the correct tenant list */
@@ -854,7 +912,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				if(r instanceof BankTellerRole) {
 					bank.addBankTeller((BankTellerRole)r);
 					p.setRoleActive(r);
-					p.addFirstJob(r, "bank1", 2);
+					p.addFirstJob(r, "bank1", 1); ///I changed this
 				}
 				if(r instanceof BankManagerRole) {
 					System.out.println("adding bank manager in the bank!");

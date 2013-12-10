@@ -1,13 +1,10 @@
 package city.transportation.test;
 
-import test.mock.MockPerson;
-import city.PersonAgent;
+import junit.framework.TestCase;
 import city.transportation.CarAgent;
 import city.transportation.CarAgent.CarEvent;
 import city.transportation.CarAgent.CarState;
 import city.transportation.mock.MockTransportationPerson;
-
-import junit.framework.*;
 
 public class CarTest2 extends TestCase {
 	//instantiated in setUp()
@@ -26,38 +23,53 @@ public class CarTest2 extends TestCase {
 	}	
 
 	/* This tests a CarAgent in a scenario with a person driving their car to one destination, and then driving to a second destination */
-	public void testCarDriving() {		
+	public void testCarDriving() {	
 		assertTrue(car.capacity == 1); //Checks that car has appropriate capacity
-		
+
 		//Preconditions
 		assertTrue(car.event == CarEvent.none);
 		assertTrue(car.state == CarState.parked);
 		assertTrue(car.destination == null);
 		assertTrue(car.owner == null);
-		
+
+		//Message
+		car.msgPickMeUp(owner, null);
+
+		//Postconditions
+		assertTrue(car.event == CarEvent.drivingToOwner);
+
+		//Scheduler
+		car.pickAndExecuteAnAction();		
+		car.pickAndExecuteAnAction();
+
+		//Postconditions
+		assertTrue(car.event == CarEvent.arrivingAtOwner);
+		assertTrue(owner.log.getLastLoggedEvent().getMessage().equals("Got message: Car is picking me up")); //Owner received correct message
+		assertTrue(car.state == CarState.atOwner);
+
 		//Message
 		car.msgDriveTo(owner, destination);
-		
+
 		//Postconditions
-		assertTrue(car.event == CarEvent.driving);
-		assertTrue(car.state == CarState.parked);
+		assertTrue(car.event == CarEvent.drivingToDestination);
+		assertTrue(car.state == CarState.atOwner);
 		assertTrue(car.destination == destination);
 		assertTrue(car.owner == owner);
-		
+
 		//Run scheduler
 		car.pickAndExecuteAnAction();
-		
+
 		//Postconditions
-		assertTrue(car.event == CarEvent.arriving);
+		assertTrue(car.event == CarEvent.arrivingAtDestination);
 		assertTrue(car.state == CarState.driving);
-		
+
 		//Run scheduler
 		car.pickAndExecuteAnAction();
-		
+
 		//Postconditions
 		assertTrue(car.state == CarState.arrived);
 		assertTrue(owner.log.containsString("Got message: Car arrived")); //Confirm owner was sent the correct message
-		
+
 		//Message
 		car.msgParkCar(owner);
 
@@ -68,32 +80,48 @@ public class CarTest2 extends TestCase {
 
 		//Run scheduler
 		car.pickAndExecuteAnAction();
-		
+
 		//Posconditions
 		assertTrue(car.event == CarEvent.none);
 		assertTrue(car.state == CarState.parked);
 		assertTrue(car.destination == null);
 		assertTrue(car.owner == owner);
-		
+
+		/*
+		 * Now, drive to a second destination
+		 */
 		//Message
-		car.msgDriveTo(owner, destination2);
-		
+		car.msgPickMeUp(owner, null);
+
 		//Postconditions
-		assertTrue(car.event == CarEvent.driving);
-		assertTrue(car.state == CarState.parked);
+		assertTrue(car.event == CarEvent.drivingToOwner);
+
+		//Scheduler
+		car.pickAndExecuteAnAction();		
+		car.pickAndExecuteAnAction();
+
+		//Postconditions
+		assertTrue(car.event == CarEvent.arrivingAtOwner);
+		assertTrue(owner.log.getLastLoggedEvent().getMessage().equals("Got message: Car is picking me up")); //Owner received correct message
+		assertTrue(car.state == CarState.atOwner);//Message
+		car.msgDriveTo(owner, destination2);
+
+		//Postconditions
+		assertTrue(car.event == CarEvent.drivingToDestination);
+		assertTrue(car.state == CarState.atOwner);
 		assertTrue(car.destination == destination2);
 		assertTrue(car.owner == owner);
-		
+
 		//Run scheduler
 		car.pickAndExecuteAnAction();
-		
+
 		//Postconditions
-		assertTrue(car.event == CarEvent.arriving);
+		assertTrue(car.event == CarEvent.arrivingAtDestination);
 		assertTrue(car.state == CarState.driving);
-		
+
 		//Run scheduler
 		car.pickAndExecuteAnAction();
-		
+
 		//Postconditions
 		assertTrue(car.state == CarState.arrived);
 		assertTrue(owner.log.containsString("Got message: Car arrived")); //Confirm owner was sent the correct message
@@ -108,12 +136,12 @@ public class CarTest2 extends TestCase {
 
 		//Run scheduler
 		car.pickAndExecuteAnAction();
-		
+
 		//Posconditions
 		assertTrue(car.event == CarEvent.none);
 		assertTrue(car.state == CarState.parked);
 		assertTrue(car.destination == null);
 		assertTrue(car.owner == owner);
 	}
-	
+
 }

@@ -22,7 +22,7 @@ public class Bank {
                 accounts = new ArrayList<account>();
                 //bankmanager = new BankManagerRole(this);
                 bankstations = new ArrayList<bankstation>();
-                for(int i = 0; i < 4; i++)
+                for(int i = 0; i < 6; i++)
                 {
                 	bankstations.add(new bankstation(null, i+1, initialxcofbank += 100, initialycofbank));
                 }
@@ -31,6 +31,16 @@ public class Bank {
                 accounts.add(new account (null, 1));
                 accounts.get(0).balance = 40;
                 accounts.get(0).loan = 0;
+                
+                accounts.add(new account (null, 2));
+                accounts.get(0).balance = 40;
+                accounts.get(0).loan = 50;
+                
+                accounts.add(new account (null, 3));
+                accounts.get(0).balance = 5;
+                accounts.get(0).loan = 50;
+                
+                
         }
         
         public BankManagerRole getBankManager()
