@@ -64,9 +64,9 @@ public class Restaurant1CookRole extends Role {
 		person = p;
 		
 				// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
-		foods.put("steak", new Food("steak", 8, 4, 5, 8));
-		foods.put("fish", new Food("fish", 6, 20, 5, 8));
-		foods.put("chicken", new Food("chicken", 4, 20, 5, 8));
+		foods.put("steak", new Food("steak", 6, 5, 5, 8));
+		foods.put("fish", new Food("fish", 4, 5, 5, 8));
+		foods.put("chicken", new Food("chicken", 3, 5, 5, 8));
 		
 		this.name = name;
 		
@@ -108,7 +108,7 @@ public class Restaurant1CookRole extends Role {
 		person.stateChanged();
 	}
 	
-	public void msgHereIsYourOrder(TruckAgent t, MarketOrder o) {
+	public void msgHereIsYourOrder(MarketOrder o) {
 		List<OrderItem> orderItems = o.getOrders();
 		for(int i = 0; i < orderItems.size(); i++) {
 				OrderItem tempOrder = orderItems.get(i);

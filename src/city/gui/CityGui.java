@@ -103,62 +103,66 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	AnimationPanel animationPanel = new AnimationPanel();
 
 	ControlPanel controlPanel = new ControlPanel(this);
-	
-    private static final int TIMER_INTERVAL = 30;
-    private Timer timer;
-    
-    private CityClock masterClock;
+
+	private static final int TIMER_INTERVAL = 30;
+	private Timer timer;
+
+	private CityClock masterClock;
 
 	// Restaurants
-	
-		// Restaurant 1 (Trevor)
-    	Restaurant1 rest1 = new Restaurant1();
-		Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel(rest1);
 
-		// Restaurant 2 (Holly)
-		Restaurant2 rest2 = new Restaurant2();
-		Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
-		
-		// Restaurant 3 (Grant)
-		Restaurant3 rest3 = new Restaurant3();
-		AnimationPanel3 restaurant3 = new AnimationPanel3();
-		
-		// Restaurant 4 (Justine)
-		Restaurant4 rest4 = new Restaurant4();
-		AnimationPanel4 restaurant4 = new AnimationPanel4();
-		
-		Restaurant5 rest5 = new Restaurant5();
-		Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
-		// Restaurant 5 (Tom)
-	
-		
+	// Restaurant 1 (Trevor)
+	Restaurant1 rest1 = new Restaurant1();
+	Restaurant1AnimationPanel restaurant1 = new Restaurant1AnimationPanel(rest1);
+
+	// Restaurant 2 (Holly)
+	Restaurant2 rest2 = new Restaurant2();
+	Restaurant2AnimationPanel restaurant2 = new Restaurant2AnimationPanel(rest2);
+
+	// Restaurant 3 (Grant)
+	Restaurant3 rest3 = new Restaurant3();
+	AnimationPanel3 restaurant3 = new AnimationPanel3();
+
+	// Restaurant 4 (Justine)
+	Restaurant4 rest4 = new Restaurant4();
+	AnimationPanel4 restaurant4 = new AnimationPanel4();
+
+	Restaurant5 rest5 = new Restaurant5();
+	Restaurant5AnimationPanel restaurant5 = new Restaurant5AnimationPanel(rest5);
+	// Restaurant 5 (Tom)
+
+
 	// Market
 	Market market1 = new Market("mark1");
 	Market market2 = new Market("mark2");
 	Market market3 = new Market("mark3");
 
+	int truckMarketCounter = 0; //This will balance the trucks being added to markets
+	int managerMarketCounter = 0; //This balances the managers so one is sent to each market
+	int workerMarketCounter = 0; //This will balance the workers being added to markets
+
 	// Market Animation Panels
 	MarketAnimationPanel market1Animation = new MarketAnimationPanel(this);
 	MarketAnimationPanel market2Animation = new MarketAnimationPanel(this);
 	MarketAnimationPanel market3Animation = new MarketAnimationPanel(this);
-	
+
 	// Bank
 	Bank bank = new Bank();
-	
+
 	// Bank Animation Panels
 	BankAnimationPanel bank1Animation = new BankAnimationPanel(this);
-	
+
 	// Apartment Animation Panels
 	ApartmentAnimationPanel apt1= new ApartmentAnimationPanel(1);
 	ArrayList<HouseAnimationPanel> apt1List= new ArrayList<HouseAnimationPanel>();
 	ApartmentAnimationPanel apt2= new ApartmentAnimationPanel(2);
 	ArrayList<HouseAnimationPanel> apt2List= new ArrayList<HouseAnimationPanel>();
 	ApartmentBuilding apart1= new ApartmentBuilding();
-	
+
 	//HouseAnimationPanel house1= new HouseAnimationPanel();
 	ArrayList<HouseAnimationPanel> houses = new ArrayList<HouseAnimationPanel>();
 	ApartmentBuilding apart2= new ApartmentBuilding();
-	
+
 	// Master list of city buildings
 	List<BuildingPanel> buildingPanels = new ArrayList<BuildingPanel>();
 
@@ -212,17 +216,17 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		addBuildingPanel(market1Animation);
 		addBuildingPanel(market2Animation);
 		addBuildingPanel(market3Animation);
-		
+
 
 		addBuildingPanel(restaurant3);
 
 		add(animationPanel, BorderLayout.EAST);
-		
+
 		List<House> houseAgents= controlPanel.getHouses();
 		//Set up and populate apartment 1
 		controlPanel.addApartment1ToCityMap(apart1);
 		addBuildingPanel(apt1);
-		
+
 		for(int i=0; i<20; i++){
 			HouseAnimationPanel temp= new HouseAnimationPanel();
 			apt1List.add(temp);
@@ -241,7 +245,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			buildingPanels.add(apt2List.get(i));
 		}
 		//Set up all of the houses
-		
+
 		for(int i=0; i<22; i++){ 
 			HouseAnimationPanel temp= new HouseAnimationPanel();
 			houseAgents.get(i).setHouseAnimationPanel(temp);
@@ -265,14 +269,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		masterClock = new CityClock(this);
 		//masterClock.startTime(); //Started by populateCity button in ControlPanel
-		
-        timer = new Timer(TIMER_INTERVAL, this);
-        timer.start();
-        
-        controlPanel.createInitialPeople();
-        
+
+		timer = new Timer(TIMER_INTERVAL, this);
+		timer.start();
+
+		controlPanel.createInitialPeople();
+
 	}
-	
+
 	public void startMasterClock() {
 		masterClock.startTime();
 	}
@@ -331,9 +335,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			add(animationPanel, BorderLayout.EAST);
 			return;
 		}  
-		
+
 		controlPanel.enableBackToCity(); //If not switching to city, enable "Change back to city view" button
-		
+
 		if(building.equals("Restaurant2")){
 			animationPanel.setVisible(false);
 			add(restaurant2, BorderLayout.EAST);
@@ -364,7 +368,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			restaurant5.setVisible(true);
 			return;
 		}
-		
+
 		if(building.equals("Market1")){
 			animationPanel.setVisible(false);
 			add(market1Animation, BorderLayout.EAST);
@@ -431,33 +435,33 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		if(h != null){
 			h.setOwner(newPerson);
 		}
-		
+
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
-		
+
 		newPerson.setClock(masterClock);
-		
+
 		//if(!job.equals("No job")){
 		//	newPerson.addTask("goToWork");
 		//}
-		
+
 		//newPerson.addTask("gotHungry");
 		//newPerson.addTask("goToBank");
 		//newPerson.addTask("goToMarket");
-		
+
 		animationPanel.addGui(g);
-		
+
 		guis.add(g);
-		
+
 		personFactory(newPerson, job, g);
-		
+
 		people.add(newPerson);
-		
+
 		if(c != null)
 			addCar(newPerson, c);
-		
+
 		newPerson.startThread();
-		
+
 		newPerson.setBank(bank);
 	}
 
@@ -484,7 +488,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 			newBus.startThread();   
 		}
-		
+
 		if(type.equals("truck")) {
 			TruckAgent newTruck = new TruckAgent(aStarTraversal, controlPanel.getCityMap());
 			vehicles.add(newTruck);
@@ -493,15 +497,26 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			guis.add(g);
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
-			
-			if(true) { //HACK - change this to add new trucks to different markets.
+
+			switch(truckMarketCounter) {
+			case 0: 
 				market1.getMarketManager().setTruck(newTruck);
 				newTruck.setMarketManager(market1.getMarketManager());
+				break;
+			case 1: 
+				market2.getMarketManager().setTruck(newTruck);
+				newTruck.setMarketManager(market2.getMarketManager());
+				break;
+			case 2: 
+				market3.getMarketManager().setTruck(newTruck);
+				newTruck.setMarketManager(market3.getMarketManager());
+				break;
 			}
-			
+			truckMarketCounter = (truckMarketCounter + 1) % 3;
+
 			newTruck.startThread();
 		}
-		
+
 		if(type.equals("crash")) {
 			/*CarAgent c = new CarAgent(aStarTraversal, controlPanel.getCityMap());
 			vehicles.add(c);
@@ -510,23 +525,23 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			guis.add(g);
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
-			
+
 			c.startThread();*/
 		}
 	}   
-	
+
 	public void addCar(PersonAgent p, CarAgent c) {
 		vehicles.add(c);
 		VehicleGui g = new VehicleGui(c);
 		c.setGui(g);
 		animationPanel.addGui(g);
 		g.setMainAnimationPanel(animationPanel);
-		
+
 		p.addCar(c);
-		
+
 		c.startThread();
 	}
-	
+
 	private void personFactory(PersonAgent p, int i) {
 		if(i == 1) {
 			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
@@ -555,7 +570,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
 		}
-		
+
 		if(i == 5) {
 			Restaurant5HostRole hostrole = new Restaurant5HostRole("", p);
 			Restaurant5Gui restaurant5gui = new Restaurant5Gui();
@@ -566,13 +581,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			p.addFirstJob(waiterRole, "rest5");
 			customerRole.setGui(customerGui);
 			p.addRole(customerRole, false);
-			
-			
-			
-			
+
+
+
+
 		}
 	}
-	
+
 	private void personFactory(PersonAgent p, String job, PersonGui gui) {
 		/* Creating customer role for eating at restaurant1 */
 		Restaurant1CustomerRole customerRole1 = new Restaurant1CustomerRole(p.getName(), p);
@@ -581,7 +596,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant1.addGui(customerGui1);
 		customerGui1.setPresent(false);
 		p.addRole(customerRole1, false);		
-		
+
 		/* Creating customer role for eating at restaurant2 */
 		Restaurant2CustomerRole customerRole2 = new Restaurant2CustomerRole(p);
 		Restaurant2CustomerGui customerGui2 = new Restaurant2CustomerGui(customerRole2, p.getName(), 1);
@@ -589,7 +604,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant2.addGui(customerGui2);
 		customerRole2.setGui(customerGui2);
 		p.addRole(customerRole2, false);
-		
+
 		/* Creating customer role for eating at restaurant3 */
 		CustomerRole3 customerRole3 = new CustomerRole3(p.getName(), 5, 5, p);
 		CustomerGui3 customerGui3 = new CustomerGui3(customerRole3, 5, 5, 5);
@@ -597,7 +612,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant3.addGui(customerGui3);
 		customerRole3.setGui(customerGui3);
 		p.addRole(customerRole3, false);
-		
+
 		/* Creating a customer role for eating at restaurant4 */
 		CustomerRole4 customerRole4 = new CustomerRole4(p.getName(), p);
 		CustomerGui4 customerGui4 = new CustomerGui4(customerRole4); 
@@ -605,7 +620,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		restaurant4.addGui(customerGui4);
 		customerRole4.setGui(customerGui4);
 		p.addRole(customerRole4, false);
-		
+
 		//Creating a customer role for eating at restaurant5
 		Restaurant5CustomerRole customerRole5 = new Restaurant5CustomerRole( p.getName(),p);
 		Restaurant5Gui restaurant5gui = new Restaurant5Gui();
@@ -625,7 +640,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		bank1Animation.addGui(bankCustomerGui);
 		bankCustomerRole.setGui(bankCustomerGui);
 		p.addRole(bankCustomerRole, false);
-		
+
 		//Add market customer role to go to market
 		MarketCustomerRole marketCustomer = new MarketCustomerRole(p.getName(), p);
 		MarketGui marketGui = new MarketGui();
@@ -634,18 +649,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		market1Animation.addGui(mktCustomerGui);
 		marketCustomer.setGui(mktCustomerGui);
 		p.addRole(marketCustomer, false);
-		
-		
+
+
 		/* Check if the person lives in an apartment and add them to the correct tenant list */
 		if((p.house != null) && (!job.contains("Landlord"))){
 			if((p.house.getNum() >= 21) && (p.house.getNum() <= 41)){
 				apart1.addTenant(p);
-			 }
-			 else if((p.house.getNum() >= 42) && (p.house.getNum() <= 62)){
+			}
+			else if((p.house.getNum() >= 42) && (p.house.getNum() <= 62)){
 				apart2.addTenant(p);
-			 }
+			}
 		}
-		
+
 		/* Now, create a job role */
 		if(!job.equals("No job")){
 			Role r = getNewRole(job, p);
@@ -755,14 +770,50 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 
 			} else if(job.contains("market") || job.contains("Market")) {
-				p.addFirstJob(r, "mark1");
 				if(r instanceof MarketWorker){
-					market1.addWorker((MarketWorker)r);
+					
+					switch(workerMarketCounter) {
+					case 0: 
+						market1.addWorker((MarketWorker)r);
+						p.addFirstJob(r, "mark1");
+						break;
+					case 1: 
+						market2.addWorker((MarketWorker)r);
+						p.addFirstJob(r, "mark2");
+						break;
+					case 2: 
+						market3.addWorker((MarketWorker)r);
+						p.addFirstJob(r, "mark3");
+						break;
+					}
+					
+					workerMarketCounter = (workerMarketCounter + 1) % 3;
+					
 					gui.setInvisible();
 					p.setRoleActive(r);
 				}
 				else if(r instanceof MarketManager){
-					market1.setManager((MarketManager)r);
+					
+					if(managerMarketCounter > 2) {
+						System.out.println("NO    (Already have 3 market managers...)");
+						return;
+					}
+					
+					switch(managerMarketCounter) {
+					case 0: 
+						market1.setManager((MarketManager)r);
+						p.addFirstJob(r, "mark1");
+						break;
+					case 1: 
+						market1.setManager((MarketManager)r);
+						p.addFirstJob(r, "mark2");
+						break;
+					case 2: 
+						market1.setManager((MarketManager)r);
+						p.addFirstJob(r, "mark3");
+						break;
+					}
+					managerMarketCounter++;
 					gui.setInvisible();
 					p.setRoleActive(r);
 				}
@@ -773,13 +824,13 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 					bank.addBankTeller((BankTellerRole)r);
 					p.setRoleActive(r);
 				}
-				*/
+				 */
 				if(r instanceof BankManagerRole) {
 					System.out.println("adding bank manager in the bank!");
 					bank.setBankManager((BankManagerRole) r);
 					p.setRoleActive(r);
 				}
-					
+
 			} else if(job.contains("Landlord")){
 				if(job.equals("Landlord1")){
 					p.addFirstJob(r, "apart1");
@@ -794,7 +845,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			}
 		}
 	}
-	
+
 	public void backToCityView() {
 		changeView("City");
 	}
@@ -804,8 +855,8 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		buildingPanels.add(bp);
 		bp.setCityGui(this);
 	}
-	
-    
+
+
 	public Role getNewRole(String type, PersonAgent p){
 		//Creates role, gui for role
 		//Adds role to gui and gui to role
@@ -925,15 +976,14 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			Market mkt = new Market();
-			MarketManager role = new MarketManager("Market ManagerJoe", p, mkt);
+			MarketManager role = new MarketManager("Market ManagerJoe", p, market1);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
 			role.setGui(gui);
 			market1Animation.addGui(gui);
 			return role;
-			
+
 		}
 		else if(type.equals("Market Worker")){
 			MarketWorker role = new MarketWorker(p);
@@ -1017,12 +1067,12 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui.setPresent(false);
 			return role;
 		}
-		
+
 		else return null;
 	}
-	
+
 	public void setTime(String hour, String minute, String amPm){
 		masterClock.setDayTime(Integer.parseInt(hour), Integer.parseInt(minute), amPm);
 	}
-	
+
 }

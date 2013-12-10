@@ -431,33 +431,33 @@ public class ControlPanel extends JPanel implements ActionListener{
     	buyCarButton.addActionListener(this);
     	personOptionsDisplay.add(new JLabel("Person Options"));
 		addPerson.add(Box.createVerticalStrut(10));
-    	//personOptionsDisplay.add(buyCarButton);
-        
-        pane.setMinimumSize(scrollDim);
-        pane.setMaximumSize(scrollDim);
-        pane.setPreferredSize(scrollDim);
-        
-        //set layout of control panel
-        FlowLayout flow = new FlowLayout();
-        addPerson.setLayout(new BoxLayout(addPerson, BoxLayout.PAGE_AXIS));
-        
-        //Adding enter name section
-        addPerson.add(new JLabel("Name:"));
-        nameField = new JTextField();
-        nameField.setColumns(16);
-        addPerson.add(nameField, flow);
-        
-        //Adding enter job section
-        addPerson.add(new JLabel("Job: "));
+		//personOptionsDisplay.add(buyCarButton);
 
-        addPerson.add(jobField, flow);
-        
-        isHungry = new JCheckBox("Hungry?");
-        isHungry.setEnabled(false);
-        isHungry.addActionListener(this);
-        //enterNames.add(isHungry);
-        
-        nameField.addKeyListener(new KeyListener(){
+		pane.setMinimumSize(scrollDim);
+		pane.setMaximumSize(scrollDim);
+		pane.setPreferredSize(scrollDim);
+
+		//set layout of control panel
+		FlowLayout flow = new FlowLayout();
+		addPerson.setLayout(new BoxLayout(addPerson, BoxLayout.PAGE_AXIS));
+
+		//Adding enter name section
+		addPerson.add(new JLabel("Name:"));
+		nameField = new JTextField();
+		nameField.setColumns(16);
+		addPerson.add(nameField, flow);
+
+		//Adding enter job section
+		addPerson.add(new JLabel("Job: "));
+
+		addPerson.add(jobField, flow);
+
+		isHungry = new JCheckBox("Hungry?");
+		isHungry.setEnabled(false);
+		isHungry.addActionListener(this);
+		//enterNames.add(isHungry);
+
+		nameField.addKeyListener(new KeyListener(){
 
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -492,7 +492,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		errorDisplay.setEditable(false);
 		addPerson.add(errorDisplay, flow);
-		
+
 		view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
 		this.add(personControlPanel);
 	}
@@ -570,13 +570,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 			backToCity.setEnabled(false);
 		}
 		else if(e.getSource() == changeTime) {
-			
+
 			cityGui.setTime(hourSelect.getSelectedItem().toString(), minuteSelect.getSelectedItem().toString(), amPmSelect.getSelectedItem().toString());
-		
+
 		} else if(e.getSource() == buyCarButton){
 			// Coming soon
 		}
-		
+
 	}
 
 	/**
@@ -845,7 +845,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			houses.get(i).setHouseAnimationPanel(temp);
 			cityGui.houses.add(temp);
 			cityGui.addBuildingPanel(cityGui.houses.get(i));
-			*/
+			 */
 		}
 		for(int i = 0; i < 20; i++) {
 			Apartment a= new Apartment("apart1 " + i, i);
@@ -857,7 +857,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			cityGui.apt1List.add(temp);
 			a.setHouseAnimationPanel(temp);
 			cityGui.addBuildingPanel(cityGui.apt1List.get(i));
-			*/
+			 */
 		}
 		for(int i = 0; i < 20; i++) {
 			Apartment a= new Apartment("apart2 " + i, i);
@@ -869,7 +869,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			cityGui.apt1List.add(temp);
 			a.setHouseAnimationPanel(temp);
 			cityGui.addBuildingPanel(cityGui.apt1List.get(i));
-			*/
+			 */
 		}
 		System.out.println("Created " + houses.size() + " houses including apartments");
 	}
@@ -938,7 +938,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
 		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
-		*/
+		 */
 		addPerson("rest2Test", "No job");
 
 		addPerson("joe", "No Job");
@@ -946,14 +946,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 * moved to createInitialpeople
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		*/
+		 */
 
 		/*moved to createInitialpeople
 		addPersonNoHouse("host1", "Restaurant1 Host");
 		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
 		addPersonNoHouse("cook1", "Restaurant1 Cook");
 		addPerson("waiter1", "Restaurant1 Waiter");
-		*/
+		 */
 		addPerson("rest1Test", "No job");
 
 		/*moved to createInitialpeople
@@ -961,7 +961,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier4", "Restaurant4 Cashier");
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
-		*/
+		 */
 		addPerson("rest4Test", "No job");
 		addPersonWithCar("rest4Test", "No job");
 
@@ -983,7 +983,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
 		addPersonNoHouse("cook1", "Restaurant1 Cook");
 		addPerson("waiter1", "Restaurant1 Waiter");
-		*/
+		 */
 		addPerson("rest1Test", "No job");
 
 	}
@@ -996,7 +996,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000	);
-		
+
 		/*
 		 * Added these to createInitialPeople method
 		 * 
@@ -1004,7 +1004,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier", "Restaurant2 Cashier");
 		addPersonNoHouse("cook", "Restaurant2 Cook");
 		addPersonWithCar("waiter", "Restaurant2 Waiter");
-		*/
+		 */
 		addPersonWithCar("rest2Test", "No job");
 
 	}
@@ -1025,7 +1025,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier", "Restaurant3 Cashier");
 		addPersonNoHouse("cook", "Restaurant3 Cook");
 		addPerson("waiter", "Restaurant3 Waiter");
-		*/
+		 */
 		addPerson("rest3Test", "No job");
 
 	}
@@ -1046,7 +1046,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier4", "Restaurant4 Cashier");
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
-		*/
+		 */
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
@@ -1063,7 +1063,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000	);
-		
+
 		/*
 		 * Added these to createInitialPeople function
 		 * 
@@ -1071,7 +1071,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cashier5", "Restaurant5 Cashier");
 		addPersonNoHouse("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
-		*/
+		 */
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
@@ -1085,13 +1085,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000	);
-		
+
 		/*
 		 * Added these to createInitialPeople function
 		 * 
 		addPersonNoHouse("bank manager", "Bank Manager");
 		addPerson("bank teller", "Bank Teller");
-		*/
+		 */
 		addPerson("bankCustomerTest", "No job");
 		//addPerson("bank teller", "Bank Teller");
 		//addPerson("bankCustomerTest", "No job");
@@ -1110,15 +1110,15 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000	);
 
 		addPerson("joe", "No Job");
-		
+
 		/*
 		 * Added these to createInitialPeople function
 		 * 
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		*/
+		 */
 	}
-	
+
 	public void runMarketVisitTest(){
 
 		addVehicle("bus");
@@ -1134,15 +1134,15 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 * 
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		*/
-		
+		 */
+
 		//addPerson("marketWorker", "Market Worker");
 		//addPerson("marketWorker", "Market Worker");
 		//addPerson("marketWorker", "Market Worker");
 		//addPerson("marketWorker", "Market Worker");
 
 	}
-	
+
 	public void runMarketTruckTest() {
 		addVehicle("bus");
 		timer.schedule(new TimerTask() {
@@ -1153,7 +1153,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("marketClient", "No Job");
 	}
-	
+
 	public void runCarCrash() {
 		addVehicle("bus");
 		timer.schedule(new TimerTask() {
@@ -1166,7 +1166,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("crash");
 			}
 		}, 8000);
-		
+
 	}
 
 	public void runCarTest() {
@@ -1179,27 +1179,32 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 * Added this to createInitialPeople function
 		 * 
 		addPerson("Landlord", "Landlord1");
-		*/
+		 */
 		addPerson("Joe", "No Job");
 		addPerson("Jenny", "No Job");
 		addPerson("Jake", "No Job");
 		addPerson("Jess", "No Job");
 		addPerson("brokenApplianceTest", "No Job");
 	}
-	
-	
+
+
 	/*
 	 * This method creates all the people initally necessary to run the city
 	 * All people are created with houses, start there, and will go to work at the beginnning of the day
 	 * All workers are created with cars (because they have jobs so they can afford them)
 	 */
 	public void createInitialPeople(){
-		
+
 		/*Market workers*/
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		
+		for(int i = 0; i < 3; i++) {
+			addPerson("marketManager", "Market Manager");
+			addPerson("marketWorker", "Market Worker");
+		}
+
 		addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
+
 		/*Landlord*/
 		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/
@@ -1231,7 +1236,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
 	}
-	
+
 	public void setTimeDisplay(String timeToDisplay){
 		timeDisplay.setText(timeToDisplay);
 	}
