@@ -35,6 +35,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
+import restaurant1.gui.Restaurant1AnimationPanel;
 import restaurant1.gui.Restaurant1Panel;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
@@ -992,6 +993,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public void runRestaurant1Test(){
 
 		addPerson("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
 
 	}
 
@@ -1189,5 +1193,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	
 	public Restaurant1 getRest1() {
 		return cityMap.getRest1();
+	}
+
+	public Restaurant1AnimationPanel getRest1Animation() {
+		return cityGui.restaurant1;
 	}
 }

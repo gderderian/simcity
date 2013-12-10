@@ -799,7 +799,7 @@ public class CityGui extends JFrame implements ActionListener {
 					p.addFirstJob(r, "rest1", 1);
 				}
 				else if(r instanceof Restaurant1WaiterRole){
-					rest1.addWaiters((Restaurant1WaiterRole) r);
+					rest1.addWaiter((Restaurant1WaiterRole) r);
 					p.addFirstJob(r, "rest1", 3);
 				}
 				else if(r instanceof Restaurant1CookRole){
@@ -988,7 +988,7 @@ public class CityGui extends JFrame implements ActionListener {
 		else if(type.equals("Restaurant1 Waiter")){
 			Restaurant1WaiterRole role = new Restaurant1NormalWaiterRole(p.getName(), p);
 			Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
-			gui.setHome(rest4.getWaiterListSize() * 40 + 200, 60);
+			gui.setHome(rest1.getWaiterListSize() * 40 + 200, 60);
 			role.setGui(gui);
 			restaurant1.addGui(gui);
 			gui.setPresent(false);

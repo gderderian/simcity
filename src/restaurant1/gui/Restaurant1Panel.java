@@ -9,6 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import restaurant1.Restaurant1;
+import restaurant1.Restaurant1NormalWaiterRole;
+import restaurant1.Restaurant1SharedDataWaiterRole;
+import restaurant1.Restaurant1WaiterRole;
+
+import city.PersonAgent;
 import city.gui.ControlPanel;
 
 /**
@@ -87,12 +93,36 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 	}
 
 	private void addSharedDataWaiter() {
-		// TODO Auto-generated method stub
+		Restaurant1 rest1 = cp.getRest1();
+		PersonAgent p = new PersonAgent("Normal Waiter", null, cp.getCityMap(), null);
 		
+		Restaurant1WaiterRole role = new Restaurant1SharedDataWaiterRole(p.getName(), p);
+		Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
+		gui.setHome(rest1.getWaiterListSize() * 40 + 200, 60);
+		rest1.addWaiter(role);
+		role.setGui(gui);
+		cp.getRest1Animation().addGui(gui);
+		gui.setPresent(true);
+		
+		p.addRole(role, true);
+		
+		p.startThread();
 	}
 
 	private void addNormalWaiter() {
-		// TODO Auto-generated method stub
+		Restaurant1 rest1 = cp.getRest1();
+		PersonAgent p = new PersonAgent("Normal Waiter", null, cp.getCityMap(), null);
 		
+		Restaurant1WaiterRole role = new Restaurant1NormalWaiterRole(p.getName(), p);
+		Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
+		gui.setHome(rest1.getWaiterListSize() * 40 + 200, 60);
+		rest1.addWaiter(role);
+		role.setGui(gui);
+		cp.getRest1Animation().addGui(gui);
+		gui.setPresent(true);
+		
+		p.addRole(role, true);
+		
+		p.startThread();
 	}   
 }
