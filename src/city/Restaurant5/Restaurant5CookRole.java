@@ -2,12 +2,16 @@ package city.Restaurant5;
 import Role.Role;
 import city.CityMap;
 import city.House;
+import city.MarketOrder;
+import city.OrderItem;
 import city.PersonAgent;
+import city.Restaurant4.CookRole4.marketState;
 import city.Restaurant5.OrderSpindle5.CustomerOrder;
 import city.gui.PersonGui;
 //import restaurant.CustomerAgent.AgentEvent;
 //import restaurant.CustomerAgent.AgentState;
 import city.gui.Restaurant5.Restaurant5CookGui;
+import city.transportation.TruckAgent;
 import test.mock.LoggedEvent;
 import tomtesting.interfaces.Restaurant5Cook;
 import tomtesting.interfaces.Restaurant5Market;
@@ -16,11 +20,13 @@ import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import agent.Agent;
 import astar.AStarTraversal;
+import interfaces.MarketManager;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
@@ -77,6 +83,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	Restaurant5MarketRole market3;
 	Restaurant5CashierRole cashier;
 	OrderSpindle5 orderspindle;
+	MarketManager marketmanager;
 	
 	ActivityTag tag = ActivityTag.RESTAURANT5COOK;
 	
@@ -90,6 +97,9 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		inventoryoffood.put("chicken", 5);
 		inventoryoffood.put("burrito", 5);
 		inventoryoffood.put("pizza", 5);
+		
+		
+		
 		
 		AStarTraversal aStarTraversal = null;
 		
@@ -105,6 +115,27 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 
 	// Messages
 	//After receiving message from the waiter start cooking
+	public void msgHereIsYourOrder(MarketOrder mo){ 
+		List<OrderItem> order = mo.getOrders();
+		for(int i=0; i<order.size(); i++){
+			if(order.get(i).type.equals("chicken")){
+				delivery.put("Eggs", 1);
+			} else if (order.get(i).type.equals("burrito")){
+				delivery.put("Waffels", 1);
+			} else if(order.get(i).type.equals("pizza")){
+				delivery.put("Pancakes", 1);
+			}
+		}
+		successful= true;
+		o.ms= marketState.fulfilled;
+		this.p.stateChanged();
+	}
+	
+	
+	
+	
+	
+	
 	public void msgReceviedOrderFromWaiter(Restaurant5Waiter waiter, String order, int table) {
 		
 		log("Received order: " + order + " from waiter: " + waiter.getName() + " for table " + table);
@@ -443,6 +474,12 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		this.orderspindle = orderspindle;
 	}
 	
+	public void setMarketManager(MarketManager setmarketmanager)
+	{
+		marketmanager = setmarketmanager;
+	}
+	
+	
 	//order class for cook
 	public static class cookingorder {
 		public Restaurant5Waiter waiter;
@@ -491,7 +528,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	}
 	
 	//mymarket class for cook
-	private static class mymarket {
+	private static class mymarket 	{
 		Restaurant5Market market;
 		Map<String, Boolean> suppliesoffood; 
 		public mymarket(Restaurant5Market market)
@@ -514,6 +551,9 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	public String getRoleName() {
 		return roleName;
 	}
+	
+	
+
 
 
 
