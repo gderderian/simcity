@@ -1,9 +1,10 @@
 package Role;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
-
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import city.Bank;
@@ -26,11 +27,13 @@ public class BankTellerRole extends Role {
 	double paybackloan;
 	public BankManagerRole bankmanager;
 	public Semaphore atBankStation = new Semaphore(0,true);
-	enum state {doingnothing, openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft, gotobanktellerstation};
+	enum state {arrived, atstation, servingcustomer, waitingforresponse, openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft, gotobanktellerstation};
+	enum event {gotobanktellerstation, openaccount, depositintoaccount, withdrawfromaccount, getloan, paybackloan, customerleft};
 	state banktellerstate;
+	event banktellerevent;
 	public BankTellerRoleGui gui;
 	public EventLog log = new EventLog();
-
+	Timer timer = new Timer();
 	ActivityTag tag = ActivityTag.BANKTELLER;
 
 	PersonAgent person;
@@ -41,12 +44,13 @@ public class BankTellerRole extends Role {
 	{
 		super();
 		this.bankmanager = assignbankmanager;
+		banktellerstate = state.arrived;
 	}
 
 	public void msgGoToBankTellerStation(int banktellerstationnumber)
 	{
 		stationnumber = banktellerstationnumber;
-		banktellerstate = state.gotobanktellerstation;
+		banktellerevent = event.gotobanktellerstation;
 		person.stateChanged();
 
 	}
@@ -56,17 +60,17 @@ public class BankTellerRole extends Role {
 		log("assign me customer");
 		currentcustomer = customer;
 		currentcustomeraccountnumber = currentcustomer.bankaccountnumber;
-		//person.stateChanged();
+		banktellerstate = state.servingcustomer;
+		person.stateChanged();
 	}
 
 	public void msgOpenAccount() 
 	{
 		log("customer wants to open an account");
 		log.add(new LoggedEvent("msgOpenAccount"));
-		banktellerstate = state.openaccount;
+		banktellerevent = event.openaccount;
 		gui.bankTellerOccupied = true;
 		person.stateChanged();
-		log("After calling state changed");
 	}
 
 	public void msgDepositIntoAccount(double deposit)
@@ -74,7 +78,8 @@ public class BankTellerRole extends Role {
 		log("customer wants to deposit into an account");
 		log.add(new LoggedEvent("msgDepositIntoAccount"));
 		this.deposit = deposit;
-		banktellerstate = state.depositintoaccount;
+		banktellerevent = event.depositintoaccount;
+		banktellerstate = state.servingcustomer;
 		person.stateChanged();
 	}
 
@@ -83,7 +88,8 @@ public class BankTellerRole extends Role {
 		Do("customer wants to withdraw from his account");
 		log.add(new LoggedEvent("msgWithdrawFromAccount"));
 		this.withdrawal = withdrawal;
-		banktellerstate = state.withdrawfromaccount;
+		banktellerevent = event.withdrawfromaccount;
+		banktellerstate = state.servingcustomer;
 		person.stateChanged();
 	}
 
@@ -92,7 +98,8 @@ public class BankTellerRole extends Role {
 		log.add(new LoggedEvent("msgGetLoan"));
 		Do("customer wants to get loan");
 		this.loan = loan;
-		banktellerstate = state.getloan;
+		banktellerevent = event.getloan;
+		banktellerstate = state.servingcustomer;
 		person.stateChanged();
 	}
 
@@ -101,14 +108,16 @@ public class BankTellerRole extends Role {
 
 		Do("customer wants to pay back his loan");
 		this.paybackloan = paybackloan;
-		banktellerstate = state.paybackloan;
+		banktellerevent = event.paybackloan;
 		person.stateChanged();
 	}
 
 	public void msgBankCustomerLeaving()
 	{
+		
+		Do("!!!!!!!!!!!!!! message bankcustomerleaving recevied");
 		log.add(new LoggedEvent("msgBankCustomerLeaving"));
-		banktellerstate = state.customerleft;
+		banktellerevent = event.customerleft;
 		person.stateChanged();
 	}
 
@@ -116,28 +125,37 @@ public class BankTellerRole extends Role {
 	public boolean pickAndExecuteAnAction() {
 		//log("INSIDE BANK TELLER SCHEDULER");
 
-		if(banktellerstate == state.gotobanktellerstation)
+		
+		Do("!!!!!!!!!!!!!!!!!!!! banktellerrole scheduler  state " + banktellerstate + "   event " + banktellerevent);
+		
+		if(banktellerstate == state.arrived && banktellerevent == event.gotobanktellerstation)
 		{
 			guiGoToBankTellerStation(stationnumber);
-			banktellerstate = state.doingnothing;
+			banktellerstate = state.atstation;
 			return true;
 		}
-
-
-		if(banktellerstate == state.openaccount)
+		
+		if(banktellerstate == state.servingcustomer && banktellerevent == event.openaccount)
 		{
 			log("customer is opening account");
 			bankmanager.bank.accounts.add(new account(currentcustomer, bankmanager.bank.uniqueaccountnumber));
 			currentcustomeraccountnumber = bankmanager.bank.uniqueaccountnumber;
-			currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
 			bankmanager.bank.uniqueaccountnumber++;
-			banktellerstate = state.doingnothing;
-			return true;
+			banktellerstate = state.waitingforresponse;
+			timer.schedule(new TimerTask() {
+				
+				public void run() {
+					currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
+					//person.stateChanged();
+				}
+					},
+				2 * 1000);
+			
+		   return true;
 		}
 
-		if(banktellerstate == state.depositintoaccount)
+		if(banktellerstate == state.servingcustomer && banktellerevent == event.depositintoaccount)
 		{
-			log("Scheduler 2");
 			synchronized(bankmanager.bank.accounts)
 			{
 
@@ -147,22 +165,31 @@ public class BankTellerRole extends Role {
 					{        
 						//System.out.println("accout number = "+currentcustomeraccountnumber);
 						//System.out.println("amount to deposit ="+this.deposit);
-						log.add(new LoggedEvent("deposit!"));
 						findaccount.balance += this.deposit;
-						currentcustomer.msgDepositIntoAccountDone(this.deposit);
+						log("Current balance of account number : " + findaccount.accountnumber + " is $" + findaccount.balance);
+						log.add(new LoggedEvent("deposit!"));
+						timer.schedule(new TimerTask() {
+							
+							public void run() {
+							Do("!!!!!!!! deposit" + deposit);
+							currentcustomer.msgDepositIntoAccountDone(deposit);	
+							}
+								},
+							2 * 1000);
+					
 						break;
 					}
 				}
 
 			}
 
-			//banktellerstate = state.doingnothing;
+			banktellerstate = state.waitingforresponse;
 			return true;
 
 
 		}
 
-		if(banktellerstate == state.withdrawfromaccount)
+		if(banktellerstate == state.servingcustomer && banktellerevent == event.withdrawfromaccount)
 		{
 
 			synchronized(bankmanager.bank.accounts)
@@ -180,7 +207,7 @@ public class BankTellerRole extends Role {
 						}
 						else
 						{
-							currentcustomer.msgWithdrawalFailed();
+							currentcustomer.msgWithdrawalFailed(withdrawal);
 						}
 
 					}
@@ -188,16 +215,17 @@ public class BankTellerRole extends Role {
 
 
 			}
-			banktellerstate = state.doingnothing;
+			banktellerstate = state.waitingforresponse;
 			return true;
 		}
 
 
-		if(banktellerstate == state.getloan)
+		if(banktellerstate == state.servingcustomer && banktellerevent == event.getloan)
 		{
 
 			synchronized(bankmanager.bank.accounts)
 			{
+				Do("I'm in the if statement");
 
 				for(account findaccount: bankmanager.bank.accounts)
 				{
@@ -212,7 +240,7 @@ public class BankTellerRole extends Role {
 						else
 						{
 							findaccount.loan += this.loan;
-							currentcustomer.msgLoanBorrowed(loan);
+							currentcustomer.msgHereIsYourLoan(loan);
 						}
 
 
@@ -220,7 +248,7 @@ public class BankTellerRole extends Role {
 				}
 
 			}
-			banktellerstate = state.doingnothing;
+			banktellerstate = state.waitingforresponse;
 			return true;
 
 			/*
@@ -247,7 +275,7 @@ public class BankTellerRole extends Role {
 		}
 
 
-		if(banktellerstate == state.paybackloan)
+		if(banktellerstate == state.servingcustomer && banktellerevent == event.paybackloan)
 		{
 
 			synchronized(bankmanager.bank.accounts)
@@ -294,12 +322,16 @@ public class BankTellerRole extends Role {
 		}
 
 
-		if(banktellerstate == state.customerleft)
+		if(banktellerstate == state.waitingforresponse && banktellerevent == event.customerleft)
 		{
-			bankmanager.msgCustomerLeft(currentcustomer, this);
+			
+			Do("!!!!!!!!!!!!!!!!!!!!! i'm in if customer left statement");
+			//bankmanager.msgCustomerLeft(currentcustomer, this);
+			bankmanager.msgBankTellerFree(this);
 			this.currentcustomer = null;
-			banktellerstate = state.doingnothing;
-			return true;
+			gui.bankTellerOccupied = false;
+			banktellerstate = state.atstation;
+			//return true;
 
 		}
 
@@ -332,6 +364,7 @@ public class BankTellerRole extends Role {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//Do("!!!!!!!!!  I'm done going to the bank teller station");
 
 
 	}

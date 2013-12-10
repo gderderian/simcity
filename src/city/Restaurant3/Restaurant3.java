@@ -39,11 +39,11 @@ public class Restaurant3 {
 	
 	public void addWaiters(WaiterRole3 w){
 		//waiters.add(w);
-		if (cook == null || cashier == null || host == null || w == null){
+		//if (cook == null || cashier == null || host == null || w == null){
 			host.addWaiter(w);
 			w.setCook(cook);
 			w.setCashier(cashier);
-		}
+		//}
 	}
 	
 	public void setCook(CookRole3 c){

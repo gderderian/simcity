@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import test.mock.EventLog;
@@ -54,6 +56,7 @@ public class PersonAgent extends Agent implements Person{
 	enum ApplianceState {broken, beingFixed, fixed};
 	public Landlord landlord;
 	boolean atHome= false;
+	Timer eatMeal= new Timer();
 
 	//Transportation
 	public Car car;
@@ -389,13 +392,19 @@ public class PersonAgent extends Agent implements Person{
 			}
 			log("It's time for me to do my job as a worker at the market.");
 		}*/ 
-		/*
-		else if(hour == 2 && currentHour != hour){
-			currentHour = hour;
+		
+		/*else if(t > 3000 && t < 5000 && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
+			//currentHour = hour;
+			log("I should be a landlord");
 			synchronized(roles){
 				for(Role role : roles){
+					//log("Whats my current role?");
 					if(role.getRoleName().contains("Landlord")){
-						((LandlordRole)role).msgCollectRent();
+						log("I think I'm a landlord...");
+						if(role.isActive){
+							log("I'm going to go ahead and collect rent now, I'm not doing anything else...");
+							((LandlordRole)role).msgCollectRent();
+						}
 					}
 				}
 			}
@@ -768,6 +777,23 @@ public class PersonAgent extends Agent implements Person{
 
 
 	//ACTIONS
+	private boolean doesRoleListContain(String type){
+		log("Checking if I'm a landlord");
+		synchronized(roles){
+			for(Role role : roles){
+				if(role.getRoleName().contains("Landlord")){
+					log("I think I'm a landlord...");
+					//if(role.isActive){
+						return true;
+						//log("I'm going to go ahead and collect rent now, I'm not doing anything else...");
+						//((LandlordRole)role).msgCollectRent();
+					//}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void goHome(){
 		if(!atHome){
 			//log("Going home");
@@ -935,7 +961,7 @@ public class PersonAgent extends Agent implements Person{
 
 
 		}
-		else if(name.equals("brokenApplianceTest")){
+		else if(name.equals("brokenApplianceTest") || name.equals("Jess")){
 			List<Food> groceries= new ArrayList<Food>();
 			Food chicken= new Food("Chicken");
 			groceries.add(chicken);
@@ -1091,7 +1117,7 @@ public class PersonAgent extends Agent implements Person{
 					}
 					else{
 						synchronized(tasks){
-							tasks.add(new PersonTask(TaskType.goToBank));
+							//tasks.add(new PersonTask(TaskType.goToBank));
 							//Eventually want to make this so there are different types of goToBank TaskTypes
 							//i.e. for this TaskType.goToBankWithdrawal or something
 							return;
@@ -1319,7 +1345,7 @@ public class PersonAgent extends Agent implements Person{
 		meal.state = FoodState.cooking;
 	}
 
-	public void eatMeal(MyMeal m){
+	public void eatMeal(final MyMeal m){
 		log.add(new LoggedEvent("Eating meal"));
 		log("My food is done cooking, eating my meal now");
 		homeGui.goToTable();
@@ -1327,6 +1353,11 @@ public class PersonAgent extends Agent implements Person{
 			atDestination.acquire();
 		} catch (InterruptedException e){}
 		meals.remove(m);
+		eatMeal.schedule(new TimerTask() {
+			@Override public void run() {
+				log("That meal was fabulous! I'm a GREAT cook, why don't people come visit me and try my cooking??");
+				return;
+			}}, 4000);
 	}
 
 	public void setGuiVisible(){
