@@ -64,7 +64,7 @@ public class Restaurant1CookRole extends Role {
 		person = p;
 		
 				// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
-		foods.put("steak", new Food("steak", 8, 20, 5, 8));
+		foods.put("steak", new Food("steak", 8, 4, 5, 8));
 		foods.put("fish", new Food("fish", 6, 20, 5, 8));
 		foods.put("chicken", new Food("chicken", 4, 20, 5, 8));
 		
@@ -322,7 +322,7 @@ public class Restaurant1CookRole extends Role {
 		MarketOrder newOrder = new MarketOrder(orderList, "rest1", this.person);
 		
 		log("Sending order for more food to the market!");
-		market.msgHereIsOrder(newOrder);
+		market.msgHereIsTruckOrder(newOrder);
 	}
 
 	private void checkOrderWheel() {
