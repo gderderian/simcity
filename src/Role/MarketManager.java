@@ -126,6 +126,15 @@ public class MarketManager extends Role {
 		p.stateChanged();
 	}
 	
+	public void msgHereIsTruckOrder(MarketOrder o){
+		//log("Recieved order from " + o.getRecipient().getName());
+		//log("Current order size is:" + o.orders.size());
+		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.truckOrder);
+		myOrders.add(mo);
+		//log("Current order size is:" + o.orders.size());
+		p.stateChanged();
+	}
+	
 	public void msgOrderPicked(MarketOrder o){
 		//log("Received orderPicked message");
 		//log("Current order size is:" + o.orders.size());
