@@ -1,10 +1,12 @@
 package city.transportation;
 
 import java.awt.Graphics2D;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 
 import astar.AStarTraversal;
+import astar.Position;
 
 import city.gui.AnimationPanel;
 import city.gui.Gui;
@@ -12,7 +14,11 @@ import city.gui.Gui;
 public class CrashCar implements Gui {
 
 	AStarTraversal aStar; //This is so that the car can find open grid spots
+	Position currentPosition;
+	Semaphore[][] grid;
 
+	boolean collision;
+	
 	private int xDest;
 	private int yDest;
 	private int yPos;
@@ -24,15 +30,18 @@ public class CrashCar implements Gui {
 	ImageIcon movingLeft;
 	ImageIcon movingUp;
 	ImageIcon movingDown;
+	
+	ImageIcon crash1;
+	ImageIcon crash2;
+	ImageIcon crash3;
 
 	ImageIcon icon;
-
-	boolean moving = false; //Keeps track of whether gui is moving or staying in one place.
 
 	AnimationPanel animPanel;
 
 	public CrashCar(AStarTraversal a){
 		aStar = a;
+		grid = a.getGrid();
 
 		xPos = 450;
 		yPos = 390;
@@ -48,34 +57,39 @@ public class CrashCar implements Gui {
 		setInvisible();
 
 		icon = movingDown;
+		
+		drive();
 	}
 
 	@Override
-	public void updatePosition() {
-		if(xPos == xDest && yPos == yDest && moving) {
-			moving = false;
-			return;
+	public void updatePosition() {		
+		if(collision) {
+			icon = crash1;
 		}
 
 		if (xPos < xDest) {
 			xPos++;
-			moving = true;
 			icon = movingRight;
 		} else if (xPos > xDest) {
 			xPos--;
-			moving = true;
 			icon = movingLeft;
 		}
 
 		if (yPos < yDest) {
 			yPos++;
-			moving = true;
 			icon = movingDown;
 		} else if (yPos > yDest) {
 			yPos--;
-			moving = true;
 			icon = movingUp;
 		}
+		
+		if(xPos == xDest && yPos == yDest && !collision) {
+			drive();
+		}
+	}
+
+	private void drive() {
+		
 	}
 
 	public void setMainAnimationPanel(AnimationPanel p) {
@@ -85,8 +99,6 @@ public class CrashCar implements Gui {
 	public void moveTo(int x, int y) {
 		xDest = x;
 		yDest = y;
-
-		moving = true;
 	}
 
 	public void draw(Graphics2D g) {
