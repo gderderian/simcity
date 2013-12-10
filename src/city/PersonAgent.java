@@ -117,6 +117,9 @@ public class PersonAgent extends Agent implements Person{
 	AStarTraversal aStar;
 	Position currentPosition; 
 	Position originalPosition;
+	
+	boolean walkingToMyDeath = false;
+	boolean runOver = false;
 
 	PersonGui gui;
 	HomeOwnerGui homeGui;
@@ -563,6 +566,12 @@ public class PersonAgent extends Agent implements Person{
 		carRide.carLocation = p;
 		stateChanged();
 	}
+	
+	public void msgImRunningYouOver() {
+		log("AHHHH, I'M BEING RUN OVER!");
+		runOver = true;
+		stateChanged();
+	}
 
 	//from landlord
 	public void msgFixed(String appliance) {
@@ -641,6 +650,18 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 		//ROLES - i.e. job or customer
+		
+		if(runOver) {
+			die();
+			return false;
+		}
+		if(!walkingToMyDeath && name.equals("death")) {
+			walkToDeath();
+			return false;
+		}
+		if(name.equals("death")) {
+			return false;
+		}
 				
 		boolean anytrue = false;
 		synchronized(roles){
@@ -1452,6 +1473,30 @@ public class PersonAgent extends Agent implements Person{
 				log("That meal was fabulous! I'm a GREAT cook, why don't people come visit me and try my cooking??");
 				return;
 			}}, 4000);
+	}
+	
+	public void walkToDeath() {
+		guiMoveFromCurrentPositionTo(new Position(19, 14));
+		gui.moveTo(700, 460);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void die() {
+		currentPosition.release(aStar.getGrid());
+		gui.die();
+
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			public void run() {
+				gui.setInvisible();
+				stopThread();
+			}
+		}, 20000	);
 	}
 
 	public void setGuiVisible(){

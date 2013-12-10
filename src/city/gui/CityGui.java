@@ -47,6 +47,7 @@ import Role.MarketManager;
 import Role.MarketWorker;
 import Role.Role;
 import astar.AStarTraversal;
+import astar.Position;
 import city.Restaurant2.Restaurant2;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
@@ -95,6 +96,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 /**
  * Main GUI class.
@@ -109,8 +111,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	private static final int TIMER_INTERVAL = 30;
 	private Timer timer;
 
+	private java.util.Timer timer2 = new java.util.Timer(); //Separate timer for other uses
+
 	private CityClock masterClock;
-	
+
 	Restaurant5Gui rest5gui = new Restaurant5Gui();
 	BankGui bankgui = new BankGui();
 
@@ -327,9 +331,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void changeView(String building){
-		
+
 		controlPanel.changeBuildingControlPanel(building);
-		
+
 		if(building.equals("City")){
 			for(BuildingPanel bp : buildingPanels) {
 				bp.setVisible(false);
@@ -530,11 +534,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			guis.add(g);
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
-			
+
 			car1.startThread();
 
 			CrashCar car2 = new CrashCar(aStarTraversal, controlPanel.getCityMap(), 2);
-			
+
 			car2.setOtherCrashCar(car1);
 
 			vehicles.add(car2);
@@ -543,8 +547,39 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			guis.add(g2);
 			animationPanel.addGui(g2);
 			g2.setMainAnimationPanel(animationPanel);
-			
+
 			car2.startThread();
+		}
+
+		if(type.equals("hitAndRun")) {
+			PersonAgent p = new PersonAgent("death", new AStarTraversal(controlPanel.getSidewalkGrid()), controlPanel.getCityMap(), null);
+
+			PersonGui pg = new PersonGui(p);
+			p.setGui(pg);
+			p.setClock(masterClock);
+			
+			animationPanel.addGui(pg);
+			guis.add(pg);
+
+
+			p.startThread();
+
+			final CrashCar car = new CrashCar(aStarTraversal, controlPanel.getCityMap(), 3);
+			car.setTarget(p);
+
+			timer2.schedule(new TimerTask() {
+				public void run() {
+
+					vehicles.add(car);
+					VehicleGui g = new VehicleGui(car);
+					car.setGui(g);
+					guis.add(g);
+					animationPanel.addGui(g);
+					g.setMainAnimationPanel(animationPanel);
+
+					car.startThread();
+				}
+			}, 10000	);
 		}
 	}   
 
@@ -774,7 +809,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 			} else if(job.contains("market") || job.contains("Market")) {
 				if(r instanceof MarketWorker){
-					
+
 					switch(workerMarketCounter) {
 					case 0: 
 						market1.addWorker((MarketWorker)r);
@@ -789,7 +824,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 						p.addFirstJob(r, "mark3", 2);
 						break;
 					}
-					
+
 					workerMarketCounter = (workerMarketCounter + 1) % 3;
 				}
 				else if(r instanceof MarketManager){
@@ -797,7 +832,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 						System.out.println("NO    (Already have 3 market managers...)");
 						return;
 					}
-					
+
 					switch(managerMarketCounter) {
 					case 0: 
 						market1.setManager((MarketManager)r);

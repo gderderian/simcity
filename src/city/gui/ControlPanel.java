@@ -76,6 +76,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel personOptionsDisplay = new JPanel();
     private JButton buyCarButton = new JButton("Buy a Car");
     private JButton carCrash = new JButton("Car Crash");
+    private JButton hitAndRun = new JButton("Hit and Run");
     
     /*Building panels*/
     private JPanel buildingInfoPanel = new JPanel();
@@ -422,6 +423,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     	//worldControlPanel.add(Box.createVerticalStrut());
         worldControlPanel.add(carCrash);
         carCrash.addActionListener(this);
+        
+    	hitAndRun.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	//worldControlPanel.add(Box.createVerticalStrut());
+        worldControlPanel.add(hitAndRun);
+        hitAndRun.addActionListener(this);
     }
     
     private void addPersonSection(){
@@ -609,6 +615,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 				}
 			}, 25000);
 		}
+		else if(e.getSource() == hitAndRun) {
+			hitAndRun();
+			hitAndRun.setText("Please wait...");
+			hitAndRun.setEnabled(false);
+			
+			timer.schedule(new TimerTask() {
+				public void run() {
+					hitAndRun.setEnabled(true);
+					hitAndRun.setText("Hit and Run");
+				}
+			}, 22000);
+		}
+		
 		else if(e.getSource() == closeRest4){
 			if(cityMap.getRest4().isOpen()){
 				closeRest4.setText("Open Restaurant");
@@ -880,6 +899,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		/********Finished setting up semaphore grid***********/
 	}
+	
+	public Semaphore[][] getSidewalkGrid() {
+		return sidewalkGrid;
+	}
 
 	private void createBusStops() {
 		for(int i = 0; i < 4; i++) {
@@ -1092,6 +1115,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runCarCrash() {
 		addVehicle("crash");
+	}
+	
+	public void hitAndRun() {
+		addVehicle("hitAndRun");
 	}
 
 	public void runCarTest() {

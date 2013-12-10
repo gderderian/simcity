@@ -49,7 +49,7 @@ public class VehicleGui implements Gui {
 		} else if(type.equals("crash1")) {
 			xPos = 600;
 			yPos = 660;
-		} else if(type.equals("crash2")) {
+		} else if(type.equals("crash2") || type.equals("crash3")) {
 			xPos = 870;
 			yPos = 450;
 		} else {

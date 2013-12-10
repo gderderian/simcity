@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import city.CityMap;
+import city.PersonAgent;
 
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
@@ -19,6 +20,8 @@ public class CrashCar extends Vehicle {
 	String name = "Crash test!";
 	int num;
 	boolean crashed = false;
+
+	PersonAgent target;
 
 	private CrashCar otherCrashCar;	
 
@@ -75,7 +78,7 @@ public class CrashCar extends Vehicle {
 		if(num == 1) {
 			guiMoveFromCurrentPositionTo(new Position(9, 13));
 			log("Oh no, it appears that I have broken down in the middle of the road!");
-		} else {
+		} else if(num == 2) {
 			guiMoveFromCurrentPositionTo(new Position(10, 13));
 			currentPosition.release(aStar.getGrid());
 			gui.moveTo(390, 450);
@@ -88,12 +91,28 @@ public class CrashCar extends Vehicle {
 			otherCrashCar.msgICrashedIntoYou(this);
 			crashed = true;
 			stateChanged();
+		} else if(num == 3) {
+			guiMoveFromCurrentPositionTo(new Position(19, 13));
+			hitAndRun();
 		}
 		gui.setVisible();
 	}
 
 	public void setOtherCrashCar(CrashCar c) {
 		otherCrashCar = c;
+	}
+
+	public void setTarget(PersonAgent p) {
+		target = p;
+	}
+
+	private void hitAndRun() {
+		target.msgImRunningYouOver();
+		guiMoveFromCurrentPositionTo(new Position(15, 20));
+		currentPosition.release(aStar.getGrid());
+		gui.moveTo(570, 1000);
+		gui.setInvisible();
+		stopThread();
 	}
 
 	private void burnAway() {
