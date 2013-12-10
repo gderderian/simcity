@@ -47,4 +47,13 @@ public class PersonSchedule {
 		return weeklySchedule.get(dayOfWeek);
 	}
 	
+	public void transferTodaysTasksToTomorrow(int dayOfWeekEnding){
+		ArrayList<PersonTask> dayTasks = weeklySchedule.get(dayOfWeekEnding);
+		ArrayList<PersonTask> tomorrowTasks = weeklySchedule.get(dayOfWeekEnding + 1);
+		tomorrowTasks.addAll(dayTasks);
+		dayTasks.clear();
+		weeklySchedule.put(dayOfWeekEnding, dayTasks);
+		weeklySchedule.put(dayOfWeekEnding + 1, tomorrowTasks);
+	}
+	
 }
