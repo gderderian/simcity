@@ -10,7 +10,7 @@ import city.gui.AnimationPanel;
 import city.gui.Gui;
 
 public class CrashCar implements Gui {
-	
+
 	AStarTraversal aStar; //This is so that the car can find open grid spots
 
 	private int xDest;
@@ -45,8 +45,8 @@ public class CrashCar implements Gui {
 		movingUp = new ImageIcon("images/crash_up.png");
 		movingDown = new ImageIcon("images/crash_down.png");
 
-			setInvisible();
-			
+		setInvisible();
+
 		icon = movingDown;
 	}
 
