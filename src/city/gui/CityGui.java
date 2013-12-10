@@ -978,7 +978,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Customer")){
-			System.out.println("CREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMER");
 			MarketCustomerRole role = new MarketCustomerRole(p.getName(), p);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
@@ -1017,7 +1016,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
 			return role;
 		} else if(type.equals("Bank Manager")){
-			System.out.println("!!!!!!!!!!!!  I'm in get role");
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
 			BankManagerRoleGui gui = new BankManagerRoleGui(role, bankgui);
@@ -1027,7 +1025,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		} else if(type.equals("Bank Teller")) {
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!! creating teller in  getnewrole()");
 			BankTellerRoleGui gui = new BankTellerRoleGui(role, bankgui);
 			role.setGui(gui);
 			bank1Animation.addGui(gui);

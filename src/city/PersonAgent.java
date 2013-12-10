@@ -1358,7 +1358,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void goToMarket(PersonTask task){
 
-		log("I'm headed out to the market NOW!!!!!!!!!!!!!!!!!");
+		log("I'm headed out to the market.");
 		if(atHome){
 			log("At home, going to exit of house");
 			homeGui.goToExit(); 
