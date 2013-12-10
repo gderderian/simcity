@@ -1,6 +1,6 @@
 package city.transportation;
 
-import Role.MarketManager;
+import Role.MarketManagerRole;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -16,7 +16,7 @@ import city.transportation.CarAgent.CarEvent;
 
 public class TruckAgent extends Vehicle {
 	//Data
-	MarketManager market; //Market that this truck reports to
+	MarketManagerRole market; //Market that this truck reports to
 
 	public List <MyMarketOrder> orders = Collections.synchronizedList(new ArrayList<MyMarketOrder>());
 
@@ -188,7 +188,7 @@ public class TruckAgent extends Vehicle {
 	}
 
 	// Accessors
-	public void setMarketManager(MarketManager m) {
+	public void setMarketManager(MarketManagerRole m) {
 		market = m;
 	}
 	

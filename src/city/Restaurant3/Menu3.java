@@ -38,10 +38,10 @@ public class Menu3 {
 	}
 	
 	public double getPriceofItem(String item){
-		System.out.println("Getting price of item: " + item);
+		// log("Getting price of item: " + item);
 		double priceOfItem = 0;
 		priceOfItem = itemList.get(item);
-		System.out.println("Price of item is: " + priceOfItem);
+		// log("Price of item is: " + priceOfItem);
 		return priceOfItem;
 		
 	}

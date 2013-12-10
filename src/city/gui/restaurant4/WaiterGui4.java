@@ -44,7 +44,10 @@ public class WaiterGui4 implements Gui{
     public int yHome= 100;
     public static final int xEntrance= 60;
     public static final int yEntrance= 60;
+    public static final int xExit= -30;
+    public static final int yExit= 0;
     private static final int foodDisplacement= 40;
+    boolean exiting= false;
 
     public WaiterGui4(WaiterRole4 agent) {
         this.agent = agent;
@@ -75,21 +78,25 @@ public class WaiterGui4 implements Gui{
         else if (yPos > yDestination)
             yPos--;
 
+        if(xPos < xExit && yPos < yExit){
+            System.out.println("Exiting is now false");
+        	exiting= false;
+        }
+        if(xPos <= xHome && yPos >= yHome && !exiting){
+        	agent.msgAtHome();
+        }
         if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xTableNew + movement) & (yDestination == yTable - movement)) {
-            doBringFood= false;
+        	doBringFood= false;
         	agent.msgAtTable();
         }
         if (xPos > xCook && yPos > yCook) {
-            agent.msgAtCook();
+        	agent.msgAtCook();
             return;
         }
         if(xPos <= xEntrance && yPos <=yEntrance && doGoToEntrance){
         	doGoToEntrance= false;
     		agent.msgAtEntrance();
-        }
-        if(xPos <= xHome && yPos >= yHome){
-        	agent.msgAtHome();
         }
     }
 
@@ -160,6 +167,12 @@ public class WaiterGui4 implements Gui{
     public void doLeaveCustomer() {
         xDestination = xEntrance -movement;
         yDestination = xEntrance -movement;
+    }
+    
+    public void doExit(){
+    	xDestination= xExit;
+    	yDestination= yExit;
+    	exiting= true;
     }
 
     public int getXPos() {

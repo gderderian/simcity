@@ -1,6 +1,6 @@
 package city.Restaurant4;
 
-import Role.MarketManager;
+import Role.MarketManagerRole;
 import Role.Role;
 
 import java.util.*;
@@ -29,7 +29,7 @@ public class CookRole4 extends Role implements Cook4 {
 	Order o= new Order();
 	List<Order> orders= Collections.synchronizedList(new ArrayList<Order>());;
 	ArrayList<Food> foods;
-	MarketManager market;
+	MarketManagerRole market;
 	SharedOrders4 sharedOrders;
 	public enum orderState {none, pending, cooking, outOfItem, done, finished};
 	public enum marketState{none, checkForRestock, ready, ordered, fulfilled, partiallyFullfilled, allMarketsOut, inventoryZero};
@@ -68,7 +68,7 @@ public class CookRole4 extends Role implements Cook4 {
 		return name;
 	}
 	
-	public void addMarket(MarketManager m){
+	public void addMarket(MarketManagerRole m){
 		market= m;
 	}
 	
@@ -76,6 +76,17 @@ public class CookRole4 extends Role implements Cook4 {
 		sharedOrders= o;
 	}
 	
+	public void addWaiter(Waiter4 w){
+		boolean newWaiter= true;
+		for(Waiter4 wait : waiters){
+			if(wait == w){
+				newWaiter= false;
+			}
+		}
+		if(newWaiter){
+			waiters.add(w);
+		}
+	}
 	
 	// MESSAGES 
 	public void msgHereIsOrder(Waiter4 w, String choice, Customer4 c){
@@ -347,6 +358,9 @@ public class CookRole4 extends Role implements Cook4 {
 		for(Waiter4 wait : waiters){
 			wait.msgAllMarketsOut();
 		}
+		cookGui.doExit();
+		p.setGuiVisible();
+		p.setRoleInactive(this);
 	}
 	
 	

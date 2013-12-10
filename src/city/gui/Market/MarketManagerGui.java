@@ -4,11 +4,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import city.gui.Gui;
 
-import Role.MarketManager;
+import Role.MarketManagerRole;
 
 public class MarketManagerGui implements Gui {
 
-    private MarketManager agent = null;
+    private MarketManagerRole agent = null;
 
 	MarketGui gui;
 	
@@ -28,14 +28,14 @@ public class MarketManagerGui implements Gui {
 	public ArrayList<String> platingFood;
 	public ArrayList<String> cookingFood;
 	
-    public MarketManagerGui(MarketManager a) {
+    public MarketManagerGui(MarketManagerRole a) {
     	agent = a;
     	carryingOrderText = "";
 		platingFood = new ArrayList<String>();
 		cookingFood = new ArrayList<String>();
     }
     
-    public MarketManagerGui(MarketManager a, MarketGui g) {
+    public MarketManagerGui(MarketManagerRole a, MarketGui g) {
     	agent = a;
     	gui = g;
     	carryingOrderText = "";
@@ -43,7 +43,7 @@ public class MarketManagerGui implements Gui {
 		cookingFood = new ArrayList<String>();
     }
     
-    public MarketManagerGui(MarketManager a, MarketGui g, int startX, int startY, int indexNum) {
+    public MarketManagerGui(MarketManagerRole a, MarketGui g, int startX, int startY, int indexNum) {
     	agent = a;
     	gui = g;
     	xPos = startX;

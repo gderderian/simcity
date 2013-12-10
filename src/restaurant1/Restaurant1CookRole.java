@@ -1,6 +1,6 @@
 package restaurant1;
 
-import Role.MarketManager;
+import Role.MarketManagerRole;
 import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
@@ -30,7 +30,7 @@ public class Restaurant1CookRole extends Role {
 	
 	public List<Restaurant1Order> orders = Collections.synchronizedList(new ArrayList<Restaurant1Order>());
 
-	private MarketManager market;
+	private MarketManagerRole market;
 	
 	int orderCount = 0;
 	Restaurant1OrderWheel orderWheel;
@@ -122,7 +122,7 @@ public class Restaurant1CookRole extends Role {
 		}
 	}
 	
-	public void msgHereIsBill(MarketManager m, double amount) {
+	public void msgHereIsBill(MarketManagerRole m, double amount) {
 		log("Received a bill! What do I do?!");
 	}
 	
@@ -363,7 +363,7 @@ public class Restaurant1CookRole extends Role {
 		cookGui.DoGoToCounter();
 	}
 	
-	public void addMarket(MarketManager m) {
+	public void addMarket(MarketManagerRole m) {
 		market = m;
 	}
 	

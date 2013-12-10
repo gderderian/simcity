@@ -42,6 +42,7 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankManagerRole;
+import Role.MarketManagerRole;
 
 
 public class PersonAgent extends Agent implements Person{
@@ -116,6 +117,9 @@ public class PersonAgent extends Agent implements Person{
 	AStarTraversal aStar;
 	Position currentPosition; 
 	Position originalPosition;
+	
+	boolean walkingToMyDeath = false;
+	boolean runOver = false;
 
 	PersonGui gui;
 	HomeOwnerGui homeGui;
@@ -562,6 +566,12 @@ public class PersonAgent extends Agent implements Person{
 		carRide.carLocation = p;
 		stateChanged();
 	}
+	
+	public void msgImRunningYouOver() {
+		log("AHHHH, I'M BEING RUN OVER!");
+		runOver = true;
+		stateChanged();
+	}
 
 	//from landlord
 	public void msgFixed(String appliance) {
@@ -640,6 +650,18 @@ public class PersonAgent extends Agent implements Person{
 	 */
 	public boolean pickAndExecuteAnAction() {
 		//ROLES - i.e. job or customer
+		
+		if(runOver) {
+			die();
+			return false;
+		}
+		if(!walkingToMyDeath && name.equals("death")) {
+			walkToDeath();
+			return false;
+		}
+		if(name.equals("death")) {
+			return false;
+		}
 				
 		boolean anytrue = false;
 		synchronized(roles){
@@ -902,7 +924,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		else if(task.type == TaskType.goToWork){
-			System.out.println("Starting job in 735 of personagent");
 			myJob.startJob();
 		}
  
@@ -924,7 +945,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else if(task.type == TaskType.goToMarket){
 
-			log("I should give the market manager my order!!!!!!!!!!!!!!!!!!!!!");
+			log("I should give the market manager my order.");
 			String[] markNum = task.location.split("mark");
 				//isOpen= cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
 				
@@ -979,7 +1000,7 @@ public class PersonAgent extends Agent implements Person{
 		log("Going to work");
 
 		task.location = myJob.location;
-		System.out.println("Going to work as a " + task.role + " at " + task.location);
+		log("Going to work as a " + task.role + " at " + task.location);
 		//Role in the task here should be null because role-related things are taken care of in the Job class
 
 		if(car != null){	//if the person has a car, he/she will take it
@@ -1329,7 +1350,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void goToMarket(PersonTask task){
 
-		log("I'm headed out to the market NOW!!!!!!!!!!!!!!!!!");
+		log("I'm headed out to the market.");
 		if(atHome){
 			log("At home, going to exit of house");
 			homeGui.goToExit(); 
@@ -1349,7 +1370,7 @@ public class PersonAgent extends Agent implements Person{
 		else
 			location = "mark3";
 
-		location = "mark1";
+		// location = "mark1";
 
 		// task.location = location;
 
@@ -1423,6 +1444,30 @@ public class PersonAgent extends Agent implements Person{
 				log("That meal was fabulous! I'm a GREAT cook, why don't people come visit me and try my cooking??");
 				return;
 			}}, 4000);
+	}
+	
+	public void walkToDeath() {
+		guiMoveFromCurrentPositionTo(new Position(19, 14));
+		currentPosition.release(aStar.getGrid());
+		gui.moveTo(700, 460);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void die() {
+		gui.die();
+
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			public void run() {
+				gui.setInvisible();
+				stopThread();
+			}
+		}, 20000	);
 	}
 
 	public void setGuiVisible(){
@@ -1717,12 +1762,9 @@ public class PersonAgent extends Agent implements Person{
 
 		public void startJob(){
 			role.setActive(wallet);
-			System.out.println("Setting role active" + role.getRoleName());
+			log("Setting role active" + role.getRoleName());
 			workState = WorkState.atWork;
-			System.out.println("at work, about to check for null");
 			if(role.getGui() != null){
-				System.out.println("NOT NULL!!!!");
-				System.out.println("at work");
 				role.getGui().setPresent(true);
 			}
 			if(role instanceof BankTellerRole) {

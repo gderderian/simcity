@@ -23,6 +23,13 @@ public class VehicleGui implements Gui {
 	ImageIcon movingUp;
 	ImageIcon movingDown;
 
+	boolean crashed = false;
+	ImageIcon crashed1 = new ImageIcon("images/crashed1.png");
+	ImageIcon crashed2 = new ImageIcon("images/crashed2.png");
+	ImageIcon crashed3 = new ImageIcon("images/crashed3.png");
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+
 	ImageIcon icon;
 
 	boolean moving = false; //Keeps track of whether gui is moving or staying in one place.
@@ -32,14 +39,20 @@ public class VehicleGui implements Gui {
 	public VehicleGui(Vehicle v){
 		this.v = v;
 		this.type = v.getType();
-		if(type.equals("car") || type.equals("crash")) {
+
+		if(type.equals("car")) {
 			xPos = 450;
 			yPos = 390;
 		} else if(type.equals("truck")) {
 			xPos = 420;
 			yPos = 270;
-		}
-		else {
+		} else if(type.equals("crash1")) {
+			xPos = 600;
+			yPos = 660;
+		} else if(type.equals("crash2") || type.equals("crash3")) {
+			xPos = 870;
+			yPos = 450;
+		} else {
 			xPos = 630;
 			yPos = 660;
 		}
@@ -51,18 +64,21 @@ public class VehicleGui implements Gui {
 		movingLeft = new ImageIcon("images/" + type + "_left.png");
 		movingUp = new ImageIcon("images/" + type + "_up.png");
 		movingDown = new ImageIcon("images/" + type + "_down.png");
-		
-		if(type.equals("crash")) {
-			movingRight = new ImageIcon("car_right.png");
-			movingLeft = new ImageIcon("car_left.png");
-			movingUp = new ImageIcon("car_up.png");
-			movingDown = new ImageIcon("car_down.png");
+
+		if(type.contains("crash")) {
+			movingRight = new ImageIcon("images/crash_right.png");
+			movingLeft = new ImageIcon("images/crash_left.png");
+			movingUp = new ImageIcon("images/crash_up.png");
+			movingDown = new ImageIcon("images/crash_down.png");
 		}
 
-		if(type.equals("car") || type.equals("crash") || type.equals("truck")) {
+		if(type.equals("car") || type.equals("truck")) {
 			setInvisible();
 		}
-			icon = movingUp;
+		icon = movingUp;
+		
+		if(type.equals("crash1"))
+			movementCounter+=20; //To offset animation of crashed cars.
 	}
 
 	@Override
@@ -70,6 +86,17 @@ public class VehicleGui implements Gui {
 		if(xPos == xDest && yPos == yDest && moving) {
 			v.msgGuiFinished();
 			moving = false;
+			return;
+		}
+
+		if(crashed) {
+			movementCounter = (movementCounter + 1) % (3 * iconSwitch);
+			if(movementCounter < iconSwitch)
+				icon = crashed1;
+			else if(movementCounter < iconSwitch * 2)
+				icon = crashed2;
+			else if(movementCounter < iconSwitch * 3)
+				icon = crashed3;
 			return;
 		}
 
@@ -134,6 +161,18 @@ public class VehicleGui implements Gui {
 		yPos = y;
 		xDest = x;
 		yDest = y;
-		
+
+	}
+
+	public int getX() {
+		return xPos;
+	}
+
+	public int getY() {
+		return yPos;
+	}
+
+	public void crashed() {
+		crashed = true;
 	}
 }

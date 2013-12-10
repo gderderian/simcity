@@ -20,7 +20,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
     private static final int WINDOWY = 700;
     private static final int TIMER_INTERVAL = 15;
 
-	ImageIcon background = new ImageIcon("images/background3.png");	
+	ImageIcon background = new ImageIcon("images/background3.png");
 	
 	CityGui cityGui;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
@@ -189,7 +189,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
                 gui.updatePosition();
                 if(gui instanceof VehicleGui) {
                 	gui.updatePosition();
-                	if(((VehicleGui) gui).type == "car") {
+                	if(((VehicleGui) gui).type.equals("car") || ((VehicleGui) gui).type.contains("crash")) {
                 		gui.updatePosition();
                 		gui.updatePosition();
                 	}
