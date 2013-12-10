@@ -99,6 +99,10 @@ public abstract class Role {
     public boolean isActive() {
     	return isActive;
     }
+
+	public void setBuilding(String location) {
+		building = location;		
+	}
     
     public abstract PersonAgent getPerson();
         

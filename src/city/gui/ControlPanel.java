@@ -41,12 +41,15 @@ import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
+import city.PersonAgent;
+import Role.BankTellerRole;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
 import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
+import city.gui.Bank.BankTellerRoleGui;
 import city.gui.House.HouseAnimationPanel;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
@@ -1057,6 +1060,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		 */
 		addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest", "No job");
+		addPerson("bankCustomerTest1", "No job");
+		
+		
+	
 		//addPerson("bank teller", "Bank Teller");
 		//addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
@@ -1173,6 +1182,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/
 		addPerson("bank manager", "Bank Manager");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		/*Restaurant1 workers*/
 		addPerson("host1", "Restaurant1 Host");

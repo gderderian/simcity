@@ -1,4 +1,5 @@
 package Role;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
@@ -145,6 +146,54 @@ public class BankTellerRole extends Role {
 		
 		if(banktellerstate == state.servingcustomer && banktellerevent == event.openaccount)
 		{
+			
+			log("customer is opening account");
+			boolean unique;
+			int i;
+			
+			do {
+					Random r = new Random();
+        			i = r.nextInt(50); 
+					unique = true;
+					synchronized(bankmanager.bank.accounts)
+					{
+					
+					for(account findaccount: bankmanager.bank.accounts)
+					{
+						if(findaccount.accountnumber == i || i == 0)
+						{ 
+							log("account already exists please pick another one");
+							unique = false;
+						}
+						
+					}
+				    }
+				
+			}while(unique == false);
+			
+			int setaccountnumber = i;
+			
+			bankmanager.bank.accounts.add(new account(currentcustomer, i));
+			currentcustomeraccountnumber = i;
+			//bankmanager.bank.uniqueaccountnumber++;
+			banktellerstate = state.waitingforresponse;
+			gui.approved = true;
+			timer.schedule(new TimerTask() {
+				
+				public void run() {
+					currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
+					gui.approved = false;
+					//person.stateChanged();
+				}
+					},
+				3 * 1000);
+			
+		   return true;
+		}
+		
+		/*
+		if(banktellerstate == state.servingcustomer && banktellerevent == event.openaccount)
+		{
 			log("customer is opening account");
 			bankmanager.bank.accounts.add(new account(currentcustomer, bankmanager.bank.uniqueaccountnumber));
 			currentcustomeraccountnumber = bankmanager.bank.uniqueaccountnumber;
@@ -159,10 +208,11 @@ public class BankTellerRole extends Role {
 					//person.stateChanged();
 				}
 					},
-				2 * 1000);
+				3 * 1000);
 			
 		   return true;
 		}
+		*/
 
 		if(banktellerstate == state.servingcustomer && banktellerevent == event.depositintoaccount)
 		{
@@ -189,7 +239,7 @@ public class BankTellerRole extends Role {
 							gui.approved = false;
 							}
 								},
-							2 * 1000);
+							3 * 1000);
 					
 						break;
 					}
@@ -225,7 +275,7 @@ public class BankTellerRole extends Role {
 								gui.denied = false;
 								}
 									},
-								2 * 1000);
+								3 * 1000);
 						
 						}
 						else if(!(findaccount.balance < withdrawal))
@@ -238,7 +288,7 @@ public class BankTellerRole extends Role {
 								currentcustomer.msgHereIsYourWithdrawal(withdrawal);	
 								}
 									},
-								2 * 1000);
+								3 * 1000);
 							break;
 						}
 						else
@@ -252,7 +302,7 @@ public class BankTellerRole extends Role {
 								gui.denied = false;
 								}
 									},
-								2 * 1000);
+								3 * 1000);
 						
 						}
 
@@ -290,7 +340,7 @@ public class BankTellerRole extends Role {
 								gui.denied = false;
 								}
 									},
-								2 * 1000);
+								3 * 1000);
 							
 							
 						}
@@ -305,7 +355,7 @@ public class BankTellerRole extends Role {
 								currentcustomer.msgHereIsYourLoan(loan);	
 								}
 									},
-								2 * 1000);
+								3 * 1000);
 								
 						}
 
@@ -362,7 +412,7 @@ public class BankTellerRole extends Role {
 							currentcustomer.msgLoanPaidBack(paybackloan, findaccount.loan);	
 							}
 								},
-							2 * 1000);
+							3 * 1000);
 						
 						/*
 

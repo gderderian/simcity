@@ -32,6 +32,21 @@ public class Restaurant5WaiterGui implements Gui {
 	public Image imgofchicken = new ImageIcon("/Users/teryunlee/Documents/restaurant_teryunle/src/restaurant/foodpics/Chicken.jpg").getImage();
 	public Image imgofburrito = new ImageIcon("/Users/teryunlee/Documents/restaurant_teryunle/src/restaurant/foodpics/burrito.jpeg").getImage();
 	public Image imgofpizza = new ImageIcon("/Users/teryunlee/Documents/restaurant_teryunle/src/restaurant/foodpics/pizza.jpg").getImage();
+	
+	ImageIcon icon1 = new ImageIcon("images/waiter1.png");
+	ImageIcon icon2 = new ImageIcon("images/waiter2.png");
+	ImageIcon icon3 = new ImageIcon("images/waiter3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = icon1;
+	
+	private boolean moving = false;
+	
+	private int cycleCount = 0;
+	
+	
 	private int tableServing;
 	int table;
 	
@@ -70,6 +85,21 @@ public class Restaurant5WaiterGui implements Gui {
 	//pass in x and y coordinates
 	public void updatePosition() {
 	
+		
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = icon1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = icon2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = icon3;
+        	else
+        		icon = icon2;
+    	} else icon = icon2;
+		
+		
 		if (xPos < xDestination)
 			xPos++;
 		else if (xPos > xDestination)
@@ -137,8 +167,12 @@ public class Restaurant5WaiterGui implements Gui {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.black);
-		g.fillRect(xPos, yPos, 20, 20);
+		//g.setColor(Color.black);
+		//g.fillRect(xPos, yPos, 20, 20);
+		
+		g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
+		
+		
 		if(agent.foodout == true) {
 			g.drawString("Foodout", xPos - 10, yPos - 10);
 		}

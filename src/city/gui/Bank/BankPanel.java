@@ -9,12 +9,12 @@ import Role.BankCustomerRole;
 import Role.BankManagerRole;
 import Role.BankTellerRole;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 
 import city.PersonAgent;
+import city.gui.ControlPanel;
 import city.gui.PersonGui;
 
 /**
@@ -34,6 +34,14 @@ public class BankPanel extends JPanel {
 	Bank bank = new Bank();
 	AStarTraversal aStarTraversal;
     CityMap citymap = new CityMap();
+    
+    //control panel
+    ControlPanel controlpanel;
+    
+    
+    
+    
+    
     //Host, cook, waiters and customers
     private BankManagerRole bankmanager = new BankManagerRole(bank);
     
@@ -178,7 +186,6 @@ public class BankPanel extends JPanel {
     public void pauseagents() {
     	 
       	
-    
     	
     	/*
     	 host.pause();
@@ -214,25 +221,7 @@ public class BankPanel extends JPanel {
     		pausewaiter.restart();
     	}
     	*/
-    }
-    
-    public void waitergoonbreak() {
- 
-    	//host.msgWaiterWantBreak(waiters.get(1));
-    
-    }
-    
-    public void waitercomebackfrombreak() {
-    	
-    	//host.msgWaiterComeBackFromBreak(waiters.get(1));
-    
-    }
-    
-    public void depletecooksupply() {
-    	
-    	
-    	//cook.msgDepleteCookSupply();
-    	
+
     }
     
     public void depletemarket1supply() {
@@ -255,9 +244,9 @@ public class BankPanel extends JPanel {
     	
     }
     
-    public void depletemarket2supply() {
-    	
-    	//market2.depletemarketsupply();
+    public void setControlPanel(ControlPanel setcontrolpanel) {
+    	controlpanel = setcontrolpanel;
+  
     }
     
     

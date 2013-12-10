@@ -36,9 +36,23 @@ public class BankCustomerRoleGui implements Gui{
 	public boolean openaccount;
 	public boolean deposit;
 	public boolean withdraw;
+	public boolean rewithdraw;
 	public boolean loan;
 	public boolean money;
 	public boolean paybackloan;
+	
+	ImageIcon flat1 = new ImageIcon("images/person_flat1.png");
+	ImageIcon flat2 = new ImageIcon("images/person_flat2.png");
+	ImageIcon flat3 = new ImageIcon("images/person_flat3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = flat1;
+
+	
+	
+	
 	
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
 		this.role = setrole;		
@@ -69,6 +83,26 @@ public class BankCustomerRoleGui implements Gui{
 		*/
 		//agent.xcoordinate = xPos;
 		//agent.ycoordinate = yPos;
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
+
+		
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = flat1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = flat2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = flat3;
+        	else
+        		icon = flat2;
+		} else icon = flat2;
+		
+		
+		
+		
+		
+		
 		
 		
 		if (xPos < xDestination)
@@ -111,7 +145,9 @@ public class BankCustomerRoleGui implements Gui{
 		}
 
 	public void draw(Graphics2D g) {
-		g.drawImage(imgofbankcustomer,xPos, yPos + 90, 50, 40, gui);
+		//g.drawImage(imgofbankcustomer,xPos, yPos + 90, 50, 40, gui);
+		
+		g.drawImage(icon.getImage(), xPos, yPos + 90, 50, 40, gui);
 		Graphics2D g2 = (Graphics2D)g;
 		Graphics2D g3 = (Graphics2D)g;
 		if(openaccount == true)
@@ -149,6 +185,16 @@ public class BankCustomerRoleGui implements Gui{
 			g3.setColor(Color.black);
     		g3.drawString("WITHDRAW?", xPos - 15, yPos + 80);	
 		}
+		else if(rewithdraw == true)
+		{
+			g3.setColor(Color.WHITE);
+    		g3.fillRoundRect(xPos - 22, yPos + 65, 90, 20, 30, 30);	
+			g3.setFont(new Font("Arial", Font.BOLD, 12));
+			g3.setColor(Color.black);
+    		g3.drawString("REWITHDRAW?", xPos - 15, yPos + 80);	
+			
+		}
+		
 		else if(loan == true)
 		{
 			g3.setColor(Color.WHITE);
@@ -162,7 +208,7 @@ public class BankCustomerRoleGui implements Gui{
 		{
 			g.drawImage(imgofmoney,xPos - 16, yPos + 70, 35, 35, gui);
 			g3.setColor(Color.WHITE);
-    		g3.fillRoundRect(xPos - 22, yPos + 65, 120, 20, 30, 30);	
+    		g3.fillRoundRect(xPos - 22, yPos + 65, 100, 20, 30, 30);	
 			g3.setFont(new Font("Arial", Font.BOLD, 12));
 			g3.setColor(Color.black);
     		g3.drawString("PAYBACKLOAN", xPos - 15, yPos + 80);	
