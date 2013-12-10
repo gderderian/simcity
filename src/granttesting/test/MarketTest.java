@@ -8,19 +8,20 @@ import Role.MarketManagerRole.myMarketWorker;
 import Role.MarketManagerRole.orderState;
 import Role.MarketWorkerRole;
 import Role.MarketWorkerRole.orderPickState;
-import granttesting.test.mock.MockCook;
 import junit.framework.TestCase;
 import city.Market;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
+import city.Restaurant3.CookRole3;
 
 public class MarketTest extends TestCase{
         
     PersonAgent person;
     PersonAgent person2;
     PersonAgent person3;
-    MockCook restaurantCook;
+    PersonAgent person4;
+    CookRole3 restaurantCook;
     MarketManagerRole marketMgr;
     MarketWorkerRole marketWorker;
     MarketCustomerRole marketCustomer;
@@ -33,7 +34,8 @@ public class MarketTest extends TestCase{
         person = new PersonAgent("Person");
         person2 = new PersonAgent("Person2");
         person3 = new PersonAgent("Person3");
-        restaurantCook = new MockCook("MockCook");
+        person4 = new PersonAgent("Person4");
+        restaurantCook = new CookRole3("MockCook", person4);
         Market mkt1 = new Market();
         marketMgr = new MarketManagerRole("MarketManager", person, mkt1);
         mkt1.setManager(marketMgr);
