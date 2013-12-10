@@ -135,9 +135,11 @@ public class CookRole3 extends Role {
 		person.stateChanged();
 	}
 	
+	/* // Now done compeltely throguh citymap and cashier instead
 	public void msgHereIsMarketBill(double billAmount, MarketManager manager){
-		// Cashier.acceptBill()
+		
 	}
+	*/
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
