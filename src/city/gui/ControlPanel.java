@@ -75,6 +75,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel backButtonPanel = new JPanel();
     private JPanel personOptionsDisplay = new JPanel();
     private JButton buyCarButton = new JButton("Buy a Car");
+    private JButton carCrash = new JButton("Car Crash");
+    private JButton hitAndRun = new JButton("Hit and Run");
     
     /*Building panels*/
     private JPanel buildingInfoPanel = new JPanel();
@@ -140,7 +142,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
     		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
     		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
-    		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 Waiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
+    		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 SharedDataWaiter", "Restaurant4 NormalWaiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
     		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
     private JComboBox jobField = new JComboBox(jobs);
@@ -316,10 +318,12 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void setupRestaurant4Panel(){
-        restaurant4Panel.add(new JLabel("Restaurant 4 Info/Options"));
+        restaurant4Panel.add(new JLabel("    Restaurant 4 Options"));
         restaurant4Panel.setPreferredSize(buildingPanelDim);
+        restaurant4Panel.setMaximumSize(buildingPanelDim);
+        restaurant4Panel.setMinimumSize(buildingPanelDim);
         restaurant4Panel.setBorder(BorderFactory.createLineBorder(Color.black));
-        restaurant4Panel.setLayout(new GridLayout(15,1));
+        restaurant4Panel.setLayout(new GridLayout(15,1, 5, 5));
         
         closeRest4= new JButton("Close Restaurant");
         closeRest4.addActionListener(this);
@@ -415,6 +419,17 @@ public class ControlPanel extends JPanel implements ActionListener{
     	worldControlPanel.add(timeDisplay);
     	timeDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
     	worldControlPanel.add(timeSelectionPanel);
+
+
+    	carCrash.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	//worldControlPanel.add(Box.createVerticalStrut());
+        worldControlPanel.add(carCrash);
+        carCrash.addActionListener(this);
+        
+    	hitAndRun.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	//worldControlPanel.add(Box.createVerticalStrut());
+        worldControlPanel.add(hitAndRun);
+        hitAndRun.addActionListener(this);
     }
     
     private void addPersonSection(){
@@ -590,6 +605,31 @@ public class ControlPanel extends JPanel implements ActionListener{
 		} else if(e.getSource() == buyCarButton){
 			// Coming soon
 		}
+		else if(e.getSource() == carCrash) {
+			runCarCrash();
+			carCrash.setText("Please wait...");
+			carCrash.setEnabled(false);
+			
+			timer.schedule(new TimerTask() {
+				public void run() {
+					carCrash.setEnabled(true);
+					carCrash.setText("Car Crash");
+				}
+			}, 25000);
+		}
+		else if(e.getSource() == hitAndRun) {
+			hitAndRun();
+			hitAndRun.setText("Please wait...");
+			hitAndRun.setEnabled(false);
+			
+			timer.schedule(new TimerTask() {
+				public void run() {
+					hitAndRun.setEnabled(true);
+					hitAndRun.setText("Hit and Run");
+				}
+			}, 22000);
+		}
+		
 		else if(e.getSource() == closeRest4){
 			if(cityMap.getRest4().isOpen()){
 				closeRest4.setText("Open Restaurant");
@@ -602,7 +642,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource() == emptyInventory4){
 			cityMap.getRest4().emptyInventory();
 		}
-
 	}
 
 	/**
@@ -853,13 +892,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[11][18].release(5);      	
 
 		streetGrid[17][20].release(100); //starting point for vehicles
+		streetGrid[25][14].release(20);
 
-		streetGrid[7][9].release(100); //Parking entrances + tiles right outside
+		streetGrid[7][9].release(100); //Parking entrances
 		streetGrid[14][9].release(100); 
 		streetGrid[10][7].release(100); 
 		streetGrid[11][11].release(100); 
 
 		/********Finished setting up semaphore grid***********/
+	}
+	
+	public Semaphore[][] getSidewalkGrid() {
+		return sidewalkGrid;
 	}
 
 	private void createBusStops() {
@@ -947,74 +991,31 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runRestaurant1Test(){
 
-		/*
-		 * moved these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host1", "Restaurant1 Host");
-		addPersonNoHouse("cashier1", "Restaurant1 Cashier");
-		addPersonNoHouse("cook1", "Restaurant1 Cook");
-		addPerson("waiter1", "Restaurant1 Waiter");
-		 */
 		addPerson("rest1Test", "No job");
 
 	}
 
 	public void runRestaurant2Test(){
 
-		/*
-		 * Added these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host", "Restaurant2 Host");
-		addPersonNoHouse("cashier", "Restaurant2 Cashier");
-		addPersonNoHouse("cook", "Restaurant2 Cook");
-		addPersonWithCar("waiter", "Restaurant2 Waiter");
-		 */
 		addPersonWithCar("rest2Test", "No job");
 
 	}
 
 	public void runRestaurant3Test(){
-
-		/*
-		 * Added these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host", "Restaurant3 Host");
-		addPersonNoHouse("cashier", "Restaurant3 Cashier");
-		addPersonNoHouse("cook", "Restaurant3 Cook");
-		addPerson("waiter", "Restaurant3 Waiter");
-		 */
 		addPerson("rest3Test", "No job");
 
 	}
 
 	public void runRestaurant4Test(){
 
-		/*
-		 * Added these to createInitialPeople method
-		 * 
-		addPersonNoHouse("host4", "Restaurant4 Host");
-		addPersonNoHouse("cashier4", "Restaurant4 Cashier");
-		addPersonNoHouse("cook4", "Restaurant4 Cook");
-		addPerson("waiter4", "Restaurant4 Waiter");
-		 */
+		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
-		addPerson("rest4Test", "No job");
-		addPerson("Jill", "No job");
-
 	}
 
 	public void runRestaurant5Test(){
 
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPersonNoHouse("host5", "Restaurant5 Host");
-		addPersonNoHouse("cashier5", "Restaurant5 Cashier");
-		addPersonNoHouse("cook5", "Restaurant5 Cook");
-		addPerson("waiter5", "Restaurant5 Waiter");
-		 */
 		//addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
@@ -1022,12 +1023,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runBankTest() {
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPersonNoHouse("bank manager", "Bank Manager");
-		addPerson("bank teller", "Bank Teller");
-		 */
+
 		addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
@@ -1047,23 +1043,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void runRegularJoeTest(){
 		addPerson("joe", "No Job");
-
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		 */
 	}
 
 	public void runMarketVisitTest(){
 		addPerson("marketClient", "No Job");
-		/*
-		 * Added these to createInitialPeople function
-		 * 
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		 */
 
 		//addPerson("marketWorker", "Market Worker");
 		//addPerson("marketWorker", "Market Worker");
@@ -1077,12 +1060,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runCarCrash() {
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("crash");
-			}
-		}, 8000);
-
+		addVehicle("crash");
+	}
+	
+	public void hitAndRun() {
+		addVehicle("hitAndRun");
 	}
 
 	public void runCarTest() {
@@ -1091,11 +1073,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runLandlordTest(){
-		/*
-		 * Added this to createInitialPeople function
-		 * 
-		addPerson("Landlord", "Landlord1");
-		 */
+
 		addPerson("Joe", "No Job");
 		addPerson("Jenny", "No Job");
 		addPerson("Jake", "No Job");
@@ -1119,20 +1097,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000);
 
 		/*Market workers*/
-		for(int i = 0; i < 3; i++) {
-			addPerson("marketManager", "Market Manager");
-			addPerson("marketWorker", "Market Worker");
-		}
-
-		addVehicle("truck");
-		addVehicle("truck");
-		addVehicle("truck");
+		//Spreading these out so that they don't get stuck next to each other
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
 
 		/*Landlord*/
 		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/
 		addPerson("bank manager", "Bank Manager");
 		addPerson("bank teller", "Bank Teller");
+		
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		/*Restaurant1 workers*/
@@ -1154,12 +1131,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("host4", "Restaurant4 Host");
 		addPerson("cashier4", "Restaurant4 Cashier");
 		addPerson("cook4", "Restaurant4 Cook");
-		addPerson("waiter4", "Restaurant4 Waiter");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
 		/*Restaurant5 workers*/
 		addPerson("host5", "Restaurant5 Host");
 		addPerson("cashier5", "Restaurant5 Cashier");
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
+		
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
+		addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
 	}
 
 	public void setTimeDisplay(String timeToDisplay){

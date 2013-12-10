@@ -1,5 +1,7 @@
 package Role;
 
+import interfaces.MarketManager;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -16,7 +18,7 @@ import city.transportation.TruckAgent;
 import Role.Role;
 
 
-public class MarketManager extends Role {
+public class MarketManagerRole extends Role implements MarketManager {
 	
 	String roleName = "MarketManagerRole";
 
@@ -44,7 +46,7 @@ public class MarketManager extends Role {
 	
 	Market myMarket;
 	
-	public MarketManager(String initialName, PersonAgent person, Market mkt){
+	public MarketManagerRole(String initialName, PersonAgent person, Market mkt){
 		
 		name = initialName;
 		p = person;
@@ -117,10 +119,10 @@ public class MarketManager extends Role {
 
 	public class myMarketWorker { // Used for internal stock-tracking within the market
 		
-		public MarketWorker worker;
+		public MarketWorkerRole worker;
 		public int numWorkingOrders;
 		
-		public myMarketWorker(MarketWorker w){
+		public myMarketWorker(MarketWorkerRole w){
 			worker = w;
 			numWorkingOrders = 0;
 		}
@@ -138,7 +140,7 @@ public class MarketManager extends Role {
 	}
 	
 	public void msgHereIsTruckOrder(MarketOrder o){
-		//log("Recieved order from " + o.getRecipient().getName());
+		log("Recieved order from " + o.getRecipient().getName());
 		//log("Current order size is:" + o.orders.size());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.truckOrder);
 		myOrders.add(mo);
@@ -147,7 +149,7 @@ public class MarketManager extends Role {
 	}
 	
 	public void msgOrderPicked(MarketOrder o){
-		//log("Received orderPicked message");
+		log("Received orderPicked message");
 		//log("Current order size is:" + o.orders.size());
 		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
@@ -208,6 +210,7 @@ public class MarketManager extends Role {
 
 	// Actions
 	private void makeWorkerPrepareOrder(myMarketOrder o){ // Distribute load of incoming orders to all workers
+		log("Getting a market worker to prepare the order");
 		o.state = orderState.assignedToWorker;
 		double orderTotal = 0;
 		// Decrement quantity of things in each order
@@ -233,6 +236,9 @@ public class MarketManager extends Role {
 			}
 			w_selected.worker.msgPrepareOrder(o.order, this);
 			w_selected.numWorkingOrders++;
+		}
+		else{
+			log("I have no market workers in my shop right now");
 		}
 	}
 	
@@ -270,7 +276,7 @@ public class MarketManager extends Role {
         ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 	
-	public void addWorker(MarketWorker w){
+	public void addWorker(MarketWorkerRole w){
 		myMarketWorker newWorker = new myMarketWorker(w);
 		myWorkers.add(newWorker);
 	}

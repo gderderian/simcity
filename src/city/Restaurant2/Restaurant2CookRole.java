@@ -24,6 +24,7 @@ import city.PersonAgent;
 import city.gui.restaurant2.Restaurant2CookGui;
 import Role.Role;
 import city.Restaurant2.Order;
+import city.Restaurant4.CookRole4.marketState;
 
 public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	
@@ -249,7 +250,20 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	//TODO change this to market order
 	private void sendShipmentOrder(ShipmentOrder s){
 		log("Sending shipment order to market the market of size " + s.order.orders.size());
-		cityMap.msgMarketHereIsTruckOrder(2, s.order);
+		boolean isOpen = true;
+		for(int i = 0; i < 3; i++){
+			isOpen = cityMap.msgMarketHereIsTruckOrder(1, s.order);
+			if(isOpen){
+				s.ss = ShipmentState.sent;
+				return;
+			}
+			else{
+				log("Uh oh, looks like the market I wanted to order from isn't open! I'll try a different one");
+			}
+		}
+		
+		log("Looks like all of the markets are closed, I guess I won't order my food right now...");
+		
 	}
 	
 	private void recieveShipment(ShipmentOrder s){

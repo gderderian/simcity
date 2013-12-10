@@ -3,11 +3,11 @@ package granttesting.test;
 import java.util.ArrayList;
 
 import Role.MarketCustomerRole;
-import Role.MarketManager;
-import Role.MarketManager.myMarketWorker;
-import Role.MarketManager.orderState;
-import Role.MarketWorker;
-import Role.MarketWorker.orderPickState;
+import Role.MarketManagerRole;
+import Role.MarketManagerRole.myMarketWorker;
+import Role.MarketManagerRole.orderState;
+import Role.MarketWorkerRole;
+import Role.MarketWorkerRole.orderPickState;
 import granttesting.test.mock.MockCook;
 import junit.framework.TestCase;
 import city.Market;
@@ -21,8 +21,8 @@ public class MarketTest extends TestCase{
     PersonAgent person2;
     PersonAgent person3;
     MockCook restaurantCook;
-    MarketManager marketMgr;
-    MarketWorker marketWorker;
+    MarketManagerRole marketMgr;
+    MarketWorkerRole marketWorker;
     MarketCustomerRole marketCustomer;
     myMarketWorker myMarketWorker;
     public ArrayList<OrderItem> testOrderItems;
@@ -35,9 +35,9 @@ public class MarketTest extends TestCase{
         person3 = new PersonAgent("Person3");
         restaurantCook = new MockCook("MockCook");
         Market mkt1 = new Market();
-        marketMgr = new MarketManager("MarketManager", person, mkt1);
+        marketMgr = new MarketManagerRole("MarketManager", person, mkt1);
         mkt1.setManager(marketMgr);
-        marketWorker = new MarketWorker(person2);
+        marketWorker = new MarketWorkerRole(person2);
         marketCustomer = new MarketCustomerRole("Person3", person3);
         testOrderItems = new ArrayList<OrderItem>();
       

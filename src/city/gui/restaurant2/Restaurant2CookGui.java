@@ -10,6 +10,15 @@ import city.gui.Gui;
 
 public class Restaurant2CookGui implements Gui{
 	
+	ImageIcon icon1 = new ImageIcon("images/cook1.png");
+	ImageIcon icon2 = new ImageIcon("images/cook2.png");
+	ImageIcon icon3 = new ImageIcon("images/cook3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10;
+	
+	ImageIcon icon = icon1;
+	
 	private int xDest;
 	private int yDest;
 	private int yPos;
@@ -41,6 +50,20 @@ public class Restaurant2CookGui implements Gui{
 	}
 
 	public void updatePosition() {
+		
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
+		if(xPos != xDest || yPos != yDest) {
+            if(movementCounter < iconSwitch)
+        		icon = icon1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = icon2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = icon3;
+        	else
+        		icon = icon2;
+    	} else icon = icon2;
+		
         if (xPos < xDest)
             xPos++;
         else if (xPos > xDest)
@@ -59,9 +82,7 @@ public class Restaurant2CookGui implements Gui{
 	public void draw(Graphics2D g) {
 		//g.drawImage(icon.getImage(), xPos, yPos, 25, 30, restaurant2panel);
         g.drawString("CHEF", xPos - 5, yPos - 5);
-        
-        g.setColor(Color.ORANGE);
-        g.fillRect(xPos, yPos, 25, 25);
+        g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
         
         if(foodCooking){
 			g.setColor(Color.PINK);

@@ -1,5 +1,7 @@
 package Role;
 
+import interfaces.MarketWorker;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -13,7 +15,7 @@ import city.gui.Market.MarketManagerGui;
 import city.gui.Market.MarketWorkerGui;
 import Role.Role;
 
-public class MarketWorker extends Role implements interfaces.MarketWorker {
+public class MarketWorkerRole extends Role implements MarketWorker {
 	
 	String roleName = "MarketWorkerRole";
 	
@@ -31,11 +33,11 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	public class PickableOrder {
 		
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
-		MarketManager recipientManager;
+		MarketManagerRole recipientManager;
 		public orderPickState state;
 		Hashtable<String, Boolean> itemPickStatus; // Tracks the pick status of individual items in the market
 		
-		PickableOrder(MarketOrder incomingOrder, MarketManager initialSender){
+		PickableOrder(MarketOrder incomingOrder, MarketManagerRole initialSender){
 			order = incomingOrder;
 			state = orderPickState.pending;
 			recipientManager = initialSender;
@@ -49,14 +51,14 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 		
 	}
 	
-	public MarketWorker(PersonAgent person){
+	public MarketWorkerRole(PersonAgent person){
 		p = person;
 		pickOrders = Collections.synchronizedList(new ArrayList<PickableOrder>());
 	}
 	
 	// Messages
-	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
-		//log("A new order to process...");
+	public void msgPrepareOrder(MarketOrder o, MarketManagerRole recipientManager){
+		log("I have a new order to process...");
 		//log("Current order size is:" + o.orders.size());
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);
 		pickOrders.add(newPickableOrder);
@@ -86,6 +88,7 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	
 	// Actions
 	private void pickSingleOrder(PickableOrder o){
+		log("Picking order");
 		o.state = orderPickState.picking;
 		for (OrderItem item : o.order.orders){
 			// Gui command to go to that item's specific location in the market "warehouse"/back stock room
@@ -97,7 +100,7 @@ public class MarketWorker extends Role implements interfaces.MarketWorker {
 	}
 	
 	private void returnCompletedOrder(PickableOrder o){
-		//log("Notifying manager a customer's order is done!");
+		log("Notifying manager a customer's order is done!");
 		o.recipientManager.msgOrderPicked(o.order);
 		pickOrders.remove(o);
 	}

@@ -9,7 +9,7 @@ public interface Cook4 {
 	
 	public abstract void msgPickedUpFood(Customer4 c);
 	
-	public void msgHereIsYourOrder(MarketOrder mo);
+	public void msgHereIsYourOrder(TruckAgent t, MarketOrder mo);
 	
 	
 	

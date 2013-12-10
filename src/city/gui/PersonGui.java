@@ -28,12 +28,15 @@ public class PersonGui implements Gui {
 	ImageIcon flat2 = new ImageIcon("images/person_flat2.png");
 	ImageIcon flat3 = new ImageIcon("images/person_flat3.png");
 	
+	ImageIcon deadIcon = new ImageIcon("images/blood.png");
+	
 	private int movementCounter = 0;
 	private final int iconSwitch = 10; //Rate at which icons switch during movement
 	
 	ImageIcon icon = new ImageIcon("images/person_up1.png");
 	
 	boolean moving = false; //Keeps track of whether gui is moving or staying in one place.
+	boolean dead = false;
 	
 	AnimationPanel animPanel;
 	
@@ -49,7 +52,10 @@ public class PersonGui implements Gui {
 	}
 	
 	@Override
-	public void updatePosition() {     
+	public void updatePosition() {    
+		if(dead) {
+			icon = deadIcon;
+		}
 		
         if(xPos == xDest && yPos == yDest && moving) {
         	agent.msgAtDestination();
@@ -160,5 +166,15 @@ public class PersonGui implements Gui {
 		
 	}
 	
+	public int getX() {
+		return xPos;
+	}
 	
+	public int getY() {
+		return yPos;
+	}
+	
+	public void die() {
+		dead = true;
+	}
 }

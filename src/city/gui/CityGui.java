@@ -45,10 +45,11 @@ import Role.BankRobberRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.MarketCustomerRole;
-import Role.MarketManager;
-import Role.MarketWorker;
+import Role.MarketManagerRole;
+import Role.MarketWorkerRole;
 import Role.Role;
 import astar.AStarTraversal;
+import astar.Position;
 import city.Restaurant2.Restaurant2;
 import city.gui.CityClock;
 import city.gui.restaurant4.AnimationPanel4;
@@ -67,12 +68,14 @@ import city.gui.restaurant2.Restaurant2CustomerGui;
 import city.gui.restaurant2.Restaurant2WaiterGui;
 import city.transportation.BusAgent;
 import city.transportation.CarAgent;
+import city.transportation.CrashCar;
 import city.transportation.TruckAgent;
 import city.transportation.Vehicle;
 import city.Restaurant3.*;
 import city.Restaurant4.CashierRole4;
 import city.Restaurant4.CookRole4;
 import city.Restaurant4.CustomerRole4;
+import city.Restaurant4.RegularWaiterRole4;
 import city.Restaurant4.SharedDataWaiterRole4;
 import city.Restaurant4.WaiterRole4;
 import city.Restaurant4.HostRole4;
@@ -95,6 +98,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 /**
  * Main GUI class.
@@ -109,8 +113,10 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	private static final int TIMER_INTERVAL = 30;
 	private Timer timer;
 
+	private java.util.Timer timer2 = new java.util.Timer(); //Separate timer for other uses
+
 	private CityClock masterClock;
-	
+
 	Restaurant5Gui rest5gui = new Restaurant5Gui();
 	BankGui bankgui = new BankGui();
 
@@ -327,9 +333,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void changeView(String building){
-		
+
 		controlPanel.changeBuildingControlPanel(building);
-		
+
 		if(building.equals("City")){
 			for(BuildingPanel bp : buildingPanels) {
 				bp.setVisible(false);
@@ -537,15 +543,60 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 
 		if(type.equals("crash")) {
-			/*CarAgent c = new CarAgent(aStarTraversal, controlPanel.getCityMap());
-			vehicles.add(c);
-			VehicleGui g = new VehicleGui(c);
-			c.setGui(g);
+			CrashCar car1 = new CrashCar(aStarTraversal, controlPanel.getCityMap(), 1);
+
+			vehicles.add(car1);
+			VehicleGui g = new VehicleGui(car1);
+			car1.setGui(g);
 			guis.add(g);
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
 
-			c.startThread();*/
+			car1.startThread();
+
+			CrashCar car2 = new CrashCar(aStarTraversal, controlPanel.getCityMap(), 2);
+
+			car2.setOtherCrashCar(car1);
+
+			vehicles.add(car2);
+			VehicleGui g2 = new VehicleGui(car2);
+			car2.setGui(g2);
+			guis.add(g2);
+			animationPanel.addGui(g2);
+			g2.setMainAnimationPanel(animationPanel);
+
+			car2.startThread();
+		}
+
+		if(type.equals("hitAndRun")) {
+			PersonAgent p = new PersonAgent("death", new AStarTraversal(controlPanel.getSidewalkGrid()), controlPanel.getCityMap(), null);
+
+			PersonGui pg = new PersonGui(p);
+			p.setGui(pg);
+			p.setClock(masterClock);
+			
+			animationPanel.addGui(pg);
+			guis.add(pg);
+
+
+			p.startThread();
+
+			final CrashCar car = new CrashCar(aStarTraversal, controlPanel.getCityMap(), 3);
+			car.setTarget(p);
+
+			timer2.schedule(new TimerTask() {
+				public void run() {
+
+					vehicles.add(car);
+					VehicleGui g = new VehicleGui(car);
+					car.setGui(g);
+					guis.add(g);
+					animationPanel.addGui(g);
+					g.setMainAnimationPanel(animationPanel);
+
+					car.startThread();
+				}
+			}, 10000	);
 		}
 	}   
 
@@ -786,42 +837,43 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 
 			} else if(job.contains("market") || job.contains("Market")) {
-				if(r instanceof MarketWorker){
-					
+				if(r instanceof MarketWorkerRole){
+
 					switch(workerMarketCounter) {
 					case 0: 
-						market1.addWorker((MarketWorker)r);
+						market1.addWorker((MarketWorkerRole)r);
 						p.addFirstJob(r, "mark1", 2);
 						break;
 					case 1: 
-						market2.addWorker((MarketWorker)r);
+						market2.addWorker((MarketWorkerRole)r);
 						p.addFirstJob(r, "mark2", 2);
 						break;
 					case 2: 
-						market3.addWorker((MarketWorker)r);
+						market3.addWorker((MarketWorkerRole)r);
 						p.addFirstJob(r, "mark3", 2);
 						break;
 					}
-					
+
 					workerMarketCounter = (workerMarketCounter + 1) % 3;
+					
 				}
-				else if(r instanceof MarketManager){
+				else if(r instanceof MarketManagerRole){
 					if(managerMarketCounter > 2) {
 						System.out.println("NO    (Already have 3 market managers...)");
 						return;
 					}
-					
+
 					switch(managerMarketCounter) {
 					case 0: 
-						market1.setManager((MarketManager)r);
+						market1.setManager((MarketManagerRole)r);
 						p.addFirstJob(r, "mark1", 1);
 						break;
 					case 1: 
-						market2.setManager((MarketManager)r);
+						market2.setManager((MarketManagerRole)r);
 						p.addFirstJob(r, "mark2", 1);
 						break;
 					case 2: 
-						market3.setManager((MarketManager)r);
+						market3.setManager((MarketManagerRole)r);
 						p.addFirstJob(r, "mark3", 1);
 						break;
 					}
@@ -953,8 +1005,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui.setPresent(false);
 			return role;
 		}
-		else if(type.equals("Restaurant4 Waiter")){
+		else if(type.equals("Restaurant4 SharedDataWaiter")){
 			WaiterRole4 role = new SharedDataWaiterRole4(p.getName(), p); 
+			WaiterGui4 gui = new WaiterGui4(role);
+			role.setGui(gui);
+			restaurant4.addGui(gui);
+			gui.setPresent(false);
+			return role;
+		}
+		else if(type.equals("Restaurant4 RegularWaiter")){
+			WaiterRole4 role = new RegularWaiterRole4(p.getName(), p); 
 			WaiterGui4 gui = new WaiterGui4(role);
 			role.setGui(gui);
 			restaurant4.addGui(gui);
@@ -986,7 +1046,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			MarketManager role = new MarketManager("Market ManagerJoe", p, market1);
+			MarketManagerRole role = new MarketManagerRole("Market ManagerJoe", p, market1);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
@@ -997,7 +1057,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		}
 		else if(type.equals("Market Worker")){
-			MarketWorker role = new MarketWorker(p);
+			MarketWorkerRole role = new MarketWorkerRole(p);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketWorkerGui gui1 = new MarketWorkerGui(role, mktGui);
@@ -1006,16 +1066,35 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui1.setPresent(false);
 			return role;
 		}
-		else if(type.equals("Market Customer")){
-			System.out.println("CREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMER");
-			MarketCustomerRole role = new MarketCustomerRole(p.getName(), p);
-			role.setPerson(p);
-			MarketGui mktGui = new MarketGui(); 
-			MarketCustomerGui gui2 = new MarketCustomerGui(role, mktGui);
-			role.setGui(gui2);
-			market1Animation.addGui(gui2);
-			gui2.setPresent(false);
-			return role;
+		else if(type.contains("Market Customer")){
+			if (type.contains("1")){
+				MarketCustomerRole role1 = new MarketCustomerRole(p.getName(), p);
+				role1.setPerson(p);
+				MarketGui mktGui = new MarketGui(); 
+				MarketCustomerGui gui2 = new MarketCustomerGui(role1, mktGui);
+				role1.setGui(gui2);
+				market1Animation.addGui(gui2);
+				gui2.setPresent(false);
+				return role1;
+			} else if (type.contains("2")){
+				MarketCustomerRole role2 = new MarketCustomerRole(p.getName(), p);
+				role2.setPerson(p);
+				MarketGui mktGui = new MarketGui(); 
+				MarketCustomerGui gui2 = new MarketCustomerGui(role2, mktGui);
+				role2.setGui(gui2);
+				market2Animation.addGui(gui2);
+				gui2.setPresent(false);
+				return role2;
+			} else {
+				MarketCustomerRole role3 = new MarketCustomerRole(p.getName(), p);
+				role3.setPerson(p);
+				MarketGui mktGui = new MarketGui(); 
+				MarketCustomerGui gui2 = new MarketCustomerGui(role3, mktGui);
+				role3.setGui(gui2);
+				market3Animation.addGui(gui2);
+				gui2.setPresent(false);
+				return role3;
+			}
 		}	
 		else if(type.equals("Restaurant5 Customer")){
 			Restaurant5CustomerRole role = new Restaurant5CustomerRole(p.getName(), p);
@@ -1046,7 +1125,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
 			return role;
 		} else if(type.equals("Bank Manager")){
-			System.out.println("!!!!!!!!!!!!  I'm in get role");
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
 			BankManagerRoleGui gui = new BankManagerRoleGui(role, bankgui);
@@ -1056,7 +1134,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		} else if(type.equals("Bank Teller")) {
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!! creating teller in  getnewrole()");
 			BankTellerRoleGui gui = new BankTellerRoleGui(role, bankgui);
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
