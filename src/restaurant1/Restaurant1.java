@@ -32,6 +32,10 @@ public class Restaurant1 {
 		return host;
 	}
 	
+	public Restaurant1CookRole getCook() {
+		return cook;
+	}
+	
 	public Restaurant1CustomerRole getNewCustomerRole(PersonAgent p){
 		customer = new Restaurant1CustomerRole(name, p);
 		return customer;

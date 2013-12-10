@@ -1186,4 +1186,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			bank1Panel.setVisible(true);
 		}
 	}
+	
+	public Restaurant1 getRest1() {
+		return cityMap.getRest1();
+	}
 }
