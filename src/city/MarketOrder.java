@@ -9,7 +9,7 @@ public class MarketOrder {
 	public List<OrderItem> orders = new ArrayList<OrderItem>();
 	public String destination;
 	Person recipient; //Should usually be a CookRole - may need to change later
-	double itemPrice = 0;
+	public double orderPrice = 0;
 
 	public MarketOrder(List<OrderItem> orders, String dest, Person p) {
 		this.orders = orders;

@@ -396,6 +396,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		} 
 		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1"))){
+
 			wallet = 40;
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
@@ -1053,12 +1054,31 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				if(r instanceof BankCustomerRole) {
+					//r.setActive();
+					//This is hack for non norm
+					//if(name.equals("bankCustomerTest1"))
+					//((BankCustomerRole) r).amountofcustomermoney = 40;
+					//This is hack for non norm
+					if(name.equals("bankCustomerTest1")) {
+						
+					((BankCustomerRole) r).amountofcustomermoney = 40;
+					((BankCustomerRole) r).bankaccountnumber = 1;
+					}
+					
+					if(name.equals("bankCustomerTest1")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 1;
+					}
+						
+				
 					r.setActive(wallet);
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();
 					task.location = bankName;
 					task.role = r.getRoleName();
 					//task.role = r;
+					
 					log("Set BankCustomerRole active");
 				}
 			}

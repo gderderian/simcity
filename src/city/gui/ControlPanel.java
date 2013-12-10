@@ -43,6 +43,12 @@ import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
+import city.PersonAgent;
+import city.account;
+import Role.BankTellerRole;
+import activityLog.ActivityPane;
+import astar.AStarTraversal;
+import city.Restaurant2.*;
 import city.Restaurant2.Restaurant2;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
@@ -350,6 +356,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         bank1Panel.add(new JLabel("Bank 1 Info/Options"));
         bank1Panel.setPreferredSize(buildingPanelDim);
         bank1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
     }
     
     private void setupWorldControls(){

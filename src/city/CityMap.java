@@ -44,7 +44,7 @@ public class CityMap {
 	Restaurant3 restaurant3;
 	Restaurant4 restaurant4;
 	Restaurant5 restaurant5;
-	Bank bank;
+	public Bank bank;
 	Market mark1;
 	Market mark2;
 	Market mark3;

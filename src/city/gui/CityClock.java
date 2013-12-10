@@ -14,7 +14,7 @@ public class CityClock {
 	int day;
 	int week;
 	boolean manualSet;
-	int cityTimeDelay = 179999;
+	int cityTimeDelay = 359998;
 	
 	public enum dayStates {morning, afternoon, night};
 	
@@ -40,7 +40,7 @@ public class CityClock {
 					System.out.println("Today is a new day: " + day + " - " + getDayOfWeek());
 					if (manualSet == true){
 						manualSet = false;
-						cityTimeDelay = 179999;
+						cityTimeDelay = 359998;
 					}
 		      }
 		});
@@ -53,15 +53,15 @@ public class CityClock {
 		week = 1;
 		
 		// Begin checker/notification timer to manually adjust day/night
-		checkTimer = new Timer(1875, // Messages to people in city fire every 2 seconds
+		checkTimer = new Timer(3750, // Messages to people in city fire every 2 seconds, was 1875
 				new ActionListener() { public void actionPerformed(ActionEvent event) {
 					// Message all people saying the current time is:
 					// System.currentTimeMillis() - beginTime
-					if (getCurrentTime() <= 59999){
+					if (getCurrentTime() <= 119998){ // Was 59999
 						dayState = dayStates.morning;
-					} else if (getCurrentTime() >= 60000 && getCurrentTime() <= 119999){
+					} else if (getCurrentTime() >= 120000 && getCurrentTime() <= 239998){ // Was 60000 and 119999
 						dayState = dayStates.afternoon;
-					} else  if (getCurrentTime() >= 120000){
+					} else  if (getCurrentTime() >= 240000){ // Was 120000
 						dayState = dayStates.night;
 					}
 					
@@ -72,8 +72,8 @@ public class CityClock {
 					}
 					*/
 					
-					//System.out.println("Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState() + "  - Delay is " + cityTime.getDelay());
-					//System.out.println("Human time is " + getHumanTime());
+					System.out.println("Time since start is " + getCurrentTime() + ", day is " + day + " (" + getDayOfWeek() + "), portion of day is " + getDayState() + "  - Delay is " + cityTime.getDelay());
+					System.out.println("Human time is " + getHumanTime());
 					String fullTimeToSend = getHumanTime() + "  -  " + getDayOfWeek() + "  -  Week " + week;
 					cityGui.timerTick(getCurrentTime(), getHourOfDayInHumanTime(), getMinuteOfDay(), getDayState(), getAmPm(), fullTimeToSend);
 					checkTimer.restart(); // Restarts every two seconds
@@ -137,7 +137,7 @@ public class CityClock {
 	
 	public long getHourOfDayInMilTime(long baseTime){ // You should normally pass in getCurrentTime() by default
 		long calcHour = baseTime * 1440;
-		long hourFinalCalc = calcHour / 179999;
+		long hourFinalCalc = calcHour / 359998; // Was 179999
 		return hourFinalCalc / 60;
 	}
 	
@@ -148,13 +148,13 @@ public class CityClock {
 	
 	public long getMinuteOfDay(long baseTime){ // You should normally pass in getCurrentTime() by default
 		long calcMinute = baseTime * 1440;
-		long minuteFinalCalc = calcMinute / 179999;
+		long minuteFinalCalc = calcMinute / 359998;
 		return minuteFinalCalc % 60;
 	}
 	
 	public long getMinuteOfDay(){ // You should normally pass in getCurrentTime() by default
 		long calcMinute = getCurrentTime() * 1440;
-		long minuteFinalCalc = calcMinute / 179999;
+		long minuteFinalCalc = calcMinute / 359998;
 		return minuteFinalCalc % 60;
 	}
 	
@@ -206,14 +206,14 @@ public class CityClock {
 		}
 		
 		// Calculate hours in total day timer
-		int calcDayHours = 179999 * hour;
+		int calcDayHours = 359998 * hour; // Was 179999
 		int totalDayHours = calcDayHours / 24;
 		
 		//System.out.println("Newly set hours: " + totalDayHours);
 		
 		// Calculate minutes in total day timer
-		int calcDayMinutes = 60 * minute;
-		int totalDayMinutes = calcDayMinutes / 7500;
+		int calcDayMinutes = 59 * minute;
+		int totalDayMinutes = calcDayMinutes / 59;
 		
 		//System.out.println("Newly set minutes: " + totalDayMinutes);
 		
@@ -221,11 +221,11 @@ public class CityClock {
 		
 		//System.out.println("Newly set total: " + finalTimerSet);
 		
-		if (finalTimerSet <= 59999){
+		if (getCurrentTime() <= 119998){ // Was 59999
 			dayState = dayStates.morning;
-		} else if (getCurrentTime() >= 60000 && getCurrentTime() <= 119999){
+		} else if (getCurrentTime() >= 120000 && getCurrentTime() <= 239998){ // Was 60000 and 119999
 			dayState = dayStates.afternoon;
-		} else  if (getCurrentTime() >= 120000){
+		} else  if (getCurrentTime() >= 240000){ // Was 120000
 			dayState = dayStates.night;
 		}
 		
@@ -233,13 +233,13 @@ public class CityClock {
 		
 		cityTime.stop();
 		
-		cityTime.setInitialDelay(179999 - finalTimerSet);
+		cityTime.setInitialDelay(359998 - finalTimerSet); // Was 179999
 		manualSet = true;
 		//System.out.println("Time delay: " + cityTime.getDelay() + " - New begin: " + finalTimerSet);
 		cityTime.start();
 		//beginTime = System.currentTimeMillis();
 		checkTimer.stop();
-		checkTimer.setInitialDelay(1875);
+		checkTimer.setInitialDelay(3750); // Was 1875
 		checkTimer.start();
 		
 		//System.out.println("Newly set time: " + getHumanTime());
