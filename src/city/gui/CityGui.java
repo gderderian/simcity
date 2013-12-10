@@ -492,7 +492,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			g.setMainAnimationPanel(animationPanel);
 			
 			if(true) { //HACK - change this to add new trucks to different markets.
-				market1.addTruck(newTruck);
+				market1.getMarketManager().setTruck(newTruck);
 				newTruck.setMarketManager(market1.getMarketManager());
 			}
 			
@@ -500,7 +500,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		}
 		
 		if(type.equals("crash")) {
-			CarAgent c = new CarAgent(aStarTraversal, controlPanel.getCityMap());
+			/*CarAgent c = new CarAgent(aStarTraversal, controlPanel.getCityMap());
 			vehicles.add(c);
 			VehicleGui g = new VehicleGui(c);
 			c.setGui(g);
@@ -508,8 +508,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			animationPanel.addGui(g);
 			g.setMainAnimationPanel(animationPanel);
 			
-			c.startThread();
-			c.msgCrashIntoSomething();
+			c.startThread();*/
 		}
 	}   
 	
