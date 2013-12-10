@@ -3,6 +3,8 @@ package city;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import city.PersonTask.TaskType;
+
 public class PersonSchedule {
 	
 	// This hashmap maps an integer between 1 and 7 (representing each day of the week) to a list of events they do on that day
@@ -54,6 +56,19 @@ public class PersonSchedule {
 		dayTasks.clear();
 		weeklySchedule.put(dayOfWeekEnding, dayTasks);
 		weeklySchedule.put(dayOfWeekEnding + 1, tomorrowTasks);
+	}
+	
+	public boolean isTaskAlreadyScheduled(TaskType type, int dayOfWeek){
+		ArrayList<PersonTask> dayTasks = weeklySchedule.get(dayOfWeek);
+		synchronized(dayTasks){
+			for(PersonTask task : dayTasks){
+				if(task.type == type){
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 }
