@@ -802,11 +802,11 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 						p.addFirstJob(r, "mark1");
 						break;
 					case 1: 
-						market1.setManager((MarketManager)r);
+						market2.setManager((MarketManager)r);
 						p.addFirstJob(r, "mark2");
 						break;
 					case 2: 
-						market1.setManager((MarketManager)r);
+						market3.setManager((MarketManager)r);
 						p.addFirstJob(r, "mark3");
 						break;
 					}
