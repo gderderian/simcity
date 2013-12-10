@@ -7,12 +7,23 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import javax.swing.ImageIcon;
+
 import city.gui.CityGui;
 import city.gui.Gui;
 
 public class Restaurant2WaiterGui implements Gui{
 	
 	private Restaurant2Waiter agent = null;
+	
+	ImageIcon icon1 = new ImageIcon("images/waiter1.png");
+	ImageIcon icon2 = new ImageIcon("images/waiter2.png");
+	ImageIcon icon3 = new ImageIcon("images/waiter3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10;
+	
+	ImageIcon icon = icon1;
 
     private int xPos = 0;
     private int yPos = 0;//default waiter position
@@ -78,6 +89,21 @@ public class Restaurant2WaiterGui implements Gui{
     }
 
     public void updatePosition() {
+    	
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = icon1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = icon2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = icon3;
+        	else
+        		icon = icon2;
+    	}
+		else icon = icon2;
+    	
         if (xPos < xDestination)
             xPos ++;
         else if (xPos > xDestination)
@@ -113,9 +139,7 @@ public class Restaurant2WaiterGui implements Gui{
     }
 
     public void draw(Graphics2D g) {
-    	//System.out.println(agent.getName() + ", " + xPos + ", " + yPos + "Dest: " + xDestination + ", " + yDestination);
-        g.setColor(Color.MAGENTA);
-        g.fillRect(xPos, yPos, 20, 20);
+    	g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 16));
         g.drawString(name, xPos, yPos);

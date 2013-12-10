@@ -42,7 +42,6 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankManagerRole;
-import Role.MarketManager;
 
 
 public class PersonAgent extends Agent implements Person{
@@ -890,7 +889,7 @@ public class PersonAgent extends Agent implements Person{
 		if(task.location != null && task.location.contains("rest") && task.type == TaskType.gotHungry){
 			String[] restNum = task.location.split("rest");
 			if(role != null){
-				isOpen= cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
+				isOpen = cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
 				if(isOpen){
 					role.getGui().setPresent(true);
 				} else{
@@ -1052,6 +1051,10 @@ public class PersonAgent extends Agent implements Person{
 			house.boughtGroceries(groceries);
 			house.checkFridge("Chicken");
 		}
+		else if(name.contains("rest") && name.contains("Test")){
+			//These are restaurant tests
+			goToRestaurant(task);
+		}
 		//Else if they don't have to go to work, they will go to a restaurant
 		else{
 			int y = rand.nextInt(2);
@@ -1109,15 +1112,6 @@ public class PersonAgent extends Agent implements Person{
 			//This is walking
 			DoGoTo(bankName, task);
 		}
-		//Moved this to arrived at destination function
-		//log.add(new LoggedEvent("Decided to go to the bank"));
-		//cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-		//((BankCustomerRole)role).setGuiActive();		
-		//}
-		synchronized(bankEvents){
-			//TODO finish this
-			//bank = cityMap.getClosestBank();
-		}
 	}
 
 	public void goToRestaurant(PersonTask task){
@@ -1138,30 +1132,6 @@ public class PersonAgent extends Agent implements Person{
 			else{
 				DoGoTo(task.location, task);
 			}
-			/*
-			if(name.equals("rest5Test")){
-				print("Going to go to a restaurant 5");
-				String restName = null;
-				Role role = null;
-				synchronized(roles){
-					for(Role r : roles){
-						if(r instanceof Restaurant5CustomerRole) {
-							r.setActive();
-							role = (Restaurant5CustomerRole) r;
-							restName = role.getBuilding();
-							restName = "rest5";
-							log.add(new LoggedEvent("Decided to go to a restaurant5"));
-	                        ((Restaurant5CustomerRole) role).setHost(cityMap.restaurant5.getHost());
-	                        ((Restaurant5CustomerRole) role).setCashier(cityMap.restaurant5.getCashier());
-	                        if(task.transportation == Transportation.walking) {
-	        					reachedDestination(task);
-	        				}
-	                        log("Set CustomerRole5 active");
-						}
-					}
-				}
-			}
-			 */
 
 		}
 		else{
