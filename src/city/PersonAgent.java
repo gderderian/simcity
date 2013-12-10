@@ -809,8 +809,7 @@ public class PersonAgent extends Agent implements Person{
 					location = house.getName();
 				}
 				
-				DoGoTo(location, null);
-				house.getAnimationPanel().addGui(homeGui);
+				DoGoTo(location, new PersonTask(TaskType.goHome));
 				//homeGui.goToBed();
 			}	
 			atHome= true;
@@ -896,6 +895,10 @@ public class PersonAgent extends Agent implements Person{
 				role.getGui().setPresent(true);
 				log("Time to work");
 			}
+		}
+		else if(task.type == TaskType.goHome) {
+			house.getAnimationPanel().addGui(homeGui);
+			tasks.remove(task);
 		}
 		
 		tasks.remove(task);
@@ -1398,8 +1401,8 @@ public class PersonAgent extends Agent implements Person{
 		int myX = currentPosition.getX();
 		int myY = currentPosition.getY();
 		
-		if((Math.abs(myX - x) > 20) || Math.abs(myY - y) > 17) {
-			if(!(x > 16 && myX > 16) && !(x < 5 && myX < 5) && !(y < 5 && myY < 5) && !(y > 13 && myY > 13)){	// || name.equals("BusTest")
+		if((Math.abs(myX - x) > 15) || Math.abs(myY - y) > 12) {
+			if(!(x > 18 && myX > 18) && !(x < 3 && myX < 3) && !(y < 3 && myY < 3) && !(y > 15 && myY > 15)){	// || name.equals("BusTest")
 				if(task != null){
 					task.transportation = Transportation.bus;
 				}
