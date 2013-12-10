@@ -46,7 +46,7 @@ public class LandlordTest extends TestCase {
 		
 		
 		//Part 1, this tells the landlord it is time to collect rent from the tenants
-		landlord.msgEndOfDay();
+		landlord.msgCollectRent();
 		landlord.pickAndExecuteAnAction(); //need to call this because landlord is not threaded, it won't happen on its own
 		
 		//Postconditions for part 1, preconditions for part 2
@@ -151,7 +151,7 @@ public class LandlordTest extends TestCase {
 		
 		
 		//Part 1, alert the landlord rent is due for all tenants
-		landlord.msgEndOfDay();
+		landlord.msgCollectRent();
 		
 		//Check postconditions for part 1 and preconditions for part 2
 		assertTrue(
