@@ -909,12 +909,19 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		boolean isOpen;
 		//This is if the person is going to the restaurant to eat
 		if(task.location != null && task.location.contains("rest") && task.type == TaskType.gotHungry){
 			String[] restNum = task.location.split("rest");
 			if(role != null){
-				cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
-				role.getGui().setPresent(true);
+				isOpen= cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
+				if(isOpen){
+					role.getGui().setPresent(true);
+				} else{
+					role.setInactive();
+					log("Oh no, the restaurant I want to go to is closed today!");
+				}
+					
 			}
 			else{
 				log("Looks like I don't have a role for this task. I can't go into the building.");
@@ -924,12 +931,15 @@ public class PersonAgent extends Agent implements Person{
 			System.out.println("Starting job in 735 of personagent");
 			myJob.startJob();
 		}
-
+ 
 		else if(task.type == TaskType.goToBank){
 			log.add(new LoggedEvent("Decided to go to the bank"));
 			if(role != null){
-				cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
-				((BankCustomerRole)role).setGuiActive();
+				if(cityMap.isBankOpen()){
+					cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+					((BankCustomerRole)role).setGuiActive();
+					isOpen= true;
+				}
 			}
 			else{
 				log("Couldn't find the role for task " + task.type.toString());
