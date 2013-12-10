@@ -357,6 +357,12 @@ public class PersonAgent extends Agent implements Person{
 	//TODO fix this
 	public void msgTimeUpdate(int t, int hour, long minute, String am_pm){
 		
+		//if it's the last hour in the day, the tasks in the schedule for the day get transferred over to the next day
+		if(hour == 23 && hour != currentHour){
+			currentHour = hour;
+			schedule.transferTodaysTasksToTomorrow(clock.getDayOfWeekNum());
+		}
+		
 		//if(hour == 1 && (currentHour != hour)){
 		//	currentHour = hour;
 		if(hour == 1 && minute < 15 && am_pm.equals("am")){
