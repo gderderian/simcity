@@ -1,6 +1,7 @@
 package city.transportation;
 
 import java.awt.Graphics2D;
+import java.util.Vector;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
@@ -17,7 +18,9 @@ public class CrashCar implements Gui {
 	Position currentPosition;
 	Semaphore[][] grid;
 
-	boolean collision;
+	boolean collision = false;
+	
+	Vector<Gui> targets;
 	
 	private int xDest;
 	private int yDest;
@@ -39,9 +42,11 @@ public class CrashCar implements Gui {
 
 	AnimationPanel animPanel;
 
-	public CrashCar(AStarTraversal a){
+	public CrashCar(AStarTraversal a, Vector<Gui> guis){
 		aStar = a;
 		grid = a.getGrid();
+		
+		targets = guis;
 
 		xPos = 450;
 		yPos = 390;
@@ -89,6 +94,7 @@ public class CrashCar implements Gui {
 	}
 
 	private void drive() {
+		int x, y;
 		
 	}
 
