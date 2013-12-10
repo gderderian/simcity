@@ -45,7 +45,8 @@ public class CarAgent extends Vehicle implements Car {
 
 
 		currentPosition = new Position(11, 11);
-		currentPosition.moveInto(aStar.getGrid());
+		if(aStar != null && !type.equals("crash"))
+			currentPosition.moveInto(aStar.getGrid());
 	}
 
 	//Messages
@@ -72,23 +73,12 @@ public class CarAgent extends Vehicle implements Car {
 		stateChanged();
 	}
 
-	//This message is for the non-norm car-crash case
-	public void msgCrashIntoSomething() {
-		crash = true;
-		stateChanged();
-	}
-
 	public void msgGuiFinished() {
 		guiFinished.release();
 	}
 
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
-		if(crash) {
-			log("TIME TO CRASH INTO SOMETHING!");
-			driveDestructionPath();
-			return true;
-		}
 		if(state == CarState.parked && event == CarEvent.drivingToOwner) {
 			state = CarState.driving;
 			driveToOwner();
@@ -194,47 +184,6 @@ public class CarAgent extends Vehicle implements Car {
 		gui.setInvisible();
 
 		event = CarEvent.none;
-	}
-
-	private void driveDestructionPath() {
-		destructionPath = (destructionPath + 1) % 8;
-		
-		gui.setVisible();
-
-		switch(destructionPath) {
-		case 0:
-			guiMoveFromCurrentPositionTo(new Position(17, 8));
-			break;
-		
-		case 1:
-			guiMoveFromCurrentPositionTo(new Position(17, 14));
-			break;
-			
-		case 2: 
-			guiMoveFromCurrentPositionTo(new Position(8, 14));
-			break;
-		
-		case 3:
-			guiMoveFromCurrentPositionTo(new Position(4, 14));
-			break;
-			
-		case 4:
-			guiMoveFromCurrentPositionTo(new Position(4, 4));
-			break;
-			
-		case 5:
-			guiMoveFromCurrentPositionTo(new Position(10, 4));
-			break;
-
-		case 6:
-			guiMoveFromCurrentPositionTo(new Position(17, 4));
-			break;
-			
-		case 7: 
-			guiMoveFromCurrentPositionTo(new Position(4, 9));
-			break;
-		}
-	
 	}
 
 	private void log(String msg){

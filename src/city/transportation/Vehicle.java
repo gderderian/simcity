@@ -71,7 +71,6 @@ public abstract class Vehicle extends Agent {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			print("Trying to find a path again!");
 			aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
 		}

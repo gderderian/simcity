@@ -773,6 +773,7 @@ public class PersonAgent extends Agent implements Person{
 				else{
 					location = house.getName();
 				}
+				
 				DoGoTo(location, null);
 				house.getAnimationPanel().addGui(homeGui);
 				//homeGui.goToBed();
