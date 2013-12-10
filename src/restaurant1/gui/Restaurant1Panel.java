@@ -5,8 +5,10 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,6 +22,8 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 
     private ControlPanel cp;
     
+    private JLabel title;
+    
     private JButton normalWaiter;
     private JButton sharedDataWaiter;
     
@@ -29,9 +33,12 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	this.cp = cp;
 
     	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    	setAlignmentX(CENTER_ALIGNMENT);
     	
-        add(new JLabel("Restaurant 1"));
+        title = new JLabel("Restaurant 1");
+        title.setAlignmentX(CENTER_ALIGNMENT);
+        add(title);
+        
+    	add(Box.createVerticalStrut(10));
     	
     	normalWaiter = new JButton("Add normal waiter");
     	sharedDataWaiter = new JButton("Add shared data waiter");
@@ -39,12 +46,20 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	depleteInventory = new JButton("Deplete inventory");
     	
     	normalWaiter.addActionListener(this);
+    	normalWaiter.setAlignmentX(CENTER_ALIGNMENT);
     	sharedDataWaiter.addActionListener(this);
+    	sharedDataWaiter.setAlignmentX(CENTER_ALIGNMENT);
     	depleteInventory.addActionListener(this);
+    	depleteInventory.setAlignmentX(CENTER_ALIGNMENT);
     	
     	add(normalWaiter);
+    	add(Box.createVerticalStrut(20));
     	add(sharedDataWaiter);
+    	add(Box.createVerticalStrut(20));
     	add(depleteInventory);
+    	add(Box.createVerticalStrut(20));
+    	
+    	
     }
 
 	@Override

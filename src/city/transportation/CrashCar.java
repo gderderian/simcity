@@ -53,7 +53,6 @@ public class CrashCar implements Gui {
 	@Override
 	public void updatePosition() {
 		if(xPos == xDest && yPos == yDest && moving) {
-			v.msgGuiFinished();
 			moving = false;
 			return;
 		}
