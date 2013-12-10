@@ -32,7 +32,7 @@ public class CookRole4 extends Role implements Cook4 {
 	MarketManager market;
 	SharedOrders4 sharedOrders;
 	public enum orderState {none, pending, cooking, outOfItem, done, finished};
-	public enum marketState{none, checkForRestock, ready, ordered, fulfilled, partiallyFullfilled, allMarketsOut};
+	public enum marketState{none, checkForRestock, ready, ordered, fulfilled, partiallyFullfilled, allMarketsOut, inventoryZero};
 	static final int eggTime= 2500;
 	static final int waffelTime= 2200;
 	static final int pancakeTime= 2000;
@@ -110,20 +110,18 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 	}
 	
-	public void msgHereIsYourOrder(MarketOrder mo){ 
+	public void msgHereIsYourOrder(TruckAgent t, MarketOrder mo){ 
+		log("recieved order from truck, processin' time y'all");
 		List<OrderItem> order = mo.getOrders();
 		for(int i=0; i<order.size(); i++){
-			if(order.get(i).type.equals("Eggs")){
-				log("ADDING " + order.get(i) + " EGGS");
+			log("Order name: " + order.get(i).name);
+			if(order.get(i).name.equals("Eggs")){
 				delivery.put("Eggs", order.get(i).quantity);
-			} else if (order.get(i).type.equals("Waffels")){
-				log("ADDING " + order.get(i) + " WAFFELS");
+			} else if (order.get(i).name.equals("Waffels")){
 				delivery.put("Waffels", order.get(i).quantity);
-			} else if(order.get(i).type.equals("Pancakes")){
-				log("ADDING " + order.get(i) + " PANCAKES");
+			} else if(order.get(i).name.equals("Pancakes")){
 				delivery.put("Pancakes", order.get(i).quantity);
-			} else if(order.get(i).type.equals("Bacon")){
-				log("ADDING " + order.get(i) + " BACON");
+			} else if(order.get(i).name.equals("Bacon")){
 				delivery.put("Bacon", order.get(i).quantity);
 			}
 		}
@@ -137,7 +135,7 @@ public class CookRole4 extends Role implements Cook4 {
 		for(Food f : foods){
 			f.setAmount(0);
 		}
-		o.ms= marketState.checkForRestock;
+		o.ms= marketState.inventoryZero;
 		p.stateChanged();
 	}
 	
@@ -171,7 +169,7 @@ public class CookRole4 extends Role implements Cook4 {
 				}
 			}
 		}
-		if(o.ms == marketState.checkForRestock){
+		if(o.ms == marketState.checkForRestock || o.ms == marketState.inventoryZero){
 			log("Looking through inventory to calcualte order to send to market");
 			calculateOrder();
 			return true;
@@ -226,7 +224,9 @@ public class CookRole4 extends Role implements Cook4 {
 				if(food.getAmount() == 0){
 					o.w.msgOutOfFood(food.type, o.c);
 					o.s= orderState.outOfItem;
-					this.o.ms= marketState.checkForRestock;
+					if(this.o.ms != marketState.ordered ){
+						this.o.ms= marketState.checkForRestock;
+					}
 					p.stateChanged();
 					return;
 				}
@@ -299,6 +299,7 @@ public class CookRole4 extends Role implements Cook4 {
 				}
 			}
 		}
+		o.ms= marketState.ready;
 		log("I WANT " + o.eggs + " EGGS, " + o.waffels + " WAFFELS " + o.pancakes + " PANCAKES + " + o.bacon + " BACON");
 	}
 	

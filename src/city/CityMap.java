@@ -410,16 +410,17 @@ public class CityMap {
 	}
 	
 	public boolean msgMarketHereIsTruckOrder(int num, MarketOrder o){
+		//Mark 2 & 3 are not fully employed so for now all orders go through mark 1
 		if((num == 1 || num == 5) && mark1.getMarketManager() != null){
 			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}
-		else if((num == 3 || num == 4) && mark3.getMarketManager() != null){
+		else if((num == 3 || num == 4) && mark1.getMarketManager() != null){
 			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}
-		else if(num == 2 && mark2.getMarketManager() != null){
-			mark2.getMarketManager().msgHereIsTruckOrder(o);
+		else if(num == 2 && mark1.getMarketManager() != null){
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}
 		return false;
