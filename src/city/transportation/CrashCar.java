@@ -95,6 +95,8 @@ public class CrashCar implements Gui {
 
 	private void drive() {
 		int x, y;
+		x = currentPosition.getX();
+		y = currentPosition.getY();
 		
 	}
 

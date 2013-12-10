@@ -8,6 +8,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -46,13 +47,11 @@ import city.Market;
 import city.PersonAgent;
 import city.account;
 import Role.BankTellerRole;
-import activityLog.ActivityPane;
-import astar.AStarTraversal;
 import city.Restaurant2.*;
-import city.Restaurant2.Restaurant2;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
+import city.gui.restaurant2.Restaurant2InfoPanel;
 import city.transportation.BusStopAgent;
 import city.transportation.CarAgent;
 
@@ -80,8 +79,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     /*Building panels*/
     private JPanel buildingInfoPanel = new JPanel();
     List<JPanel> buildingPanels = Collections.synchronizedList(new ArrayList<JPanel>());
+    private JPanel restaurant2Panel = new Restaurant2InfoPanel();
 	private JPanel restaurant1Panel = new Restaurant1Panel(this);
-    private JPanel restaurant2Panel = new JPanel();
 	private JPanel restaurant3Panel = new JPanel();
 	private JPanel restaurant4Panel = new JPanel();
 	private JPanel restaurant5Panel = new JPanel();
@@ -169,6 +168,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     //Set up rest4 components
     JButton closeRest4;
+    JButton emptyInventory4;
     
     CityGui cityGui;
 
@@ -221,10 +221,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public void addRest1ToCityMap(Restaurant1 r) {
     	cityMap.setRestaurant1(r);
-    }
-    
-    public void addRest2ToCityMap(Restaurant2 r){
-        cityMap.setRestaurant2(r);
     }
     
     public void addRest3ToCityMap(Restaurant3 r){
@@ -285,7 +281,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         /*Functions for setting up different building Panels*/
         setupRestaurant1Panel();
-        setupRestaurant2Panel();
+        //setupRestaurant2Panel();
         setupRestaurant3Panel();
         setupRestaurant4Panel();
         setupRestaurant5Panel();
@@ -306,12 +302,13 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
+    /*
     private void setupRestaurant2Panel(){
         restaurant2Panel.add(new JLabel("Restaurant 2 Info/Options"));
         restaurant2Panel.setPreferredSize(buildingPanelDim);
         restaurant2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
-    
+    */
     private void setupRestaurant3Panel(){
         restaurant3Panel.add(new JLabel("Restaurant 3 Info/Options"));
         restaurant3Panel.setPreferredSize(buildingPanelDim);
@@ -322,10 +319,15 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant4Panel.add(new JLabel("Restaurant 4 Info/Options"));
         restaurant4Panel.setPreferredSize(buildingPanelDim);
         restaurant4Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        restaurant4Panel.setLayout(new GridLayout(15,1));
         
         closeRest4= new JButton("Close Restaurant");
         closeRest4.addActionListener(this);
         restaurant4Panel.add(closeRest4);
+        
+        emptyInventory4= new JButton("Set Inventory to 0");
+        emptyInventory4.addActionListener(this);
+        restaurant4Panel.add(emptyInventory4);
     }
     
     private void setupRestaurant5Panel(){
@@ -589,7 +591,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 			// Coming soon
 		}
 		else if(e.getSource() == closeRest4){
+			if(cityMap.getRest4().isOpen()){
+				closeRest4.setText("Open Restaurant");
+			}
+			else{
+				closeRest4.setText("Close Restaurant");
+			}
 			cityMap.getRest4().close();
+		}
+		else if(e.getSource() == emptyInventory4){
+			cityMap.getRest4().emptyInventory();
 		}
 
 	}
@@ -801,10 +812,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[1][18].release(100); //apart2
 		sidewalkGrid[0][18].release(20); //these two lines open up spots if multiple people are leaving apartment
 		sidewalkGrid[2][18].release(20);
+		
 		sidewalkGrid[21][8].release(100); //stop0
+		sidewalkGrid[21][9].release(20);
+		
 		sidewalkGrid[11][0].release(100); //stop1
+		sidewalkGrid[10][0].release(20);
+		
 		sidewalkGrid[0][8].release(100); //stop2
-		sidewalkGrid[18][7].release(100); //stop3
+		sidewalkGrid[0][9].release(20);
+		
+		sidewalkGrid[7][18].release(100); //stop3
+		sidewalkGrid[8][18].release(20);
 
 		sidewalkGrid[20][18].release(100); //starting point for agents
 		sidewalkGrid[21][18].release(100);

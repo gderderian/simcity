@@ -8,6 +8,8 @@ import city.PersonAgent;
 
 public class Restaurant2 {
 	
+	static Restaurant2 instance = new Restaurant2();
+	
 	String name;
 	Restaurant2HostRole host;
 	Restaurant2CashierRole cashier;
@@ -15,8 +17,15 @@ public class Restaurant2 {
 	Restaurant2CustomerRole customer;
 	List<Restaurant2WaiterRole> waiters;
 	
+	private boolean isOpen;
+	
 	public Restaurant2(){
 		waiters = Collections.synchronizedList(new ArrayList<Restaurant2WaiterRole>());
+		isOpen = true;
+	}
+	
+	public static Restaurant2 getInstance(){
+		return instance;
 	}
 	
 	public void setHost(Restaurant2HostRole h){
@@ -24,6 +33,8 @@ public class Restaurant2 {
 	}
 	
 	public Restaurant2HostRole getHost(){
+		if(isOpen)
+			return null;
 		return host;
 	}
 	
@@ -45,6 +56,18 @@ public class Restaurant2 {
 	
 	public void setCashier(Restaurant2CashierRole c){
 		cashier = c;
+	}
+	
+	public void closeRestaurant(){
+		isOpen = false;
+	}
+	
+	public void openRestaurant(){
+		isOpen = true;
+	}
+	
+	public boolean isOpen(){
+		return isOpen;
 	}
 	
 }

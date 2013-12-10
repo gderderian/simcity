@@ -40,7 +40,7 @@ public class CityMap {
 	private Semaphore intersection = new Semaphore(1, true);
 	
 	Restaurant1 restaurant1;
-	Restaurant2 restaurant2;
+	Restaurant2 restaurant2 = Restaurant2.getInstance();
 	Restaurant3 restaurant3;
 	Restaurant4 restaurant4;
 	Restaurant5 restaurant5;
@@ -185,10 +185,6 @@ public class CityMap {
 	
 	public void setRestaurant1(Restaurant1 r) {
 		restaurant1 = r;
-	}
-	
-	public void setRestaurant2(Restaurant2 r){
-		restaurant2 = r;
 	}
 	
 	public void setRestaurant3(Restaurant3 r){
@@ -414,13 +410,12 @@ public class CityMap {
 	}
 	
 	public boolean msgMarketHereIsTruckOrder(int num, MarketOrder o){
-		// TODO change this to load balance the markets once they are all populated
 		if((num == 1 || num == 5) && mark1.getMarketManager() != null){
 			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}
 		else if((num == 3 || num == 4) && mark3.getMarketManager() != null){
-			mark3.getMarketManager().msgHereIsTruckOrder(o);
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}
 		else if(num == 2 && mark2.getMarketManager() != null){

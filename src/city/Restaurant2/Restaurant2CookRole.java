@@ -17,7 +17,7 @@ import java.util.concurrent.Semaphore;
 
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
-import city.Market;
+import city.CityMap;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
@@ -36,9 +36,9 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	String name;
 	List<ShipmentOrder> shipmentOrders = Collections.synchronizedList(new ArrayList<ShipmentOrder>());
 	enum ShipmentState {pending, sent, arrived, processed};
-	int marketNumber;
-	List<Market> markets = new ArrayList<Market>();
 	boolean startCheck;
+	
+	CityMap cityMap;
 	
 	String roleName = "Restaurant2CookRole";
 	
@@ -56,8 +56,9 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 		super();
 		building = "rest2";
 		
-		marketNumber = 0;
 		person = p;
+		
+		cityMap = p.getCityMap();
 		
 		name = n;
 		foods.put("Chicken", new Food("Chicken", 10, 3));
@@ -76,10 +77,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 					spindleTimer.restart();
 		      }
 		});
-	}
-	
-	public void addRestaurant2Market(Market m){
-		markets.add(m);
 	}
 	
 	public void setGui(Restaurant2CookGui g){
@@ -118,14 +115,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 		person.stateChanged();
 	}
 	
-	public void msgOutOfAllFood(Market m){
-		for(Market ma : markets){
-			if(ma == m){
-				markets.remove(ma);
-			}
-		}
-	}
-	
 	public void msgGotFood(){
 		cookGui.setFoodDone(false);
 	}
@@ -153,7 +142,7 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 				}
 			}
 		}
-		try{
+		synchronized(shipmentOrders){
 			for(ShipmentOrder s : shipmentOrders){
 				if(s.ss == ShipmentState.pending){
 					sendShipmentOrder(s);
@@ -161,9 +150,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 					return true;
 				}
 			}
-		}
-		catch(ConcurrentModificationException e){
-			return true;
 		}
 		try{
 			for(ShipmentOrder s : shipmentOrders){
@@ -233,9 +219,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	}
 	
 	private void checkInventory() {
-		if(markets.isEmpty()){
-			return;
-		}
 		MarketOrder newOrder = new MarketOrder("rest2", person);
 		for(Map.Entry<String, Food> e : foods.entrySet()){
 			if((e.getValue().inventory <= e.getValue().lowPoint) && e.getValue().os == FoodOrderState.notOrdered){
@@ -249,9 +232,6 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	}
 	
 	private void checkFood(Order o) {
-		//if(markets.isEmpty()){
-		//	o.w.msgOutOfFood();
-		//}
 		Food temp = foods.get(o.choice);
 		if(temp.inventory == 0){
 			o.setState(OrderState.sent);
@@ -268,15 +248,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	
 	//TODO change this to market order
 	private void sendShipmentOrder(ShipmentOrder s){
-		log("Sending shipment order to market " + (marketNumber + 1) + " of size " + s.order.orders.size());
-		Market m = markets.get(marketNumber);
-		m.mktManager.msgHereIsOrder(s.order);
-		if(marketNumber == (markets.size()-1)){
-			marketNumber = 0;
-		}
-		else{
-			marketNumber++;
-		}
+		log("Sending shipment order to market the market of size " + s.order.orders.size());
+		cityMap.msgMarketHereIsTruckOrder(2, s.order);
 	}
 	
 	private void recieveShipment(ShipmentOrder s){

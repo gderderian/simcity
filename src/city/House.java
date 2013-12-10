@@ -194,14 +194,14 @@ public class House implements HouseInterface{
 		public void addItem(Food f){
 			MyFood myFood;
 			if(food.containsKey(f.type)){
-				System.out.println("Adding an item I've had before to fridge...");
+				//System.out.println("Adding an item I've had before to fridge...");
 				myFood= food.get(f.type);
 				myFood.currentAmount += 1;
 				System.out.println("Current amount of " + myFood.food.type + ": " + myFood.currentAmount);
 				food.put(myFood.food.type, myFood);
 			}
 			else{
-				System.out.println("Adding a new item I've never had before to fridge...");
+				//System.out.println("Adding a new item I've never had before to fridge...");
 				myFood= new MyFood(f);
 				myFood.currentAmount += 1;
 				food.put(myFood.food.type, myFood);
