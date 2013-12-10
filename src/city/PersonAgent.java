@@ -73,6 +73,7 @@ public class PersonAgent extends Agent implements Person{
 	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	double takeHome; 		//some amount to take out of every paycheck and put in wallet
 	public double wallet;
+	public int bankaccountnumber;
 	double moneyToDeposit;
 
 	//Bank
@@ -135,7 +136,8 @@ public class PersonAgent extends Agent implements Person{
 			currentPosition = new Position(20, 18);
 		}
 
-		wallet = 1000;
+		wallet = 100;
+		bankaccountnumber = 0;
 		busRide = new BusRide(5);
 
 		if(aStar != null)
@@ -163,7 +165,8 @@ public class PersonAgent extends Agent implements Person{
 
 		name = n;
 
-		wallet = 1000;
+		wallet = 100;
+		bankaccountnumber = 0;
 		busRide = new BusRide(5);
 
 		//populate foods list -- need to make sure this matches up with market

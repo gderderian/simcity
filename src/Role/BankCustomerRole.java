@@ -45,10 +45,10 @@ public class BankCustomerRole extends Role{
         		building = "bank1";
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
-                bankaccountnumber = 1;//this should be 0
+                //bankaccountnumber = 1;//this should be 0
                 needloan = true;
                 //this is for testing purpose
-                this.amountofcustomermoney = 40; // this should not be set to anything
+                //this.amountofcustomermoney = 40; // this should not be set to anything
                 //this.person = setperson;
                 //this.name = setperson.getName();
                 //stateChanged();
@@ -458,7 +458,10 @@ public class BankCustomerRole extends Role{
         {
         	this.person = person;
         	this.name = person.getName();
-        	
+        	this.bankaccountnumber = person.bankaccountnumber;
+        	//this.bankaccountnumber = 1;
+        	this.amountofcustomermoney = person.wallet;
+        	this.amountofcustomermoney = 60;
         }
         
         public void setManager(BankManagerRole bankmanager)
