@@ -4,6 +4,7 @@ import interfaces.Bus;
 import interfaces.Car;
 import interfaces.HouseInterface;
 import interfaces.Landlord;
+import interfaces.MarketManager;
 import interfaces.Person;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import restaurant1.Restaurant1CookRole;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 import Role.BankCustomerRole;
+import Role.BankRobberRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.MarketCustomerRole;
@@ -412,22 +414,23 @@ public class PersonAgent extends Agent implements Person{
 			((BankManagerRole) myJob.role).msgEndOfTheDay();	
 		}
 		
-		if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+		//if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+				//|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+		if(hour == 6 && minute < 15 && am_pm.equals("am") && myJob == null){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.gotHungry);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I'm getting hungry.");
 			}
 		}
-		else if(hour == 6 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
+		else if(hour == 2 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I need to go to the bank");
 			}
 		} 
-		else if(hour == 6 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest1"))){
+		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest1"))){
 
 			wallet = 40;
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
@@ -437,6 +440,46 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 		}
+		
+		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest2"))){
+
+			wallet = 40;
+			bankaccountnumber = 2;
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to go to bank.");
+			}
+
+		}
+		
+		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest3"))){
+
+			wallet = 20;
+			bankaccountnumber = 3;
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to go to bank.");
+			}
+
+		}
+		
+		//bank robber
+		else if(hour == 3 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankRobber"))){
+
+			wallet = 40;
+			bankaccountnumber = 0;
+			if(!schedule.isTaskAlreadyScheduled(TaskType.robBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.robBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to rob a bank.");
+			}
+
+		}
+		
+		
+		
 		else if(hour == 7 && minute < 15 && (name.equals("marketClient"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
@@ -766,6 +809,19 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		
+		synchronized(tasks){
+			for(PersonTask t: tasks){
+				if(t.type == TaskType.robBank && t.state == State.initial) {
+					Do("I'm calling rob bank function");
+					robBank(t);
+					t.state = State.processing;
+					return true;
+				}
+			}
+		}
+		
+		
 		/*
 		synchronized(tasks){
 			boolean taskExists = false;
@@ -943,6 +999,28 @@ public class PersonAgent extends Agent implements Person{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
 		}
+		
+		else if(task.type == TaskType.robBank) {
+			log.add(new LoggedEvent("Decided to rob a bank"));
+			if(role != null){
+				if(cityMap.isBankOpen()){
+					
+					cityMap.bank.getBankManager().msgBankRobberArrived((BankRobberRole) role);
+					((BankRobberRole)role).setGuiActive();
+					isOpen= true;
+				} else{
+					role.setInactive();
+					log("Oh no, the bank I want to go to is closed today!");
+				}
+			}
+			else{
+				log("Couldn't find the role for task " + task.type.toString());
+			}
+			
+			
+			
+		}
+		
 		else if(task.type == TaskType.goToMarket){
 
 			log("I should give the market manager my order.");
@@ -1103,17 +1181,47 @@ public class PersonAgent extends Agent implements Person{
 		Role role = null;
 		synchronized(roles){
 			for(Role r : roles){
+				
+				/*
+				if(r instanceof BankRobberRole) {
+					r.setActive(wallet);
+					role = (BankRobberRole) r;
+					bankName = role.getBuilding();
+					task.location = bankName;
+					task.role = r.getRoleName();
+					//task.role = r;
+					
+					log("Set BankRobberrRole active");
+				}
+				*/
+				
 				if(r instanceof BankCustomerRole) {
 					//r.setActive();
 					//This is hack for non norm
 					//if(name.equals("bankCustomerTest1"))
 					//((BankCustomerRole) r).amountofcustomermoney = 40;
-					//This is hack for non norm
+					
+					//This is a hack for non norm
 					if(name.equals("bankCustomerTest1")) {
 						
 					((BankCustomerRole) r).amountofcustomermoney = 40;
 					((BankCustomerRole) r).bankaccountnumber = 1;
 					}
+					
+					//This is a hack for bank non-norm
+					if(name.equals("bankCustomerTest2")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 2;
+					
+					}
+					if(name.equals("bankCustomerTest3")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 3;
+					
+					}	
+					
 					r.setActive(wallet);
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();
@@ -1123,6 +1231,50 @@ public class PersonAgent extends Agent implements Person{
 					
 					log("Set BankCustomerRole active");
 				}
+				
+				
+				
+			}
+		}
+		if(car != null){	//Extremely hack-y TODO fix this
+			String destination = bankName;
+			takeCar(destination);
+			task.state = State.inTransit;
+		}
+		else{
+			//This is walking
+			DoGoTo(bankName, task);
+		}
+		//Moved this to arrived at destination function
+		//log.add(new LoggedEvent("Decided to go to the bank"));
+		//cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
+		//((BankCustomerRole)role).setGuiActive();		
+		//}
+		synchronized(bankEvents){
+			//TODO finish this
+			//bank = cityMap.getClosestBank();
+		}
+	}
+	
+	public void robBank(PersonTask task){
+		//if(name.equals("bankCustomerTest")){
+		print("Going to go to rob the bank");
+		String bankName = "bank1";
+		Role role = null;
+		synchronized(roles){
+			for(Role r : roles){
+				
+				if(r instanceof BankRobberRole) {
+					r.setActive(wallet);
+					role = (BankRobberRole) r;
+					bankName = role.getBuilding();
+					task.location = bankName;
+					task.role = r.getRoleName();
+					//task.role = r;
+					
+					log("Set BankRobberrRole active");
+				}
+		
 			}
 		}
 		if(car != null){	//Extremely hack-y TODO fix this
@@ -1135,11 +1287,40 @@ public class PersonAgent extends Agent implements Person{
 			DoGoTo(bankName, task);
 		}
 	}
+	
 
 	public void goToRestaurant(PersonTask task){
 		//Testing/scenario hacks
-
-		if(name.contains("rest")){	//if it's a restaurant test
+		if(name.equals("restTest")){
+			Random rand = new Random();
+			int num= rand.nextInt(5);
+			if(num == 0){
+				task.location= "rest1";
+				task.role = "Restaurant1CustomerRole";
+			} else if(num == 1){
+				task.location= "rest2";
+				task.role = "Restaurant2CustomerRole";
+			} else if(num == 2){
+				task.location= "rest3";
+				task.role = "Restaurant3CustomerRole";
+			} else if(num == 3){
+				task.location= "rest4";
+				task.role = "Restaurant4CustomerRole";
+			} else if(num == 4){
+				task.location= "rest5";
+				task.role = "Restaurant5CustomerRole";
+			}
+			
+			if(car != null){
+				print("Car is not empty!");
+				String destination = task.location;
+				takeCar(destination);
+			}
+			else{
+				DoGoTo(task.location, task);
+			}
+		}
+		else if(name.contains("rest")){	//if it's a restaurant test
 			String[] restNumTest = name.split("rest");
 			String[] restNum = restNumTest[1].split("Test");
 			String num = restNum[0];
@@ -1154,7 +1335,6 @@ public class PersonAgent extends Agent implements Person{
 			else{
 				DoGoTo(task.location, task);
 			}
-
 		}
 		else{
 			//Generalized function so we can get rid of the hacks
@@ -1194,23 +1374,59 @@ public class PersonAgent extends Agent implements Person{
 		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				if(b.landlord == house.getLandlord()){
-					if(wallet > b.amount){
-						log.add(new LoggedEvent("The bill I'm paying is my rent"));
-						house.getLandlord().msgHereIsMyRent(this, b.amount);
+				
+				if (b.landlord != null){ // Check for due rent
+					if(b.landlord == house.getLandlord()){
+						if(wallet > b.amount){
+							log.add(new LoggedEvent("The bill I'm paying is my rent"));
+							house.getLandlord().msgHereIsMyRent(this, b.amount);
+							wallet -= b.amount;
+							billsToPay.remove(b);
+							return;
+						}
+						else{
+							synchronized(tasks){
+								//tasks.add(new PersonTask(TaskType.goToBank));
+								//Eventually want to make this so there are different types of goToBank TaskTypes
+								//i.e. for this TaskType.goToBankWithdrawal or something
+								return;
+							}
+						}
+					}
+				}
+				
+				if (b.manager != null){ // Check for pending market bills	
+					if (myJob.role.getRoleName().contains("cook")){ // Is this bill a personal bill or a restaurant bill?
+						
+						// Send to active cook role
+						if (myJob.role.getRoleName().contains("1")){
+							
+						} else if (myJob.role.getRoleName().contains("2")){	
+							
+						} else if (myJob.role.getRoleName().contains("3")){
+							cityMap.getRest3().getCashier().msgPayMarket(b.amount, b.manager);
+						} else if (myJob.role.getRoleName().contains("4")){
+							
+						} else if (myJob.role.getRoleName().contains("5")){
+						
+						}
+						
+						// Above was previously implemented using ((CookRole3) myJob.role).msgHereIsMarketBill(b.amount, b.manager)
+						
+					} else if(wallet > b.amount){
+						// Pay myself because I made this order
+						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
+						b.manager.msgAcceptPayment(b.amount);
 						wallet -= b.amount;
 						billsToPay.remove(b);
 						return;
-					}
-					else{
+					} else{
 						synchronized(tasks){
-							//tasks.add(new PersonTask(TaskType.goToBank));
-							//Eventually want to make this so there are different types of goToBank TaskTypes
-							//i.e. for this TaskType.goToBankWithdrawal or something
 							return;
 						}
 					}
 				}
+				
 			}
 		}
 	}
@@ -1664,6 +1880,7 @@ public class PersonAgent extends Agent implements Person{
 		public double amount;
 		public Role payTo;
 		public Landlord landlord;
+		public MarketManager manager;
 
 		public Bill(String t, double a, Role r){
 			type = t;
@@ -1675,6 +1892,12 @@ public class PersonAgent extends Agent implements Person{
 			type = t;
 			amount = a;
 			landlord = l;
+		}
+
+		public Bill(String t, double orderPrice, MarketManager mktManager) {
+			type = t;
+			amount = orderPrice;
+			manager = mktManager;
 		}
 
 
@@ -1813,5 +2036,11 @@ public class PersonAgent extends Agent implements Person{
 		groceries.add(f);
 		house.boughtGroceries(groceries);
 	}
+
+	public void msgMarketBill(double orderPrice, MarketManager manager) {
+		log("The market just billed me for " + orderPrice + ".");
+		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
+	}
+
 
 }

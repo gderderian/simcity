@@ -35,6 +35,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import restaurant1.Restaurant1;
+import restaurant1.gui.Restaurant1AnimationPanel;
 import restaurant1.gui.Restaurant1Panel;
 import activityLog.ActivityPane;
 import astar.AStarTraversal;
@@ -396,7 +397,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     	// Add all to single panel
     	changeTime.setEnabled(false);
     	timeSelectionPanel.add(hourSelect);
-    	timeSelectionPanel.add(minuteSelect);
+    	//timeSelectionPanel.add(minuteSelect);
     	timeSelectionPanel.add(amPmSelect);
     	timeSelectionPanel.add(Box.createVerticalStrut(1));
     	timeSelectionPanel.add(changeTime);
@@ -992,6 +993,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public void runRestaurant1Test(){
 
 		addPerson("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
 
 	}
 
@@ -1009,7 +1013,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public void runRestaurant4Test(){
 
 		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
-		addPerson("rest4Test", "No job");
+		addPerson("restTest", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 	}
@@ -1027,9 +1031,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
 		//addPerson("bankCustomerTest", "No job");
-		addPerson("bankCustomerTest1", "No job");
-		
-		
+		//addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest1", "No job");
+		addPerson("bankCustomerTest2", "No job");
+		addPerson("bankCustomerTest3", "No job");
+		addPerson("bankRobber", "No job");
 	
 		//addPerson("bank teller", "Bank Teller");
 		//addPerson("bankCustomerTest", "No job");
@@ -1182,5 +1189,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 		if(building.equals("Bank1")){
 			bank1Panel.setVisible(true);
 		}
+	}
+	
+	public Restaurant1 getRest1() {
+		return cityMap.getRest1();
+	}
+
+	public Restaurant1AnimationPanel getRest1Animation() {
+		return cityGui.restaurant1;
 	}
 }

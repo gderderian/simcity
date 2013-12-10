@@ -8,14 +8,15 @@ import Role.BankCustomerRole.state;
 import city.PersonAgent;
 import city.gui.Gui;
 import city.gui.Bank.BankCustomerRoleGui;
+import city.gui.Bank.BankRobberRoleGui;
 
-public class BankRobberRole {
+public class BankRobberRole extends Role {
 
 	String roleName = "BankCustomerRole";
 
-    public enum state {arrived, waiting, inprogress, gotobankteller, leave};
+    public enum state {arrived, waiting, inprogress, gotobankteller, leave, gotobankchamber};
     public int bankaccountnumber;
-    state bankcustomerstate;
+    state bankrobberstate;
     BankTellerRole mybankteller;
     double deposit;
     double withdrawal;
@@ -24,10 +25,10 @@ public class BankRobberRole {
     public double amountofcustomermoney;
     int stationnumber;
     //public int customeraccountnumber;
-    public Semaphore atBankStation = new Semaphore(0,true);
+    public Semaphore atBankChamber = new Semaphore(0,true);
     public Semaphore atBankLobby = new Semaphore(0,true);
     
-    public BankCustomerRoleGui gui;
+    public BankRobberRoleGui gui;
     PersonAgent person;
     String name;
     BankManagerRole bankmanager;
@@ -36,8 +37,8 @@ public class BankRobberRole {
     
     public BankRobberRole(double setamountofcustomermoney)
     {
-    		String building = "bank1";
-            bankcustomerstate = state.arrived;
+    		building = "bank1";
+            bankrobberstate = state.arrived;
             this.amountofcustomermoney = setamountofcustomermoney;
             bankaccountnumber = 0;
     
@@ -48,15 +49,20 @@ public class BankRobberRole {
  
             mybankteller = assignbankteller;
             stationnumber = mybankteller.stationnumber;
-            bankcustomerstate = state.gotobankteller; 
+            bankrobberstate = state.gotobankteller; 
             person.stateChanged();      
     }
-    
+    public void msgGoToBankChamber()
+    {
+    		bankrobberstate = state.gotobankchamber;
+    		person.stateChanged();
+    	 	
+    }
     public void msgHereIsYourMoney(double stolenmoney)
     {
             
             amountofcustomermoney += stolenmoney;
-    		bankcustomerstate = state.leave;
+    		bankrobberstate = state.leave;
             person.stateChanged();
             
     }
@@ -66,24 +72,21 @@ public class BankRobberRole {
     public boolean pickAndExecuteAnAction() 
     {
     
-    	
-    		Do("!!!!!!!!!!!! I'm in Robber customer scheduler !!!!!!!");
-            
-    		if(bankcustomerstate == state.gotobankteller)
+    		if(bankrobberstate == state.gotobankchamber)
     		{
     			
-    				Do("I'm going to bank teller station");
-    				guiGoToBankTellerStation(stationnumber);
-    				bankcustomerstate = state.waiting;			
+    				Do("I'm going to bank chamber station");
+    				guiGoToBankChamber();
+    				bankrobberstate = state.inprogress;			
     				return true;
     		}
     	
     	
-            if(bankcustomerstate == state.leave)
+            if(bankrobberstate == state.leave)
             {
             		Do("i'm opening an account");
                     mybankteller.msgOpenAccount();
-                    bankcustomerstate = state.waiting;
+                    bankrobberstate = state.waiting;
                     guiLeaveBank();
                     return true;
             }
@@ -94,7 +97,7 @@ public class BankRobberRole {
     }
 
 
-    private void Do(String string) {
+    protected void Do(String string) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -105,7 +108,7 @@ public class BankRobberRole {
     	
     }
     
-    public void setGui(BankCustomerRoleGui setGui)
+    public void setGui(BankRobberRoleGui setGui)
     {
     	this.gui = setGui;
     }
@@ -126,11 +129,11 @@ public class BankRobberRole {
     	this.bankmanager = bankmanager;
     }
     
-    public void guiGoToBankTellerStation(int stationnumber)
+    public void guiGoToBankChamber()
 	{
-		gui.goToBankTellerStation(stationnumber);
+		gui.goToBankChamber();
     	try {
-			atBankStation.acquire();
+			atBankChamber.acquire();
 			//atLobby.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -159,6 +162,12 @@ public class BankRobberRole {
 
 	public String getRoleName() {
 		return roleName;
+	}
+
+	@Override
+	public PersonAgent getPerson() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

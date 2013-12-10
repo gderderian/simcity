@@ -22,6 +22,17 @@ public class MockMarketManager extends Mock implements MarketManager {
 	@Override
 	public void msgFinishedDelivery(MarketOrder o) {
 		log.add(new LoggedEvent("Truck has finished delivery"));
+	}
+
+	@Override
+	public String getMarketName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void msgAcceptPayment(double incomingPayment) {
+		// TODO Auto-generated method stub
 		
 	}
 

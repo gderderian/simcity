@@ -24,8 +24,8 @@ public class BankTellerRoleGui implements Gui{
 	public boolean denied;
 
     int initialxc = 200;
-    private int xcoordinatesofstations[] = new int [4];
-	private int ycoordinatesofstations[] = new int [4];
+    private int xcoordinatesofstations[] = new int [6];
+	private int ycoordinatesofstations[] = new int [6];
 	
 	private enum Command {noCommand, gotobanktellerstation, leavebank, arrived};
 	private Command command=Command.noCommand;
@@ -56,7 +56,7 @@ public class BankTellerRoleGui implements Gui{
         bankTellerOccupied = false;
         
        
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 6; i++)
 		{
 			xcoordinatesofstations[i] = initialxc;
 			ycoordinatesofstations[i] = 100;
@@ -106,7 +106,7 @@ public class BankTellerRoleGui implements Gui{
     public void draw(Graphics2D g) {
     	
     	if(command != Command.arrived)
-    	g.drawImage(icon.getImage(), xPos, yPos + 13, 50, 40, null);
+    	g.drawImage(icon.getImage(), xPos, yPos + 13, 40, 45, null);
     	if(command == Command.arrived)
     	g.drawImage(imgofbankteller, xPos, yPos + 13, 50, 40, gui);
     	

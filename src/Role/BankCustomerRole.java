@@ -269,9 +269,10 @@ public class BankCustomerRole extends Role{
         			{
         				this.failedwithdrawal /= 2;
         				log("Since my request for withdrawal failed. I'm requesting $" + this.failedwithdrawal);
-            			mybankteller.msgWithdrawFromAccount(amountofcustomermoney);
-        				bankcustomerstate = state.waiting;
+        				gui.withdraw = false;
         				gui.rewithdraw = true;
+        				mybankteller.msgWithdrawFromAccount(this.failedwithdrawal);
+        				bankcustomerstate = state.waiting;
         				return true;   		
         			
         			
@@ -279,6 +280,7 @@ public class BankCustomerRole extends Role{
         			else if(i == 1)
         			{
         				gui.withdraw = false;
+        				gui.rewithdraw = false;
         				gui.loan = true;
         				mybankteller.msgGetLoan(failedwithdrawal);
         				bankcustomerstate = state.waiting;
@@ -344,8 +346,8 @@ public class BankCustomerRole extends Role{
                 		{
                 			log("I don't have enough money to payback my loan so I'm leaving");
                             mybankteller.msgBankCustomerLeaving();
+                            gui.withdraw = false; 
                             guiLeaveBank();
-                            gui.withdraw = false;
                             gui.setPresent(false);
                         	person.setRoleInactive(this);
                 		}
@@ -383,6 +385,8 @@ public class BankCustomerRole extends Role{
                         
                         	mybankteller.msgBankCustomerLeaving();
                         	log("My wallet : " + amountofcustomermoney);
+                        	gui.withdraw = false;
+                            gui.rewithdraw = false; 
                         	guiLeaveBank();
                         	gui.setPresent(false);
                         	person.setRoleInactive(this);
@@ -443,6 +447,8 @@ public class BankCustomerRole extends Role{
                 {
                 		Do("I'm leaving");
                         mybankteller.msgBankCustomerLeaving();
+                        gui.withdraw = false;
+                        gui.rewithdraw = false; 
                         guiLeaveBank();
                         gui.setPresent(false);
                     	person.setRoleInactive(this);

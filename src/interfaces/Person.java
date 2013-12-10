@@ -2,6 +2,7 @@ package interfaces;
 
 import astar.Position;
 import Role.LandlordRole;
+import Role.MarketManagerRole;
 import city.MarketOrder;
 import city.transportation.BusAgent;
 import city.transportation.CarAgent;
@@ -38,7 +39,7 @@ public interface Person {
 	
 	public abstract void msgBusIsHere(Bus b, Position p);
 	
-	//Messages from car	
+	//Messages from car		
 	public abstract void msgArrived(Car c, Position p);
 		
 	public abstract void msgImPickingYouUp(Car c, Position p);
@@ -53,4 +54,8 @@ public interface Person {
 	public abstract void msgHereIsYourOrder(TruckAgent truck, MarketOrder order);
 
 	void msgHereIsYourOrder(Car car);
+
+	// from marketManager
+
+	public void msgMarketBill(double orderPrice, MarketManager marketManagerRole);
 }

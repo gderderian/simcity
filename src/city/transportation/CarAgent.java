@@ -106,6 +106,12 @@ public class CarAgent extends Vehicle implements Car {
 
 	//Actions
 	private void driveToOwner() {
+		
+		if(aStar == null) {
+			log("Driving to owner's destination!");
+			event = CarEvent.arrivingAtOwner;
+			return;
+		}
 
 		int x = ownerLocation.getX();
 		int y = ownerLocation.getY();
@@ -135,7 +141,14 @@ public class CarAgent extends Vehicle implements Car {
 
 		event = CarEvent.arrivingAtOwner;
 	}
+	
 	private void driveToDestination() {
+		
+		if(aStar == null) {
+			log("Driving to owner's destination!");
+			event = CarEvent.arrivingAtDestination;
+			return;
+		}
 
 		int x = cityMap.getX(destination);
 		int y = cityMap.getY(destination);
@@ -177,6 +190,7 @@ public class CarAgent extends Vehicle implements Car {
 	private void parkCar() {
 		if(aStar == null) {
 			log("Driving to nearest parking entrance.");
+			event = CarEvent.none;
 			return;
 		}
 		Position parkingEntrance = cityMap.getParkingEntrance(currentPosition);

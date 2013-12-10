@@ -16,14 +16,13 @@ import city.transportation.mock.MockTransportationPerson;
 
 public class TruckTest extends TestCase {
 	//instantiated in setUp()
-	MarketManagerRole market;
+	MockMarketManager market;
 	TruckAgent truck;
 	MockTransportationPerson recipient;
 	
 	List<OrderItem> items;
 	MarketOrder order;
 	String destination;
-
 
 	public void setUp() throws Exception {
 		super.setUp();
