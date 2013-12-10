@@ -474,6 +474,11 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 		return roleName;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 	
 }
 

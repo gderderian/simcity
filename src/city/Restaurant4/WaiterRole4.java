@@ -555,4 +555,8 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 	public String getRoleName() {
 		return roleName;
 	}
+	
+	public PersonAgent getPerson(){
+		return p;
+	}
 }

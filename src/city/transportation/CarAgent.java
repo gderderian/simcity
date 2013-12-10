@@ -22,9 +22,6 @@ public class CarAgent extends Vehicle implements Car {
 
 	public String destination = null;
 
-	boolean crash = false;
-	int destructionPath = 0;
-
 	private Position ownerLocation = null;
 
 	public enum CarEvent { none, drivingToOwner, arrivingAtOwner, drivingToDestination, arrivingAtDestination, parking };

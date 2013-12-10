@@ -145,6 +145,7 @@ public class PersonAgent extends Agent implements Person{
 
 		wallet = 100;
 		bankaccountnumber = 0;
+
 		busRide = new BusRide(5);
 
 		if(aStar != null)
@@ -208,6 +209,10 @@ public class PersonAgent extends Agent implements Person{
 	public CityMap getCityMap(){
 		return cityMap;
 	}
+	
+	public void setWallet(double amount){
+		wallet = amount;
+	}
 
 	public String getName(){
 		return name;
@@ -233,7 +238,7 @@ public class PersonAgent extends Agent implements Person{
 	public void addRole(Role r, boolean active){
 		roles.add(r);
 		if(active){
-			r.setActive();
+			r.setActive(wallet);
 		}
 	}
 
@@ -241,7 +246,7 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role role : roles){
 				if(role == r){
-					role.setActive();
+					role.setActive(wallet);
 				}
 			}
 		}
@@ -282,6 +287,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void addFirstJob(Role r, String location){
 		myJob = new Job(r, location);
+		r.setBuilding(location);
 		roles.add(r);
 	}
 
@@ -351,12 +357,21 @@ public class PersonAgent extends Agent implements Person{
 	//TODO fix this
 	public void msgTimeUpdate(int t, int hour, long minute, String am_pm){
 		
+		//if it's the last hour in the day, the tasks in the schedule for the day get transferred over to the next day
+		if(hour == 23 && hour != currentHour){
+			currentHour = hour;
+			schedule.transferTodaysTasksToTomorrow(clock.getDayOfWeekNum());
+		}
+		
 		//if(hour == 1 && (currentHour != hour)){
 		//	currentHour = hour;
 		if(hour == 1 && minute < 15 && am_pm.equals("am")){
 			if(myJob != null){
-				PersonTask task = new PersonTask(TaskType.goToWork);
-				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
+					PersonTask task = new PersonTask(TaskType.goToWork);
+					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+					log("It's time for me to go to work!");
+				}
 			}
 
 		}
@@ -367,102 +382,38 @@ public class PersonAgent extends Agent implements Person{
 				msgRentDue(house.getLandlord(), 10.0);
 			}
 		}
-		/* This is unnecessary
-		if(t > 4000 && t < 7020 && (name.contains("waiter") || name.equals("bank teller"))){
-			synchronized(tasks){
-				PersonTask task = new PersonTask(TaskType.goToWork);
-				tasks.add(task);
-				if(name.equals("bank teller"))
-				{
-					task.role = "BankTellerRole";
-				} else if (name.equals("MarketManager")){
-				}
-			}
-			log("It's time for me to go to work!");
-		}*/
 		if(hour == 3 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
-
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
-			currentHour = hour;
-			synchronized(tasks){
-				tasks.add(new PersonTask(TaskType.gotHungry));
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.gotHungry);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I'm getting hungry.");
 			}
-			log("It's time for me to eat something.");
 		}
-		else if(hour == 3 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest")))
-		{
-			currentHour = hour;
-			synchronized(tasks) {
-				tasks.add(new PersonTask(TaskType.goToBank));
+		else if(hour == 3 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I need to go to the bank");
 			}
-			log("It's time for me to go to bank.");
-
 		} 
-		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1")))
-		{
-			currentHour = hour;
+		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1"))){
 			wallet = 40;
-			synchronized(tasks) {
-				tasks.add(new PersonTask(TaskType.goToBank));
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to go to bank.");
 			}
-			log("It's time for me to go to bank.");
 
-		} 
-		
+		}
 		else if(hour == 4 && minute < 15 && (name.equals("marketClient"))){
-
-			currentHour = hour;
-			synchronized(tasks) {
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				task.role = "MarketCustomer";
-				tasks.add(task);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to buy something from the market.");
 			}
-			log("It's time for me to buy something from the market.");
-
-		} 
-		/*
-		 * Dont need these two functions
-		else if(t > 4000 && t < 7020 && (name.equals("marketManager")))
-		{
-			synchronized(tasks) {
-				PersonTask task = new PersonTask(TaskType.goToWork);
-				task.role = "MarketManager";
-				tasks.add(task);
-			}
-			log("It's time for me to do my job as a manager at the market.");
-
-		} else if(t > 4000 && t < 7020 && (name.equals("marketWorker")))
-		{
-			synchronized(tasks) {
-				PersonTask task = new PersonTask(TaskType.goToWork);
-				task.role = "MarketWorker";
-				tasks.add(task);
-			}
-			log("It's time for me to do my job as a worker at the market.");
-		}*/ 
-
-		/*else if(t > 3000 && t < 5000 && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
-=======
-		} */
-		
-		/*else if(t > 3000 && t < 5000 && am_pm.equals("am") && doesRoleListContain("LandlordRole")){  //When it is written this way the program doesn't freeze, but when written with hours it freezes
-			//currentHour = hour;
-			log("I should be a landlord");
-			synchronized(roles){
-				for(Role role : roles){
-					//log("Whats my current role?");
-					if(role.getRoleName().contains("Landlord")){
-						log("I think I'm a landlord...");
-						if(role.isActive){
-							log("I'm going to go ahead and collect rent now, I'm not doing anything else...");
-							((LandlordRole)role).msgCollectRent();
-						}
-					}
-				}
-			}
-		
-
-		}*/
+		}
 		
 		/*Adds got hungry task
 		 * Right now this is only for the test person
@@ -476,10 +427,11 @@ public class PersonAgent extends Agent implements Person{
 		}
 		*/
 		else if(hour == 4 && minute >= 15 && minute < 30 && am_pm.equals("am") && myJob == null){
-			currentHour = hour;
-				PersonTask newTask = new PersonTask(TaskType.goToMarket);
-				schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
-				log("Adding go to market task");
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to buy something from the market.");
+			}
 		}
 		stateChanged();
 	}
@@ -902,7 +854,7 @@ public class PersonAgent extends Agent implements Person{
 				log("The role name is " + task.role);
 				for(Role r : roles){
 					if(r.getRoleName().equals(task.role)){
-						r.setActive();
+						r.setActive(wallet);
 						role = r;
 						break;
 					}
@@ -970,7 +922,7 @@ public class PersonAgent extends Agent implements Person{
 			tasks.add(task);
 			for(Role r : roles){
 				if(r.getRoleName().contains("Landlord")){
-					r.setActive();
+					r.setActive(wallet);
 					role = r;
 					task.role= "LandlordRole";
 					break;
@@ -1093,7 +1045,7 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				if(r instanceof BankCustomerRole) {
-					r.setActive();
+					r.setActive(wallet);
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();
 					task.location = bankName;
@@ -1750,7 +1702,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 
 		public void startJob(){
-			role.setActive();
+			role.setActive(wallet);
 			System.out.println("Setting role active" + role.getRoleName());
 			workState = WorkState.atWork;
 			System.out.println("at work, about to check for null");

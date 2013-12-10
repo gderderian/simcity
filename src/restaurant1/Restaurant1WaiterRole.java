@@ -480,4 +480,8 @@ public abstract class Restaurant1WaiterRole extends Role implements Restaurant1W
 	public String getRoleName() {
 		return roleName;
 	}
+	
+	public PersonAgent getPerson(){
+		return person;
+	}
 }

@@ -212,5 +212,10 @@ public class Restaurant5MarketRole extends Role implements Restaurant5Market{
 		return roleName;
 	}
 
+	@Override
+	public PersonAgent getPerson() {
+		return person;
+	}
+
 }
 
