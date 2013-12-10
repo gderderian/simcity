@@ -38,6 +38,7 @@ public class Restaurant4 {
 	public void addWaiters(WaiterRole4 w){
 		waiters.add(w);
 		host.addWaiter(w);
+		cook.addWaiter(w);
 		w.setCook(cook);
 		w.setCashier(cashier);
 		w.setHost(host);
@@ -67,6 +68,7 @@ public class Restaurant4 {
 	public void close(){
 		if(isOpen){
 			isOpen= false;
+			cook.closeRestaurant();
 			System.out.println("REST 4 IS NOW CLOSED");
 		} else{
 			isOpen= true;

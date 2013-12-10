@@ -192,6 +192,7 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 	}
 	
 	public void msgAllMarketsOut(){
+		log("Looks like it closing time, I'll let everyone know");
 		closeRest= true;
 		p.stateChanged();
 	}
@@ -455,6 +456,10 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 			c.c.msgRestClosed();
 		}
 		host.msgRestClosed();
+		cashier.msgRestClosed();
+		waiterGui.doExit();
+		p.setGuiVisible();
+		p.setRoleInactive(this);
 	}
 	
 	

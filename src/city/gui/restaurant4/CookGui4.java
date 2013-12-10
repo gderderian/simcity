@@ -19,7 +19,14 @@ public class CookGui4 implements Gui {
     ArrayList<MyGrillSpot> grillSpots = new ArrayList<MyGrillSpot>();
     ArrayList<MyPlateSpot> plateSpots = new ArrayList<MyPlateSpot>();
     
-    ImageIcon icon = new ImageIcon("images/cook1.png");
+	ImageIcon icon1 = new ImageIcon("images/cook1.png");
+	ImageIcon icon2 = new ImageIcon("images/cook2.png");
+	ImageIcon icon3 = new ImageIcon("images/cook3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = icon1;
     
     boolean isPresent = true;
     
@@ -28,7 +35,21 @@ public class CookGui4 implements Gui {
     }
 
     public void updatePosition() {
-        if (xPos < xDestination)
+		//Code for switching pictures to create animation
+		movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = icon1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = icon2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = icon3;
+        	else
+        		icon = icon2;
+    	} else icon = icon2;
+    	
+    	if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
             xPos--;
@@ -110,6 +131,11 @@ public class CookGui4 implements Gui {
     	if(temp != null){
     		plateSpots.remove(temp);
     	}
+    }
+    
+    public void doExit(){
+    	xDestination= -35;
+    	yDestination= -35;
     }
     
     public int getXPos() {
