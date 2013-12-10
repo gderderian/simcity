@@ -13,7 +13,7 @@ public class Bank {
         BankManagerRole bankmanager;
         public List<account> accounts = Collections.synchronizedList(new ArrayList<account>());
         public static List<bankstation> bankstations = Collections.synchronizedList(new ArrayList<bankstation>());
-        public static int uniqueaccountnumber = 0;
+        public static int uniqueaccountnumber = 1;
         int initialxcofbank = 200;
         int initialycofbank = 100;
         
@@ -37,6 +37,11 @@ public class Bank {
         public void setBankManager(BankManagerRole bm)
         {
         	bankmanager = bm;
+        }
+        
+        public void addBankTeller(BankTellerRole btr)
+        {
+        	bankmanager.msgBankTellerArrivedAtBank(btr);
         }
               
         public class bankstation {

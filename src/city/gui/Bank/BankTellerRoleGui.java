@@ -3,6 +3,7 @@ package city.gui.Bank;
 import Role.BankCustomerRole;
 import Role.BankTellerRole;
 import city.gui.Gui;
+import city.gui.Bank.BankCustomerRoleGui.Command;
 
 import java.awt.*;
 
@@ -55,7 +56,17 @@ public class BankTellerRoleGui implements Gui{
             yPos++;
         else if (yPos > yDestination)
             yPos--;
-      
+    	if (xPos == xDestination && yPos == yDestination) {
+
+			if (command==Command.gotobanktellerstation) //agent.msgAnimationFinishedGoToSeat();
+			{
+				role.atBankStation.release();
+				command = Command.arrived;
+				System.out.print("I'm at the station!");
+			}
+    	}
+        
+        
     }
 
     public void draw(Graphics2D g) {

@@ -22,18 +22,17 @@ public class BankCustomerRoleGui implements Gui{
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
-	private enum Command {noCommand, gotobanktellerstation, leavebank, arrived};
+	public enum Command {noCommand, gotobanktellerstation, leavebank, arrived};
 	private Command command=Command.noCommand;
 	
 
-	public static final int xTable = 200;
-	public static final int yTable = 250;
 	private int xhomepos;
 	private int yhomepos;
 	private int xcoordinatesofstations[] = new int [4];
 	private int ycoordinatesofstations[] = new int [4];
-	public Image imgofbankcustomer = new ImageIcon("images/person_flat1.png").getImage();
+	public Image imgofbankcustomer = new ImageIcon("images/waiter1.png").getImage();
 	public Image imgofaccount = new ImageIcon("images/account.png").getImage();
+	public Image imgofmoney = new ImageIcon("images/money.png").getImage();
 	public boolean openaccount;
 	public boolean deposit;
 	public boolean withdraw;
@@ -42,10 +41,7 @@ public class BankCustomerRoleGui implements Gui{
 		this.role = setrole;		
 
 		xPos = 0;
-		yPos = 250;
-		//xDestination = 40;
-		//yDestination = 40;
-		//maitreD = m;
+		yPos = 300;
 		this.gui = gui;
 		int initialxc = 200;
 		for(int i = 0; i < 4; i++)
@@ -126,9 +122,10 @@ public class BankCustomerRoleGui implements Gui{
 		}
 		else if(deposit == true)
 		{
-			g3.setFont(new Font("Arial", Font.BOLD, 12));
-    		g3.setColor(Color.black);
-    		g3.drawString("DEPOSIT", xPos - 15, yPos + 80);
+			g.drawImage(imgofmoney,xPos - 16, yPos + 70, 35, 35, gui);
+			//g3.setFont(new Font("Arial", Font.BOLD, 12));
+    		//g3.setColor(Color.black);
+    		//g3.drawString("DEPOSIT", xPos - 15, yPos + 80);
 		}
 		
 		else if(withdraw == true)
@@ -166,8 +163,8 @@ public class BankCustomerRoleGui implements Gui{
 	}
 	
 	public void leaveBank() {
-		xDestination = -20;
-		yDestination = -20;
+		xDestination = 0;
+		yDestination = 300;
 		command = Command.leavebank;
 		
 	}
