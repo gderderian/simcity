@@ -1,9 +1,9 @@
 package granttesting.test.mock;
 
-import Role.MarketManagerRole;
 import test.mock.EventLog;
 import test.mock.Mock;
 import city.MarketOrder;
+import interfaces.MarketManager;
 import interfaces.MarketWorker;
 
 public class MockMarketWorker extends Mock implements MarketWorker {
@@ -16,7 +16,7 @@ public class MockMarketWorker extends Mock implements MarketWorker {
 	}
 
 	@Override
-	public void msgPrepareOrder(MarketOrder o, MarketManagerRole recipientManager) {
+	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager) {
 		// TODO Auto-generated method stub
 		
 	}

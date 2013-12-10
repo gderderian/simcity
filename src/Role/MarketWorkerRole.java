@@ -1,5 +1,6 @@
 package Role;
 
+import interfaces.MarketManager;
 import interfaces.MarketWorker;
 
 import java.util.*;
@@ -33,11 +34,11 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	public class PickableOrder {
 		
 		MarketOrder order; // Contains recipient, destination, list of OrderItems
-		MarketManagerRole recipientManager;
+		MarketManager recipientManager;
 		public orderPickState state;
 		Hashtable<String, Boolean> itemPickStatus; // Tracks the pick status of individual items in the market
 		
-		PickableOrder(MarketOrder incomingOrder, MarketManagerRole initialSender){
+		PickableOrder(MarketOrder incomingOrder, MarketManager initialSender){
 			order = incomingOrder;
 			state = orderPickState.pending;
 			recipientManager = initialSender;
@@ -57,7 +58,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 	
 	// Messages
-	public void msgPrepareOrder(MarketOrder o, MarketManagerRole recipientManager){
+	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
 		log("I have a new order to process...");
 		//log("Current order size is:" + o.orders.size());
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);

@@ -8,6 +8,7 @@ import agent.Agent;
 import restaurant1.Restaurant1Order.orderState;
 import restaurant1.gui.Restaurant1CookGui;
 import test.mock.LoggedEvent;
+import interfaces.MarketManager;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -122,7 +123,7 @@ public class Restaurant1CookRole extends Role {
 		}
 	}
 	
-	public void msgHereIsBill(MarketManagerRole m, double amount) {
+	public void msgHereIsBill(MarketManager m, double amount) {
 		log("Received a bill! What do I do?!");
 	}
 	
