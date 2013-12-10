@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -35,10 +36,8 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
     private final int NXSTATIONS= 5;
     private final int NYSTATIONS= 3;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
-    
-  	
     public AnimationPanel4() {
     	setSize(WINDOWX, WINDOWY);
     	setPreferredSize(new Dimension(WINDOWX, WINDOWY));
@@ -143,11 +142,12 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
 
 	@Override
 	public void updatePos() {
-		// TODO Auto-generated method stub
-		 for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
-	        }
+		synchronized(guis){
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
 	}
 }

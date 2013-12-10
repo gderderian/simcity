@@ -1,6 +1,7 @@
 package city.gui.Restaurant3;
 
 import javax.swing.*;
+
 import city.gui.Gui;
 import city.gui.BuildingPanel;
 
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,7 +25,7 @@ public class AnimationPanel3 extends BuildingPanel implements ActionListener, Mo
     private final int SCREEN_RECT_X_COORD = 0;
     private final int SCREEN_RECT_Y_COORD = 0;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     
 	Timer timer = new Timer(MAIN_TIMER, this);
 	private boolean timerIsRunning = false;
@@ -158,11 +160,13 @@ public class AnimationPanel3 extends BuildingPanel implements ActionListener, Mo
 
 	@Override
 	public void updatePos() {
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+		synchronized(guis){
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
 	}
     
 }
