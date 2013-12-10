@@ -367,5 +367,13 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 	public PersonAgent getPerson() {
 		return person;
 	}
+
+	public void msgGoHome() {
+		for(MyCustomer c : customers){
+			((Restaurant2CustomerRole) c.c).msgGoHome();
+		}
+		
+		person.leaveWork();
+	}
 	
 }

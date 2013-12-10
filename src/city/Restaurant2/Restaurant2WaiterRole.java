@@ -45,6 +45,7 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 	PersonAgent person;
 	
 	boolean okForBreak;
+	boolean goHome = false;
 	
 	String outOf;
 	
@@ -86,6 +87,11 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void msgGoHome(){
+		goHome = true;
+		person.stateChanged();
 	}
 	
 	public void setGui(Restaurant2WaiterGui g){
@@ -366,11 +372,25 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 		if(state != WaiterState.onBreak){
 			goToHome();
 		}
+		if(goHome){
+			goHome();
+		}
 		return false;
 	}
 	
 	//ACTIONS
 	
+	private void goHome() {
+		waiterGui.leaveRestaurant();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		waiterGui.setPresent(false);
+		person.leaveWork();
+	}
+
 	void resetGui(){
 		waiterGui.setDeniedBreak();
 	}

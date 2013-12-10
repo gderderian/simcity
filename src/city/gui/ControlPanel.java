@@ -996,9 +996,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant2Test(){
-
 		addPersonWithCar("rest2Test", "No job");
-
+		//addPerson("rest2Test", "No job");
+		//addPersonWithCar("rest2Test", "No job");
 	}
 
 	public void runRestaurant3Test(){
