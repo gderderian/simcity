@@ -156,12 +156,13 @@ public class BankGui extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
             if (currentPerson instanceof BankCustomerRole) {
-                BankCustomerRole c = (BankCustomerRole) currentPerson;
+                //BankCustomerRole c = (BankCustomerRole) currentPerson;
                 //c.getGui().setHungry();
-                stateCB.setEnabled(false);
+                //stateCB.setEnabled(false);
             }
             
             else if(currentPerson instanceof BankTellerRole) {
+            	/*
             	BankTellerRole w = (BankTellerRole) currentPerson;
             	if(waiteronbreak == false)
             	{
@@ -180,6 +181,8 @@ public class BankGui extends JFrame implements ActionListener {
             		//stateCB.setSelected(false);	
             	}
             	//stateCB.setEnabled(false);
+            	 * 
+            	 */
             }
         }
         if(e.getSource() == pausebutton) { 	  

@@ -26,7 +26,7 @@ public class BankManagerRole extends Role{
 
 	public enum banktellerstate {arrived, free, busy};
 	//public enum bankstate {createaccount, depositintoaccount, withdrawfromaccount, getloan, calculateloan, customerleft};
-	public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft, endoftheday};
+	public enum bankmanagerstate {doingnothing, assignbanktellertostation, calculateloan, customerleft, endoftheday, bankrobberarrived};
 	public enum customerstate {waiting, beingserved, leaving};
 	public String name;
 	public Semaphore accessingaccount = new Semaphore(0,true);
@@ -51,6 +51,7 @@ public class BankManagerRole extends Role{
 	{
 		super();
 		this.bank = setbank;
+		building = "bank1";
 		
 
 	}
@@ -81,6 +82,7 @@ public class BankManagerRole extends Role{
 	public void msgBankRobberArrived(BankRobberRole setbankrobber) {
 		
 		bankrobber = setbankrobber;
+		state = bankmanagerstate.bankrobberarrived;
 		person.stateChanged();
 		
 	}
@@ -147,15 +149,18 @@ public class BankManagerRole extends Role{
 	public boolean pickAndExecuteAnAction() {
 
 		
-		if(bankrobber != null)
+		if(state == bankmanagerstate.bankrobberarrived)
 		{
 			
 			
+			Do("????????????????????????????  Bank Robber arrived ");
+			bankrobber.msgGoToBankChamber();
 			
 			
 			
 			
-			return true;
+			
+			return false;
 		}
 		
 		

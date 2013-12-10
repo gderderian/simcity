@@ -46,6 +46,7 @@ public class BankTellerRole extends Role {
 		super();
 		this.bankmanager = assignbankmanager;
 		banktellerstate = state.arrived;
+		//building = "bank1";
 	
 	}
 
@@ -53,6 +54,7 @@ public class BankTellerRole extends Role {
 	{
 		stationnumber = banktellerstationnumber;
 		banktellerevent = event.gotobanktellerstation;
+		//building = "bank1";
 		person.stateChanged();
 
 	}
@@ -140,6 +142,7 @@ public class BankTellerRole extends Role {
 		if(banktellerstate == state.arrived && banktellerevent == event.gotobanktellerstation)
 		{
 			guiGoToBankTellerStation(stationnumber);
+			log("I have arrived at station " + stationnumber);
 			banktellerstate = state.atstation;
 			return true;
 		}
@@ -150,17 +153,17 @@ public class BankTellerRole extends Role {
 			log("customer is opening account");
 			boolean unique;
 			int i;
-			boolean once = false;
+			//boolean once = false;
 			
 			do {
 					Random r = new Random();
         			i = r.nextInt(50); 
 					unique = true;
-					if(once == false)
-					{
-						i = 1;
-						once = true;
-					}
+					//if(once == false)
+					//{
+						//i = 1;
+						//once = true;
+					//}
 					
 					synchronized(bankmanager.bank.accounts)
 					{
@@ -193,7 +196,7 @@ public class BankTellerRole extends Role {
 					//person.stateChanged();
 				}
 					},
-				3 * 1000);
+				1 * 1000);
 			
 		   return true;
 		}
@@ -246,7 +249,7 @@ public class BankTellerRole extends Role {
 							gui.approved = false;
 							}
 								},
-							3 * 1000);
+							1 * 1000);
 					
 						break;
 					}
@@ -282,7 +285,7 @@ public class BankTellerRole extends Role {
 								gui.denied = false;
 								}
 									},
-								3 * 1000);
+								1 * 1000);
 						
 						}
 						else if(!(findaccount.balance < withdrawal))
@@ -295,7 +298,7 @@ public class BankTellerRole extends Role {
 								currentcustomer.msgHereIsYourWithdrawal(withdrawal);	
 								}
 									},
-								3 * 1000);
+								1 * 1000);
 							break;
 						}
 						else
@@ -309,7 +312,7 @@ public class BankTellerRole extends Role {
 								gui.denied = false;
 								}
 									},
-								3 * 1000);
+								1 * 1000);
 						
 						}
 
@@ -335,7 +338,7 @@ public class BankTellerRole extends Role {
 					if(findaccount.accountnumber == currentcustomeraccountnumber)
 					{        
 
-						if(findaccount.loan + loan > 50)
+						if(findaccount.balance < findaccount.loan)
 						{
 							
 							gui.denied = true;
@@ -347,7 +350,7 @@ public class BankTellerRole extends Role {
 								gui.denied = false;
 								}
 									},
-								3 * 1000);
+								1 * 1000);
 							
 							
 						}
@@ -362,7 +365,7 @@ public class BankTellerRole extends Role {
 								currentcustomer.msgHereIsYourLoan(loan);	
 								}
 									},
-								3 * 1000);
+								1 * 1000);
 								
 						}
 
@@ -419,7 +422,7 @@ public class BankTellerRole extends Role {
 							currentcustomer.msgLoanPaidBack(paybackloan, findaccount.loan);	
 							}
 								},
-							3 * 1000);
+							1 * 1000);
 						
 						/*
 

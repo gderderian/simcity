@@ -17,7 +17,7 @@ public class BankManagerRoleGui implements Gui {
 	private Command command=Command.noCommand;
 	public static int xTable = 200;
     public static int yTable = 250;
-    public Image imgofbankmanager = new ImageIcon("images/basic_person.png").getImage();
+    public Image imgofbankmanager = new ImageIcon("images/cashier1.png").getImage();
 
     public BankManagerRoleGui(BankManagerRole setrole, BankGui gui) {
         this.role = setrole;

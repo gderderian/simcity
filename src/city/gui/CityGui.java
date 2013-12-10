@@ -29,6 +29,7 @@ import city.gui.Bank.BankAnimationPanel;
 import city.gui.Bank.BankCustomerRoleGui;
 import city.gui.Bank.BankGui;
 import city.gui.Bank.BankManagerRoleGui;
+import city.gui.Bank.BankRobberRoleGui;
 import city.gui.Bank.BankTellerRoleGui;
 import city.gui.House.ApartmentAnimationPanel;
 import city.gui.House.HouseAnimationPanel;
@@ -40,6 +41,7 @@ import city.gui.Market.MarketManagerGui;
 import city.gui.Market.MarketWorkerGui;
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
+import Role.BankRobberRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.MarketCustomerRole;
@@ -438,6 +440,21 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			h.setOwner(newPerson);
 		}
 
+		if(name.equals("bankRobber"))
+		{
+			BankRobberRole bankRobberRole = new BankRobberRole(newPerson.wallet);
+			bankRobberRole.setPerson(newPerson);
+			BankGui bankgui = new BankGui();
+			BankRobberRoleGui bankRobberRoleGui = new BankRobberRoleGui(bankRobberRole, bankgui); 
+			bankRobberRoleGui.setPresent(false);
+			bank1Animation.addGui(bankRobberRoleGui);
+			bankRobberRole.setGui(bankRobberRoleGui);
+			newPerson.addRole(bankRobberRole, false);
+			newPerson.addTask("robBank");
+			
+		}
+		
+		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 
@@ -651,6 +668,18 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		market1Animation.addGui(mktCustomerGui);
 		marketCustomer.setGui(mktCustomerGui);
 		p.addRole(marketCustomer, false);
+		
+		//Add Bank Robber role to go to the bank
+		/*
+		BankRobberRole bankRobberRole = new BankRobberRole(p.wallet);
+		bankCustomerRole.setPerson(p);
+		//BankGui bankgui = new BankGui();
+		BankRobberRoleGui bankRobberRoleGui = new BankRobberRoleGui(bankCustomerRole, bankgui); 
+		bankCustomerGui.setPresent(false);
+		bank1Animation.addGui(bankCustomerGui);
+		bankCustomerRole.setGui(bankCustomerGui);
+		p.addRole(bankCustomerRole, false);
+		*/
 
 
 		/* Check if the person lives in an apartment and add them to the correct tenant list */
@@ -802,7 +831,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				if(r instanceof BankTellerRole) {
 					bank.addBankTeller((BankTellerRole)r);
 					p.setRoleActive(r);
-					p.addFirstJob(r, "bank1", 2);
+					p.addFirstJob(r, "bank1", 1); ///I changed this
 				}
 				if(r instanceof BankManagerRole) {
 					System.out.println("adding bank manager in the bank!");

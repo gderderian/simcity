@@ -2,6 +2,7 @@ package city.gui.Bank;
 
 import Role.BankCustomerRole;
 import Role.BankManagerRole;
+import Role.BankRobberRole;
 
 import java.awt.*;
 
@@ -11,9 +12,9 @@ import javax.swing.ImageIcon;
 import city.Bank;
 import city.gui.Gui;
 
-public class BankCustomerRoleGui implements Gui{
+public class BankRobberRoleGui implements Gui{
 
-	private BankCustomerRole role = null;
+	private BankRobberRole role = null;
 	private boolean isPresent = false;
 	private boolean arrivedAtBank = false;
 
@@ -22,14 +23,14 @@ public class BankCustomerRoleGui implements Gui{
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
-	public enum Command {noCommand, gotobanktellerstation, leavebank, arrived};
+	public enum Command {noCommand, gotobankchamber, leavebank, arrived};
 	private Command command=Command.noCommand;
 	
 
 	private int xhomepos;
 	private int yhomepos;
-	private int xcoordinatesofstations[] = new int [6];
-	private int ycoordinatesofstations[] = new int [6];
+	private int xcoordinatesofstations[] = new int [4];
+	private int ycoordinatesofstations[] = new int [4];
 	public Image imgofbankcustomer = new ImageIcon("images/waiter1.png").getImage();
 	public Image imgofaccount = new ImageIcon("images/account.png").getImage();
 	public Image imgofmoney = new ImageIcon("images/newmoney.png").getImage();
@@ -49,16 +50,19 @@ public class BankCustomerRoleGui implements Gui{
 	private final int iconSwitch = 10; //Rate at which icons switch during movement
 	
 	ImageIcon icon = flat1;
+
 	
 	
-	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
-		this.role = setrole;		
+	
+	
+	public BankRobberRoleGui(BankRobberRole bankRobberRole, BankGui gui){ //HostAgent m) {
+		this.role = bankRobberRole;		
 
 		xPos = 0;
 		yPos = 300;
 		this.gui = gui;
 		int initialxc = 200;
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < 4; i++)
 		{
 			xcoordinatesofstations[i] = initialxc;
 			ycoordinatesofstations[i] = 100;
@@ -114,9 +118,9 @@ public class BankCustomerRoleGui implements Gui{
 
 		if (xPos == xDestination && yPos == yDestination) {
 
-			if (command==Command.gotobanktellerstation) //agent.msgAnimationFinishedGoToSeat();
+			if (command==Command.gotobankchamber) //agent.msgAnimationFinishedGoToSeat();
 			{
-				role.atBankStation.release();
+				role.atBankChamber.release();
 				command = Command.arrived;
 				System.out.print("I'm at the station!");
 			}
@@ -185,7 +189,7 @@ public class BankCustomerRoleGui implements Gui{
 		else if(rewithdraw == true)
 		{
 			g3.setColor(Color.WHITE);
-    		g3.fillRoundRect(xPos - 22, yPos + 65, 96, 20, 30, 30);	
+    		g3.fillRoundRect(xPos - 22, yPos + 65, 90, 20, 30, 30);	
 			g3.setFont(new Font("Arial", Font.BOLD, 12));
 			g3.setColor(Color.black);
     		g3.drawString("REWITHDRAW?", xPos - 15, yPos + 80);	
@@ -230,11 +234,11 @@ public class BankCustomerRoleGui implements Gui{
 		isPresent = p;
 	}
 
-	public void goToBankTellerStation(int bankstationnumber) {//later you will map seatnumber to table coordinates.
+	public void goToBankChamber() {//later you will map seatnumber to table coordinates.
 		
-		xDestination = xcoordinatesofstations[bankstationnumber - 1];
-		yDestination = ycoordinatesofstations[bankstationnumber - 1];
-		command = Command.gotobanktellerstation;
+		xDestination = 350;
+		yDestination = 50;
+		command = Command.gotobankchamber;
 	}
 	
 	public void leaveBank() {
