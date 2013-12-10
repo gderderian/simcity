@@ -264,6 +264,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void addFirstJob(Role r, String location){
 		myJob = new Job(r, location);
+		r.setBuilding(location);
 		roles.add(r);
 	}
 
