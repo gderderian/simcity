@@ -260,6 +260,7 @@ public class BankManagerRole extends Role{
 			}
 
 			//this is my new design for loan system
+			/*
 			synchronized(bank.accounts)
 			{
 
@@ -274,7 +275,7 @@ public class BankManagerRole extends Role{
 				}
 
 			}
-
+			 */
 			state = bankmanagerstate.doingnothing;
 
 			return true;

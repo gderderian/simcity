@@ -414,7 +414,7 @@ public class BankCustomerRole extends Role{
                 if(bankcustomerstate == state.getloansuccessful)
                 {
                 		log("I received a loan of $" + this.loan);
-                		log("Noe I have $" + this.loan + " in my wallet");
+                		log("Now I have $" + this.loan + " in my wallet");
                         this.amountofcustomermoney += this.loan;
                         gui.loan = false;
                         gui.money = true;
