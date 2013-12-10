@@ -141,7 +141,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
     		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
     		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
-    		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 Waiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
+    		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 SharedDataWaiter", "Restaurant4 NormalWaiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
     		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
     private JComboBox jobField = new JComboBox(jobs);
@@ -1016,12 +1016,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonNoHouse("cook4", "Restaurant4 Cook");
 		addPerson("waiter4", "Restaurant4 Waiter");
 		 */
+		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
-		addPerson("rest4Test", "No job");
-		addPerson("Jill", "No job");
-
 	}
 
 	public void runRestaurant5Test(){
@@ -1165,7 +1163,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("host4", "Restaurant4 Host");
 		addPerson("cashier4", "Restaurant4 Cashier");
 		addPerson("cook4", "Restaurant4 Cook");
-		addPerson("waiter4", "Restaurant4 Waiter");
+		addPerson("waiter4", "Restaurant4 RegularWaiter");
 		/*Restaurant5 workers*/
 		addPerson("host5", "Restaurant5 Host");
 		addPerson("cashier5", "Restaurant5 Cashier");

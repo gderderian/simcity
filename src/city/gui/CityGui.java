@@ -72,6 +72,7 @@ import city.Restaurant3.*;
 import city.Restaurant4.CashierRole4;
 import city.Restaurant4.CookRole4;
 import city.Restaurant4.CustomerRole4;
+import city.Restaurant4.RegularWaiterRole4;
 import city.Restaurant4.SharedDataWaiterRole4;
 import city.Restaurant4.WaiterRole4;
 import city.Restaurant4.HostRole4;
@@ -939,8 +940,16 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui.setPresent(false);
 			return role;
 		}
-		else if(type.equals("Restaurant4 Waiter")){
+		else if(type.equals("Restaurant4 SharedDataWaiter")){
 			WaiterRole4 role = new SharedDataWaiterRole4(p.getName(), p); 
+			WaiterGui4 gui = new WaiterGui4(role);
+			role.setGui(gui);
+			restaurant4.addGui(gui);
+			gui.setPresent(false);
+			return role;
+		}
+		else if(type.equals("Restaurant4 RegularWaiter")){
+			WaiterRole4 role = new RegularWaiterRole4(p.getName(), p); 
 			WaiterGui4 gui = new WaiterGui4(role);
 			role.setGui(gui);
 			restaurant4.addGui(gui);
@@ -993,7 +1002,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Customer")){
-			System.out.println("CREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MARKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMERCREATING CUSTOMER GUI FOR MATKET CUSTOMER");
 			MarketCustomerRole role = new MarketCustomerRole(p.getName(), p);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
@@ -1032,7 +1040,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			Restaurant5CashierRole role = new Restaurant5CashierRole(p.getName(), p);
 			return role;
 		} else if(type.equals("Bank Manager")){
-			System.out.println("!!!!!!!!!!!!  I'm in get role");
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
 			BankManagerRoleGui gui = new BankManagerRoleGui(role, bankgui);
@@ -1042,7 +1049,6 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 		} else if(type.equals("Bank Teller")) {
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!! creating teller in  getnewrole()");
 			BankTellerRoleGui gui = new BankTellerRoleGui(role, bankgui);
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
