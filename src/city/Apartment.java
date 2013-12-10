@@ -20,13 +20,13 @@ public class Apartment extends House implements HouseInterface{
 	//public Apartment(String name, int num, int buildNum){
 	public Apartment(String name, int num){
 		super(name);
-		aptNum= num;
+		aptNum = num;
 		//aptBuilding= buildNum;
 	}
 	
 	public void setLandlord(LandlordRole r){
 		landlord= r;
-		System.out.println("I now have a new landlord, joy");
+		System.out.println("I now have a new landlord, joy!");
 	}
 	
 	public void setRoom(int num){
@@ -68,7 +68,7 @@ public class Apartment extends House implements HouseInterface{
 		if(fridge.food.containsKey(temp.food.type)){
 			int tempAmount= fridge.food.get(temp.food.type).currentAmount;
 			if(tempAmount > 0){
-				System.out.println("I have the type of food I'm trying to cook.");
+				System.out.println("Apartment " + aptNum  + ": I have the type of food I'm trying to cook.");
 				fridge.removeItem(temp.food);
 				int cookTime= temp.food.cookTime;
 				final Appliance app= getAppliance(temp.food.appliance);
@@ -76,20 +76,20 @@ public class Apartment extends House implements HouseInterface{
 					owner.msgApplianceBrokeCantCook(temp.food.type); 
 				}
 				else if(app != null){
-					System.out.println("The appliance needed exists.");
+					System.out.println("Apartment " + aptNum  + ": The appliance needed exists.");
 					cook.schedule(new TimerTask() {
 						@Override public void run() {
-							System.out.println("Food is done cooking!");
+							System.out.println("Apartment " + aptNum  + ": Food is done cooking!");
 							owner.msgFoodDone(temp.food.type);
 				
 							Random rand = new Random();
 							int num= rand.nextInt(10);
 							if(num == 0 || owner.getName().equals("brokenApplianceTest")){ //there is a 1/10 chance the appliance will break each time it is used
-							System.out.println("The appliance broke!");
+							System.out.println("Apartment " + aptNum  + ": The appliance broke!");
 								app.isBroken= true;
 								owner.msgImBroken(app.type);
 							}
-							System.out.println("Done with the cookFood function.");
+							System.out.println("Apartment " + aptNum  + ": Done with the cookFood function.");
 							return;
 						}}, cookTime);
 				}

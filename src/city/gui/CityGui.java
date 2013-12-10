@@ -43,8 +43,8 @@ import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.MarketCustomerRole;
-import Role.MarketManager;
-import Role.MarketWorker;
+import Role.MarketManagerRole;
+import Role.MarketWorkerRole;
 import Role.Role;
 import astar.AStarTraversal;
 import astar.Position;
@@ -808,26 +808,27 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 				}
 
 			} else if(job.contains("market") || job.contains("Market")) {
-				if(r instanceof MarketWorker){
+				if(r instanceof MarketWorkerRole){
 
 					switch(workerMarketCounter) {
 					case 0: 
-						market1.addWorker((MarketWorker)r);
+						market1.addWorker((MarketWorkerRole)r);
 						p.addFirstJob(r, "mark1", 2);
 						break;
 					case 1: 
-						market2.addWorker((MarketWorker)r);
+						market2.addWorker((MarketWorkerRole)r);
 						p.addFirstJob(r, "mark2", 2);
 						break;
 					case 2: 
-						market3.addWorker((MarketWorker)r);
+						market3.addWorker((MarketWorkerRole)r);
 						p.addFirstJob(r, "mark3", 2);
 						break;
 					}
 
 					workerMarketCounter = (workerMarketCounter + 1) % 3;
+					
 				}
-				else if(r instanceof MarketManager){
+				else if(r instanceof MarketManagerRole){
 					if(managerMarketCounter > 2) {
 						System.out.println("NO    (Already have 3 market managers...)");
 						return;
@@ -835,15 +836,15 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 					switch(managerMarketCounter) {
 					case 0: 
-						market1.setManager((MarketManager)r);
+						market1.setManager((MarketManagerRole)r);
 						p.addFirstJob(r, "mark1", 1);
 						break;
 					case 1: 
-						market2.setManager((MarketManager)r);
+						market2.setManager((MarketManagerRole)r);
 						p.addFirstJob(r, "mark2", 1);
 						break;
 					case 2: 
-						market3.setManager((MarketManager)r);
+						market3.setManager((MarketManagerRole)r);
 						p.addFirstJob(r, "mark3", 1);
 						break;
 					}
@@ -1016,7 +1017,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			return role;
 		}
 		else if(type.equals("Market Manager")){
-			MarketManager role = new MarketManager("Market ManagerJoe", p, market1);
+			MarketManagerRole role = new MarketManagerRole("Market ManagerJoe", p, market1);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketManagerGui gui = new MarketManagerGui(role, mktGui);
@@ -1027,7 +1028,7 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 
 		}
 		else if(type.equals("Market Worker")){
-			MarketWorker role = new MarketWorker(p);
+			MarketWorkerRole role = new MarketWorkerRole(p);
 			role.setPerson(p);
 			MarketGui mktGui = new MarketGui(); 
 			MarketWorkerGui gui1 = new MarketWorkerGui(role, mktGui);
@@ -1036,15 +1037,35 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 			gui1.setPresent(false);
 			return role;
 		}
-		else if(type.equals("Market Customer")){
-			MarketCustomerRole role = new MarketCustomerRole(p.getName(), p);
-			role.setPerson(p);
-			MarketGui mktGui = new MarketGui(); 
-			MarketCustomerGui gui2 = new MarketCustomerGui(role, mktGui);
-			role.setGui(gui2);
-			market1Animation.addGui(gui2);
-			gui2.setPresent(false);
-			return role;
+		else if(type.contains("Market Customer")){
+			if (type.contains("1")){
+				MarketCustomerRole role1 = new MarketCustomerRole(p.getName(), p);
+				role1.setPerson(p);
+				MarketGui mktGui = new MarketGui(); 
+				MarketCustomerGui gui2 = new MarketCustomerGui(role1, mktGui);
+				role1.setGui(gui2);
+				market1Animation.addGui(gui2);
+				gui2.setPresent(false);
+				return role1;
+			} else if (type.contains("2")){
+				MarketCustomerRole role2 = new MarketCustomerRole(p.getName(), p);
+				role2.setPerson(p);
+				MarketGui mktGui = new MarketGui(); 
+				MarketCustomerGui gui2 = new MarketCustomerGui(role2, mktGui);
+				role2.setGui(gui2);
+				market2Animation.addGui(gui2);
+				gui2.setPresent(false);
+				return role2;
+			} else {
+				MarketCustomerRole role3 = new MarketCustomerRole(p.getName(), p);
+				role3.setPerson(p);
+				MarketGui mktGui = new MarketGui(); 
+				MarketCustomerGui gui2 = new MarketCustomerGui(role3, mktGui);
+				role3.setGui(gui2);
+				market3Animation.addGui(gui2);
+				gui2.setPresent(false);
+				return role3;
+			}
 		}	
 		else if(type.equals("Restaurant5 Customer")){
 			Restaurant5CustomerRole role = new Restaurant5CustomerRole(p.getName(), p);

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import city.gui.Gui;
 import Role.MarketCustomerRole;
-import Role.MarketWorker;
+import Role.MarketWorkerRole;
 
 public class MarketCustomerGui implements Gui {
 

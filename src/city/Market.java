@@ -8,12 +8,12 @@ import java.util.Collections;
 import java.util.List;
 
 import city.transportation.TruckAgent;
-import Role.MarketManager;
-import Role.MarketWorker;
+import Role.MarketManagerRole;
+import Role.MarketWorkerRole;
 
 public class Market { // Class modeled after comment made in https://github.com/usc-csci201-fall2013/simcity201/issues/28
 
-	public MarketManager mktManager;
+	public MarketManagerRole mktManager;
 	
 	String marketName;
 	
@@ -25,15 +25,15 @@ public class Market { // Class modeled after comment made in https://github.com/
 		marketName = name;
 	}
 	
-	public void setManager(MarketManager mk){
+	public void setManager(MarketManagerRole mk){
 		mktManager= mk;
 	}
 	
-	public void addWorker(MarketWorker mw){
+	public void addWorker(MarketWorkerRole mw){
 		mktManager.addWorker(mw);
 	}
 
-	public MarketManager getMarketManager() {
+	public MarketManagerRole getMarketManager() {
 		return mktManager;
 	}
 	

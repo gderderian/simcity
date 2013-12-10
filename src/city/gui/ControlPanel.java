@@ -1157,9 +1157,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000);
 
 		/*Market workers*/
-		for(int i = 0; i < 3; i++) {
-			addPerson("marketManager", "Market Manager");
-			addPerson("marketWorker", "Market Worker");
+		for(int i = 1; i <= 3; i++) {
+			addPerson("marketManager", "Market Manager" + i);
+			addPerson("marketWorker", "Market Worker" + i);
 		}
 
 		addVehicle("truck");

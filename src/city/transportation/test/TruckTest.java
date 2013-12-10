@@ -3,6 +3,8 @@ package city.transportation.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import Role.MarketManagerRole;
+
 import junit.framework.TestCase;
 import city.MarketOrder;
 import city.OrderItem;
@@ -14,7 +16,7 @@ import city.transportation.mock.MockTransportationPerson;
 
 public class TruckTest extends TestCase {
 	//instantiated in setUp()
-	MockMarketManager market;
+	MarketManagerRole market;
 	TruckAgent truck;
 	MockTransportationPerson recipient;
 	
