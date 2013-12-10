@@ -18,6 +18,7 @@ import city.Restaurant5.Restaurant5;
 import city.Restaurant5.Restaurant5CustomerRole;
 import city.transportation.BusStopAgent;
 import Role.BankTellerRole;
+import Role.MarketCustomerRole;
 import Role.Role;
 import astar.Position;
 
@@ -383,6 +384,34 @@ public class CityMap {
 		return false;
 	}
 	
+	public boolean msgMarketManagerArrivedToMarket(int num, Role customer){
+		MarketCustomerRole cust = (MarketCustomerRole) customer;
+		if(num == 1 && mark1.getMarketManager() != null){
+			mark1.getMarketManager().msgCustomerArrivedToMarket(cust);
+			return true;
+		}
+		if(num == 2 && mark2.getMarketManager() != null){
+			mark2.getMarketManager().msgCustomerArrivedToMarket(cust);
+			return true;
+		}
+		if(num == 3 && mark3.getMarketManager() != null){
+			mark3.getMarketManager().msgCustomerArrivedToMarket(cust);
+			return true;
+		}
+		return false;
+	}
+	
+	public void msgMarketManagerHereIsOrder(int num, MarketOrder o){
+		if(num == 1){
+			mark1.getMarketManager().msgHereIsOrder(o);
+		}
+		if(num == 2){
+			mark2.getMarketManager().msgHereIsOrder(o);
+		}
+		if(num == 3){
+			mark3.getMarketManager().msgHereIsOrder(o);
+		}
+	}
 	
 	public boolean msgMarketHereIsTruckOrder(int num, MarketOrder o){
 		// TODO change this to load balance the markets once they are all populated

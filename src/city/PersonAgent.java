@@ -872,8 +872,7 @@ public class PersonAgent extends Agent implements Person{
 				} else{
 					role.setInactive();
 					log("Oh no, the restaurant I want to go to is closed today!");
-				}
-					
+				}	
 			}
 			else{
 				log("Looks like I don't have a role for this task. I can't go into the building.");
@@ -891,6 +890,9 @@ public class PersonAgent extends Agent implements Person{
 					cityMap.bank.getBankManager().msgCustomerArrivedAtBank((BankCustomerRole) role);
 					((BankCustomerRole)role).setGuiActive();
 					isOpen= true;
+				} else{
+					role.setInactive();
+					log("Oh no, the bank I want to go to is closed today!");
 				}
 			}
 			else{
@@ -900,22 +902,30 @@ public class PersonAgent extends Agent implements Person{
 		else if(task.type == TaskType.goToMarket){
 
 			log("I should give the market manager my order!!!!!!!!!!!!!!!!!!!!!");
-
+			String[] markNum = task.location.split("mark");
+				//isOpen= cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
+				
 			if(role != null){
-				cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
-				((MarketCustomerRole)role).setGuiActive();
-				role.getGui().setPresent(true);
+				//cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
+				isOpen= cityMap.msgMarketManagerArrivedToMarket(Integer.parseInt(markNum[1]), role);
+				if(isOpen){
+					((MarketCustomerRole)role).setGuiActive();
+					role.getGui().setPresent(true);
+				
+					OrderItem oItem = new OrderItem("Chicken", 3);
+					List<OrderItem> oItemList = new ArrayList<OrderItem>();
+					oItemList.add(oItem);
+
+					MarketOrder o = new MarketOrder(oItemList, this);
+					log("Current order size in personagent pre-send is:" + o.orders.size());
+					cityMap.msgMarketManagerHereIsOrder(Integer.parseInt(markNum[1]), o);
+				} else{
+					role.setInactive();
+					log("Oh no, the market I want to go to is closed today!");
+				}
 			} else{
 				log("Couldn't find the role for task " + task.type.toString());
 			}
-
-			OrderItem oItem = new OrderItem("Chicken", 3);
-			List<OrderItem> oItemList = new ArrayList<OrderItem>();
-			oItemList.add(oItem);
-
-			MarketOrder o = new MarketOrder(oItemList, this);
-			log("Current order size in personagent pre-send is:" + o.orders.size());
-			cityMap.mark1.mktManager.msgHereIsOrder(o);
 
 		}
 		else if(task.type == TaskType.goToApartment){
