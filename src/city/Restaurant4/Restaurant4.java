@@ -73,4 +73,8 @@ public class Restaurant4 {
 			System.out.println("REST 4 IS NOW OPEN");
 		}
 	}
+	
+	public void emptyInventory(){
+		cook.msgEmptyInventory();
+	}
 }

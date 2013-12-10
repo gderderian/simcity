@@ -414,13 +414,12 @@ public class CityMap {
 	}
 	
 	public boolean msgMarketHereIsTruckOrder(int num, MarketOrder o){
-		// TODO change this to load balance the markets once they are all populated
 		if((num == 1 || num == 5) && mark1.getMarketManager() != null){
 			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}
 		else if((num == 3 || num == 4) && mark3.getMarketManager() != null){
-			mark3.getMarketManager().msgHereIsTruckOrder(o);
+			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}
 		else if(num == 2 && mark2.getMarketManager() != null){

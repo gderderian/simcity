@@ -33,10 +33,10 @@ public class CookRole4 extends Role implements Cook4 {
 	SharedOrders4 sharedOrders;
 	public enum orderState {none, pending, cooking, outOfItem, done, finished};
 	public enum marketState{none, checkForRestock, ready, ordered, fulfilled, partiallyFullfilled, allMarketsOut};
-	static final int eggTime= 1500;
-	static final int waffelTime= 1200;
-	static final int pancakeTime= 1000;
-	static final int baconTime= 1250;
+	static final int eggTime= 2500;
+	static final int waffelTime= 2200;
+	static final int pancakeTime= 2000;
+	static final int baconTime= 2250;
 	static final int randSelector= 3;
 	public int id= 0;
 	Map<String, Integer> delivery= new HashMap<String, Integer>();
@@ -110,18 +110,21 @@ public class CookRole4 extends Role implements Cook4 {
 		}
 	}
 	
-	 
 	public void msgHereIsYourOrder(MarketOrder mo){ 
 		List<OrderItem> order = mo.getOrders();
 		for(int i=0; i<order.size(); i++){
 			if(order.get(i).type.equals("Eggs")){
-				delivery.put("Eggs", 1);
+				log("ADDING " + order.get(i) + " EGGS");
+				delivery.put("Eggs", order.get(i).quantity);
 			} else if (order.get(i).type.equals("Waffels")){
-				delivery.put("Waffels", 1);
+				log("ADDING " + order.get(i) + " WAFFELS");
+				delivery.put("Waffels", order.get(i).quantity);
 			} else if(order.get(i).type.equals("Pancakes")){
-				delivery.put("Pancakes", 1);
+				log("ADDING " + order.get(i) + " PANCAKES");
+				delivery.put("Pancakes", order.get(i).quantity);
 			} else if(order.get(i).type.equals("Bacon")){
-				delivery.put("Bacon", 1);
+				log("ADDING " + order.get(i) + " BACON");
+				delivery.put("Bacon", order.get(i).quantity);
 			}
 		}
 		successful= true;
@@ -129,6 +132,14 @@ public class CookRole4 extends Role implements Cook4 {
 		this.p.stateChanged();
 	}
 	
+	public void msgEmptyInventory(){
+		log("Oh no, I don't have any more food! What a tragedy");
+		for(Food f : foods){
+			f.setAmount(0);
+		}
+		o.ms= marketState.checkForRestock;
+		p.stateChanged();
+	}
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -166,7 +177,7 @@ public class CookRole4 extends Role implements Cook4 {
 			return true;
 		}
 		if(o.ms == marketState.ready || o.ms == marketState.partiallyFullfilled){
-			log("Sending order to the market now.");
+			log("Ready to send order to the market now.");
 			sendOrder();
 			return true;
 		}
@@ -196,7 +207,6 @@ public class CookRole4 extends Role implements Cook4 {
 		System.out.println("Inside cook check shared orders");
 		Order o= sharedOrders.fillOrder();
 		while(o != null){
-			System.out.println("HEYO, IM LOOKIN' FOR SHARED ORDERS");
 			orders.add(o);
 			o= sharedOrders.fillOrder();
 		}
@@ -242,15 +252,19 @@ public class CookRole4 extends Role implements Cook4 {
 		OrderItem pancakes= new OrderItem("Pancakes", o.pancakes);
 		OrderItem bacon= new OrderItem("Bacon", o.bacon);
 		
+		log("Sending order to market now. I WANT " + o.eggs + " EGGS, " + o.waffels + " WAFFELS " + o.pancakes + " PANCAKES + " + o.bacon + " BACON");
+		
 		orders.add(eggs);
 		orders.add(waffels);
 		orders.add(pancakes);
 		orders.add(bacon);
 		
 		MarketOrder order= new MarketOrder(orders, "rest4", p);
-		p.getCityMap().msgMarketHereIsTruckOrder(4, order);
-		//market.msgHereIsTruckOrder(order);
+		boolean isOpen= p.getCityMap().msgMarketHereIsTruckOrder(4, order);
 		o.ms= marketState.ordered;
+		if(!isOpen){
+			log("OH NO, THERE MUST HAVE BEEN AN ERROR! MY ORDER TO THE MARKET DIDNT GO THROUGH");
+		}
 		p.stateChanged();
 	}
 	
@@ -258,33 +272,34 @@ public class CookRole4 extends Role implements Cook4 {
 		for(Food food : foods){
 			if(food.type == "Eggs"){
 				if(food.currAmount <= food.low){
-					log("Eggs are low, I need to restock!");
 					int e= food.capacity - food.currAmount;
+					log("Eggs are low, I need " + e + " more!");
 					o.add("Eggs", e);
 				}
 			}
 			if(food.type == "Waffels"){
 				if(food.currAmount <= food.low){
-					log("Waffels are low, I need to restock!");
 					int w= food.capacity - food.currAmount;
+					log("Waffels are low, I need " + w + " more!");
 					o.add("Waffels", w);
 				}
 			}
 			if(food.type == "Pancakes"){
 				if(food.currAmount <= food.low){
-					log("Pancakes are low, I need to restock!");
 					int p= food.capacity - food.currAmount;
+					log("Pancakes are low, I need " + p + " more!");
 					o.add("Pancakes", p);
 				}
 			}
 			if(food.type == "Bacon"){
 				if(food.currAmount <= food.low){
-					log("Bacon is low, I need to restock!");
 					int b= food.capacity - food.currAmount;
+					log("Bacon is low, I need " + b + " more!");
 					o.add("Bacon", b);
 				}
 			}
 		}
+		log("I WANT " + o.eggs + " EGGS, " + o.waffels + " WAFFELS " + o.pancakes + " PANCAKES + " + o.bacon + " BACON");
 	}
 	
 	public void restock(){
@@ -379,16 +394,16 @@ public class CookRole4 extends Role implements Cook4 {
 
 		public void add(String type, int amount){
 			ms= marketState.ready;
-			if(type == "Steak"){
+			if(type == "Eggs"){
 				eggs= amount;
 			}
-			else if(type == "Chicken"){
+			else if(type == "Waffels"){
 				waffels= amount;
 			}
-			else if(type == "Salad"){
+			else if(type == "Pancakes"){
 				pancakes= amount;
 			}
-			else if(type == "Pizza"){
+			else if(type == "Bacon"){
 				bacon= amount;
 			}
 		}
@@ -428,6 +443,10 @@ public class CookRole4 extends Role implements Cook4 {
 		
 		public void decrementAmount(){
 			currAmount--;
+		}
+		
+		public void setAmount(int x){
+			currAmount= x;
 		}
 	}	
 	

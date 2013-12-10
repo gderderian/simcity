@@ -8,6 +8,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -168,6 +169,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     //Set up rest4 components
     JButton closeRest4;
+    JButton emptyInventory4;
     
     CityGui cityGui;
 
@@ -321,10 +323,15 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant4Panel.add(new JLabel("Restaurant 4 Info/Options"));
         restaurant4Panel.setPreferredSize(buildingPanelDim);
         restaurant4Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        restaurant4Panel.setLayout(new GridLayout(15,1));
         
         closeRest4= new JButton("Close Restaurant");
         closeRest4.addActionListener(this);
         restaurant4Panel.add(closeRest4);
+        
+        emptyInventory4= new JButton("Set Inventory to 0");
+        emptyInventory4.addActionListener(this);
+        restaurant4Panel.add(emptyInventory4);
     }
     
     private void setupRestaurant5Panel(){
@@ -587,7 +594,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 			// Coming soon
 		}
 		else if(e.getSource() == closeRest4){
+			if(cityMap.getRest4().isOpen()){
+				closeRest4.setText("Open Restaurant");
+			}
+			else{
+				closeRest4.setText("Close Restaurant");
+			}
 			cityMap.getRest4().close();
+		}
+		else if(e.getSource() == emptyInventory4){
+			cityMap.getRest4().emptyInventory();
 		}
 
 	}
