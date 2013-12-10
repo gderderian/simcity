@@ -45,6 +45,7 @@ public class BankTellerRole extends Role {
 		super();
 		this.bankmanager = assignbankmanager;
 		banktellerstate = state.arrived;
+	
 	}
 
 	public void msgGoToBankTellerStation(int banktellerstationnumber)
@@ -75,7 +76,7 @@ public class BankTellerRole extends Role {
 
 	public void msgDepositIntoAccount(double deposit)
 	{
-		log("customer wants to deposit into an account");
+		log("Customer wants to deposit into an account");
 		log.add(new LoggedEvent("msgDepositIntoAccount"));
 		this.deposit = deposit;
 		banktellerevent = event.depositintoaccount;
@@ -85,9 +86,9 @@ public class BankTellerRole extends Role {
 
 	public void msgWithdrawFromAccount(double withdrawal)
 	{
-		Do("customer wants to withdraw from his account");
+		log("Customer wants to withdraw from account");
 		log.add(new LoggedEvent("msgWithdrawFromAccount"));
-		this.withdrawal = withdrawal;
+		this.withdrawal = withdrawal/2;
 		banktellerevent = event.withdrawfromaccount;
 		banktellerstate = state.servingcustomer;
 		person.stateChanged();
@@ -106,9 +107,10 @@ public class BankTellerRole extends Role {
 	public void msgPayBackLoan(double paybackloan)
 	{
 
-		Do("customer wants to pay back his loan");
+		Do("Customer wants to pay back his loan");
 		this.paybackloan = paybackloan;
 		banktellerevent = event.paybackloan;
+		banktellerstate = state.servingcustomer;
 		person.stateChanged();
 	}
 
@@ -124,9 +126,15 @@ public class BankTellerRole extends Role {
 
 	public boolean pickAndExecuteAnAction() {
 		//log("INSIDE BANK TELLER SCHEDULER");
-
+		if(bankmanager.bank.accounts.size() > 0)
+			{
+			for(account displayaccount: bankmanager.bank.accounts )
+			{
+				log("Acccount " + displayaccount.accountnumber + " balance :" + displayaccount.balance + " loan : " + displayaccount.loan);
+			}
+		}
 		
-		Do("!!!!!!!!!!!!!!!!!!!! banktellerrole scheduler  state " + banktellerstate + "   event " + banktellerevent);
+		log("!!!!!!!!!!!!!!!!!!!! banktellerrole scheduler  state " + banktellerstate + "   event " + banktellerevent);
 		
 		if(banktellerstate == state.arrived && banktellerevent == event.gotobanktellerstation)
 		{
@@ -142,10 +150,12 @@ public class BankTellerRole extends Role {
 			currentcustomeraccountnumber = bankmanager.bank.uniqueaccountnumber;
 			bankmanager.bank.uniqueaccountnumber++;
 			banktellerstate = state.waitingforresponse;
+			gui.approved = true;
 			timer.schedule(new TimerTask() {
 				
 				public void run() {
 					currentcustomer.msgOpenAccountDone(currentcustomeraccountnumber);
+					gui.approved = false;
 					//person.stateChanged();
 				}
 					},
@@ -156,6 +166,8 @@ public class BankTellerRole extends Role {
 
 		if(banktellerstate == state.servingcustomer && banktellerevent == event.depositintoaccount)
 		{
+			
+			Do("!!!!!!!!!!!!! I'm in the if statement");
 			synchronized(bankmanager.bank.accounts)
 			{
 
@@ -168,11 +180,13 @@ public class BankTellerRole extends Role {
 						findaccount.balance += this.deposit;
 						log("Current balance of account number : " + findaccount.accountnumber + " is $" + findaccount.balance);
 						log.add(new LoggedEvent("deposit!"));
+						gui.approved = true;
 						timer.schedule(new TimerTask() {
 							
 							public void run() {
-							Do("!!!!!!!! deposit" + deposit);
-							currentcustomer.msgDepositIntoAccountDone(deposit);	
+							log("!!!!!!!! deposit" + deposit);
+							currentcustomer.msgDepositIntoAccountDone(deposit);
+							gui.approved = false;
 							}
 								},
 							2 * 1000);
@@ -199,15 +213,47 @@ public class BankTellerRole extends Role {
 				{
 					if(findaccount.accountnumber == currentcustomeraccountnumber)
 					{        
-						if(!(findaccount.balance < withdrawal))
+						if(findaccount.loan > findaccount.balance)
+						{
+							final double amounttopayback = findaccount.loan;
+							gui.denied = true;
+							timer.schedule(new TimerTask() {
+								
+								public void run() {
+								log("withdrawal failed due to excessive loan");
+								currentcustomer.msgPayLoan(amounttopayback);
+								gui.denied = false;
+								}
+									},
+								2 * 1000);
+						
+						}
+						else if(!(findaccount.balance < withdrawal))
 						{
 							findaccount.balance -= this.withdrawal;
-							currentcustomer.msgHereIsYourWithdrawal(withdrawal);
+							gui.approved = true;
+							timer.schedule(new TimerTask() {
+								
+								public void run() {
+								currentcustomer.msgHereIsYourWithdrawal(withdrawal);	
+								}
+									},
+								2 * 1000);
 							break;
 						}
 						else
 						{
-							currentcustomer.msgWithdrawalFailed(withdrawal);
+							gui.denied = true;
+							timer.schedule(new TimerTask() {
+								
+								public void run() {
+								log("withdrawal failed");
+								currentcustomer.msgWithdrawalFailed(withdrawal);
+								gui.denied = false;
+								}
+									},
+								2 * 1000);
+						
 						}
 
 					}
@@ -225,7 +271,7 @@ public class BankTellerRole extends Role {
 
 			synchronized(bankmanager.bank.accounts)
 			{
-				Do("I'm in the if statement");
+				//Do("I'm in the if statement");
 
 				for(account findaccount: bankmanager.bank.accounts)
 				{
@@ -234,13 +280,33 @@ public class BankTellerRole extends Role {
 
 						if(findaccount.loan + loan > 50)
 						{
-
-							currentcustomer.msgCannotGetLoan(loan);
+							
+							gui.denied = true;
+							timer.schedule(new TimerTask() {
+								
+								public void run() {
+								log("loan failed");
+								currentcustomer.msgCannotGetLoan(loan);
+								gui.denied = false;
+								}
+									},
+								2 * 1000);
+							
+							
 						}
 						else
 						{
 							findaccount.loan += this.loan;
-							currentcustomer.msgHereIsYourLoan(loan);
+							gui.approved = true;
+							timer.schedule(new TimerTask() {
+								
+								public void run() {
+								log("loan approved");
+								currentcustomer.msgHereIsYourLoan(loan);	
+								}
+									},
+								2 * 1000);
+								
 						}
 
 
@@ -281,16 +347,24 @@ public class BankTellerRole extends Role {
 			synchronized(bankmanager.bank.accounts)
 			{
 
-				for(account findaccount: bankmanager.bank.accounts)
+				for(final account findaccount: bankmanager.bank.accounts)
 				{
 					if(findaccount.accountnumber == currentcustomeraccountnumber)
 					{        
 
-
-
+						
 						findaccount.loan -= paybackloan;
-						currentcustomer.msgLoanPaidBack(paybackloan, findaccount.loan);
-
+						gui.approved = true;
+						timer.schedule(new TimerTask() {
+							
+							public void run() {
+							log("loan approved");
+							currentcustomer.msgLoanPaidBack(paybackloan, findaccount.loan);	
+							}
+								},
+							2 * 1000);
+						
+						/*
 
 						// this is more advanced loan system.
 						double oldestloanamount;
@@ -312,9 +386,11 @@ public class BankTellerRole extends Role {
 							paybackloan = subtotal;        
 							i++;
 						}while(paybackloan != 0 || findaccount.loans.size() != 0);
+						*/
 
 					}
 				}
+				banktellerstate = state.waitingforresponse;
 				return true;
 
 			}
@@ -329,7 +405,10 @@ public class BankTellerRole extends Role {
 			//bankmanager.msgCustomerLeft(currentcustomer, this);
 			bankmanager.msgBankTellerFree(this);
 			this.currentcustomer = null;
+			gui.approved = false;
+			gui.denied = false;
 			gui.bankTellerOccupied = false;
+			
 			banktellerstate = state.atstation;
 			//return true;
 

@@ -32,10 +32,13 @@ public class BankCustomerRoleGui implements Gui{
 	private int ycoordinatesofstations[] = new int [4];
 	public Image imgofbankcustomer = new ImageIcon("images/waiter1.png").getImage();
 	public Image imgofaccount = new ImageIcon("images/account.png").getImage();
-	public Image imgofmoney = new ImageIcon("images/money.png").getImage();
+	public Image imgofmoney = new ImageIcon("images/newmoney.png").getImage();
 	public boolean openaccount;
 	public boolean deposit;
 	public boolean withdraw;
+	public boolean loan;
+	public boolean money;
+	public boolean paybackloan;
 	
 	public BankCustomerRoleGui(BankCustomerRole setrole, BankGui gui){ //HostAgent m) {
 		this.role = setrole;		
@@ -120,9 +123,19 @@ public class BankCustomerRoleGui implements Gui{
     		//g3.drawString("OPEN ACCOUNT", xPos - 15, yPos + 80);	
 			
 		}
+		else if(money == true)
+		{
+			g.drawImage(imgofmoney,xPos - 16, yPos + 70, 35, 35, gui);
+				
+		}
 		else if(deposit == true)
 		{
 			g.drawImage(imgofmoney,xPos - 16, yPos + 70, 35, 35, gui);
+			g3.setColor(Color.WHITE);
+    		g3.fillRoundRect(xPos - 22, yPos + 65, 70, 20, 30, 30);	
+			g3.setFont(new Font("Arial", Font.BOLD, 12));
+			g3.setColor(Color.black);
+    		g3.drawString("DEPOSIT", xPos - 15, yPos + 80);	
 			//g3.setFont(new Font("Arial", Font.BOLD, 12));
     		//g3.setColor(Color.black);
     		//g3.drawString("DEPOSIT", xPos - 15, yPos + 80);
@@ -130,11 +143,30 @@ public class BankCustomerRoleGui implements Gui{
 		
 		else if(withdraw == true)
 		{
+			g3.setColor(Color.WHITE);
+    		g3.fillRoundRect(xPos - 22, yPos + 65, 80, 20, 30, 30);	
 			g3.setFont(new Font("Arial", Font.BOLD, 12));
-    		g3.setColor(Color.black);
-    		g3.drawString("WITHDRAW", xPos - 15, yPos + 80);	
+			g3.setColor(Color.black);
+    		g3.drawString("WITHDRAW?", xPos - 15, yPos + 80);	
 		}
-		
+		else if(loan == true)
+		{
+			g3.setColor(Color.WHITE);
+    		g3.fillRoundRect(xPos - 22, yPos + 65, 60, 20, 30, 30);	
+			g3.setFont(new Font("Arial", Font.BOLD, 12));
+			g3.setColor(Color.black);
+    		g3.drawString("LOAN?", xPos - 15, yPos + 80);	
+			
+		}
+		else if(paybackloan == true)
+		{
+			g.drawImage(imgofmoney,xPos - 16, yPos + 70, 35, 35, gui);
+			g3.setColor(Color.WHITE);
+    		g3.fillRoundRect(xPos - 22, yPos + 65, 120, 20, 30, 30);	
+			g3.setFont(new Font("Arial", Font.BOLD, 12));
+			g3.setColor(Color.black);
+    		g3.drawString("PAYBACKLOAN", xPos - 15, yPos + 80);	
+		}
 		
 		
 	}
