@@ -11,8 +11,9 @@ import javax.swing.Timer;
 
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
+import city.MarketOrder;
+import city.OrderItem;
 import city.PersonAgent;
-import city.Restaurant2.OrderSpindle;
 import city.Restaurant3.Order.orderStatus;
 import city.Restaurant3.OrderSpindle3;
 import city.gui.Restaurant3.*;
@@ -109,6 +110,19 @@ public class CookRole3 extends Role {
 		}
 		int currentFoodQuantity = f.quantity;
 		int newFoodQuantity  = currentFoodQuantity + quantity;
+		f.quantity = newFoodQuantity;
+		f.reorderSent = false;
+		person.stateChanged();
+	}
+	
+	public void hereIsYourOrder(MarketOrder o) {
+		log("Accepting order of " + o.orders.get(0).quantity + " " + o.orders.get(0).name + "(s) from market.");
+		FoodItem f = allFood.get(o.orders.get(0).name);
+		if (o.orders.get(0).quantity < f.requestedQuantity && f.searchMarket != MARKETS_NUM){
+			f.searchMarket++;
+		}
+		int currentFoodQuantity = f.quantity;
+		int newFoodQuantity  = currentFoodQuantity + o.orders.get(0).quantity;
 		f.quantity = newFoodQuantity;
 		f.reorderSent = false;
 		person.stateChanged();
@@ -216,13 +230,19 @@ public class CookRole3 extends Role {
 		allFood.get(o.foodItem).decrementQuantity(); // After preparing this order, there is one less of this item available
 		if (allFood.get(o.foodItem).quantity <= REORDER_THRESHOLD && allFood.get(o.foodItem).reorderSent == false){
 			int orderQuantity = allFood.get(o.foodItem).maxCapacity - allFood.get(o.foodItem).quantity;
-			//myMarkets.get(allFood.get(o.foodItem).searchMarket).orderFood(this, o.foodItem, orderQuantity);
+			// myMarkets.get(allFood.get(o.foodItem).searchMarket).orderFood(this, o.foodItem, orderQuantity);
+			List<OrderItem> orderForMarket = new ArrayList<OrderItem>();
+			OrderItem oItem = new OrderItem(o.foodItem, orderQuantity);
+			orderForMarket.add(oItem);
+			MarketOrder finalOrder = new MarketOrder(orderForMarket, "rest3", person);
+			person.getCityMap().msgMarketHereIsTruckOrder(3, finalOrder);
 			allFood.get(o.foodItem).requestedQuantity = orderQuantity;
 		}
 		
 	}
 
 	private void orderDone(Order o){ // Tells the specific waiter that their customer's order is done and removes that order from the cook's list of orders
+		
 		log("Notifying waiter that " + o.getFoodName() + " for table #" + o.recipTable + "is done.");
 		
 		// Go to grill to get order and remove it

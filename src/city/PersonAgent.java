@@ -4,6 +4,7 @@ import interfaces.Bus;
 import interfaces.Car;
 import interfaces.HouseInterface;
 import interfaces.Landlord;
+import interfaces.MarketManager;
 import interfaces.Person;
 
 import java.util.ArrayList;
@@ -413,8 +414,9 @@ public class PersonAgent extends Agent implements Person{
 			((BankManagerRole) myJob.role).msgEndOfTheDay();	
 		}
 		
-		if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
-				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+		//if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
+				//|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
+		if(hour == 6 && minute < 15 && am_pm.equals("am") && myJob == null){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.gotHungry);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -1285,17 +1287,39 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
 
 	public void goToRestaurant(PersonTask task){
 		//Testing/scenario hacks
-
-		if(name.contains("rest")){	//if it's a restaurant test
+		if(name.equals("restTest")){
+			Random rand = new Random();
+			int num= rand.nextInt(5);
+			if(num == 0){
+				task.location= "rest1";
+				task.role = "Restaurant1CustomerRole";
+			} else if(num == 1){
+				task.location= "rest2";
+				task.role = "Restaurant2CustomerRole";
+			} else if(num == 2){
+				task.location= "rest3";
+				task.role = "Restaurant3CustomerRole";
+			} else if(num == 3){
+				task.location= "rest4";
+				task.role = "Restaurant4CustomerRole";
+			} else if(num == 4){
+				task.location= "rest5";
+				task.role = "Restaurant5CustomerRole";
+			}
+			
+			if(car != null){
+				print("Car is not empty!");
+				String destination = task.location;
+				takeCar(destination);
+			}
+			else{
+				DoGoTo(task.location, task);
+			}
+		}
+		else if(name.contains("rest")){	//if it's a restaurant test
 			String[] restNumTest = name.split("rest");
 			String[] restNum = restNumTest[1].split("Test");
 			String num = restNum[0];
@@ -1310,7 +1334,6 @@ public class PersonAgent extends Agent implements Person{
 			else{
 				DoGoTo(task.location, task);
 			}
-
 		}
 		else{
 			//Generalized function so we can get rid of the hacks
@@ -1350,23 +1373,41 @@ public class PersonAgent extends Agent implements Person{
 		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				if(b.landlord == house.getLandlord()){
+				
+				if (b.landlord != null){ // Check for due rent
+					if(b.landlord == house.getLandlord()){
+						if(wallet > b.amount){
+							log.add(new LoggedEvent("The bill I'm paying is my rent"));
+							house.getLandlord().msgHereIsMyRent(this, b.amount);
+							wallet -= b.amount;
+							billsToPay.remove(b);
+							return;
+						}
+						else{
+							synchronized(tasks){
+								//tasks.add(new PersonTask(TaskType.goToBank));
+								//Eventually want to make this so there are different types of goToBank TaskTypes
+								//i.e. for this TaskType.goToBankWithdrawal or something
+								return;
+							}
+						}
+					}
+				}
+				
+				if (b.manager != null){ // Check for pending market bills
 					if(wallet > b.amount){
-						log.add(new LoggedEvent("The bill I'm paying is my rent"));
-						house.getLandlord().msgHereIsMyRent(this, b.amount);
+						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
+						b.manager.msgAcceptPayment(b.amount);
 						wallet -= b.amount;
 						billsToPay.remove(b);
 						return;
-					}
-					else{
+					} else{
 						synchronized(tasks){
-							//tasks.add(new PersonTask(TaskType.goToBank));
-							//Eventually want to make this so there are different types of goToBank TaskTypes
-							//i.e. for this TaskType.goToBankWithdrawal or something
 							return;
 						}
 					}
 				}
+				
 			}
 		}
 	}
@@ -1820,6 +1861,7 @@ public class PersonAgent extends Agent implements Person{
 		public double amount;
 		public Role payTo;
 		public Landlord landlord;
+		public MarketManager manager;
 
 		public Bill(String t, double a, Role r){
 			type = t;
@@ -1831,6 +1873,12 @@ public class PersonAgent extends Agent implements Person{
 			type = t;
 			amount = a;
 			landlord = l;
+		}
+
+		public Bill(String t, double orderPrice, MarketManager mktManager) {
+			type = t;
+			amount = orderPrice;
+			manager = mktManager;
 		}
 
 
@@ -1969,5 +2017,11 @@ public class PersonAgent extends Agent implements Person{
 		groceries.add(f);
 		house.boughtGroceries(groceries);
 	}
+
+	public void msgMarketBill(double orderPrice, MarketManager manager) {
+		log("The market just billed me for " + orderPrice + ".");
+		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
+	}
+
 
 }

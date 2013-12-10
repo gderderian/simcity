@@ -396,7 +396,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     	// Add all to single panel
     	changeTime.setEnabled(false);
     	timeSelectionPanel.add(hourSelect);
-    	timeSelectionPanel.add(minuteSelect);
+    	//timeSelectionPanel.add(minuteSelect);
     	timeSelectionPanel.add(amPmSelect);
     	timeSelectionPanel.add(Box.createVerticalStrut(1));
     	timeSelectionPanel.add(changeTime);
@@ -1009,7 +1009,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public void runRestaurant4Test(){
 
 		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
-		addPerson("rest4Test", "No job");
+		addPerson("restTest", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 	}

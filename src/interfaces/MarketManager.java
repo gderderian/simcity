@@ -11,5 +11,7 @@ public interface MarketManager {
 	public void msgFinishedDelivery(MarketOrder o);
 
 	public String getMarketName();
+	
+	public void msgAcceptPayment(double incomingPayment);
 
 }
