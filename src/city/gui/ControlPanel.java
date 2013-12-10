@@ -318,10 +318,12 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void setupRestaurant4Panel(){
-        restaurant4Panel.add(new JLabel("Restaurant 4 Info/Options"));
+        restaurant4Panel.add(new JLabel("    Restaurant 4 Options"));
         restaurant4Panel.setPreferredSize(buildingPanelDim);
+        restaurant4Panel.setMaximumSize(buildingPanelDim);
+        restaurant4Panel.setMinimumSize(buildingPanelDim);
         restaurant4Panel.setBorder(BorderFactory.createLineBorder(Color.black));
-        restaurant4Panel.setLayout(new GridLayout(15,1));
+        restaurant4Panel.setLayout(new GridLayout(15,1, 5, 5));
         
         closeRest4= new JButton("Close Restaurant");
         closeRest4.addActionListener(this);
@@ -1155,9 +1157,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}, 16000);
 
 		/*Market workers*/
-		for(int i = 0; i < 3; i++) {
-			addPerson("marketManager", "Market Manager");
-			addPerson("marketWorker", "Market Worker");
+		for(int i = 1; i <= 3; i++) {
+			addPerson("marketManager", "Market Manager" + i);
+			addPerson("marketWorker", "Market Worker" + i);
 		}
 
 		addVehicle("truck");
@@ -1190,7 +1192,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("host4", "Restaurant4 Host");
 		addPerson("cashier4", "Restaurant4 Cashier");
 		addPerson("cook4", "Restaurant4 Cook");
-		addPerson("waiter4", "Restaurant4 RegularWaiter");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
 		/*Restaurant5 workers*/
 		addPerson("host5", "Restaurant5 Host");
 		addPerson("cashier5", "Restaurant5 Cashier");
