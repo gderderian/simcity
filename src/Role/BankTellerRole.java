@@ -150,11 +150,18 @@ public class BankTellerRole extends Role {
 			log("customer is opening account");
 			boolean unique;
 			int i;
+			boolean once = false;
 			
 			do {
 					Random r = new Random();
         			i = r.nextInt(50); 
 					unique = true;
+					if(once == false)
+					{
+						i = 1;
+						once = true;
+					}
+					
 					synchronized(bankmanager.bank.accounts)
 					{
 					
