@@ -12,7 +12,7 @@ import test.mock.EventLog;
 import test.mock.LoggedEvent;
 
 /**
- * Restaurant Cashier Agent
+ * Restaurant3 Cashier Agent
  */
 public class CashierRole3 extends Role {
 	

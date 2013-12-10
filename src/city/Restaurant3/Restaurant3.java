@@ -11,6 +11,9 @@ import city.Restaurant3.CustomerRole3;
 import city.Restaurant3.HostRole3;
 import city.Restaurant3.WaiterRole3;
 
+/**
+ * Restaurant3 Base Class
+ */
 public class Restaurant3 {
 	
 	String name;
