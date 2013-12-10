@@ -149,7 +149,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	}
 	
 	public void msgOrderPicked(MarketOrder o){
-		log("Received orderPicked message");
+		//log("Received orderPicked message");
 		//log("Current order size is:" + o.orders.size());
 		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
@@ -210,7 +210,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 
 	// Actions
 	private void makeWorkerPrepareOrder(myMarketOrder o){ // Distribute load of incoming orders to all workers
-		log("Getting a market worker to prepare the order");
+		// log("Getting a market worker to prepare the order");
 		o.state = orderState.assignedToWorker;
 		double orderTotal = 0;
 		// Decrement quantity of things in each order
@@ -267,7 +267,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	}
 	
 	private void billRecipient(myMarketOrder o){
-		// o.order.getRecipient().msgMarketBill(); // Need to discuss with Holly on how to bill people
+		o.order.getRecipient().msgMarketBill(o.order.orderPrice, this);
 		o.state = orderState.billed;
 	}
 	

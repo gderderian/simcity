@@ -4,6 +4,7 @@ import interfaces.Bus;
 import interfaces.Car;
 import interfaces.HouseInterface;
 import interfaces.Landlord;
+import interfaces.MarketManager;
 import interfaces.Person;
 
 import java.util.ArrayList;
@@ -1372,23 +1373,41 @@ public class PersonAgent extends Agent implements Person{
 		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				if(b.landlord == house.getLandlord()){
+				
+				if (b.landlord != null){ // Check for due rent
+					if(b.landlord == house.getLandlord()){
+						if(wallet > b.amount){
+							log.add(new LoggedEvent("The bill I'm paying is my rent"));
+							house.getLandlord().msgHereIsMyRent(this, b.amount);
+							wallet -= b.amount;
+							billsToPay.remove(b);
+							return;
+						}
+						else{
+							synchronized(tasks){
+								//tasks.add(new PersonTask(TaskType.goToBank));
+								//Eventually want to make this so there are different types of goToBank TaskTypes
+								//i.e. for this TaskType.goToBankWithdrawal or something
+								return;
+							}
+						}
+					}
+				}
+				
+				if (b.manager != null){ // Check for pending market bills
 					if(wallet > b.amount){
-						log.add(new LoggedEvent("The bill I'm paying is my rent"));
-						house.getLandlord().msgHereIsMyRent(this, b.amount);
+						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
+						b.manager.msgAcceptPayment(b.amount);
 						wallet -= b.amount;
 						billsToPay.remove(b);
 						return;
-					}
-					else{
+					} else{
 						synchronized(tasks){
-							//tasks.add(new PersonTask(TaskType.goToBank));
-							//Eventually want to make this so there are different types of goToBank TaskTypes
-							//i.e. for this TaskType.goToBankWithdrawal or something
 							return;
 						}
 					}
 				}
+				
 			}
 		}
 	}
@@ -1842,6 +1861,7 @@ public class PersonAgent extends Agent implements Person{
 		public double amount;
 		public Role payTo;
 		public Landlord landlord;
+		public MarketManager manager;
 
 		public Bill(String t, double a, Role r){
 			type = t;
@@ -1853,6 +1873,12 @@ public class PersonAgent extends Agent implements Person{
 			type = t;
 			amount = a;
 			landlord = l;
+		}
+
+		public Bill(String t, double orderPrice, MarketManager mktManager) {
+			type = t;
+			amount = orderPrice;
+			manager = mktManager;
 		}
 
 
@@ -1991,5 +2017,11 @@ public class PersonAgent extends Agent implements Person{
 		groceries.add(f);
 		house.boughtGroceries(groceries);
 	}
+
+	public void msgMarketBill(double orderPrice, MarketManager manager) {
+		log("The market just billed me for " + orderPrice + ".");
+		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
+	}
+
 
 }
