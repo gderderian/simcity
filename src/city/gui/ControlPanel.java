@@ -72,7 +72,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JButton buyCarButton = new JButton("Buy a Car");
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -761,6 +761,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runLandlordTest();
 		else if(scenario.equals("Market Truck Test"))
 			runMarketTruckTest();
+		else if(scenario.equals("Car Crash Test"))
+			runCarCrash();
 	}
 
 	public void runFullTest(){
@@ -1004,6 +1006,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("marketClient", "No Job");
 	}
+	
+	public void runCarCrash() {
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("crash");
+			}
+		}, 8000);
+		
+	}
 
 	public void runCarTest() {
 		//Add one person who should use their car
@@ -1017,9 +1034,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Landlord", "Landlord1");
 		*/
 		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
-		addPerson("Joe", "No Job");
+		addPerson("Jenny", "No Job");
+		addPerson("Jake", "No Job");
+		addPerson("Jess", "No Job");
 		addPerson("brokenApplianceTest", "No Job");
 	}
 	
@@ -1051,10 +1068,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cook", "Restaurant2 Cook");
 		addPerson("waiter", "Restaurant2 Waiter");
 		/*Restaurant3 workers*/
-		addPerson("host", "Restaurant3 Host");
-		addPerson("cashier", "Restaurant3 Cashier");
-		addPerson("cook", "Restaurant3 Cook");
-		addPerson("waiter", "Restaurant3 Waiter");
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
 		/*Restaurant4 workers*/
 		addPerson("host4", "Restaurant4 Host");
 		addPerson("cashier4", "Restaurant4 Cashier");
