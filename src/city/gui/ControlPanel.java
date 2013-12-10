@@ -794,10 +794,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 		sidewalkGrid[1][18].release(100); //apart2
 		sidewalkGrid[0][18].release(20); //these two lines open up spots if multiple people are leaving apartment
 		sidewalkGrid[2][18].release(20);
+		
 		sidewalkGrid[21][8].release(100); //stop0
+		sidewalkGrid[21][9].release(20);
+		
 		sidewalkGrid[11][0].release(100); //stop1
+		sidewalkGrid[10][0].release(20);
+		
 		sidewalkGrid[0][8].release(100); //stop2
-		sidewalkGrid[18][7].release(100); //stop3
+		sidewalkGrid[0][9].release(20);
+		
+		sidewalkGrid[7][18].release(100); //stop3
+		sidewalkGrid[8][18].release(20);
 
 		sidewalkGrid[20][18].release(100); //starting point for agents
 		sidewalkGrid[21][18].release(100);

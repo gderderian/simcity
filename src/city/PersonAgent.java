@@ -1,28 +1,38 @@
 package city;
 
-import restaurant1.Restaurant1CookRole;
-import test.mock.LoggedEvent;
 import interfaces.Bus;
 import interfaces.Car;
 import interfaces.HouseInterface;
 import interfaces.Landlord;
 import interfaces.Person;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import restaurant1.Restaurant1CookRole;
 import test.mock.EventLog;
+import test.mock.LoggedEvent;
+import Role.BankCustomerRole;
+import Role.BankTellerRole;
+import Role.LandlordRole;
+import Role.MarketCustomerRole;
+import Role.Role;
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
+import agent.Agent;
+import astar.AStarNode;
+import astar.AStarTraversal;
+import astar.Position;
 import city.PersonTask.State;
 import city.PersonTask.TaskType;
 import city.PersonTask.Transportation;
 import city.Restaurant2.Restaurant2CookRole;
 import city.Restaurant3.CookRole3;
-import city.Restaurant3.Restaurant3;
 import city.Restaurant4.CookRole4;
 import city.Restaurant5.Restaurant5CookRole;
 import city.gui.CityClock;
@@ -31,18 +41,6 @@ import city.gui.House.HomeOwnerGui;
 import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
-import Role.BankCustomerRole;
-import Role.BankTellerRole;
-import Role.LandlordRole;
-import Role.MarketCustomerRole;
-import Role.MarketManager;
-import Role.Role;
-import activityLog.ActivityLog;
-import activityLog.ActivityTag;
-import agent.Agent;
-import astar.AStarNode;
-import astar.AStarTraversal;
-import astar.Position;
 
 public class PersonAgent extends Agent implements Person{
 
