@@ -23,4 +23,10 @@ public class MockMarketManager implements MarketManager {
 		
 	}
 
+	@Override
+	public String getMarketName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
