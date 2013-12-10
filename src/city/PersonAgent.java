@@ -383,7 +383,7 @@ public class PersonAgent extends Agent implements Person{
 			log("It's time for me to go to bank.");
 
 		} 
-		else if(hour == 3 && currentHour != hour && (name.equals("bankCustomerTest1")))
+		else if(hour == 4 && currentHour != hour && (name.equals("bankCustomerTest1")))
 		{
 			currentHour = hour;
 			wallet = 40;
@@ -1060,11 +1060,29 @@ public class PersonAgent extends Agent implements Person{
 			for(Role r : roles){
 				if(r instanceof BankCustomerRole) {
 					r.setActive();
+					//This is hack for non norm
+					//if(name.equals("bankCustomerTest1"))
+					//((BankCustomerRole) r).amountofcustomermoney = 40;
+					//This is hack for non norm
+					if(name.equals("bankCustomerTest1")) {
+						
+					((BankCustomerRole) r).amountofcustomermoney = 40;
+					((BankCustomerRole) r).bankaccountnumber = 1;
+					}
+					
+					if(name.equals("bankCustomerTest1")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 1;
+					}
+						
+					
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();
 					task.location = bankName;
 					task.role = r.getRoleName();
 					//task.role = r;
+					
 					log("Set BankCustomerRole active");
 				}
 			}

@@ -221,7 +221,7 @@ public class BankCustomerRole extends Role{
                          return true;
         		}
         		
-        		if(bankcustomerstate == state.atstation && loan <= amountofcustomermoney)
+        		if(bankcustomerstate == state.atstation && loan <= amountofcustomermoney && loan != 0)
         		{
         				gui.paybackloan = true;
         				amountofcustomermoney -= this.paybackloan;
