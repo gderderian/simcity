@@ -945,7 +945,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else if(task.type == TaskType.goToMarket){
 
-			log("I should give the market manager my order!!!!!!!!!!!!!!!!!!!!!");
+			log("I should give the market manager my order.");
 			String[] markNum = task.location.split("mark");
 				//isOpen= cityMap.msgHostHungryAtRestaurant(Integer.parseInt(restNum[1]), role);
 				
@@ -1000,7 +1000,7 @@ public class PersonAgent extends Agent implements Person{
 		log("Going to work");
 
 		task.location = myJob.location;
-		System.out.println("Going to work as a " + task.role + " at " + task.location);
+		log("Going to work as a " + task.role + " at " + task.location);
 		//Role in the task here should be null because role-related things are taken care of in the Job class
 
 		if(car != null){	//if the person has a car, he/she will take it
