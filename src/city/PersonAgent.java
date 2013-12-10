@@ -692,6 +692,15 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		/*
+		synchronized(tasks){
+			boolean taskExists = false;
+			for(PersonTask t : tasks){
+				if(t.type == TaskType.goToBank){
+					taskExists = true;
+				}
+			}
+		}*/
 		//Cook meal
 		synchronized(meals){
 			for(MyMeal m : meals){
@@ -803,6 +812,7 @@ public class PersonAgent extends Agent implements Person{
 				else{
 					location = house.getName();
 				}
+				
 				DoGoTo(location, null);
 				house.getAnimationPanel().addGui(homeGui);
 				//homeGui.goToBed();

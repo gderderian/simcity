@@ -228,6 +228,8 @@ public class MarketManager extends Role {
 			o.order.getRecipient().msgHereIsYourOrder(o.order);
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
+			log("");
+			/*
 			int initOrders = myMarket.marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
 			TruckAgent selectedTruck = null;
 			synchronized(myMarket.marketTrucks){
@@ -238,7 +240,8 @@ public class MarketManager extends Role {
 					}
 				}
 			}
-			selectedTruck.msgPleaseDeliver(o.order);
+			*/
+			myMarket.myTruck.msgPleaseDeliver(o.order);
 			o.state = orderState.givenToTruck;
 		}
 	}

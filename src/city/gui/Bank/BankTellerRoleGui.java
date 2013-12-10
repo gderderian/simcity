@@ -20,6 +20,8 @@ public class BankTellerRoleGui implements Gui{
 	
 	boolean isPresent;
 	public boolean bankTellerOccupied;
+	public boolean approved;
+	public boolean denied;
 
     int initialxc = 200;
     private int xcoordinatesofstations[] = new int [4];
@@ -80,15 +82,27 @@ public class BankTellerRoleGui implements Gui{
     		g3.fillRect(xPos - 20, yPos - 12, 38, 20);
     		g4.setFont(new Font("Arial", Font.BOLD, 12));
     		g4.setColor(Color.black);
-    		g4.drawString("OPEN", xPos - 18, yPos + 2);
+    		g4.drawString("OPEN", xPos - 17, yPos + 2);
     	}
-    	/*
-    	if(bankTellerOccupied == true)
+    	
+    	if(approved == true)
+    	{
+    		g3.setColor(Color.GREEN);
+    		g3.fillRect(xPos - 20, yPos - 12, 70, 20);
+    		g4.setFont(new Font("Arial", Font.BOLD, 12));
+    		g4.setColor(Color.black);
+    		g4.drawString("APPROVED", xPos - 17, yPos + 2);
+    	}
+    	
+    	if(denied == true)
     	{
     		g3.setColor(Color.RED);
-    		g3.fillRect(xPos - 20, yPos - 12, 38, 20);
+    		g3.fillRect(xPos - 20, yPos - 12, 44, 20);
+    		g4.setFont(new Font("Arial", Font.BOLD, 12));
+    		g4.setColor(Color.black);
+    		g4.drawString("DENIED", xPos - 17, yPos + 2);
+    			
     	}
-    	*/
     	
     	
     }
