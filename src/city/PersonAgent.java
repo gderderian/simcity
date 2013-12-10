@@ -32,6 +32,7 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankCustomerRole;
+import Role.BankManagerRole;
 import Role.BankTellerRole;
 import Role.LandlordRole;
 import Role.MarketCustomerRole;
@@ -382,6 +383,13 @@ public class PersonAgent extends Agent implements Person{
 				msgRentDue(house.getLandlord(), 10.0);
 			}
 		}
+	
+		if(hour == 9 && am_pm.equals("pm") && myJob.role instanceof BankManagerRole)
+		{
+			((BankManagerRole) myJob.role).msgEndOfTheDay();	
+		}
+		
+		
 		if(hour == 3 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
 				|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
@@ -1066,14 +1074,6 @@ public class PersonAgent extends Agent implements Person{
 					((BankCustomerRole) r).amountofcustomermoney = 40;
 					((BankCustomerRole) r).bankaccountnumber = 1;
 					}
-					
-					if(name.equals("bankCustomerTest1")) {
-						
-						((BankCustomerRole) r).amountofcustomermoney = 40;
-						((BankCustomerRole) r).bankaccountnumber = 1;
-					}
-						
-				
 					r.setActive(wallet);
 					role = (BankCustomerRole) r;
 					bankName = role.getBuilding();

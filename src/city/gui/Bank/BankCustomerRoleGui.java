@@ -166,7 +166,7 @@ public class BankCustomerRoleGui implements Gui{
 		}
 		else if(deposit == true)
 		{
-			g.drawImage(imgofmoney,xPos - 16, yPos + 80, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 16, yPos + 85, 35, 35, gui);
 			g3.setColor(Color.WHITE);
     		g3.fillRoundRect(xPos - 22, yPos + 65, 70, 20, 30, 30);	
 			g3.setFont(new Font("Arial", Font.BOLD, 12));
