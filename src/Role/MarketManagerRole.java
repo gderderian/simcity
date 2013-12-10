@@ -267,7 +267,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	}
 	
 	private void billRecipient(myMarketOrder o){
-		// o.order.getRecipient().msgMarketBill(); // Need to discuss with Holly on how to bill people
+		o.order.getRecipient().msgMarketBill(o.order.orderPrice, this);
 		o.state = orderState.billed;
 	}
 	
