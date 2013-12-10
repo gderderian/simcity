@@ -2,6 +2,8 @@ package city.transportation;
 
 import Role.MarketManagerRole;
 
+import interfaces.MarketManager;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -16,7 +18,7 @@ import city.transportation.CarAgent.CarEvent;
 
 public class TruckAgent extends Vehicle {
 	//Data
-	MarketManagerRole market; //Market that this truck reports to
+	MarketManager market; //Market that this truck reports to
 
 	public List <MyMarketOrder> orders = Collections.synchronizedList(new ArrayList<MyMarketOrder>());
 
@@ -122,6 +124,11 @@ public class TruckAgent extends Vehicle {
 	private void DriveToMarket() {
 		String dest = market.getMarketName();
 		
+		if(aStar == null) {
+			log("Driving to the market...");
+			return;
+		}
+		
 		int x = cityMap.getX(dest);
 		int y = cityMap.getY(dest);
 		
@@ -150,6 +157,11 @@ public class TruckAgent extends Vehicle {
 	}
 	
 	private void DriveTo(String dest) {
+
+		if(aStar == null) {
+			log("Driving to " + dest);
+			return;
+		}
 		
 		int x = cityMap.getX(dest);
 		int y = cityMap.getY(dest);
@@ -188,7 +200,7 @@ public class TruckAgent extends Vehicle {
 	}
 
 	// Accessors
-	public void setMarketManager(MarketManagerRole m) {
+	public void setMarketManager(MarketManager m) {
 		market = m;
 	}
 	
