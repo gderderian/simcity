@@ -319,6 +319,9 @@ public class CityGui extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void changeView(String building){
+		
+		controlPanel.changeBuildingControlPanel(building);
+		
 		if(building.equals("City")){
 			for(BuildingPanel bp : buildingPanels) {
 				bp.setVisible(false);

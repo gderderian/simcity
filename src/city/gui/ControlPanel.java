@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,10 +72,29 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel personOptionsDisplay = new JPanel();
     private JButton buyCarButton = new JButton("Buy a Car");
     
+    /*Building panels*/
+    private JPanel buildingInfoPanel = new JPanel();
+    List<JPanel> buildingPanels = Collections.synchronizedList(new ArrayList<JPanel>());
+	private JPanel restaurant1Panel = new JPanel();
+    private JPanel restaurant2Panel = new JPanel();
+	private JPanel restaurant3Panel = new JPanel();
+	private JPanel restaurant4Panel = new JPanel();
+	private JPanel restaurant5Panel = new JPanel();
+    private JPanel market1Panel = new JPanel();
+    private JPanel market2Panel = new JPanel();
+    private JPanel market3Panel = new JPanel();
+    private JPanel bank1Panel = new JPanel();
+    
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
+    
+    private String[] buildings = {"[Select a building for info and options]", "Restaurant1", "Restaurant2", "Restaurant3", "Restaurant4",
+    		"Restaurant5", "Bank1", "Market1", "Market2", "Market3"
+    		};
+    
+    private JComboBox buildingPanelSelect = new JComboBox(buildings);
     
     // Timer GUI display & control functionality
     private JLabel timeDisplay = new JLabel("12:00am  -  Monday  -  Week 1");
@@ -106,6 +126,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private Dimension infoPanelDim = new Dimension(WINDOWXINSIDE, INFOPANELY);
     private Dimension backButtonDim = new Dimension(WINDOWX, BACKBUTTONY);
     private Dimension personOptionsDim = new Dimension(WINDOWXINSIDE, PERSONOPTIONSY);
+    private Dimension buildingPanelDim = new Dimension(WINDOWXINSIDE, WINDOWY - 30);
 
     private JTextField nameField;
     private JTextField errorDisplay = new JTextField();
@@ -165,6 +186,8 @@ public class ControlPanel extends JPanel implements ActionListener{
         addPersonSection();
         
         setupWorldControls();
+        
+        setupBuildingControls();
                 
         controlPane.setPreferredSize(panelDim);
         worldControlPanel.setPreferredSize(panelDim);
@@ -174,6 +197,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         controlPane.addTab("World", worldControlPanel);
         controlPane.addTab("People", personControlPanel);
         controlPane.addTab("Activity Log", activityPane);
+        controlPane.addTab("Buildings", buildingInfoPanel);
         add(controlPane);
         
         //Set up the grids of semaphores
@@ -235,6 +259,92 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public CityMap getCityMap() {
     	return cityMap;
+    }
+    
+    private void setupBuildingControls(){
+    	buildingPanelSelect.addActionListener(this);
+        buildingInfoPanel.add(buildingPanelSelect);
+        buildingInfoPanel.setPreferredSize(panelDim);
+        buildingPanels.add(restaurant1Panel);
+        buildingPanels.add(restaurant2Panel);
+        buildingPanels.add(restaurant3Panel);
+        buildingPanels.add(restaurant4Panel);
+        buildingPanels.add(restaurant5Panel);
+        buildingPanels.add(market1Panel);
+        buildingPanels.add(market2Panel);
+        buildingPanels.add(market3Panel);
+        buildingPanels.add(bank1Panel);
+        
+        /*Functions for setting up different building Panels*/
+        setupRestaurant1Panel();
+        setupRestaurant2Panel();
+        setupRestaurant3Panel();
+        setupRestaurant4Panel();
+        setupRestaurant5Panel();
+        setupMarket1Panel();
+        setupMarket2Panel();
+        setupMarket3Panel();
+        setupBank1Panel();
+        
+        for(int i = 0; i < buildingPanels.size(); i++){
+        	buildingInfoPanel.add(buildingPanels.get(i));
+        	buildingPanels.get(i).setVisible(false);
+        }
+        
+    }
+    
+    private void setupRestaurant1Panel(){
+        restaurant1Panel.add(new JLabel("Restaurant 1 Info/Options"));
+        restaurant1Panel.setPreferredSize(buildingPanelDim);
+        restaurant1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupRestaurant2Panel(){
+        restaurant2Panel.add(new JLabel("Restaurant 2 Info/Options"));
+        restaurant2Panel.setPreferredSize(buildingPanelDim);
+        restaurant2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupRestaurant3Panel(){
+        restaurant3Panel.add(new JLabel("Restaurant 3 Info/Options"));
+        restaurant3Panel.setPreferredSize(buildingPanelDim);
+        restaurant3Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupRestaurant4Panel(){
+        restaurant4Panel.add(new JLabel("Restaurant 4 Info/Options"));
+        restaurant4Panel.setPreferredSize(buildingPanelDim);
+        restaurant4Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupRestaurant5Panel(){
+        restaurant5Panel.add(new JLabel("Restaurant 5 Info/Options"));
+        restaurant5Panel.setPreferredSize(buildingPanelDim);
+        restaurant5Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupMarket1Panel(){
+        market1Panel.add(new JLabel("Market 1 Info/Options"));
+        market1Panel.setPreferredSize(buildingPanelDim);
+        market1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupMarket2Panel(){
+        market2Panel.add(new JLabel("Market 2 Info/Options"));
+        market2Panel.setPreferredSize(buildingPanelDim);
+        market2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupMarket3Panel(){
+        market3Panel.add(new JLabel("Market 3 Info/Options"));
+        market3Panel.setPreferredSize(buildingPanelDim);
+        market3Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    private void setupBank1Panel(){
+        bank1Panel.add(new JLabel("Bank 1 Info/Options"));
+        bank1Panel.setPreferredSize(buildingPanelDim);
+        bank1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
     private void setupWorldControls(){
@@ -393,7 +503,40 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * Handles the event of the add button being pressed
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == addPersonButton) {
+		if(e.getSource() == buildingPanelSelect){
+			for(JPanel p : buildingPanels){
+				p.setVisible(false);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Restaurant1")){
+				restaurant1Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Restaurant2")){
+				restaurant2Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Restaurant3")){
+				restaurant3Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Restaurant4")){
+				restaurant4Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Restaurant5")){
+				restaurant5Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Market1")){
+				market1Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Market2")){
+				market2Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Market3")){
+				market3Panel.setVisible(true);
+			}
+			if(buildingPanelSelect.getSelectedItem().equals("Bank1")){
+				bank1Panel.setVisible(true);
+			}
+			
+		}
+		else if (e.getSource() == addPersonButton) {
 			// Chapter 2.19 describes showInputDialog()
 			if(!nameField.getText().equals("")){
 				//TODO Should we add a check here for duplicate names?
@@ -1095,5 +1238,38 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public void enableBackToCity() {
 		backToCity.setEnabled(true);
+	}
+	
+	public void changeBuildingControlPanel(String building){
+		for(JPanel p : buildingPanels){
+			p.setVisible(false);
+		}
+		if(building.equals("Restaurant1")){
+			restaurant1Panel.setVisible(true);
+		}
+		if(building.equals("Restaurant2")){
+			restaurant2Panel.setVisible(true);
+		}
+		if(building.equals("Restaurant3")){
+			restaurant3Panel.setVisible(true);
+		}
+		if(building.equals("Restaurant4")){
+			restaurant4Panel.setVisible(true);
+		}
+		if(building.equals("Restaurant5")){
+			restaurant5Panel.setVisible(true);
+		}
+		if(building.equals("Market1")){
+			market1Panel.setVisible(true);
+		}
+		if(building.equals("Market2")){
+			market2Panel.setVisible(true);
+		}
+		if(building.equals("Market3")){
+			market3Panel.setVisible(true);
+		}
+		if(building.equals("Bank1")){
+			bank1Panel.setVisible(true);
+		}
 	}
 }
