@@ -106,7 +106,7 @@ public class TruckAgent extends Vehicle {
 		
 		log("Going to " + o.o.destination);
 		DriveTo(o.o.destination);
-		log("Delivering order from market to recipient");
+		log("Delivering order from market to " + o.o.getRecipient().getName());
 		o.o.getRecipient().msgHereIsYourOrder(this, o.o);
 		o.delivered = true;
 		
