@@ -427,14 +427,14 @@ public class PersonAgent extends Agent implements Person{
 				log("I should really go to the bank soon.");
 			}
 		}
-		else if(hour == 11 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
+		else if(hour == 8 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I should really go to the bank soon.");
 			}
 		}
-		else if(hour == 11 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
+		else if(hour == 8 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -1605,14 +1605,14 @@ public class PersonAgent extends Agent implements Person{
 		}
 		//String location = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
 		String location;
-		Random rand = new Random();
-		int num= rand.nextInt(3);
-		if(num == 0)
-			location= "mark1";
-		else if(num == 1)
-			location= "mark2";
-		else
-			location = "mark3";
+		//Random rand = new Random();
+		//int num= rand.nextInt(3);
+		//if(num == 0)
+		location= "mark1";
+		//else if(num == 1)
+			//location= "mark2";
+		//else
+			//location = "mark3";
 
 		// location = "mark1";
 
@@ -1683,6 +1683,7 @@ public class PersonAgent extends Agent implements Person{
 			atDestination.acquire();
 		} catch (InterruptedException e){}
 		meals.remove(m);
+		stateChanged();
 		eatMeal.schedule(new TimerTask() {
 			@Override public void run() {
 				log("That meal was fabulous! I'm a GREAT cook, why don't people come visit me and try my cooking??");

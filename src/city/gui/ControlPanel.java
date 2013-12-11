@@ -1254,7 +1254,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 		
-		addPersonWithCar("Chris", "No job");
+		addPerson("Chris", "No job");
 		addPerson("Steph", "No job");
 		addPerson("Carla", "No job");
 		populateBanksAndMarkets();
@@ -1458,12 +1458,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
+		addPerson("marketManager", "Market Manager1");
+		addPerson("marketWorker", "Market Worker1");
+		addPerson("marketManager", "Market Manager2");
+		addPerson("marketWorker", "Market Worker2");
+		addPerson("marketManager", "Market Manager3");
+		addPerson("marketWorker", "Market Worker3");
 		
 		addVehicle("truck");
 		addVehicle("truck");
