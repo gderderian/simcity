@@ -323,6 +323,9 @@ public class CityGui extends JFrame implements ActionListener {
 		masterClock.startTime();
 	}
 
+	public CityClock getClock(){
+		return masterClock;
+	}
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {

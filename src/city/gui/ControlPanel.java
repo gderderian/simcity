@@ -92,7 +92,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel market3Panel = new JPanel();
     private JPanel bank1Panel = new JPanel();
     
-    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
+    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
@@ -951,6 +951,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 */
 		if(scenario.equals("Full Scenario"))
 			runFullTest();
+		else if(scenario.equals("The Weekender"))
+			runTheWeekenderTest();
 		else if(scenario.equals("Trader Joe's"))
 			runMarketVisitTest();
 		else if(scenario.equals("Restaurant1"))
@@ -991,6 +993,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("rest4Test", "No job");
 		addPersonWithCar("rest4Test", "No job");
+	}
+	
+	public void runTheWeekenderTest(){
+		//cityGui.getClock().setDay();
 	}
 
 	public void runRestaurant1Test(){
