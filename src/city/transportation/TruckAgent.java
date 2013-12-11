@@ -56,13 +56,11 @@ public class TruckAgent extends Vehicle {
 	}
 
 	public void msgOrderReceived(PersonAgent p, MarketOrder o) {
-		MyMarketOrder temp = null;
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
 				if(mo.o == o)
-					temp = mo;
+					mo.delivered = true;
 			}
-			temp.delivered = true;
 		}
 		stateChanged();
 	}

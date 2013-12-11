@@ -169,20 +169,21 @@ public class MarketManagerRole extends Role implements MarketManager {
 	}
 	
 	public void msgFinishedDelivery(MarketOrder o){
-		myMarketOrder selectedMarketOrder = null;
+		log("Truck finished its delievery, now I will bill the person for the order");
 		synchronized(myOrders){
 			for (myMarketOrder order : myOrders) {
-				if (order.order.equals(o)){
-					selectedMarketOrder = order;
+				if (order.order == o){
+					order.state = orderState.pendingBilling;
 					return;
 				}
 			}
 		}
-		selectedMarketOrder.state = orderState.pendingBilling;
 		p.stateChanged();
 	}
 	
 	public void msgAcceptPayment(double incomingPayment){
+		log("Recieving a payment for an order");
+		
 		marketMoney = incomingPayment + marketMoney;
 		p.stateChanged();
 	}
@@ -271,6 +272,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	}
 	
 	private void billRecipient(myMarketOrder o){
+		log("Billing " + o.order.getRecipient().getName());
 		o.order.getRecipient().msgMarketBill(o.order.orderPrice, this);
 		o.state = orderState.billed;
 	}
