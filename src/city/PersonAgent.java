@@ -102,6 +102,8 @@ public class PersonAgent extends Agent implements Person{
 	List<String> groceryList = Collections.synchronizedList(new ArrayList<String>());
 	CityClock clock;
 	int currentHour;
+	enum MarketDeliveryState {pending, restaurantClosed, restaurantOpen, done};
+	PendingMarketDelivery pendingMarketDelivery;
 
 	//Testing
 	public EventLog log = new EventLog();
@@ -428,14 +430,14 @@ public class PersonAgent extends Agent implements Person{
 				log("I should really go to the bank soon.");
 			}
 		}
-		else if(hour == 11 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
+		else if(hour == 8 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I should really go to the bank soon.");
 			}
 		}
-		else if(hour == 11 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
+		else if(hour == 8 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -651,26 +653,9 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgHereIsYourOrder(TruckAgent t, MarketOrder order){ //Order for the cook role from a truck agent
-		log("Recieved an order from the market! I'll send it on now");
-		synchronized(roles) {
-			for(Role r : roles) {
-				if(r.getRoleName().contains("Cook") && r.isActive()) {
-					if(r instanceof Restaurant1CookRole) {
-						((Restaurant1CookRole) r).msgHereIsYourOrder(order);
-					} else if(r instanceof Restaurant2CookRole) {
-						((Restaurant2CookRole) r).msgHereIsYourOrder(order);
-					} else if(r instanceof CookRole3) {
-						//((CookRole3 r).msgHereIsYourOrder(order);
-					} else if(r instanceof CookRole4) {
-						((CookRole4) r).msgHereIsYourOrder(t, order);
-					} else if(r instanceof Restaurant5CookRole) {
-						//((Restaurant5CookRole) r).msgHereIsYourOrder(order);
-					}
-				}
-			}
-		}
-		
-		t.msgOrderReceived(this, order);
+		log("Truck is trying to deliver an order to the restaurant");
+		pendingMarketDelivery = new PendingMarketDelivery(t, order);
+		stateChanged();
 	}
 	
 	public void msgHereIsYourOrder(MarketOrder order) {
@@ -684,6 +669,8 @@ public class PersonAgent extends Agent implements Person{
 		List<Food> groceries = new ArrayList<Food>();
 		groceries.add(f);
 		house.boughtGroceries(groceries);
+		
+		stateChanged();
 	}
 
 	public void msgMarketBill(double orderPrice, MarketManager manager) {
@@ -691,7 +678,7 @@ public class PersonAgent extends Agent implements Person{
 			if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?
 				log("YEEEAH, sending order");
 				if (myJob.role.getRoleName().contains("1")){
-					
+					cityMap.getRest1().getCashier().msgHereIsBill(manager, orderPrice);
 				} else if (myJob.role.getRoleName().contains("2")){	
 					cityMap.getRest2().getCashier().msgChargeForOrder(orderPrice, manager);
 				} else if (myJob.role.getRoleName().contains("3")){
@@ -705,28 +692,34 @@ public class PersonAgent extends Agent implements Person{
 				// Above was previously implemented using ((CookRole3) myJob.role).msgHereIsMarketBill(b.amount, b.manager)
 			}
 		
+		billsToPay.add(new Bill("Market", orderPrice, manager));
+		stateChanged();
 	}
 
 	//Bank
 	public void msgSetBankAccountNumber(double num){
 		accountNumber = num;
 		log("I have a bank account now :" + accountNumber);
+		stateChanged();
 	}
 
 	public void msgBalanceAfterDepositingIntoAccount(double balance){
 		wallet = balance;
 		log("My balance after depositing into my account:" + wallet);
+		stateChanged();
 	}
 
 	public void msgBalanceAfterWithdrawingFromAccount(double balance){
 		wallet = balance;
 		log("My balance after withdrawing from my account:" + wallet);
+		stateChanged();
 	}
 
 	public void msgBalanceAfterGetitngLoanFromAccount(double balance, double loan) {
 		wallet = balance;
 		// = loan;
 		log("My balance after getting loan from the bank:" + wallet + " and loan :" + loan);
+		stateChanged();
 	}
 
 	/*
@@ -759,6 +752,10 @@ public class PersonAgent extends Agent implements Person{
 				return true;
 			}
 		}		
+		if(pendingMarketDelivery != null){
+			checkRestaurantOpen();
+			return true;
+		}
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
@@ -951,6 +948,64 @@ public class PersonAgent extends Agent implements Person{
 
 
 	//ACTIONS
+	private void checkRestaurantOpen(){
+		boolean isOpen = true;
+		if(myJob.role.getRoleName().contains("Cook")){
+			if(myJob.role.getRoleName().contains("1")){
+				if(!cityMap.restaurant1.isOpen())
+					isOpen = false;
+			}
+			else if(myJob.role.getRoleName().contains("2")){
+				if(!cityMap.restaurant2.isOpen())
+					isOpen = false;
+			}
+			else if(myJob.role.getRoleName().contains("3")){
+				if(!cityMap.restaurant3.isOpen())
+					isOpen = false;
+			}
+			if(myJob.role.getRoleName().contains("4")){
+				if(!cityMap.restaurant4.isOpen())
+					isOpen = false;
+			}
+			if(myJob.role.getRoleName().contains("5")){
+				if(!cityMap.restaurant5.isOpen())
+					isOpen = false;
+			}
+		}
+		if(isOpen == false){
+			log("The restaurant is closed, the truck cannot make its delivery");
+			pendingMarketDelivery.truck.msgRestaurantIsClosed(this, pendingMarketDelivery.order);
+			pendingMarketDelivery = null;
+		}
+		else{
+			log("The restaurant is open, sending the order along to the cook");
+			pendingMarketDelivery.truck.msgOrderReceived(this, pendingMarketDelivery.order);
+			sendOrderToCook();
+		}
+	}
+	
+	private void sendOrderToCook(){
+		synchronized(roles) {
+			for(Role r : roles) {
+				if(r.getRoleName().contains("Cook") && r.isActive()) {
+					if(r instanceof Restaurant1CookRole) {
+						((Restaurant1CookRole) r).msgHereIsYourOrder(pendingMarketDelivery.order);
+					} else if(r instanceof Restaurant2CookRole) {
+						((Restaurant2CookRole) r).msgHereIsYourOrder(pendingMarketDelivery.order);
+					} else if(r instanceof CookRole3) {
+						//((CookRole3 r).msgHereIsYourOrder(order);
+					} else if(r instanceof CookRole4) {
+						((CookRole4) r).msgHereIsYourOrder(pendingMarketDelivery.truck, pendingMarketDelivery.order);
+					} else if(r instanceof Restaurant5CookRole) {
+						//((Restaurant5CookRole) r).msgHereIsYourOrder(order);
+					}
+				}
+			}
+		}
+		
+		pendingMarketDelivery = null;
+	}
+	
 	private boolean doesRoleListContain(String type){
 		log("Checking if I'm a landlord");
 		synchronized(roles){
@@ -1441,7 +1496,23 @@ public class PersonAgent extends Agent implements Person{
 						}
 					}
 				}
-					if(wallet > b.amount){
+				if(b.manager != null){
+				if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?
+					log("YEEEAH, sending order");
+					if (myJob.role.getRoleName().contains("1")){
+						
+					} else if (myJob.role.getRoleName().contains("2")){	
+						cityMap.getRest2().getCashier().msgChargeForOrder(b.amount, b.manager);
+					} else if (myJob.role.getRoleName().contains("3")){
+						cityMap.getRest3().getCashier().msgPayMarket(b.amount, b.manager);
+					} else if (myJob.role.getRoleName().contains("4")){
+						cityMap.getRest4().getCashier().msgHereIsBill(b.manager, b.amount);
+					} else if (myJob.role.getRoleName().contains("5")){
+					
+					}
+				}
+				}
+				else if(wallet > b.amount){
 						// Pay myself because I made this order
 						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
 						b.manager.msgAcceptPayment(b.amount);
@@ -1605,14 +1676,14 @@ public class PersonAgent extends Agent implements Person{
 		}
 		//String location = cityMap.getClosestPlaceFromHere(house.getName(), "mark");
 		String location;
-		Random rand = new Random();
-		int num= rand.nextInt(3);
-		if(num == 0)
-			location= "mark1";
-		else if(num == 1)
-			location= "mark2";
-		else
-			location = "mark3";
+		//Random rand = new Random();
+		//int num= rand.nextInt(3);
+		//if(num == 0)
+		location= "mark1";
+		//else if(num == 1)
+			//location= "mark2";
+		//else
+			//location = "mark3";
 
 		// location = "mark1";
 
@@ -1683,6 +1754,7 @@ public class PersonAgent extends Agent implements Person{
 			atDestination.acquire();
 		} catch (InterruptedException e){}
 		meals.remove(m);
+		stateChanged();
 		eatMeal.schedule(new TimerTask() {
 			@Override public void run() {
 				log("That meal was fabulous! I'm a GREAT cook, why don't people come visit me and try my cooking??");
@@ -1903,26 +1975,22 @@ public class PersonAgent extends Agent implements Person{
 	//CLASSES
 
 	public class Bill{
-		public String type;
 		public double amount;
 		public Role payTo;
 		public Landlord landlord;
 		public MarketManager manager;
 
 		public Bill(String t, double a, Role r){
-			type = t;
 			amount = a;
 			payTo = r;
 		}
 
 		public Bill(String t, double a, Landlord l){
-			type = t;
 			amount = a;
 			landlord = l;
 		}
 
 		public Bill(String t, double orderPrice, MarketManager mktManager) {
-			type = t;
 			amount = orderPrice;
 			manager = mktManager;
 		}
@@ -2037,6 +2105,18 @@ public class PersonAgent extends Agent implements Person{
 			location = l;
 		}
 
+	}
+	
+	private class PendingMarketDelivery{
+		TruckAgent truck;
+		MarketOrder order;
+		MarketDeliveryState state;
+		
+		public PendingMarketDelivery(TruckAgent t, MarketOrder o){
+			truck = t;
+			order = o;
+			state = MarketDeliveryState.pending;
+		}
 	}
 
 	private void log(String msg){
