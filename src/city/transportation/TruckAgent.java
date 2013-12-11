@@ -89,14 +89,6 @@ public class TruckAgent extends Vehicle {
 	public boolean pickAndExecuteAnAction() {
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
-				if(mo.state == DeliveryState.delayed) {
-					RetryDelivery(mo);
-					return true;
-				}
-			}			
-		}
-		synchronized(orders) {
-			for(MyMarketOrder mo : orders) {
 				if(mo.state == DeliveryState.delivered) {
 					ReportToMarket(mo);
 					return true;
@@ -112,6 +104,15 @@ public class TruckAgent extends Vehicle {
 				}
 			}
 		}
+		
+		synchronized(orders) {
+			for(MyMarketOrder mo : orders) {
+				if(mo.state == DeliveryState.delayed) {
+					RetryDelivery(mo);
+					return true;
+				}
+			}			
+		}
 
 		return false;
 	}
@@ -124,6 +125,8 @@ public class TruckAgent extends Vehicle {
 			o.o.getRecipient().msgHereIsYourOrder(this, o.o);
 			o.state = DeliveryState.awaitingConfirmation;
 		}
+		
+		gui.setVisible();
 		
 		log("Picking up order from market");
 		DriveToMarket();
@@ -140,6 +143,7 @@ public class TruckAgent extends Vehicle {
 	}
 	
 	private void RetryDelivery(MyMarketOrder o) {
+		gui.setVisible();
 		log("Going to " + o.o.destination);
 		DriveTo(o.o.destination);
 		
