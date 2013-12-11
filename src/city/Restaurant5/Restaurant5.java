@@ -19,6 +19,7 @@ public class Restaurant5 {
 	private boolean isOpen;
 	
 	public Restaurant5(){
+		isOpen = true;
 		waiters = Collections.synchronizedList(new ArrayList<Restaurant5WaiterRole>());
 		orderspindle = new OrderSpindle5();
 	}

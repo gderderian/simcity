@@ -10,8 +10,8 @@ public class Restaurant5HostGui implements Gui {
     private Restaurant5Host agent = null;
     private boolean returningtolobby = false;
 
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
+    private int xPos = -20, yPos = -20;
+    private int xDestination = -20, yDestination = -20;
 
     public static int xTable = 200;
     public static int yTable = 250;
