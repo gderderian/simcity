@@ -295,6 +295,7 @@ public class CityGui extends JFrame implements ActionListener {
 		timer = new Timer(TIMER_INTERVAL, this);
 		timer.start();
 
+		controlPanel.createVitalStaff();
 	}
 
 	public void startMasterClock() {
