@@ -150,14 +150,12 @@ public class Restaurant1CookRole extends Role {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		log("1");
 		if(restaurantOpening) {
 			initialInventoryCheck();
 			checkOrderWheel();
 			return true;
 		}
 		
-		log("2");
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pickedUp) {
@@ -166,8 +164,7 @@ public class Restaurant1CookRole extends Role {
 				}
 			}
 		}
-
-		log("3");
+		
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.cooked) {
@@ -177,7 +174,6 @@ public class Restaurant1CookRole extends Role {
 			}
 		}
 
-		log("4");
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pending) {
