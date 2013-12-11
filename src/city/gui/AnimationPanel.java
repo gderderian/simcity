@@ -111,11 +111,11 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 		}
 			
 		// Markets (3)
-		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60) && CityMap.getInstance().getMark1().isOpen()) {
+		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60) && CityMap.getInstance().getMark2().isOpen()) {
 			cityGui.changeView("Market2");
-		}  else if((x >= 270) && (x <= 330) && (y >= 630) && (y <= 690) && CityMap.getInstance().getMark2().isOpen()){
+		}  else if((x >= 270) && (x <= 330) && (y >= 630) && (y <= 690) && CityMap.getInstance().getMark3().isOpen()){
 			cityGui.changeView("Market3");
-		}  else if((x >= 840) && (x <= 900) && (y >= 300) && (y <= 360) && CityMap.getInstance().getMark3().isOpen()){
+		}  else if((x >= 840) && (x <= 900) && (y >= 300) && (y <= 360) && CityMap.getInstance().getMark1().isOpen()){
 			cityGui.changeView("Market1");
 		}
 			

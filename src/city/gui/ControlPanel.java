@@ -405,7 +405,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         toggleMarket3 = new JButton("Close Market");
         toggleMarket3.addActionListener(this);
-        market2Panel.add(toggleMarket3);
+        market3Panel.add(toggleMarket3);
     }
     
     private void setupBank1Panel(){
