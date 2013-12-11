@@ -5,14 +5,11 @@ import interfaces.MarketWorker;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
-
-import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
-import city.gui.Market.MarketManagerGui;
 import city.gui.Market.MarketWorkerGui;
 import Role.Role;
 
@@ -159,7 +156,6 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		return gui;
 	}
 
-	@Override
 	public PersonAgent getPerson() {
 		return p;
 	}	

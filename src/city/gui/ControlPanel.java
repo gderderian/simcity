@@ -1096,11 +1096,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cashier5", "Restaurant5 Cashier");
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
-
+		addPerson("waiter5", "Restaurant5 Waiter");
 		//addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
-		
+		addPerson("rest5Test", "No job");
 		populateBanksAndMarkets();
 	}
 	
@@ -1308,10 +1308,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		/*Landlord*/
 		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/
-		addPerson("bank manager", "Bank Manager");
-		addPerson("bank teller", "Bank Teller");
-		addPerson("bank teller", "Bank Teller");
-		addPerson("bank teller", "Bank Teller");
+		//addPerson("bank manager", "Bank Manager");
+		//addPerson("bank teller", "Bank Teller");
+		//addPerson("bank teller", "Bank Teller");
+		//addPerson("bank teller", "Bank Teller");
 		
 		addPerson("marketManager", "Market Manager2");
 		addPerson("marketWorker", "Market Worker2");

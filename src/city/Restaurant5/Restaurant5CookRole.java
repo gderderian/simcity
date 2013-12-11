@@ -84,9 +84,9 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		this.name = name;
 		this.person = person;
 		this.state = cookstate.doingnothing;
-		inventoryoffood.put("chicken", 0);
-		inventoryoffood.put("burrito", 0);
-		inventoryoffood.put("pizza", 0);
+		inventoryoffood.put("chicken", 1);
+		inventoryoffood.put("burrito", 1);
+		inventoryoffood.put("pizza", 1);
 		
 		
 		
