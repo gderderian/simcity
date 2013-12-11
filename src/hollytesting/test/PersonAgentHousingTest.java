@@ -20,6 +20,7 @@ public class PersonAgentHousingTest extends TestCase {
                 house = new MockHouse("House", person);
                 landlord = new MockLandlord("Landlord");
                 person.house = house;
+                person.setTesting(true);
         }
         
         public void testGettingFoodNormal(){

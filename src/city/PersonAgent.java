@@ -1467,7 +1467,6 @@ public class PersonAgent extends Agent implements Person{
 		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				
 				if (b.landlord != null){ // Check for due rent
 					if(b.landlord == house.getLandlord()){
 						if(wallet > b.amount){
@@ -1502,7 +1501,6 @@ public class PersonAgent extends Agent implements Person{
 					}
 					billsToPay.remove(b);
 				}
-				}
 				else if(wallet > b.amount){
 						// Pay myself because I made this order
 						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
@@ -1516,8 +1514,8 @@ public class PersonAgent extends Agent implements Person{
 						}
 					}
 				}
-				
 			}
+		}
 	}
 
 
