@@ -68,7 +68,6 @@ public class MarketCustomerRole extends Role {
         ActivityLog.getInstance().logActivity(tag, msg, name, false);
 	}
 
-	@Override
 	public PersonAgent getPerson() {
 		return person;
 	}

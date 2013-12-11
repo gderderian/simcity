@@ -362,6 +362,11 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 
+	public void msgBackToWork(){
+		tasks.add(new PersonTask(TaskType.goToWork));
+		stateChanged();
+	}
+	
 	//TODO fix this
 	public void msgTimeUpdate(int t, int hour, long minute, String am_pm){
 		
@@ -409,7 +414,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		if(hour == 9 && am_pm.equals("pm") && myJob.role instanceof BankManagerRole)
+		if(hour == 9 && am_pm.equals("pm") && myJob.role instanceof BankManagerRole && myJob != null)
 		{
 			((BankManagerRole) myJob.role).msgEndOfTheDay();	
 		}
@@ -464,6 +469,20 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 		}
+		
+		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest4"))){
+
+			wallet = 20;
+			bankaccountnumber = 4;
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("It's time for me to go to bank.");
+			}
+
+		}
+		
+		
 		
 		//bank robber
 		else if(hour == 3 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankRobber"))){
@@ -973,6 +992,11 @@ public class PersonAgent extends Agent implements Person{
 				} else{
 					role.setInactive();
 					log("Oh no, the restaurant I want to go to is closed today!");
+					if(name.equals("restTest")){
+						log("I GUESS ILL PICK A DIFFERENT RESTAURANT TO GO TO NOW");
+						tasks.add( new PersonTask("gotHungry"));
+						//goToRestaurant(pt);
+					}
 				}	
 			}
 			else{
@@ -1202,6 +1226,7 @@ public class PersonAgent extends Agent implements Person{
 					//((BankCustomerRole) r).amountofcustomermoney = 40;
 					
 					//This is a hack for non norm
+					
 					if(name.equals("bankCustomerTest1")) {
 						
 					((BankCustomerRole) r).amountofcustomermoney = 40;
@@ -1215,12 +1240,12 @@ public class PersonAgent extends Agent implements Person{
 						((BankCustomerRole) r).bankaccountnumber = 2;
 					
 					}
-					if(name.equals("bankCustomerTest3")) {
+					if(name.equals("bankCustomerTest4")) {
 						
-						((BankCustomerRole) r).amountofcustomermoney = 40;
-						((BankCustomerRole) r).bankaccountnumber = 3;
-					
+						((BankCustomerRole) r).amountofcustomermoney = 20;
+						((BankCustomerRole) r).bankaccountnumber = 4;
 					}	
+
 					
 					r.setActive(wallet);
 					role = (BankCustomerRole) r;
@@ -1406,7 +1431,7 @@ public class PersonAgent extends Agent implements Person{
 						} else if (myJob.role.getRoleName().contains("3")){
 							cityMap.getRest3().getCashier().msgPayMarket(b.amount, b.manager);
 						} else if (myJob.role.getRoleName().contains("4")){
-							
+							cityMap.getRest4().getCashier().msgHereIsBill(b.manager, b.amount);
 						} else if (myJob.role.getRoleName().contains("5")){
 						
 						}

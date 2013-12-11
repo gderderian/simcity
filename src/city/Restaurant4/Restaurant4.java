@@ -2,6 +2,7 @@ package city.Restaurant4;
 
 import java.util.*;
 
+import justinetesting.interfaces.Cashier4;
 import city.PersonAgent;
 
 public class Restaurant4 {
@@ -57,6 +58,10 @@ public class Restaurant4 {
 		cashier = c;
 	}
 
+	public Cashier4 getCashier(){
+		return cashier;
+	}
+	
 	public int getWaiterListSize() {
 		return waiters.size();
 	}
@@ -72,6 +77,15 @@ public class Restaurant4 {
 			System.out.println("REST 4 IS NOW CLOSED");
 		} else{
 			isOpen= true;
+			for(WaiterRole4 w : waiters){
+				w.msgBackInBusiness();
+				w.p.msgBackToWork();
+			}
+			host.msgBackInBusiness();
+			host.p.msgBackToWork();
+			cashier.msgBackInBusiness();
+			cashier.p.msgBackToWork();
+			cook.p.msgBackToWork();
 			System.out.println("REST 4 IS NOW OPEN");
 		}
 	}

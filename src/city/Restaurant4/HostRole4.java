@@ -144,6 +144,11 @@ public class HostRole4 extends Role {
 		p.stateChanged();
 	}
 	
+	public void msgBackInBusiness(){
+		closed= false;
+		//p.addTask("goToWork");
+	}
+	
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.

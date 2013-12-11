@@ -29,16 +29,20 @@ public class Bank {
                 
                 //this is for testing
                 accounts.add(new account (null, 1));
-                accounts.get(0).balance = 40;
+                accounts.get(0).balance = 10;
                 accounts.get(0).loan = 0;
                 
                 accounts.add(new account (null, 2));
-                accounts.get(0).balance = 40;
-                accounts.get(0).loan = 50;
+                accounts.get(1).balance = 20;
+                accounts.get(1).loan = 30;
                 
                 accounts.add(new account (null, 3));
-                accounts.get(0).balance = 5;
-                accounts.get(0).loan = 50;
+                accounts.get(2).balance = 5;
+                accounts.get(2).loan = 50;
+                
+                accounts.add(new account (null, 4));
+                accounts.get(3).balance = 10;
+                accounts.get(3).loan = 5;
                 
                 
         }
