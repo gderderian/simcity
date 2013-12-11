@@ -385,27 +385,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		//Old way of doing jobs
-		/*
-		if(hour == 1 && minute < 15 && am_pm.equals("am") && myJob != null){
-			if(myJob.role.getRoleName().contains("Rest")){
-				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
-					PersonTask task = new PersonTask(TaskType.goToWork);
-					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
-					log("It's time for me to go to work!");
-				}
-			}
-		}
-		if(hour == 3 && minute < 15 && am_pm.equals("am") && myJob != null){
-			if(!myJob.role.getRoleName().contains("Rest")){
-				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
-					PersonTask task = new PersonTask(TaskType.goToWork);
-					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
-					log("It's time for me to go to work!");
-				}
-			}
-		}*/
-		
 		//For paying rent
 		if(hour == 2 && minute >= 15 && minute < 30 && am_pm.equals("am") && house.getName().contains("apart")){
 			currentHour = hour;
@@ -445,7 +424,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 		}
-		
 		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest2"))){
 
 			wallet = 40;
@@ -455,9 +433,7 @@ public class PersonAgent extends Agent implements Person{
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("It's time for me to go to bank.");
 			}
-
 		}
-		
 		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest3"))){
 
 			wallet = 20;
@@ -467,9 +443,7 @@ public class PersonAgent extends Agent implements Person{
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("It's time for me to go to bank.");
 			}
-
 		}
-		
 		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest4"))){
 
 			wallet = 20;
@@ -479,11 +453,7 @@ public class PersonAgent extends Agent implements Person{
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("It's time for me to go to bank.");
 			}
-
 		}
-		
-		
-		
 		//bank robber
 		else if(hour == 3 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankRobber"))){
 
@@ -496,9 +466,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 
 		}
-		
-		
-		
 		else if(hour == 7 && minute < 15 && (name.equals("marketClient"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
@@ -508,17 +475,6 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		/*Adds got hungry task
-		 * Right now this is only for the test person
-		 * */
-		/*
-		else if(hour == 3 && minute >= 40){
-			currentHour = hour;
-			PersonTask newTask = new PersonTask(TaskType.gotHungry);
-			schedule.addTaskToDay(clock.getDayOfWeekNum(), newTask);
-			log("Adding got hungry task");
-		}
-		*/
 		else if(hour == 12 && minute >= 15 && minute < 30 && am_pm.equals("pm") && myJob == null){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
@@ -678,6 +634,44 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
+		
+		t.msgOrderReceived(this, order);
+	}
+	
+	public void msgHereIsYourOrder(MarketOrder order) {
+		log("Yay, I got my order back!");
+		List<OrderItem> o = order.orders;
+
+		log("Final: " + order.orders.size());
+
+		Food f = new Food(o.get(0).name);
+
+		List<Food> groceries = new ArrayList<Food>();
+		groceries.add(f);
+		house.boughtGroceries(groceries);
+	}
+
+	public void msgMarketBill(double orderPrice, MarketManager manager) {
+		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
+		log("Sending the market bill to the cashier");
+			if (myJob.role.getRoleName().contains("cook")){ // Is this bill a personal bill or a restaurant bill?
+				log("YEEEAH, sending order");
+	
+				if (myJob.role.getRoleName().contains("1")){
+					
+				} else if (myJob.role.getRoleName().contains("2")){	
+					cityMap.getRest2().getCashier().msgChargeForOrder(orderPrice, manager);
+				} else if (myJob.role.getRoleName().contains("3")){
+					cityMap.getRest3().getCashier().msgPayMarket(orderPrice, manager);
+				} else if (myJob.role.getRoleName().contains("4")){
+					cityMap.getRest4().getCashier().msgHereIsBill(manager, orderPrice);
+				} else if (myJob.role.getRoleName().contains("5")){
+				
+				}
+				
+				// Above was previously implemented using ((CookRole3) myJob.role).msgHereIsMarketBill(b.amount, b.manager)
+			}
+		
 	}
 
 	//Bank
@@ -724,7 +718,14 @@ public class PersonAgent extends Agent implements Person{
 		if(name.equals("death")) {
 			return false;
 		}
-				
+		
+		//Pay bills
+		synchronized(billsToPay){
+			if(!billsToPay.isEmpty()){
+				payBills();
+				return true;
+			}
+		}		
 		boolean anytrue = false;
 		synchronized(roles){
 			for(Role r : roles){
@@ -839,8 +840,6 @@ public class PersonAgent extends Agent implements Person{
 				}
 			}
 		}
-		
-		
 		/*
 		synchronized(tasks){
 			boolean taskExists = false;
@@ -872,13 +871,6 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(recievedOrders){
 			if(!recievedOrders.isEmpty()){
 				handleRecievedOrders();
-				return true;
-			}
-		}
-		//Pay bills
-		synchronized(billsToPay){
-			if(!billsToPay.isEmpty()){
-				payBills();
 				return true;
 			}
 		}
@@ -1055,7 +1047,7 @@ public class PersonAgent extends Agent implements Person{
 				//cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
 				isOpen= cityMap.msgMarketManagerArrivedToMarket(Integer.parseInt(markNum[1]), role);
 				if(isOpen){
-					((MarketCustomerRole)role).setGuiActive();
+					//((MarketCustomerRole)role).setGuiActive();
 					role.getGui().setPresent(true);
 				
 					OrderItem oItem = new OrderItem("Chicken", 3);
@@ -1419,26 +1411,7 @@ public class PersonAgent extends Agent implements Person{
 						}
 					}
 				}
-				
-				if (b.manager != null){ // Check for pending market bills	
-					if (myJob.role.getRoleName().contains("cook")){ // Is this bill a personal bill or a restaurant bill?
-						
-						// Send to active cook role
-						if (myJob.role.getRoleName().contains("1")){
-							
-						} else if (myJob.role.getRoleName().contains("2")){	
-							cityMap.getRest2().getCashier().msgChargeForOrder(b.amount, b.manager);
-						} else if (myJob.role.getRoleName().contains("3")){
-							cityMap.getRest3().getCashier().msgPayMarket(b.amount, b.manager);
-						} else if (myJob.role.getRoleName().contains("4")){
-							cityMap.getRest4().getCashier().msgHereIsBill(b.manager, b.amount);
-						} else if (myJob.role.getRoleName().contains("5")){
-						
-						}
-						
-						// Above was previously implemented using ((CookRole3) myJob.role).msgHereIsMarketBill(b.amount, b.manager)
-						
-					} else if(wallet > b.amount){
+					if(wallet > b.amount){
 						// Pay myself because I made this order
 						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
 						b.manager.msgAcceptPayment(b.amount);
@@ -1453,7 +1426,6 @@ public class PersonAgent extends Agent implements Person{
 				}
 				
 			}
-		}
 	}
 
 
@@ -2048,24 +2020,5 @@ public class PersonAgent extends Agent implements Person{
 	public void setTesting(boolean t){
 		test = true;
 	}
-
-	public void msgHereIsYourOrder(MarketOrder order) {
-		log("Yay, I got my order back!");
-		List<OrderItem> o = order.orders;
-
-		log("Final: " + order.orders.size());
-
-		Food f = new Food(o.get(0).name);
-
-		List<Food> groceries = new ArrayList<Food>();
-		groceries.add(f);
-		house.boughtGroceries(groceries);
-	}
-
-	public void msgMarketBill(double orderPrice, MarketManager manager) {
-		log("The market just billed me for " + orderPrice + ".");
-		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
-	}
-
 
 }

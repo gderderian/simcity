@@ -3,30 +3,21 @@ Market Class - Supports MarketWorker role and MarketManager role
 */
 package city;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import city.transportation.TruckAgent;
 import Role.MarketManagerRole;
 import Role.MarketWorkerRole;
 
 public class Market { // Class modeled after comment made in https://github.com/usc-csci201-fall2013/simcity201/issues/28
 
 	public MarketManagerRole mktManager;
-	
 	String marketName;
-	
-	public Market(){
-		
-	}
+	public boolean closed;
 	
 	public Market(String name){
 		marketName = name;
 	}
 	
 	public void setManager(MarketManagerRole mk){
-		mktManager= mk;
+		mktManager = mk;
 	}
 	
 	public void addWorker(MarketWorkerRole mw){

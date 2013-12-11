@@ -51,6 +51,7 @@ import Role.BankTellerRole;
 import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
+import city.Restaurant4.CookRole4.orderState;
 import city.Restaurant5.Restaurant5;
 import city.gui.restaurant2.Restaurant2InfoPanel;
 import city.transportation.BusStopAgent;
@@ -172,6 +173,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     //Set up rest4 components
     JButton closeRest4;
     JButton emptyInventory4;
+    
+    //Timer for weekend scenario
+    Timer weekend= new Timer();
     
     CityGui cityGui;
 
@@ -996,7 +1000,68 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 	
 	public void runTheWeekenderTest(){
-		//cityGui.getClock().setDay();
+		weekend.schedule(new TimerTask() {
+			@Override public void run() {
+				cityGui.getClock().setDay(6);
+			}}, 10);
+		
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+		
+		//Landlord
+		addPerson("landlord", "Landlord1");
+		
+		//Rest1
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		
+		//Rest3
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
+		
+		//Rest4 (this will be closed but these people should not go to work
+		addPerson("host4", "Restaurant4 Host");
+		addPerson("cashier4", "Restaurant4 Cashier");
+		addPerson("cook4", "Restaurant4 Cook");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
+		
+		//Rest5
+		addPerson("host5", "Restaurant5 Host");
+		addPerson("cashier5", "Restaurant5 Cashier");
+		addPerson("cook5", "Restaurant5 Cook");
+		addPerson("waiter5", "Restaurant5 Waiter");
+		addPerson("waiter5", "Restaurant5 Waiter");
+		
+		//People
+		addPerson("George", "No job");
+		addPerson("Gina", "No job");
+		addPerson("Greg", "No job");
+		addPerson("Ivan", "No job");
+		addPerson("Irina", "No job");
+		addPerson("Ian", "No job");
+		addPerson("Reggie", "No job");
+		addPerson("Rachel", "No job");
+		addPerson("Rebecca", "No job");
+		
+		//Tests to show people can't go to rest4 or rest2 because they are closed
+		addPerson("rest2Test", "No job");
+		addPerson("rest4Test", "No job");
+		
+		populateBanksAndMarkets();
+		
+		//TODO add close bank functionality and close it for the weekend
+		//cityMap.getBank().close();
+		cityMap.getRest4().close();
+		cityMap.getRest2().closeRestaurant();
 	}
 
 	public void runRestaurant1Test(){
