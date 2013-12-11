@@ -317,7 +317,6 @@ public class PersonAgent extends Agent implements Person{
 
 	//Takes a string argument and creates a new PersonTask which is added onto the current day's schedule
 	public void addTask(String task){
-		log("Task added! Task is " + task);
 		PersonTask t = new PersonTask(task);
 		schedule.addTaskToDay(clock.getDayOfWeekNum(), t);
 		stateChanged();
@@ -361,7 +360,6 @@ public class PersonAgent extends Agent implements Person{
 		addTask("goHome");
 		myJob = null;
 	}
-
 
 	/*
 	 * MESSAGES
@@ -2084,9 +2082,8 @@ public class PersonAgent extends Agent implements Person{
 			role.setInactive();
 			workState = WorkState.notWorking;
 			Gui test = role.getGui();
-			if(test == null)
-				return;
-			role.getGui().setPresent(false);
+			if(test != null)
+				role.getGui().setPresent(false);
 		}
 
 		public void changeJob(Role r, String l){
