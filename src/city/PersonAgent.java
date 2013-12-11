@@ -38,6 +38,7 @@ import city.Restaurant3.CookRole3;
 import city.Restaurant4.CookRole4;
 import city.Restaurant5.Restaurant5CookRole;
 import city.gui.CityClock;
+import city.gui.Gui;
 import city.gui.PersonGui;
 import city.gui.House.HomeOwnerGui;
 import city.transportation.BusAgent;
@@ -316,9 +317,10 @@ public class PersonAgent extends Agent implements Person{
 
 	//Takes a string argument and creates a new PersonTask which is added onto the current day's schedule
 	public void addTask(String task){
+		log("Task added! Task is " + task);
 		PersonTask t = new PersonTask(task);
+		schedule.addTaskToDay(clock.getDayOfWeekNum(), t);
 		stateChanged();
-		//Do we need this stateChanged()?
 	}
 
 	public void setClock(CityClock c){
@@ -1482,7 +1484,6 @@ public class PersonAgent extends Agent implements Person{
 				}
 				if(b.manager != null){
 				if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?
-					log("YEEEAH, sending order");
 					if (myJob.role.getRoleName().contains("1")){
 						cityMap.getRest1().getCashier().msgHereIsBill(b.manager, b.amount);
 					} else if (myJob.role.getRoleName().contains("2")){	
@@ -1494,6 +1495,7 @@ public class PersonAgent extends Agent implements Person{
 					} else if (myJob.role.getRoleName().contains("5")){
 					
 					}
+					billsToPay.remove(b);
 				}
 				}
 				else if(wallet > b.amount){
@@ -2081,6 +2083,9 @@ public class PersonAgent extends Agent implements Person{
 		public void endJob(){
 			role.setInactive();
 			workState = WorkState.notWorking;
+			Gui test = role.getGui();
+			if(test == null)
+				return;
 			role.getGui().setPresent(false);
 		}
 
