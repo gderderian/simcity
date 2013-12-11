@@ -198,6 +198,10 @@ public class CityClock {
 		return amPm;
 	}
 	
+	public void setDay(int newDay){
+		day = newDay;
+	}
+	
 	public void setDayTime(int hour, int minute, String amPm){
 		
 		
