@@ -38,8 +38,10 @@ public class MarketTest extends TestCase{
         restaurantCook = new CookRole3("MockCook", person4);
         Market mkt1 = new Market("Vons");
         marketMgr = new MarketManagerRole("MarketManager", person, mkt1);
+        marketMgr.setTesting();
         mkt1.setManager(marketMgr);
         marketWorker = new MarketWorkerRole(person2);
+        marketWorker.setTest();
         marketCustomer = new MarketCustomerRole("Person3", person3);
         testOrderItems = new ArrayList<OrderItem>();
       
@@ -102,13 +104,11 @@ public class MarketTest extends TestCase{
     	assertEquals("MarketWorker should have one order in their possession to pick", marketWorker.pickOrders.size(), 1);
     	
     	// Worker should now begin to do process their order
-    	marketWorker.pickAndExecuteAnAction();
     	
-    	// Worker should now have set their order status to done because they've just picked their order
-    	assertTrue("Worker should have finished picking order, order actually is " + marketWorker.pickOrders.get(0).state, marketWorker.pickOrders.get(0).state == orderPickState.done);
+    	// Worker should now have set their order status to pending because they've just picked their order and it's not fully ready
+    	assertTrue("Order should be pending, order actually is " + marketWorker.pickOrders.get(0).state, marketWorker.pickOrders.get(0).state == orderPickState.pending);
     	
     	// Worker should now have one order left because they told their manager that it's ready to go!
-    	marketWorker.pickAndExecuteAnAction();
     	assertEquals("MarketManager orderList should now have no orders", marketMgr.myOrders.size(), 1);
     	
     	

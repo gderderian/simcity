@@ -42,6 +42,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	private Semaphore isAnimating = new Semaphore(0,true);
 	
 	Market myMarket;
+	boolean test = false;
 	
 	public MarketManagerRole(String initialName, PersonAgent person, Market mkt){
 		
@@ -273,8 +274,10 @@ public class MarketManagerRole extends Role implements MarketManager {
 	}
 	
 	private void log(String msg){
-		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, name, false);
+		if (!test){
+			print(msg);
+			ActivityLog.getInstance().logActivity(tag, msg, name, false);
+		}
 	}
 	
 	public void addWorker(MarketWorkerRole w){
@@ -317,6 +320,10 @@ public class MarketManagerRole extends Role implements MarketManager {
 
 	public PersonAgent getPerson() {
 		return p;
+	}
+	
+	public void setTesting(){
+		test = true;
 	}
 
 }

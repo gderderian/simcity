@@ -27,6 +27,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	
 	MarketWorkerGui gui;
 	public enum orderPickState {pending, picking, done};
+	boolean test = false;
 	
 	public class PickableOrder {
 		
@@ -131,8 +132,10 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 	
 	private void log(String msg){
-		print(msg);
-        ActivityLog.getInstance().logActivity(tag, msg, getName(), false);
+		if (!test){
+			print(msg);
+			ActivityLog.getInstance().logActivity(tag, msg, getName(), false);
+		}
 	}
 
 	public String getRoleName() {
@@ -158,5 +161,9 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	public PersonAgent getPerson() {
 		return p;
 	}	
+	
+	public void setTest(){
+		test = true;
+	}
 	
 }
