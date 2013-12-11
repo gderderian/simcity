@@ -92,6 +92,7 @@ Buttons to trigger car crashes, hit-and-runs, and the addition of specific peopl
 ##### Restaurants
 
 ##### Markets
+All markets work according to the specifications lined out in the rubric. Markets currently accept both in-person and restaurant truck orders, and the manager dispatches a worker to take care of every incoming order. The worker will pick the order from the large red "shelf" and then either internally send it to the truck for delivery or give it stright to the person who visited the market, who will then leave. Market trucks will also attempt to redeliver items to a restaurant when it is closed. The market in itself can also be closed to new orders or interactions.
 
 ##### Banks
 
