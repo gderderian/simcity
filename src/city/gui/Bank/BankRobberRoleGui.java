@@ -168,7 +168,8 @@ public class BankRobberRoleGui implements Gui{
 			g.drawImage(imgofmoney,xPos - 20, yPos + 80, 35, 35, gui);
 			g.drawImage(imgofmoney,xPos - 30, yPos + 75, 35, 35, gui);
 			g.drawImage(imgofmoney,xPos - 25, yPos + 88, 35, 35, gui);
-			
+			g.drawImage(imgofmoney,xPos - 25, yPos + 90, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 25, yPos + 65, 35, 35, gui);	
 		}
 		
 		if(openaccount == true)
