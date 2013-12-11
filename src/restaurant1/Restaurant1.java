@@ -19,6 +19,8 @@ public class Restaurant1 {
 	Restaurant1CookRole cook;
 	Restaurant1CustomerRole customer;
 	List<Restaurant1WaiterRole> waiters;
+	
+	private boolean open = true;
 
 	public Restaurant1() {
 		waiters = Collections.synchronizedList(new ArrayList<Restaurant1WaiterRole>());
@@ -58,5 +60,19 @@ public class Restaurant1 {
 
 	public int getWaiterListSize() {
 		return waiters.size();
+	}
+	
+	public boolean isOpen() {
+		return open;
+	}
+	
+	public void closeRestaurant() {
+		open = false;
+		
+		//Message workers to go home?
+	}
+	
+	public void openRestaurant() {
+		open = true;
 	}
 }

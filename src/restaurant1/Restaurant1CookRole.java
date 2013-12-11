@@ -65,9 +65,9 @@ public class Restaurant1CookRole extends Role {
 		person = p;
 
 		// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
-		foods.put("steak", new Food("steak", 6, 5, 5, 8));
-		foods.put("fish", new Food("fish", 4, 5, 5, 8));
-		foods.put("chicken", new Food("chicken", 3, 5, 5, 8));
+		foods.put("steak", new Food("steak", 6, 20, 5, 8));
+		foods.put("fish", new Food("fish", 4, 20, 5, 8));
+		foods.put("chicken", new Food("chicken", 3, 20, 5, 8));
 
 		this.name = name;
 
@@ -155,13 +155,7 @@ public class Restaurant1CookRole extends Role {
 			checkOrderWheel();
 			return true;
 		}
-
-		if(needToReorder) {
-			//reorderFood();
-			needToReorder = false;
-			return true;
-		}
-
+		
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pickedUp) {
@@ -170,7 +164,7 @@ public class Restaurant1CookRole extends Role {
 				}
 			}
 		}
-
+		
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.cooked) {
@@ -282,7 +276,7 @@ public class Restaurant1CookRole extends Role {
 	}
 
 	private void initialInventoryCheck() {
-		log("Checking initial inventory levels.");
+		log("Checking food levels.");
 		Food steak = foods.get("steak");
 		Food chicken = foods.get("chicken");
 		Food fish = foods.get("fish");
@@ -333,9 +327,11 @@ public class Restaurant1CookRole extends Role {
 	}
 
 	private void checkOrderWheel() {
+		log("Checking the order wheel for new orders!");
 		Restaurant1Order temp = orderWheel.getOrder();
 
 		if(temp != null) {
+			log("Found a new order on the order wheel!");
 			temp.setNumber(orderCount++);
 			orders.add(temp);
 			person.stateChanged();
@@ -345,7 +341,7 @@ public class Restaurant1CookRole extends Role {
 			public void run() {
 				checkOrderWheel();
 			}
-		}, 5000	);
+		}, 6000	);
 	}
 
 	private void DoGoToHome() {
@@ -407,7 +403,7 @@ public class Restaurant1CookRole extends Role {
 		foods.get("fish").amount = 0;
 
 		log("Oh no, all of my food has gone missing! I better order more!");
-		orderMoreFood();
+		initialInventoryCheck();
 	}
 }
 

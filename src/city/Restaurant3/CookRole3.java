@@ -376,14 +376,21 @@ public class CookRole3 extends Role {
         log.add(new LoggedEvent(msg));
 	}
 
-	@Override
 	public String getRoleName() {
 		return roleName;
 	}
 
-	@Override
 	public PersonAgent getPerson() {
 		return person;
+	}
+
+	public void emptyStock() {
+		allFood.put("Chicken", new FoodItem("Chicken", 3000, 0));
+		allFood.put("Mac & Cheese", new FoodItem("Mac & Cheese", 3000, 0));
+		allFood.put("French Fries", new FoodItem("French Fries", 4000, 0));
+		allFood.put("Pizza", new FoodItem("Pizza", 7000, 0));
+		allFood.put("Pasta", new FoodItem("Pasta", 6000, 0));
+		allFood.put("Cobbler", new FoodItem("Cobbler", 5000, 2));
 	}
 
 }

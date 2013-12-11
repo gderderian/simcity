@@ -45,10 +45,6 @@ import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
-import city.PersonAgent;
-import city.account;
-import Role.BankTellerRole;
-import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
 import city.Restaurant5.Restaurant5;
@@ -92,7 +88,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel market3Panel = new JPanel();
     private JPanel bank1Panel = new JPanel();
     
-    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
+    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
@@ -142,7 +138,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     public JCheckBox takeBreak;
     private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
     		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
-    		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
+    		"Restaurant2 Waiter", "Restauran2WaiterSharedData", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
     		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 SharedDataWaiter", "Restaurant4 NormalWaiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
     		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
@@ -154,7 +150,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private Map<String, String> jobLocations = new HashMap<String, String>();
     
     /** Universal city map **/
-    CityMap cityMap = new CityMap();
+    CityMap cityMap = CityMap.getInstance();
     //Houses and apartments
     private List<House> houses = new ArrayList<House>();
     
@@ -172,6 +168,13 @@ public class ControlPanel extends JPanel implements ActionListener{
     //Set up rest4 components
     JButton closeRest4;
     JButton emptyInventory4;
+    
+    // Add rest3 components
+    JButton closeRest3;
+    JButton emptyRest3;
+    
+    //Timer for weekend scenario
+    Timer weekend= new Timer();
     
     CityGui cityGui;
 
@@ -313,9 +316,19 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     */
     private void setupRestaurant3Panel(){
+    	
         restaurant3Panel.add(new JLabel("Restaurant 3 Info/Options"));
         restaurant3Panel.setPreferredSize(buildingPanelDim);
         restaurant3Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        closeRest3 = new JButton("Close Restaurant");
+        closeRest3.addActionListener(this);
+        restaurant3Panel.add(closeRest3);
+        
+        emptyRest3 = new JButton("Empty Restaurant Stock");
+        emptyRest3.addActionListener(this);
+        restaurant3Panel.add(emptyRest3);
+        
     }
     
     private void setupRestaurant4Panel(){
@@ -629,9 +642,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 					hitAndRun.setText("Hit and Run");
 				}
 			}, 22000);
-		}
-		
-		else if(e.getSource() == closeRest4){
+		} else if(e.getSource() == closeRest4){
 			if(cityMap.getRest4().isOpen()){
 				closeRest4.setText("Open Restaurant");
 			}
@@ -639,9 +650,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 				closeRest4.setText("Close Restaurant");
 			}
 			cityMap.getRest4().close();
-		}
-		else if(e.getSource() == emptyInventory4){
+		} else if(e.getSource() == emptyInventory4){
+			
 			cityMap.getRest4().emptyInventory();
+			
+		} else if(e.getSource() == closeRest3){
+			
+			if(cityMap.getRest3().isOpen()){
+				closeRest3.setText("Open Restaurant");
+			} else{
+				closeRest3.setText("Close Restaurant");
+			}
+			cityMap.getRest3().toggleOpen();
+			
+		} else if(e.getSource() == emptyRest3){
+			cityMap.getRest3().emptyStock();
 		}
 	}
 
@@ -951,6 +974,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 */
 		if(scenario.equals("Full Scenario"))
 			runFullTest();
+		else if(scenario.equals("The Weekender"))
+			runTheWeekenderTest();
 		else if(scenario.equals("Trader Joe's"))
 			runMarketVisitTest();
 		else if(scenario.equals("Restaurant1"))
@@ -992,6 +1017,72 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest4Test", "No job");
 		addPersonWithCar("rest4Test", "No job");
 	}
+	
+	public void runTheWeekenderTest(){
+		weekend.schedule(new TimerTask() {
+			@Override public void run() {
+				System.out.println("THE TIMER IS DONE, DAY SHOULD BE SATURDAY NOW");
+				cityGui.getClock().setDay(6);
+			}}, 500);
+		
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+		
+		//Landlord
+		addPerson("landlord", "Landlord1");
+		
+		//Rest1
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		
+		//Rest3
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
+		
+		//Rest4 (this will be closed but these people should not go to work
+		addPerson("host4", "Restaurant4 Host");
+		addPerson("cashier4", "Restaurant4 Cashier");
+		addPerson("cook4", "Restaurant4 Cook");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
+		
+		//Rest5
+		addPerson("host5", "Restaurant5 Host");
+		addPerson("cashier5", "Restaurant5 Cashier");
+		addPerson("cook5", "Restaurant5 Cook");
+		addPerson("waiter5", "Restaurant5 Waiter");
+		addPerson("waiter5", "Restaurant5 Waiter");
+		
+		//People
+		addPerson("George", "No job");
+		addPerson("Gina", "No job");
+		addPerson("Greg", "No job");
+		addPerson("Ivan", "No job");
+		addPerson("Irina", "No job");
+		addPerson("Ian", "No job");
+		addPerson("Reggie", "No job");
+		addPerson("Rachel", "No job");
+		addPerson("Rebecca", "No job");
+		
+		//Tests to show people can't go to rest4 or rest2 because they are closed
+		addPerson("rest2Test", "No job");
+		addPerson("rest4Test", "No job");
+		
+		populateBanksAndMarkets();
+		
+		//TODO add close bank functionality and close it for the weekend
+		//cityMap.getBank().close();
+		cityMap.getRest4().close();
+		cityMap.getRest2().closeRestaurant();
+	}
 
 	public void runRestaurant1Test(){
 		//Initial public transportation creation.
@@ -1002,6 +1093,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 		
+		populateBanksAndMarkets();
+		
 		addPerson("host1", "Restaurant1 Host");
 		addPerson("cashier1", "Restaurant1 Cashier");
 		addPerson("cook1", "Restaurant1 Cook");
@@ -1009,10 +1102,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
-		addPerson("rest1Test", "No job");
-		addPerson("rest1Test", "No job");
-		
-		populateBanksAndMarkets();
+		addPersonWithCar("rest1Test", "No job");
 	}
 
 	public void runRestaurant2Test(){

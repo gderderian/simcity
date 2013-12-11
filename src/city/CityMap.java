@@ -23,6 +23,9 @@ import Role.Role;
 import astar.Position;
 
 public class CityMap {
+	
+	static CityMap instance = new CityMap();
+	
 	//Map of bus stop numbers to nearby destinations. Necessary?
 	Map<Integer, List<String>> nearbyDestinations = new HashMap<Integer, List<String>>();
 
@@ -170,6 +173,10 @@ public class CityMap {
 		restaurants.add("Restaurant5");
 	}
 	
+	public static CityMap getInstance(){
+		return instance;
+	}
+	
 	public void enterIntersection() {
 		try {
 			intersection.acquire();
@@ -220,6 +227,10 @@ public class CityMap {
 		return restaurant5;
 	}
 	
+	public Bank getBank(){
+		return bank;
+	}
+	
 	public void seRestaurant5(Restaurant5 r){
 		restaurant5 =r;
 	}
@@ -228,12 +239,24 @@ public class CityMap {
 		mark1 = m;
 	}
 	
+	public Market getMark1(){
+		return mark1;
+	}
+	
 	public void setMarket2(Market m){
 		mark2 = m;
 	}
 	
+	public Market getMark2(){
+		return mark2;
+	}
+	
 	public void setMarket3(Market m){
 		mark3 = m;
+	}
+	
+	public Market getMark3(){
+		return mark3;
 	}
 	
 	public void setBank(Bank b) {

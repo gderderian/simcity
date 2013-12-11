@@ -2,7 +2,6 @@ package city.gui.Market;
 
 import java.awt.*;
 import java.util.ArrayList;
-
 import city.gui.Gui;
 import Role.MarketCustomerRole;
 import Role.MarketWorkerRole;

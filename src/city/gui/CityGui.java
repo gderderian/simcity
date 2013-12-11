@@ -323,6 +323,9 @@ public class CityGui extends JFrame implements ActionListener {
 		masterClock.startTime();
 	}
 
+	public CityClock getClock(){
+		return masterClock;
+	}
 
 	public void timerTick(int timeOfDay, int hourOfDayHumanTime, long minuteOfDay, String dayState, String amPm, String displayTime) {
 		for (PersonAgent person : people) {
@@ -338,7 +341,7 @@ public class CityGui extends JFrame implements ActionListener {
 	public void addPerson(PersonAgent p){
 		people.add(p);
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		animationPanel.updatePos();
 		synchronized(buildingPanels){
@@ -1005,7 +1008,7 @@ public class CityGui extends JFrame implements ActionListener {
 			Restaurant1CookGui gui = new Restaurant1CookGui(role);
 			role.setGui(gui);
 			restaurant1.addGui(gui);
-			gui.setPresent(false);
+			gui.setPresent(true);
 			return role;
 		}
 		else if(type.equals("Restaurant1 Host")){

@@ -14,6 +14,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
+import city.CityMap;
+
 public class AnimationPanel extends BuildingPanel implements MouseListener, ActionListener {
 
     private static final int WINDOWX = 1300;
@@ -96,29 +98,29 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 		int y = e.getY();
 		
 		// Restaurants (5)
-		if((x >= 720) && (x <= 780) && (y >= 0) && (y <= 60)) {
+		if((x >= 720) && (x <= 780) && (y >= 0) && (y <= 60) && CityMap.getInstance().getRest1().isOpen()) {
 			cityGui.changeView("Restaurant1");
-		} else if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180)){
+		} else if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180) && CityMap.getInstance().getRest2().isOpen()){
 			cityGui.changeView("Restaurant2");
-		} else if((x >= 60) && (x <= 120) && (y >= 570) && (y <= 630)) {
+		} else if((x >= 60) && (x <= 120) && (y >= 570) && (y <= 630) && CityMap.getInstance().getRest3().isOpen()) {
 			cityGui.changeView("Restaurant3");
-		} else if((x >= 390) && (x <= 450) && (y >= 630) && (y <= 690)){
+		} else if((x >= 390) && (x <= 450) && (y >= 630) && (y <= 690) && CityMap.getInstance().getRest4().isOpen()){
 			cityGui.changeView("Restaurant4");
-		} else if((x >= 780) && (x <= 840) && (y >= 600) && (y <= 660)){
+		} else if((x >= 780) && (x <= 840) && (y >= 600) && (y <= 660) && CityMap.getInstance().getRest1().isOpen()){
 			cityGui.changeView("Restaurant5");
 		}
 			
 		// Markets (3)
-		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60)) {
+		if((x >= 240) && (x <= 300) && (y >= 0) && (y <= 60) && CityMap.getInstance().getMark1().isOpen()) {
 			cityGui.changeView("Market2");
-		}  else if((x >= 270) && (x <= 330) && (y >= 630) && (y <= 690)){
+		}  else if((x >= 270) && (x <= 330) && (y >= 630) && (y <= 690) && CityMap.getInstance().getMark2().isOpen()){
 			cityGui.changeView("Market3");
-		}  else if((x >= 840) && (x <= 900) && (y >= 300) && (y <= 360)){
+		}  else if((x >= 840) && (x <= 900) && (y >= 300) && (y <= 360) && CityMap.getInstance().getMark3().isOpen()){
 			cityGui.changeView("Market1");
 		}
 			
 		// Banks (2)
-		if((x >= 780) && (x <= 850) && (y >= 60) && (y <= 120)){
+		if((x >= 780) && (x <= 850) && (y >= 60) && (y <= 120) /*&& CityMap.getInstance().getBank().isOpen()*/){
 			cityGui.changeView("Bank1");
 		}
 		
