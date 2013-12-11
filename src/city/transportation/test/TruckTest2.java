@@ -73,6 +73,9 @@ public class TruckTest2 extends TestCase {
 		//Postconditions
 		assertTrue(truck.orders.size() == 2); //Order still exists - must tell market it's finished
 		
+		//Message
+		truck.msgOrderReceived(recipient1, order1);
+		
 		//Scheduler call - should let market know order is done
 		truck.pickAndExecuteAnAction();
 		
@@ -90,6 +93,9 @@ public class TruckTest2 extends TestCase {
 		
 		//Postconditions
 		assertTrue(truck.orders.size() == 1); //Order still exists - must tell market it's finished
+		
+		//Message
+		truck.msgOrderReceived(recipient2, order2);
 		
 		//Scheduler call - should let market know order is done
 		truck.pickAndExecuteAnAction();
@@ -114,6 +120,9 @@ public class TruckTest2 extends TestCase {
 		
 		//Postconditions
 		assertTrue(truck.orders.size() == 1); //Order still exists - must tell market it's finished
+		
+		//Message
+		truck.msgOrderReceived(recipient3, order3);
 		
 		//Scheduler call - should let market know order is done
 		truck.pickAndExecuteAnAction();

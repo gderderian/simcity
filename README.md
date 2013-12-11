@@ -89,16 +89,19 @@ Buttons to trigger car crashes, hit-and-runs, and the addition of specific peopl
 + We have implemented A* animation in our city view. People stay on sidewalks, vehicles stay on roads, and they share the crosswalks. Animation components are well-designed and easy to observe. Agents display their names while walking around the city. Our individual buildings do not all have A* animation due to lack of time. Given more time, we could have transferred the A* animation concepts to all different buildings. As of now, the A* animation in the city view works very well; it runs smoothly and quickly, and unintended collisions are very rare.
 
 ##### Person Agent
++ PersonAgent is entirely implemented and build according to the rubric to run through weekly schedules and tasks and convert to any specific role in the city (restaurant workers, market workers, etc.). It also can get hungry, visit the bank, and more.
 
 ##### Housing
++ Both apartments and houses are fully implemented and integrated. Appliances can break, a fridge can be emptied, people in apartments can pay rent to a central landlord, and people enter and exit their respective living areas.
 
 ##### Restaurants
++ Every restaurant is fully integrated. Through the scenarios above, they can be fully populated with staff members, and then customers from across the city can dine at each restaurant and leave when they are done (and then go off to do whatever task they have to take care of next). Beyond that, each restaurant also features the new v2 order spindle (one per restaurant) as well as cooks and an appropriately modeled waiter (main waiter and two subclasses for shared data and normal operation waiters).
 
 ##### Markets
 + All markets work according to the specifications lined out in the rubric. Markets currently accept both in-person and restaurant truck orders, and the manager dispatches a worker to take care of every incoming order. The worker will pick the order from the large red "shelf" and then either internally send it to the truck for delivery or give it stright to the person who visited the market, who will then leave. Market trucks will also attempt to redeliver items to a restaurant when it is closed. The market in itself can also be closed to new orders or interactions.
 
 ##### Banks
++ Banks are fully implemented. They can be robbed, dispense cash during with withdrawals, process cash during deposits, and  give out loans as well (with appropriately calculated interest rates).
 
 ##### v2 Non-Norms
-+ Transportation non-norms are all implemented as stated above.
-
++ Transportation, restaurant interaction, bank, and house non-normative scenarios are all implemented as stated above.

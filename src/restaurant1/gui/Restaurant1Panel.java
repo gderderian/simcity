@@ -36,6 +36,8 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     private JButton depleteInventory;
     private JButton closeRestaurant;
     
+    private JButton fireHost;
+    
     public Restaurant1Panel(ControlPanel cp) {
     	this.cp = cp;
 
@@ -53,6 +55,8 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	depleteInventory = new JButton("Deplete inventory");
     	closeRestaurant = new JButton("Close restaurant");
     	
+    	fireHost = new JButton("Fire host");
+    	
     	normalWaiter.addActionListener(this);
     	normalWaiter.setAlignmentX(CENTER_ALIGNMENT);
     	sharedDataWaiter.addActionListener(this);
@@ -61,6 +65,8 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	closeRestaurant.setAlignmentX(CENTER_ALIGNMENT);
     	depleteInventory.addActionListener(this);
     	depleteInventory.setAlignmentX(CENTER_ALIGNMENT);
+    	fireHost.addActionListener(this);
+    	fireHost.setAlignmentX(CENTER_ALIGNMENT);
     	
     	add(normalWaiter);
     	add(Box.createVerticalStrut(20));
@@ -70,8 +76,8 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	add(Box.createVerticalStrut(20));
     	add(closeRestaurant);
     	add(Box.createVerticalStrut(20));
-    	
-    	
+    	add(fireHost);
+    	add(Box.createVerticalStrut(20));
     }
 
 	@Override
@@ -84,6 +90,9 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 			depleteInventory();
 		} else if(e.getSource() == closeRestaurant) {
 			closeRestaurant();
+		} else if(e.getSource() == fireHost) {
+			cityMap.getRest1().fireHost();
+			cp.addPerson("New Host1", "No job");
 		}
 		
 	}
