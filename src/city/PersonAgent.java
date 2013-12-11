@@ -362,6 +362,11 @@ public class PersonAgent extends Agent implements Person{
 		stateChanged();
 	}
 
+	public void msgBackToWork(){
+		tasks.add(new PersonTask(TaskType.goToWork));
+		stateChanged();
+	}
+	
 	//TODO fix this
 	public void msgTimeUpdate(int t, int hour, long minute, String am_pm){
 		
@@ -409,7 +414,7 @@ public class PersonAgent extends Agent implements Person{
 			}
 		}
 		
-		if(hour == 9 && am_pm.equals("pm") && myJob.role instanceof BankManagerRole)
+		if(hour == 9 && am_pm.equals("pm") && myJob != null &&  myJob.role instanceof BankManagerRole)
 		{
 			((BankManagerRole) myJob.role).msgEndOfTheDay();	
 		}
@@ -973,6 +978,11 @@ public class PersonAgent extends Agent implements Person{
 				} else{
 					role.setInactive();
 					log("Oh no, the restaurant I want to go to is closed today!");
+					if(name.equals("restTest")){
+						log("I GUESS ILL PICK A DIFFERENT RESTAURANT TO GO TO NOW");
+						tasks.add( new PersonTask("gotHungry"));
+						//goToRestaurant(pt);
+					}
 				}	
 			}
 			else{
