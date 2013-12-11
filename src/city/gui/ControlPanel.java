@@ -78,7 +78,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     /*Building panels*/
     private JPanel buildingInfoPanel = new JPanel();
     List<JPanel> buildingPanels = Collections.synchronizedList(new ArrayList<JPanel>());
-    private JPanel restaurant2Panel = new Restaurant2InfoPanel();
+    private JPanel restaurant2Panel = new Restaurant2InfoPanel(this);
 	private JPanel restaurant1Panel = new Restaurant1Panel(this);
 	private JPanel restaurant3Panel = new JPanel();
 	private JPanel restaurant4Panel = new JPanel();
@@ -89,7 +89,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel bank1Panel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Home Meal/Visit Stores Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -138,7 +138,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     public JCheckBox takeBreak;
     private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
     		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
-    		"Restaurant2 Waiter", "Restauran2WaiterSharedData", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
+    		"Restaurant2 Waiter", "Restaurant 2 WaiterSharedData", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
     		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 SharedDataWaiter", "Restaurant4 NormalWaiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
     		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
@@ -596,8 +596,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if (e.getSource() == addPersonButton) {
 			// Chapter 2.19 describes showInputDialog()
 			if(!nameField.getText().equals("")){
-				//TODO Should we add a check here for duplicate names?
-				//Might matter for the car buying, if two people have the same name
 				String job = null;
 				if(jobField.getSelectedIndex() == 0){
 					errorDisplay.setText("Please select a job");
@@ -1018,6 +1016,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runRestaurant5Test();
 		else if(scenario.equals("Close Restaurants Test"))
 			runCloseRestaurantsTest();
+		else if(scenario.equals("Home Meal/Visit Stores Test"))
+			runEatAtHomeVisitWorkplacesTest();
 		else if(scenario.equals("Bank Test"))
 			runBankTest();
 		else if(scenario.equals("Car Test"))
@@ -1271,6 +1271,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("restTest", "No job");
 	}
 
+	public void runEatAtHomeVisitWorkplacesTest(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+		
+		addPersonWithCar("Chris", "No job");
+		addPerson("Steph", "No job");
+		addPerson("Carla", "No job");
+		populateBanksAndMarkets();
+	}
+	
 	public void runBankTest() {
 		//Initial public transportation creation.
 		addVehicle("bus");

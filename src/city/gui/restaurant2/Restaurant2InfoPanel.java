@@ -13,9 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import city.Restaurant2.Restaurant2;
+import city.gui.ControlPanel;
 
 public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 
+	ControlPanel controlPanel;
+	
 	Restaurant2 restaurant = Restaurant2.getInstance();
     private int WINDOWX = 360;
     private int WINDOWY = 710;
@@ -28,15 +31,16 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
     Font titleFont = new Font("Title Font", 200, Font.BOLD);
     //private Dimension labelSize = new Dimension(30, 30);
     private Dimension buttonSize = new Dimension(WINDOWX - 50, 30);
+    private JButton fire_host = new JButton("Fire Host");
+    
 	
-	public Restaurant2InfoPanel(){
+	public Restaurant2InfoPanel(ControlPanel c){
+		
+		controlPanel = c;
 		
 		setPreferredSize(panelDim);
         setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		//add(title);
-		//title.setAlignmentX(CENTER_ALIGNMENT);
-        //add(Box.createVerticalStrut(30));
+
         add(restaurantState);
         add(Box.createVerticalStrut(10));
         restaurantState.setAlignmentX(CENTER_ALIGNMENT);
@@ -49,6 +53,11 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 		set_inventory.addActionListener(this);
         add(Box.createVerticalStrut(30));
         add(set_inventory);
+        
+        add(fire_host);
+        fire_host.addActionListener(this);
+        add(Box.createVerticalStrut(10));
+        fire_host.setAlignmentX(CENTER_ALIGNMENT);
 	}
 
 	@Override
@@ -67,6 +76,11 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 		}
 		else if(e.getSource() == set_inventory){
 			restaurant.setInventoryLow();
+		}
+		else if(e.getSource() == fire_host){
+			restaurant.fireHost(controlPanel);
+			fire_host.setEnabled(true);
+			fire_host.setVisible(false);
 		}
 		
 	}

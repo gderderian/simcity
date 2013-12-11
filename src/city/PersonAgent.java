@@ -349,6 +349,14 @@ public class PersonAgent extends Agent implements Person{
 	public void msgAnimationAtBed(){
 		log("I'm at my bed, time to go to sleep! ZZZzzzZZZzzz...");
 	}
+	
+	public void msgImFired() {
+		log("Setting my job to null now because I got fired");
+		myJob.endJob();
+		gui.setVisible();
+		addTask("goHome");
+		myJob = null;
+	}
 
 
 	/*
@@ -369,7 +377,6 @@ public class PersonAgent extends Agent implements Person{
 	
 	//TODO fix this
 	public void msgTimeUpdate(int t, int hour, long minute, String am_pm){
-		
 		//if it's the last hour in the day, the tasks in the schedule for the day get transferred over to the next day
 		if(hour == 23 && hour != currentHour){
 			currentHour = hour;
@@ -405,6 +412,34 @@ public class PersonAgent extends Agent implements Person{
 				PersonTask task = new PersonTask(TaskType.gotHungry);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I'm getting hungry.");
+			}
+		}
+		else if(hour == 4 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the market soon.");
+			}
+		}
+		else if(hour == 4 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the bank soon.");
+			}
+		}
+		else if(hour == 11 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the bank soon.");
+			}
+		}
+		else if(hour == 11 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the market soon.");
 			}
 		}
 		else if(hour == 2 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
@@ -652,11 +687,9 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgMarketBill(double orderPrice, MarketManager manager) {
-		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
 		log("Sending the market bill to the cashier");
 			if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?
 				log("YEEEAH, sending order");
-	
 				if (myJob.role.getRoleName().contains("1")){
 					
 				} else if (myJob.role.getRoleName().contains("2")){	
@@ -1093,7 +1126,6 @@ public class PersonAgent extends Agent implements Person{
 		log("Going to work");
 
 		task.location = myJob.location;
-		log("Going to work as a " + task.role + " at " + task.location);
 		//Role in the task here should be null because role-related things are taken care of in the Job class
 
 		if(car != null){	//if the person has a car, he/she will take it
@@ -1126,7 +1158,7 @@ public class PersonAgent extends Agent implements Person{
 			log("I'm going to eat " + food + " in my house.");
 			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
-		else if(name.equals("joe")){
+		else if(name.equals("joe") || name.equals("Chris") || name.equals("Carla") || name.equals("Steph")){
 			if(!atHome){
 				goHome();
 			}
@@ -1148,8 +1180,6 @@ public class PersonAgent extends Agent implements Person{
 			//cityMap.market.mktManager.msgHereIsOrder(o);
 
 			// DoGoTo("mark1", PersonTask(TaskType.goToMarket));
-
-
 		}
 		else if(name.equals("brokenApplianceTest") || name.equals("Jess")){
 			List<Food> groceries= new ArrayList<Food>();
@@ -1499,8 +1529,8 @@ public class PersonAgent extends Agent implements Person{
 	public void tellCarWhereToDrive(CarRide ride) {
 		if(atHome){
 			homeGui.goToExit();
-			gui.setVisible();
 			house.getAnimationPanel().notInHouse(homeGui);
+			gui.setVisible();
 			atHome = false;
 		}
 		gui.moveTo(ride.carLocation.getX() * 30 + 120, ride.carLocation.getY() * 30 + 60);
