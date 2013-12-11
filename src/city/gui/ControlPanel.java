@@ -1282,9 +1282,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("marketManager", "Market Manager3");
 		addPerson("marketWorker", "Market Worker3");
 		
-		//addVehicle("truck");
-		//addVehicle("truck");
-		//addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
 	}
 	
 	public void populateBanksAndMarkets() {
