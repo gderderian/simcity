@@ -319,6 +319,8 @@ public class PersonAgent extends Agent implements Person{
 	public void addTask(String task){
 		PersonTask t = new PersonTask(task);
 		schedule.addTaskToDay(clock.getDayOfWeekNum(), t);
+		if(tasks.size() != 0)
+			log("The first task in my list is " + tasks.get(0).type.toString());
 		stateChanged();
 	}
 
@@ -357,7 +359,6 @@ public class PersonAgent extends Agent implements Person{
 		log("Setting my job to null now because I got fired");
 		myJob.endJob();
 		gui.setVisible();
-		addTask("goHome");
 		myJob = null;
 	}
 
@@ -904,7 +905,7 @@ public class PersonAgent extends Agent implements Person{
 					return true;
 				}
 			}
-		}
+		}		
 		//go home if there is nothing else to do
 		synchronized(tasks){
 			if(tasks.isEmpty()){
