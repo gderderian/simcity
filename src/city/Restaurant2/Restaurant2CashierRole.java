@@ -1,5 +1,6 @@
 package city.Restaurant2;
 
+import interfaces.MarketManager;
 import interfaces.Restaurant2Cashier;
 import interfaces.Restaurant2Customer;
 import interfaces.Restaurant2Market;
@@ -11,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import activityLog.ActivityLog;
+import activityLog.ActivityTag;
 import city.PersonAgent;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
@@ -32,6 +35,12 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	
 	String roleName = "Restaurant2CashierRole";
 	
+	double restaurantMoney;
+	
+	ActivityTag tag = ActivityTag.RESTAURANT2CASHIER;
+	
+	private boolean test = false;
+	
 	public Restaurant2CashierRole(String n, PersonAgent p){
 		super();
 		building = "rest2";
@@ -43,6 +52,8 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 		options.put("Chicken", 10.99);
 		options.put("Salad", 5.99);
 		options.put("Pizza", 8.99);
+		
+		restaurantMoney = 100;
 	}
 	/*
 	public void setPerson(PersonAgent p){
@@ -81,9 +92,9 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 		}
 	}
 	
-	public void msgChargeForOrder(double total, Restaurant2Market m){
+	public void msgChargeForOrder(double total, MarketManager m){
 		print("Recieved msgChargeForOrder from market");
-		marketBills.add(new MarketBill(m, MarketBillState.pending, total));
+		marketBills.add(new MarketBill(m, total));
 		person.stateChanged();
 	}
 	
@@ -134,25 +145,21 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	}
 	
 	private void processCheck(Check c){
-		print("Processing check");
-		log.add(new LoggedEvent("Entered action processCheck"));
+		log("Processing check");
 		if(c.overdrawn != true){
 			c.customer.msgHereIsYourChange(c.change);
+			restaurantMoney += c.amount;
 		}
 		else{
-			log.add(new LoggedEvent(c.customer.getName() + " did not have enough to pay. Please pay the remaining blanace of " + c.amount + " next time you come in."));
 			c.customer.msgHereIsYourChange(c.change);
-			print(c.customer.getName() + " did not have enough to pay. Please pay the remaining blanace of " + c.amount + " next time you come in.");
+			log(c.customer.getName() + " did not have enough to pay. Please pay the remaining blanace of " + c.amount + " next time you come in.");
 		}
 	}
 	
 	private void payMarketBill(MarketBill b){
 		b.ms = MarketBillState.paid;
 		print("Paying market " + b.amount + " for food shipment");
-		b.market.msgHereIsPayment(b.amount);
-		if(b.ms == MarketBillState.paid){
-			log.add(new LoggedEvent("MarketBill state changed to paid."));
-		}
+		b.marketManager.msgAcceptPayment(b.amount);
 	}
 	
 	
@@ -194,13 +201,13 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 	
 	public class MarketBill{
 		public double amount;
-		public Restaurant2Market market;
+		public MarketManager marketManager;
 		public MarketBillState ms;
 		
-		public MarketBill(Restaurant2Market m, MarketBillState s, double a){
-			market = m;
+		public MarketBill(MarketManager m, double a){
+			marketManager = m;
 			amount = a;
-			ms = s;
+			ms = MarketBillState.pending;
 		}
 		
 	}
@@ -221,6 +228,18 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 
 	public void msgGoHome() {
 		person.leaveWork();
+	}
+	
+	private void log(String msg){
+		print(msg);
+		if(!test){
+			ActivityLog.getInstance().logActivity(tag, msg, name, true);
+		}
+		log.add(new LoggedEvent(msg));
+	}
+	
+	public void setTesting(boolean t){
+		test = t;
 	}
 
 }

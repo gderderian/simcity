@@ -73,6 +73,10 @@ public class MarketManagerRole extends Role implements MarketManager {
 		marketStock.put("fish", new MarketItem("fish", 500, itemType.food, 5.00));
 		marketStock.put("chicken", new MarketItem("chicken", 500, itemType.food, 5.00));
 		
+		//Market stock for restaurant2 orders
+		marketStock.put("Steak", new MarketItem("Chicken", 500, itemType.food, 5.00));		
+		marketStock.put("Salad", new MarketItem("Chicken", 500, itemType.food, 5.00));		
+		
 		// Market stock for restaurant3 orders
 		marketStock.put("Mac & Cheese", new MarketItem("steak", 500, itemType.food, 5.00));
 		marketStock.put("French Fries", new MarketItem("steak", 500, itemType.food, 5.00));
@@ -149,7 +153,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	}
 	
 	public void msgOrderPicked(MarketOrder o){
-		//log("Received orderPicked message");
+		log("Received orderPicked message");
 		//log("Current order size is:" + o.orders.size());
 		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
