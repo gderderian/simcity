@@ -16,6 +16,7 @@ public class Restaurant5 {
 	Restaurant5CustomerRole customer;
 	List<Restaurant5WaiterRole> waiters;
 	OrderSpindle5 orderspindle;
+	private boolean isOpen;
 	
 	public Restaurant5(){
 		waiters = Collections.synchronizedList(new ArrayList<Restaurant5WaiterRole>());
@@ -27,7 +28,14 @@ public class Restaurant5 {
 	}
 	
 	public Restaurant5HostRole getHost(){
-		return host;
+		if(isOpen != true)
+		{
+			return null;
+		}
+		else
+		{
+			return host;
+		}
 	}
 	
 	public Restaurant5CashierRole getCashier() {
@@ -54,7 +62,10 @@ public class Restaurant5 {
 		return waiters.size(); 
 	}
 	
-
+	public boolean isOpen(){
+		return isOpen;
+	}
+	
 	public void addWaiters(Restaurant5WaiterRole w) {
 		waiters.add(w);
 		host.addwaiter(w);
@@ -64,4 +75,20 @@ public class Restaurant5 {
 		w.setHost(host);
 		w.setOrderSpindle(orderspindle);
 	}
+	
+	public void toggleOpen() {
+		if(isOpen == true){
+			isOpen = false;
+		} else {
+			isOpen = true;
+		}
+	}
+
+	public void emptyStock() {
+		cook.emptyStock();
+	}
+	
+	
+	
+	
 }

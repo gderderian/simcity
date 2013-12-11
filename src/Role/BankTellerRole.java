@@ -370,6 +370,7 @@ public class BankTellerRole extends Role {
 						}
 						else
 						{
+							bankmanager.bank.resetBankAsset(-this.loan);
 							findaccount.loan += this.loan;
 							gui.approved = true;
 							timer.schedule(new TimerTask() {
@@ -426,7 +427,7 @@ public class BankTellerRole extends Role {
 					if(findaccount.accountnumber == currentcustomeraccountnumber)
 					{        
 
-						
+						bankmanager.bank.resetBankAsset(paybackloan);
 						findaccount.loan -= paybackloan;
 						gui.approved = true;
 						timer.schedule(new TimerTask() {
