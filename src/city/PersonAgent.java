@@ -407,14 +407,14 @@ public class PersonAgent extends Agent implements Person{
 				log("I'm getting hungry.");
 			}
 		}
-		else if(hour == 5 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
+		else if(hour == 4 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToMarket);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
 				log("I should really go to the market soon.");
 			}
 		}
-		else if(hour == 5 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
+		else if(hour == 4 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -1525,8 +1525,8 @@ public class PersonAgent extends Agent implements Person{
 	public void tellCarWhereToDrive(CarRide ride) {
 		if(atHome){
 			homeGui.goToExit();
-			gui.setVisible();
 			house.getAnimationPanel().notInHouse(homeGui);
+			gui.setVisible();
 			atHome = false;
 		}
 		gui.moveTo(ride.carLocation.getX() * 30 + 120, ride.carLocation.getY() * 30 + 60);
