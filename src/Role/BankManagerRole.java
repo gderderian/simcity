@@ -42,6 +42,7 @@ public class BankManagerRole extends Role{
 	PersonAgent person;
 	public EventLog log = new EventLog();
 	BankRobberRole bankrobber;
+	BankManagerRoleGui gui;
 	
 	ActivityTag tag = ActivityTag.BANKMANAGER;
 
@@ -56,6 +57,12 @@ public class BankManagerRole extends Role{
 
 	}
 
+	public void msgBankRobberLeft()
+	{
+		gui.bankrobberhere = false;
+	}
+	
+	
 	public void msgCustomerArrivedAtBank(BankCustomerRole newcustomer)
 	{
 		log("new customer arrived");
@@ -86,6 +93,8 @@ public class BankManagerRole extends Role{
 		person.stateChanged();
 		
 	}
+	
+	
 
 	public void msgCalculateLoan() {
 		state = bankmanagerstate.calculateloan;
@@ -156,9 +165,8 @@ public class BankManagerRole extends Role{
 			
 			
 			Do("????????????????????????????  Bank Robber arrived ");
-			bankrobber.msgGoToBankChamber();
-			
-			
+			bankrobber.msgGoToBankChamber();	
+			gui.bankrobberhere = true;
 			
 			
 			
@@ -414,7 +422,7 @@ public class BankManagerRole extends Role{
 	}
 
 	public void setGui(BankManagerRoleGui bankmanagerGui) {
-		// TODO Auto-generated method stub
+		gui = bankmanagerGui;
 
 	}
 

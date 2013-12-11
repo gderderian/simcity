@@ -732,6 +732,8 @@ public class CityGui extends JFrame implements ActionListener {
 		customerRole5.setGui(customerGui5);
 		p.addRole(customerRole5, false);
 
+	
+		
 		//Add bank customer role to go to bank
 		BankCustomerRole bankCustomerRole = new BankCustomerRole(p.wallet);
 		bankCustomerRole.setPerson(p);
@@ -741,6 +743,18 @@ public class CityGui extends JFrame implements ActionListener {
 		bank1Animation.addGui(bankCustomerGui);
 		bankCustomerRole.setGui(bankCustomerGui);
 		p.addRole(bankCustomerRole, false);
+		
+		
+		if(p.getName().equals("bankRobber")) {
+			BankRobberRole bankRobberRole = new BankRobberRole(p.wallet);
+			bankRobberRole.setPerson(p);
+			//BankGui bankgui = new BankGui();
+			BankRobberRoleGui bankRobberRoleGui = new BankRobberRoleGui(bankRobberRole, bankgui); 
+			bankRobberRoleGui.setPresent(false);     
+			bank1Animation.addGui(bankRobberRoleGui);
+			bankRobberRole.setGui(bankRobberRoleGui);
+			p.addRole(bankRobberRole, false);
+		}
 
 		//Add market customer role to go to market
 		MarketCustomerRole marketCustomer = new MarketCustomerRole(p.getName(), p);
@@ -752,16 +766,9 @@ public class CityGui extends JFrame implements ActionListener {
 		p.addRole(marketCustomer, false);
 		
 		//Add Bank Robber role to go to the bank
-		/*
-		BankRobberRole bankRobberRole = new BankRobberRole(p.wallet);
-		bankCustomerRole.setPerson(p);
-		//BankGui bankgui = new BankGui();
-		BankRobberRoleGui bankRobberRoleGui = new BankRobberRoleGui(bankCustomerRole, bankgui); 
-		bankCustomerGui.setPresent(false);
-		bank1Animation.addGui(bankCustomerGui);
-		bankCustomerRole.setGui(bankCustomerGui);
-		p.addRole(bankCustomerRole, false);
-		*/
+		
+		
+	
 
 
 		/* Check if the person lives in an apartment and add them to the correct tenant list */

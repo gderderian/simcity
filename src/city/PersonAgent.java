@@ -720,7 +720,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgBalanceAfterGetitngLoanFromAccount(double balance, double loan) {
 		wallet = balance;
-		loan = loan;
+		// = loan;
 		log("My balance after getting loan from the bank:" + wallet + " and loan :" + loan);
 	}
 
@@ -1048,7 +1048,6 @@ public class PersonAgent extends Agent implements Person{
 			log.add(new LoggedEvent("Decided to rob a bank"));
 			if(role != null){
 				if(cityMap.isBankOpen()){
-					
 					cityMap.bank.getBankManager().msgBankRobberArrived((BankRobberRole) role);
 					((BankRobberRole)role).setGuiActive();
 					isOpen= true;
@@ -1224,7 +1223,7 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				
-				/*
+			
 				if(r instanceof BankRobberRole) {
 					r.setActive(wallet);
 					role = (BankRobberRole) r;
@@ -1235,7 +1234,7 @@ public class PersonAgent extends Agent implements Person{
 					
 					log("Set BankRobberrRole active");
 				}
-				*/
+				
 				
 				if(r instanceof BankCustomerRole) {
 					//r.setActive();
@@ -1328,6 +1327,7 @@ public class PersonAgent extends Agent implements Person{
 		else{
 			//This is walking
 			DoGoTo(bankName, task);
+			
 		}
 	}
 	
