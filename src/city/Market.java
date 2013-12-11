@@ -10,7 +10,7 @@ public class Market { // Class modeled after comment made in https://github.com/
 
 	public MarketManagerRole mktManager;
 	String marketName;
-	private boolean isOpen;
+	private boolean isOpen = true;
 	
 	public Market(String name){
 		marketName = name;
