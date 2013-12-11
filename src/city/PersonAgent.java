@@ -989,6 +989,7 @@ public class PersonAgent extends Agent implements Person{
 		pendingMarketDelivery = null;
 	}
 	
+	
 	private boolean doesRoleListContain(String type){
 		log("Checking if I'm a landlord");
 		synchronized(roles){
