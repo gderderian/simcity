@@ -18,6 +18,8 @@ public class MarketCustomerRole extends Role {
 	private MarketCustomerGui mktCustGui;
 	private String name;
 	ActivityTag tag = ActivityTag.MARKETCUSTOMER;
+	public enum state {doingNothing, inMarket, leftMarket};
+	public enum event {none, orderReceived};
 	
 	// Constructor
 	public MarketCustomerRole(String name, PersonAgent p){
@@ -30,6 +32,7 @@ public class MarketCustomerRole extends Role {
 	// Messages
 	public void msgHereIsYourOrder(MarketOrder o){
 		// Handled within PersonAgent directly
+		
 		person.stateChanged();
 	}
 	
@@ -39,6 +42,7 @@ public class MarketCustomerRole extends Role {
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
 		return false;
 	}
 

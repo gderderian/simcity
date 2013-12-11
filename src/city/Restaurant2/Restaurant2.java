@@ -38,6 +38,10 @@ public class Restaurant2 {
 		return host;
 	}
 	
+	public Restaurant2CashierRole getCashier(){
+		return cashier;
+	}
+	
 	public Restaurant2CustomerRole getNewCustomerRole(PersonAgent p){
 		customer = new Restaurant2CustomerRole(p);
 		return customer;
