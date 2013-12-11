@@ -1055,7 +1055,7 @@ public class PersonAgent extends Agent implements Person{
 				//cityMap.mark1.getMarketManager().msgCustomerArrivedToMarket((MarketCustomerRole) role);
 				isOpen= cityMap.msgMarketManagerArrivedToMarket(Integer.parseInt(markNum[1]), role);
 				if(isOpen){
-					((MarketCustomerRole)role).setGuiActive();
+					//((MarketCustomerRole)role).setGuiActive();
 					role.getGui().setPresent(true);
 				
 					OrderItem oItem = new OrderItem("Chicken", 3);

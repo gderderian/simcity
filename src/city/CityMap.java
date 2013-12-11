@@ -220,6 +220,10 @@ public class CityMap {
 		return restaurant5;
 	}
 	
+	public Bank getBank(){
+		return bank;
+	}
+	
 	public void seRestaurant5(Restaurant5 r){
 		restaurant5 =r;
 	}
