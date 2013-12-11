@@ -74,6 +74,7 @@ public class BankRobberRole extends Role {
     			
     				Do("I'm going to bank chamber station");
     				guiGoToBankChamber();
+    				//bankmanager.msgBankRobberLeft();
     				bankrobberstate = state.inprogress;			
     				return true;
     		}
@@ -84,7 +85,7 @@ public class BankRobberRole extends Role {
             		Do("i'm opening an account");
                     mybankteller.msgOpenAccount();
                     bankrobberstate = state.waiting;
-                    guiLeaveBank();
+                    //guiLeaveBank();
                     return true;
             }
             
@@ -135,11 +136,8 @@ public class BankRobberRole extends Role {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-	}
+		}
     
-    public void guiLeaveBank()
-    {
     	gui.leaveBank();
     	try {
 			atBankLobby.acquire();
@@ -148,9 +146,13 @@ public class BankRobberRole extends Role {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    }
+    	//bankmanager.msgBankRobberLeft();
+     	gui.setPresent(false);
+     	person.setRoleInactive(this);
+     	
+	}
     
+
 
 	public void setGuiActive() {
 		//customerGui.DoEnterRestaurant();
