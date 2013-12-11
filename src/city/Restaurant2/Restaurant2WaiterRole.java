@@ -52,7 +52,7 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 	boolean deliveringFood;
 	
 	protected Semaphore atDest = new Semaphore(0,true);
-	private Semaphore AtStand = new Semaphore(0, true);
+	private Semaphore AtStand = new Semaphore(1, true);
 	
 	protected Restaurant2WaiterGui waiterGui;
 	ActivityTag tag = ActivityTag.RESTAURANT2WAITER;
@@ -303,8 +303,8 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 						c.s = CustomerState.seated;
 						return true;
 					}
-					//else
-					//	return true;
+					else
+						return true;
 				}
 			}
 		}
@@ -396,8 +396,7 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 	}
 	
 	void PromptCustomer(MyCustomer mc){
-		/*
-		try {
+		/*try {
 			AtStand.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -415,6 +414,7 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}*/
+		mc.c.msgLetsGoToTable(this, mc.table);
 		log("Seating customer");
 		DoSeatCustomer(mc.c, mc.table);
 		try {

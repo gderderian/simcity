@@ -80,8 +80,7 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 		}
 		else if(e.getSource() == fire_host){
 			restaurant.fireHost(controlPanel);
-			fire_host.setEnabled(true);
-
+			fire_host.setEnabled(false);
 		}
 		
 	}

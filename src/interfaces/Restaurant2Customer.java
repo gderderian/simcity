@@ -30,4 +30,6 @@ public interface Restaurant2Customer {
 		
 		public void msgPleaseReorder(String m);
 
+		public void msgLetsGoToTable(Restaurant2Waiter restaurant2WaiterRole, int table);
+
 }

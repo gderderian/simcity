@@ -1209,16 +1209,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);		
 
+		addPerson("rest2Test", "No job");
+		populateBanksAndMarkets();
+		addPersonWithCar("rest2Test", "No job");
 		addPerson("host2", "Restaurant2 Host");
 		addPerson("cashier2", "Restaurant2 Cashier");
 		addPerson("cook2", "Restaurant2 Cook");
 		addPerson("waiter2", "Restaurant2 Waiter");
 		
-		addPersonWithCar("rest2Test", "No job");
-		addPerson("rest2Test", "No job");
-		addPersonWithCar("rest2Test", "No job");
-		
-		populateBanksAndMarkets();
+		//addPerson("rest2Test", "No job");
+		addPerson("waiter2 shared data", "Restaurant2 WaiterSharedData");
 	}
 
 	public void runRestaurant3Test(){
@@ -1515,6 +1515,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cashier2", "Restaurant2 Cashier");
 		addPerson("cook2", "Restaurant2 Cook");
 		addPerson("waiter2", "Restaurant2 Waiter");
+		addPerson("waiter2 shared data", "Restaurant2 WaiterSharedData");
 		/*Restaurant5 workers*/
 		addPerson("host5", "Restaurant5 Host");
 		addPerson("cashier5", "Restaurant5 Cashier");
