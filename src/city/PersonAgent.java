@@ -478,7 +478,7 @@ public class PersonAgent extends Agent implements Person{
 		}
 		else if(hour == 2 && minute >= 30 && minute < 45 && am_pm.equals("am") && (name.equals("bankCustomerTest3"))){
 
-			wallet = 20;
+			wallet = 40;
 			bankaccountnumber = 3;
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
@@ -1310,6 +1310,15 @@ public class PersonAgent extends Agent implements Person{
 						((BankCustomerRole) r).bankaccountnumber = 2;
 					
 					}
+					
+					if(name.equals("bankCustomerTest3")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 40;
+						((BankCustomerRole) r).bankaccountnumber = 3;
+					
+					}
+					
+					
 					if(name.equals("bankCustomerTest4")) {
 						
 						((BankCustomerRole) r).amountofcustomermoney = 20;

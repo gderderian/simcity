@@ -283,21 +283,6 @@ public class BankManagerRole extends Role{
 
 			}
 			
-			synchronized(banktellers)
-			{
-				
-			
-			for(mybankteller bankteller: banktellers)
-			{
-			
-				
-				
-			}
-			
-			
-			
-			}
-			
 			
 			
 			
@@ -325,25 +310,7 @@ public class BankManagerRole extends Role{
 		
 		if(state == bankmanagerstate.customerleft)
 		{
-			/*
-			synchronized(customers)
-			{
-
-				for(mycustomer leavingcustomer: customers)
-				{
-					if(leavingcustomer.customer == this.leavingcustomer)
-					{
-						
-						customers.remove(leavingcustomer);
-						log.add(new LoggedEvent("customerremoved"));
-						//return true;
-
-					}
-
-				}
-
-			}
-			*/
+	
 			synchronized(banktellers)
 			{
 

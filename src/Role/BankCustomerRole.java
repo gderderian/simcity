@@ -233,7 +233,7 @@ public class BankCustomerRole extends Role{
         		
         		if(bankcustomerstate == state.atstation && amountofcustomermoney <= 50)
         		{
-        				mybankteller.msgWithdrawFromAccount(amountofcustomermoney); 
+        				mybankteller.msgWithdrawFromAccount(amountofcustomermoney/2); 
         				bankcustomerstate = state.waiting;
         				gui.withdraw = true;
         				return true;   			

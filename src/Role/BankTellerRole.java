@@ -341,12 +341,13 @@ public class BankTellerRole extends Role {
 						{
 							bankmanager.bank.resetBankAsset(-this.loan);
 							findaccount.loan += this.loan;
+							final double loanadded = this.loan;
 							gui.approved = true;
 							timer.schedule(new TimerTask() {
 								
 								public void run() {
 								log("loan approved");
-								currentcustomer.msgHereIsYourLoan(loan);	
+								currentcustomer.msgHereIsYourLoan(loanadded);	
 								}
 									},
 								1 * 1000);

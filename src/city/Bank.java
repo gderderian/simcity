@@ -42,8 +42,8 @@ public class Bank {
                 accounts.get(1).loan = 30;
                 
                 accounts.add(new account (null, 3));
-                accounts.get(2).balance = 5;
-                accounts.get(2).loan = 50;
+                accounts.get(2).balance = 0;
+                accounts.get(2).loan = 0;
                 
                 accounts.add(new account (null, 4));
                 accounts.get(3).balance = 10;
