@@ -45,7 +45,6 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankManagerRole;
-import Role.MarketManagerRole;
 
 
 public class PersonAgent extends Agent implements Person{
@@ -156,7 +155,6 @@ public class PersonAgent extends Agent implements Person{
 		bankaccountnumber = 0;
 
 		busRide = new BusRide(5);
-
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
 		originalPosition = currentPosition;//save this for moving into
@@ -1719,12 +1717,14 @@ public class PersonAgent extends Agent implements Person{
 	public void cookMeal(MyMeal meal){
 		log.add(new LoggedEvent("Cooking meal"));
 		Food temp= new Food(meal.type);
+		if(!test){
 		if(temp.appliance.equals("Stove")){
 			homeGui.goToStove();
 		} else if(temp.appliance.equals("Microwave")){
 			homeGui.goToMicrowave();
 		} else if(temp.appliance.equals("Oven")){
 			homeGui.goToOven();
+		}
 		}
 		try{
 			atDestination.acquire();
