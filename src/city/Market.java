@@ -40,4 +40,12 @@ public class Market { // Class modeled after comment made in https://github.com/
 		return isOpen;
 	}
 
+	public void toggleOpen(){
+		if (isOpen){
+			isOpen = false;
+		} else {
+			isOpen = true;
+		}
+	}
+	
 }
