@@ -1,12 +1,14 @@
 package city.Restaurant4;
 
 import Role.Role;
+import interfaces.MarketManager;
 
 import java.util.*;
 
 import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
+import city.Market;
 import city.PersonAgent;
 import justinetesting.interfaces.Cashier4;
 import justinetesting.interfaces.Customer4;
@@ -74,7 +76,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 		p.stateChanged();
 	}
 	
-	public void msgHereIsBill(Market4 market, double amount){
+	public void msgHereIsBill(MarketManager market, double amount){
 		log.add(new LoggedEvent4("Received msgHereIsBill from market"));
 		marketBills.add(new MarketBill(market, amount));
 		p.stateChanged();
@@ -171,12 +173,12 @@ public class CashierRole4 extends Role implements Cashier4 {
 	private void sendMoney(MarketBill mb){
 		if(cash - mb.amount >= 0){
 			cash -= mb.amount;
-			mb.m.msgHereIsMoney(mb.amount);
+			mb.m.msgAcceptPayment(mb.amount);
 		}
 		else{
 			goToBank();
 			cash -= mb.amount;
-			mb.m.msgHereIsMoney(mb.amount);
+			mb.m.msgAcceptPayment(mb.amount);
 		}
 			log("The restaruant now has: $" + cash);
 			marketBills.remove(mb);
@@ -227,11 +229,11 @@ public class CashierRole4 extends Role implements Cashier4 {
 	}
 
 	public class MarketBill{
-		public Market4 m;
+		public MarketManager m;
 		public double amount;
 		marketBillState mbs= marketBillState.none;
 		
-		MarketBill(Market4 market, double amount){
+		MarketBill(MarketManager market, double amount){
 			this.m= market;
 			this.amount= amount;
 			mbs= marketBillState.pending;
