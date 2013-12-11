@@ -41,12 +41,14 @@ public class Market { // Class modeled after comment made in https://github.com/
 	}
 	
 	public boolean isOpen(){
+		System.out.println("THE " + marketName + " IS: " + isOpen);
 		return isOpen;
 	}
 
 	public void toggleOpen(){
 		if (isOpen){
 			isOpen = false;
+			System.out.println("THE " + marketName + " SHOULD NOW BE CLOSED.");
 		} else {
 			isOpen = true;
 		}
