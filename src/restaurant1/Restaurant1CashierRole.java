@@ -1,15 +1,18 @@
 package restaurant1;
 
+import interfaces.MarketManager;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Timer;
+
+import restaurant1.interfaces.Restaurant1Customer;
+import restaurant1.interfaces.Restaurant1Waiter;
+import test.mock.EventLog;
 import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
-import restaurant1.interfaces.Restaurant1Customer;
-import restaurant1.interfaces.Restaurant1Market;
-import restaurant1.interfaces.Restaurant1Waiter;
-import test.mock.EventLog;
-
-import java.util.*;
-
 import city.PersonAgent;
 
 public class Restaurant1CashierRole extends Role {
@@ -89,7 +92,12 @@ public class Restaurant1CashierRole extends Role {
 		person.stateChanged();
 	}
 	
-	public void msgYouOwe(Restaurant1Market m, double amount) {
+	public void msgYouOwe(MarketManager m, double amount) {
+		marketBills.add(new MarketBill(m, amount));
+		person.stateChanged();
+	}
+	
+	public void msgHereIsBill(MarketManager m, double amount) {
 		marketBills.add(new MarketBill(m, amount));
 		person.stateChanged();
 	}
@@ -167,11 +175,11 @@ public class Restaurant1CashierRole extends Role {
 	private void payBill(MarketBill mb) {
 		if(money > mb.amountOwed) {
 			log("Here is my payment of $" + mb.amountOwed + " for the recent shipment!");
-			mb.m.msgHereIsPayment(this, mb.amountOwed);
+			mb.m.msgAcceptPayment(mb.amountOwed);
 			money -= mb.amountOwed;
 		} else {
 			log("Thanks for the food, but I can't pay for it!");
-			mb.m.msgCannotPayBill(this, mb.amountOwed);
+			mb.m.msgAcceptPayment(mb.amountOwed);
 		}
 		
 		marketBills.remove(mb);
@@ -205,10 +213,10 @@ public class Restaurant1CashierRole extends Role {
 	}
 	
 	public class MarketBill {
-		public Restaurant1Market m;
+		public MarketManager m;
 		public double amountOwed;
 		
-		MarketBill(Restaurant1Market m, double amount) {
+		MarketBill(MarketManager m, double amount) {
 			this.m = m;
 			this.amountOwed = amount;
 		}
