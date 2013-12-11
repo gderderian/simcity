@@ -173,8 +173,14 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	public void msgAcceptPayment(double incomingPayment){
 		log("Recieving a payment for an order");
-		
 		marketMoney = incomingPayment + marketMoney;
+		p.stateChanged();
+	}
+	
+	public void msgCustomerArrivedToMarket(MarketCustomerRole person) {
+		synchronized(marketCustomers){
+			marketCustomers.add(person);
+		}
 		p.stateChanged();
 	}
 	
@@ -287,10 +293,6 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	public void releaseSemaphore(){
 		isAnimating.release();
-	}
-	
-	public void msgCustomerArrivedToMarket(MarketCustomerRole person) {
-		marketCustomers.add(person);
 	}
 	
 	public void setGui(MarketManagerGui gui) {
