@@ -22,6 +22,7 @@ public class Restaurant3 {
 	CookRole3 cook;
 	CustomerRole3 customer;
 	List<WaiterRole3> waiters;
+	private boolean isOpen;
 	
 	public Restaurant3(){
 		waiters = Collections.synchronizedList(new ArrayList<WaiterRole3>());
@@ -59,6 +60,10 @@ public class Restaurant3 {
 	
 	public CashierRole3 getCashier(){
 		return cashier;
+	}
+	
+	public boolean isOpen(){
+		return isOpen;
 	}
 	
 }
