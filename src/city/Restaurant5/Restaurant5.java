@@ -50,6 +50,10 @@ public class Restaurant5 {
 		
 		
 	}
+	public int getWaiterSize() {
+		return waiters.size(); 
+	}
+	
 
 	public void addWaiters(Restaurant5WaiterRole w) {
 		waiters.add(w);

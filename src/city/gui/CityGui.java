@@ -912,7 +912,7 @@ public class CityGui extends JFrame implements ActionListener {
 				if(r instanceof BankTellerRole) {
 					bank.addBankTeller((BankTellerRole)r);
 					//p.setRoleActive(r);
-					p.addFirstJob(r, "bank1", 1); ///I changed this
+					p.addFirstJob(r, "bank1", 2); ///I changed this
 				}
 				
 				if(r instanceof BankManagerRole) {
@@ -1133,6 +1133,7 @@ public class CityGui extends JFrame implements ActionListener {
 			Restaurant5RegularWaiterRole role = new Restaurant5RegularWaiterRole(p.getName(),p);
 			Restaurant5HostRole hrole = new Restaurant5HostRole(p.getName(), p);
 			Restaurant5WaiterGui gui = new Restaurant5WaiterGui(role, rest5gui, hrole);
+			gui.setHomePosition(60, rest5.getWaiterSize() * 20);
 			role.setGui(gui);
 			restaurant5.addGui(gui);
 			gui.setPresent(false);

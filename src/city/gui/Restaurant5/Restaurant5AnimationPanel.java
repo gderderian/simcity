@@ -169,6 +169,8 @@ public class Restaurant5AnimationPanel extends BuildingPanel implements ActionLi
 			for(Gui gui : guis) {
 				if (gui.isPresent()) {
 					gui.updatePosition();
+					gui.updatePosition();
+					//gui.updatePosition();
 				}
 			}
 		}
