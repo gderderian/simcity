@@ -78,4 +78,8 @@ public class Restaurant3 {
 		cook.emptyStock();
 	}
 	
+	public void fireHost(){
+		host.msgFired();
+	}
+	
 }
