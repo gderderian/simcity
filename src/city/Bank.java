@@ -17,11 +17,14 @@ public class Bank {
         int initialxcofbank = 200;
         int initialycofbank = 100;
         public double bankasset;
+        private boolean isOpen;
+        
         
         public Bank() {
                 
                 accounts = new ArrayList<account>();
                 bankasset = 1000;
+                isOpen = true;
                 //bankmanager = new BankManagerRole(this);
                 bankstations = new ArrayList<bankstation>();
                 for(int i = 0; i < 6; i++)
@@ -55,8 +58,27 @@ public class Bank {
         
         public BankManagerRole getBankManager()
         {
-                return bankmanager;
+               if(isOpen == false)
+               {
+            	   return null;
+               }
+               else
+               {
+        		return bankmanager;
+               }
         }
+        
+        public boolean isOpen(){
+    		return isOpen;
+    	}
+        
+        public void toggleOpen() {
+    		if(isOpen == true){
+    			isOpen = false;
+    		} else {
+    			isOpen = true;
+    		}
+    	}
         
         public void setBankManager(BankManagerRole bm)
         {

@@ -43,6 +43,8 @@ public class BankManagerRole extends Role{
 	public EventLog log = new EventLog();
 	BankRobberRole bankrobber;
 	BankManagerRoleGui gui;
+	int countseating = 1;
+	int initialseat = 160;
 	
 	ActivityTag tag = ActivityTag.BANKMANAGER;
 
@@ -75,7 +77,7 @@ public class BankManagerRole extends Role{
 	{
 		log("new bankteller arrived");
 		banktellers.add(new mybankteller(newbankteller, this));
-		log("" + banktellers.size());
+		log("I have " + banktellers.size() + " banktellers");
 		person.stateChanged();
 	}
 	
@@ -225,7 +227,7 @@ public class BankManagerRole extends Role{
 							{
 								log.add(new LoggedEvent("banktellerassigned"));
 								bankteller.bankteller.msgAssignMeCustomer(customer.customer);
-								Do("assign bankteller to customer: " + customer.customer.person.getName());
+								log("assign bankteller to customer: " + customer.customer.person.getName());
 								customer.customer.msgAssignMeBankTeller(bankteller.bankteller);
 								//new line
 								customers.remove(customer);
@@ -236,8 +238,13 @@ public class BankManagerRole extends Role{
 							}
 							else
 							{
-								customer.customer.msgGoToWaitingArea(160, 500);
-					
+								if(countseating == 5)
+								{
+									countseating = 1;
+								}
+								customer.customer.msgGoToWaitingArea(initialseat, 450);
+								countseating++;
+								initialseat += 10*countseating;	
 								
 							}
 						}
