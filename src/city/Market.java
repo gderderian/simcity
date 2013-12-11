@@ -12,16 +12,12 @@ public class Market { // Class modeled after comment made in https://github.com/
 	String marketName;
 	public boolean closed;
 	
-	public Market(){
-		
-	}
-	
 	public Market(String name){
 		marketName = name;
 	}
 	
 	public void setManager(MarketManagerRole mk){
-		mktManager= mk;
+		mktManager = mk;
 	}
 	
 	public void addWorker(MarketWorkerRole mw){
