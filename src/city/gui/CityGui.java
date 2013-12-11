@@ -474,7 +474,7 @@ public class CityGui extends JFrame implements ActionListener {
 		if(h != null){
 			h.setOwner(newPerson);
 		}
-
+		/*
 		if(name.equals("bankRobber"))
 		{
 			BankRobberRole bankRobberRole = new BankRobberRole(newPerson.wallet);
@@ -488,7 +488,7 @@ public class CityGui extends JFrame implements ActionListener {
 			newPerson.addTask("robBank");
 			
 		}
-		
+		*/
 		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
@@ -518,6 +518,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 		newPerson.setBank(bank);
 	}
+	
 
 	public void enableComeBack(Restaurant2Waiter agent) {
 		// TODO Auto-generated method stub
@@ -911,13 +912,14 @@ public class CityGui extends JFrame implements ActionListener {
 			} else if(job.contains("Bank")) {
 				if(r instanceof BankTellerRole) {
 					bank.addBankTeller((BankTellerRole)r);
-					p.setRoleActive(r);
+					//p.setRoleActive(r);
 					p.addFirstJob(r, "bank1", 1); ///I changed this
 				}
+				
 				if(r instanceof BankManagerRole) {
 					System.out.println("adding bank manager in the bank!");
 					bank.setBankManager((BankManagerRole) r);
-					p.setRoleActive(r);
+					//p.setRoleActive(r);
 					p.addFirstJob(r, "bank1", 1);
 				}
 

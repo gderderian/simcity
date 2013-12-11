@@ -38,7 +38,7 @@ public class BankCustomerRole extends Role{
         public EventLog log = new EventLog();
         
         ActivityTag tag = ActivityTag.BANKCUSTOMER;
-        
+        int count;
         
         public BankCustomerRole(double setamountofcustomermoney/*, PersonAgent setperson*/)
         {
@@ -48,6 +48,7 @@ public class BankCustomerRole extends Role{
                 this.amountofcustomermoney = money;
                 //bankaccountnumber = 1;//this should be 0
                 needloan = true;
+                count = 0;
                 
                 //this is for testing purpose
                 //this.amountofcustomermoney = 40; // this should not be set to anything
@@ -263,10 +264,12 @@ public class BankCustomerRole extends Role{
         		
         		if(bankcustomerstate == state.withdrawalfailed)
         		{
-        			Random r = new Random();
-        			int i = r.nextInt(2); 
-        			if(i == 0)
+        			
+        			//Random r = new Random();
+        			//int i = r.nextInt(2); 
+        			if(count == 0)
         			{
+        				count = 1;
         				this.failedwithdrawal /= 2;
         				log("Since my request for withdrawal failed. I'm requesting $" + this.failedwithdrawal);
         				gui.withdraw = false;
@@ -277,11 +280,12 @@ public class BankCustomerRole extends Role{
         			
         			
         			}
-        			else if(i == 1)
+        			else if(count == 1)
         			{
         				gui.withdraw = false;
         				gui.rewithdraw = false;
         				gui.loan = true;
+        				count = 0;
         				mybankteller.msgGetLoan(failedwithdrawal);
         				bankcustomerstate = state.waiting;
         				
@@ -478,9 +482,7 @@ public class BankCustomerRole extends Role{
         	this.person = person;
         	this.name = person.getName();
         	this.bankaccountnumber = person.bankaccountnumber;
-        	//this.bankaccountnumber = 1;
-        	this.amountofcustomermoney = person.wallet;
-        	//this.amountofcustomermoney = 60;
+        	//this.amountofcustomermoney = person.wallet;
         }
         
         public void setManager(BankManagerRole bankmanager)

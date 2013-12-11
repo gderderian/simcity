@@ -84,9 +84,9 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		this.name = name;
 		this.person = person;
 		this.state = cookstate.doingnothing;
-		inventoryoffood.put("chicken", 5);
-		inventoryoffood.put("burrito", 5);
-		inventoryoffood.put("pizza", 5);
+		inventoryoffood.put("chicken", 0);
+		inventoryoffood.put("burrito", 0);
+		inventoryoffood.put("pizza", 0);
 		
 		
 		
@@ -275,6 +275,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			{
 				if(findmarket.suppliesoffood.get("chicken") == true)
 				{
+					log("Ordering chicken from the market");
 					List<OrderItem> orders= new ArrayList<OrderItem>();
 					OrderItem chicken= new OrderItem("chicken", 5);
 					orders.add(chicken);
@@ -296,6 +297,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 			{
 				if(findmarket.suppliesoffood.get("burrito") == true)
 				{
+					log("Ordering burrito from the marekt");
 					List<OrderItem> orders= new ArrayList<OrderItem>();
 					OrderItem burrito= new OrderItem("burrito", 5);
 					orders.add(burrito);

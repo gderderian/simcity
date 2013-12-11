@@ -33,6 +33,7 @@ public class BankCustomerRoleGui implements Gui{
 	public Image imgofbankcustomer = new ImageIcon("images/waiter1.png").getImage();
 	public Image imgofaccount = new ImageIcon("images/account.png").getImage();
 	public Image imgofmoney = new ImageIcon("images/newmoney.png").getImage();
+	public Image imgofangryface = new ImageIcon("images/angryface.png").getImage();
 	public boolean openaccount;
 	public boolean deposit;
 	public boolean withdraw;
