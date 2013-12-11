@@ -375,5 +375,9 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 		
 		person.leaveWork();
 	}
+
+	public void msgYoureFired() {
+		person.msgImFired();
+	}
 	
 }

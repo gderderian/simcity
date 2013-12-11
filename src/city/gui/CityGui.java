@@ -969,6 +969,14 @@ public class CityGui extends JFrame implements ActionListener {
 			gui.setPresent(false);
 			return role;
 		}
+		if(type.equals("Restaurant2 WaiterSharedData")){
+			Restaurant2WaiterRole role = new Restaurant2WaiterRoleSharedData(p.getName(), p);
+			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, 1);
+			role.setGui(gui);
+			restaurant2.addGui(gui);
+			gui.setPresent(false);
+			return role;
+		}
 		else if(type.equals("Restaurant2 Host")){
 			Restaurant2HostRole role = new Restaurant2HostRole(p.getName(), p);
 			return role;

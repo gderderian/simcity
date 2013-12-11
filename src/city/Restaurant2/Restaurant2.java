@@ -85,5 +85,9 @@ public class Restaurant2 {
 	public void setInventoryLow() {
 		cook.setInventoryLow();
 	}
+
+	public void fireHost() {
+		host.msgYoureFired();
+	}
 	
 }
