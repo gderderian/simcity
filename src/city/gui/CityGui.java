@@ -470,16 +470,15 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		*/
 		
-		if(name.equals("New Restaurant2 Host")){
-			System.out.println("ADDDDDING OLD HOSTS ROLE AS MY NEW JOB");
-			newPerson.addFirstJob(rest2.getHost(), "rest2", 1);
-			newPerson.addTask("goToWork");
-		}
-		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 
 		newPerson.setClock(masterClock);
+		
+		if(name.equals("New Restaurant2 Host")){
+			newPerson.addFirstJob(rest2.getHost(), "rest2", 1);
+			newPerson.addTask("goToWork");
+		}
 
 		animationPanel.addGui(g);
 
