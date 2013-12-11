@@ -1147,7 +1147,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("host4", "Restaurant4 Host");
 		addPerson("cashier4", "Restaurant4 Cashier");
 		addPerson("cook4", "Restaurant4 Cook");
-		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
+		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
 		
 		//Rest5
 		addPerson("host5", "Restaurant5 Host");
@@ -1262,6 +1262,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
 		addPerson("restTest", "No job");
+		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
 		
