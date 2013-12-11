@@ -1030,12 +1030,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private void createHouses() {
 		for(int i = 0; i < 22; i++) {
 			houses.add(new House("house" + Integer.toString(i + 1)));
-			/*
-			HouseAnimationPanel temp= new HouseAnimationPanel();
-			houses.get(i).setHouseAnimationPanel(temp);
-			cityGui.houses.add(temp);
-			cityGui.addBuildingPanel(cityGui.houses.get(i));
-			 */
 		}
 		for(int i = 0; i < 20; i++) {
 			Apartment a= new Apartment("apart1 " + i, i);
@@ -1500,31 +1494,31 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("marketManager", "Market Manager2");
 		addPerson("marketWorker", "Market Worker2");
 	
-		/*Restaurant1 workers*/
-		addPerson("host1", "Restaurant1 Host");
-		addPerson("cashier1", "Restaurant1 Cashier");
-		addPerson("cook1", "Restaurant1 Cook");
-		addPerson("waiter1", "Restaurant1 Waiter");
 		/*Restaurant2 workers*/
 		addPerson("host2", "Restaurant2 Host");
 		addPerson("cashier2", "Restaurant2 Cashier");
 		addPerson("cook2", "Restaurant2 Cook");
 		addPerson("waiter2", "Restaurant2 Waiter");
-		/*Restaurant3 workers*/
-		addPerson("host3", "Restaurant3 Host");
-		addPerson("cashier3", "Restaurant3 Cashier");
-		addPerson("cook3", "Restaurant3 Cook");
-		addPerson("waiter3", "Restaurant3 Waiter");
-		/*Restaurant4 workers*/
-		addPerson("host4", "Restaurant4 Host");
-		addPerson("cashier4", "Restaurant4 Cashier");
-		addPerson("cook4", "Restaurant4 Cook");
-		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
 		/*Restaurant5 workers*/
 		addPerson("host5", "Restaurant5 Host");
 		addPerson("cashier5", "Restaurant5 Cashier");
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
+		/*Restaurant3 workers*/
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
+		/*Restaurant1 workers*/
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		/*Restaurant4 workers*/
+		addPerson("host4", "Restaurant4 Host");
+		addPerson("cashier4", "Restaurant4 Cashier");
+		addPerson("cook4", "Restaurant4 Cook");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
 		
 		addPerson("marketManager", "Market Manager3");
 		addPerson("marketWorker", "Market Worker3");
