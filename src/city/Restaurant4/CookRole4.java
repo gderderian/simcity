@@ -3,6 +3,8 @@ package city.Restaurant4;
 import Role.Role;
 import interfaces.MarketManager;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 import test.mock.LoggedEvent;
@@ -26,6 +28,8 @@ public class CookRole4 extends Role implements Cook4 {
 	PersonAgent p;
 	ArrayList<Waiter4> waiters= new ArrayList<Waiter4>();
 	Timer cook= new Timer();
+	Timer checkForOrders= new Timer();
+	//javax.swing.Timer checkForOrders;
 	Order o= new Order();
 	List<Order> orders= Collections.synchronizedList(new ArrayList<Order>());;
 	ArrayList<Food> foods;
@@ -62,6 +66,15 @@ public class CookRole4 extends Role implements Cook4 {
 		delivery.put("Waffels", 0);
 		delivery.put("Pancakes", 0);
 		delivery.put("Bacon", 0);
+		checkOrders= true;
+	
+		/*checkForOrders = new javax.swing.Timer(2000,
+				new ActionListener() { public void actionPerformed(ActionEvent event) {
+					checkSharedOrders();
+					checkOrders= true;
+					checkForOrders.restart();
+		      }
+		});*/
 	}
 
 	public String getName(){
@@ -217,12 +230,17 @@ public class CookRole4 extends Role implements Cook4 {
 	}
 	
 	private void checkSharedOrders(){
-		System.out.println("Inside cook check shared orders");
+		log("Inside cook check shared orders");
 		Order o= sharedOrders.fillOrder();
-		while(o != null){
+		if(o != null){
 			orders.add(o);
-			o= sharedOrders.fillOrder();
 		}
+		
+		checkForOrders.schedule(new TimerTask() {
+			public void run() {
+				checkSharedOrders();
+			}
+		}, 4000);
 	}
 	
 	private void plateIt(Order o){
