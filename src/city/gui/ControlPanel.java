@@ -185,6 +185,9 @@ public class ControlPanel extends JPanel implements ActionListener{
     //Timer for weekend scenario
     Timer weekend= new Timer();
     
+    // Add bank components
+    JButton closeBank1; 
+    
     CityGui cityGui;
 
     /**
@@ -402,13 +405,19 @@ public class ControlPanel extends JPanel implements ActionListener{
         
         toggleMarket3 = new JButton("Close Market");
         toggleMarket3.addActionListener(this);
-        market2Panel.add(toggleMarket3);
+        market3Panel.add(toggleMarket3);
     }
     
     private void setupBank1Panel(){
         bank1Panel.add(new JLabel("Bank 1 Info/Options"));
         bank1Panel.setPreferredSize(buildingPanelDim);
         bank1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        closeBank1 = new JButton("Close Bank1");
+        closeBank1.addActionListener(this);
+        bank1Panel.add(closeBank1);
+        
+    
         
     }
     
@@ -734,6 +743,17 @@ public class ControlPanel extends JPanel implements ActionListener{
 		} else if(e.getSource() == emptyInventory5){
 			cityMap.getRest5().emptyStock();
 		}
+
+		else if(e.getSource() == closeBank1){
+			
+			if(cityMap.getBank().isOpen()){
+				closeBank1.setText("Open Bank 1");
+			} else{
+				closeBank1.setText("Close Bank 1");
+			}
+			cityMap.getBank().toggleOpen();
+		}
+		
 	}
 
 	/**
@@ -1343,7 +1363,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		
 		addPerson("bankCustomerTest1", "No job");
-		//addPerson("bankCustomerTest", "No job");
+		addPerson("bankCustomerTest", "No job");
 		addPerson("bankCustomerTest2", "No job");
 		//addPerson("bankCustomerTest3", "No job");
 		addPerson("bankCustomerTest4", "No job");
