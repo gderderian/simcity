@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
+/**
+ * Order for Restaurant3
+ */
 public class Order {
 
 		public enum orderStatus {waiting, preparing, ready, bounceBack};

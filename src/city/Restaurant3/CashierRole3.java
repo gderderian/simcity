@@ -3,13 +3,16 @@ package city.Restaurant3;
 import Role.Role;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
+import interfaces.MarketManager;
+
 import java.util.*;
+
 import city.PersonAgent;
 import test.mock.EventLog;
 import test.mock.LoggedEvent;
 
 /**
- * Restaurant Cashier Agent
+ * Restaurant3 Cashier Agent
  */
 public class CashierRole3 extends Role {
 	
@@ -68,8 +71,14 @@ public class CashierRole3 extends Role {
 		//myChecks.add(newCheck);
 		person.stateChanged();
 	}
-
 	*/
+	
+	public void msgPayMarket(double amount, MarketManager manager) {
+		log("Creating check for market based on incoming bill/message in rest3.");
+		Check newCheck = new Check(manager, (float)amount); // Add in new check to be calculated for this market
+		myChecks.add(newCheck);
+		person.stateChanged();
+	}
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
@@ -135,7 +144,7 @@ public class CashierRole3 extends Role {
 		
 		public CustomerRole3 customer;
 		public WaiterRole3 waiter;
-		//public Market market;
+		public MarketManager manager;
 		public double amount;
 		public checkStatus status;
 		public String choice;
@@ -163,12 +172,12 @@ public class CashierRole3 extends Role {
 			type = checkType.customerCheck;
 		}
 		
-		//public Check(Market market2, float checkAmount){
-			//market = market2;
-			//status = checkStatus.pending;
-			//amount = checkAmount;
-			//type = checkType.marketCheck;
-		//}
+		public Check(MarketManager setManager, float checkAmount){
+			manager = setManager;
+			status = checkStatus.pending;
+			amount = checkAmount;
+			type = checkType.marketCheck;
+		}
 		
 		public Check(WaiterRole3 w, CustomerRole3 c){
 			customer = c;

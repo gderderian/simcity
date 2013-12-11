@@ -33,7 +33,7 @@ public class Restaurant2 {
 	}
 	
 	public Restaurant2HostRole getHost(){
-		if(isOpen)
+		if(!isOpen)
 			return null;
 		return host;
 	}
@@ -60,6 +60,14 @@ public class Restaurant2 {
 	
 	public void closeRestaurant(){
 		isOpen = false;
+		/*
+		host.msgGoHome();
+		cashier.msgGoHome();
+		cook.msgGoHome();
+		for(Restaurant2WaiterRole w : waiters){
+			w.msgGoHome();
+		}
+		*/
 	}
 	
 	public void openRestaurant(){
@@ -68,6 +76,10 @@ public class Restaurant2 {
 	
 	public boolean isOpen(){
 		return isOpen;
+	}
+
+	public void setInventoryLow() {
+		cook.setInventoryLow();
 	}
 	
 }

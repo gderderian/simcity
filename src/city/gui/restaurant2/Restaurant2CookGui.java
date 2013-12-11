@@ -32,7 +32,6 @@ public class Restaurant2CookGui implements Gui{
     private final int COUNTERX = 760;
     private final int COUNTERY = 360;
     
-    //ImageIcon icon = new ImageIcon("images/chef.png");	//Need to get this icon to work
 	Restaurant2AnimationPanel restaurant2panel;
 	
 	boolean foodCooking;
@@ -139,6 +138,11 @@ public class Restaurant2CookGui implements Gui{
 	
 	public void setPresent(boolean t) {
 		isPresent = t;
+	}
+	
+	public void leaveRestaurant(){
+		xDest = 400;
+		yDest = 500;
 	}
 
 

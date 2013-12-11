@@ -41,6 +41,8 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	
 	CityMap cityMap;
 	
+	private boolean goHome = false;
+	
 	String roleName = "Restaurant2CookRole";
 	
 	private Semaphore atDestination = new Semaphore(0,true);
@@ -62,10 +64,10 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 		cityMap = p.getCityMap();
 		
 		name = n;
-		foods.put("Chicken", new Food("Chicken", 10, 3));
-		foods.put("Steak", new Food("Steak", 20, 1));
+		foods.put("Chicken", new Food("Chicken", 10, 5));
+		foods.put("Steak", new Food("Steak", 20, 5));
 		foods.put("Pizza", new Food("Pizza", 12, 5));
-		foods.put("Salad", new Food("Salad", 5, 1));
+		foods.put("Salad", new Food("Salad", 5, 5));
 		//each food starts off with low inventory
 		
 		startCheck = true;
@@ -127,6 +129,10 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 			checkInventory();
 			checkSpindle();
 		}
+		if(goHome){
+			goHome();
+			return false;
+		}
 		synchronized(orders){
 			for(Order o : orders){
 				if(o.s == OrderState.pending){
@@ -167,8 +173,12 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 		return false;
 	}
 	
-	
 	//ACTIONS
+	private void goHome() {
+		log("Restaurant is closed, I'm going home");
+		cookGui.leaveRestaurant();
+		person.leaveWork();
+	}
 	
 	private void checkSpindle(){
 		//log("Checking the spindle");
@@ -275,6 +285,11 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 			}
 		}
 	}
+	
+	void msgGoHome(){
+		goHome = true;
+		person.stateChanged();
+	}
 
 	//Cook classes
 	
@@ -333,6 +348,12 @@ public class Restaurant2CookRole extends Role implements Restaurant2Cook{
 	@Override
 	public PersonAgent getPerson() {
 		return person;
+	}
+
+	public void setInventoryLow() {
+		for(Map.Entry<String, Food> e : foods.entrySet()){
+			e.getValue().inventory = 1;
+		}
 	}
 
 }
