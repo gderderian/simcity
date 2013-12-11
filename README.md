@@ -66,16 +66,16 @@ The scenarios listed in the World tab show the different scenarios that we have 
 
 In the control panel, a specific scenario can be selected by the user and when "Start Scenario" is clicked, it will create people, send them to specific jobs, and perform the following actions:
 
-+ Full Scenario - Our most robust execution of the program, this scenario tests grading rubric items A, B, and E. It adds people throughout the city, assigns them to each workplace (restaurants, markets, and banks) and also makes people use different transporation methods to get to each location. It additionally also triggers trucks to fulfill orders from certain restaurants through markets (and bills them afterward) and additionally causes certain appliances to break, causing the landlord to fix them (and also bill them for rent).
-+ The Weekender - Forces the day to Saturday, closes Restaurants 2 and 4 as well as the bank, and creates people to try to access closed locations and go somewhere else when they can't go there.
-+ Trader Joe's - Tests restaurant delivery from market as well as in person orders form hungry people throughout the city.
-+ Restaurant 1-5 - Tests customer, waiter, and host normative interaction (as well as market truck delivery) at a specific integrated restaurant in the city.
-+ Close Restaurants Test - Demonstrates avoidance of people to closed restaurants. Restaurants can be manually closed, and then people will go to the next open one and see of they can eat there.
-+ Bank Test - Creates exisiting accounts and tests several interactions with the bank, including making deposits, withdrawing various amounts of money, and taking out loans with various interest rates.
-+ Car Test - Done automatically in most scenarios already (people are assigned cars which they then use to go around and do tasks they need to complete, such as eat or visit the market).
-+ Landlord Test - Forces an appliance in an apartment to break, causing a person to message the landlord and have that appliance fixed.
-+ Market Truck Test - Done automatically in most scenarios already (trucks are dispatched out to take and order and then deliver it to a market).
-+ Car Crash Test - Can be triggered through button in the main world tab in the control panel.
++ **Full Scenario** - Our most robust execution of the program, this scenario tests grading rubric items A, B, and E. It adds people throughout the city, assigns them to each workplace (restaurants, markets, and banks) and also makes people use different transporation methods to get to each location. It additionally also triggers trucks to fulfill orders from certain restaurants through markets (and bills them afterward) and additionally causes certain appliances to break, causing the landlord to fix them (and also bill them for rent).
++ **The Weekender** - Forces the day to Saturday, closes Restaurants 2 and 4 as well as the bank, and creates people to try to access closed locations and go somewhere else when they can't go there.
++ **Trader Joe's** - Tests restaurant delivery from market as well as in person orders form hungry people throughout the city.
++ **Restaurant 1-5** - Tests customer, waiter, and host normative interaction (as well as market truck delivery) at a specific integrated restaurant in the city.
++ **Close Restaurants Test** - Demonstrates avoidance of people to closed restaurants. Restaurants can be manually closed, and then people will go to the next open one and see of they can eat there.
++ **Bank Test** - Creates exisiting accounts and tests several interactions with the bank, including making deposits, withdrawing various amounts of money, and taking out loans with various interest rates.
++ **Car Test** - Done automatically in most scenarios already (people are assigned cars which they then use to go around and do tasks they need to complete, such as eat or visit the market).
++ **Landlord Test** - Forces an appliance in an apartment to break, causing a person to message the landlord and have that appliance fixed.
++ **Market Truck Test** - Done automatically in most scenarios already (trucks are dispatched out to take and order and then deliver it to a market).
++ **Car Crash Test** - Can be triggered through button in the main world tab in the control panel.
 
 Buttons to trigger car crashes, hit-and-runs, and the addition of specific people are available in the main World tab of the program's control panel.
 
