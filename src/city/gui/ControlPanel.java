@@ -1002,6 +1002,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 		
+		populateBanksAndMarkets();
+		
 		addPerson("host1", "Restaurant1 Host");
 		addPerson("cashier1", "Restaurant1 Cashier");
 		addPerson("cook1", "Restaurant1 Cook");
@@ -1009,10 +1011,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
-		addPerson("rest1Test", "No job");
-		addPerson("rest1Test", "No job");
-		
-		populateBanksAndMarkets();
+		addPersonWithCar("rest1Test", "No job");
 	}
 
 	public void runRestaurant2Test(){
