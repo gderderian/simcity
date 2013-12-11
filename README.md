@@ -52,10 +52,10 @@ Much of our v2 development also focused on removing hacks and creating a truly a
 ### Compile Instructions (v1)
 To compile and run our SimCity, clone this GitHub repo into a new directory on your local computer. Then, follow these instructios:
 + Open the Eclipse IDE on your computer.
-+ Choose File -> New -> Other. Select the Java Project from Exisitng Ant Buildfile in the list of options
-+ Click on Browse, navigate to the directory of the repo you cloned from out assignment on GitHub, and then select the build.xml file.
-+ Click the Link to the buildfile in the file system checkbox and then click on finish.
-+ Copy the `images` folder from the directory you cloned to your computer onto the top-most level folder of our project you just imported into Eclipse. When prompted, select the `Copy Files and Folders` option.
++ Choose File -> New -> Java Project. Uncheck "Use default location", and then browse to the directory of the cloned repository and select it.
++ Click finish.
++ In the new project, open up any one of the testing files that show errors, hover over one of the errors, and choose "Add JUnit 3 library to the build path".
++ The program is ready to run:
 
 __To run the program as a whole__, navigate to the `CityGui.java` file located within `src/city.gui`. Then, click the small arrow next to the green play button in the Eclipse toolbar and select `CityGui` from the dropdown list. The program will now run. To close it, click the red stop sign in Eclipse.
 
