@@ -349,6 +349,13 @@ public class PersonAgent extends Agent implements Person{
 	public void msgAnimationAtBed(){
 		log("I'm at my bed, time to go to sleep! ZZZzzzZZZzzz...");
 	}
+	
+	public void msgImFired() {
+		log("Setting my job to null now because I got fired");
+		myJob.endJob();
+		addTask("goHome");
+		myJob = null;
+	}
 
 
 	/*
@@ -369,7 +376,6 @@ public class PersonAgent extends Agent implements Person{
 	
 	//TODO fix this
 	public void msgTimeUpdate(int t, int hour, long minute, String am_pm){
-		
 		//if it's the last hour in the day, the tasks in the schedule for the day get transferred over to the next day
 		if(hour == 23 && hour != currentHour){
 			currentHour = hour;
@@ -652,11 +658,8 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void msgMarketBill(double orderPrice, MarketManager manager) {
-		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
 		log("Sending the market bill to the cashier");
-			if (myJob.role.getRoleName().contains("cook")){ // Is this bill a personal bill or a restaurant bill?
-				log("YEEEAH, sending order");
-	
+			if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?	
 				if (myJob.role.getRoleName().contains("1")){
 					
 				} else if (myJob.role.getRoleName().contains("2")){	
