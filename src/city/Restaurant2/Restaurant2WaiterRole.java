@@ -285,13 +285,13 @@ public abstract class Restaurant2WaiterRole extends Role implements Restaurant2W
 		synchronized(customers){
 			for(MyCustomer c : customers){
 				if(c.s == CustomerState.waiting){
-					//if(atStand){
+					if(atStand){
 						PromptCustomer(c);
 						c.s = CustomerState.prompted;
 						return true;
-					//}
-					//else
-					//	return true;
+					}
+					else
+						return true;
 				}
 			}
 		}

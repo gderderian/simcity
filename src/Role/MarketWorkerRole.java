@@ -94,10 +94,38 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		for (OrderItem item : o.order.orders){
 			// Gui command to go to that item's specific location in the market "warehouse"/back stock room
 			o.itemPickStatus.put(item.name, true); // Item in this order has been picked
+			// Generate spot on the shelf for this item
+			int pickLocationY = 100 + (int)(Math.random() * 800); 
+			gui.setDestination(500, pickLocationY);
+			gui.beginAnimate();
+			try {
+				isAnimating.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		// When finished running through items to pick, then be done!
+		
+		// Move to deliver order to manager to give to person
+		gui.setDestination(275, 250);
+		gui.beginAnimate();
+		try {
+			isAnimating.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		// Move back to home position
+		gui.setDestination(675, 250);
+		gui.beginAnimate();
+		try {
+			isAnimating.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		o.state = orderPickState.done;
 		p.stateChanged();
+		
 	}
 	
 	private void returnCompletedOrder(PickableOrder o){

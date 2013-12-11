@@ -150,6 +150,10 @@ public class CookRole4 extends Role implements Cook4 {
 		p.stateChanged();
 	}
 	
+	/*public void msgBackInBusiness(){
+		p.addTask("goToWork");
+	}*/
+	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
@@ -362,7 +366,7 @@ public class CookRole4 extends Role implements Cook4 {
 		p.setGuiVisible();
 		p.setRoleInactive(this);
 	}
-	
+
 	
 	// UTILITIES
 	public void setGui(CookGui4 gui) {

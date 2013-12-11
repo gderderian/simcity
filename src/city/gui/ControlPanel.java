@@ -999,6 +999,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000);
+		
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
 
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
@@ -1014,10 +1019,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 			public void run() {
 				addVehicle("bus");
 			}
-		}, 16000);
+		}, 16000);		
+
+		addPerson("host2", "Restaurant2 Host");
+		addPerson("cashier2", "Restaurant2 Cashier");
+		addPerson("cook2", "Restaurant2 Cook");
+		addPerson("waiter2", "Restaurant2 Waiter");
+		
 		addPersonWithCar("rest2Test", "No job");
-		//addPerson("rest2Test", "No job");
-		//addPersonWithCar("rest2Test", "No job");
+		addPerson("rest2Test", "No job");
+		addPersonWithCar("rest2Test", "No job");
 	}
 
 	public void runRestaurant3Test(){
@@ -1028,6 +1039,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000);
+
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
+		
 		addPerson("rest3Test", "No job");
 
 	}
@@ -1040,6 +1057,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000);
+
+		addPerson("host4", "Restaurant4 Host");
+		addPerson("cashier4", "Restaurant4 Cashier");
+		addPerson("cook4", "Restaurant4 Cook");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
 
 		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
 		addPerson("restTest", "No job");
@@ -1056,6 +1078,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 
+		addPerson("host5", "Restaurant5 Host");
+		addPerson("cashier5", "Restaurant5 Cashier");
+		addPerson("cook5", "Restaurant5 Cook");
+		addPerson("waiter5", "Restaurant5 Waiter");
+
 		//addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
@@ -1071,20 +1098,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 
-		addPerson("bankCustomerTest", "No job");
+		addPerson("bank manager", "Bank Manager");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		
+		addPerson("bankCustomerTest1", "No job");
 		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest1", "No job");
 		addPerson("bankCustomerTest2", "No job");
-		addPerson("bankCustomerTest3", "No job");
-		addPerson("bankRobber", "No job");
-	
-		//addPerson("bank teller", "Bank Teller");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bank teller", "Bank Teller");
+		//addPerson("bankCustomerTest3", "No job");
+		addPerson("bankCustomerTest4", "No job");
+		//addPerson("bankRobber", "No job");
+		
 
 	}
 
@@ -1107,6 +1132,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000);
+
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
 		addPerson("marketClient", "No Job");
 
 		//addPerson("marketWorker", "Market Worker");
@@ -1124,7 +1157,24 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000);
-		addPerson("marketClient", "No Job");
+		
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+
+		addPerson("rest1Test", "No job");
+
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
+		addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
 	}
 
 	public void runCarCrash() {
@@ -1155,6 +1205,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000);
+
+		addPerson("Landlord", "Landlord1");
 
 		addPerson("Joe", "No Job");
 		addPerson("Jenny", "No Job");
@@ -1188,12 +1240,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		/*Bank Workers*/
 		addPerson("bank manager", "Bank Manager");
 		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
 		
 		addPersonWithCar("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		
-		addPerson("bank teller", "Bank Teller");
-		addPerson("bank teller", "Bank Teller");
+	
 		/*Restaurant1 workers*/
 		addPerson("host1", "Restaurant1 Host");
 		addPerson("cashier1", "Restaurant1 Cashier");
