@@ -296,8 +296,10 @@ public class PersonAgent extends Agent implements Person{
 
 	public void addFirstJob(Role r, String location, int startTime){
 		myJob = new Job(r, location);
-		if(startTime != -1)
+		if(startTime != -1){
 			myJob.workStartTime = startTime;
+			myJob.leaveForWork = startTime - 1;
+		}
 		r.setBuilding(location);
 		roles.add(r);
 	}
@@ -386,7 +388,7 @@ public class PersonAgent extends Agent implements Person{
 			schedule.transferTodaysTasksToTomorrow(clock.getDayOfWeekNum());
 		}
 		if(!(myJob == null)){
-			if(hour == myJob.workStartTime && minute < 15 && am_pm.equals("am") && myJob != null){
+			if(hour == myJob.leaveForWork && minute >= 15 && minute < 30 && am_pm.equals("am") && myJob != null){
 				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 					PersonTask task = new PersonTask(TaskType.goToWork);
 					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
