@@ -149,6 +149,8 @@ public class BankManagerRole extends Role{
 	public boolean pickAndExecuteAnAction() {
 
 		
+		log("!!!!!!!!!!!!!!!!!!!!!! size of banktelelrs" + banktellers.size());
+		
 		if(state == bankmanagerstate.bankrobberarrived)
 		{
 			

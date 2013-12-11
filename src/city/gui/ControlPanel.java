@@ -1026,21 +1026,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runBankTest() {
-
-		addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest1", "No job");
-		addPerson("bankCustomerTest2", "No job");
-		addPerson("bankCustomerTest3", "No job");
-		addPerson("bankRobber", "No job");
 	
-		//addPerson("bank teller", "Bank Teller");
+		addPerson("bankCustomerTest1", "No job");
 		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bankCustomerTest", "No job");
-		//addPerson("bank teller", "Bank Teller");
+		addPerson("bankCustomerTest2", "No job");
+		//addPerson("bankCustomerTest3", "No job");
+		addPerson("bankCustomerTest4", "No job");
+		//addPerson("bankRobber", "No job");
+		
 
 	}
 
@@ -1109,12 +1102,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		/*Bank Workers*/
 		addPerson("bank manager", "Bank Manager");
 		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
 		
 		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		
-		addPerson("bank teller", "Bank Teller");
-		addPerson("bank teller", "Bank Teller");
+	
 		/*Restaurant1 workers*/
 		addPerson("host1", "Restaurant1 Host");
 		addPerson("cashier1", "Restaurant1 Cashier");
