@@ -90,7 +90,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Home Meal/Visit Stores Test", 
-    		"Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Traffic Test"
+    		"Bank Test", "Landlord Test", "Market Truck Test", "Traffic Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -1083,8 +1083,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runEatAtHomeVisitWorkplacesTest();
 		else if(scenario.equals("Bank Test"))
 			runBankTest();
-		else if(scenario.equals("Car Test"))
-			runCarTest();
 		else if(scenario.equals("Landlord Test"))
 			runLandlordTest();
 		else if(scenario.equals("Market Truck Test"))
@@ -1461,18 +1459,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	
 	public void hitAndRun() {
 		addVehicle("hitAndRun");
-	}
-
-	public void runCarTest() {
-		//Initial public transportation creation.
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000);
-		//Add one person who should use their car
-		addPersonWithCar("rest1Test", "No Job");
 	}
 
 	public void runLandlordTest(){
