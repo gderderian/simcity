@@ -28,7 +28,7 @@ CS201 Team 16 SimCity Project
   	+ Global Transportation: buses, cars, market truck.
   	+ City GUI A*/Path Finding.
   	+ Main cityGui animation and overall graphic design.
-  	+ restaurant1 design and integration.
+  	+ Restaurant1 design and integration.
 
 #### v1 Team Assignment Notes
 
@@ -82,8 +82,11 @@ Buttons to trigger car crashes, hit-and-runs, and the addition of specific peopl
 ### Overall State of Program
 
 ##### Transportation
++ All forms of transportation are working appropriately. People will automatically take buses when travelling long distances. Cars will pick people up from wherever they are and drive them to their final destination. Market trucks are completely integrated with markets so that they can deliver orders to restaurants. All non-norms are also working. Cars can crash into cars, cars can run over people, and market trucks will redeliver orders to restaurants if they are closed.
++ Traffic is complex - Our intersection works appropriately as a four-way stop. People can cross crosswalks without being run over. vehicles will avoid collisions while in normative scenarios. Cars and trucks will park when they finish their tasks, while buses will continue on their usual routes.
 
 ##### Animation
++ We have implemented A* animation in our city view. People stay on sidewalks, vehicles stay on roads, and they share the crosswalks. Animation components are well-designed and easy to observe. Agents display their names while walking around the city. Our individual buildings do not all have A* animation due to lack of time. Given more time, we could have transferred the A* animation concepts to all different buildings. As of now, the A* animation in the city view works very well; it runs smoothly and quickly, and unintended collisions are very rare.
 
 ##### Person Agent
 
@@ -97,3 +100,5 @@ Buttons to trigger car crashes, hit-and-runs, and the addition of specific peopl
 ##### Banks
 
 ##### v2 Non-Norms
++ Transportation non-norms are all implemented as stated above.
+
