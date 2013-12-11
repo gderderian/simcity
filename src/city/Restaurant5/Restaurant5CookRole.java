@@ -228,11 +228,18 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 
 	public void msgDepleteCookSupply() {
 		
-		inventoryoffood.put("chicken", 0);
-		inventoryoffood.put("burrito", 0);
-		inventoryoffood.put("pizza", 0);
+		inventoryoffood.put("chicken", 3);
+		inventoryoffood.put("burrito", 3);
+		inventoryoffood.put("pizza", 3);
 		person.stateChanged();
 		
+	}
+	
+	public void emptyStock() { 
+		inventoryoffood.put("chicken", 3);
+		inventoryoffood.put("burrito", 3);
+		inventoryoffood.put("pizza", 3);
+		person.stateChanged();
 	}
 	
 	
@@ -563,6 +570,8 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	public PersonAgent getPerson() {
 		return person;
 	}
+
+
 
 
 

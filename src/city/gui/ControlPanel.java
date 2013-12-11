@@ -169,6 +169,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     JButton closeRest4;
     JButton emptyInventory4;
     
+    //Set up rest5 components
+    JButton closeRest5;
+    JButton emptyInventory5;
+    
     // Add rest3 components
     JButton closeRest3;
     JButton emptyRest3;
@@ -357,6 +361,16 @@ public class ControlPanel extends JPanel implements ActionListener{
         restaurant5Panel.add(new JLabel("Restaurant 5 Info/Options"));
         restaurant5Panel.setPreferredSize(buildingPanelDim);
         restaurant5Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        closeRest5 = new JButton("Close Restaurant5");
+        closeRest5.addActionListener(this);
+        restaurant5Panel.add(closeRest5);
+        
+        emptyInventory5 = new JButton("Empty Restaurant Stock");
+        emptyInventory5.addActionListener(this);
+        restaurant5Panel.add(emptyInventory5);
+        
+        
     }
     
     private void setupMarket1Panel(){
@@ -708,8 +722,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 			cityMap.getMark3().toggleOpen();
 			
+		} else if(e.getSource() == closeRest5){
+			
+			if(cityMap.getRest5().isOpen()){
+				closeRest5.setText("Open Restaurant 5");
+			} else{
+				closeRest5.setText("Close Restaurant 5");
+			}
+			cityMap.getRest5().toggleOpen();
+			
+		} else if(e.getSource() == emptyInventory5){
+			cityMap.getRest5().emptyStock();
 		}
-		
 	}
 
 	/**
