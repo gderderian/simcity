@@ -1,16 +1,12 @@
 package city.gui.Market;
 
 //import javax.swing.Image;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import city.Restaurant3.CustomerRole3;
 import city.Restaurant3.WaiterRole3;
 import city.gui.Restaurant3.*;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 
 /**
  * Main GUI class.
@@ -18,32 +14,22 @@ import java.io.IOException;
  */
 public class MarketGui extends JFrame implements ActionListener {
 
-	AnimationPanel3 animationPanel = new AnimationPanel3();
-   // private RestaurantPanel3 restPanel = new MarketPanel(this);
-    
-    /* infoPanel holds information about the clicked customer, if there is one */
-    private JPanel infoPanel;
+	AnimationPanel3 animationPanel = new AnimationPanel3();    private JPanel infoPanel;
     private JLabel infoLabel;
     private JCheckBox stateCB;
     
-    private JPanel leftPanel;
-    
     private static final int WINDOW_BOUND = 50;
-    private static final int REST_GRID_COLS = 1;
-    private static final int REST_GRID_ROWS = 2;
     private static final int INFO_PANEL_ROWS = 1;
     private static final int INFO_PANEL_COLS = 2;
     private static final int INFO_PANEL_X_PADDING = 30;
     private static final int INFO_PANEL_Y_PADDING = 0;
     private static final double HALF = .5;
-    private static final double TWO_THIRDS = .6725;
     private static final double ONE_THIRD = .125;
 
     private Object currentPerson;
     
 	private JPanel controlPanel;
     private JButton toggleTimerButton = new JButton("Pause");
-    private boolean isPaused = false;
 
     /**
      * Constructor for RestaurantGui class.
@@ -66,12 +52,6 @@ public class MarketGui extends JFrame implements ActionListener {
         leftPanel.setMinimumSize(leftDim);
         leftPanel.setMaximumSize(leftDim);
         leftPanel.setBorder(BorderFactory.createTitledBorder("Settings & Controls"));
-        
-        Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * TWO_THIRDS));
-      //  restPanel.setPreferredSize(restDim);
-      //  restPanel.setMinimumSize(restDim);
-       // restPanel.setMaximumSize(restDim);
-        //leftPanel.add(restPanel);
         
         Dimension infoDim = new Dimension(WINDOWX, (int) (WINDOWY * ONE_THIRD)); // Takes up .125 of the height of the window in pixels
         infoPanel = new JPanel();
@@ -108,78 +88,15 @@ public class MarketGui extends JFrame implements ActionListener {
         
     }
     
-    /**
-     * updateInfoPanel() takes the given customer (or, for v3, Host) object and
-     * changes the information panel to hold that person's info.
-     *
-     * @param person customer (or waiter) object
-     */
     public void updateInfoPanel(Object person) {
         stateCB.setVisible(true);
         currentPerson = person;
-        /*
-        if(person instanceof WaiterRole3){
-        	WaiterRole3 waiter = (WaiterRole3) person;
-        	stateCB.setText("On break?");
-        	stateCB.setSelected(waiter.getGui().isOnBreak());
-        	stateCB.setEnabled(!waiter.getGui().isOnBreak());
-        	infoLabel.setText("<html>Waiter Name: " + waiter.getName() + "</html>");
-        }
-        
-        if (person instanceof CustomerRole3) {
-        	CustomerRole3 customer = (CustomerRole3) person;
-            stateCB.setText("Hungry?");
-            stateCB.setSelected(customer.getGui().isHungry());
-            stateCB.setEnabled(!customer.getGui().isHungry());
-            infoLabel.setText("<html>Customer Name: " + customer.getName() + "</html>");
-        }
-        infoPanel.validate();
-    	*/
     
     }
-    
-    /**
-     * Action listener method that reacts to the checkbox being clicked;
-     * If it's the customer's checkbox, it will make him hungry
-     * For v3, it will propose a break for the waiter.
-     */
     public void actionPerformed(ActionEvent e) {
-    	
-    	/*
-    	
-        if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerRole3) {
-            	CustomerRole3 c = (CustomerRole3) currentPerson;
-                c.getGui().setHungry();
-                stateCB.setEnabled(false);
-            }
-            if (currentPerson instanceof WaiterRole3) {
-            	WaiterRole3 w = (WaiterRole3) currentPerson;
-            	w.getGui().setRequestBreak();
-            	stateCB.setEnabled(false);
-            }
-        } else if (e.getSource() == toggleTimerButton) {
-        	if (isPaused == true) {
-        		toggleTimerButton.setText("Pause");
-            	restPanel.toggleTimer();
-            	isPaused = false;
-        	} else {
-        		toggleTimerButton.setText("Resume");
-            	restPanel.toggleTimer();
-            	isPaused = true;
-        	}
-        	
-        }
-        */
         
     }
     
-    /**
-     * Message sent from a customer gui to enable that customer's
-     * "I'm hungry" checkbox.
-     *
-     * @param c reference to the customer
-     */
     public void setCustomerEnabled(CustomerRole3 c) {
         if (currentPerson instanceof CustomerRole3) {
             CustomerRole3 cust = (CustomerRole3) currentPerson;
@@ -190,12 +107,6 @@ public class MarketGui extends JFrame implements ActionListener {
         }
     }
     
-    /**
-     * Message sent from a waiter gui to re-enable that waiter's
-     * "I'm hungry" checkbox.
-     *
-     * @param c reference to the customer
-     */
     public void setCbEnabled(WaiterRole3 w) {
         if (currentPerson instanceof WaiterRole3) {
         	WaiterRole3 waiter = (WaiterRole3) currentPerson;
@@ -206,12 +117,9 @@ public class MarketGui extends JFrame implements ActionListener {
         }
     }
     
-    /**
-     * Main routine to get gui started
-     */
     public static void main(String[] args) {
         RestaurantGui3 gui = new RestaurantGui3();
-        gui.setTitle("Grant's csci201 Restaurant - v2.2");
+        gui.setTitle("Market");
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

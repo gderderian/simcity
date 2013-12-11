@@ -18,7 +18,8 @@ public class BankManagerRoleGui implements Gui {
 	public static int xTable = 200;
     public static int yTable = 250;
     public Image imgofbankmanager = new ImageIcon("images/cashier1.png").getImage();
-
+    public boolean bankrobberhere;
+    
     public BankManagerRoleGui(BankManagerRole setrole, BankGui gui) {
         this.role = setrole;
         this.gui = gui;
@@ -39,9 +40,18 @@ public class BankManagerRoleGui implements Gui {
 
     public void draw(Graphics2D g) {
         
-    	g.drawImage(imgofbankmanager, xPos, yPos + 20, 30, 30, gui);
-    	//g.setColor(Color.MAGENTA);
-        //g.fillRect(xPos, yPos, 20, 20);
+    	g.drawImage(imgofbankmanager, xPos, yPos + 20, 40, 40, gui);
+    	Graphics2D g2 = (Graphics2D)g;
+    	Graphics2D g3 = (Graphics2D)g;
+    	if(bankrobberhere == true)
+    	{
+    		g3.setColor(Color.WHITE);
+    		g3.fillRoundRect(xPos - 20, yPos - 12, 240, 20, 40, 40);
+    		g2.setFont(new Font("Arial", Font.BOLD, 12));
+    		g2.setColor(Color.black);
+    		g2.drawString("Please Don't hurt anyone take the money", xPos - 17, yPos + 2);	
+    	}
+
     }
 
     public boolean isPresent() {

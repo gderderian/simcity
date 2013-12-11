@@ -39,6 +39,7 @@ public class BankCustomerRole extends Role{
         
         ActivityTag tag = ActivityTag.BANKCUSTOMER;
         int count;
+        boolean robber;
         
         public BankCustomerRole(double setamountofcustomermoney/*, PersonAgent setperson*/)
         {
@@ -49,7 +50,7 @@ public class BankCustomerRole extends Role{
                 //bankaccountnumber = 1;//this should be 0
                 needloan = true;
                 count = 0;
-                
+                robber = false;
                 //this is for testing purpose
                 //this.amountofcustomermoney = 40; // this should not be set to anything
                 //this.person = setperson;
@@ -528,6 +529,11 @@ public class BankCustomerRole extends Role{
     	public void setGuiActive() {
     		//customerGui.DoEnterRestaurant();
     		gui.setPresent(true);
+    	}
+    	
+    	public void setRobberTrue()
+    	{
+    		robber = true;
     	}
 
 		@Override

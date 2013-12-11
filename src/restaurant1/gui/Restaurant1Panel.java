@@ -14,6 +14,7 @@ import restaurant1.Restaurant1NormalWaiterRole;
 import restaurant1.Restaurant1SharedDataWaiterRole;
 import restaurant1.Restaurant1WaiterRole;
 
+import city.CityMap;
 import city.PersonAgent;
 import city.gui.ControlPanel;
 
@@ -24,6 +25,8 @@ import city.gui.ControlPanel;
 public class Restaurant1Panel extends JPanel implements ActionListener {
 
     private ControlPanel cp;
+    
+    private CityMap cityMap = CityMap.getInstance();
     
     private JLabel title;
     
@@ -65,6 +68,8 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	add(Box.createVerticalStrut(20));
     	add(depleteInventory);
     	add(Box.createVerticalStrut(20));
+    	add(closeRestaurant);
+    	add(Box.createVerticalStrut(20));
     	
     	
     }
@@ -84,17 +89,22 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 	}
 
 	private void depleteInventory() {
-		cp.getRest1().getCook().depleteInventory();
-		
+		cityMap.getRest1().getCook().depleteInventory();
 	}
 	
 	private void closeRestaurant() {
-		
+		if(cityMap.getRest1().isOpen()) {
+			cityMap.getRest1().closeRestaurant();
+			closeRestaurant.setText("Open Restaurant");
+		} else {
+			cityMap.getRest1().openRestaurant();
+			closeRestaurant.setText("Close Restaurant");
+		}
 	}
 
 	private void addSharedDataWaiter() {
-		Restaurant1 rest1 = cp.getRest1();
-		PersonAgent p = new PersonAgent("Shared Data Waiter", null, cp.getCityMap(), null);
+		Restaurant1 rest1 = cityMap.getRest1();
+		PersonAgent p = new PersonAgent("Shared Data Waiter", null, cityMap, null);
 		
 		Restaurant1WaiterRole role = new Restaurant1SharedDataWaiterRole(p.getName(), p);
 		Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
@@ -110,8 +120,8 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 	}
 
 	private void addNormalWaiter() {
-		Restaurant1 rest1 = cp.getRest1();
-		PersonAgent p = new PersonAgent("Normal Waiter", null, cp.getCityMap(), null);
+		Restaurant1 rest1 = cityMap.getRest1();
+		PersonAgent p = new PersonAgent("Normal Waiter", null, cityMap, null);
 		
 		Restaurant1WaiterRole role = new Restaurant1NormalWaiterRole(p.getName(), p);
 		Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);

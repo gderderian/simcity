@@ -239,12 +239,24 @@ public class CityMap {
 		mark1 = m;
 	}
 	
+	public Market getMark1(){
+		return mark1;
+	}
+	
 	public void setMarket2(Market m){
 		mark2 = m;
 	}
 	
+	public Market getMark2(){
+		return mark2;
+	}
+	
 	public void setMarket3(Market m){
 		mark3 = m;
+	}
+	
+	public Market getMark3(){
+		return mark3;
 	}
 	
 	public void setBank(Bank b) {

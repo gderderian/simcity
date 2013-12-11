@@ -23,7 +23,7 @@ public class BankRobberRoleGui implements Gui{
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
-	public enum Command {noCommand, gotobankchamber, leavebank, arrived};
+	public enum Command {noCommand, gotobankchamber, leavebank, arrived, running};
 	private Command command=Command.noCommand;
 	
 
@@ -41,6 +41,7 @@ public class BankRobberRoleGui implements Gui{
 	public boolean loan;
 	public boolean money;
 	public boolean paybackloan;
+	public boolean getmoney;
 	
 	ImageIcon flat1 = new ImageIcon("images/person_flat1.png");
 	ImageIcon flat2 = new ImageIcon("images/person_flat2.png");
@@ -75,6 +76,9 @@ public class BankRobberRoleGui implements Gui{
 	public void updatePosition() 
 	{
 	
+		
+		
+		
 		/*
 		if(xPos == -40 && yPos == -40 && agent.goingtocashier == true){
 			agent.atLobby.release();
@@ -123,6 +127,9 @@ public class BankRobberRoleGui implements Gui{
 				role.atBankChamber.release();
 				command = Command.arrived;
 				System.out.print("I'm at the station!");
+				getmoney = true;
+				
+				//command = Command.running;
 			}
 			else if (command==Command.leavebank)
 			{
@@ -151,6 +158,19 @@ public class BankRobberRoleGui implements Gui{
 		g.drawImage(icon.getImage(), xPos, yPos + 90, 40, 45, gui);
 		Graphics2D g2 = (Graphics2D)g;
 		Graphics2D g3 = (Graphics2D)g;
+		
+		if(getmoney == true)
+		{
+			g.drawImage(imgofmoney,xPos - 16, yPos + 85, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 10, yPos + 70, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 5, yPos + 85, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 3, yPos + 87, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 20, yPos + 80, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 30, yPos + 75, 35, 35, gui);
+			g.drawImage(imgofmoney,xPos - 25, yPos + 88, 35, 35, gui);
+			
+		}
+		
 		if(openaccount == true)
 		{
 		
@@ -215,6 +235,8 @@ public class BankRobberRoleGui implements Gui{
     		g3.drawString("PAYBACKLOAN", xPos - 15, yPos + 80);	
 		}
 		
+
+		
 		
 	}
 
@@ -236,10 +258,14 @@ public class BankRobberRoleGui implements Gui{
 
 	public void goToBankChamber() {//later you will map seatnumber to table coordinates.
 		
-		xDestination = 350;
-		yDestination = 50;
+		xDestination = 400;
+		yDestination = 5;
 		command = Command.gotobankchamber;
 	}
+	
+	
+	
+	
 	
 	public void leaveBank() {
 		xDestination = 0;

@@ -413,6 +413,34 @@ public class PersonAgent extends Agent implements Person{
 				log("I'm getting hungry.");
 			}
 		}
+		else if(hour == 5 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the market soon.");
+			}
+		}
+		else if(hour == 5 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the bank soon.");
+			}
+		}
+		else if(hour == 11 && minute < 15 && am_pm.equals("am") && (name.equals("Chris") || name.equals("Carla"))){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToBank);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the bank soon.");
+			}
+		}
+		else if(hour == 11 && minute < 15 && am_pm.equals("am") && name.equals("Steph")){
+			if(!schedule.isTaskAlreadyScheduled(TaskType.goToMarket, clock.getDayOfWeekNum())){
+				PersonTask task = new PersonTask(TaskType.goToMarket);
+				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
+				log("I should really go to the market soon.");
+			}
+		}
 		else if(hour == 2 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
@@ -659,7 +687,8 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgMarketBill(double orderPrice, MarketManager manager) {
 		log("Sending the market bill to the cashier");
-			if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?	
+			if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?
+				log("YEEEAH, sending order");
 				if (myJob.role.getRoleName().contains("1")){
 					
 				} else if (myJob.role.getRoleName().contains("2")){	
@@ -695,7 +724,7 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgBalanceAfterGetitngLoanFromAccount(double balance, double loan) {
 		wallet = balance;
-		loan = loan;
+		// = loan;
 		log("My balance after getting loan from the bank:" + wallet + " and loan :" + loan);
 	}
 
@@ -1023,7 +1052,6 @@ public class PersonAgent extends Agent implements Person{
 			log.add(new LoggedEvent("Decided to rob a bank"));
 			if(role != null){
 				if(cityMap.isBankOpen()){
-					
 					cityMap.bank.getBankManager().msgBankRobberArrived((BankRobberRole) role);
 					((BankRobberRole)role).setGuiActive();
 					isOpen= true;
@@ -1130,7 +1158,7 @@ public class PersonAgent extends Agent implements Person{
 			log("I'm going to eat " + food + " in my house.");
 			log.add(new LoggedEvent("Decided to eat something from my house."));
 		}
-		else if(name.equals("joe")){
+		else if(name.equals("joe") || name.equals("Chris") || name.equals("Carla") || name.equals("Steph")){
 			if(!atHome){
 				goHome();
 			}
@@ -1152,8 +1180,6 @@ public class PersonAgent extends Agent implements Person{
 			//cityMap.market.mktManager.msgHereIsOrder(o);
 
 			// DoGoTo("mark1", PersonTask(TaskType.goToMarket));
-
-
 		}
 		else if(name.equals("brokenApplianceTest") || name.equals("Jess")){
 			List<Food> groceries= new ArrayList<Food>();
@@ -1201,7 +1227,7 @@ public class PersonAgent extends Agent implements Person{
 		synchronized(roles){
 			for(Role r : roles){
 				
-				/*
+			
 				if(r instanceof BankRobberRole) {
 					r.setActive(wallet);
 					role = (BankRobberRole) r;
@@ -1212,7 +1238,7 @@ public class PersonAgent extends Agent implements Person{
 					
 					log("Set BankRobberrRole active");
 				}
-				*/
+				
 				
 				if(r instanceof BankCustomerRole) {
 					//r.setActive();
@@ -1305,6 +1331,7 @@ public class PersonAgent extends Agent implements Person{
 		else{
 			//This is walking
 			DoGoTo(bankName, task);
+			
 		}
 	}
 	

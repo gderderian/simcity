@@ -20,7 +20,7 @@ public class Restaurant1 {
 	Restaurant1CustomerRole customer;
 	List<Restaurant1WaiterRole> waiters;
 	
-	public boolean closed = false;
+	private boolean open = true;
 
 	public Restaurant1() {
 		waiters = Collections.synchronizedList(new ArrayList<Restaurant1WaiterRole>());
@@ -63,12 +63,16 @@ public class Restaurant1 {
 	}
 	
 	public boolean isOpen() {
-		return !closed;
+		return open;
 	}
 	
 	public void closeRestaurant() {
-		closed = true;
+		open = false;
 		
 		//Message workers to go home?
+	}
+	
+	public void openRestaurant() {
+		open = true;
 	}
 }

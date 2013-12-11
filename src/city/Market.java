@@ -10,7 +10,7 @@ public class Market { // Class modeled after comment made in https://github.com/
 
 	public MarketManagerRole mktManager;
 	String marketName;
-	public boolean closed;
+	private boolean isOpen = true;
 	
 	public Market(String name){
 		marketName = name;
@@ -28,16 +28,16 @@ public class Market { // Class modeled after comment made in https://github.com/
 		return mktManager;
 	}
 	
-	//public void setTruck(TruckAgent newTruck){
-	//	mktManager.setTruck(newTruck);
-	//}
-	
 	public void setName(String name){
 		marketName = name;
 	}
 	
 	public String getName(){
 		return marketName;
+	}
+	
+	public boolean isOpen(){
+		return isOpen;
 	}
 
 }

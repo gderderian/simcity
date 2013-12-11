@@ -89,7 +89,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel bank1Panel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Home Meal/Visit Stores Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -168,6 +168,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     //Set up rest4 components
     JButton closeRest4;
     JButton emptyInventory4;
+    
+    // Add rest3 components
+    JButton closeRest3;
+    JButton emptyRest3;
     
     //Timer for weekend scenario
     Timer weekend= new Timer();
@@ -312,9 +316,19 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     */
     private void setupRestaurant3Panel(){
+    	
         restaurant3Panel.add(new JLabel("Restaurant 3 Info/Options"));
         restaurant3Panel.setPreferredSize(buildingPanelDim);
         restaurant3Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        closeRest3 = new JButton("Close Restaurant");
+        closeRest3.addActionListener(this);
+        restaurant3Panel.add(closeRest3);
+        
+        emptyRest3 = new JButton("Empty Restaurant Stock");
+        emptyRest3.addActionListener(this);
+        restaurant3Panel.add(emptyRest3);
+        
     }
     
     private void setupRestaurant4Panel(){
@@ -628,9 +642,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 					hitAndRun.setText("Hit and Run");
 				}
 			}, 22000);
-		}
-		
-		else if(e.getSource() == closeRest4){
+		} else if(e.getSource() == closeRest4){
 			if(cityMap.getRest4().isOpen()){
 				closeRest4.setText("Open Restaurant");
 			}
@@ -638,9 +650,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 				closeRest4.setText("Close Restaurant");
 			}
 			cityMap.getRest4().close();
-		}
-		else if(e.getSource() == emptyInventory4){
+		} else if(e.getSource() == emptyInventory4){
+			
 			cityMap.getRest4().emptyInventory();
+			
+		} else if(e.getSource() == closeRest3){
+			
+			if(cityMap.getRest3().isOpen()){
+				closeRest3.setText("Open Restaurant");
+			} else{
+				closeRest3.setText("Close Restaurant");
+			}
+			cityMap.getRest3().toggleOpen();
+			
+		} else if(e.getSource() == emptyRest3){
+			cityMap.getRest3().emptyStock();
 		}
 	}
 
@@ -966,6 +990,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runRestaurant5Test();
 		else if(scenario.equals("Close Restaurants Test"))
 			runCloseRestaurantsTest();
+		else if(scenario.equals("Home Meal/Visit Stores Test"))
+			runEatAtHomeVisitWorkplacesTest();
 		else if(scenario.equals("Bank Test"))
 			runBankTest();
 		else if(scenario.equals("Car Test"))
@@ -997,8 +1023,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public void runTheWeekenderTest(){
 		weekend.schedule(new TimerTask() {
 			@Override public void run() {
+				System.out.println("THE TIMER IS DONE, DAY SHOULD BE SATURDAY NOW");
 				cityGui.getClock().setDay(6);
-			}}, 10);
+			}}, 500);
 		
 		//Initial public transportation creation.
 		addVehicle("bus");
@@ -1218,6 +1245,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("restTest", "No job");
 	}
 
+	public void runEatAtHomeVisitWorkplacesTest(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+		
+		addPerson("Chris", "No job");
+		addPersonWithCar("Steph", "No job");
+		addPerson("Carla", "No job");
+		populateBanksAndMarkets();
+	}
+	
 	public void runBankTest() {
 		//Initial public transportation creation.
 		addVehicle("bus");
@@ -1237,7 +1279,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bankCustomerTest2", "No job");
 		//addPerson("bankCustomerTest3", "No job");
 		addPerson("bankCustomerTest4", "No job");
-		//addPerson("bankRobber", "No job");
+		addPerson("bankRobber", "No job");
 		
 
 	}
