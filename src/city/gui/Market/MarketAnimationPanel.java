@@ -60,10 +60,10 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
         g2.fillRect(SCREEN_RECT_X_COORD, SCREEN_RECT_Y_COORD, WINDOWX, WINDOWY);
         
         // Arriving Customer Waiting Area
-        g2.setColor(Color.WHITE);
-        g2.fillRect(5, 600, 200, 100);
-        g2.setColor(Color.BLUE);
-        g2.drawString("Customer Waiting Area", 5, 595);
+       // g2.setColor(Color.WHITE);
+       // g2.fillRect(5, 600, 200, 100);
+        //g2.setColor(Color.BLUE);
+       // g2.drawString("Customer Waiting Area", 5, 595);
         
         // Finished Food Plating Area
         g2.setColor(Color.RED);
