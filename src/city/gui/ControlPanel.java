@@ -762,6 +762,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource() == fireHost4){
 			cityMap.getRest4().fireHost();
 			addPerson("New Host4", "No job");
+			fireHost4.setEnabled(false);
 		}
 		
 	}
