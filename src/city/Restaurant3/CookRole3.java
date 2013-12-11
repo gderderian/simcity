@@ -389,6 +389,7 @@ public class CookRole3 extends Role {
 	}
 	
 	public void callStateChanged() {
+		log("StateChanged was called!");
 		person.stateChanged();
 	}
 
