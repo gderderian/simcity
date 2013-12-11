@@ -341,7 +341,7 @@ public class CityGui extends JFrame implements ActionListener {
 	public void addPerson(PersonAgent p){
 		people.add(p);
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		animationPanel.updatePos();
 		synchronized(buildingPanels){

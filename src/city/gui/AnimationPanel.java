@@ -96,7 +96,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 		int y = e.getY();
 		
 		// Restaurants (5)
-		if((x >= 720) && (x <= 780) && (y >= 0) && (y <= 60)) {
+		if((x >= 720) && (x <= 780) && (y >= 0) && (y <= 60) /*&& cityGui.getMap().getRest1().isOpen()*/) {
 			cityGui.changeView("Restaurant1");
 		} else if((x >= 60) && (x <= 120) && (y >= 120) && (y <= 180)){
 			cityGui.changeView("Restaurant2");

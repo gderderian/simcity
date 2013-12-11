@@ -1002,8 +1002,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public void runTheWeekenderTest(){
 		weekend.schedule(new TimerTask() {
 			@Override public void run() {
+				System.out.println("THE TIMER IS DONE, DAY SHOULD BE SATURDAY NOW");
 				cityGui.getClock().setDay(6);
-			}}, 10);
+			}}, 500);
 		
 		//Initial public transportation creation.
 		addVehicle("bus");
