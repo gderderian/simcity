@@ -909,7 +909,7 @@ public class CityGui extends JFrame implements ActionListener {
 				}
 			} else if(job.contains("Bank")) {
 				if(r instanceof BankTellerRole) {
-					bank.addBankTeller((BankTellerRole)r);
+					//bank.addBankTeller((BankTellerRole)r);
 					//p.setRoleActive(r);
 					p.addFirstJob(r, "bank1", 2); ///I changed this
 				}
