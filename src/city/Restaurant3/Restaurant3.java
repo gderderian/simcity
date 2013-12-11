@@ -22,7 +22,7 @@ public class Restaurant3 {
 	CookRole3 cook;
 	CustomerRole3 customer;
 	List<WaiterRole3> waiters;
-	private boolean isOpen;
+	private boolean isOpen = true;
 	
 	public Restaurant3(){
 		waiters = Collections.synchronizedList(new ArrayList<WaiterRole3>());
@@ -64,6 +64,18 @@ public class Restaurant3 {
 	
 	public boolean isOpen(){
 		return isOpen;
+	}
+
+	public void toggleOpen() {
+		if(isOpen == true){
+			isOpen = false;
+		} else {
+			isOpen = true;
+		}
+	}
+
+	public void emptyStock() {
+		cook.emptyStock();
 	}
 	
 }

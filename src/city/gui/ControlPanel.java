@@ -169,6 +169,10 @@ public class ControlPanel extends JPanel implements ActionListener{
     JButton closeRest4;
     JButton emptyInventory4;
     
+    // Add rest3 components
+    JButton closeRest3;
+    JButton emptyRest3;
+    
     //Timer for weekend scenario
     Timer weekend= new Timer();
     
@@ -312,9 +316,19 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     */
     private void setupRestaurant3Panel(){
+    	
         restaurant3Panel.add(new JLabel("Restaurant 3 Info/Options"));
         restaurant3Panel.setPreferredSize(buildingPanelDim);
         restaurant3Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        closeRest3 = new JButton("Close Restaurant");
+        closeRest3.addActionListener(this);
+        restaurant3Panel.add(closeRest3);
+        
+        emptyRest3 = new JButton("Empty Restaurant Stock");
+        emptyRest3.addActionListener(this);
+        restaurant3Panel.add(emptyRest3);
+        
     }
     
     private void setupRestaurant4Panel(){
@@ -628,9 +642,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 					hitAndRun.setText("Hit and Run");
 				}
 			}, 22000);
-		}
-		
-		else if(e.getSource() == closeRest4){
+		} else if(e.getSource() == closeRest4){
 			if(cityMap.getRest4().isOpen()){
 				closeRest4.setText("Open Restaurant");
 			}
@@ -638,9 +650,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 				closeRest4.setText("Close Restaurant");
 			}
 			cityMap.getRest4().close();
-		}
-		else if(e.getSource() == emptyInventory4){
+		} else if(e.getSource() == emptyInventory4){
+			
 			cityMap.getRest4().emptyInventory();
+			
+		} else if(e.getSource() == closeRest3){
+			
+			if(cityMap.getRest3().isOpen()){
+				closeRest3.setText("Open Restaurant");
+			} else{
+				closeRest3.setText("Close Restaurant");
+			}
+			cityMap.getRest3().toggleOpen();
+			
+		} else if(e.getSource() == emptyRest3){
+			cityMap.getRest3().emptyStock();
 		}
 	}
 
