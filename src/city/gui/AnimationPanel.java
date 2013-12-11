@@ -120,7 +120,7 @@ public class AnimationPanel extends BuildingPanel implements MouseListener, Acti
 		}
 			
 		// Banks (2)
-		if((x >= 780) && (x <= 850) && (y >= 60) && (y <= 120) /*&& CityMap.getInstance().getBank().isOpen()*/){
+		if((x >= 780) && (x <= 850) && (y >= 60) && (y <= 120) && CityMap.getInstance().getBank().isOpen()){
 			cityGui.changeView("Bank1");
 		}
 		
