@@ -242,7 +242,6 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 
 	private void seatCustomer(MyCustomer customer, Table table) {
 		log("Seating customer.");
-		log.add(new LoggedEvent("Now seating customer"));
 		if(waiters.size() != 0){
 			MyWaiter w = waiters.get(waiterNum-1);
 			if(w.ws == WaiterState.breakRequested || w.ws == WaiterState.onBreak){
@@ -378,6 +377,10 @@ public class Restaurant2HostRole extends Role implements Restaurant2Host{
 
 	public void msgYoureFired() {
 		person.msgImFired();
+	}
+
+	public int getNumCustomers() {
+		return customers.size();
 	}
 	
 }

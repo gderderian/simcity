@@ -128,6 +128,8 @@ public class CityGui extends JFrame implements ActionListener {
 	private java.util.Timer timer2 = new java.util.Timer(); //Separate timer for other uses
 
 	private CityClock masterClock;
+	
+	private int numCustomersRest2 = 0;
 
 	Restaurant5Gui rest5gui = new Restaurant5Gui();
 	//BankGui bankgui = new BankGui();
@@ -454,21 +456,6 @@ public class CityGui extends JFrame implements ActionListener {
 		if(h != null){
 			h.setOwner(newPerson);
 		}
-		/*
-		if(name.equals("bankRobber"))
-		{
-			BankRobberRole bankRobberRole = new BankRobberRole(newPerson.wallet);
-			bankRobberRole.setPerson(newPerson);
-			BankGui bankgui = new BankGui();
-			BankRobberRoleGui bankRobberRoleGui = new BankRobberRoleGui(bankRobberRole, bankgui); 
-			bankRobberRoleGui.setPresent(false);
-			bank1Animation.addGui(bankRobberRoleGui);
-			bankRobberRole.setGui(bankRobberRoleGui);
-			newPerson.addRole(bankRobberRole, false);
-			newPerson.addTask("robBank");
-			
-		}
-		*/
 		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
@@ -484,6 +471,9 @@ public class CityGui extends JFrame implements ActionListener {
 			newPerson.addTask("goToWork");
 		} else if(name.equals("New Host1")) {
 			newPerson.addFirstJob(rest1.getHost(), "rest1", 1);
+			newPerson.addTask("goToWork");
+		} else if(name.equals("New Host3")) {
+			newPerson.addFirstJob(rest3.getHost(), "rest3", 1);
 			newPerson.addTask("goToWork");
 		}
 
@@ -637,11 +627,12 @@ public class CityGui extends JFrame implements ActionListener {
 
 		/* Creating customer role for eating at restaurant2 */
 		Restaurant2CustomerRole customerRole2 = new Restaurant2CustomerRole(p);
-		Restaurant2CustomerGui customerGui2 = new Restaurant2CustomerGui(customerRole2, p.getName(), 1);
+		Restaurant2CustomerGui customerGui2 = new Restaurant2CustomerGui(customerRole2, p.getName(), numCustomersRest2);
 		customerGui2.setPresent(false);
 		restaurant2.addGui(customerGui2);
 		customerRole2.setGui(customerGui2);
 		p.addRole(customerRole2, false);
+		numCustomersRest2++;
 
 		/* Creating customer role for eating at restaurant3 */
 		CustomerRole3 customerRole3 = new CustomerRole3(p.getName(), 5, 5, p);
@@ -669,8 +660,6 @@ public class CityGui extends JFrame implements ActionListener {
 		customerRole5.setGui(customerGui5);
 		p.addRole(customerRole5, false);
 
-	
-		
 		//Add bank customer role to go to bank
 		BankCustomerRole bankCustomerRole = new BankCustomerRole(p.wallet);
 		bankCustomerRole.setPerson(p);
@@ -702,12 +691,6 @@ public class CityGui extends JFrame implements ActionListener {
 		marketCustomer.setGui(mktCustomerGui);
 		p.addRole(marketCustomer, false);
 		
-		//Add Bank Robber role to go to the bank
-		
-		
-	
-
-
 		/* Check if the person lives in an apartment and add them to the correct tenant list */
 		if((p.house != null) && (!job.contains("Landlord"))){
 			if((p.house.getNum() >= 21) && (p.house.getNum() <= 41)){
@@ -900,7 +883,7 @@ public class CityGui extends JFrame implements ActionListener {
 		//Adds role to correct animation panel
 		if(type.equals("Restaurant2 Waiter")){
 			Restaurant2WaiterRole role = new Restaurant2WaiterRoleRegular(p.getName(), p);
-			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, 1);
+			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, rest2.getNumWaiters() - 1);
 			role.setGui(gui);
 			restaurant2.addGui(gui);
 			gui.setPresent(false);
@@ -908,7 +891,7 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		if(type.equals("Restaurant2 WaiterSharedData")){
 			Restaurant2WaiterRole role = new Restaurant2WaiterRoleSharedData(p.getName(), p);
-			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, 1);
+			Restaurant2WaiterGui gui = new Restaurant2WaiterGui(role, p.getName(), this, rest2.getNumWaiters() - 1);
 			role.setGui(gui);
 			restaurant2.addGui(gui);
 			gui.setPresent(false);

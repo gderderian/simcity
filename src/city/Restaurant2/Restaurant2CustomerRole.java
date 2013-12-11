@@ -54,7 +54,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 
 	public enum AgentEvent 
 	{none, gotHungry, tablesFull, followWaiter, seated, readyToOrder, ordering, recievedFood,
-		reorder, doneEating, doneLeaving, gotCheck, leaving};
+		reorder, doneEating, doneLeaving, gotCheck, leaving, sitDown};
 	public AgentEvent event = AgentEvent.none;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
@@ -155,6 +155,11 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		tableNumber = num;
 		person.stateChanged();
 	}
+	
+	public void msgLetsGoToTable(Restaurant2Waiter w, int table){
+		event = AgentEvent.sitDown;
+		person.stateChanged();
+	}
 
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
@@ -235,7 +240,11 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		if ((state == AgentState.WaitingInRestaurant || state == AgentState.initial) && event == AgentEvent.followWaiter){
 			state = AgentState.BeingSeated;
 			ChooseAction(tableNumber);
-			//SitDown(tableNumber);
+			return true;
+		}
+		if((state == AgentState.BeingSeated) && event == AgentEvent.sitDown){
+			state = AgentState.Seated;
+			SitDown(tableNumber);
 			return true;
 		}
 		if (state == AgentState.Seated && event == AgentEvent.readyToOrder){
@@ -313,7 +322,6 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 				e.printStackTrace();
 			}
 			waiter.msgReadyToBeSeated(this);
-			SitDown(tableNum);
 		}
 	}
 

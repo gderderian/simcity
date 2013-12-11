@@ -59,7 +59,7 @@ public class PersonAgentRestaurantTest extends TestCase{
                 person.msgImHungry();
                 
                 assertTrue("Person should have logged an event that they recieved the 'I'm hungry' message, but it reads instead " +
-                                person.log.getLastLoggedEvent().toString(), person.log.containsString("Recieved message Im Hungry"));
+                                person.log.getLastLoggedEvent().toString(), person.log.containsString("Recieved msgImHungry"));
                 
                 //Add customer role
                 customer = new Restaurant2CustomerRole("Customer", person);
@@ -87,7 +87,7 @@ public class PersonAgentRestaurantTest extends TestCase{
                                 hostPerson.pickAndExecuteAnAction());
                 assertEquals("Host should have one person on its list, but doesn't.", host.customers.size(), 1);
                 assertTrue("The host should have logged an event to say that it is seating the customer, but instead it says " + 
-                                host.log.getLastLoggedEvent().toString(), host.log.containsString("Now seating customer"));
+                                host.log.getLastLoggedEvent().toString(), host.log.containsString("Seating customer"));
                 assertEquals("The waiter should contain one customer in its list, but it doesn't.", waiter.customers.size(), 1);
                 waiter.pickAndExecuteAnAction();
                 assertTrue("The waiter's event log should contain a log saying that he's prompting the customer to sit, but instead it reads " + 

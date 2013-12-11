@@ -45,7 +45,6 @@ import city.transportation.BusAgent;
 import city.transportation.BusStopAgent;
 import city.transportation.TruckAgent;
 import Role.BankManagerRole;
-import Role.MarketManagerRole;
 
 
 public class PersonAgent extends Agent implements Person{
@@ -156,7 +155,6 @@ public class PersonAgent extends Agent implements Person{
 		bankaccountnumber = 0;
 
 		busRide = new BusRide(5);
-
 		if(aStar != null)
 			currentPosition.moveInto(aStar.getGrid());
 		originalPosition = currentPosition;//save this for moving into
@@ -412,7 +410,7 @@ public class PersonAgent extends Agent implements Person{
 		
 		//if(hour == 6 && minute < 15 && am_pm.equals("am") && (name.equals("rest1Test") || name.equals("rest2Test") || name.equals("rest4Test")
 				//|| name.equals("rest5Test") || name.equals("rest3Test") || name.equals("joe") || name.equals("brokenApplianceTest"))){
-		if(hour == 6 && minute < 15 && am_pm.equals("am") && myJob == null){
+		if(hour == 5 && minute < 15 && am_pm.equals("am") && myJob == null){
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.gotHungry);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -1036,7 +1034,6 @@ public class PersonAgent extends Agent implements Person{
 
 	public void reachedDestination(PersonTask task){
 
-		log("I've reached my destination, now I'm going to go inside!");
 		Role role = null;
 		synchronized(roles){
 			if(task.role != null){
@@ -1167,8 +1164,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void goToWork(PersonTask task){
-		log("Going to work");
-
 		task.location = myJob.location;
 		//Role in the task here should be null because role-related things are taken care of in the Job class
 
@@ -1479,7 +1474,6 @@ public class PersonAgent extends Agent implements Person{
 		log("Paying bills");
 		synchronized(billsToPay){
 			for(Bill b : billsToPay){
-				
 				if (b.landlord != null){ // Check for due rent
 					if(b.landlord == house.getLandlord()){
 						if(wallet > b.amount){
@@ -1514,7 +1508,6 @@ public class PersonAgent extends Agent implements Person{
 					}
 					billsToPay.remove(b);
 				}
-				}
 				else if(wallet > b.amount){
 						// Pay myself because I made this order
 						log.add(new LoggedEvent("I am paying back for what I ordered from the market."));
@@ -1528,8 +1521,8 @@ public class PersonAgent extends Agent implements Person{
 						}
 					}
 				}
-				
 			}
+		}
 	}
 
 
@@ -1559,8 +1552,6 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	public void getOffBus(){
-		log("Getting off the bus");
-
 		int busX = busRide.busPos.getX();
 		int busY = busRide.busPos.getY();
 		gui.teleport(busX * 30 + 120, busY * 30 + 60);
@@ -1735,12 +1726,14 @@ public class PersonAgent extends Agent implements Person{
 	public void cookMeal(MyMeal meal){
 		log.add(new LoggedEvent("Cooking meal"));
 		Food temp= new Food(meal.type);
+		if(!test){
 		if(temp.appliance.equals("Stove")){
 			homeGui.goToStove();
 		} else if(temp.appliance.equals("Microwave")){
 			homeGui.goToMicrowave();
 		} else if(temp.appliance.equals("Oven")){
 			homeGui.goToOven();
+		}
 		}
 		try{
 			atDestination.acquire();

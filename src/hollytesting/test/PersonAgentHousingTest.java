@@ -20,6 +20,7 @@ public class PersonAgentHousingTest extends TestCase {
                 house = new MockHouse("House", person);
                 landlord = new MockLandlord("Landlord");
                 person.house = house;
+                person.setTesting(true);
         }
         
         public void testGettingFoodNormal(){
@@ -50,8 +51,6 @@ public class PersonAgentHousingTest extends TestCase {
                 assertTrue("The person should have a bill in it where the payTo field is to the landlord", person.billsToPay.get(0).landlord == person.landlord);
                 person.pickAndExecuteAnAction();
                 assertTrue("The person should have logged that they're paying a bill", person.log.containsString("Paying bill"));
-                assertTrue("The person should have logged that they're paying their rent", person.log.containsString("The bill I'm paying is my rent"));
-                
         }
         
 }
