@@ -7,6 +7,7 @@ import city.Restaurant5.Restaurant5CookRole.cookstate;
 
 
 
+
 /*
 import restaurant.CookAgent.cookingorder;
 import restaurant.CookAgent.cookingorderstate;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
+import javax.swing.ImageIcon;
+
 import tomtesting.interfaces.Restaurant5Waiter;
 
 public class Restaurant5CookGui implements Gui {
@@ -33,6 +36,19 @@ public class Restaurant5CookGui implements Gui {
     private int xDestination = 440, yDestination = 50;//default start position
     public List<ordergui> orderguis = Collections.synchronizedList(new ArrayList<ordergui>());
     private int[] counterxpos = {345, 395, 445, 495};
+    
+	ImageIcon icon1 = new ImageIcon("images/cook1.png");
+	ImageIcon icon2 = new ImageIcon("images/cook2.png");
+	ImageIcon icon3 = new ImageIcon("images/cook3.png");
+	
+	private int movementCounter = 0;
+	private final int iconSwitch = 10; //Rate at which icons switch during movement
+	
+	ImageIcon icon = icon1;
+    
+  
+    
+    
     int counter = 10;
     int spotnumber = 0;
     
@@ -98,6 +114,26 @@ public class Restaurant5CookGui implements Gui {
 
     public void updatePosition() {
         //System.out.println(agent.cooking);
+    	movementCounter = (movementCounter + 1) % (4 * iconSwitch);
+		
+		if(xPos != xDestination || yPos != yDestination) {
+            if(movementCounter < iconSwitch)
+        		icon = icon1;
+        	else if(movementCounter < iconSwitch * 2)
+        		icon = icon2;
+        	else if(movementCounter < iconSwitch * 3)
+        		icon = icon3;
+        	else
+        		icon = icon2;
+    	} else icon = icon2;
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
@@ -116,8 +152,11 @@ public class Restaurant5CookGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.black);
-        g.fillRect(xPos, yPos, 20, 20);
+    	
+    	g.drawImage(icon.getImage(), xPos, yPos - 20, 30, 30, null);
+    
+    	//g.setColor(Color.black);
+        //g.fillRect(xPos, yPos, 20, 20);
         /*
         for( int i = 0; i < 4; i++)
         {
