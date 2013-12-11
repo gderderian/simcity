@@ -11,8 +11,8 @@ public class CityClock {
 	Timer checkTimer;
 	long beginTime;
 	dayStates dayState;
-	int day;
-	int week;
+	int day = 1;
+	int week = 1;
 	boolean manualSet;
 	int cityTimeDelay = 359998;
 	
@@ -49,8 +49,8 @@ public class CityClock {
 		
 		// Initial setup
 		dayState = dayStates.morning;
-		day = 1;
-		week = 1;
+		//day = 1;
+		//week = 1;
 		
 		// Begin checker/notification timer to manually adjust day/night
 		checkTimer = new Timer(3750, // Messages to people in city fire every 2 seconds, was 1875
@@ -196,6 +196,12 @@ public class CityClock {
 			amPm = "pm";
 		}
 		return amPm;
+	}
+	
+	public void setDay(int newDay){
+		day = newDay;
+		String fullTimeToSend = getHumanTime() + "  -  " + getDayOfWeek() + "  -  Week " + week;
+		cityGui.timerTick(getCurrentTime(), getHourOfDayInHumanTime(), getMinuteOfDay(), "Morning", getAmPm(), fullTimeToSend);
 	}
 	
 	public void setDayTime(int hour, int minute, String amPm){

@@ -6,6 +6,8 @@ import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.MarketOrder;
 import city.PersonAgent;
+import city.Restaurant3.WaiterRole3.AgentEvent;
+import city.Restaurant3.WaiterRole3.AgentState;
 import city.gui.Market.MarketCustomerGui;
 import city.gui.Restaurant3.CookGui3;
 import Role.Role;
@@ -18,8 +20,12 @@ public class MarketCustomerRole extends Role {
 	private MarketCustomerGui mktCustGui;
 	private String name;
 	ActivityTag tag = ActivityTag.MARKETCUSTOMER;
-	public enum state {doingNothing, inMarket, leftMarket};
-	public enum event {none, orderReceived};
+	
+	private AgentState state = AgentState.doingNothing;
+	private AgentEvent event = AgentEvent.none;
+	
+	public enum AgentState {doingNothing, inMarket, leftMarket};
+	public enum AgentEvent {none, orderReceived};
 	
 	// Constructor
 	public MarketCustomerRole(String name, PersonAgent p){
@@ -32,7 +38,7 @@ public class MarketCustomerRole extends Role {
 	// Messages
 	public void msgHereIsYourOrder(MarketOrder o){
 		// Handled within PersonAgent directly
-		
+		event = AgentEvent.orderReceived;
 		person.stateChanged();
 	}
 	
@@ -42,17 +48,29 @@ public class MarketCustomerRole extends Role {
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		
+		if (state == AgentState.doingNothing && event == AgentEvent.orderReceived){
+			leaveMarket();
+			return true;
+		}
 		return false;
 	}
 
-	@Override
+	// Actions and Utility Functions
+	public void leaveMarket(){
+		state = AgentState.leftMarket;
+		mktCustGui.setDestination(-20, -20);
+		mktCustGui.beginAnimate();
+		try {
+			isAnimating.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		person.setRoleInactive(this);
+		person.setGuiVisible();	
+	}
+	
 	public String getRoleName() {
 		return roleName;
-	}
-
-	public void setGuiActive() {
-		
 	}
 
 	public void setGui(MarketCustomerGui gui) {
@@ -74,6 +92,10 @@ public class MarketCustomerRole extends Role {
 
 	public PersonAgent getPerson() {
 		return person;
+	}
+
+	public void setGuiActive() {
+		gui.setPresent(true);
 	}
 
 }

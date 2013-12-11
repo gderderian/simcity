@@ -78,6 +78,7 @@ public class CashierRole4 extends Role implements Cashier4 {
 	
 	public void msgHereIsBill(MarketManager market, double amount){
 		log.add(new LoggedEvent4("Received msgHereIsBill from market"));
+		log("Received my bill from the market of " + amount);
 		marketBills.add(new MarketBill(market, amount));
 		p.stateChanged();
 	}

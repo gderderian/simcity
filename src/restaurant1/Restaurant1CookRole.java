@@ -156,12 +156,6 @@ public class Restaurant1CookRole extends Role {
 			return true;
 		}
 
-		if(needToReorder) {
-			//reorderFood();
-			needToReorder = false;
-			return true;
-		}
-
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pickedUp) {
@@ -282,7 +276,7 @@ public class Restaurant1CookRole extends Role {
 	}
 
 	private void initialInventoryCheck() {
-		log("Checking initial inventory levels.");
+		log("Checking food levels.");
 		Food steak = foods.get("steak");
 		Food chicken = foods.get("chicken");
 		Food fish = foods.get("fish");
@@ -407,7 +401,7 @@ public class Restaurant1CookRole extends Role {
 		foods.get("fish").amount = 0;
 
 		log("Oh no, all of my food has gone missing! I better order more!");
-		orderMoreFood();
+		initialInventoryCheck();
 	}
 }
 
