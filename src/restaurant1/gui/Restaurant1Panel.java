@@ -9,6 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import restaurant1.Restaurant1;
+import restaurant1.Restaurant1NormalWaiterRole;
+import restaurant1.Restaurant1SharedDataWaiterRole;
+import restaurant1.Restaurant1WaiterRole;
+
+import city.PersonAgent;
 import city.gui.ControlPanel;
 
 /**
@@ -25,6 +31,7 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     private JButton sharedDataWaiter;
     
     private JButton depleteInventory;
+    private JButton closeRestaurant;
     
     public Restaurant1Panel(ControlPanel cp) {
     	this.cp = cp;
@@ -41,11 +48,14 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
     	sharedDataWaiter = new JButton("Add shared data waiter");
     	
     	depleteInventory = new JButton("Deplete inventory");
+    	closeRestaurant = new JButton("Close restaurant");
     	
     	normalWaiter.addActionListener(this);
     	normalWaiter.setAlignmentX(CENTER_ALIGNMENT);
     	sharedDataWaiter.addActionListener(this);
     	sharedDataWaiter.setAlignmentX(CENTER_ALIGNMENT);
+    	closeRestaurant.addActionListener(this);
+    	closeRestaurant.setAlignmentX(CENTER_ALIGNMENT);
     	depleteInventory.addActionListener(this);
     	depleteInventory.setAlignmentX(CENTER_ALIGNMENT);
     	
@@ -67,72 +77,52 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 			addSharedDataWaiter();
 		} else if(e.getSource() == depleteInventory) {
 			depleteInventory();
+		} else if(e.getSource() == closeRestaurant) {
+			closeRestaurant();
 		}
 		
 	}
 
 	private void depleteInventory() {
-		// TODO Auto-generated method stub
+		cp.getRest1().getCook().depleteInventory();
+		
+	}
+	
+	private void closeRestaurant() {
 		
 	}
 
 	private void addSharedDataWaiter() {
-		// TODO Auto-generated method stub
+		Restaurant1 rest1 = cp.getRest1();
+		PersonAgent p = new PersonAgent("Normal Waiter", null, cp.getCityMap(), null);
 		
+		Restaurant1WaiterRole role = new Restaurant1SharedDataWaiterRole(p.getName(), p);
+		Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
+		gui.setHome(rest1.getWaiterListSize() * 40 + 200, 60);
+		rest1.addWaiter(role);
+		role.setGui(gui);
+		cp.getRest1Animation().addGui(gui);
+		gui.setPresent(true);
+		
+		p.addRole(role, true);
+		
+		p.startThread();
 	}
 
 	private void addNormalWaiter() {
-		// TODO Auto-generated method stub
+		Restaurant1 rest1 = cp.getRest1();
+		PersonAgent p = new PersonAgent("Normal Waiter", null, cp.getCityMap(), null);
 		
-	}
-
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
-    /**
-     * Adds a customer or waiter to the appropriate list
-     *
-     * @param type indicates whether the person is a customer or waiter (later)
-     * @param name name of person
-     */
-    /*public void addPerson(String type, String name, boolean isHungry) {
-
-    	if (type.equals("Customers")) {
-    		Restaurant1CustomerRole c = new Restaurant1CustomerRole(name);
-    		Restaurant1CustomerGui g = new Restaurant1CustomerGui(c, gui);
-    		if(isHungry) {
-    			g.setHungry();
-    		}
-
-    		gui.animationPanel.addGui(g);
-    		c.setHost(host);
-    		c.setGui(g);
-    		agents.add(c);
-    		customers.add(c);
-    		c.startThread();
-    	}
-    	if (type.equals("Waiters")) {
-    		Restaurant1WaiterRole w = new Restaurant1WaiterRole(name);
-    		Restaurant1WaiterGui g = new Restaurant1WaiterGui(w);
-    		
-    		gui.animationPanel.addGui(g);
-    		w.setHost(host);
-    		w.setCook(cook);
-    		w.setCashier(cashier);
-    		w.setGui(g);
-    		host.addWaiter(w);
-    		agents.add(w);
-    		waiters.add(w);
-    		if(waiters.size() > 13) {
-    			g.setHome((waiters.size() - 13) * 40 + 200, 100);
-    		}
-    		else {
-    			g.setHome(waiters.size() * 40 + 200, 60);
-    		}
-    		w.startThread();
-    	}
-    }*/
-    
-    
+		Restaurant1WaiterRole role = new Restaurant1NormalWaiterRole(p.getName(), p);
+		Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
+		gui.setHome(rest1.getWaiterListSize() * 40 + 200, 60);
+		rest1.addWaiter(role);
+		role.setGui(gui);
+		cp.getRest1Animation().addGui(gui);
+		gui.setPresent(true);
+		
+		p.addRole(role, true);
+		
+		p.startThread();
+	}   
 }

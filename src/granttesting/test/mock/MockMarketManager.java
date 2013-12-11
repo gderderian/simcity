@@ -30,4 +30,10 @@ public class MockMarketManager extends Mock implements MarketManager {
 		return null;
 	}
 
+	@Override
+	public void msgAcceptPayment(double incomingPayment) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

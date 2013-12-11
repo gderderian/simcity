@@ -21,19 +21,34 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
     private int WINDOWY = 710;
     private Dimension panelDim = new Dimension(WINDOWX, WINDOWY);
     private JButton close_open = new JButton("Close Restaurant");
+    private JButton set_inventory = new JButton("Set inventory low");
     String closed_open;
-    private JLabel restaurantState = new JLabel("Restaurant is OPEN");
+    private JLabel restaurantState = new JLabel("Restaurant2 is OPEN");
     private JLabel title = new JLabel("Restaurant 2 Info/Options\n");
     Font titleFont = new Font("Title Font", 200, Font.BOLD);
+    //private Dimension labelSize = new Dimension(30, 30);
+    private Dimension buttonSize = new Dimension(WINDOWX - 50, 30);
 	
 	public Restaurant2InfoPanel(){
-        add(title);
-        setPreferredSize(panelDim);
+		
+		setPreferredSize(panelDim);
         setBorder(BorderFactory.createLineBorder(Color.black));
-        close_open.addActionListener(this);
-        add(Box.createVerticalStrut(10));
+		
+		//add(title);
+		//title.setAlignmentX(CENTER_ALIGNMENT);
+        //add(Box.createVerticalStrut(30));
         add(restaurantState);
+        add(Box.createVerticalStrut(10));
+        restaurantState.setAlignmentX(CENTER_ALIGNMENT);
+		
+        close_open.addActionListener(this);
+        close_open.setPreferredSize(buttonSize);
         add(close_open);
+        
+		set_inventory.setPreferredSize(buttonSize);
+		set_inventory.addActionListener(this);
+        add(Box.createVerticalStrut(30));
+        add(set_inventory);
 	}
 
 	@Override
@@ -49,6 +64,9 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 				close_open.setText("Close Restaurant");
 				restaurantState.setText("Restaurant is OPEN");
 			}
+		}
+		else if(e.getSource() == set_inventory){
+			restaurant.setInventoryLow();
 		}
 		
 	}

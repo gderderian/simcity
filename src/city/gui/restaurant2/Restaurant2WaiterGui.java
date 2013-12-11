@@ -126,6 +126,9 @@ public class Restaurant2WaiterGui implements Gui{
             if(xPos == KITCHENX && yPos == (KITCHENY - 60)){
             	agent.msgAtDest();
             }
+            if(xPos == 0 && yPos == 400){
+            	agent.msgAtDest();
+            }
         }
         if(xPos == HOMEX && yPos == HOMEY && atStand == false){
         	//System.out.println("AT HOME POSITIONNNNNNNNNNNN");
@@ -258,6 +261,11 @@ public class Restaurant2WaiterGui implements Gui{
 	public void DoGoToSpindle() {
 		xDestination = KITCHENX;
 		yDestination = KITCHENY - 60;
+	}
+
+	public void leaveRestaurant() {
+		xDestination = 0;
+		yDestination = 400;
 	}
 
 }

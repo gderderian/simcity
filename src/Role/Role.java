@@ -1,5 +1,6 @@
 package Role;
 
+import interfaces.MarketManager;
 import agent.StringUtil;
 import city.PersonAgent;
 import city.gui.Gui;
@@ -105,5 +106,6 @@ public abstract class Role {
 	}
     
     public abstract PersonAgent getPerson();
+
         
 }

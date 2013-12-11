@@ -28,6 +28,8 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 	private int tableNumber;
 	Timer t = new Timer();
 	private int waiterNum;
+	
+	private boolean goHome = false;
 
 	// agent correspondents
 	public Restaurant2Host host;
@@ -208,6 +210,11 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		money = money + change;
 		person.stateChanged();
 	}
+	
+	public void msgGoHome(){
+		goHome = true;
+		person.stateChanged();
+	}
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -260,7 +267,7 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 			state = AgentState.PayingCheck;
 			payCheck();
 		}
-		if(state == AgentState.PayingCheck && event == AgentEvent.leaving){
+		if((state == AgentState.PayingCheck && event == AgentEvent.leaving) || goHome){
 			leaveRestaurant();
 			state = AgentState.Gone;
 		}
@@ -427,13 +434,14 @@ public class Restaurant2CustomerRole extends Role implements Restaurant2Customer
 		cashier.msgHereIsPayment(this, money);
 	}
 
-	private void leaveRestaurant() {
+	void leaveRestaurant() {
 		Do("Leaving restaurant.");
 		waiter.msgDoneEatingNowLeaving(this);
 		customerGui.DoExitRestaurant();
 		money = money + 20.00; //replenish their money supply
 		person.setGuiVisible();
 		person.setRoleInactive(this);
+		goHome = false;
 	}
 
 	// Accessors, etc.

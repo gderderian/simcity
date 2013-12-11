@@ -187,6 +187,10 @@ public class CityMap {
 		restaurant1 = r;
 	}
 	
+	public void setRestaurant2(Restaurant2 r){
+		restaurant2 = r;
+	}
+	
 	public void setRestaurant3(Restaurant3 r){
 		restaurant3 = r;
 	}
@@ -195,8 +199,25 @@ public class CityMap {
 		restaurant4= r;
 	}
 	
+	// Getters for restaurant for market billing
+	public Restaurant1 getRest1(){
+		return restaurant1;
+	}
+	
+	public Restaurant2 getRest2(){
+		return restaurant2;
+	}
+	
+	public Restaurant3 getRest3(){
+		return restaurant3;
+	}
+	
 	public Restaurant4 getRest4(){
 		return restaurant4;
+	}
+	
+	public Restaurant5 getRest5(){
+		return restaurant5;
 	}
 	
 	public void seRestaurant5(Restaurant5 r){

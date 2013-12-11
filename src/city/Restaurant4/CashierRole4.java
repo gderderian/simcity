@@ -85,6 +85,11 @@ public class CashierRole4 extends Role implements Cashier4 {
 		p.stateChanged();
 	}
 	
+	public void msgBackInBusiness(){
+		closed= false;
+		//p.addTask("goToWork");
+	}
+	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */

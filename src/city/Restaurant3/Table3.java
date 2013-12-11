@@ -1,5 +1,8 @@
 package city.Restaurant3;
 
+/**
+ * Table for Restaurant3
+ */
 public class Table3 {
 	
 	int tableNumber;

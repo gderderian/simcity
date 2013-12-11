@@ -197,6 +197,11 @@ public abstract class WaiterRole4 extends Role implements Waiter4 {
 		p.stateChanged();
 	}
 	
+	public void msgBackInBusiness(){
+		closeRest= false; 
+		//p.addTask("goToWork");
+	}
+	
 	public void msgAtTable(){//from animation
 		ws= waiterState.atTable;
 		atTable.release();
