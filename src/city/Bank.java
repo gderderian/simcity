@@ -16,10 +16,12 @@ public class Bank {
         public static int uniqueaccountnumber = 1;
         int initialxcofbank = 200;
         int initialycofbank = 100;
+        public double bankasset;
         
         public Bank() {
                 
                 accounts = new ArrayList<account>();
+                bankasset = 1000;
                 //bankmanager = new BankManagerRole(this);
                 bankstations = new ArrayList<bankstation>();
                 for(int i = 0; i < 6; i++)
@@ -45,6 +47,10 @@ public class Bank {
                 accounts.get(3).loan = 5;
                 
                 
+        }
+        
+        public void resetBankAsset(double reset) {
+        	bankasset += reset;;
         }
         
         public BankManagerRole getBankManager()

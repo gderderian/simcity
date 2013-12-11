@@ -1,6 +1,5 @@
 package city.gui;
 
-import interfaces.MarketManager;
 import interfaces.Restaurant2Waiter;
 
 import java.awt.BorderLayout;
@@ -17,8 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import restaurant1.Restaurant1;
 import restaurant1.Restaurant1CashierRole;
@@ -69,12 +66,6 @@ import city.House;
 import city.Market;
 import city.PersonAgent;
 import city.Restaurant2.Restaurant2;
-import city.Restaurant2.Restaurant2CashierRole;
-import city.Restaurant2.Restaurant2CookRole;
-import city.Restaurant2.Restaurant2CustomerRole;
-import city.Restaurant2.Restaurant2HostRole;
-import city.Restaurant2.Restaurant2WaiterRole;
-import city.Restaurant2.Restaurant2WaiterRoleRegular;
 import city.Restaurant2.Restaurant2WaiterRoleSharedData;
 import city.Restaurant3.CashierRole3;
 import city.Restaurant3.CookRole3;
@@ -98,19 +89,6 @@ import city.Restaurant5.Restaurant5CustomerRole;
 import city.Restaurant5.Restaurant5HostRole;
 import city.Restaurant5.Restaurant5RegularWaiterRole;
 import city.Restaurant5.Restaurant5WaiterRole;
-import city.gui.Bank.BankAnimationPanel;
-import city.gui.Bank.BankCustomerRoleGui;
-import city.gui.Bank.BankGui;
-import city.gui.Bank.BankManagerRoleGui;
-import city.gui.Bank.BankTellerRoleGui;
-import city.gui.House.ApartmentAnimationPanel;
-import city.gui.House.HouseAnimationPanel;
-import city.gui.House.LandlordGui;
-import city.gui.Market.MarketAnimationPanel;
-import city.gui.Market.MarketCustomerGui;
-import city.gui.Market.MarketGui;
-import city.gui.Market.MarketManagerGui;
-import city.gui.Market.MarketWorkerGui;
 import city.gui.Restaurant3.AnimationPanel3;
 import city.gui.Restaurant3.CookGui3;
 import city.gui.Restaurant3.CustomerGui3;
@@ -491,18 +469,15 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		*/
 		
+		if(name.equals("New Restaurant2 Host")){
+			newPerson.addFirstJob(rest2.getHost(), "rest2", 1);
+			newPerson.addTask("goToWork");
+		}
+		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 
 		newPerson.setClock(masterClock);
-
-		//if(!job.equals("No job")){
-		//	newPerson.addTask("goToWork");
-		//}
-
-		//newPerson.addTask("gotHungry");
-		//newPerson.addTask("goToBank");
-		//newPerson.addTask("goToMarket");
 
 		animationPanel.addGui(g);
 
@@ -641,52 +616,6 @@ public class CityGui extends JFrame implements ActionListener {
 		p.addCar(c);
 
 		c.startThread();
-	}
-
-	private void personFactory(PersonAgent p, int i) {
-		if(i == 1) {
-			Restaurant2CustomerRole customerRole = new Restaurant2CustomerRole(p);
-			Restaurant2CustomerGui customerGui = new Restaurant2CustomerGui(customerRole, "cust", 1);
-			restaurant2.addGui(customerGui);
-			Restaurant2WaiterRole waiterRole = new Restaurant2WaiterRoleRegular("waiter", p);
-			p.addFirstJob(waiterRole, "rest2", 3);
-			customerRole.setGui(customerGui);
-			p.addRole(customerRole, false);
-		}
-		if(i == 2) {
-			Restaurant1CustomerRole customerRole = new Restaurant1CustomerRole(p.getName(), p);
-			Restaurant1CustomerGui customerGui = new Restaurant1CustomerGui(customerRole);
-			restaurant1.addGui(customerGui);
-			Restaurant1WaiterRole waiterRole = new Restaurant1NormalWaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest1", 3);
-			customerRole.setGui(customerGui);
-			p.addRole(customerRole, false);
-		}
-		if(i == 3) { // Restaurant 3 (Grant) Testing
-			CustomerRole3 customerRole = new CustomerRole3(p.getName(), -20, -20, p);
-			CustomerGui3 customerGui = new CustomerGui3(customerRole, null, -20, -20, 0);
-			restaurant3.addGui(customerGui);
-			WaiterRole3 waiterRole = new WaiterRole3Normal("waiter", 230, 230,p);
-			p.addFirstJob(waiterRole, "rest3", 3);
-			customerRole.setGui(customerGui);
-			p.addRole(customerRole, false);
-		}
-
-		if(i == 5) {
-			Restaurant5HostRole hostrole = new Restaurant5HostRole("", p);
-			Restaurant5Gui restaurant5gui = new Restaurant5Gui();
-			Restaurant5CustomerRole customerRole = new Restaurant5CustomerRole(p.getName(), p);
-			Restaurant5CustomerGui customerGui = new Restaurant5CustomerGui(customerRole, restaurant5gui, hostrole);
-			restaurant5.addGui(customerGui);
-			Restaurant5RegularWaiterRole waiterRole = new Restaurant5RegularWaiterRole("waiter", p);
-			p.addFirstJob(waiterRole, "rest5", 3);
-			customerRole.setGui(customerGui);
-			p.addRole(customerRole, false);
-
-
-
-
-		}
 	}
 
 	private void personFactory(PersonAgent p, String job, PersonGui gui) {

@@ -29,7 +29,9 @@ public class BankRobberRole extends Role {
     PersonAgent person;
     String name;
     BankManagerRole bankmanager;
+    
     public EventLog log = new EventLog();
+	private double wallet;
     
     
     public BankRobberRole(double setamountofcustomermoney)
@@ -49,8 +51,9 @@ public class BankRobberRole extends Role {
             bankrobberstate = state.gotobankteller; 
             person.stateChanged();      
     }
-    public void msgGoToBankChamber()
+    public void msgGoToBankChamber(double stolenmoneyfromthebank)
     {
+    		wallet = stolenmoneyfromthebank;
     		bankrobberstate = state.gotobankchamber;
     		person.stateChanged();
     	 	
@@ -72,6 +75,7 @@ public class BankRobberRole extends Role {
     		if(bankrobberstate == state.gotobankchamber)
     		{
     			
+    				person.msgBalanceAfterDepositingIntoAccount(wallet);
     				Do("I'm going to bank chamber station");
     				guiGoToBankChamber();
     				//bankmanager.msgBankRobberLeft();
@@ -119,6 +123,7 @@ public class BankRobberRole extends Role {
     {
     	this.person = person;
     	this.name = person.getName();
+    	this.wallet = person.wallet;
     	
     }
     
@@ -146,9 +151,10 @@ public class BankRobberRole extends Role {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	//bankmanager.msgBankRobberLeft();
+    	
      	gui.setPresent(false);
      	person.setRoleInactive(this);
+     	bankmanager.msgBankRobberLeft();
      	
 	}
     

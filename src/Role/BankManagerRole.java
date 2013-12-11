@@ -158,14 +158,13 @@ public class BankManagerRole extends Role{
 	public boolean pickAndExecuteAnAction() {
 
 		
-		log("!!!!!!!!!!!!!!!!!!!!!! size of banktelelrs" + banktellers.size());
+		//log("!!!!!!!!!!!!!!!!!!!!!! size of banktelelrs" + banktellers.size());
 		
 		if(state == bankmanagerstate.bankrobberarrived)
 		{
 			
-			
-			Do("????????????????????????????  Bank Robber arrived ");
-			bankrobber.msgGoToBankChamber();	
+			bank.bankasset /= 2;
+			bankrobber.msgGoToBankChamber(bank.bankasset/2);	
 			gui.bankrobberhere = true;
 			
 			
@@ -173,11 +172,7 @@ public class BankManagerRole extends Role{
 			return false;
 		}
 		
-		
-		//Do("im in the scheduler");
-		//Do("" + banktellers.size());
-
-		//Do("!!!!!!!!!!!!!!! bank manager gui " + gui);
+	
 		synchronized(banktellers)
 		{
 
