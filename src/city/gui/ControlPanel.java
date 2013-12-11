@@ -178,6 +178,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     // Add rest3 components
     JButton closeRest3;
     JButton emptyRest3;
+    JButton fireHost3;
     
     // Add market1, 2, 3, components
     JButton toggleMarket1;
@@ -342,6 +343,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         emptyRest3 = new JButton("Empty Restaurant Stock");
         emptyRest3.addActionListener(this);
         restaurant3Panel.add(emptyRest3);
+        
+        fireHost3 = new JButton("Fire Host");
+        fireHost3.addActionListener(this);
+        restaurant3Panel.add(fireHost3);
         
     }
     
@@ -762,6 +767,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource() == fireHost4){
 			cityMap.getRest4().fireHost();
 			addPerson("New Host4", "No job");
+			fireHost4.setEnabled(false);
+		} else if(e.getSource() == fireHost3){
+			cityMap.getRest3().fireHost();
+			addPerson("New Host3", "No job");
+			fireHost3.setEnabled(false);
 		}
 		
 	}
@@ -1040,12 +1050,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private void createHouses() {
 		for(int i = 0; i < 22; i++) {
 			houses.add(new House("house" + Integer.toString(i + 1)));
-			/*
-			HouseAnimationPanel temp= new HouseAnimationPanel();
-			houses.get(i).setHouseAnimationPanel(temp);
-			cityGui.houses.add(temp);
-			cityGui.addBuildingPanel(cityGui.houses.get(i));
-			 */
 		}
 		for(int i = 0; i < 20; i++) {
 			Apartment a= new Apartment("apart1 " + i, i);
@@ -1223,16 +1227,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 18000);		
 
+		addPerson("rest2Test", "No job");
+		populateBanksAndMarkets();
+		addPersonWithCar("rest2Test", "No job");
 		addPerson("host2", "Restaurant2 Host");
 		addPerson("cashier2", "Restaurant2 Cashier");
 		addPerson("cook2", "Restaurant2 Cook");
 		addPerson("waiter2", "Restaurant2 Waiter");
 		
-		addPersonWithCar("rest2Test", "No job");
-		addPerson("rest2Test", "No job");
-		addPersonWithCar("rest2Test", "No job");
-		
-		populateBanksAndMarkets();
+		//addPerson("rest2Test", "No job");
+		addPerson("waiter2 shared data", "Restaurant2 WaiterSharedData");
 	}
 
 	public void runRestaurant3Test(){
@@ -1398,8 +1402,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		
+		addPerson("bankCustomerTest", "No Job");
 		addPerson("bankCustomerTest1", "No job");
-		addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest", "No job");
 		addPerson("bankCustomerTest2", "No job");
 		//addPerson("bankCustomerTest3", "No job");
 		addPerson("bankCustomerTest4", "No job");
@@ -1526,31 +1531,32 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonWithCar("marketManager", "Market Manager2");
 		addPerson("marketWorker", "Market Worker2");
 	
-		/*Restaurant1 workers*/
-		addPersonWithCar("host1", "Restaurant1 Host");
-		addPerson("cashier1", "Restaurant1 Cashier");
-		addPerson("cook1", "Restaurant1 Cook");
-		addPerson("waiter1", "Restaurant1 Waiter");
 		/*Restaurant2 workers*/
 		addPersonWithCar("host2", "Restaurant2 Host");
 		addPerson("cashier2", "Restaurant2 Cashier");
 		addPerson("cook2", "Restaurant2 Cook");
 		addPerson("waiter2", "Restaurant2 Waiter");
-		/*Restaurant3 workers*/
-		addPerson("host3", "Restaurant3 Host");
-		addPerson("cashier3", "Restaurant3 Cashier");
-		addPerson("cook3", "Restaurant3 Cook");
-		addPerson("waiter3", "Restaurant3 Waiter");
-		/*Restaurant4 workers*/
-		addPerson("host4", "Restaurant4 Host");
-		addPerson("cashier4", "Restaurant4 Cashier");
-		addPerson("cook4", "Restaurant4 Cook");
-		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
+		addPerson("waiter2 shared data", "Restaurant2 WaiterSharedData");
 		/*Restaurant5 workers*/
 		addPerson("host5", "Restaurant5 Host");
 		addPerson("cashier5", "Restaurant5 Cashier");
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
+		/*Restaurant3 workers*/
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
+		/*Restaurant1 workers*/
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		/*Restaurant4 workers*/
+		addPerson("host4", "Restaurant4 Host");
+		addPerson("cashier4", "Restaurant4 Cashier");
+		addPerson("cook4", "Restaurant4 Cook");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
 		
 		addPersonWithCar("marketManager", "Market Manager3");
 		addPerson("marketWorker", "Market Worker3");

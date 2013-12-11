@@ -91,5 +91,9 @@ public class Restaurant2 {
 		host.msgYoureFired();
 		controlPanel.addPerson("New Restaurant2 Host", "No job");
 	}
+
+	public int getNumWaiters() {
+		return waiters.size();
+	}
 	
 }

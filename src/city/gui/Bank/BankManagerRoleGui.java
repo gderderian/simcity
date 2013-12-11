@@ -10,7 +10,7 @@ public class BankManagerRoleGui implements Gui {
 
     private BankManagerRole role = null;
     private int xPos = 20, yPos = 20;//default waiter position
-    private int xDestination = 100, yDestination = 200;//default start position
+    private int xDestination = 100, yDestination = 320;//default start position
 
 	private BankGui gui;
 	private enum Command {noCommand, gotobankmanageroffice, leavebank, arrived};
@@ -40,7 +40,7 @@ public class BankManagerRoleGui implements Gui {
 
     public void draw(Graphics2D g) {
         
-    	g.drawImage(imgofbankmanager, xPos, yPos + 20, 40, 40, gui);
+    	g.drawImage(imgofbankmanager, xPos, yPos + 20, 50, 60, gui);
     	Graphics2D g2 = (Graphics2D)g;
     	Graphics2D g3 = (Graphics2D)g;
     	if(bankrobberhere == true)

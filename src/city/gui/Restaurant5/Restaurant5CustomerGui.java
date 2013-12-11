@@ -139,6 +139,7 @@ public class Restaurant5CustomerGui implements Gui{
 		
 		g.drawImage(icon.getImage(), xPos, yPos, 30, 30, null);
 		
+		g.setColor(Color.BLUE);
 		if(agent.eating == true && agent.choice == "chicken") {
 			//g.drawImage(imgofchicken, xPos, yPos + 20, 20, 20, gui);
 			g.drawString("Eating..", xPos, yPos - 10);

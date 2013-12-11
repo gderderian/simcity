@@ -26,7 +26,7 @@ public class Restaurant2CookGui implements Gui{
     private final int REFRIGERATORX = 800;
     private final int REFRIGERATORY = 350;
     private final int STOVEX = 690;	//the farthest end of the stove
-    private final int STOVEY = 430;
+    private final int STOVEY = 410;
     private final int HOMEX = 770;
     private final int HOMEY = 350;
     private final int COUNTERX = 760;
@@ -85,7 +85,7 @@ public class Restaurant2CookGui implements Gui{
         
         if(foodCooking){
 			g.setColor(Color.PINK);
-			g.fillOval(STOVEX - 7, STOVEY + 7, 20, 20);
+			g.fillOval(STOVEX, STOVEY + 25, 20, 20);
         }
 		if(foodDone){
 			g.setColor(Color.WHITE);

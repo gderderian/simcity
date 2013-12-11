@@ -69,10 +69,10 @@ public class Restaurant2WaiterGui implements Gui{
         
         waiterNum = i;
         
-        if(waiterNum % 4 == 0) HOMEY = 140;
-        else if(waiterNum % 4 == 3) HOMEY = 100;
-        else if(waiterNum % 4 == 2) HOMEY = 60;
-        else if(waiterNum % 4 == 1) HOMEY = 20;
+        if(waiterNum % 4 == 0) HOMEY = 180;
+        else if(waiterNum % 4 == 3) HOMEY = 140;
+        else if(waiterNum % 4 == 2) HOMEY = 100;
+        else if(waiterNum % 4 == 1) HOMEY = 60;
         else HOMEY = 0;
         
         if(waiterNum < 5) HOMEX = 30;
@@ -126,7 +126,7 @@ public class Restaurant2WaiterGui implements Gui{
             if(xPos == KITCHENX && yPos == (KITCHENY - 60)){
             	agent.msgAtDest();
             }
-            if(xPos == 0 && yPos == 400){
+            if(xPos == 0 && yPos == 400 && xPos == xDestination && yPos == yDestination){
             	agent.msgAtDest();
             }
         }
@@ -134,9 +134,11 @@ public class Restaurant2WaiterGui implements Gui{
         	//System.out.println("AT HOME POSITIONNNNNNNNNNNN");
         	agent.setAtStand(true);
         	//agent.msgAtStand();
+        	atStand = true;
         }
         else if((xPos != HOMEX || yPos != HOMEY) && atStand == true){
         	agent.setAtStand(false);
+        	atStand = false;
         }
  
     }
