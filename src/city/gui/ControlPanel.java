@@ -92,7 +92,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel market3Panel = new JPanel();
     private JPanel bank1Panel = new JPanel();
     
-    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
+    private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
     		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
@@ -951,6 +951,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		 */
 		if(scenario.equals("Full Scenario"))
 			runFullTest();
+		else if(scenario.equals("The Weekender"))
+			runTheWeekenderTest();
 		else if(scenario.equals("Trader Joe's"))
 			runMarketVisitTest();
 		else if(scenario.equals("Restaurant1"))
@@ -991,6 +993,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("rest4Test", "No job");
 		addPersonWithCar("rest4Test", "No job");
+	}
+	
+	public void runTheWeekenderTest(){
+		//cityGui.getClock().setDay();
 	}
 
 	public void runRestaurant1Test(){
@@ -1089,11 +1095,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cashier5", "Restaurant5 Cashier");
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
-
+		addPerson("waiter5", "Restaurant5 Waiter");
 		//addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
-		
+		addPerson("rest5Test", "No job");
 		populateBanksAndMarkets();
 	}
 	
@@ -1301,10 +1307,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		/*Landlord*/
 		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/
-		addPerson("bank manager", "Bank Manager");
-		addPerson("bank teller", "Bank Teller");
-		addPerson("bank teller", "Bank Teller");
-		addPerson("bank teller", "Bank Teller");
+		//addPerson("bank manager", "Bank Manager");
+		//addPerson("bank teller", "Bank Teller");
+		//addPerson("bank teller", "Bank Teller");
+		//addPerson("bank teller", "Bank Teller");
 		
 		addPerson("marketManager", "Market Manager2");
 		addPerson("marketWorker", "Market Worker2");
