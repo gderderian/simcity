@@ -976,6 +976,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runFullTest(){
+		
+		createInitialPeople();
 
 		addPersonWithCar("rest1Test", "No Job");
 
@@ -990,6 +992,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant1Test(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+		
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
 
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
@@ -999,17 +1013,55 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant2Test(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);		
+
+		addPerson("host2", "Restaurant2 Host");
+		addPerson("cashier2", "Restaurant2 Cashier");
+		addPerson("cook2", "Restaurant2 Cook");
+		addPerson("waiter2", "Restaurant2 Waiter");
+		
 		addPersonWithCar("rest2Test", "No job");
 		addPerson("rest2Test", "No job");
 		addPersonWithCar("rest2Test", "No job");
 	}
 
 	public void runRestaurant3Test(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
+		
 		addPerson("rest3Test", "No job");
 
 	}
 
 	public void runRestaurant4Test(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("host4", "Restaurant4 Host");
+		addPerson("cashier4", "Restaurant4 Cashier");
+		addPerson("cook4", "Restaurant4 Cook");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
 
 		addPerson("sharedWaiter4", "Restaurant4 SharedDataWaiter");
 		addPerson("restTest", "No job");
@@ -1018,6 +1070,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRestaurant5Test(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("host5", "Restaurant5 Host");
+		addPerson("cashier5", "Restaurant5 Cashier");
+		addPerson("cook5", "Restaurant5 Cook");
+		addPerson("waiter5", "Restaurant5 Waiter");
 
 		//addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
@@ -1026,7 +1090,19 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runBankTest() {
-	
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("bank manager", "Bank Manager");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		
 		addPerson("bankCustomerTest1", "No job");
 		//addPerson("bankCustomerTest", "No job");
 		addPerson("bankCustomerTest2", "No job");
@@ -1038,10 +1114,32 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runRegularJoeTest(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
 		addPerson("joe", "No Job");
 	}
 
 	public void runMarketVisitTest(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
 		addPerson("marketClient", "No Job");
 
 		//addPerson("marketWorker", "Market Worker");
@@ -1052,7 +1150,31 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runMarketTruckTest() {
-		addPerson("marketClient", "No Job");
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+		
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+
+		addPerson("rest1Test", "No job");
+
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
+		addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
 	}
 
 	public void runCarCrash() {
@@ -1064,11 +1186,27 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	public void runCarTest() {
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
 		//Add one person who should use their car
 		addPersonWithCar("rest1Test", "No Job");
 	}
 
 	public void runLandlordTest(){
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPerson("Landlord", "Landlord1");
 
 		addPerson("Joe", "No Job");
 		addPerson("Jenny", "No Job");
@@ -1083,7 +1221,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * All people are created with houses, start there, and will go to work at the beginnning of the day
 	 * All workers are created with cars (because they have jobs so they can afford them)
 	 */
-	public void createInitialPeople(){
+	public void createInitialPeople() {
 		//Initial public transportation creation.
 		addVehicle("bus");
 		timer.schedule(new TimerTask() {

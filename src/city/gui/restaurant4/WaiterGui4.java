@@ -19,6 +19,7 @@ public class WaiterGui4 implements Gui{
     private int xDestination = 40, yDestination = 250;//default start position
     private int dimension= 20;
     private int movement= 20;
+    private int number= 0;
     private String choice;
     private boolean doGoToEntrance= false;
     private boolean doBringFood= false;
@@ -127,8 +128,13 @@ public class WaiterGui4 implements Gui{
     }
     
 	public void setPresent(boolean t) {
-		if(t)
+		if(t){
 			isPresent = true;
+			yPos= (number * (dimension + 5)) + 250;
+			yDestination= (number * (dimension + 5)) + 250;
+			xPos = 40;
+		    xDestination = 40;
+		}
 		else
 			isPresent = false;
 	}
@@ -192,6 +198,7 @@ public class WaiterGui4 implements Gui{
     }
     
     public void setHomePostion(int num){
+    	number= num;
     	yHome += (num * (dimension + 5));
     	yDestination += (num * (dimension + 5));
     }
