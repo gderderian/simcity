@@ -82,18 +82,17 @@ Buttons to trigger car crashes, hit-and-runs, and the addition of specific peopl
 ### Overall State of Program
 
 ##### Transportation
-+ Market Delivery Trucks are tested, but they have not been fully integrated yet. They show up in some scenarios to simply drive around to show the A* animation capabilities. They don't communicate with markets yet, except within tests.
-+ Buses are fully tested and implemented, but we haven't yet updated the person to choose when to take the bus. We have a scenario that shows one person taking a bus, but we still need to implement this in a more general sense.
-+ Cars are fully tested and implemented, but they haven't been integrated into the city yet. We just need to finish updating the Person Agent to include this form of transportation.
 
 ##### Animation
-+ A* animation has been successfully implemented on a city-wide level to handle sidewalks, streets, and crosswalks. It hasn't been added inside of buildings yet. It sometimes lags when many guis are added to the panel, but they should eventually find their way to their destinations.
 
 ##### Person Agent
-+ The PersonAgent needs to be redone so that there is an Event class which has an intent and a location. This is so that the person's actions and messages will be timed correctly when they take the bus or car. Right now, the Person's actions are based on the assumption that they can essentially be completed inside one method - there are semaphores within the DoGoTo method that take care of timing, but these get messed up when the person goes to the bus or takes the car. Instead, we now have a specific bus test which shows that the bus system is functional.
 
 ##### Housing
-+ All houses and apartments are able to be clicked on and there is minimal gui functionality. The best scenario involving house gui components is the Average Joe scenario. There is no landlord gui capabilities at this time, however the landlord role is fully unit tested (rent collection and fixing appliances) as is the house (putting away groceries and cooking food).
 
-#####Restaurants
-+ All restaurants are integrated, both with their guis as well as their interaction with new elements in the city, including the market.
+##### Restaurants
+
+##### Markets
+
+##### Banks
+
+##### v2 Non-Norms
