@@ -295,6 +295,7 @@ public class CityGui extends JFrame implements ActionListener {
 		timer = new Timer(TIMER_INTERVAL, this);
 		timer.start();
 
+		controlPanel.createVitalStaff();
 	}
 
 	public void startMasterClock() {
@@ -469,15 +470,22 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		*/
 		
-		if(name.equals("New Restaurant2 Host")){
-			newPerson.addFirstJob(rest2.getHost(), "rest2", 1);
-			newPerson.addTask("goToWork");
-		}
-		
 		PersonGui g = new PersonGui(newPerson);
 		newPerson.setGui(g);
 
 		newPerson.setClock(masterClock);
+		
+		if(name.equals("New Restaurant2 Host")){
+			newPerson.addFirstJob(rest2.getHost(), "rest2", 1);
+			newPerson.addTask("goToWork");
+		}
+		else if(name.equals("New Host4")){
+			newPerson.addFirstJob(rest4.getHost(), "rest4", 1);
+			newPerson.addTask("goToWork");
+		} else if(name.equals("New Host1")) {
+			newPerson.addFirstJob(rest1.getHost(), "rest1", 1);
+			newPerson.addTask("goToWork");
+		}
 
 		animationPanel.addGui(g);
 
@@ -1010,7 +1018,7 @@ public class CityGui extends JFrame implements ActionListener {
 			CookGui3 gui = new CookGui3(role);
 			role.setGui(gui);
 			restaurant3.addGui(gui);
-			gui.setPresent(false);
+			gui.setPresent(true);
 			return role;
 		} else if (type.equals("Restaurant3 Waiter")){
 			WaiterRole3 role= new WaiterRole3Normal(p.getName(), 230, 230, p); 

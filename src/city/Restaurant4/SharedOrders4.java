@@ -18,27 +18,29 @@ public class SharedOrders4 {
 		consumer= c;
 	}
 	
-	public boolean addOrder(Order o){
-		if(monitor.tryAcquire()){
+	public void addOrder(Order o){
+		/*if(monitor.tryAcquire()){
 			synchronized(orders){
-				System.out.println("ADDING ORDER TO REVOLVING STAND");
 				orders.add(o);
 				consumer.msgReadyForConsumption();
 			}
 			monitor.release();
 			return true;
 		}
-		return false;
+		return false;*/
+		synchronized(orders){
+			System.out.println("ADDING ORDER TO REVOLVING STAND");
+			orders.add(o);
+		}
 	}
 	
 	public Order fillOrder(){
-		if(orders.size() > 0 && monitor.tryAcquire()){
+		if(orders.size() > 0){
 			Order o;
 			synchronized(orders){
 				o= orders.get(0);
 				System.out.println("REMOVING ORDER FROM REVOLVING STAND");
 				orders.remove(0);
-				monitor.release();
 			}
 			return o;
 		}

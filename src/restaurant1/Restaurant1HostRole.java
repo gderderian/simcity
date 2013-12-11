@@ -65,6 +65,10 @@ public class Restaurant1HostRole extends Role {
 	}
 	
 	// Messages
+	
+	public void msgYoureFired(){
+		person.msgImFired();
+	}
 
 	public void msgImHungry(Restaurant1CustomerRole c) {
 		synchronized(customers) {

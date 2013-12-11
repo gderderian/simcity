@@ -4,6 +4,7 @@ package city.transportation;
 import Role.MarketManagerRole;
 
 import interfaces.MarketManager;
+import interfaces.Person;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -59,7 +60,7 @@ public class TruckAgent extends Vehicle {
 		stateChanged();
 	}
 
-	public void msgOrderReceived(PersonAgent p, MarketOrder o) {
+	public void msgOrderReceived(Person p, MarketOrder o) {
 		log("Received message: order has been successfully received.");
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
@@ -70,7 +71,7 @@ public class TruckAgent extends Vehicle {
 		stateChanged();
 	}
 	
-	public void msgRestaurantIsClosed(PersonAgent p, MarketOrder o) {
+	public void msgRestaurantIsClosed(Person p, MarketOrder o) {
 		log("Restaurant is closed. Will try delivery again later.");
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
@@ -89,14 +90,6 @@ public class TruckAgent extends Vehicle {
 	public boolean pickAndExecuteAnAction() {
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
-				if(mo.state == DeliveryState.delayed) {
-					RetryDelivery(mo);
-					return true;
-				}
-			}			
-		}
-		synchronized(orders) {
-			for(MyMarketOrder mo : orders) {
 				if(mo.state == DeliveryState.delivered) {
 					ReportToMarket(mo);
 					return true;
@@ -112,6 +105,15 @@ public class TruckAgent extends Vehicle {
 				}
 			}
 		}
+		
+		synchronized(orders) {
+			for(MyMarketOrder mo : orders) {
+				if(mo.state == DeliveryState.delayed) {
+					RetryDelivery(mo);
+					return true;
+				}
+			}			
+		}
 
 		return false;
 	}
@@ -123,7 +125,12 @@ public class TruckAgent extends Vehicle {
 			log("Delivering order from market to recipient");
 			o.o.getRecipient().msgHereIsYourOrder(this, o.o);
 			o.state = DeliveryState.awaitingConfirmation;
+			
+			parkTruck();
+			return;
 		}
+		
+		gui.setVisible();
 		
 		log("Picking up order from market");
 		DriveToMarket();
@@ -140,6 +147,7 @@ public class TruckAgent extends Vehicle {
 	}
 	
 	private void RetryDelivery(MyMarketOrder o) {
+		gui.setVisible();
 		log("Going to " + o.o.destination);
 		DriveTo(o.o.destination);
 		

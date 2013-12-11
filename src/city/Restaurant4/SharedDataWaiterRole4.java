@@ -25,10 +25,7 @@ public class SharedDataWaiterRole4 extends WaiterRole4 implements Waiter4{
 			e.printStackTrace();
 		}
 		Order o= new Order(this, c.choice, c.c, "pending", id++);
-		boolean added= orders.addOrder(o);
-		while(!added){
-			added= orders.addOrder(o);
-		}
+		orders.addOrder(o);
 		c.s= customerState.none;
 		p.stateChanged();
 	}

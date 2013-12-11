@@ -56,6 +56,7 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
         
         add(fire_host);
         fire_host.addActionListener(this);
+        fire_host.setPreferredSize(buttonSize);
         add(Box.createVerticalStrut(10));
         fire_host.setAlignmentX(CENTER_ALIGNMENT);
 	}
@@ -80,7 +81,7 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 		else if(e.getSource() == fire_host){
 			restaurant.fireHost(controlPanel);
 			fire_host.setEnabled(true);
-			fire_host.setVisible(false);
+
 		}
 		
 	}

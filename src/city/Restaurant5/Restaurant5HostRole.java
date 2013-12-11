@@ -224,10 +224,7 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
-		 */
-		
-		Do("!!!!!!!!!!!!!!!!!   host scheduler");
-	
+		 */	
 		synchronized(tables) 
 		{
 		
@@ -245,11 +242,9 @@ public class Restaurant5HostRole extends Role implements Restaurant5Host {
 						{
 							waiter.busy = true;
 							if(!mywaiters.isEmpty()) {
-						    Do("!!!!!!!!!! 1st  waiting customer size " + waitingCustomers.size());
 						    assigncustomer = waitingCustomers.remove(0);	
 							assignwaiter(assigncustomer, waiter.waiter, table);
 							//why is this called twice?????
-							Do("!!!!!!!!!! waiting customer size " + waitingCustomers.size());
 							occupiedtablecounter += 1;
 							//DoSeatCustomerAtWaitingArea(assigncustomer, xcoordinateofwaitingspot, ycoordinateofwaitingspot);
 							return true;

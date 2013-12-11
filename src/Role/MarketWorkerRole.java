@@ -56,8 +56,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	
 	// Messages
 	public void msgPrepareOrder(MarketOrder o, MarketManager recipientManager){
-		//log("I have a new order to process...");
-		//log("Current order size is:" + o.orders.size());
+		log("I have a new order to process.");
 		PickableOrder newPickableOrder = new PickableOrder(o, recipientManager);
 		pickOrders.add(newPickableOrder);
 		p.stateChanged();
@@ -86,7 +85,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	
 	// Actions
 	private void pickSingleOrder(PickableOrder o){
-		// log("Picking order");
+		log("Picking order for my manager.");
 		o.state = orderPickState.picking;
 		for (OrderItem item : o.order.orders){
 			// Gui command to go to that item's specific location in the market "warehouse"/back stock room
@@ -126,7 +125,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 	
 	private void returnCompletedOrder(PickableOrder o){
-		// log("Notifying manager a customer's order is done!");
+		log("Notifying manager a customer's order is done!");
 		o.recipientManager.msgOrderPicked(o.order);
 		pickOrders.remove(o);
 	}

@@ -38,7 +38,6 @@ public class MarketCustomerRole extends Role {
 	// Messages
 	public void msgHereIsYourOrder(MarketOrder o){
 		// Handled within PersonAgent directly
-		System.out.println("HERE IS ORDER CALLED BLAH BLAH BLAH");
 		event = AgentEvent.orderReceived;
 		person.stateChanged();
 	}
@@ -49,7 +48,6 @@ public class MarketCustomerRole extends Role {
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		System.out.println("IN SCHEDULER" + event + state);
 		if (state == AgentState.doingNothing && event == AgentEvent.orderReceived){
 			leaveMarket();
 			return true;

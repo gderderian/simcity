@@ -11,12 +11,12 @@ public class Order {
 
 		public enum orderStatus {waiting, preparing, ready, bounceBack};
 		
-		String foodItem;
-		int recipTable;
-		WaiterRole3 requestingWaiter;
-		CookRole3 cookReference;
-		Timer foodTimer;
-		orderStatus status;
+		public String foodItem;
+		public int recipTable;
+		public WaiterRole3 requestingWaiter;
+		public CookRole3 cookReference;
+		public Timer foodTimer;
+		public orderStatus status;
 		
 		public Order(WaiterRole3 w){
 			requestingWaiter = w;
@@ -59,9 +59,10 @@ public class Order {
 					new ActionListener() { public void actionPerformed(ActionEvent event) {
 			          status = orderStatus.ready;
 			          foodTimer.stop();
-			          if (cookReference != null){
-			        	  cookReference.person.stateChanged();
-			          }
+			          System.out.println("FOOD IS DONE!!!!");
+			         // if (cookReference != null){
+			        	  cookReference.callStateChanged();
+			         // }
 			      }
 			});
 			foodTimer.start();
