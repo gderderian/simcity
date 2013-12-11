@@ -25,7 +25,11 @@ public class Market { // Class modeled after comment made in https://github.com/
 	}
 
 	public MarketManagerRole getMarketManager() {
-		return mktManager;
+		if (!isOpen){
+			return null;
+		} else {
+			return mktManager;
+		}
 	}
 	
 	public void setName(String name){
