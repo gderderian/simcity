@@ -45,13 +45,8 @@ import city.Bank;
 import city.CityMap;
 import city.House;
 import city.Market;
-import city.PersonAgent;
-import city.account;
-import Role.BankTellerRole;
-import city.Restaurant2.*;
 import city.Restaurant3.Restaurant3;
 import city.Restaurant4.Restaurant4;
-import city.Restaurant4.CookRole4.orderState;
 import city.Restaurant5.Restaurant5;
 import city.gui.restaurant2.Restaurant2InfoPanel;
 import city.transportation.BusStopAgent;
@@ -143,7 +138,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     public JCheckBox takeBreak;
     private String[] jobs = {"[Please select a job]", "No job", "Bank Manager", "Bank Teller", "Market Manager", "Market Worker", "Landlord1", "Landlord2", 
     		"Restaurant1 Host", "Restaurant1 Cook", "Restaurant1 Waiter", "Restaurant1 Cashier","Restaurant2 Host", "Restaurant2 Cook",
-    		"Restaurant2 Waiter", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
+    		"Restaurant2 Waiter", "Restauran2WaiterSharedData", "Restaurant2 Cashier", "Restaurant3 Host", "Restaurant3 Cook", "Restaurant3 Waiter", "Restaurant3 Cashier",
     		"Restaurant4 Host", "Restaurant4 Cook", "Restaurant4 SharedDataWaiter", "Restaurant4 NormalWaiter", "Restaurant4 Cashier", "Restaurant5 Host", "Restaurant5 Cook",
     		"Restaurant5 Waiter", "Restaurant5 Cashier"
     };
@@ -155,7 +150,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private Map<String, String> jobLocations = new HashMap<String, String>();
     
     /** Universal city map **/
-    CityMap cityMap = new CityMap();
+    CityMap cityMap = CityMap.getInstance();
     //Houses and apartments
     private List<House> houses = new ArrayList<House>();
     
