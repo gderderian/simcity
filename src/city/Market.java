@@ -28,10 +28,6 @@ public class Market { // Class modeled after comment made in https://github.com/
 		return mktManager;
 	}
 	
-	//public void setTruck(TruckAgent newTruck){
-	//	mktManager.setTruck(newTruck);
-	//}
-	
 	public void setName(String name){
 		marketName = name;
 	}

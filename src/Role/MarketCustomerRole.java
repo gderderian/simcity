@@ -33,7 +33,7 @@ public class MarketCustomerRole extends Role {
 	}
 	
 	// Data
-	PersonAgent person; // GUI and entrance/exit purposes
+	PersonAgent person;
 	
 	// Messages
 	public void msgHereIsYourOrder(MarketOrder o){

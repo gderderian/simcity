@@ -1,10 +1,8 @@
 package Role;
 
 import interfaces.MarketManager;
-
 import java.util.*;
 import java.util.concurrent.Semaphore;
-
 import test.mock.LoggedEvent;
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
@@ -13,7 +11,6 @@ import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
 import city.gui.Market.MarketManagerGui;
-import city.gui.Restaurant3.WaiterGui3;
 import city.transportation.TruckAgent;
 import Role.Role;
 

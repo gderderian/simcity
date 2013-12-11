@@ -36,7 +36,7 @@ public class MarketTest extends TestCase{
         person3 = new PersonAgent("Person3");
         person4 = new PersonAgent("Person4");
         restaurantCook = new CookRole3("MockCook", person4);
-        Market mkt1 = new Market();
+        Market mkt1 = new Market("Vons");
         marketMgr = new MarketManagerRole("MarketManager", person, mkt1);
         mkt1.setManager(marketMgr);
         marketWorker = new MarketWorkerRole(person2);
