@@ -296,8 +296,10 @@ public class PersonAgent extends Agent implements Person{
 
 	public void addFirstJob(Role r, String location, int startTime){
 		myJob = new Job(r, location);
-		if(startTime != -1)
+		if(startTime != -1){
 			myJob.workStartTime = startTime;
+			myJob.leaveForWork = startTime - 1;
+		}
 		r.setBuilding(location);
 		roles.add(r);
 	}
@@ -319,6 +321,8 @@ public class PersonAgent extends Agent implements Person{
 	public void addTask(String task){
 		PersonTask t = new PersonTask(task);
 		schedule.addTaskToDay(clock.getDayOfWeekNum(), t);
+		if(tasks.size() != 0)
+			log("The first task in my list is " + tasks.get(0).type.toString());
 		stateChanged();
 	}
 
@@ -357,7 +361,6 @@ public class PersonAgent extends Agent implements Person{
 		log("Setting my job to null now because I got fired");
 		myJob.endJob();
 		gui.setVisible();
-		addTask("goHome");
 		myJob = null;
 	}
 
@@ -385,7 +388,7 @@ public class PersonAgent extends Agent implements Person{
 			schedule.transferTodaysTasksToTomorrow(clock.getDayOfWeekNum());
 		}
 		if(!(myJob == null)){
-			if(hour == myJob.workStartTime && minute < 15 && am_pm.equals("am") && myJob != null){
+			if(hour == myJob.leaveForWork && minute >= 15 && minute < 30 && am_pm.equals("am") && myJob != null){
 				if(!schedule.isTaskAlreadyScheduled(TaskType.goToWork, clock.getDayOfWeekNum())){
 					PersonTask task = new PersonTask(TaskType.goToWork);
 					schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -904,7 +907,7 @@ public class PersonAgent extends Agent implements Person{
 					return true;
 				}
 			}
-		}
+		}		
 		//go home if there is nothing else to do
 		synchronized(tasks){
 			if(tasks.isEmpty()){

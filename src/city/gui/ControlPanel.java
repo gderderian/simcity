@@ -1203,9 +1203,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonWithCar("rest1Test", "No job");
 		addPersonWithCar("rest1Test", "No job");
 		addPersonWithCar("rest1Test", "No job");
-		addPersonWithCar("rest1Test", "No job");
-		addPersonWithCar("rest1Test", "No job");
-		addPersonWithCar("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
 	}
