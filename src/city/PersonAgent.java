@@ -1091,10 +1091,11 @@ public class PersonAgent extends Agent implements Person{
 		}
 	}
 
-	//TODO ...
 	public void leaveWork(){
-		//Need to make the gui step outside the building, and then the person can do whatever the next thing is on their list
-		myJob.endJob();
+		if(myJob != null){
+			myJob.endJob();
+		}
+		gui.setVisible();
 	}
 
 	public void eat(PersonTask task){	//hacked for now so that it randomly picks eating at home or going out

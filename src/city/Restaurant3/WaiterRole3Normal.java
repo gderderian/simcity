@@ -2,6 +2,9 @@ package city.Restaurant3;
 
 import city.PersonAgent;
 
+/**
+ * Restauarant3 WaiterRole with Normal Operation (messaging cook on new orders)
+ */
 public class WaiterRole3Normal extends WaiterRole3 {
 
 	public WaiterRole3Normal(String name, int startX, int startY, PersonAgent p) {

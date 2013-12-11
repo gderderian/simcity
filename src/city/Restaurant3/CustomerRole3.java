@@ -11,9 +11,8 @@ import city.gui.Restaurant3.CustomerGui3;
 import java.util.concurrent.Semaphore;
 import java.util.Random;
 
-
 /**
- * Restaurant customer agent.
+ * Restaurant3 customer agent.
  */
 public class CustomerRole3 extends Role {
 	

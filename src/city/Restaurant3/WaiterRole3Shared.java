@@ -2,6 +2,9 @@ package city.Restaurant3;
 
 import city.PersonAgent;
 
+/**
+ * Restauarant3 WaiterRole with Shared Data Operation (adding order to spindle for cook to see upon new orders)
+ */
 public class WaiterRole3Shared extends WaiterRole3 {
 
 	public WaiterRole3Shared(String name, int startX, int startY, PersonAgent p) {

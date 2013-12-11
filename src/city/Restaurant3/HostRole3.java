@@ -8,7 +8,7 @@ import city.PersonAgent;
 import city.gui.Restaurant3.WaiterGui3;
 
 /**
- * Restaurant Host Agent
+ * Restaurant3 Host Agent
  */
 public class HostRole3 extends Role {
 	

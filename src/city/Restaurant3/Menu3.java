@@ -5,6 +5,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.*;
 
+/**
+ * Menu for Restaurant3
+ */
 public class Menu3 {
 	
 	public Hashtable<String, Double> itemList;

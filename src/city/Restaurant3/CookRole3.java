@@ -1,15 +1,11 @@
 package city.Restaurant3;
 
 import Role.Role;
-import interfaces.MarketManager;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
-
 import javax.swing.Timer;
-
 import activityLog.ActivityLog;
 import activityLog.ActivityTag;
 import city.MarketOrder;
@@ -23,7 +19,7 @@ import test.mock.LoggedEvent;
 
 
 /**
- * Restaurant Cook Agent
+ * Restaurant3 Cook Agent
  */
 public class CookRole3 extends Role {
 	

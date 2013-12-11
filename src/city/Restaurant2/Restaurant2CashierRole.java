@@ -219,4 +219,8 @@ public class Restaurant2CashierRole extends Role implements Restaurant2Cashier {
 		return person;
 	}
 
+	public void msgGoHome() {
+		person.leaveWork();
+	}
+
 }

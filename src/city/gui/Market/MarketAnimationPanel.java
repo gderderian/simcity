@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
     private final int SCREEN_RECT_X_COORD = 0;
     private final int SCREEN_RECT_Y_COORD = 0;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     
 	Timer timer = new Timer(MAIN_TIMER, this);
 	private boolean timerIsRunning = false;
@@ -84,56 +85,52 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
             }
         }
 */
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw(g2);
-            }
+        synchronized(guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
         }
         
     }
 
    
     public void addGui(Gui gui) {
-        guis.add(gui);
+    	synchronized(guis){
+    		guis.add(gui);	
+    	}
     }
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		// Nothing needed to do, required to implement to prevent Java errors
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		// Nothing needed to do, required to implement to prevent Java errors
 	}
 
-	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		// Nothing needed to do, required to implement to prevent Java errors
 	}
 
-	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		// Nothing needed to do, required to implement to prevent Java errors
 	}
 
-	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		// Nothing needed to do, required to implement to prevent Java errors
 	}
 
-	@Override
 	public void updatePos() {
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+		synchronized(guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
+		}
 	}
     
 }

@@ -10,6 +10,7 @@ import interfaces.Bus;
 import interfaces.Car;
 import interfaces.HouseInterface;
 import interfaces.Landlord;
+import interfaces.MarketManager;
 import interfaces.Person;
 
 public class MockTransportationPerson extends Mock implements Person {
@@ -126,6 +127,12 @@ public class MockTransportationPerson extends Mock implements Person {
 
 	@Override
 	public void msgApplianceBrokeCantCook(String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgMarketBill(double orderPrice, MarketManager marketManagerRole) {
 		// TODO Auto-generated method stub
 		
 	}
