@@ -456,7 +456,7 @@ public class CityMap {
 	public boolean msgMarketHereIsTruckOrder(int num, MarketOrder o){
 		//Mark 2 & 3 are not fully employed so for now all orders go through mark 1
 		if((num == 1 || num == 5) && mark1.getMarketManager() != null){
-			System.out.println("received order from restaurant5");
+			System.out.println("received order from restaurant5!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			mark1.getMarketManager().msgHereIsTruckOrder(o);
 			return true;
 		}

@@ -81,4 +81,8 @@ public class Restaurant1 {
 	public void openRestaurant() {
 		open = true;
 	}
+	
+	public void fireHost(){
+		host.msgYoureFired();
+	}
 }

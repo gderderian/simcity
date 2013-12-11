@@ -132,11 +132,9 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	// Messages
 	public void msgHereIsOrder(MarketOrder o){
-		//log("Recieved order from " + o.getRecipient().getName());
-		//log("Current order size is:" + o.orders.size());
+		log("Received order from " + o.getRecipient().getName());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.inPerson);
 		myOrders.add(mo);
-		//log("Current order size is:" + o.orders.size());
 		p.stateChanged();
 	}
 	
@@ -145,23 +143,18 @@ public class MarketManagerRole extends Role implements MarketManager {
 		//log("Current order size is:" + o.orders.size());
 		myMarketOrder mo = new myMarketOrder(o, orderState.pendingWorkerAssignment, deliveryType.truckOrder);
 		myOrders.add(mo);
-		//log("Current order size is:" + o.orders.size());
 		p.stateChanged();
 	}
 	
 	public void msgOrderPicked(MarketOrder o){
 		log("Received orderPicked message");
-		//log("Current order size is:" + o.orders.size());
-		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
 			for (myMarketOrder order : myOrders) {
 				if (order.order.equals(o)){
-					selectedMarketOrder = order;
-					break;
+					order.state = orderState.pickedReady;
 				}
 			}
 		}
-		selectedMarketOrder.state = orderState.pickedReady;
 		p.stateChanged();
 	}
 	
@@ -180,8 +173,14 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	public void msgAcceptPayment(double incomingPayment){
 		log("Recieving a payment for an order");
-		
 		marketMoney = incomingPayment + marketMoney;
+		p.stateChanged();
+	}
+	
+	public void msgCustomerArrivedToMarket(MarketCustomerRole person) {
+		synchronized(marketCustomers){
+			marketCustomers.add(person);
+		}
 		p.stateChanged();
 	}
 	
@@ -191,16 +190,17 @@ public class MarketManagerRole extends Role implements MarketManager {
 			if (!myOrders.isEmpty()) {
 				for (myMarketOrder order : myOrders) {
 					if (order.state == orderState.pendingWorkerAssignment){
-						//log("I'll delegate this order to one of my workers");
+						log("I'll delegate this order to one of my workers.");
 						makeWorkerPrepareOrder(order);
 						return true;
 					}
 					if (order.state == orderState.pickedReady){
-						//log("In scheduler after orderPicked message");
+						log("Preparing to deliver order.");
 						deliverOrder(order);
 						return true;
 					}
 					if (order.state == orderState.pendingBilling){
+						log("Preparing to bill orderer.");
 						billRecipient(order);
 						return true;
 					}
@@ -212,7 +212,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 
 	// Actions
 	private void makeWorkerPrepareOrder(myMarketOrder o){ // Distribute load of incoming orders to all workers
-		// log("Getting a market worker to prepare the order");
+		log("Getting a market worker to prepare the order.");
 		o.state = orderState.assignedToWorker;
 		double orderTotal = 0;
 		// Decrement quantity of things in each order
@@ -242,6 +242,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 		else{
 			log("I have no market workers in my shop right now");
 		}
+		p.stateChanged();
 	}
 	
 	private void deliverOrder(myMarketOrder o){
@@ -258,27 +259,17 @@ public class MarketManagerRole extends Role implements MarketManager {
 			}
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
-			/*
-			int initOrders = myMarket.marketTrucks.get(0).getOrderNum(); // HACK, needs to maintain a myTrucks or something similar to avoid shared data
-			TruckAgent selectedTruck = null;
-			synchronized(myMarket.marketTrucks){
-				for (TruckAgent t : myMarket.marketTrucks){
-					if (t.orders.size() <= initOrders){
-						initOrders = t.getOrderNum();
-						selectedTruck = t;
-					}
-				}
-			}
-			*/
 			myTruck.msgPleaseDeliver(o.order);
 			o.state = orderState.givenToTruck;
 		}
+		p.stateChanged();
 	}
 	
 	private void billRecipient(myMarketOrder o){
 		log("Billing " + o.order.getRecipient().getName());
 		o.order.getRecipient().msgMarketBill(o.order.orderPrice, this);
 		o.state = orderState.billed;
+		p.stateChanged();
 	}
 	
 	private void log(String msg){
@@ -289,6 +280,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public void addWorker(MarketWorkerRole w){
 		myMarketWorker newWorker = new myMarketWorker(w);
 		myWorkers.add(newWorker);
+		p.stateChanged();
 	}
 	
 	public String getName() {
@@ -301,10 +293,6 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	public void releaseSemaphore(){
 		isAnimating.release();
-	}
-	
-	public void msgCustomerArrivedToMarket(MarketCustomerRole person) {
-		marketCustomers.add(person);
 	}
 	
 	public void setGui(MarketManagerGui gui) {

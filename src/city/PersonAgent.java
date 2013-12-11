@@ -447,7 +447,9 @@ public class PersonAgent extends Agent implements Person{
 				log("I should really go to the market soon.");
 			}
 		}
-		else if(hour == 2 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
+		else if(hour == 3 && minute >= 15 && minute < 30 && am_pm.equals("am") && (name.equals("bankCustomerTest"))){
+			wallet = 100;
+			bankaccountnumber = 0;
 			if(!schedule.isTaskAlreadyScheduled(TaskType.goToBank, clock.getDayOfWeekNum())){
 				PersonTask task = new PersonTask(TaskType.goToBank);
 				schedule.addTaskToDay(clock.getDayOfWeekNum(), task);
@@ -683,8 +685,8 @@ public class PersonAgent extends Agent implements Person{
 	}
 
 	//Bank
-	public void msgSetBankAccountNumber(double num){
-		accountNumber = num;
+	public void msgSetBankAccountNumber(int num){
+		bankaccountnumber = num;
 		log("I have a bank account now :" + accountNumber);
 		stateChanged();
 	}
@@ -983,7 +985,7 @@ public class PersonAgent extends Agent implements Person{
 					} else if(r instanceof CookRole4) {
 						((CookRole4) r).msgHereIsYourOrder(pendingMarketDelivery.truck, pendingMarketDelivery.order);
 					} else if(r instanceof Restaurant5CookRole) {
-						//((Restaurant5CookRole) r).msgHereIsYourOrder(order);
+						((Restaurant5CookRole) r).msgHereIsYourOrder(pendingMarketDelivery.order);
 					}
 				}
 			}
@@ -1286,7 +1288,12 @@ public class PersonAgent extends Agent implements Person{
 					//((BankCustomerRole) r).amountofcustomermoney = 40;
 					
 					//This is a hack for non norm
-					
+					if(name.equals("bankCustomerTest")) {
+						
+						((BankCustomerRole) r).amountofcustomermoney = 100;
+						((BankCustomerRole) r).bankaccountnumber = 0;
+				    }
+							
 					if(name.equals("bankCustomerTest1")) {
 						
 					((BankCustomerRole) r).amountofcustomermoney = 40;
