@@ -94,4 +94,8 @@ public class MarketCustomerRole extends Role {
 		return person;
 	}
 
+	public void setGuiActive() {
+		gui.setPresent(true);
+	}
+
 }

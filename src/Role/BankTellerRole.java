@@ -128,16 +128,13 @@ public class BankTellerRole extends Role {
 
 
 	public boolean pickAndExecuteAnAction() {
-		//log("INSIDE BANK TELLER SCHEDULER");
-		if(bankmanager.bank.accounts.size() > 0)
+		/*if(bankmanager.bank.accounts.size() > 0)
 			{
 			for(account displayaccount: bankmanager.bank.accounts )
 			{
 				log("Acccount " + displayaccount.accountnumber + " balance :" + displayaccount.balance + " loan : " + displayaccount.loan);
 			}
-		}
-		
-		log("!!!!!!!!!!!!!!!!!!!! banktellerrole scheduler  state " + banktellerstate + "   event " + banktellerevent);
+		}*/		
 		
 		if(banktellerstate == state.arrived && banktellerevent == event.gotobanktellerstation)
 		{
