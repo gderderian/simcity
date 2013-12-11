@@ -89,7 +89,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel bank1Panel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Home Meal/Visit Stores Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Home Meal/Visit Stores Test", 
+    		"Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Traffic Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -1088,8 +1089,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runLandlordTest();
 		else if(scenario.equals("Market Truck Test"))
 			runMarketTruckTest();
-		else if(scenario.equals("Car Crash Test"))
-			runCarCrash();
+		else if(scenario.equals("Traffic Test"))
+			runTrafficTest();
 	}
 
 	public void runFullTest(){
@@ -1345,6 +1346,25 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Steph", "No job");
 		addPerson("Carla", "No job");
 		populateBanksAndMarkets();
+	}
+	
+	public void runTrafficTest() {
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPersonWithCar("bank manager", "Bank Manager");
+		addPersonWithCar("bank manager", "Bank Manager");
+		addPersonWithCar("marketManager", "Market Manager1");
+		addPersonWithCar("marketManager", "Market Manager2");
+		addPersonWithCar("marketManager", "Market Manager3");
+		
+		addPersonWithCar("host1", "Restaurant1 Host");
+		addPersonWithCar("host2", "Restaurant2 Host");
 	}
 	
 	public void runBankTest() {
