@@ -1416,7 +1416,7 @@ public class PersonAgent extends Agent implements Person{
 						} else if (myJob.role.getRoleName().contains("3")){
 							cityMap.getRest3().getCashier().msgPayMarket(b.amount, b.manager);
 						} else if (myJob.role.getRoleName().contains("4")){
-							
+							cityMap.getRest4().getCashier().msgHereIsBill(b.manager, b.amount);
 						} else if (myJob.role.getRoleName().contains("5")){
 						
 						}

@@ -2,6 +2,7 @@ package city.Restaurant4;
 
 import java.util.*;
 
+import justinetesting.interfaces.Cashier4;
 import city.PersonAgent;
 
 public class Restaurant4 {
@@ -57,6 +58,10 @@ public class Restaurant4 {
 		cashier = c;
 	}
 
+	public Cashier4 getCashier(){
+		return cashier;
+	}
+	
 	public int getWaiterListSize() {
 		return waiters.size();
 	}
