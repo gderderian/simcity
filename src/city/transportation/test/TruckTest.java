@@ -61,11 +61,14 @@ public class TruckTest extends TestCase {
 		//Postconditions
 		assertTrue(truck.orders.size() == 1); //Order still exists - must tell market it's finished
 		
+		//Message
+		truck.msgOrderReceived(recipient, order);
+		
 		//Scheduler call - should let market know order is done
 		truck.pickAndExecuteAnAction();
 		
 		//Market should receive a confirmation message - confirm
-		assertTrue(market.log.getLastLoggedEvent().getMessage() == "Truck has finished delivery");
+		assertTrue(market.log.containsString("Truck has finished delivery"));
 		
 		//Postcondition
 		assertTrue(truck.orders.size() == 0); //Truck is now finished with its delivery
