@@ -1094,8 +1094,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		/*Market workers*/
 		//Spreading these out so that they don't get stuck next to each other
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
+		addPerson("marketManager", "Market Manager1");
+		addPerson("marketWorker", "Market Worker1");
 
 		/*Landlord*/
 		addPerson("Landlord", "Landlord1");
@@ -1105,8 +1105,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
+		addPerson("marketManager", "Market Manager2");
+		addPerson("marketWorker", "Market Worker2");
 	
 		/*Restaurant1 workers*/
 		addPerson("host1", "Restaurant1 Host");
@@ -1134,12 +1134,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("cook5", "Restaurant5 Cook");
 		addPerson("waiter5", "Restaurant5 Waiter");
 		
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
+		addPerson("marketManager", "Market Manager3");
+		addPerson("marketWorker", "Market Worker3");
 		
-		addVehicle("truck");
-		addVehicle("truck");
-		addVehicle("truck");
+		//addVehicle("truck");
+		//addVehicle("truck");
+		//addVehicle("truck");
 	}
 
 	public void setTimeDisplay(String timeToDisplay){
