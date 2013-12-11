@@ -65,9 +65,9 @@ public class Restaurant1CookRole extends Role {
 		person = p;
 
 		// usage: new Food(String type, int cookTime, int amount, int low, int capacity);
-		foods.put("steak", new Food("steak", 6, 5, 5, 8));
-		foods.put("fish", new Food("fish", 4, 5, 5, 8));
-		foods.put("chicken", new Food("chicken", 3, 5, 5, 8));
+		foods.put("steak", new Food("steak", 6, 20, 5, 8));
+		foods.put("fish", new Food("fish", 4, 20, 5, 8));
+		foods.put("chicken", new Food("chicken", 3, 20, 5, 8));
 
 		this.name = name;
 
@@ -150,12 +150,14 @@ public class Restaurant1CookRole extends Role {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		log("1");
 		if(restaurantOpening) {
 			initialInventoryCheck();
 			checkOrderWheel();
 			return true;
 		}
-
+		
+		log("2");
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pickedUp) {
@@ -165,6 +167,7 @@ public class Restaurant1CookRole extends Role {
 			}
 		}
 
+		log("3");
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.cooked) {
@@ -174,6 +177,7 @@ public class Restaurant1CookRole extends Role {
 			}
 		}
 
+		log("4");
 		synchronized(orders) {
 			for(Restaurant1Order o : orders) {
 				if(o.s == orderState.pending) {
@@ -327,9 +331,11 @@ public class Restaurant1CookRole extends Role {
 	}
 
 	private void checkOrderWheel() {
+		log("Checking the order wheel for new orders!");
 		Restaurant1Order temp = orderWheel.getOrder();
 
 		if(temp != null) {
+			log("Found a new order on the order wheel!");
 			temp.setNumber(orderCount++);
 			orders.add(temp);
 			person.stateChanged();
@@ -339,7 +345,7 @@ public class Restaurant1CookRole extends Role {
 			public void run() {
 				checkOrderWheel();
 			}
-		}, 5000	);
+		}, 6000	);
 	}
 
 	private void DoGoToHome() {

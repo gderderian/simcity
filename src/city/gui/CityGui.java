@@ -1001,7 +1001,7 @@ public class CityGui extends JFrame implements ActionListener {
 			Restaurant1CookGui gui = new Restaurant1CookGui(role);
 			role.setGui(gui);
 			restaurant1.addGui(gui);
-			gui.setPresent(false);
+			gui.setPresent(true);
 			return role;
 		}
 		else if(type.equals("Restaurant1 Host")){

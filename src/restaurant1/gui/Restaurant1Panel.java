@@ -94,7 +94,7 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 
 	private void addSharedDataWaiter() {
 		Restaurant1 rest1 = cp.getRest1();
-		PersonAgent p = new PersonAgent("Normal Waiter", null, cp.getCityMap(), null);
+		PersonAgent p = new PersonAgent("Shared Data Waiter", null, cp.getCityMap(), null);
 		
 		Restaurant1WaiterRole role = new Restaurant1SharedDataWaiterRole(p.getName(), p);
 		Restaurant1WaiterGui gui = new Restaurant1WaiterGui(role);
