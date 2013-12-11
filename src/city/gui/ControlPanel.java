@@ -78,7 +78,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     /*Building panels*/
     private JPanel buildingInfoPanel = new JPanel();
     List<JPanel> buildingPanels = Collections.synchronizedList(new ArrayList<JPanel>());
-    private JPanel restaurant2Panel = new Restaurant2InfoPanel();
+    private JPanel restaurant2Panel = new Restaurant2InfoPanel(this);
 	private JPanel restaurant1Panel = new Restaurant1Panel(this);
 	private JPanel restaurant3Panel = new JPanel();
 	private JPanel restaurant4Panel = new JPanel();
@@ -582,8 +582,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		else if (e.getSource() == addPersonButton) {
 			// Chapter 2.19 describes showInputDialog()
 			if(!nameField.getText().equals("")){
-				//TODO Should we add a check here for duplicate names?
-				//Might matter for the car buying, if two people have the same name
 				String job = null;
 				if(jobField.getSelectedIndex() == 0){
 					errorDisplay.setText("Please select a job");

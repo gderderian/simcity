@@ -13,9 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import city.Restaurant2.Restaurant2;
+import city.gui.ControlPanel;
 
 public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 
+	ControlPanel controlPanel;
+	
 	Restaurant2 restaurant = Restaurant2.getInstance();
     private int WINDOWX = 360;
     private int WINDOWY = 710;
@@ -29,8 +32,11 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
     //private Dimension labelSize = new Dimension(30, 30);
     private Dimension buttonSize = new Dimension(WINDOWX - 50, 30);
     private JButton fire_host = new JButton("Fire Host");
+    
 	
-	public Restaurant2InfoPanel(){
+	public Restaurant2InfoPanel(ControlPanel c){
+		
+		controlPanel = c;
 		
 		setPreferredSize(panelDim);
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -72,7 +78,7 @@ public class Restaurant2InfoPanel extends JPanel implements ActionListener{
 			restaurant.setInventoryLow();
 		}
 		else if(e.getSource() == fire_host){
-			restaurant.fireHost();
+			restaurant.fireHost(controlPanel);
 			fire_host.setEnabled(true);
 			fire_host.setVisible(false);
 		}

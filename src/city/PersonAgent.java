@@ -353,6 +353,7 @@ public class PersonAgent extends Agent implements Person{
 	public void msgImFired() {
 		log("Setting my job to null now because I got fired");
 		myJob.endJob();
+		gui.setVisible();
 		addTask("goHome");
 		myJob = null;
 	}
@@ -1125,7 +1126,6 @@ public class PersonAgent extends Agent implements Person{
 		log("Going to work");
 
 		task.location = myJob.location;
-		log("Going to work as a " + task.role + " at " + task.location);
 		//Role in the task here should be null because role-related things are taken care of in the Job class
 
 		if(car != null){	//if the person has a car, he/she will take it

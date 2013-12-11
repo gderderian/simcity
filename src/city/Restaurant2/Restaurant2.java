@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import city.PersonAgent;
+import city.gui.ControlPanel;
 
 public class Restaurant2 {
 	
@@ -86,8 +87,9 @@ public class Restaurant2 {
 		cook.setInventoryLow();
 	}
 
-	public void fireHost() {
+	public void fireHost(ControlPanel controlPanel) {
 		host.msgYoureFired();
+		controlPanel.addPerson("New Restaurant2 Host", "No job");
 	}
 	
 }
