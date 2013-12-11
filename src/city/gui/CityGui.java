@@ -1073,7 +1073,7 @@ public class CityGui extends JFrame implements ActionListener {
 			gui.setPresent(false);
 			return role;
 		}
-		else if(type.equals("Market Manager")){
+		else if(type.contains("Market Manager")){
 			if (type.contains("1")){
 				MarketManagerRole role1 = new MarketManagerRole(p.getName(), p, market1);
 				role1.setPerson(p);
@@ -1103,7 +1103,7 @@ public class CityGui extends JFrame implements ActionListener {
 				return role3;
 			}
 		}
-		else if(type.equals("Market Worker")){
+		else if(type.contains("Market Worker")){
 			if (type.contains("1")){
 				MarketWorkerRole role1 = new MarketWorkerRole(p);
 				role1.setPerson(p);

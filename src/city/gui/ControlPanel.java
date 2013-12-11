@@ -1009,7 +1009,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
-
+		
+		populateBanksAndMarkets();
 	}
 
 	public void runRestaurant2Test(){
@@ -1029,6 +1030,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPersonWithCar("rest2Test", "No job");
 		addPerson("rest2Test", "No job");
 		addPersonWithCar("rest2Test", "No job");
+		
+		populateBanksAndMarkets();
 	}
 
 	public void runRestaurant3Test(){
@@ -1046,7 +1049,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("waiter3", "Restaurant3 Waiter");
 		
 		addPerson("rest3Test", "No job");
-
+		
+		populateBanksAndMarkets();
 	}
 
 	public void runRestaurant4Test(){
@@ -1067,6 +1071,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("restTest", "No job");
 		addPerson("rest4Test", "No job");
 		addPerson("rest4Test", "No job");
+		
+		populateBanksAndMarkets();
 	}
 
 	public void runRestaurant5Test(){
@@ -1086,7 +1092,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		//addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
 		addPerson("rest5Test", "No job");
-
+		
+		populateBanksAndMarkets();
 	}
 
 	public void runBankTest() {
@@ -1165,11 +1172,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 		addPerson("rest1Test", "No job");
 
-		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
-		addPersonWithCar("marketManager", "Market Manager");
+		addPerson("marketManager", "Market Manager");
 		addPerson("marketWorker", "Market Worker");
 		
 		addVehicle("truck");
@@ -1278,6 +1285,25 @@ public class ControlPanel extends JPanel implements ActionListener{
 		//addVehicle("truck");
 		//addVehicle("truck");
 		//addVehicle("truck");
+	}
+	
+	public void populateBanksAndMarkets() {
+
+		addPerson("bank manager", "Bank Manager");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		addPerson("bank teller", "Bank Teller");
+		
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		addPerson("marketManager", "Market Manager");
+		addPerson("marketWorker", "Market Worker");
+		
+		addVehicle("truck");
+		addVehicle("truck");
+		addVehicle("truck");
 	}
 
 	public void setTimeDisplay(String timeToDisplay){
