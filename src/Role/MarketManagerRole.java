@@ -249,6 +249,13 @@ public class MarketManagerRole extends Role implements MarketManager {
 		if (o.type == deliveryType.inPerson){
 			log("All done, here is your order");
 			o.order.getRecipient().msgHereIsYourOrder(o.order);
+			synchronized(marketCustomers){
+				for(MarketCustomerRole cust : marketCustomers){
+					if (cust.getPerson().equals(o.order.getRecipient())){
+						cust.msgHereIsYourOrder(o.order);
+					}
+				}
+			}
 			o.state = orderState.done;
 		} else if (o.type == deliveryType.truckOrder){
 			/*
