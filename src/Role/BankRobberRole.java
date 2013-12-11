@@ -3,16 +3,13 @@ package Role;
 import java.util.concurrent.Semaphore;
 
 import test.mock.EventLog;
-import test.mock.LoggedEvent;
-import Role.BankCustomerRole.state;
 import city.PersonAgent;
 import city.gui.Gui;
-import city.gui.Bank.BankCustomerRoleGui;
 import city.gui.Bank.BankRobberRoleGui;
 
 public class BankRobberRole extends Role {
 
-	String roleName = "BankCustomerRole";
+	String roleName = "BankRobberRole";
 
     public enum state {arrived, waiting, inprogress, gotobankteller, leave, gotobankchamber};
     public int bankaccountnumber;

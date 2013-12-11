@@ -236,8 +236,8 @@ public class BankRobberRoleGui implements Gui{
 
 	public void goToBankChamber() {//later you will map seatnumber to table coordinates.
 		
-		xDestination = 350;
-		yDestination = 50;
+		xDestination = 400;
+		yDestination = 20;
 		command = Command.gotobankchamber;
 	}
 	

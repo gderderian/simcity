@@ -143,6 +143,10 @@ public class BankAnimationPanel extends BuildingPanel implements ActionListener,
     public void addGui(BankTellerRoleGui gui) {
     	guis.add((Gui) gui);
     }
+    
+    public void addGui(BankRobberRoleGui gui) {
+    	guis.add((Gui) gui);
+    }
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
