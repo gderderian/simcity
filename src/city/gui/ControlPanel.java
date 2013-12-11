@@ -93,7 +93,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel bank1Panel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -963,6 +963,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runRestaurant4Test();
 		else if(scenario.equals("Restaurant5"))
 			runRestaurant5Test();
+		else if(scenario.equals("Close Restaurants Test"))
+			runCloseRestaurantsTest();
 		else if(scenario.equals("Bank Test"))
 			runBankTest();
 		else if(scenario.equals("Car Test"))
@@ -1094,6 +1096,61 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest5Test", "No job");
 		
 		populateBanksAndMarkets();
+	}
+	
+	public void runCloseRestaurantsTest(){
+		//Initial public transportation creation.
+				addVehicle("bus");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						addVehicle("bus");
+					}
+				}, 16000);
+		
+		//Add landlord for apartment 1
+		addPerson("landlord", "Landlord1");
+		
+		//Populate rest1
+		addPerson("host1", "Restaurant1 Host");
+		addPerson("cashier1", "Restaurant1 Cashier");
+		addPerson("cook1", "Restaurant1 Cook");
+		addPerson("waiter1", "Restaurant1 Waiter");
+		addPerson("rest1Test", "No job");
+		
+		//Populate rest2
+		addPerson("host2", "Restaurant2 Host");
+		addPerson("cashier2", "Restaurant2 Cashier");
+		addPerson("cook2", "Restaurant2 Cook");
+		addPerson("waiter2", "Restaurant2 Waiter");
+		addPersonWithCar("rest2Test", "No job");
+		
+		//Populate rest3
+		addPerson("host3", "Restaurant3 Host");
+		addPerson("cashier3", "Restaurant3 Cashier");
+		addPerson("cook3", "Restaurant3 Cook");
+		addPerson("waiter3", "Restaurant3 Waiter");
+		addPerson("rest3Test", "No job");
+		
+		//Populate rest4
+		addPerson("host4", "Restaurant4 Host");
+		addPerson("cashier4", "Restaurant4 Cashier");
+		addPerson("cook4", "Restaurant4 Cook");
+		addPerson("regularWaiter4", "Restaurant4 RegularWaiter");
+		addPerson("restTest", "No job");
+		
+		//Populate rest5
+		addPerson("host5", "Restaurant5 Host");
+		addPerson("cashier5", "Restaurant5 Cashier");
+		addPerson("cook5", "Restaurant5 Cook");
+		addPerson("waiter5", "Restaurant5 Waiter");
+		addPerson("rest5Test", "No job");
+		
+		//Add generic people who will pick a new rest if their first choice is closed
+		addPerson("restTest", "No job");
+		addPerson("restTest", "No job");
+		addPerson("restTest", "No job");
+		addPerson("restTest", "No job");
+		addPerson("restTest", "No job");
 	}
 
 	public void runBankTest() {

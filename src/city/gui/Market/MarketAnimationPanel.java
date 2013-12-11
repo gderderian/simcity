@@ -20,7 +20,7 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
     private final int WINDOWX = 900;
     private final int WINDOWY = 750;
     
-    private final int MAIN_TIMER = 15;
+    private final int MAIN_TIMER = 10;
     private final int SCREEN_RECT_X_COORD = 0;
     private final int SCREEN_RECT_Y_COORD = 0;
 
@@ -127,6 +127,7 @@ public class MarketAnimationPanel extends BuildingPanel implements ActionListene
 		synchronized(guis){
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
+	                gui.updatePosition();
 	                gui.updatePosition();
 	            }
 	        }
