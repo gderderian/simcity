@@ -288,14 +288,31 @@ public class BankTellerRole extends Role {
 								1 * 1000);
 						
 						}
-						else if(!(findaccount.balance < withdrawal))
+						else if(findaccount.balance > withdrawal)
 						{
+							
+						
 							findaccount.balance -= this.withdrawal;
 							gui.approved = true;
 							timer.schedule(new TimerTask() {
 								
 								public void run() {
 								currentcustomer.msgHereIsYourWithdrawal(withdrawal);	
+								}
+									},
+								1 * 1000);
+							break;
+						}
+						else if(findaccount.balance < withdrawal && findaccount.balance != 0)
+						{
+							gui.approved = true;
+							final double partialwithdrawal = findaccount.balance;
+							findaccount.balance = 0;
+							log("Your account does not exactly have what you requested but this is what you have in your account so I'm going to give it to you $" + partialwithdrawal);
+							timer.schedule(new TimerTask() {
+								
+								public void run() {
+								currentcustomer.msgHereIsYourWithdrawal(partialwithdrawal);	
 								}
 									},
 								1 * 1000);
