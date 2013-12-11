@@ -654,7 +654,7 @@ public class PersonAgent extends Agent implements Person{
 	public void msgMarketBill(double orderPrice, MarketManager manager) {
 		billsToPay.add(new Bill("marketOrder", orderPrice, manager));
 		log("Sending the market bill to the cashier");
-			if (myJob.role.getRoleName().contains("cook")){ // Is this bill a personal bill or a restaurant bill?
+			if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?
 				log("YEEEAH, sending order");
 	
 				if (myJob.role.getRoleName().contains("1")){
