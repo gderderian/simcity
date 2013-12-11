@@ -12,7 +12,7 @@ import city.PersonAgent;
 import city.gui.Restaurant3.WaiterGui3;
 
 /**
- * Restaurant Waiter Agent
+ * Restaurant3 Waiter Agent - Base Class
  */
 public abstract class WaiterRole3 extends Role {
 	

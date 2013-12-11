@@ -151,7 +151,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private CityClock masterClock;
 
 	Restaurant5Gui rest5gui = new Restaurant5Gui();
-	BankGui bankgui = new BankGui();
+	//BankGui bankgui = new BankGui();
 
 	// Restaurants
 
@@ -910,13 +910,9 @@ public class CityGui extends JFrame implements ActionListener {
 			} else if(job.contains("Bank")) {
 				if(r instanceof BankTellerRole) {
 					bank.addBankTeller((BankTellerRole)r);
-					p.setRoleActive(r);
-					p.addFirstJob(r, "bank1", 1); ///I changed this
-				}
-				if(r instanceof BankManagerRole) {
-					System.out.println("adding bank manager in the bank!");
+					p.addFirstJob(r, "bank1", 1);
+				} else if(r instanceof BankManagerRole) {
 					bank.setBankManager((BankManagerRole) r);
-					p.setRoleActive(r);
 					p.addFirstJob(r, "bank1", 1);
 				}
 
@@ -1154,14 +1150,14 @@ public class CityGui extends JFrame implements ActionListener {
 		} else if(type.equals("Bank Manager")){
 			BankManagerRole role = new BankManagerRole(bank);
 			role.setPerson(p);
-			BankManagerRoleGui gui = new BankManagerRoleGui(role, bankgui);
+			BankManagerRoleGui gui = new BankManagerRoleGui(role, null);
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
 			return role;
 		} else if(type.equals("Bank Teller")) {
 			BankTellerRole role = new BankTellerRole(null);
 			role.setPerson(p);
-			BankTellerRoleGui gui = new BankTellerRoleGui(role, bankgui);
+			BankTellerRoleGui gui = new BankTellerRoleGui(role, null);
 			role.setGui(gui);
 			bank1Animation.addGui(gui);
 			return role;	

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * OrderSpindle for Restaurant3
+ */
 public class OrderSpindle3 {
 	
 	List<Order> spindleOrders;
