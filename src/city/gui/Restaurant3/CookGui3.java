@@ -14,7 +14,7 @@ public class CookGui3 implements Gui {
 	
 	boolean isPresent = true;
     
-    private int xPos = 230, yPos = 445;
+    private int xPos = -20, yPos = -20;
     public int xDestination = 230, yDestination = 445, host_tableX, host_tableY;
     
     private static final int COOK_SIZE_X = 20;

@@ -86,6 +86,7 @@ public class CookRole3 extends Role {
 			o.foodItem = choice;
 			o.requestingWaiter = waiter;
 			o.recipTable = tableNum;
+			o.cookReference = this;
 			currentOrders.add(o);
 			person.stateChanged();
 		} else { // Unable to fulfill order, create it and have it marked as bounce back
@@ -94,6 +95,7 @@ public class CookRole3 extends Role {
 			o.requestingWaiter = waiter;
 			o.recipTable = tableNum;
 			o.status = orderStatus.bounceBack;
+			o.cookReference = this;
 			currentOrders.add(o);
 			person.stateChanged();
 		}
@@ -301,6 +303,8 @@ public class CookRole3 extends Role {
 		
 		currentOrders.remove(o);
 		
+		person.stateChanged();
+		
 	}
 	
 	private void orderOut(Order o){ // Tells the specific waiter that their customer's order cannot be fulfilled
@@ -382,6 +386,10 @@ public class CookRole3 extends Role {
 
 	public PersonAgent getPerson() {
 		return person;
+	}
+	
+	public void callStateChanged() {
+		person.stateChanged();
 	}
 
 	public void emptyStock() {
