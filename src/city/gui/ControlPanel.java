@@ -1122,10 +1122,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				addVehicle("bus");
 			}
 		}, 16000);
-		
-		//Landlord
-		addPerson("landlord", "Landlord1");
-		
+				
 		//Rest1
 		addPerson("host1", "Restaurant1 Host");
 		addPerson("cashier1", "Restaurant1 Cashier");
@@ -1193,6 +1190,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("rest1Test", "No job");
 		addPerson("rest1Test", "No job");
 		addPersonWithCar("rest1Test", "No job");
+		addPersonWithCar("rest1Test", "No job");
+		addPersonWithCar("rest1Test", "No job");
+		addPersonWithCar("rest1Test", "No job");
+		addPersonWithCar("rest1Test", "No job");
+		addPersonWithCar("rest1Test", "No job");
+		addPersonWithCar("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
+		addPerson("rest1Test", "No job");
 	}
 
 	public void runRestaurant2Test(){
@@ -1286,9 +1291,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 						addVehicle("bus");
 					}
 				}, 16000);
-		
-		//Add landlord for apartment 1
-		addPerson("landlord", "Landlord1");
 		
 		//Populate rest1
 		addPerson("host1", "Restaurant1 Host");
@@ -1465,8 +1467,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 
-		addPerson("Landlord", "Landlord1");
-
 		addPerson("Joe", "No Job");
 		addPerson("Jenny", "No Job");
 		addPerson("Jake", "No Job");
@@ -1494,8 +1494,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("marketManager", "Market Manager1");
 		addPerson("marketWorker", "Market Worker1");
 
-		/*Landlord*/
-		addPerson("Landlord", "Landlord1");
 		/*Bank Workers*/
 		//addPerson("bank manager", "Bank Manager");
 		//addPerson("bank teller", "Bank Teller");
@@ -1537,6 +1535,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addVehicle("truck");
 		addVehicle("truck");
 		addVehicle("truck");
+	}
+	
+	public void createVitalStaff() {
+		addPerson("Landlord", "Landlord1");
+		addPerson("Landlord2", "Landlord2");
 	}
 	
 	public void populateBanksAndMarkets() {

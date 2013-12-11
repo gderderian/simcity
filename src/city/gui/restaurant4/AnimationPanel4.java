@@ -21,7 +21,7 @@ public class AnimationPanel4 extends BuildingPanel implements ActionListener, Mo
 	private static final int xPosTable= 100;
     private final int WINDOWX = 900;
     private final int WINDOWY = 900;
-    private final int TIMER = 8;
+    private final int TIMER = 15;
     private final int SCREENX = 0;
     private final int SCREENY = 0;
     private final int TABLEX = 100;
