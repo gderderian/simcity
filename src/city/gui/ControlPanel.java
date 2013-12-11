@@ -169,6 +169,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     // Set up rest4 components
     JButton closeRest4;
     JButton emptyInventory4;
+    JButton fireHost4;
     
     //Set up rest5 components
     JButton closeRest5;
@@ -359,6 +360,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         emptyInventory4= new JButton("Set Inventory to 0");
         emptyInventory4.addActionListener(this);
         restaurant4Panel.add(emptyInventory4);
+        
+        fireHost4= new JButton("Fire Host");
+        fireHost4.addActionListener(this);
+        restaurant4Panel.add(fireHost4);
     }
     
     private void setupRestaurant5Panel(){
@@ -753,6 +758,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 				closeBank1.setText("Close Bank 1");
 			}
 			cityMap.getBank().toggleOpen();
+		}
+		else if(e.getSource() == fireHost4){
+			cityMap.getRest4().fireHost();
+			addPerson("New Host4", "No job");
 		}
 		
 	}
@@ -1158,14 +1167,15 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Rachel", "No job");
 		addPerson("Rebecca", "No job");
 		
-		//Tests to show people can't go to rest4 or rest2 because they are closed
+		//Tests to show people can't go to rest4, rest2, or the bank because they are closed
 		addPerson("rest2Test", "No job");
 		addPerson("rest4Test", "No job");
+		addPerson("bankCustomerTest", "No job");
 		
 		populateBanksAndMarkets();
 		
 		//TODO add close bank functionality and close it for the weekend
-		//cityMap.getBank().close();
+		cityMap.getBank().toggleOpen();
 		cityMap.getRest4().close();
 		cityMap.getRest2().closeRestaurant();
 	}
@@ -1340,7 +1350,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 		
-		addPerson("Chris", "No job");
+		addPersonWithCar("Chris", "No job");
 		addPerson("Steph", "No job");
 		addPerson("Carla", "No job");
 		populateBanksAndMarkets();

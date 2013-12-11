@@ -4,6 +4,7 @@ import java.util.*;
 
 import justinetesting.interfaces.Cashier4;
 import city.PersonAgent;
+import city.gui.ControlPanel;
 
 public class Restaurant4 {
 	
@@ -92,5 +93,9 @@ public class Restaurant4 {
 	
 	public void emptyInventory(){
 		cook.msgEmptyInventory();
+	}
+	
+	public void fireHost(){
+		host.msgYoureFired();
 	}
 }
