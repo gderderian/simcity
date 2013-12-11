@@ -89,7 +89,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     private JPanel bank1Panel = new JPanel();
     
     private String[] scenarios = {"[Please choose a test to run]", "Full Scenario", "The Weekender", "Trader Joe's", "Restaurant1",
-    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Home Meal/Visit Stores Test", "Bank Test", "Car Test", "Landlord Test", "Market Truck Test", "Car Crash Test"
+    		"Restaurant2", "Restaurant3", "Restaurant4", "Restaurant5",  "Close Restaurants Test", "Home Meal/Visit Stores Test", 
+    		"Bank Test", "Landlord Test", "Market Truck Test", "Traffic Test"
     };
     private JComboBox scenarioSelect = new JComboBox(scenarios);
     
@@ -168,6 +169,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     // Set up rest4 components
     JButton closeRest4;
     JButton emptyInventory4;
+    JButton fireHost4;
     
     //Set up rest5 components
     JButton closeRest5;
@@ -358,6 +360,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         emptyInventory4= new JButton("Set Inventory to 0");
         emptyInventory4.addActionListener(this);
         restaurant4Panel.add(emptyInventory4);
+        
+        fireHost4= new JButton("Fire Host");
+        fireHost4.addActionListener(this);
+        restaurant4Panel.add(fireHost4);
     }
     
     private void setupRestaurant5Panel(){
@@ -753,6 +759,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 			cityMap.getBank().toggleOpen();
 		}
+		else if(e.getSource() == fireHost4){
+			cityMap.getRest4().fireHost();
+			addPerson("New Host4", "No job");
+		}
 		
 	}
 
@@ -1082,14 +1092,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 			runEatAtHomeVisitWorkplacesTest();
 		else if(scenario.equals("Bank Test"))
 			runBankTest();
-		else if(scenario.equals("Car Test"))
-			runCarTest();
 		else if(scenario.equals("Landlord Test"))
 			runLandlordTest();
 		else if(scenario.equals("Market Truck Test"))
 			runMarketTruckTest();
-		else if(scenario.equals("Car Crash Test"))
-			runCarCrash();
+		else if(scenario.equals("Traffic Test"))
+			runTrafficTest();
 	}
 
 	public void runFullTest(){
@@ -1159,14 +1167,15 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("Rachel", "No job");
 		addPerson("Rebecca", "No job");
 		
-		//Tests to show people can't go to rest4 or rest2 because they are closed
+		//Tests to show people can't go to rest4, rest2, or the bank because they are closed
 		addPerson("rest2Test", "No job");
 		addPerson("rest4Test", "No job");
+		addPerson("bankCustomerTest", "No job");
 		
 		populateBanksAndMarkets();
 		
 		//TODO add close bank functionality and close it for the weekend
-		//cityMap.getBank().close();
+		cityMap.getBank().toggleOpen();
 		cityMap.getRest4().close();
 		cityMap.getRest2().closeRestaurant();
 	}
@@ -1341,10 +1350,29 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 		
-		addPerson("Chris", "No job");
+		addPersonWithCar("Chris", "No job");
 		addPerson("Steph", "No job");
 		addPerson("Carla", "No job");
 		populateBanksAndMarkets();
+	}
+	
+	public void runTrafficTest() {
+		//Initial public transportation creation.
+		addVehicle("bus");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				addVehicle("bus");
+			}
+		}, 16000);
+
+		addPersonWithCar("bank manager", "Bank Manager");
+		addPersonWithCar("bank manager", "Bank Manager");
+		addPersonWithCar("marketManager", "Market Manager1");
+		addPersonWithCar("marketManager", "Market Manager2");
+		addPersonWithCar("marketManager", "Market Manager3");
+		
+		addPersonWithCar("host1", "Restaurant1 Host");
+		addPersonWithCar("host2", "Restaurant2 Host");
 	}
 	
 	public void runBankTest() {
@@ -1441,18 +1469,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	
 	public void hitAndRun() {
 		addVehicle("hitAndRun");
-	}
-
-	public void runCarTest() {
-		//Initial public transportation creation.
-		addVehicle("bus");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				addVehicle("bus");
-			}
-		}, 16000);
-		//Add one person who should use their car
-		addPersonWithCar("rest1Test", "No Job");
 	}
 
 	public void runLandlordTest(){

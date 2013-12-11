@@ -479,6 +479,10 @@ public class CityGui extends JFrame implements ActionListener {
 			newPerson.addFirstJob(rest2.getHost(), "rest2", 1);
 			newPerson.addTask("goToWork");
 		}
+		else if(name.equals("New Host4")){
+			newPerson.addFirstJob(rest4.getHost(), "rest4", 1);
+			newPerson.addTask("goToWork");
+		}
 
 		animationPanel.addGui(g);
 
