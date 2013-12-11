@@ -1,3 +1,4 @@
+
 package city.transportation;
 
 import Role.MarketManagerRole;
@@ -27,13 +28,16 @@ public class TruckAgent extends Vehicle {
 	String name = "Truck";
 
 	ActivityTag tag = ActivityTag.TRUCK;
+	
+	private enum DeliveryState { pending, delayed, delivered, awaitingConfirmation };
 
 	class MyMarketOrder {
 		MarketOrder o;
-		boolean delivered;
+		DeliveryState state;
 
 		public MyMarketOrder(MarketOrder o) {
 			this.o = o;
+			state = DeliveryState.pending;
 		}
 	}
 
@@ -56,15 +60,27 @@ public class TruckAgent extends Vehicle {
 	}
 
 	public void msgOrderReceived(PersonAgent p, MarketOrder o) {
+		log("Received message: order has been successfully received.");
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
 				if(mo.o == o)
-					mo.delivered = true;
+					mo.state = DeliveryState.delivered;
 			}
 		}
 		stateChanged();
 	}
-
+	
+	public void msgRestaurantIsClosed(PersonAgent p, MarketOrder o) {
+		log("Restaurant is closed. Will try delivery again later.");
+		synchronized(orders) {
+			for(MyMarketOrder mo : orders) {
+				if(mo.o == o)
+					mo.state = DeliveryState.delayed;
+			}
+		}
+		stateChanged();
+	}
+	
 	public void msgGuiFinished() {
 		guiFinished.release();
 	}
@@ -73,7 +89,15 @@ public class TruckAgent extends Vehicle {
 	public boolean pickAndExecuteAnAction() {
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
-				if(mo.delivered == true) {
+				if(mo.state == DeliveryState.delayed) {
+					RetryDelivery(mo);
+					return true;
+				}
+			}			
+		}
+		synchronized(orders) {
+			for(MyMarketOrder mo : orders) {
+				if(mo.state == DeliveryState.delivered) {
 					ReportToMarket(mo);
 					return true;
 				}
@@ -82,7 +106,7 @@ public class TruckAgent extends Vehicle {
 
 		synchronized(orders) {
 			for(MyMarketOrder mo : orders) {
-				if(mo.delivered == false) {
+				if(mo.state == DeliveryState.pending) {
 					DeliverOrder(mo);
 					return true;
 				}
@@ -98,7 +122,7 @@ public class TruckAgent extends Vehicle {
 			log("Picking up order");
 			log("Delivering order from market to recipient");
 			o.o.getRecipient().msgHereIsYourOrder(this, o.o);
-			o.delivered = true;
+			o.state = DeliveryState.awaitingConfirmation;
 		}
 		
 		log("Picking up order from market");
@@ -106,12 +130,24 @@ public class TruckAgent extends Vehicle {
 		
 		log("Going to " + o.o.destination);
 		DriveTo(o.o.destination);
+		
 		log("Delivering order from market to " + o.o.getRecipient().getName());
 		o.o.getRecipient().msgHereIsYourOrder(this, o.o);
-		o.delivered = true;
+		o.state = DeliveryState.awaitingConfirmation;
 		
 		parkTruck();
 		
+	}
+	
+	private void RetryDelivery(MyMarketOrder o) {
+		log("Going to " + o.o.destination);
+		DriveTo(o.o.destination);
+		
+		log("Delivering order from market to " + o.o.getRecipient().getName());
+		o.o.getRecipient().msgHereIsYourOrder(this, o.o);
+		o.state = DeliveryState.awaitingConfirmation;
+		
+		parkTruck();
 	}
 
 	private void ReportToMarket(MyMarketOrder o) {
