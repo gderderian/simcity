@@ -23,6 +23,9 @@ import Role.Role;
 import astar.Position;
 
 public class CityMap {
+	
+	static CityMap instance = new CityMap();
+	
 	//Map of bus stop numbers to nearby destinations. Necessary?
 	Map<Integer, List<String>> nearbyDestinations = new HashMap<Integer, List<String>>();
 
@@ -168,6 +171,10 @@ public class CityMap {
 		restaurants.add("Restaurant3");
 		restaurants.add("Restaurant4");
 		restaurants.add("Restaurant5");
+	}
+	
+	public static CityMap getInstance(){
+		return instance;
 	}
 	
 	public void enterIntersection() {
