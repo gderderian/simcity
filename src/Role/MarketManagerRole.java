@@ -152,16 +152,14 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public void msgOrderPicked(MarketOrder o){
 		log("Received orderPicked message");
 		//log("Current order size is:" + o.orders.size());
-		myMarketOrder selectedMarketOrder = null;
 		synchronized(myOrders){
 			for (myMarketOrder order : myOrders) {
 				if (order.order.equals(o)){
-					selectedMarketOrder = order;
-					break;
+					log("FOUND PICKED ORDER!!!!!");
+					order.state = orderState.pickedReady;
 				}
 			}
 		}
-		selectedMarketOrder.state = orderState.pickedReady;
 		p.stateChanged();
 	}
 	
@@ -242,6 +240,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 		else{
 			log("I have no market workers in my shop right now");
 		}
+		p.stateChanged();
 	}
 	
 	private void deliverOrder(myMarketOrder o){
@@ -273,12 +272,14 @@ public class MarketManagerRole extends Role implements MarketManager {
 			myTruck.msgPleaseDeliver(o.order);
 			o.state = orderState.givenToTruck;
 		}
+		p.stateChanged();
 	}
 	
 	private void billRecipient(myMarketOrder o){
 		log("Billing " + o.order.getRecipient().getName());
 		o.order.getRecipient().msgMarketBill(o.order.orderPrice, this);
 		o.state = orderState.billed;
+		p.stateChanged();
 	}
 	
 	private void log(String msg){
@@ -289,6 +290,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public void addWorker(MarketWorkerRole w){
 		myMarketWorker newWorker = new myMarketWorker(w);
 		myWorkers.add(newWorker);
+		p.stateChanged();
 	}
 	
 	public String getName() {
