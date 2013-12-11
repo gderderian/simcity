@@ -200,6 +200,8 @@ public class CityClock {
 	
 	public void setDay(int newDay){
 		day = newDay;
+		String fullTimeToSend = getHumanTime() + "  -  " + getDayOfWeek() + "  -  Week " + week;
+		cityGui.timerTick(getCurrentTime(), getHourOfDayInHumanTime(), getMinuteOfDay(), getDayState(), getAmPm(), fullTimeToSend);
 	}
 	
 	public void setDayTime(int hour, int minute, String amPm){
