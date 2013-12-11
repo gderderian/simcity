@@ -127,6 +127,10 @@ public class HostRole3 extends Role {
 		}
 		person.stateChanged();
 	}
+	
+	public void msgFired(){
+		person.msgImFired();
+	}
 
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {

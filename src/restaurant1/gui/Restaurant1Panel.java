@@ -93,6 +93,7 @@ public class Restaurant1Panel extends JPanel implements ActionListener {
 		} else if(e.getSource() == fireHost) {
 			cityMap.getRest1().fireHost();
 			cp.addPerson("New Host1", "No job");
+			fireHost.setEnabled(false);
 		}
 		
 	}

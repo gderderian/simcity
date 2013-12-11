@@ -27,7 +27,6 @@ public class BankCustomerRole extends Role{
         public double amountofcustomermoney;
         int stationnumber;
         boolean needloan;
-        //public int customeraccountnumber;
         public Semaphore atBankStation = new Semaphore(0,true);
         public Semaphore atBankLobby = new Semaphore(0,true);
         
@@ -41,21 +40,17 @@ public class BankCustomerRole extends Role{
         int count;
         boolean robber;
         
-        public BankCustomerRole(double setamountofcustomermoney/*, PersonAgent setperson*/)
+        public BankCustomerRole(double setamountofcustomermoney)
         {
         		building = "bank1";
                 bankcustomerstate = state.arrived;
                 this.amountofcustomermoney = setamountofcustomermoney;
-                this.amountofcustomermoney = money;
-                //bankaccountnumber = 1;//this should be 0
+                //this.amountofcustomermoney = money;
+                //bankaccountnumber = 0;//this should be 0
                 needloan = true;
                 count = 0;
                 robber = false;
-                //this is for testing purpose
-                //this.amountofcustomermoney = 40; // this should not be set to anything
-                //this.person = setperson;
-                //this.name = setperson.getName();
-                //stateChanged();
+          
         
         }
         
@@ -122,7 +117,8 @@ public class BankCustomerRole extends Role{
 
         public void msgOpenAccountDone(int setcustomeraccountnumber) 
         {
-                log.add(new LoggedEvent("msgOpenAccountDone"));
+                log("Successfully open an account");
+        		log.add(new LoggedEvent("msgOpenAccountDone"));
                 log("Msg open account done");
                 bankcustomerstate = state.openaccountsuccessful;
                 this.bankaccountnumber = setcustomeraccountnumber;
@@ -168,17 +164,10 @@ public class BankCustomerRole extends Role{
         public void msgCannotGetLoan(double loan) 
         {
             log("Failed to get loan ");
-            
             bankcustomerstate = state.leave;
             person.stateChanged();       	
         }
 
-        public void msgLoanBorrowed(double loan) 
-        {
-        	//log.add(new LoggedEvent("msgLoanBorrowed"));  
-        	 amountofcustomermoney = loan;
-                
-        }
         
         public void msgLoanPaidBack(double amountofloanpaidback, double amountofremainingloan)
         {
@@ -201,9 +190,6 @@ public class BankCustomerRole extends Role{
         
         	
         		//log("!!!!!!!!!!!! I'm in customer scheduler !!!!!!!");
-                
-        		log("state " + bankcustomerstate);
-        		
         		 
         		log("amount of customer money $" + amountofcustomermoney);
         		
@@ -377,8 +363,8 @@ public class BankCustomerRole extends Role{
                         */
                         if(amountofcustomermoney >= 50)
                         {
+                        	log("I'm depositing into account after opening an account");
                         	gui.deposit = true;
-                        	Do(" !!!!!!!!!!! amount of customer money" + amountofcustomermoney);
                         	bankcustomerstate = state.waiting;
                         	double amounttodeposit = amountofcustomermoney/2;
                         	amountofcustomermoney -= amounttodeposit;
@@ -387,7 +373,7 @@ public class BankCustomerRole extends Role{
                         
                         else
                         {
-                        
+                        	log("I'm opening an account and leaving");
                         	mybankteller.msgBankCustomerLeaving();
                         	log("My wallet : " + amountofcustomermoney);
                         	gui.withdraw = false;

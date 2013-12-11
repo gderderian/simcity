@@ -6,6 +6,7 @@ import city.MarketOrder;
 import city.OrderItem;
 import city.PersonAgent;
 import city.gui.Restaurant5.Restaurant5CookGui;
+import city.transportation.TruckAgent;
 import tomtesting.interfaces.Restaurant5Cook;
 import tomtesting.interfaces.Restaurant5Market;
 import tomtesting.interfaces.Restaurant5Waiter;
@@ -84,9 +85,9 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		this.name = name;
 		this.person = person;
 		this.state = cookstate.doingnothing;
-		inventoryoffood.put("chicken", 1);
-		inventoryoffood.put("burrito", 1);
-		inventoryoffood.put("pizza", 1);
+		inventoryoffood.put("chicken", 8);
+		inventoryoffood.put("burrito", 8);
+		inventoryoffood.put("pizza", 8);
 		
 		
 		
@@ -199,7 +200,21 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		tellcashiertopayforsupplies = true;
 		person.stateChanged();
 	}
-	
+	public void msgHereIsYourOrder(MarketOrder mo){ 
+		log("recieved order from truck, processing them");
+		List<OrderItem> order = mo.getOrders();
+		for(int i=0; i<order.size(); i++){
+			log("Order name: " + order.get(i).name);
+			if(order.get(i).name.equals("chicken")){
+				inventoryoffood.put("chicken", 5);
+			} else if (order.get(i).name.equals("pizza")){
+				inventoryoffood.put("pizza", 5);
+			} else if(order.get(i).name.equals("burrito")){
+				inventoryoffood.put("burrito", 5);
+			}
+		}
+			person.stateChanged();
+	}
 	
 		
 	public void msgSupplyIsOut(String order, Restaurant5Market market) {
@@ -236,9 +251,9 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 	}
 	
 	public void emptyStock() { 
-		inventoryoffood.put("chicken", 3);
-		inventoryoffood.put("burrito", 3);
-		inventoryoffood.put("pizza", 3);
+		inventoryoffood.put("chicken", 0);
+		inventoryoffood.put("burrito", 0);
+		inventoryoffood.put("pizza", 0);
 		person.stateChanged();
 	}
 	
@@ -278,10 +293,7 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		{
 			Do("current amount of chicken: " + inventoryoffood.get("chicken") + ", order chicken from the market");
 			//create
-			for(mymarket findmarket: markets)
-			{
-				if(findmarket.suppliesoffood.get("chicken") == true)
-				{
+		
 					log("Ordering chicken from the market");
 					List<OrderItem> orders= new ArrayList<OrderItem>();
 					OrderItem chicken= new OrderItem("chicken", 5);
@@ -291,19 +303,15 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 					//findmarket.market.msgReceviedOrderFromCook(this,"chicken");
 					callchickenmarket = true;
 					return true;
-				}
-				
-			}
+			
 			
 		}
 		
 		if(inventoryoffood.get("burrito") == 0 && callburritomarket == false)
 		{
 			Do("current amount of burrito: " + inventoryoffood.get("burrito") + ", order burrito from the market");
-			for(mymarket findmarket: markets)
-			{
-				if(findmarket.suppliesoffood.get("burrito") == true)
-				{
+			
+			
 					log("Ordering burrito from the marekt");
 					List<OrderItem> orders= new ArrayList<OrderItem>();
 					OrderItem burrito= new OrderItem("burrito", 5);
@@ -313,9 +321,6 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 					//findmarket.market.msgReceviedOrderFromCook(this,"burrito");
 					callburritomarket = true;
 					return true;
-				}
-				
-			}
 			
 			
 		}
@@ -323,11 +328,6 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 		if(inventoryoffood.get("pizza") == 0 && callpizzamarket == false)
 		{
 			Do("current amount of pizza: " + inventoryoffood.get("pizza") + ", order pizza from the market");
-			for(mymarket findmarket: markets)
-			{
-				if(findmarket.suppliesoffood.get("pizza") == true)
-				{
-					
 					List<OrderItem> orders= new ArrayList<OrderItem>();
 					OrderItem pizza = new OrderItem("pizza", 5);
 					orders.add(pizza);
@@ -336,9 +336,6 @@ public class Restaurant5CookRole extends Role implements Restaurant5Cook{
 					//findmarket.market.msgReceviedOrderFromCook(this,"pizza");
 					callpizzamarket = true;
 					return true;
-				}
-				
-			}
 			
 		}
 		

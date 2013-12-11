@@ -178,6 +178,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     // Add rest3 components
     JButton closeRest3;
     JButton emptyRest3;
+    JButton fireHost3;
     
     // Add market1, 2, 3, components
     JButton toggleMarket1;
@@ -342,6 +343,10 @@ public class ControlPanel extends JPanel implements ActionListener{
         emptyRest3 = new JButton("Empty Restaurant Stock");
         emptyRest3.addActionListener(this);
         restaurant3Panel.add(emptyRest3);
+        
+        fireHost3 = new JButton("Fire Host");
+        fireHost3.addActionListener(this);
+        restaurant3Panel.add(fireHost3);
         
     }
     
@@ -763,6 +768,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 			cityMap.getRest4().fireHost();
 			addPerson("New Host4", "No job");
 			fireHost4.setEnabled(false);
+		} else if(e.getSource() == fireHost3){
+			cityMap.getRest3().fireHost();
+			addPerson("New Host3", "No job");
+			fireHost3.setEnabled(false);
 		}
 		
 	}
@@ -1399,8 +1408,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		
+		addPerson("bankCustomerTest", "No Job");
 		addPerson("bankCustomerTest1", "No job");
-		addPerson("bankCustomerTest", "No job");
+		//addPerson("bankCustomerTest", "No job");
 		addPerson("bankCustomerTest2", "No job");
 		//addPerson("bankCustomerTest3", "No job");
 		addPerson("bankCustomerTest4", "No job");
