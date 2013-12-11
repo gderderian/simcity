@@ -31,11 +31,17 @@ public class Restaurant1 {
 	}
 
 	public Restaurant1HostRole getHost(){
+		if(!open) 
+			return null;
 		return host;
 	}
 
 	public Restaurant1CookRole getCook() {
 		return cook;
+	}
+	
+	public Restaurant1CashierRole getCashier() {
+		return cashier;
 	}
 
 	public Restaurant1CustomerRole getNewCustomerRole(PersonAgent p){

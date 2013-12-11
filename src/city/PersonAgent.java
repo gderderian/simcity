@@ -675,6 +675,23 @@ public class PersonAgent extends Agent implements Person{
 
 	public void msgMarketBill(double orderPrice, MarketManager manager) {
 		log("Sending the market bill to the cashier");
+			if (myJob.role.getRoleName().contains("Cook")){ // Is this bill a personal bill or a restaurant bill?
+				log("YEEEAH, sending order");
+				if (myJob.role.getRoleName().contains("1")){
+					cityMap.getRest1().getCashier().msgHereIsBill(manager, orderPrice);
+				} else if (myJob.role.getRoleName().contains("2")){	
+					cityMap.getRest2().getCashier().msgChargeForOrder(orderPrice, manager);
+				} else if (myJob.role.getRoleName().contains("3")){
+					cityMap.getRest3().getCashier().msgPayMarket(orderPrice, manager);
+				} else if (myJob.role.getRoleName().contains("4")){
+					cityMap.getRest4().getCashier().msgHereIsBill(manager, orderPrice);
+				} else if (myJob.role.getRoleName().contains("5")){
+				
+				}
+				
+				// Above was previously implemented using ((CookRole3) myJob.role).msgHereIsMarketBill(b.amount, b.manager)
+			}
+		
 		billsToPay.add(new Bill("Market", orderPrice, manager));
 		stateChanged();
 	}
