@@ -85,8 +85,13 @@ public class CookGui4 implements Gui {
     }
     
 	public void setPresent(boolean t) {
-		if(t)
+		if(t){
 			isPresent = true;
+			xPos = 400;
+			yPos = 500;
+			xDestination = 400;
+			yDestination = 500;
+		}
 		else
 			isPresent = false;
 	}
