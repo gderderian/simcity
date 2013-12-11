@@ -151,21 +151,21 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     /** Universal city map **/
     CityMap cityMap = CityMap.getInstance();
-    //Houses and apartments
+    // Houses and apartments
     private List<House> houses = new ArrayList<House>();
     
-    //Bus stops
+    // Bus stops
     private List<BusStop> busStops = new ArrayList<BusStop>();
     
-    //Size of astar semaphore grid
+    // Size of astar semaphore grid
     static int gridX = 25; //# of x-axis tiles
     static int gridY = 20; //# of y-axis tiles
 
-    //Semaphore grid for astar animation
+    // Semaphore grid for astar animation
     Semaphore[][] streetGrid = new Semaphore[gridX+1][gridY+1];
     Semaphore[][] sidewalkGrid = new Semaphore[gridX+1][gridY+1];
     
-    //Set up rest4 components
+    // Set up rest4 components
     JButton closeRest4;
     JButton emptyInventory4;
     
@@ -176,6 +176,11 @@ public class ControlPanel extends JPanel implements ActionListener{
     // Add rest3 components
     JButton closeRest3;
     JButton emptyRest3;
+    
+    // Add market1, 2, 3, components
+    JButton toggleMarket1;
+    JButton toggleMarket2;
+    JButton toggleMarket3;
     
     //Timer for weekend scenario
     Timer weekend= new Timer();
@@ -372,18 +377,32 @@ public class ControlPanel extends JPanel implements ActionListener{
         market1Panel.add(new JLabel("Market 1 Info/Options"));
         market1Panel.setPreferredSize(buildingPanelDim);
         market1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        toggleMarket1 = new JButton("Close Market");
+        toggleMarket1.addActionListener(this);
+        market1Panel.add(toggleMarket1);
+        
     }
     
     private void setupMarket2Panel(){
         market2Panel.add(new JLabel("Market 2 Info/Options"));
         market2Panel.setPreferredSize(buildingPanelDim);
         market2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        toggleMarket2 = new JButton("Close Market");
+        toggleMarket2.addActionListener(this);
+        market2Panel.add(toggleMarket2);
+        
     }
     
     private void setupMarket3Panel(){
         market3Panel.add(new JLabel("Market 3 Info/Options"));
         market3Panel.setPreferredSize(buildingPanelDim);
         market3Panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        toggleMarket3 = new JButton("Close Market");
+        toggleMarket3.addActionListener(this);
+        market2Panel.add(toggleMarket3);
     }
     
     private void setupBank1Panel(){
@@ -677,9 +696,33 @@ public class ControlPanel extends JPanel implements ActionListener{
 			
 		} else if(e.getSource() == emptyRest3){
 			cityMap.getRest3().emptyStock();
-		}
-		
-		else if(e.getSource() == closeRest5){
+		} else if(e.getSource() == toggleMarket1){
+			
+			if(cityMap.getMark1().isOpen()){
+				toggleMarket1.setText("Open Market");
+			} else{
+				toggleMarket1.setText("Close Market");
+			}
+			cityMap.getMark1().toggleOpen();
+		} else if(e.getSource() == toggleMarket2){
+			
+			if(cityMap.getMark2().isOpen()){
+				toggleMarket2.setText("Open Market");
+			} else{
+				toggleMarket2.setText("Close Market");
+			}
+			cityMap.getMark2().toggleOpen();
+			
+		} else if(e.getSource() == toggleMarket3){
+			
+			if(cityMap.getMark3().isOpen()){
+				toggleMarket3.setText("Open Market");
+			} else{
+				toggleMarket3.setText("Close Market");
+			}
+			cityMap.getMark3().toggleOpen();
+			
+		} else if(e.getSource() == closeRest5){
 			
 			if(cityMap.getRest5().isOpen()){
 				closeRest5.setText("Open Restaurant 5");
@@ -691,7 +734,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		} else if(e.getSource() == emptyInventory5){
 			cityMap.getRest5().emptyStock();
 		}
-
 	}
 
 	/**
@@ -1280,7 +1322,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 		
-		addPersonWithCar("Chris", "No job");
+		addPerson("Chris", "No job");
 		addPerson("Steph", "No job");
 		addPerson("Carla", "No job");
 		populateBanksAndMarkets();
@@ -1330,12 +1372,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}, 16000);
 
-		addPersonWithCar("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		addPersonWithCar("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		addPersonWithCar("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
+		addPersonWithCar("marketManager", "Market Manager1");
+		addPerson("marketWorker", "Market Worker1");
+		addPersonWithCar("marketManager", "Market Manager2");
+		addPerson("marketWorker", "Market Worker2");
+		addPersonWithCar("marketManager", "Market Manager3");
+		addPerson("marketWorker", "Market Worker3");
 		
 		addPerson("marketClient", "No Job");
 
@@ -1484,12 +1526,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		addPerson("bank teller", "Bank Teller");
 		addPerson("bank teller", "Bank Teller");
 		
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
-		addPerson("marketManager", "Market Manager");
-		addPerson("marketWorker", "Market Worker");
+		addPerson("marketManager", "Market Manager1");
+		addPerson("marketWorker", "Market Worker1");
+		addPerson("marketManager", "Market Manager2");
+		addPerson("marketWorker", "Market Worker2");
+		addPerson("marketManager", "Market Manager3");
+		addPerson("marketWorker", "Market Worker3");
 		
 		addVehicle("truck");
 		addVehicle("truck");
