@@ -1988,9 +1988,6 @@ public class PersonAgent extends Agent implements Person{
 			if(role.getGui() != null){
 				role.getGui().setPresent(true);
 			}
-			if(role instanceof Restaurant1CookRole) {
-				log("COOK IS HERE!!!");
-			}
 			if(role instanceof BankTellerRole) {
 				log("Bank teller is at the bank");
 				//bank.getBankManager().msgBankTellerArrivedAtBank((BankTellerRole) findrole);
