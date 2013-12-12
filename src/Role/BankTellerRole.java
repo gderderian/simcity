@@ -92,7 +92,8 @@ public class BankTellerRole extends Role {
 	{
 		log("Customer wants to withdraw from account!");
 		log.add(new LoggedEvent("msgWithdrawFromAccount"));
-		//this.withdrawal = withdrawal/2;
+		//This is the line change
+		this.withdrawal = withdrawal;
 		banktellerevent = event.withdrawfromaccount;
 		banktellerstate = state.servingcustomer;
 		person.stateChanged();
@@ -339,7 +340,9 @@ public class BankTellerRole extends Role {
 						}
 						else
 						{
-							bankmanager.bank.resetBankAsset(-this.loan);
+							//This is the line change
+							bankmanager.bank.resetBankAsset(-1*this.loan);
+							log("Loan :"+  this.loan);
 							findaccount.loan += this.loan;
 							final double loanadded = this.loan;
 							gui.approved = true;

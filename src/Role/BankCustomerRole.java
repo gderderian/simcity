@@ -156,7 +156,8 @@ public class BankCustomerRole extends Role{
         {
                 log("failed to withdraw amount " + failedwithdrawal);
         		bankcustomerstate = state.withdrawalfailed;
-                this.failedwithdrawal = failedwithdrawal;
+                log(" failedtowithdraw fund" + this.failedwithdrawal);
+        		this.failedwithdrawal = failedwithdrawal;
                 person.stateChanged();
                 
         }
@@ -223,7 +224,6 @@ public class BankCustomerRole extends Role{
         		
         		if(bankcustomerstate == state.atstation && amountofcustomermoney >= 50)
         		{	
-        	
         				mybankteller.msgDepositIntoAccount(amountofcustomermoney/2);
         				bankcustomerstate = state.waiting;
         				gui.deposit = true;
@@ -367,7 +367,8 @@ public class BankCustomerRole extends Role{
                         	gui.deposit = true;
                         	bankcustomerstate = state.waiting;
                         	double amounttodeposit = amountofcustomermoney/2;
-                        	amountofcustomermoney -= amounttodeposit;
+                        	//This is the line change
+                        	//amountofcustomermoney -= amounttodeposit;
                         	mybankteller.msgDepositIntoAccount(amounttodeposit);
                         }
                         
